@@ -1,3 +1,6 @@
+/**
+ * @description Mock ORM, for testing purposes
+ */
 @IsTest
 public inherited sharing class MockORM implements IORM {
     ISelector s;
