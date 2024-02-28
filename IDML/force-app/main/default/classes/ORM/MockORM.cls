@@ -1,5 +1,5 @@
 @IsTest
-public with sharing class MockORM implements IORM {
+public inherited sharing class MockORM implements IORM {
     ISelector s;
     IDML d;
     public MockORM() {

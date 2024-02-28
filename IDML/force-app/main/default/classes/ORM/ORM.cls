@@ -1,4 +1,4 @@
-public with sharing class ORM implements IORM {
+public inherited sharing class ORM implements IORM {
     ISelector s;
     IDML d;
     public ORM() {
