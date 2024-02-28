@@ -1,6 +1,11 @@
 node_modules/
 .vscode/
 .husky/
-.config/
 
 package-lock.json
+sfdx-project.json
+.forceignore
+.sf/
+.sfdx/
+config/
+scripts/
