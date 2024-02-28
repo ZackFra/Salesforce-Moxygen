@@ -7,22 +7,22 @@ public inherited sharing class MockSelector implements ISelector {
         return this;
     }
 
+    public List<SObject> onQuery(String queryString) {
+        if(queries.containsKey(queryString)) {
+            return queries.get(queryString);
+        }
+        return new List<SObject>();
+    }
+
     public List<SObject> query(String queryString) {
-        if(queries.containsKey(queryString)) {
-            return queries.get(queryString);
-        }
-        return new List<SObject>();
+        return onQuery(queryString);
     }
+
     public List<SObject> query(String queryString, System.AccessLevel accessLevel) {
-        if(queries.containsKey(queryString)) {
-            return queries.get(queryString);
-        }
-        return new List<SObject>();
+        return onQuery(queryString);
     }
+
     public List<SObject> queryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
-        if(queries.containsKey(queryString)) {
-            return queries.get(queryString);
-        }
-        return new List<SObject>();
+        return onQuery(queryString);
     }
 }
