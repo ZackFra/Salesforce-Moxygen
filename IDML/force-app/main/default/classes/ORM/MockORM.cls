@@ -1,3 +1,4 @@
+@IsTest
 public with sharing class MockORM implements IORM {
     ISelector s;
     IDML d;
