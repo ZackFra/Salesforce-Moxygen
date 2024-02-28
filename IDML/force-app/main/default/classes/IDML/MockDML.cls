@@ -1,14 +1,33 @@
+/**
+ * @description MockDML is a mock implementation of the IDML interface. It is used to mock DML operations in 
+ *              unit tests.
+ */
 @IsTest
-public with sharing class MockDML implements IDML {
+public inherited sharing class MockDML implements IDML {
     Map<String, Map<Id, SObject>> db = new Map<String, Map<Id, SObject>>();
     Set<Id> deletedRecords = new Set<Id>();
     SaveResultService srService = new SaveResultService();
 
+    /**
+     * @description selectDeletedRecordById is used to select a record from the database by its Id. This method
+     *             is used to select a record from the database regardless of whether it has been deleted or not.
+     * @param recordId - The Id of the record to select
+     * @return SObject - The record with the given Id
+     */
     public SObject selectDeletedRecordById(Id recordId) {
         String sObjName = SchemaService.getSObjectName(recordId);
+        if(!deletedRecords.contains(recordId)) {
+            return null;
+        }
         return this.db.get(sObjName).get(recordId);
     }
 
+    /**
+     * @description selectRecordById is used to select a record from the database by its Id. This method
+     *            is used to select a record from the database only if it has not been deleted.
+     * @param recordId - The Id of the record to select
+     * @return SObject - The record with the given Id
+     */
     public SObject selectRecordById(Id recordId) {
         String sObjName = SchemaService.getSObjectName(recordId);
         SObject mockRecord = this.db.get(sObjName).get(recordId);
@@ -18,6 +37,12 @@ public with sharing class MockDML implements IDML {
         return mockRecord;
     }
     
+    /**
+     * @description Deletes a record from the mock database
+     * @param recordToDelete - The record to delete
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @return Database.DeleteResult - The result of the delete operation
+     */
     public Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone) {
         String sObjName = SchemaService.getSObjectName(recordToDelete);
         Map<Id, SObject> mockRecords = this.db.get(sObjName);
@@ -49,6 +74,13 @@ public with sharing class MockDML implements IDML {
             Database.DeleteResult.class
         );
     }
+
+    /**
+     * @description doDelete is used to delete a list of records from the database
+     * @param recordsToDelete - The records to delete
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return List<Database.DeleteResult> - The results of the delete operations
+     */
     public List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boolean allOrNone) {
         List<Database.DeleteResult> results = new List<Database.DeleteResult>();
         for(SObject record : recordsToDelete) {
@@ -56,6 +88,13 @@ public with sharing class MockDML implements IDML {
         }
         return results;
     }
+
+    /**
+     * @description doDelete is used to delete a record from the database
+     * @param recordID - The Id of the record to delete
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @return Database.DeleteResult - The result of the delete operation
+     */
     public Database.DeleteResult doDelete(Id recordID, Boolean allOrNone) {
         SObject record = selectRecordById(recordID);
         if(record == null) {
@@ -69,6 +108,13 @@ public with sharing class MockDML implements IDML {
         }
         return doDelete(record, allOrNone);
     }
+
+    /**
+     * @description doDelete is used to delete a list of records from the database
+     * @param recordIDs - The Ids of the records to delete
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return List<Database.DeleteResult> - The results of the delete operations
+     */
     public List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNone) {
         List<Database.DeleteResult> results = new List<Database.DeleteResult>();
         for(Id recordId : recordIDs) {
@@ -77,6 +123,13 @@ public with sharing class MockDML implements IDML {
         return results;
     }
 
+    /**
+     * @description doInsert is used to insert a record into the database
+     * @param recordToInsert - The record to insert
+     * @param allOrNone - Whether to throw an exception if the record already exists
+     * @param accessLevel - The access level of the user performing the operation
+     * @return Database.SaveResult - The result of the insert operation
+     */
     public Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
         if(recordToInsert.Id != null) {
             if(allOrNone) {
@@ -122,10 +175,22 @@ public with sharing class MockDML implements IDML {
         ); 
     }
 
+    /**
+     * @description doInsert is used to insert a list of records into the database
+     * @param recordsToInsert - The records to insert
+     * @param allOrNone - Whether to throw an exception if any of the records already exist
+     * @return List<Database.SaveResult> - The results of the insert operations
+     */
     public Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone) {
         return doInsert(recordToInsert, allOrNone, AccessLevel.USER_MODE);
     }
 
+    /**
+     * @description doInsert is used to insert a list of records into the database
+     * @param recordsToInsert - The records to insert
+     * @param allOrNone - Whether to throw an exception if any of the records already exist
+     * @return List<Database.SaveResult> - The results of the insert operations
+     */
     public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone) {
         List<Database.SaveResult> results = new List<Database.SaveResult>();
         for(SObject record : recordsToInsert) {
@@ -134,6 +199,12 @@ public with sharing class MockDML implements IDML {
         return results;
     }
 
+    /**
+     * @description doInsert is used to insert a list of records into the database
+     * @param recordsToInsert - The records to insert
+     * @param allOrNone - Whether to throw an exception if any of the records already exist
+     * @param accessLevel - The access level of the user performing the operation
+     */
     public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
         List<Database.SaveResult> results = new List<Database.SaveResult>();
         for(SObject record : recordsToInsert) {
@@ -142,6 +213,13 @@ public with sharing class MockDML implements IDML {
         return results;
     }
 
+    /**
+     * @description doUpdate is used to update a record in the database
+     * @param recordToUpdate - The record to update
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @return Database.SaveResult - The result of the update operation
+     * @throws DmlException - If the record does not exists and allOrNone is true
+     */
     public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone) {
         Map<String, Object> args = new Map<String, Object> {
             'recordToUpdate' => recordToUpdate,
@@ -183,6 +261,13 @@ public with sharing class MockDML implements IDML {
             Database.SaveResult.class
         );
     }
+
+    /**
+     * @description doUpdate is used to update a list of records in the database
+     * @param recordsToUpdate - The records to update
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return List<Database.SaveResult> - The results of the update operations
+     */
     public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone) {
         List<Database.SaveResult> results = new List<Database.SaveResult>();
         for(SObject record : recordsToUpdate) {
@@ -190,9 +275,23 @@ public with sharing class MockDML implements IDML {
         }
         return results;
     }
+
+    /**
+     * @description doUpdate is used to update a record in the database
+     * @param recordID - The Id of the record to update
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @return Database.SaveResult - The result of the update operation
+     */
     public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
         return doUpdate(recordToUpdate, allOrNone);
     }
+
+    /**
+     * @description doUpdate is used to update a list of records in the database
+     * @param recordsToUpdate - The records to update
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return List<Database.SaveResult> - The results of the update operations
+     */
     public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
         return doUpdate(recordsToUpdate, allOrNone);
     }
@@ -204,7 +303,13 @@ public with sharing class MockDML implements IDML {
         }
         return results;
     }
-
+    
+    /**
+     * @description doUpsert is used to upsert a record into the database
+     * @param recordToUpsert - The record to upsert
+     * @param allOrNone - Whether to throw an exception if the record already exists
+     * @return Database.UpsertResult - The result of the upsert operation
+     */
     private Database.UpsertResult doUpsert(SObject recordToUpsert, Boolean allOrNone) {
         Database.SaveResult sr;
         if(recordToUpsert.Id != null) {
@@ -225,21 +330,55 @@ public with sharing class MockDML implements IDML {
         }
     }
 
-    // WE ARE NOT SUPPORTING EXTERNAL ID BULLSHIT
+    /**
+     * @description doUpsert is used to upsert a list of records into the database
+     * @param recordsToUpsert - The records to upsert
+     * @param allOrNone - Whether to throw an exception if any of the records already exist
+     * @return List<Database.UpsertResult> - The results of the upsert operations
+     */
     public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone) {
         return doUpsert(recordToUpsert, allOrNone);
     }
 
+    /**
+     * @description doUpsert is used to upsert a list of records into the database
+     * @param recordsToUpsert - The records to upsert
+     * @param allOrNone - Whether to throw an exception if any of the records already exist
+     * @return List<Database.UpsertResult> - The results of the upsert operations
+     */
     public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone) {
         return doUpsert(recordsToUpsert, allOrNone);
     }
+
+    /**
+     * @description doUpsert is used to upsert a record into the database
+     * @param recordToUpsert - The record to upsert
+     * @param allOrNone - Whether to throw an exception if the record already exists
+     * @param accessLevel - The access level of the user performing the operation
+     * @return Database.UpsertResult - The result of the upsert operation
+     */
     public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
         return doUpsert(recordToUpsert, allOrNone);
     }
+
+    /**
+     * @description doUpsert is used to upsert a list of records into the database
+     * @param recordsToUpsert - The records to upsert
+     * @param allOrNone - Whether to throw an exception if any of the records already exist
+     * @param accessLevel - The access level of the user performing the operation
+     * @return List<Database.UpsertResult> - The results of the upsert operations
+     */
     public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
         return doUpsert(recordsToUpsert, allOrNone);
     }
 
+    /**
+     * @description doUndelete is used to undelete a record from the database
+     * @param recordToUndelete - The record to undelete
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @return Database.UndeleteResult - The result of the undelete operation
+     * @throws DmlException - If the record does not exists and allOrNone is true
+     */
     public Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone) {
         if(!deletedRecords.contains(recordToUndelete.Id)) {
             if(allOrNone) {
@@ -256,6 +395,14 @@ public with sharing class MockDML implements IDML {
             Database.UndeleteResult.class
         );
     }
+
+    /**
+     * @description doUndelete is used to undelete a list of records from the database
+     * @param recordsToUndelete - The records to undelete
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return List<Database.UndeleteResult> - The results of the undelete operations
+     * @throws DmlException - If any of the records do not exists and allOrNone is true
+     */
     public List<Database.UndeleteResult> doUndelete(List<sObject> recordsToUndelete, Boolean allOrNone) {
         List<Database.UndeleteResult> results = new List<Database.UndeleteResult>();
         for(SObject record : recordsToUndelete) {
@@ -276,6 +423,14 @@ public with sharing class MockDML implements IDML {
         }
         return doUndelete(recordToUndelete, allOrNone);
     }
+
+    /**
+     * @description doUndelete is used to undelete a list of records from the database
+     * @param recordIDs - The Ids of the records to undelete
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return List<Database.UndeleteResult> - The results of the undelete operations
+     * @throws DmlException - If any of the records do not exists and allOrNone is true
+     */
     public List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone) {
         List<Database.UndeleteResult> results = new List<Database.UndeleteResult>();
         for(Id recordId : recordIDs) {
@@ -283,6 +438,14 @@ public with sharing class MockDML implements IDML {
         }
         return results;
     }
+
+    /**
+     * @description doUndelete is used to undelete a record from the database
+     * @param recordToUndelete - The record to undelete
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @param accessLevel - The access level of the user performing the operation
+     * @return Database.UndeleteResult - The result of the undelete operation
+     */
     public Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel) {
         return doUndelete(recordToUndelete, allOrNone);
     }
