@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <name>ApexClass</name>
+        <members>fflib_IDGenerator</members>
+        <members>fflib_IDGeneratorTest</members>
+        <members>Common</members>
+        <members>CommonTest</members>
+        <members>DML</members>
+        <members>IDML</members>
+        <members>MockDML</members>
+        <members>ORM</members>
+        <members>IORM</members>
+        <members>MockORM</members>
+        <members>SaveResultService</members>
+        <members>SchemaService</members>
+        <members>Selector</members>
+        <members>ISelector</members>
+        <members>MockSelector</members>
+    </types>
+    <version>60.0</version>
+</Package>
