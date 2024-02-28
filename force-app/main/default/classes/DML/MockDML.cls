@@ -4,7 +4,10 @@
  */
 @IsTest
 public inherited sharing class MockDML implements IDML {
-    Map<String, Map<Id, SObject>> db = new Map<String, Map<Id, SObject>>();
+    @TestVisible
+    Map<String, Map<Id, SObject>> mockObjects = new Map<String, Map<Id, SObject>>();
+    
+    @TestVisible
     Set<Id> deletedRecords = new Set<Id>();
     SaveResultService srService = new SaveResultService();
 
@@ -19,7 +22,7 @@ public inherited sharing class MockDML implements IDML {
         if(!deletedRecords.contains(recordId)) {
             return null;
         }
-        return this.db.get(sObjName).get(recordId);
+        return this.mockObjects.get(sObjName).get(recordId);
     }
 
     /**
@@ -30,7 +33,7 @@ public inherited sharing class MockDML implements IDML {
      */
     public SObject selectRecordById(Id recordId) {
         String sObjName = SchemaService.getSObjectName(recordId);
-        SObject mockRecord = this.db.get(sObjName).get(recordId);
+        SObject mockRecord = this.mockObjects.get(sObjName).get(recordId);
         if(deletedRecords.contains(recordId)) {
             return null;
         }
@@ -45,7 +48,7 @@ public inherited sharing class MockDML implements IDML {
      */
     public Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone) {
         String sObjName = SchemaService.getSObjectName(recordToDelete);
-        Map<Id, SObject> mockRecords = this.db.get(sObjName);
+        Map<Id, SObject> mockRecords = this.mockObjects.get(sObjName);
         if(mockRecords == null) {
             if(allOrNone) {
                 throw new DmlException('Record does not exist');
@@ -163,10 +166,10 @@ public inherited sharing class MockDML implements IDML {
         String apiName = SchemaService.getSObjectName(recordToInsert);
         recordToInsert = (SObject) JSON.deserialize(JSON.serialize(recordMap), Type.forName(apiName));
 
-        Map<Id, SObject> mockRecords = this.db.get(objName);
+        Map<Id, SObject> mockRecords = this.mockObjects.get(objName);
         if(mockRecords == null) {
             mockRecords = new Map<Id, SObject>();
-            this.db.put(objName, mockRecords);
+            this.mockObjects.put(objName, mockRecords);
         }
         mockRecords.put(recordToInsert.Id, recordToInsert);
         return (Database.SaveResult) srService.createSuccess(
@@ -228,7 +231,7 @@ public inherited sharing class MockDML implements IDML {
         Common.nullCheck(args);
 
         String objName = SchemaService.getSObjectName(recordToUpdate);
-        Map<Id, sObject> mockRecords = this.db.get(objName);
+        Map<Id, sObject> mockRecords = this.mockObjects.get(objName);
 
         if (mockRecords == null && allOrNone) {
             throw new DmlException('Record does not exist');
@@ -241,8 +244,16 @@ public inherited sharing class MockDML implements IDML {
             );
         }
 
+        Schema.SObjectType sot = SchemaService.getSObjectType(recordToUpdate);
         
         for(String field : recordToUpdate.getPopulatedFieldsAsMap().keySet()) {
+            Schema.SObjectField sObjField = SchemaService.getField(sot, field);
+            Schema.DescribeFieldResult sObjFieldDescribe = SchemaService.describeField(sObjField);
+
+            if(!sObjFieldDescribe.isUpdateable()) {
+                continue;
+            }
+
             mockRecords.get(recordToUpdate.Id).put(field, recordToUpdate.get(field));
         }
 
@@ -251,6 +262,7 @@ public inherited sharing class MockDML implements IDML {
         );
         mockRecord.put('LastModifiedDate', DateTime.now());
         mockRecord.put('LastModifiedById', UserInfo.getUserId());
+
         recordToUpdate = (SObject) JSON.deserialize(
             JSON.serialize(mockRecord), 
             Type.forName(objName)
