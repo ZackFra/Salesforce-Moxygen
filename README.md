@@ -89,7 +89,7 @@ public class AccountsServiceTest {
             service.updateAcctName(acct.Id);
         Test.stopTest();
         
-        acct = (Account) mDML.selectRecordById(acct.Id);
+        acct = (Account) mockDatabase.selectRecordById(acct.Id);
         
         // Did we actually update the record? 
         Assert.areEqual(
