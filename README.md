@@ -17,6 +17,7 @@ public with sharing class AccountsService {
     @TestVisible
     public AccountsService setORM(IORM db) {
         this.db = db;
+        return this;
     }
 
     public void updateAcctName(Id accountId) {
