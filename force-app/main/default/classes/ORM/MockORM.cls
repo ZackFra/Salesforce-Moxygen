@@ -27,6 +27,28 @@ public inherited sharing class MockORM implements IORM {
     }
 
     /**
+     * @description reset the DML and Selector
+     */
+    public void reset() {
+        resetDML();
+        resetSelector();
+    }
+
+    /**
+     * @description reset the DML
+     */
+    public void resetDML() {
+        ((MockDML) d).resetHandlers();
+    }
+
+    /**
+     * @description reset the Selector
+     */
+    public void resetSelector() {
+        ((MockSelector) s).resetCallState();
+    }
+
+    /**
      * @description returns if the record is deleted
      * @param recordId the record id
      * @return if the record is deleted
@@ -53,15 +75,19 @@ public inherited sharing class MockORM implements IORM {
         return ((MockDML) d).selectDeletedRecordById(recordId);
     }
 
-    public Boolean wasCalled(MockDML.DMLType type) {
+    public Boolean didDML(MockDML.DMLType type) {
         return ((MockDML) d).wasCalled(type);
     }
 
-    public Boolean wasCalled(String queryString) {
+    public Boolean didAnyDML() {
+        return ((MockDML) d).wasCalled();
+    }
+
+    public Boolean calledQuery(String queryString) {
         return ((MockSelector) s).wasCalled(queryString);
     }
 
-    public Boolean wasQueryCalled() {
+    public Boolean calledAnyQuery() {
         return ((MockSelector) s).wasCalled();
     }
 }

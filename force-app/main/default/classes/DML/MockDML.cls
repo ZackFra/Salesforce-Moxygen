@@ -29,26 +29,28 @@ public inherited sharing class MockDML implements IDML {
     private Map<DMLType, MockDMLHandler> handlerMap;
 
     public MockDML() {
-        deleteHandler = new MockDeleteHandler();
-        deleteHandler.setMockObjects(mockObjects);
-        deleteHandler.setDeletedRecords(deletedRecords);
+        setHandlers();
+        setMockObjects(mockObjects);
+        setDeletedRecords(deletedRecords);
+    }
 
-        insertHandler = new MockInsertHandler();
-        insertHandler.setMockObjects(mockObjects);
-        insertHandler.setDeletedRecords(deletedRecords);
+    /**
+     * @description resetHandlers is used to reset the DML handlers to their default state
+     * @return void
+     * @note Does NOT reset the mockObjects or deletedRecords
+     */
+    public void resetHandlers() {
+        setHandlers();
+        setMockObjects(mockObjects);
+        setDeletedRecords(deletedRecords);        
+    }
 
-        updateHandler = new MockUpdateHandler();
-        updateHandler.setMockObjects(mockObjects);
-        updateHandler.setDeletedRecords(deletedRecords);
-
-        upsertHandler = new MockUpsertHandler();
-        upsertHandler.setMockObjects(mockObjects);
-        upsertHandler.setDeletedRecords(deletedRecords);
-
-        undeleteHandler = new MockUndeleteHandler();
-        undeleteHandler.setMockObjects(mockObjects);
-        undeleteHandler.setDeletedRecords(deletedRecords);
-
+    private void setHandlers() {
+        this.deleteHandler = new MockDeleteHandler();
+        this.insertHandler = new MockInsertHandler();
+        this.updateHandler = new MockUpdateHandler();
+        this.upsertHandler = new MockUpsertHandler();
+        this.undeleteHandler = new MockUndeleteHandler();
         this.handlerMap = new Map<DMLType, MockDMLHandler> {
             DMLType.DML_INSERT => insertHandler,
             DMLType.DML_UPDATE => updateHandler,
@@ -58,11 +60,47 @@ public inherited sharing class MockDML implements IDML {
         };
     }
 
+    private void setMockObjects(Map<String, Map<Id, SObject>> mockObjects) {
+        this.mockObjects = mockObjects;
+        this.deleteHandler.setMockObjects(mockObjects);
+        this.insertHandler.setMockObjects(mockObjects);
+        this.updateHandler.setMockObjects(mockObjects);
+        this.upsertHandler.setMockObjects(mockObjects);
+        this.undeleteHandler.setMockObjects(mockObjects);
+    }
+
+    private void setDeletedRecords(Set<Id> deletedRecords) {
+        this.deletedRecords = deletedRecords;
+        this.deleteHandler.setDeletedRecords(deletedRecords);
+        this.insertHandler.setDeletedRecords(deletedRecords);
+        this.updateHandler.setDeletedRecords(deletedRecords);
+        this.upsertHandler.setDeletedRecords(deletedRecords);
+        this.undeleteHandler.setDeletedRecords(deletedRecords);
+    }
+
+    /**
+     * @description Returns whether a specific DML operation was called
+     * @param type - The type of DML operation to check
+     * @return Boolean - Whether the DML operation was called
+     */
     public Boolean wasCalled(DMLType type) {
         if(type == null) {
             throw new IllegalArgumentException('DMLType cannot be null');
         }
         return handlerMap.get(type).wasCalled();
+    }
+
+    /**
+     * @description Returns whether any DML operation was called
+     * @return Boolean - Whether any DML operation was called
+     */
+    public Boolean wasCalled() {
+        for(DMLType type : DMLType.values()) {
+            if(wasCalled(type)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

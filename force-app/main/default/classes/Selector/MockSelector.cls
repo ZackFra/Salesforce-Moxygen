@@ -13,6 +13,16 @@ public inherited sharing class MockSelector implements ISelector {
     }
 
     /**
+     * @Description Resets the call state of the mock object
+     * @return void
+     * @note Does NOT reset the registered queries
+     */
+    public void resetCallState() {
+        this.wasCalled = false;
+        this.callMap.clear();
+    }
+
+    /**
      * @Description Registers a query that will return the given records when executed
      * @param queryString The query string to register
      * @param records The records to return when the query is executed
