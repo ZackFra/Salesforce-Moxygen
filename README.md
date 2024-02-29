@@ -88,6 +88,8 @@ public class AccountsServiceTest {
         Test.stopTest();
         
         acct = (Account) mDML.selectRecordById(acct.Id);
+        
+        // Did we actually update the record? 
         Assert.areEqual(
             'WOOOO!!!!', 
             acct.Name,
@@ -105,6 +107,12 @@ public class AccountsServiceTest {
         Assert.isTrue(
         	mockDatabase.didDML(Types.DML.UPDATED),
             'Expected data to be updated'
+        );
+
+        // did we call a query?
+        Assert.isTrue(
+            mockDatabase.calledAnyQuery(),
+            'Expected some query to be called'
         );
 
         // check that our query was called
