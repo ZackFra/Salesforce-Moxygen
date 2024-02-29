@@ -84,6 +84,24 @@ public inherited sharing class MockORM implements IORM {
     }
 
     /**
+     * @description registers a query in the mock database
+     * @param queryString the query string
+     * @param records the records to return
+     * @return the number of records
+     */
+    public void registerQuery(String queryString, List<SObject> records) {
+        ((MockSelector) s).registerQuery(queryString, records);
+    }
+
+    /**
+     * @description registers a failed query in the mock database
+     * @param queryString the query string
+     */
+    public void registerFailedQuery(String queryString) {
+        ((MockSelector) s).registerFailedQuery(queryString);
+    }
+
+    /**
      * @description returns the number of deleted records in the database
      * @return the number of deleted records
      */
