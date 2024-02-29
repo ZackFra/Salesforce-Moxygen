@@ -262,6 +262,17 @@ Resets the tracking on DML operations
 
 Resets the tracking on SOQL queries
 
+#### public void registerQuery(String queryString, List<SObject> records)
+
+Register a query so that when it is called, it returns a specific set of SObjects.
+Because the SObjects are passed in a list, edits to these SObjects will be reflected
+in the mock database (i.e. pointer logic)
+
+#### public void registerFailedQuery(String queryString)
+
+Register a query such that when it is called, an exception is thrown.
+This throws a generic QueryException.
+
 #### public Boolean isDeleted(Id recordId)
 
 Returns whether a record has been deleted, given the fake ID
