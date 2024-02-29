@@ -17,6 +17,14 @@
         <members>Selector</members>
         <members>ISelector</members>
         <members>MockSelector</members>
+
+        <members>MockDeleteHandler</members>
+        <members>MockDMLHandler</members>
+        <members>MockInsertHandler</members>
+        <members>MockUpdateHandler</members>
+        <members>MockUpsertHandler</members>
+        <members>MockUndeleteHandler</members>
+        
     </types>
     <version>60.0</version>
 </Package>

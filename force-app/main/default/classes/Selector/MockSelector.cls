@@ -1,6 +1,16 @@
 @IsTest
 public inherited sharing class MockSelector implements ISelector {
     Map<String, List<SObject>> queries = new Map<String, List<SObject>>();
+    Boolean wasCalled = false;
+    Map<String, Boolean> callMap = new Map<String, Boolean>();
+
+    public Boolean wasCalled() {
+        return this.wasCalled;
+    }
+
+    public Boolean wasCalled(String queryString) {
+        return callMap.containsKey(queryString) && callMap.get(queryString);
+    }
 
     /**
      * @Description Registers a query that will return the given records when executed
@@ -23,6 +33,9 @@ public inherited sharing class MockSelector implements ISelector {
     }
 
     public List<SObject> onQuery(String queryString) {
+        this.wasCalled = true;
+        callMap.put(queryString, true);
+
         if(queries.containsKey(queryString) && queries.get(queryString) == null) {
             throw new QueryException('Query failed');
         } else if(queries.containsKey(queryString)) {
