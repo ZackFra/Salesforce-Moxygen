@@ -132,7 +132,7 @@ public class AccountsServiceTest {
 
 The IORM interface defines two methods that can be expected to exist on both the MockORM and ORM classes,
 
-- public ISelector getSelector()
+- ISelector getSelector()
 - IDML getDML() 
 
 ### ISelector
