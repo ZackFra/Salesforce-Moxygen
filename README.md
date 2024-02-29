@@ -117,7 +117,7 @@ public class AccountsServiceTest {
 
         // check that our query was called
         Assert.isTrue(
-        mockDatabase.calledQuery('SELECT Name FROM Account WHERE Id = :acctId'),
+            mockDatabase.calledQuery('SELECT Name FROM Account WHERE Id = :acctId'),
             'Expected query to be called'
         );
     }
