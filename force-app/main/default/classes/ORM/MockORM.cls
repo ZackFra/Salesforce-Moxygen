@@ -75,18 +75,52 @@ public inherited sharing class MockORM implements IORM {
         return ((MockDML) d).selectDeletedRecordById(recordId);
     }
 
+    /**
+     * @description returns the number of records in the database
+     * @return the number of records
+     */
+    public Integer size() {
+        return ((MockDML) d).count();
+    }
+
+    /**
+     * @description returns the number of deleted records in the database
+     * @return the number of deleted records
+     */
+    public Integer deletedSize() {
+        return ((MockDML) d).deletedCount();
+    }
+
+    /**
+     * @description Returns whether a specific DML operation was performed
+     * @param type the DML type
+     * @return if the DML operation was performed
+     */
     public Boolean didDML(MockDML.DMLType type) {
         return ((MockDML) d).wasCalled(type);
     }
 
+    /**
+     * @description Returns whether any DML operation was performed
+     * @return if any DML operation was performed
+     */
     public Boolean didAnyDML() {
         return ((MockDML) d).wasCalled();
     }
 
+    /**
+     * @description Returns whether a specific query was performed
+     * @param queryString the query string
+     * @return if the query was performed
+     */
     public Boolean calledQuery(String queryString) {
         return ((MockSelector) s).wasCalled(queryString);
     }
 
+    /**
+     * @description Returns whether any query was performed
+     * @return if any query was performed
+     */
     public Boolean calledAnyQuery() {
         return ((MockSelector) s).wasCalled();
     }

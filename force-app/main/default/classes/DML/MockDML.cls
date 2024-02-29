@@ -10,7 +10,8 @@ public inherited sharing class MockDML implements IDML {
     @TestVisible
     Set<Id> deletedRecords = new Set<Id>();
 
-    public enum DMLType {
+    @TestVisible
+    private enum DMLType {
         DML_INSERT,
         DML_UPDATE,
         DML_UPSERT,
@@ -29,9 +30,32 @@ public inherited sharing class MockDML implements IDML {
     private Map<DMLType, MockDMLHandler> handlerMap;
 
     public MockDML() {
-        setHandlers();
-        setMockObjects(mockObjects);
-        setDeletedRecords(deletedRecords);
+        resetHandlers();
+    }
+
+    /**
+     * @description Returns the number of records in the mock database
+     * @return Integer - The number of records in the mock database
+     * @note This method does not count records that have been deleted
+     */
+    public Integer count() {
+        Integer count = 0;
+        for(String sObjName : mockObjects.keySet()) {
+            List<SObject> records = mockObjects.get(sObjName).values();
+            for(SObject record : records) {
+                if(!deletedRecords.contains(record.Id)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    /**
+     * @description Returns the number of deleted records in the mock database
+     */
+    public Integer deletedCount() {
+        return deletedRecords.size();
     }
 
     /**

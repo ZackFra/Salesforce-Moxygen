@@ -1,3 +1,4 @@
+@suppressWarnings('PMD')
 @IsTest
 public inherited sharing class MockUpsertHandler extends MockDMLHandler {
 
@@ -71,8 +72,9 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
         Database.SaveResult sr;
         if(recordToUpsert.Id != null) {
             sr = doUpdate(recordToUpsert, allOrNone);
+        } else {
+            sr = doInsert(recordToUpsert, allOrNone);
         }
-        sr = doInsert(recordToUpsert, allOrNone);
 
         if(sr.isSuccess()) {
             return (Database.UpsertResult) srService.createSuccess(
