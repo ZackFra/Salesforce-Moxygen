@@ -1,6 +1,6 @@
 public inherited sharing class Aggregate {
     
-    Map<String, Object> data;
+    private Map<String, Object> data;
 
     public Aggregate(AggregateResult ar) {
         data = ar.getPopulatedFieldsAsMap();
