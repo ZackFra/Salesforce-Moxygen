@@ -1,18 +1,124 @@
-# Salesforce DX Project: Next Steps
+# Moxygen
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+Moxygen is a light-weight Salesforce mocking framework for Apex unit testing.
 
-## How Do You Plan to Deploy Your Changes?
+The ORM object encapsulates both DML and query logic by creating non-static wrappers around
+their respective static Database metods.
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+Using this, we can mock the Selector and DML classes using interface trickery.
 
-## Configure Your Salesforce DX Project
+## Example
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+Lets say you have an AccountsService class like so:
+```
+public with sharing class AccountsService {
+    
+    private IORM db = new ORM();
+    @TestVisible
+    public AccountsService setORM(IORM db) {
+        this.db = db;
+    }
 
-## Read All About It
+    public void updateAcctName(Id accountId) {
+        ISelector selector = ORM.getSelector();
+        IDML dml = ORM.getDML();
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+        Map<String, Object> binds = new Map<String, Object> {
+            'acctId' => accountId
+        };
+
+        // one-to-one wrapper around Database.queryWithBinds
+        List<Account> acctList = selector.queryWithBinds(
+            'SELECT Name FROM Account WHERE Id = :acctId', 
+            binds, 
+            AccessLevel.USER_MODE
+        );
+        
+        if(acctList.isEmpty()) {
+            throw new IllegalArgumentException('Account must exist! >.<');
+        }
+        
+        for(Account acct : acctList) {
+            acct.Name = 'WOOOO!!!!';
+        }
+        
+        // one-to-one wrapper around Database.doUpdate
+        dml.doUpdate(acctList, true);
+    }
+}
+```
+
+To test this, you can create an account with an @TestSetup class... orr....
+
+```
+@IsTest
+public class AccountsServiceTest {
+	
+    @IsTest
+    private static void testUpdateAcctName() {
+        MockORM mockDatabase = new MockORM();
+        MockSelector mSelector = (MockSelector) mockDatabase.getSelector();
+        MockDML mDML = (MockDML) mockDatabase.getDML();
+        
+        Account acct = new Account(Name = 'Lame');
+        // this will add a fake id, fake system mod stamp,
+        // fake ownerId, etc.
+        mDML.doInsert(
+        	acct,
+            true
+        );
+        
+        // pull the full record from the mocked database
+        List<Account> acctList = new List<Account> {
+            (Account) mDML.selectRecordById(acct.Id)
+        };
+        
+        // when this query is made, return the account list
+        mSelector.registerQuery(
+        	'SELECT Name FROM Account WHERE Id = :acctId',
+            acctList
+        );
+        
+        AccountsService service = new AccountsService()
+            .setORM(mockDatabase);
+        
+        // doesn't reset the records, resets whether
+        // the DML/Selector methods have been called
+        mockDatabase.reset();
+
+        Test.startTest();
+            service.updateAcctName(acct.Id);
+        Test.stopTest();
+        
+        acct = (Account) mDML.selectRecordById(acct.Id);
+        Assert.areEqual(
+            'WOOOO!!!!', 
+            acct.Name,
+            'Expected account name to be updated'
+        );
+
+        // check for any DML
+        Assert.isTrue(
+            mockDatabase.didAnyDML(),
+            'Expected DML to fire'
+        );
+
+
+        // check for a specific DML operation
+        Assert.isTrue(
+        	mockDatabase.didDML(Types.DML.UPDATED),
+            'Expected data to be updated'
+        );
+
+        // check that our query was called
+        Assert.isTrue(
+        	mockDatabase.calledQuery('SELECT Name FROM Account WHERE Id = :acctId'),
+            'Expected query to be called'
+        );
+    }
+}
+```
+
+## Methods
+
+Coming soon...
