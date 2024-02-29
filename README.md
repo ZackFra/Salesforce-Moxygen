@@ -317,4 +317,5 @@ Same behavior as query, bindMap and accessLevel are ignored.
 
 ### MockDML
 
-MockDML has no special methods that aren't already propagated up to the MockORM class.
+The MockDML methods update the system fields on the SOBject and persist them to a mock database
+under the hood.
