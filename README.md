@@ -81,6 +81,8 @@ public class AccountsServiceTest {
         
         // doesn't reset the records, resets whether
         // the DML/Selector methods have been called
+        // i.e. we just did an insert, if we ask
+        // "did this do an insert?" it's gonna say yes
         mockDatabase.reset();
 
         Test.startTest();
