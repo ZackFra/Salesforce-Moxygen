@@ -1,3 +1,4 @@
+@IsTest
 public inherited sharing class MockUpsertHandler extends MockDMLHandler {
 
     /**

@@ -1,3 +1,4 @@
+@IsTest
 public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
     
     private SObject selectDeletedRecordById(Id recordId) {

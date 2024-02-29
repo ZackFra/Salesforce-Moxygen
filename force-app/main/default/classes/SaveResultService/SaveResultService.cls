@@ -2,7 +2,7 @@
  * @description This class is used to create success and failure results for DML operations.
  */
 @IsTest
-public with sharing class SaveResultService {
+public inherited sharing class SaveResultService {
     /**
      * @description This method is used to create a success result for DML operations.
      * @param recordId The Id of the record that was created or updated.
