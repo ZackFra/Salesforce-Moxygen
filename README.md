@@ -269,7 +269,7 @@ that was created for it when it was inserted
 
 #### public SObject selectRecordById(Id recordId)
 
-Retrieve a record, non-deleted, from the mock database, by Id.
+Retrieve a non-deleted record from the mock database, by Id.
 
 #### public SObject selectDeletedRecordById(Id recordId)
 
