@@ -38,7 +38,7 @@ public with sharing class AccountsService {
             acct.Name = 'WOOOO!!!!';
         }
         
-        // one-to-one wrapper around Database.doUpdate
+        // one-to-one wrapper around Database.update
         dml.doUpdate(acctList, true);
     }
 }
