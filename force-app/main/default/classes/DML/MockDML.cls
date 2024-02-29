@@ -10,15 +10,6 @@ public inherited sharing class MockDML implements IDML {
     @TestVisible
     Set<Id> deletedRecords = new Set<Id>();
 
-    @TestVisible
-    private enum DMLType {
-        DML_INSERT,
-        DML_UPDATE,
-        DML_UPSERT,
-        DML_DELETE,
-        DML_UNDELETE
-    }
-
     SaveResultService srService = new SaveResultService();
     
     MockDeleteHandler deleteHandler;
@@ -27,7 +18,7 @@ public inherited sharing class MockDML implements IDML {
     MockUpsertHandler upsertHandler;
     MockUndeleteHandler undeleteHandler;
 
-    private Map<DMLType, MockDMLHandler> handlerMap;
+    private Map<Types.DML, MockDMLHandler> handlerMap;
 
     public MockDML() {
         resetHandlers();
@@ -75,12 +66,12 @@ public inherited sharing class MockDML implements IDML {
         this.updateHandler = new MockUpdateHandler();
         this.upsertHandler = new MockUpsertHandler();
         this.undeleteHandler = new MockUndeleteHandler();
-        this.handlerMap = new Map<DMLType, MockDMLHandler> {
-            DMLType.DML_INSERT => insertHandler,
-            DMLType.DML_UPDATE => updateHandler,
-            DMLType.DML_UPSERT => upsertHandler,
-            DMLType.DML_DELETE => deleteHandler,
-            DMLType.DML_UNDELETE => undeleteHandler
+        this.handlerMap = new Map<Types.DML, MockDMLHandler> {
+            Types.DML.INSERTED => insertHandler,
+            Types.DML.UPDATED => updateHandler,
+            Types.DML.UPSERTED => upsertHandler,
+            Types.DML.DELETED => deleteHandler,
+            Types.DML.UNDELETED => undeleteHandler
         };
     }
 
@@ -107,9 +98,9 @@ public inherited sharing class MockDML implements IDML {
      * @param type - The type of DML operation to check
      * @return Boolean - Whether the DML operation was called
      */
-    public Boolean wasCalled(DMLType type) {
+    public Boolean wasCalled(Types.DML type) {
         if(type == null) {
-            throw new IllegalArgumentException('DMLType cannot be null');
+            throw new IllegalArgumentException('Type cannot be null');
         }
         return handlerMap.get(type).wasCalled();
     }
@@ -119,7 +110,7 @@ public inherited sharing class MockDML implements IDML {
      * @return Boolean - Whether any DML operation was called
      */
     public Boolean wasCalled() {
-        for(DMLType type : DMLType.values()) {
+        for(Types.DML type : Types.DML.values()) {
             if(wasCalled(type)) {
                 return true;
             }

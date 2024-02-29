@@ -96,7 +96,7 @@ public inherited sharing class MockORM implements IORM {
      * @param type the DML type
      * @return if the DML operation was performed
      */
-    public Boolean didDML(MockDML.DMLType type) {
+    public Boolean didDML(Types.DML type) {
         return ((MockDML) d).wasCalled(type);
     }
 
