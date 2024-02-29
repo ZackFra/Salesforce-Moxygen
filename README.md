@@ -105,7 +105,7 @@ public class AccountsServiceTest {
 
         // check for a specific DML operation
         Assert.isTrue(
-        	mockDatabase.didDML(Types.DML.UPDATED),
+            mockDatabase.didDML(Types.DML.UPDATED),
             'Expected data to be updated'
         );
 
