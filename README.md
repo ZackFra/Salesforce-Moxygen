@@ -249,7 +249,10 @@ Returns whether a specific query was called.
 #### public void reset()
 
 Resets the tracking on queries and DML operations, does NOT reset the mock database records. This is
-used to reset the queried and DML after building out any required test data.
+used to reset the query and DML operation checks after building out any required test data.
+
+If you do a bunch of "doInsert" calls to populate the database, then mockDatabase.didAnyDML() will
+return true, which is not what we want to happen before any testing has begun.
 
 #### public void resetDML()
 
