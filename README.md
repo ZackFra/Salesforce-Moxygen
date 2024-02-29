@@ -271,6 +271,14 @@ in the mock database (i.e. pointer logic)
 Register a query such that when it is called, an exception is thrown.
 This throws a generic QueryException.
 
+#### public void registerAggregateQuery(String queryString, List<Aggregate> records)
+
+Register an aggregate query to return a list of Aggregate objects when its called.
+
+#### public void registerFailedAggregateQuery(String queryString)
+
+Register a failed aggregate query. Will throw a DML exception when called (via the queryAggregate methods).
+
 #### public Boolean isDeleted(Id recordId)
 
 Returns whether a record has been deleted, given the fake ID
@@ -312,6 +320,20 @@ Same behavior as query, accessLevel is ignored.
 #### public List<SObject> queryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel)
 
 Same behavior as query, bindMap and accessLevel are ignored.
+
+#### public List<Aggregate> queryAggregate(String queryString)
+
+- Returns a list of Aggregates if this query was registered via "registerAggregateQuery",
+- Throws an exception if this query was registered via "registerFailedAggregateQuery",
+- Returns an empty List of Aggregates if this query was not registered
+
+#### public List<Aggregate> queryAggregate(String queryString, System.AccessLevel accessLevel)
+
+Same behavior as queryAggregate, accessLevel is ignored
+
+#### List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel);
+
+Same behavior as queryAggregate, bindMap and accessLevel are ignored. 
 
 ### MockDML
 
