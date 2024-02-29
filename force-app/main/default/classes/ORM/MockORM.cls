@@ -102,6 +102,23 @@ public inherited sharing class MockORM implements IORM {
     }
 
     /**
+     * @description registers an aggregate query in the mock database
+     * @param queryString the query string
+     * @param records the records to return
+     */
+    public void registerAggregateQuery(String queryString, List<Aggregate> records) {
+        ((MockSelector) s).registerAggregateQuery(queryString, records);
+    }
+
+    /**
+     * @description registers a failed aggregate query in the mock database
+     * @param queryString the query string
+     */
+    public void registerFailedAggregateQuery(String queryString) {
+        ((MockSelector) s).registerFailedAggregateQuery(queryString);
+    }
+
+    /**
      * @description returns the number of deleted records in the database
      * @return the number of deleted records
      */
