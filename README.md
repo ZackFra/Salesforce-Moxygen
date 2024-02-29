@@ -207,7 +207,7 @@ i.e.
 - doUpdate
 - doInsert
 - doUpsert
-... etc.
+- etc.
 
 ### MockORM
 
