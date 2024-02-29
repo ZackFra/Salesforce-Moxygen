@@ -7,10 +7,19 @@ public inherited sharing class MockSelector implements ISelector {
     Boolean wasCalled = false;
     Map<String, Boolean> callMap = new Map<String, Boolean>();
 
+    /**
+     * @Description Returns whether or not the mock object was called
+     * @return Boolean
+     */
     public Boolean wasCalled() {
         return this.wasCalled;
     }
 
+    /**
+     * @Description Returns whether or not the mock object was called with the given query string
+     * @param queryString The query string to check
+     * @return Boolean
+     */
     public Boolean wasCalled(String queryString) {
         return callMap.containsKey(queryString) && callMap.get(queryString);
     }
