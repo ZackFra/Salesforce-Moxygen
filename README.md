@@ -72,7 +72,7 @@ public class AccountsServiceTest {
         
         // when this query is made, return the account list
         mSelector.registerQuery(
-        	'SELECT Name FROM Account WHERE Id = :acctId',
+            'SELECT Name FROM Account WHERE Id = :acctId',
             acctList
         );
         
