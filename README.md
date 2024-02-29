@@ -54,13 +54,13 @@ public class AccountsServiceTest {
     @IsTest
     private static void testUpdateAcctName() {
         MockORM mockDatabase = new MockORM();
-        MockSelector mSelector = (MockSelector) mockDatabase.getSelector();
-        MockDML mDML = (MockDML) mockDatabase.getDML();
         
         Account acct = new Account(Name = 'Lame');
         // this will add a fake id, fake system mod stamp,
         // fake ownerId, etc.
-        mDML.doInsert(
+        mockDatabase
+        .getDML()
+        .doInsert(
             acct,
             true
         );
@@ -71,7 +71,7 @@ public class AccountsServiceTest {
         };
         
         // when this query is made, return the account list
-        mSelector.registerQuery(
+        mockDatabase.registerQuery(
             'SELECT Name FROM Account WHERE Id = :acctId',
             acctList
         );
