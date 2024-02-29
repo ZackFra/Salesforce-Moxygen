@@ -121,18 +121,18 @@ public inherited sharing class MockSelector implements ISelector {
     }
 
     public Integer countQuery(String query) {
-        return onCountQuery(query);
+        return onQueryCount(query);
     }
 
     public Integer countQuery(String query, System.AccessLevel accessLevel) {
-        return onCountQuery(query);
+        return onQueryCount(query);
     }
 
     public Integer countQueryWithBinds(String query, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
-        return onCountQuery(query);
+        return onQueryCount(query);
     }
 
-    private Integer onCountQuery(String queryString) {
+    private Integer onQueryCount(String queryString) {
         this.wasCalled = true;
         callMap.put(queryString, true);
 
@@ -144,6 +144,11 @@ public inherited sharing class MockSelector implements ISelector {
         return 0;
     }
 
+    /**
+     * @description The method that is called when a query is executed
+     * @param queryString The query string that was executed
+     * @return The records to return
+     */
     private List<SObject> onQuery(String queryString) {
         this.wasCalled = true;
         callMap.put(queryString, true);
@@ -156,6 +161,11 @@ public inherited sharing class MockSelector implements ISelector {
         return new List<SObject>();
     }
 
+    /**
+     * @description The method that is called when an aggregate query is executed
+     * @param queryString The query string that was executed
+     * @return The records to return
+     */
     private List<Aggregate> onQueryAggregate(String queryString) {
         this.wasCalled = true;
         callMap.put(queryString, true);
