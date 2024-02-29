@@ -301,17 +301,6 @@ Returns the number of deleted records in the mock database.
 
 This is a mock version of the selector. 
 
-#### public MockSelector registerQuery(String queryString, List<SObject> records)
-
-Register a query so that when it is called, it returns a specific set of SObjects.
-Because the SObjects are passed in a list, edits to these SObjects will be reflected
-in the mock database (i.e. pointer logic)
-
-#### public MockSelector registerFailedQuery(String queryString)
-
-Register a query such that when it is called, an exception is thrown.
-This throws a generic QueryException.
-
 #### public List<SObject> query(String queryString)
 
 - Returns a list of SObjects if this query was registered via "registerQuery",
