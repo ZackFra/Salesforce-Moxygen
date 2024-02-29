@@ -25,6 +25,7 @@
         <members>MockUpsertHandler</members>
         <members>MockUndeleteHandler</members>
         <members>Types</members>
+        <members>Aggregate</members>
 
     </types>
     <version>60.0</version>
