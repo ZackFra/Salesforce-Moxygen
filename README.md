@@ -141,6 +141,9 @@ The ISelector interface defines three methods,
 - List<SObject> query(String queryString, System.AccessLevel accessLevel)
 - List<SObject> queryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel)
 
+- List<Aggregate> queryAggregate(String queryString);
+- List<Aggregate> queryAggregate(String queryString, System.AccessLevel accessLevel);
+- List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel);
 ### IDML
 
 The IDML interface defines the following methods, reflecting their equivalent static Database methods.
