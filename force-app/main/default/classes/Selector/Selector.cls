@@ -29,7 +29,7 @@ public inherited sharing class Selector implements ISelector {
         return agList;
     }
 
-    public List<Aggregate> aggregateQueryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
+    public List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
         List<AggregateResult> arList = Database.queryWithBinds(queryString, bindMap, accessLevel);
         List<Aggregate> agList = new List<Aggregate>();
         for (AggregateResult ar : arList) {
