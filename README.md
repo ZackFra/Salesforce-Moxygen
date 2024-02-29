@@ -67,7 +67,7 @@ public class AccountsServiceTest {
         
         // pull the full record from the mocked database
         List<Account> acctList = new List<Account> {
-            (Account) mDML.selectRecordById(acct.Id)
+            (Account) mockDatabase.selectRecordById(acct.Id)
         };
         
         // when this query is made, return the account list
