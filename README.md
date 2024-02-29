@@ -34,10 +34,6 @@ public with sharing class AccountsService {
             AccessLevel.USER_MODE
         );
         
-        if(acctList.isEmpty()) {
-            throw new IllegalArgumentException('Account must exist! >.<');
-        }
-        
         for(Account acct : acctList) {
             acct.Name = 'WOOOO!!!!';
         }
