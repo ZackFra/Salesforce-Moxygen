@@ -21,15 +21,13 @@ public with sharing class AccountsService {
     }
 
     public void updateAcctName(Id accountId) {
-        ISelector selector = ORM.getSelector();
-        IDML dml = ORM.getDML();
 
         Map<String, Object> binds = new Map<String, Object> {
             'acctId' => accountId
         };
 
         // one-to-one wrapper around Database.queryWithBinds
-        List<Account> acctList = selector.queryWithBinds(
+        List<Account> acctList = db.getSelector().queryWithBinds(
             'SELECT Name FROM Account WHERE Id = :acctId', 
             binds, 
             AccessLevel.USER_MODE
@@ -40,7 +38,7 @@ public with sharing class AccountsService {
         }
         
         // one-to-one wrapper around Database.update
-        dml.doUpdate(acctList, true);
+        db.getDML().doUpdate(acctList, true);
     }
 }
 ```
