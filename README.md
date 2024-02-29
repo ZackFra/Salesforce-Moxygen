@@ -339,3 +339,9 @@ Same behavior as queryAggregate, bindMap and accessLevel are ignored.
 
 The MockDML methods update the system fields on the SOBject and persist them to a mock database
 under the hood.
+
+### Aggregate
+
+This object is a wrapper around AggregateResult. The reason for its existence is that
+AggregateResult objects cannot be mocked. It takes the AggregateResult record, and perserves
+it as a read-only Map<String, Object>.
