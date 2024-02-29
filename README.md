@@ -345,3 +345,7 @@ under the hood.
 This object is a wrapper around AggregateResult. The reason for its existence is that
 AggregateResult objects cannot be mocked. It takes the AggregateResult record, and perserves
 it as a read-only Map<String, Object>.
+
+#### public Object get(String field)
+
+Returns the value on the aggregate keyed by "field"
