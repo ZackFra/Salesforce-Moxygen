@@ -119,6 +119,23 @@ public inherited sharing class MockORM implements IORM {
     }
 
     /**
+     * @description registers a count query in the mock database
+     * @param queryString the query string
+     * @param count the count to return
+     */
+    public void registerCountQuery(String queryString, Integer count) {
+        ((MockSelector) s).registerCountQuery(queryString, count);
+    }
+
+    /**
+     * @description registers a failed count query in the mock database
+     * @param queryString the query string
+     */
+    public void registerFailedCountQuery(String queryString) {
+        ((MockSelector) s).registerFailedCountQuery(queryString);
+    }
+
+    /**
      * @description returns the number of deleted records in the database
      * @return the number of deleted records
      */

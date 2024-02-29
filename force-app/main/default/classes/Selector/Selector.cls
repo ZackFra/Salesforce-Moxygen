@@ -37,4 +37,16 @@ public inherited sharing class Selector implements ISelector {
         }
         return agList;
     }
+
+    public Integer countQuery(String queryString) {
+        return Database.countQuery(queryString);
+    }
+
+    public Integer countQuery(String queryString, System.AccessLevel accessLevel) {
+        return Database.countQuery(queryString, accessLevel);
+    }
+
+    public Integer countQueryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
+        return Database.countQueryWithBinds(queryString, bindMap, accessLevel);
+    }
 }

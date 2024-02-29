@@ -2,6 +2,7 @@
 public inherited sharing class MockSelector implements ISelector {
     Map<String, List<SObject>> queries = new Map<String, List<SObject>>();
     Map<String, List<Aggregate>> aggregateQueries = new Map<String, List<Aggregate>>();
+    Map<String, Integer> countQueries = new Map<String, Integer>();
 
     Boolean wasCalled = false;
     Map<String, Boolean> callMap = new Map<String, Boolean>();
@@ -64,6 +65,27 @@ public inherited sharing class MockSelector implements ISelector {
         return this;
     }
 
+    /**
+     * @description Registers a count query that will return the given count when executed
+     * @param queryString The query string to register
+     * @param count The count to return when the query is executed
+     * @return The current instance of the MockQuery
+     */
+    public MockSelector registerCountQuery(String queryString, Integer count) {
+        countQueries.put(queryString, count);
+        return this;
+    }
+
+    /**
+     * @description Registers a count query that will throw an exception when executed
+     * @param queryString The query string to register
+     * @return The current instance of the MockQuery
+     */
+    public MockSelector registerFailedCountQuery(String queryString) {
+        countQueries.put(queryString, null);
+        return this;
+    }
+
 
     public List<SObject> query(String queryString) {
         return onQuery(queryString);
@@ -89,6 +111,30 @@ public inherited sharing class MockSelector implements ISelector {
         return onQueryAggregate(queryString);
     }
 
+    public Integer countQuery(String query) {
+        return onCountQuery(query);
+    }
+
+    public Integer countQuery(String query, System.AccessLevel accessLevel) {
+        return onCountQuery(query);
+    }
+
+    public Integer countQueryWithBinds(String query, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
+        return onCountQuery(query);
+    }
+
+    private Integer onCountQuery(String queryString) {
+        this.wasCalled = true;
+        callMap.put(queryString, true);
+
+        if(countQueries.containsKey(queryString) && countQueries.get(queryString) == null) {
+            throw new QueryException('Query failed');
+        } else if(countQueries.containsKey(queryString)) {
+            return countQueries.get(queryString);
+        }
+        return 0;
+    }
+
     private List<SObject> onQuery(String queryString) {
         this.wasCalled = true;
         callMap.put(queryString, true);
@@ -104,7 +150,7 @@ public inherited sharing class MockSelector implements ISelector {
     private List<Aggregate> onQueryAggregate(String queryString) {
         this.wasCalled = true;
         callMap.put(queryString, true);
-        
+
         if(aggregateQueries.containsKey(queryString) && aggregateQueries.get(queryString) == null) {
             throw new QueryException('Query failed');
         } else if(aggregateQueries.containsKey(queryString)) {

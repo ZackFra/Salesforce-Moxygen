@@ -6,4 +6,8 @@ public interface ISelector {
     List<Aggregate> queryAggregate(String queryString);
     List<Aggregate> queryAggregate(String queryString, System.AccessLevel accessLevel);
     List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel);
+
+    Integer countQuery(String queryString);
+    Integer countQuery(String queryString, System.AccessLevel accessLevel);
+    Integer countQueryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel);
 }
