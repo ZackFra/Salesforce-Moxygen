@@ -248,8 +248,8 @@ Returns whether a specific query was called.
 
 #### public void reset()
 
-Resets the tracking on queries and DML operations, does NOT reset the mock database. This is
-used to reset the mock database after building out any required test data.
+Resets the tracking on queries and DML operations, does NOT reset the mock database records. This is
+used to reset the queried and DML after building out any required test data.
 
 #### public void resetDML()
 
