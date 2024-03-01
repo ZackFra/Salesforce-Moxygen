@@ -26,6 +26,7 @@
         <members>MockUndeleteHandler</members>
         <members>Types</members>
         <members>Aggregate</members>
+        <members>RelationshipBuilder</members>
 
     </types>
     <version>60.0</version>
