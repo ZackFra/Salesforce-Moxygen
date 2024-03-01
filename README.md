@@ -275,7 +275,15 @@ Register an aggregate query to return a list of Aggregate objects when its calle
 
 #### public void registerFailedAggregateQuery(String queryString)
 
-Register a failed aggregate query. Will throw a DML exception when called (via the queryAggregate methods).
+Register a failed aggregate query. Will throw a QueryException when called (via the queryAggregate methods).
+
+#### public void registerCountQuery(String queryString, Integer count)
+
+Register a count query (i.e. a call to queryCount).
+
+#### public void registerFailedCountQuery(String queryString)
+
+Register a failed count query. Throws a QueryException.
 
 #### public Boolean isDeleted(Id recordId)
 
