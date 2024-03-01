@@ -56,12 +56,11 @@ public class AccountsServiceTest {
         Account acct = new Account(Name = 'Lame');
         // this will add a fake id, fake system mod stamp,
         // fake ownerId, etc.
-        mockDatabase
-        .getDML()
-        .doInsert(
-            acct,
-            true
-        );
+        mockDatabase.getDML()
+		.doInsert(
+            		acct,
+            		true
+        	);
         
         // pull the full record from the mocked database
         List<Account> acctList = new List<Account> {
