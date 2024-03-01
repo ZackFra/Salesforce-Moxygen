@@ -409,7 +409,7 @@ Account acctWithOpps = (Account) new RelationshipBuilder()
     .relateChildren()
         .setParent(acct)
         .setChildren(oppList)
-        .setRelationshipField('AccountId)
+        .setRelationshipField('AccountId')
         .setRelationshipName('Opportunities')
         .build();
 ```
