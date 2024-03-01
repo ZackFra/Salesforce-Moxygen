@@ -352,3 +352,64 @@ it as a read-only Map<String, Object>.
 #### public Object get(String field)
 
 Returns the value on the aggregate keyed by "field"
+
+### RelationshipBuilder
+
+Utility for relating child and parent records for mock queries.
+
+This class has two methods
+
+#### public ChildRelationshipBuilder relateChildren()
+
+Returns a ChildRelationshipBuilder to relate one record (the parent)
+to many children.
+
+This class has five methods, four of which are setters and then there is the
+build message which returns the connected SObject.
+
+- public ChildRelationshipBuilder setParent(SObject parent)
+- public ChildRelationshipBuilder setChildren(List<SObject> children)
+- public ChildRelationshipBuilder setRelationshipName(String relationshipName)
+- public ChildRelationshipBuilder setRelationshipField(String relationshipField)
+- public SObject build()
+
+Note: calling `build()` will throw an illegal argument exception if any of the 
+fields are not set.
+
+#### public ParentRelationshipBuilder relateParent()
+
+Returns a ParentRelationshipBuilder to relate one record (the child)
+to the parent.
+
+This class has five methods, four of which are setters, and then there is the
+build method which returns the connected SObject.
+
+- public ParentRelationshipBuilder setChild(SObject child)
+- public ParentRelationshipBuilder setParent(SObject parent)
+- public ParentRelationshipBuilder setRelationshipName(String relationshipName)
+- public ParentRelationshipBuilder setRelationshipField(String relationshipField)
+- public SObject build()
+
+Note: calling `build()` will throw an illegal argument exception if any of the 
+fields are not set.
+
+ex.
+```
+// [SELECT Account.Name FROM Opportunity]
+Opportunity oppWithAcct = (Opportunity) new RelationshipBuilder()
+    .relateParent()
+        .setChild(opp)
+        .setParent(acct)
+        .setRelationshipField('AccountId')
+        .setRelationshipName('Account')
+        .build();
+
+// [SELECT (SELECT Name FROM Opportunties) FROM Account]
+Account acctWithOpps = (Account) new RelationshipBuilder()
+    .relateChildren()
+        .setParent(acct)
+        .setChildren(oppList)
+        .setRelationshipField('AccountId)
+        .setRelationshipName('Opportunities')
+        .build();
+```
