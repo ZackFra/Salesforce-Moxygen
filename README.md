@@ -368,7 +368,7 @@ Returns a ChildRelationshipBuilder to relate one record (the parent)
 to many children.
 
 This class has five methods, four of which are setters and then there is the
-build message which returns the connected SObject.
+build method which returns the connected SObject.
 
 - public ChildRelationshipBuilder setParent(SObject parent)
 - public ChildRelationshipBuilder setChildren(List<SObject> children)
