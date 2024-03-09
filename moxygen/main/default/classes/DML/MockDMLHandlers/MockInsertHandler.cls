@@ -19,37 +19,16 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
                 Database.SaveResult.class
             );
         }
-
-        String objName = SchemaService.getSObjectName(recordToInsert);
-        Schema.SObjectType sot = SchemaService.getSObjectType(recordToInsert);
-
-        String fakeId = fflib_IDGenerator.generate(sot);
-        recordToInsert.put('Id', fakeId);
-        Map<String, Object> recordMap = (Map<String, Object>) JSON.deserializeUntyped( 
-            JSON.serialize(recordToInsert)
-        );
-        recordMap.put('CreatedDate', DateTime.now());
-        recordMap.put('CreatedById', UserInfo.getUserId());
-        recordMap.put('LastModifiedDate', DateTime.now());
-        recordMap.put('LastModifiedById', UserInfo.getUserId());
-        recordMap.put('SystemModstamp', DateTime.now());
-        recordMap.put('LastActivityDate', Date.today());
-        recordMap.put('IsDeleted', false);
-
-        if(SchemaService.hasField(sot, 'OwnerId')) {
-            recordMap.put('OwnerId', UserInfo.getUserId());
-        }
-        String apiName = SchemaService.getSObjectName(recordToInsert);
-        recordToInsert = (SObject) JSON.deserialize(JSON.serialize(recordMap), Type.forName(apiName));
-
+        SObject insertedRecord = setSystemFields(recordToInsert);
+        String objName = SchemaService.getSObjectName(insertedRecord);
         Map<Id, SObject> mockRecords = this.mockObjects.get(objName);
         if(mockRecords == null) {
             mockRecords = new Map<Id, SObject>();
             this.mockObjects.put(objName, mockRecords);
         }
-        mockRecords.put(recordToInsert.Id, recordToInsert);
+        mockRecords.put(insertedRecord.Id, insertedRecord);
         return (Database.SaveResult) srService.createSuccess(
-            recordToInsert.Id,
+            insertedRecord.Id,
             Database.SaveResult.class
         ); 
     }
@@ -93,5 +72,53 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
             results.add(doInsert(record, allOrNone, accessLevel));
         }
         return results;
+    }
+
+    public List<SObject> doMockInsert(List<SObject> recordsToInsert) {
+        List<SObject> insertedRecords = new List<SObject>();
+        for(SObject record : recordsToInsert) {
+            insertedRecords.add(doMockInsert(record));
+        }
+        return insertedRecords;
+    }
+
+    public SObject doMockInsert(SObject recordToInsert) {
+        SObject insertedRecord = setSystemFields(recordToInsert);
+        String objName = SchemaService.getSObjectName(insertedRecord);
+        Map<Id, SObject> mockRecords = this.mockObjects.get(objName);
+        if(mockRecords == null) {
+            mockRecords = new Map<Id, SObject>();
+            this.mockObjects.put(objName, mockRecords);
+        }
+        mockRecords.put(insertedRecord.Id, insertedRecord);
+        return insertedRecord;
+    }
+
+    /**
+     * @description sets the system fields when a record is inserted
+     * @param recordToInsert - The record to insert
+     */
+    private SObject setSystemFields(SObject recordToInsert) {
+        String objName = SchemaService.getSObjectName(recordToInsert);
+        Schema.SObjectType sot = SchemaService.getSObjectType(recordToInsert);
+        String fakeId = fflib_IDGenerator.generate(sot);
+        recordToInsert.put('Id', fakeId);
+        Map<String, Object> recordMap = (Map<String, Object>) JSON.deserializeUntyped( 
+            JSON.serialize(recordToInsert)
+        );
+
+        recordMap.put('CreatedDate', DateTime.now());
+        recordMap.put('CreatedById', UserInfo.getUserId());
+        recordMap.put('LastModifiedDate', DateTime.now());
+        recordMap.put('LastModifiedById', UserInfo.getUserId());
+        recordMap.put('SystemModstamp', DateTime.now());
+        recordMap.put('LastActivityDate', Date.today());
+        recordMap.put('IsDeleted', false);
+        if(SchemaService.hasField(sot, 'OwnerId')) {
+            recordMap.put('OwnerId', UserInfo.getUserId());
+        }
+        
+        String apiName = SchemaService.getSObjectName(recordToInsert);
+        return (SObject) JSON.deserialize(JSON.serialize(recordMap), Type.forName(apiName));
     }
 }

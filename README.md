@@ -52,16 +52,16 @@ public class AccountsServiceTest {
     @IsTest
     private static void testUpdateAcctName() {
         MockORM mockDatabase = new MockORM();
+        MockDML dml = (MockDML) mockDatabase.getDML();
         
-        Account acct = new Account(Name = 'Lame');
+        Account newAcct = new Account(
+            Name = 'Lame'
+        );
+        
         // this will add a fake id, fake system mod stamp,
-        // fake ownerId, etc.
-        mockDatabase.getDML().doInsert(acct, true);
-        
-        // pull the full record from the mocked database
-        List<Account> acctList = new List<Account> {
-            (Account) mockDatabase.selectRecordById(acct.Id)
-        };
+        // fake ownerId, etc. - returns a reference to what is literally in the database
+        Account insertedAcct = (Account) dml.doMockInsert(newAcct);
+        List<Account> acctList = new List<Account> { insertedAcct };
         
         // when this query is made, return the account list
         mockDatabase.registerQuery(
@@ -71,23 +71,21 @@ public class AccountsServiceTest {
         
         AccountsService service = new AccountsService()
             .setORM(mockDatabase);
-        
-        // doesn't reset the records, resets whether
-        // the DML/Selector methods have been called
-        // i.e. we just did an insert, if we ask
-        // "did this do an insert?" it's gonna say yes
-        mockDatabase.reset();
+		
+        // we used doMockInsert, so no DML is registered
+        Assert.isFalse(
+            mockDatabase.didAnyDML(), 
+            'Expected no DML statement to register'
+        );
 
         Test.startTest();
-            service.updateAcctName(acct.Id);
+            service.updateAcctName(insertedAcct.Id);
         Test.stopTest();
-        
-        acct = (Account) mockDatabase.selectRecordById(acct.Id);
-        
+                
         // Did we actually update the record? 
         Assert.areEqual(
             'WOOOO!!!!', 
-            acct.Name,
+            insertedAcct.Name,
             'Expected account name to be updated'
         );
 

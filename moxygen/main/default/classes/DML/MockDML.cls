@@ -196,6 +196,14 @@ public inherited sharing class MockDML implements IDML {
         return deleteHandler.doDelete(recordIDs, allOrNone);
     }
 
+    public SObject doMockInsert(SObject recordToInsert) {
+        return insertHandler.doMockInsert(recordToInsert);
+    }
+
+    public List<SObject> doMockInsert(List<SObject> recordsToInsert) {
+        return insertHandler.doMockInsert(recordsToInsert);
+    }
+
     /**
      * @description doInsert is used to insert a record into the database
      * @param recordToInsert - The record to insert
