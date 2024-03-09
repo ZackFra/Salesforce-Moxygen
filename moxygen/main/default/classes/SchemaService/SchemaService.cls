@@ -5,6 +5,7 @@
  *              anything named "getName" are understood to return proper API names
  *              every argument is understood to be non-null
  */
+@SuppressWarnings('All')
 @IsTest
 public with sharing class SchemaService {
     final private static List<Schema.DisplayType> NUMERIC_FIELD_TYPES = new List<Schema.DisplayType> {
