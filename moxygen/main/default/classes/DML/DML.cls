@@ -78,7 +78,7 @@ public inherited sharing class DML implements IDML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordsToUpdate - The records to update
+     * @param recordsToInsert - The records to insert
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @param accessLevel - The access level for the operation
      * @return List<Database.SaveResult> - The result of the update operation
@@ -157,6 +157,7 @@ public inherited sharing class DML implements IDML {
      * @param externalIdField - The field to use as the external ID
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @param accessLevel - The access level for the operation
+     * @return Database.UpsertResult - The result of the upsert operation
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
     public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
@@ -169,6 +170,7 @@ public inherited sharing class DML implements IDML {
      * @param externalIdField - The field to use as the external ID
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @param accessLevel - The access level for the operation
+     * @return List<Database.UpsertResult> - The result of the upsert operation
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
     public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
