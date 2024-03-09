@@ -12,6 +12,13 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
 
     /** DELETE METHODS  */
 
+    /**
+     * @description Deletes a record
+     * @param recordToDelete Record to delete
+     * @param allOrNone Boolean to indicate if all records should be deleted or none
+     * @return  `Database.DeleteResult`
+     * @exception DmlException
+     */
     public Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone) {
         wasCalled = true;
         String sObjName = SchemaService.getSObjectName(recordToDelete);
@@ -44,7 +51,13 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
             Database.DeleteResult.class
         );
     }
-
+    /**
+     * @description Deletes a list of records
+     * @param recordsToDelete Records to delete
+     * @param allOrNone Boolean to indicate if an exception should be thrown if any record fails to delete
+     * @return  `List<Database.DeleteResult>`
+     * @exception DmlException
+     */
     public List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boolean allOrNone) {
         wasCalled = true;
         List<Database.DeleteResult> results = new List<Database.DeleteResult>();
@@ -54,7 +67,13 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
         return results;
     }
 
-
+    /**
+     * @description Deletes a record by ID
+     * @param recordID Id of the record to delete
+     * @param allOrNone Boolean to indicate if an exception should be thrown if the record fails to delete
+     * @return  `Database.DeleteResult`
+     * @exception DMLException
+     */
     public Database.DeleteResult doDelete(Id recordID, Boolean allOrNone) {
         wasCalled = true;
         SObject record = selectRecordById(recordID);
@@ -69,7 +88,13 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
         }
         return doDelete(record, allOrNone);
     }
-
+    /**
+     * @description Deletes a list of records by ID
+     * @param recordIDs List of record IDs to delete
+     * @param allOrNone Boolean to indicate if an exception should be thrown if any record fails to delete
+     * @return  `List<Database.DeleteResult>`
+     * @exception DMLException
+     */
     public List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNone) {
         wasCalled = true;
         List<Database.DeleteResult> results = new List<Database.DeleteResult>();
