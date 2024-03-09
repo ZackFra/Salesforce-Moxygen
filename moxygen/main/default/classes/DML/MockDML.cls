@@ -2,6 +2,7 @@
  * @description MockDML is a mock implementation of the IDML interface. It is used to mock DML operations in 
  *              unit tests.
  */
+@SuppressWarnings('PMD.CognitiveComplexity, PMD.ExcessivePublicCount, PMD.CyclomaticComplexity')
 @IsTest
 public inherited sharing class MockDML implements IDML {
     @TestVisible
@@ -20,6 +21,9 @@ public inherited sharing class MockDML implements IDML {
 
     private Map<Types.DML, MockDMLHandler> handlerMap;
 
+    /**
+     * @description MockDML is the constructor for the MockDML class
+     */
     public MockDML() {
         resetHandlers();
     }
@@ -27,16 +31,21 @@ public inherited sharing class MockDML implements IDML {
     /**
      * @description Returns the number of records in the mock database
      * @return Integer - The number of records in the mock database
-     * @note This method does not count records that have been deleted
      */
     public Integer count() {
         Integer count = 0;
         for(String sObjName : mockObjects.keySet()) {
             List<SObject> records = mockObjects.get(sObjName).values();
-            for(SObject record : records) {
-                if(!deletedRecords.contains(record.Id)) {
-                    count++;
-                }
+            count += countRecords(records);
+        }
+        return count;
+    }
+
+    private Integer countRecords(List<SObject> records) {
+        Integer count = 0;
+        for(SObject record : records) {
+            if(!deletedRecords.contains(record.Id)) {
+                count++;
             }
         }
         return count;
@@ -44,6 +53,7 @@ public inherited sharing class MockDML implements IDML {
 
     /**
      * @description Returns the number of deleted records in the mock database
+     * @return Integer - The number of deleted records in the mock database
      */
     public Integer deletedCount() {
         return deletedRecords.size();
@@ -51,8 +61,6 @@ public inherited sharing class MockDML implements IDML {
 
     /**
      * @description resetHandlers is used to reset the DML handlers to their default state
-     * @return void
-     * @note Does NOT reset the mockObjects or deletedRecords
      */
     public void resetHandlers() {
         setHandlers();
@@ -196,10 +204,20 @@ public inherited sharing class MockDML implements IDML {
         return deleteHandler.doDelete(recordIDs, allOrNone);
     }
 
+    /**
+     * @description doMockInsert is used to insert a record into the mock database without setting the `wasCalled` flag
+     * @param recordToInsert - The record to insert
+     * @return  `SObject`
+     */
     public SObject doMockInsert(SObject recordToInsert) {
         return insertHandler.doMockInsert(recordToInsert);
     }
 
+    /**
+     * @description doMockInsert is used to insert a list of records into the mock database without setting the `wasCalled` flag
+     * @param recordsToInsert - The records to insert
+     * @return  `List<SObject>`
+     */
     public List<SObject> doMockInsert(List<SObject> recordsToInsert) {
         return insertHandler.doMockInsert(recordsToInsert);
     }
@@ -217,7 +235,7 @@ public inherited sharing class MockDML implements IDML {
 
     /**
      * @description doInsert is used to insert a list of records into the database
-     * @param recordsToInsert - The records to insert
+     * @param recordToInsert - The record to insert
      * @param allOrNone - Whether to throw an exception if any of the records already exist
      * @return List<Database.SaveResult> - The results of the insert operations
      */
@@ -240,6 +258,7 @@ public inherited sharing class MockDML implements IDML {
      * @param recordsToInsert - The records to insert
      * @param allOrNone - Whether to throw an exception if any of the records already exist
      * @param accessLevel - The access level of the user performing the operation
+     * @return List<Database.SaveResult> - The results of the insert operations
      */
     public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
         return insertHandler.doInsert(recordsToInsert, allOrNone, accessLevel);
@@ -260,70 +279,78 @@ public inherited sharing class MockDML implements IDML {
      * @description doUpdate is used to update a list of records in the database
      * @param recordsToUpdate - The records to update
      * @param allOrNone - Whether to throw an exception if any of the records do not exist
-     * @return List<Database.SaveResult> - The results of the update operations
+     * @return `List<Database.SaveResult>` - The results of the update operations
      */
     public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone) {
         return updateHandler.doUpdate(recordsToUpdate, allOrNone);
     }
 
     /**
-     * @description doUpdate is used to update a record in the database
-     * @param recordID - The Id of the record to update
-     * @param allOrNone - Whether to throw an exception if the record does not exist
-     * @return Database.SaveResult - The result of the update operation
+     * @description Updates a record in the mock database
+     * @param recordToUpdate Record to update
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @param accessLevel AccessLevel of the user performing the operation
+     * @return  `Database.SaveResult`
      */
     public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
         return updateHandler.doUpdate(recordToUpdate, allOrNone, accessLevel);
     }
 
     /**
-     * @description doUpdate is used to update a list of records in the database
-     * @param recordsToUpdate - The records to update
-     * @param allOrNone - Whether to throw an exception if any of the records do not exist
-     * @return List<Database.SaveResult> - The results of the update operations
+     * @description Update a list of records in the mock database
+     * @param recordsToUpdate Records to update
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @param accessLevel Access Level of the user performing the operation
+     * @return  `List<Database.SaveResult>`
      */
     public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
         return updateHandler.doUpdate(recordsToUpdate, allOrNone, accessLevel);
     }
 
     /**
-     * @description doUpsert is used to upsert a list of records into the database
-     * @param recordsToUpsert - The records to upsert
-     * @param allOrNone - Whether to throw an exception if any of the records already exist
-     * @return List<Database.UpsertResult> - The results of the upsert operations
+     * @description Upserts a record into the mock database
+     * @param recordToUpsert Records to upsert
+     * @param externalIdField Optional field to use as the external ID
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @return  `Database.UpsertResult`
      */
     public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone) {
         return upsertHandler.doUpsert(recordToUpsert, externalIdField, allOrNone);
     }
 
     /**
-     * @description doUpsert is used to upsert a list of records into the database
-     * @param recordsToUpsert - The records to upsert
-     * @param allOrNone - Whether to throw an exception if any of the records already exist
-     * @return List<Database.UpsertResult> - The results of the upsert operations
+     * @description Upserts a record in the mock database
+     * @param recordsToUpsert Records to upsert
+     * @param externalIdField Optional field to use as the external ID
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @return  `List<Database.UpsertResult>`
      */
     public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone) {
         return upsertHandler.doUpsert(recordsToUpsert, externalIdField, allOrNone);
     }
 
     /**
-     * @description doUpsert is used to upsert a record into the database
-     * @param recordToUpsert - The record to upsert
-     * @param allOrNone - Whether to throw an exception if the record already exists
-     * @param accessLevel - The access level of the user performing the operation
-     * @return Database.UpsertResult - The result of the upsert operation
+     * @description Upserts a record in the mock database
+     * @param recordToUpsert Record to upsert
+     * @param externalIdField Optional external ID field
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @param accessLevel Access level of the user performing the operation
+     * @return  `Database.UpsertResult`
      */
+    @SuppressWarnings('PMD.ExcessiveParameterList')
     public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
         return upsertHandler.doUpsert(recordToUpsert, externalIdField, allOrNone, accessLevel);
     }
 
     /**
-     * @description doUpsert is used to upsert a list of records into the database
-     * @param recordsToUpsert - The records to upsert
-     * @param allOrNone - Whether to throw an exception if any of the records already exist
-     * @param accessLevel - The access level of the user performing the operation
-     * @return List<Database.UpsertResult> - The results of the upsert operations
+     * @description Upsert a list of records in the mock database
+     * @param recordsToUpsert Records to upsert
+     * @param externalIdField Optional external ID field
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @param accessLevel Access level of the user performing the operation
+     * @return  `List<Database.UpsertResult>`
      */
+    @SuppressWarnings('PMD.ExcessiveParameterList')
     public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
         return upsertHandler.doUpsert(recordsToUpsert, externalIdField, allOrNone, accessLevel);
     }
