@@ -246,11 +246,7 @@ Returns whether a specific query was called.
 
 #### public void reset()
 
-Resets the tracking on queries and DML operations, does NOT reset the mock database records. This is
-used to reset the query and DML operation checks after building out any required test data.
-
-If you do a bunch of "doInsert" calls to populate the database, then mockDatabase.didAnyDML() will
-return true, which is not what we want to happen before any testing has begun.
+Resets the tracking on queries and DML operations, does NOT reset the mock database records.
 
 #### public void resetDML()
 
@@ -347,6 +343,21 @@ Same behavior as queryAggregate, bindMap and accessLevel are ignored.
 
 The MockDML methods update the system fields on the SOBject and persist them to a mock database
 under the hood.
+
+Unique methods for this class, that aren't covered by IDML or are hoisted to MockORM are,
+
+#### List<SObject> doMockInsert(List<SObject> recordsToInsert)
+
+Inserts a list of records into the mock database without it registering as a DML statement,
+used for setting mock data. Populates system fields.
+
+Returns a reference to the SObject in the database.
+
+#### SObject doMockInsert(SObject recordToInsert)
+
+Inserts a record into the mock database. Populates system fields.
+
+Returns a reference to the SObject in the database.
 
 ### Aggregate
 
