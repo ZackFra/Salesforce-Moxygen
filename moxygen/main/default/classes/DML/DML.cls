@@ -67,7 +67,7 @@ public inherited sharing class DML implements IDML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordToUpdate - The record to update
+     * @param recordToInsert - The record to insert
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @param accessLevel - The access level for the operation
      * @return Database.SaveResult - The result of the update operation
