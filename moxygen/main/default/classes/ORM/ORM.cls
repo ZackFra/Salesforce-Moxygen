@@ -15,6 +15,7 @@ public inherited sharing class ORM implements IORM {
 
     /**
      * @description Returns the Selector object
+     * @return ISelector
      */
     public ISelector getSelector() {
         return s;
@@ -22,6 +23,7 @@ public inherited sharing class ORM implements IORM {
 
     /**
      * @description Returns the DML object
+     * @return IDML
      */
     public IDML getDML() {
         return d;
