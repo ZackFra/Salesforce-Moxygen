@@ -1,10 +1,14 @@
 /**
  * @description Mock ORM, for testing purposes
  */
+@SuppressWarnings('PMD.ExcessivePublicCount')
 @IsTest
 public inherited sharing class MockORM implements IORM {
     ISelector s;
     IDML d;
+    /**
+     * @description Mock ORM constructor
+     */
     public MockORM() {
         s = new MockSelector();
         d = new MockDML();
@@ -87,7 +91,6 @@ public inherited sharing class MockORM implements IORM {
      * @description registers a query in the mock database
      * @param queryString the query string
      * @param records the records to return
-     * @return the number of records
      */
     public void registerQuery(String queryString, List<SObject> records) {
         ((MockSelector) s).registerQuery(queryString, records);
