@@ -10,9 +10,10 @@ Using this, we can mock the Selector and DML classes using interface trickery.
 ## Example
 
 Lets say you have an AccountsService class like so:
+
 ```
 public with sharing class AccountsService {
-    
+
     private IORM db = new ORM();
     @TestVisible
     public AccountsService setORM(IORM db) {
@@ -28,15 +29,15 @@ public with sharing class AccountsService {
 
         // one-to-one wrapper around Database.queryWithBinds
         List<Account> acctList = db.getSelector().queryWithBinds(
-            'SELECT Name FROM Account WHERE Id = :acctId', 
-            binds, 
+            'SELECT Name FROM Account WHERE Id = :acctId',
+            binds,
             AccessLevel.USER_MODE
         );
-        
+
         for(Account acct : acctList) {
             acct.Name = 'WOOOO!!!!';
         }
-        
+
         // one-to-one wrapper around Database.update
         db.getDML().doUpdate(acctList, true);
     }
@@ -48,43 +49,43 @@ To test this, you can create an account with an @TestSetup class... orr....
 ```
 @IsTest
 public class AccountsServiceTest {
-	
+
     @IsTest
     private static void testUpdateAcctName() {
         MockORM mockDatabase = new MockORM();
         MockDML dml = (MockDML) mockDatabase.getDML();
-        
+
         Account newAcct = new Account(
             Name = 'Lame'
         );
-        
+
         // this will add a fake id, fake system mod stamp,
         // fake ownerId, etc. - returns a reference to what is literally in the database
         Account insertedAcct = (Account) dml.doMockInsert(newAcct);
         List<Account> acctList = new List<Account> { insertedAcct };
-        
+
         // when this query is made, return the account list
         mockDatabase.registerQuery(
             'SELECT Name FROM Account WHERE Id = :acctId',
             acctList
         );
-        
+
         AccountsService service = new AccountsService()
             .setORM(mockDatabase);
-		
+
         // we used doMockInsert, so no DML is registered
         Assert.isFalse(
-            mockDatabase.didAnyDML(), 
+            mockDatabase.didAnyDML(),
             'Expected no DML statement to register'
         );
 
         Test.startTest();
             service.updateAcctName(insertedAcct.Id);
         Test.stopTest();
-                
-        // Did we actually update the record? 
+
+        // Did we actually update the record?
         Assert.areEqual(
-            'WOOOO!!!!', 
+            'WOOOO!!!!',
             insertedAcct.Name,
             'Expected account name to be updated'
         );
@@ -124,7 +125,7 @@ public class AccountsServiceTest {
 The IORM interface defines two methods that can be expected to exist on both the MockORM and ORM classes,
 
 - ISelector getSelector()
-- IDML getDML() 
+- IDML getDML()
 
 ### ISelector
 
@@ -137,10 +138,10 @@ The ISelector interface defines three methods,
 - List<Aggregate> queryAggregate(String queryString);
 - List<Aggregate> queryAggregate(String queryString, System.AccessLevel accessLevel);
 - List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel);
+
 ### IDML
 
 The IDML interface defines the following methods, reflecting their equivalent static Database methods.
-
 
 - Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone)
 - List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boolean allOrNone)
@@ -176,7 +177,7 @@ The ORM class is the implementation of the IORM that that is meant for regular u
 
 Returns a Selector object
 
-#### getDML() 
+#### getDML()
 
 Returns a DML object
 
@@ -198,6 +199,7 @@ the Selector methods. The only thing to note is that DML operations are reserved
 all methods are prefixed with "do",
 
 i.e.
+
 - doUpdate
 - doInsert
 - doUpsert
@@ -209,9 +211,11 @@ The MockORM object is used for mocking database interactions. It keeps a mock da
 internally for records that have been fake-inserted.
 
 #### ISelector getSelector()
+
 Returns a MockSelector object
 
 #### IDML getDML()
+
 Returns a MockDML object
 
 These need to be cast to MockDML and MockSelector get the full use out of them.
@@ -294,7 +298,7 @@ Retrieve a non-deleted record from the mock database, by Id.
 
 #### public SObject selectDeletedRecordById(Id recordId)
 
-If a record is deleted, it is still tracked. This allows us to 
+If a record is deleted, it is still tracked. This allows us to
 retrieve the deleted record.
 
 NOTE: The IsDeleted field will not be set on the record
@@ -309,7 +313,7 @@ Returns the number of deleted records in the mock database.
 
 ### MockSelector
 
-This is a mock version of the selector. 
+This is a mock version of the selector.
 
 #### public List<SObject> query(String queryString)
 
@@ -337,7 +341,7 @@ Same behavior as queryAggregate, accessLevel is ignored
 
 #### List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel);
 
-Same behavior as queryAggregate, bindMap and accessLevel are ignored. 
+Same behavior as queryAggregate, bindMap and accessLevel are ignored.
 
 ### MockDML
 
@@ -374,7 +378,7 @@ build method which returns the connected SObject.
 - public ChildRelationshipBuilder setRelationshipField(String relationshipField)
 - public SObject build()
 
-Note: calling `build()` will throw an illegal argument exception if any of the 
+Note: calling `build()` will throw an illegal argument exception if any of the
 fields are not set.
 
 #### public ParentRelationshipBuilder relateParent()
@@ -391,10 +395,11 @@ build method which returns the connected SObject.
 - public ParentRelationshipBuilder setRelationshipField(String relationshipField)
 - public SObject build()
 
-Note: calling `build()` will throw an illegal argument exception if any of the 
+Note: calling `build()` will throw an illegal argument exception if any of the
 fields are not set.
 
 ex.
+
 ```
 // [SELECT Account.Name FROM Opportunity]
 Opportunity oppWithAcct = (Opportunity) new RelationshipBuilder()
