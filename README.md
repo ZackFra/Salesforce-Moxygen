@@ -346,7 +346,7 @@ under the hood.
 
 Unique methods for this class, that aren't covered by IDML or are hoisted to MockORM are,
 
-#### List<SObject> doMockInsert(List<SObject> recordsToInsert)
+#### List<SObject> doMockInsert(List\<SObject\> recordsToInsert)
 
 Inserts a list of records into the mock database without it registering as a DML statement,
 used for setting mock data. Populates system fields.
