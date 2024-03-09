@@ -1,3 +1,8 @@
+/**
+ * @description Mock implementation of the ISelector interface for use in unit tests
+ * @author Zackary Frazier
+ * @since 3/9/2024
+ */
 @IsTest
 public inherited sharing class MockSelector implements ISelector {
     Map<String, List<SObject>> queries = new Map<String, List<SObject>>();
@@ -8,7 +13,7 @@ public inherited sharing class MockSelector implements ISelector {
     Map<String, Boolean> callMap = new Map<String, Boolean>();
 
     /**
-     * @Description Returns whether or not the mock object was called
+     * @description Returns whether or not the mock object was called
      * @return Boolean
      */
     public Boolean wasCalled() {
@@ -16,7 +21,7 @@ public inherited sharing class MockSelector implements ISelector {
     }
 
     /**
-     * @Description Returns whether or not the mock object was called with the given query string
+     * @description Returns whether or not the mock object was called with the given query string
      * @param queryString The query string to check
      * @return Boolean
      */
@@ -25,9 +30,7 @@ public inherited sharing class MockSelector implements ISelector {
     }
 
     /**
-     * @Description Resets the call state of the mock object
-     * @return void
-     * @note Does NOT reset the registered queries
+     * @description Resets the call state of the mock object
      */
     public void resetCallState() {
         this.wasCalled = false;
@@ -35,9 +38,10 @@ public inherited sharing class MockSelector implements ISelector {
     }
 
     /**
-     * @Description Registers a query that will return the given records when executed
+     * @description Registers a query that will return the given records when executed
      * @param queryString The query string to register
      * @param records The records to return when the query is executed
+     * @return The current instance of the MockQuery
      */
     public MockSelector registerQuery(String queryString, List<SObject> records) {
         queries.put(queryString, records);
@@ -45,7 +49,7 @@ public inherited sharing class MockSelector implements ISelector {
     }
 
     /**
-     * @Description Registers a query that will throw an exception when executed
+     * @description Registers a query that will throw an exception when executed
      * @param queryString The query string to register
      * @return The current instance of the MockQuery
      */
@@ -58,6 +62,7 @@ public inherited sharing class MockSelector implements ISelector {
      * @description Registers an aggregate query that will return the given records when executed
      * @param queryString The query string to register
      * @param records The records to return when the query is executed
+     * @return The current instance of the MockQuery
      */
     public MockSelector registerAggregateQuery(String queryString, List<Aggregate> records) {
         aggregateQueries.put(queryString, records);
@@ -95,39 +100,92 @@ public inherited sharing class MockSelector implements ISelector {
         return this;
     }
 
-
+    /**
+     * @description Query for records using the given query string
+     * @param queryString `String`
+     * @return  `List<SObject>`
+     */
     public List<SObject> query(String queryString) {
         return onQuery(queryString);
     }
 
+    /**
+     * @description Query for records using the given query string and access level
+     * @param queryString `String`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<SObject>`
+     */
     public List<SObject> query(String queryString, System.AccessLevel accessLevel) {
         return onQuery(queryString);
     }
 
+    /**
+     * @description Query for records using the given query string and bind map
+     * @param queryString `String`
+     * @param bindMap `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<SObject>`
+     */
     public List<SObject> queryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
         return onQuery(queryString);
     }
 
+    /**
+     * @description Query for aggregate records using the given query string
+     * @param queryString `String`
+     * @return  `List<Aggregate>`
+     */
     public List<Aggregate> queryAggregate(String queryString) {
         return onQueryAggregate(queryString);
     }
 
+    /**
+     * @description Query for aggregate records using the given query string and access level
+     * @param queryString `String`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<Aggregate>`
+     */
     public List<Aggregate> queryAggregate(String queryString, System.AccessLevel accessLevel) {
         return onQueryAggregate(queryString);
     }
 
+    /**
+     * @description Query for aggregate records using the given query string and bind map
+     * @param queryString `String`
+     * @param bindMap `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<Aggregate>`
+     */
     public List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
         return onQueryAggregate(queryString);
     }
 
+    /**
+     * @description Query for the count of records using the given query string
+     * @param query `String`
+     * @return  `Integer`
+     */
     public Integer countQuery(String query) {
         return onQueryCount(query);
     }
 
+    /**
+     * @description Count the records using the given query string and access level
+     * @param query `String`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `Integer`
+     */
     public Integer countQuery(String query, System.AccessLevel accessLevel) {
         return onQueryCount(query);
     }
 
+    /**
+     * @description Count the records using the given query string and bind map
+     * @param query `String`
+     * @param bindMap `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `Integer`
+     */
     public Integer countQueryWithBinds(String query, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
         return onQueryCount(query);
     }
@@ -163,8 +221,8 @@ public inherited sharing class MockSelector implements ISelector {
 
     /**
      * @description The method that is called when an aggregate query is executed
-     * @param queryString The query string that was executed
-     * @return The records to return
+     * @param queryString `String`
+     * @return `List<Aggregate>`
      */
     private List<Aggregate> onQueryAggregate(String queryString) {
         this.wasCalled = true;
