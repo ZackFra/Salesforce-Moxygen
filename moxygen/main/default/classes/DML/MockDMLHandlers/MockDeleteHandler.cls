@@ -1,3 +1,8 @@
+/**
+ * @description MockDeleteHandler is a class that extends MockDMLHandler and overrides the delete methods to simulate the delete operation
+ * @author Zackary Frazier
+ * @since 3/9/2024
+ */
 @IsTest
 public inherited sharing class MockDeleteHandler extends MockDMLHandler {
 
