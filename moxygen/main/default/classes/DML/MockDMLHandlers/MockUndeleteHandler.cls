@@ -1,3 +1,8 @@
+/**
+ * @description MockUndeleteHandler is used to mock the Database.UndeleteResult class and the Database.undelete method 
+ * @author Zackary Frazier
+ * @since 3/9/2024
+ */
 @IsTest
 public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
     

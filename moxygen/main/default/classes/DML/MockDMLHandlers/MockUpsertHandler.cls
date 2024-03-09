@@ -1,12 +1,19 @@
-@suppressWarnings('PMD')
+/**
+ * @description MockUpsertHandler is used to mock the upsert operation in the database
+ * @author Zackary Frazier
+ * @since 3/9/2024
+ */
+@SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity')
 @IsTest
 public inherited sharing class MockUpsertHandler extends MockDMLHandler {
 
     /**
-     * @description doUpsert is used to upsert a list of records into the database
-     * @param recordsToUpsert - The records to upsert
-     * @param allOrNone - Whether to throw an exception if any of the records already exist
-     * @return List<Database.UpsertResult> - The results of the upsert operations
+     * @description Upsert a record into the database
+     * @param recordToUpsert Record to upsert
+     * @param externalIdField Optional field to use as the external id for the upsert operation
+     * @param allOrNone Boolean to throw an exception if the record already exists
+     * @return  `Database.UpsertResult`
+     * @exception DmlException
      */
     public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone) {
         wasCalled = true;
@@ -15,9 +22,11 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
 
     /**
      * @description doUpsert is used to upsert a list of records into the database
-     * @param recordsToUpsert - The records to upsert
-     * @param allOrNone - Whether to throw an exception if any of the records already exist
-     * @return List<Database.UpsertResult> - The results of the upsert operations
+     * @param recordsToUpsert The records to upsert
+     * @param externalIdField Optional field to use as the external id for the upsert operation
+     * @param allOrNone Boolean to throw an exception if the record already exists
+     * @return `List<Database.UpsertResult>`
+     * @exception DmlException
      */
     public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone) {
         wasCalled = true;
@@ -25,39 +34,47 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
     }
 
     /**
-     * @description doUpsert is used to upsert a record into the database
-     * @param recordToUpsert - The record to upsert
-     * @param allOrNone - Whether to throw an exception if the record already exists
-     * @param accessLevel - The access level of the user performing the operation
-     * @return Database.UpsertResult - The result of the upsert operation
+     * @description Upsert a record into the database
+     * @param recordToUpsert Record to upsert
+     * @param externalIdField Optional field to use as the external id for the upsert operation
+     * @param allOrNone Boolean to throw an exception if the record already exists
+     * @param accessLevel Access level of the user performing the operation
+     * @return  `Database.UpsertResult`
+     * @exception DmlException
      */
+    @SuppressWarnings('PMD.ExcessiveParameterList')
     public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
         wasCalled = true;
         return doUpsert(recordToUpsert, allOrNone);
     }
 
     /**
-     * @description doUpsert is used to upsert a list of records into the database
-     * @param recordsToUpsert - The records to upsert
-     * @param allOrNone - Whether to throw an exception if any of the records already exist
-     * @param accessLevel - The access level of the user performing the operation
-     * @return List<Database.UpsertResult> - The results of the upsert operations
+     * @description Upsers a list of records into the database
+     * @param recordsToUpsert Records to upsert
+     * @param externalIdField Optional field to use as the external id for the upsert operation
+     * @param allOrNone Boolean to throw an exception if any of the records already exist
+     * @param accessLevel Access level of the user performing the operation
+     * @return  `List<Database.UpsertResult>`
+     * @exception DmlException
      */
+    @SuppressWarnings('PMD.ExcessiveParameterList')
     public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
         wasCalled = true;
         return doUpsert(recordsToUpsert, allOrNone);
     }
 
     /**
-     * @description doUpsert is used to upsert a record into the database
-     * @param recordToUpsert - The record to upsert
-     * @param allOrNone - Whether to throw an exception if the record already exists
-     * @return List<Database.UpsertResult> - The result of the upsert operation
+     * @description Upsers a list of records into the database
+     * @param recordsToUpsert Records to upsert
+     * @param allOrNone Boolean to throw an exception if any of the records already exist
+     * @return  `List<Database.UpsertResult>`
+     * @exception DmlException
      */
     private List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, Boolean allOrNone) {
         List<Database.UpsertResult> results = new List<Database.UpsertResult>();
         for(SObject record : recordsToUpsert) {
             Database.UpsertResult sr = doUpsert(record, allOrNone);
+            results.add(sr);
         }
         return results;
     }
@@ -142,21 +159,21 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
     }
 
     /**
-     * @description doInsert is used to insert a list of records into the database
-     * @param recordsToInsert - The records to insert
-     * @param allOrNone - Whether to throw an exception if any of the records already exist
-     * @return List<Database.SaveResult> - The results of the insert operations
+     * @description Insert a record into the database
+     * @param recordToInsert Record to insert
+     * @param allOrNone Boolean to throw an exception if the record already exists
+     * @return  `Database.SaveResult`
      */
     private Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone) {
         return doInsert(recordToInsert, allOrNone, AccessLevel.USER_MODE);
     }
 
     /**
-     * @description doUpdate is used to update a record in the database
-     * @param recordToUpdate - The record to update
-     * @param allOrNone - Whether to throw an exception if the record does not exist
-     * @return Database.SaveResult - The result of the update operation
-     * @throws DmlException - If the record does not exists and allOrNone is true
+     * @description Update a record in the database
+     * @param recordToUpdate Record to update
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @return  `Database.SaveResult`
+     * @exception DMlException
      */
     private Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone) {
         Map<String, Object> args = new Map<String, Object> {

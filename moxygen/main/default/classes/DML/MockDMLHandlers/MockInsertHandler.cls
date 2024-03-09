@@ -1,3 +1,8 @@
+/**
+ * @description MockInsertHandler is used to mock the insert operation
+ * @author Zackary Frazier
+ * @since 3/9/2024
+ */
 @IsTest
 public inherited sharing class MockInsertHandler extends MockDMLHandler {
 
@@ -34,10 +39,11 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
     }
 
     /**
-     * @description doInsert is used to insert a list of records into the database
-     * @param recordsToInsert - The records to insert
-     * @param allOrNone - Whether to throw an exception if any of the records already exist
-     * @return List<Database.SaveResult> - The results of the insert operations
+     * @description Does a mock insert of a record into the database
+     * @param recordToInsert Record to insert
+     * @param allOrNone Boolean to throw an exception if the record already exists
+     * @return  `Database.SaveResult`
+     * @exception DmlException
      */
     public Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone) {
         wasCalled = true;
@@ -60,10 +66,11 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
     }
 
     /**
-     * @description doInsert is used to insert a list of records into the database
-     * @param recordsToInsert - The records to insert
-     * @param allOrNone - Whether to throw an exception if any of the records already exist
-     * @param accessLevel - The access level of the user performing the operation
+     * @description Inserts a list of records into the database
+     * @param recordsToInsert List of records to insert
+     * @param allOrNone Boolean to throw an exception if the record already exists
+     * @param accessLevel Access level of the user performing the operation
+     * @return  `List<Database.SaveResult>`
      */
     public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
         wasCalled = true;
@@ -74,6 +81,11 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
         return results;
     }
 
+    /**
+     * @description Does a mock insert of a record into the database without setting `wasCalled` to true
+     * @param recordsToInsert List of records to insert
+     * @return  `List<SObject>`
+     */
     public List<SObject> doMockInsert(List<SObject> recordsToInsert) {
         List<SObject> insertedRecords = new List<SObject>();
         for(SObject record : recordsToInsert) {
@@ -82,6 +94,11 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
         return insertedRecords;
     }
 
+    /**
+     * @description Does a mock insert of a record into the database without setting `wasCalled` to true
+     * @param recordToInsert Record to insert
+     * @return  `SObject`
+     */
     public SObject doMockInsert(SObject recordToInsert) {
         SObject insertedRecord = setSystemFields(recordToInsert);
         String objName = SchemaService.getSObjectName(insertedRecord);
@@ -97,9 +114,9 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
     /**
      * @description sets the system fields when a record is inserted
      * @param recordToInsert - The record to insert
+     * @return A reference to the record in the mock database
      */
     private SObject setSystemFields(SObject recordToInsert) {
-        String objName = SchemaService.getSObjectName(recordToInsert);
         Schema.SObjectType sot = SchemaService.getSObjectType(recordToInsert);
         String fakeId = fflib_IDGenerator.generate(sot);
         recordToInsert.put('Id', fakeId);

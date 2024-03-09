@@ -1,12 +1,18 @@
+/**
+ * @description MockUpdateHandler is used to mock the update operation in the database 
+ * @author Zackary Frazier
+ * @since 3/9/2021
+ */
 @IsTest
 public inherited sharing class MockUpdateHandler extends MockDMLHandler {
     /**
-     * @description doUpdate is used to update a record in the database
-     * @param recordToUpdate - The record to update
-     * @param allOrNone - Whether to throw an exception if the record does not exist
-     * @return Database.SaveResult - The result of the update operation
-     * @throws DmlException - If the record does not exists and allOrNone is true
+     * @description Updates a record in the database
+     * @param recordToUpdate Record to update
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @return  `Database.SaveResult`
+     * @exception DMLException
      */
+    @SuppressWarnings('PMD.CyclomaticComplexity')
     public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone) {
         wasCalled = true;
         Map<String, Object> args = new Map<String, Object> {
@@ -75,10 +81,11 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
     }
 
     /**
-     * @description doUpdate is used to update a record in the database
-     * @param recordID - The Id of the record to update
-     * @param allOrNone - Whether to throw an exception if the record does not exist
-     * @return Database.SaveResult - The result of the update operation
+     * @description Updates a record in the database
+     * @param recordToUpdate Record to update
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @param accessLevel Access level of the user
+     * @return  `Database.SaveResult`
      */
     public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
         wasCalled = true;
@@ -86,10 +93,11 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
     }
 
     /**
-     * @description doUpdate is used to update a list of records in the database
-     * @param recordsToUpdate - The records to update
-     * @param allOrNone - Whether to throw an exception if any of the records do not exist
-     * @return List<Database.SaveResult> - The results of the update operations
+     * @description Updates a list of records in the database
+     * @param recordsToUpdate Records to update
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @param accessLevel Access level of the user
+     * @return  `List<Database.SaveResult>`
      */
     public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
         wasCalled = true;
