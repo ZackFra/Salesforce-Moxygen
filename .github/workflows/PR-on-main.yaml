@@ -1,0 +1,34 @@
+name: CodeScan Pull Request On Main
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "force-app/main/default/**"
+
+jobs:
+  run-test-classes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Java
+        run: |
+          sudo apt-get update
+          sudo apt-get install openjdk-11-jdk
+          java -version
+      - name: Install SFDX
+        run: |
+          npm i -g @salesforce/cli
+          sf --version
+      - name: Install Code Scanner
+        run: |
+          sf plugins install @salesforce/sfdx-scanner
+      - name: Run Code Scanner
+        run: |
+          sf scanner run --target . -f json -o codescan.json
+      - name: Raise Warnings
+        run: |
+          node scripts/js/raise-warnings.js
