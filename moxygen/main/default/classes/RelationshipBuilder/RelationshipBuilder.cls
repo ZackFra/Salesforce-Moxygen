@@ -1,7 +1,6 @@
 /**
  * @description RelationshipBuilder class to build parent and child relationships
  */
-@IsTest
 public inherited sharing class RelationshipBuilder {
     /**
      * @description ParentRelationshipBuilder class to build parent relationships

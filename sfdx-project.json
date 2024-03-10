@@ -1,0 +1,19 @@
+{
+  "packageDirectories": [
+    {
+      "path": "moxygen",
+      "default": true
+    },
+    {
+      "path": "schema-service",
+      "default": false
+    }
+  ],
+  "name": "Moxygen",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "60.0",
+  "packageAliases": {
+    "moxygen": "0Ho3h0000004CwzCAE"
+  }
+}

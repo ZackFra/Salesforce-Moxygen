@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "force-app/main/default/**"
+      - "**/main/default/**"
 
 jobs:
   run-test-classes:

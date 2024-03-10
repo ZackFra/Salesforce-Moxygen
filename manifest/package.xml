@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <name>ApexClass</name>
-        <members>ORM</members>
-        <members>fflib_IDGenerator</members>
-        <members>fflib_IDGeneratorTest</members>
+        <members>Aggregate</members>
         <members>Common</members>
         <members>CommonTest</members>
         <members>DML</members>
         <members>IDML</members>
-        <members>MockDML</members>
         <members>IORM</members>
+        <members>ISelector</members>
+        <members>MockDML</members>
+        <members>MockDMLHandler</members>
+        <members>MockDeleteHandler</members>
+        <members>MockInsertHandler</members>
         <members>MockORM</members>
+        <members>MockSelector</members>
+        <members>MockUndeleteHandler</members>
+        <members>MockUpdateHandler</members>
+        <members>MockUpsertHandler</members>
+        <members>ORM</members>
+        <members>RelationshipBuilder</members>
         <members>SaveResultService</members>
         <members>SchemaService</members>
         <members>Selector</members>
-        <members>ISelector</members>
-        <members>MockSelector</members>
-
-        <members>MockDeleteHandler</members>
-        <members>MockDMLHandler</members>
-        <members>MockInsertHandler</members>
-        <members>MockUpdateHandler</members>
-        <members>MockUpsertHandler</members>
-        <members>MockUndeleteHandler</members>
         <members>Types</members>
-        <members>Aggregate</members>
-        <members>RelationshipBuilder</members>
-
+        <members>fflib_IDGenerator</members>
+        <members>fflib_IDGeneratorTest</members>
+        <name>ApexClass</name>
     </types>
     <version>60.0</version>
 </Package>
