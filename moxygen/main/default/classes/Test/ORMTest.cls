@@ -7,8 +7,8 @@ private class ORMTest {
         Test.startTest();
         try {
             ORM db = new ORM();
-            ISelector query = db.getSelector();
-            IDML dml = db.getDML();
+            db.getSelector();
+            db.getDML();
         } catch(Exception e) {
             isExceptionThrown = true;
         }
