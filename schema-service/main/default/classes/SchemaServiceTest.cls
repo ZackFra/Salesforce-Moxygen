@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.CyclomaticComplexity')
 @isTest
 private class SchemaServiceTest {
 
@@ -466,7 +467,7 @@ private class SchemaServiceTest {
         Test.stopTest();
         Assert.areEqual(
             'Name',
-            sObjectType.getDescribe().getName(),
+            sObjectType.getDescribe().getName(), // NOPMD
             'SObjectType should be "Name"'
         );
     }
@@ -479,7 +480,7 @@ private class SchemaServiceTest {
         Test.stopTest();
         Assert.areEqual(
             'Account',
-            sObjectType.getDescribe().getName(),
+            sObjectType.getDescribe().getName(), // NOPMD
             'SObjectType should be "Account"'
         );
     }
