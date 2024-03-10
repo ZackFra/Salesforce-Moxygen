@@ -7,8 +7,13 @@ their respective static Database methods.
 
 Using this, we can mock the Selector and DML classes using interface trickery.
 
-Install URL:
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04tak0000000OVN
+## Install
+
+### Production:
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04tak0000000OWz
+
+### Sandbox
+https://test.salesforce.com/packaging/installPackage.apexp?p0=04tak0000000OWz
 
 ## Example
 
