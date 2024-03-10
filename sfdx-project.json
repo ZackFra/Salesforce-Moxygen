@@ -5,7 +5,7 @@
       "default": true
     }
   ],
-  "name": "IDML",
+  "name": "Moxygen",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "60.0",
