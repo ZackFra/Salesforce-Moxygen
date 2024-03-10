@@ -3,8 +3,6 @@ node_modules/
 .husky/
 
 package-lock.json
-sfdx-project.json
-.forceignore
 .sf/
 .sfdx/
 config/

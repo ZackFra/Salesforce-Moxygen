@@ -1,0 +1,15 @@
+{
+  "packageDirectories": [
+    {
+      "path": "moxygen",
+      "default": true
+    }
+  ],
+  "name": "IDML",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "60.0",
+  "packageAliases": {
+    "moxygen": "0Ho3h0000004CwzCAE"
+  }
+}
