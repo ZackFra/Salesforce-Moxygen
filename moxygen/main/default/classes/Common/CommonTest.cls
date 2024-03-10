@@ -1,5 +1,5 @@
 @IsTest
-public with sharing class CommonTest {
+private with sharing class CommonTest {
     @IsTest
     private static void testNullCheck() {
         String str = null;

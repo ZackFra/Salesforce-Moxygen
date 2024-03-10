@@ -1,5 +1,5 @@
 @IsTest
-public class AggregateTest {
+private class AggregateTest {
     
     @IsTest
     private static void testAggregate() {
@@ -39,5 +39,21 @@ public class AggregateTest {
         Assert.areEqual('Test Account', name, 'Name is not correct');
         Assert.areEqual('Prospect', type, 'Type is not correct');
         Assert.areEqual('Agriculture', industry, 'Industry is not correct');
+    }
+
+    @IsTest
+    private static void tesToString() {
+        Map<String, Object> ar = new Map<String, Object> {
+            'Name' => 'Test Account',
+            'Type' => 'Prospect',
+            'Industry' => 'Agriculture'
+        };
+
+        Test.startTest();
+        Aggregate a = new Aggregate(ar);
+        String s = a.toString();
+        Test.stopTest();
+
+        Assert.areEqual('{Industry=Agriculture, Name=Test Account, Type=Prospect}', s, 'String is not correct');
     }
 }
