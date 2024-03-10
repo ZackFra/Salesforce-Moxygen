@@ -3,6 +3,10 @@
     {
       "path": "moxygen",
       "default": true
+    },
+    {
+      "path": "schema-service",
+      "default": false
     }
   ],
   "name": "Moxygen",
