@@ -3,7 +3,7 @@
 Salesforce Moxygen is a light-weight Salesforce mocking framework for Apex unit testing.
 
 The ORM object encapsulates both DML and query logic by creating non-static wrappers around
-their respective static Database metods.
+their respective static Database methods.
 
 Using this, we can mock the Selector and DML classes using interface trickery.
 
