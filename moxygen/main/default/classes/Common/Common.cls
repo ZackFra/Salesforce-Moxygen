@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/22/2024
  */
-public with sharing class Common {
+public inherited sharing class Common {
 
     /**
      * @description Method to check if a field is null
