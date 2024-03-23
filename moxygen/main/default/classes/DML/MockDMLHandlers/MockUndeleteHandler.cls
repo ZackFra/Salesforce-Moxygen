@@ -56,7 +56,14 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
                 Database.UndeleteResult.class
             );
         }
+
         deletedRecords.remove(recordToUndelete.Id);
+        String sObjName = SchemaService.getSObjectName(recordToUndelete);
+        Map<Id, SObject> mockRecords = this.mockObjects.get(sObjName);
+        SObject mockRecord = mockRecords.get(recordToUndelete.Id);
+        SObject updatedRecord = Common.putReadOnlyField(mockRecord, 'IsDeleted', false);
+        mockRecords.put(updatedRecord.Id, updatedRecord);
+
         return (Database.UndeleteResult) srService.createSuccess(
             recordToUndelete.Id,
             Database.UndeleteResult.class

@@ -42,4 +42,34 @@ public with sharing class Common {
             }
         }
     }
+
+    public static SObject putReadOnlyField(SObject record, String fieldName, Object value) {
+        Map<String, Object> args = new Map<String, Object> {
+            'record' => record,
+            'fieldName' => fieldName
+        };
+        nullCheck(args);
+        Map<String, Object> recordMap = mapFromRecord(record);
+        recordMap.put(fieldName, value);
+        return recordFromMap(recordMap, SchemaService.getSObjectName(record));
+    }
+
+    public static SObject putReadOnlyFields(SObject record, Map<String, Object> fieldValuePairs) {
+        Map<String, Object> args = new Map<String, Object> {
+            'record' => record,
+            'fieldValuePairs' => fieldValuePairs
+        };
+        nullCheck(args);
+        Map<String, Object> recordMap = mapFromRecord(record);
+        recordMap.putAll(fieldValuePairs);
+        return recordFromMap(recordMap, SchemaService.getSObjectName(record));
+    }
+
+    public static Map<String, Object> mapFromRecord(SObject record) {
+        return (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(record));
+    }
+
+    public static SObject recordFromMap(Map<String, Object> recordMap, String sObjectType) {
+        return (SObject) JSON.deserialize(JSON.serialize(recordMap), Type.forName(sObjectType));
+    }
 }
