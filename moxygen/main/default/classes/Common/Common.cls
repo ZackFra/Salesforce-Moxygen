@@ -25,8 +25,10 @@
 
 /**
  * @description Common utility class for basic operations, should not contain complex code
+ * @author Zackary Frazier
+ * @since 3/22/2024
  */
-public with sharing class Common {
+public inherited sharing class Common {
 
     /**
      * @description Method to check if a field is null
@@ -41,5 +43,59 @@ public with sharing class Common {
                 throw new IllegalArgumentException('Argument ' + argName + ' cannot be null');
             }
         }
+    }
+
+    /**
+     * @description Puts a value into a read-only field of an SObject
+     * @param record `SObject`
+     * @param fieldName `String`
+     * @param value `Object`
+     * @return  `SObject`
+     */
+    public static SObject putReadOnlyField(SObject record, String fieldName, Object value) {
+        Map<String, Object> args = new Map<String, Object> {
+            'record' => record,
+            'fieldName' => fieldName
+        };
+        nullCheck(args);
+        Map<String, Object> recordMap = mapFromRecord(record);
+        recordMap.put(fieldName, value);
+        return recordFromMap(recordMap, SchemaService.getSObjectName(record));
+    }
+
+    /**
+     * @description Puts a map of values into read-only fields of an SObject
+     * @param record `SObject`
+     * @param fieldValuePairs `Map<String, Object>`
+     * @return  `SObject`
+     */
+    public static SObject putReadOnlyFields(SObject record, Map<String, Object> fieldValuePairs) {
+        Map<String, Object> args = new Map<String, Object> {
+            'record' => record,
+            'fieldValuePairs' => fieldValuePairs
+        };
+        nullCheck(args);
+        Map<String, Object> recordMap = mapFromRecord(record);
+        recordMap.putAll(fieldValuePairs);
+        return recordFromMap(recordMap, SchemaService.getSObjectName(record));
+    }
+
+    /**
+     * @description Converts an SObject to a map
+     * @param record `SObject`
+     * @return  `Map<String, Object>`
+     */
+    public static Map<String, Object> mapFromRecord(SObject record) {
+        return (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(record));
+    }
+
+    /**
+     * @description Converts a Map<String, Object> to an SObject
+     * @param recordMap `Map<String, Object>`
+     * @param sObjectType `String`
+     * @return `SObject`
+     */
+    public static SObject recordFromMap(Map<String, Object> recordMap, String sObjectType) {
+        return (SObject) JSON.deserialize(JSON.serialize(recordMap), Type.forName(sObjectType));
     }
 }

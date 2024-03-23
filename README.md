@@ -7,27 +7,15 @@ their respective static Database methods.
 
 Using this, we can mock the Selector and DML classes using interface trickery.
 
-## Install
-
-### Production:
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04tak0000000OWz
-
-### Sandbox
-https://test.salesforce.com/packaging/installPackage.apexp?p0=04tak0000000OWz
-
 ## Example
 
-Lets say you have an AccountsService class like so:
+Lets say you have an AccountService class like so:
 
 ```
-public with sharing class AccountsService {
-
-    private IORM db = new ORM();
+public class AccountService {
+	
     @TestVisible
-    public AccountsService setORM(IORM db) {
-        this.db = db;
-        return this;
-    }
+    private IORM db = new ORM();
 
     public void updateAcctName(Id accountId) {
 
@@ -56,70 +44,71 @@ To test this, you can create an account with an @TestSetup class... orr....
 
 ```
 @IsTest
-public class AccountsServiceTest {
+public class AccountServiceTest {
 
     @IsTest
     private static void testUpdateAcctName() {
-        MockORM mockDatabase = new MockORM();
-        MockDML dml = (MockDML) mockDatabase.getDML();
+        MockORM db = new MockORM();
+        MockDML dml = (MockDML) db.getDML();
 
         Account newAcct = new Account(
             Name = 'Lame'
         );
 
-        // this will add a fake id, fake system mod stamp,
-        // fake ownerId, etc. - returns a reference to what is literally in the database
-        Account insertedAcct = (Account) dml.doMockInsert(newAcct);
-        List<Account> acctList = new List<Account> { insertedAcct };
+        dml.doMockInsert(newAcct);
+        
+        List<Account> acctList = new List<Account> { newAcct };
 
         // when this query is made, return the account list
-        mockDatabase.registerQuery(
+        db.registerQuery(
             'SELECT Name FROM Account WHERE Id = :acctId',
             acctList
         );
 
-        AccountsService service = new AccountsService()
-            .setORM(mockDatabase);
+        AccountService service = new AccountService();
+        service.db = db;
 
         // we used doMockInsert, so no DML is registered
         Assert.isFalse(
-            mockDatabase.didAnyDML(),
+            db.didAnyDML(),
             'Expected no DML statement to register'
         );
 
         Test.startTest();
-            service.updateAcctName(insertedAcct.Id);
+            service.updateAcctName(newAcct.Id);
         Test.stopTest();
+        
+        Account updatedAcct = (Account) db.selectRecordById(newAcct.Id);
 
         // Did we actually update the record?
         Assert.areEqual(
             'WOOOO!!!!',
-            insertedAcct.Name,
+            updatedAcct.Name,
             'Expected account name to be updated'
         );
 
         // check for any DML
         Assert.isTrue(
-            mockDatabase.didAnyDML(),
+            db.didAnyDML(),
             'Expected DML to fire'
         );
 
 
         // check for a specific DML operation
         Assert.isTrue(
-            mockDatabase.didDML(Types.DML.UPDATED),
+            db.didDML(Types.DML.UPDATED),
             'Expected data to be updated'
         );
 
         // did we call a query?
         Assert.isTrue(
-            mockDatabase.calledAnyQuery(),
+            db.calledAnyQuery(),
             'Expected some query to be called'
         );
 
         // check that our query was called
         Assert.isTrue(
-            mockDatabase.calledQuery('SELECT Name FROM Account WHERE Id = :acctId'),
+            db.calledQuery('SELECT Name FROM Account WHERE Id = :acctId'),
             'Expected query to be called'
         );
     }
@@ -139,42 +128,42 @@ The IORM interface defines two methods that can be expected to exist on both the
 
 The ISelector interface defines three methods,
 
-- List<SObject> query(String queryString)
-- List<SObject> query(String queryString, System.AccessLevel accessLevel)
-- List<SObject> queryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel)
+- List\<SObject\> query(String queryString)
+- List\<SObject\> query(String queryString, System.AccessLevel accessLevel)
+- List\<SObject\> queryWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel)
 
-- List<Aggregate> queryAggregate(String queryString);
-- List<Aggregate> queryAggregate(String queryString, System.AccessLevel accessLevel);
-- List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel);
+- List\<Aggregate\> queryAggregate(String queryString);
+- List\<Aggregate\> queryAggregate(String queryString, System.AccessLevel accessLevel);
+- List\<Aggregate\> queryAggregateWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel);
 
 ### IDML
 
 The IDML interface defines the following methods, reflecting their equivalent static Database methods.
 
 - Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone)
-- List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boolean allOrNone)
+- List\<Database.DeleteResult\> doDelete(List\<SObject\> recordsToDelete, Boolean allOrNone)
 - Database.DeleteResult doDelete(Id recordID, Boolean allOrNone)
-- List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNone)
+- List\<Database.DeleteResult\> doDelete(List\<Id\> recordIDs, Boolean allOrNone)
 
 - Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone)
-- List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone)
+- List\<Database.SaveResult\> doInsert(List\<SObject\> recordsToInsert, Boolean allOrNone)
 - Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone, System.AccessLevel accessLevel)
-- List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel)
+- List\<Database.SaveResult\> doInsert(List\<SObject\> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel)
 
 - Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone)
-- List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone)
+- List\<Database.SaveResult\> doUpdate(List\<SObject\> recordsToUpdate, Boolean allOrNone)
 - Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, System.AccessLevel accessLevel)
-- List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel)
+- List\<Database.SaveResult\> doUpdate(List\<SObject\> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel)
 
 - Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone)
-- List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone)
+- List\<Database.UpsertResult\> doUpsert(List\<SObject\> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone)
 - Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel)
-- List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel)
+- List\<Database.UpsertResult\> doUpsert(List\<SObject\> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel)
 
 - Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone)
-- List<Database.UndeleteResult> doUndelete(List<SObject> recordsToUndelete, Boolean allOrNone)
+- List\<Database.UndeleteResult\> doUndelete(List\<SObject\> recordsToUndelete, Boolean allOrNone)
 - Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone)
-- List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone)
+- List\<Database.UndeleteResult\> doUndelete(List\<Id\> recordIDs, Boolean allOrNone)
 - Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel)
 
 ### ORM
@@ -264,7 +253,7 @@ Resets the tracking on DML operations
 
 Resets the tracking on SOQL queries
 
-#### public void registerQuery(String queryString, List<SObject> records)
+#### public void registerQuery(String queryString, List\<SObject\> records)
 
 Register a query so that when it is called, it returns a specific set of SObjects.
 Because the SObjects are passed in a list, edits to these SObjects will be reflected
@@ -275,7 +264,7 @@ in the mock database (i.e. pointer logic)
 Register a query such that when it is called, an exception is thrown.
 This throws a generic QueryException.
 
-#### public void registerAggregateQuery(String queryString, List<Aggregate> records)
+#### public void registerAggregateQuery(String queryString, List\<Aggregate\> records)
 
 Register an aggregate query to return a list of Aggregate objects when its called.
 
@@ -319,31 +308,31 @@ Returns the number of deleted records in the mock database.
 
 This is a mock version of the selector.
 
-#### public List<SObject> query(String queryString)
+#### public List\<SObject\> query(String queryString)
 
 - Returns a list of SObjects if this query was registered via "registerQuery",
 - Throws an exception if this query was registered via "registerFailedQuery",
 - Returns an empty List of SObjects if this query was not registered
 
-#### public List<SObject> query(String queryString, System.AccessLevel accessLevel)
+#### public List\<SObject\> query(String queryString, System.AccessLevel accessLevel)
 
 Same behavior as query, accessLevel is ignored.
 
-#### public List<SObject> queryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel)
+#### public List\<SObject\> queryWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel)
 
 Same behavior as query, bindMap and accessLevel are ignored.
 
-#### public List<Aggregate> queryAggregate(String queryString)
+#### public List\<Aggregate\> queryAggregate(String queryString)
 
 - Returns a list of Aggregates if this query was registered via "registerAggregateQuery",
 - Throws an exception if this query was registered via "registerFailedAggregateQuery",
 - Returns an empty List of Aggregates if this query was not registered
 
-#### public List<Aggregate> queryAggregate(String queryString, System.AccessLevel accessLevel)
+#### public List\<Aggregate\> queryAggregate(String queryString, System.AccessLevel accessLevel)
 
 Same behavior as queryAggregate, accessLevel is ignored
 
-#### List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel);
+#### List\<Aggregate\> queryAggregateWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel);
 
 Same behavior as queryAggregate, bindMap and accessLevel are ignored.
 
@@ -354,24 +343,20 @@ under the hood.
 
 Unique methods for this class, that aren't covered by IDML or are hoisted to MockORM are,
 
-#### List<SObject> doMockInsert(List\<SObject\> recordsToInsert)
+#### void doMockInsert(List\<SObject\> recordsToInsert)
 
 Inserts a list of records into the mock database without it registering as a DML statement,
 used for setting mock data. Populates system fields.
 
-Returns a reference to the SObject in the database.
-
-#### SObject doMockInsert(SObject recordToInsert)
+#### void doMockInsert(SObject recordToInsert)
 
 Inserts a record into the mock database. Populates system fields.
-
-Returns a reference to the SObject in the database.
 
 ### Aggregate
 
 This object is a wrapper around AggregateResult. The reason for its existence is that
 AggregateResult objects cannot be mocked. It takes the AggregateResult record, and perserves
-it as a read-only Map<String, Object>.
+it as a read-only Map\<String, Object\>.
 
 #### public Object get(String field)
 
@@ -392,7 +377,7 @@ This class has five methods, four of which are setters and then there is the
 build method which returns the connected SObject.
 
 - public ChildRelationshipBuilder setParent(SObject parent)
-- public ChildRelationshipBuilder setChildren(List<SObject> children)
+- public ChildRelationshipBuilder setChildren(List\<SObject\> children)
 - public ChildRelationshipBuilder setRelationshipName(String relationshipName)
 - public ChildRelationshipBuilder setRelationshipField(String relationshipField)
 - public SObject build()
@@ -438,3 +423,27 @@ Account acctWithOpps = (Account) new RelationshipBuilder()
         .setRelationshipName('Opportunities')
         .build();
 ```
+
+### Common
+
+Handles common operations handled throughout the codebase. Contains useful methods for mocking.
+
+#### public static void nullCheck(Map\<String, Object\> args)
+
+Takes a `Map<String, Object>` and checks if any of the values are null. Used to check that the arguments are methods aren't null.
+
+#### public static SObject putReadOnlyField(SObject record, String fieldName, Object value)
+
+Given a record, a field name, and a value, sets that value on a record.
+
+#### public static SObject putReadOnlyFields(SObject record, Map\<String, Object\> fieldValuePairs)
+
+Given a record and a `Map<String, Object>`, set all values in the map on the record.
+
+#### public static Map\<String, Object\> mapFromRecord(SObject record)
+
+Returns an editable `Map<String, Object>` from a record.
+
+#### public static SObject recordFromMap(Map\<String, Object\> recordMap, String sObjectType)
+
+Returns a new record from a `Map<String, Object>` of the specified SObject type.

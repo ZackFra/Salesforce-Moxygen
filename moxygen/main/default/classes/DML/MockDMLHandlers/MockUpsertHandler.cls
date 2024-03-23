@@ -154,22 +154,7 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
 
         String fakeId = fflib_IDGenerator.generate(sot);
         recordToInsert.put('Id', fakeId);
-        Map<String, Object> recordMap = (Map<String, Object>) JSON.deserializeUntyped( 
-            JSON.serialize(recordToInsert)
-        );
-        recordMap.put('CreatedDate', DateTime.now());
-        recordMap.put('CreatedById', UserInfo.getUserId());
-        recordMap.put('LastModifiedDate', DateTime.now());
-        recordMap.put('LastModifiedById', UserInfo.getUserId());
-        recordMap.put('SystemModstamp', DateTime.now());
-        recordMap.put('LastActivityDate', Date.today());
-        recordMap.put('IsDeleted', false);
-
-        if(SchemaService.hasField(sot, 'OwnerId')) {
-            recordMap.put('OwnerId', UserInfo.getUserId());
-        }
-        String apiName = SchemaService.getSObjectName(recordToInsert);
-        recordToInsert = (SObject) JSON.deserialize(JSON.serialize(recordMap), Type.forName(apiName));
+        recordToInsert = setSystemFieldsOnInsert(recordToInsert);
 
         Map<Id, SObject> mockRecords = this.mockObjects.get(objName);
         if(mockRecords == null) {
@@ -234,20 +219,64 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
             mockRecords.get(recordToUpdate.Id).put(field, recordToUpdate.get(field));
         }
 
-        Map<String, Object> mockRecord = (Map<String, Object>) JSON.deserializeUntyped(
-            JSON.serialize(mockRecords.get(recordToUpdate.Id))
-        );
-        mockRecord.put('LastModifiedDate', DateTime.now());
-        mockRecord.put('LastModifiedById', UserInfo.getUserId());
-
-        recordToUpdate = (SObject) JSON.deserialize(
-            JSON.serialize(mockRecord), 
-            Type.forName(objName)
-        );
+        recordToUpdate = setSystemFieldsOnUpdate(recordToUpdate);
         mockRecords.put(recordToUpdate.Id, recordToUpdate);
         return (Database.SaveResult) srService.createSuccess(
             recordToUpdate.Id,
             Database.SaveResult.class
         );
+    }
+
+    private SObject setSystemFieldsOnUpdate(SObject recordToUpdate) {
+        Map<String, Object> readOnlyFields = getReadOnlyFieldsForUpdate();
+        return Common.putReadOnlyFields(
+            recordToUpdate,
+            readOnlyFields
+        );
+    }
+
+    private Map<String, Object> getReadOnlyFieldsForUpdate() {
+        Map<String, Object> readOnlyFields = new Map<String, Object> {
+            'LastModifiedDate' => DateTime.now(),
+            'LastModifiedById' => UserInfo.getUserId()
+        };
+
+        return readOnlyFields;
+    }
+
+    /**
+     * @description sets the system fields when a record is inserted
+     * @param recordToInsert - The record to insert
+     * @return A reference to the record in the mock database
+     */
+    private SObject setSystemFieldsOnInsert(SObject recordToInsert) {
+        Schema.SObjectType sot = SchemaService.getSObjectType(recordToInsert);
+        String fakeId = fflib_IDGenerator.generate(sot);
+        recordToInsert.put('Id', fakeId);
+
+        Map<String, Object> readOnlyFields = getReadOnlyFieldsForInsert(recordToInsert);
+        return Common.putReadOnlyFields(
+            recordToInsert,
+            readOnlyFields
+        );
+    }
+
+    private Map<String, Object> getReadOnlyFieldsForInsert(SObject recordToInsert) {
+        Schema.SObjectType sot = SchemaService.getSObjectType(recordToInsert);
+        Map<String, Object> readOnlyFields = new Map<String, Object> {
+            'CreatedDate' => DateTime.now(),
+            'CreatedById' => UserInfo.getUserId(),
+            'LastModifiedDate' => DateTime.now(),
+            'LastModifiedById' => UserInfo.getUserId(),
+            'SystemModstamp' => DateTime.now(),
+            'LastActivityDate' => Date.today(),
+            'IsDeleted' => false
+        };
+
+        if(SchemaService.hasField(sot, 'OwnerId')) {
+            readOnlyFields.put('OwnerId', UserInfo.getUserId());
+        }
+
+        return readOnlyFields;
     }
 }
