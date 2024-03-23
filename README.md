@@ -141,9 +141,9 @@ The ISelector interface defines three methods,
 The IDML interface defines the following methods, reflecting their equivalent static Database methods.
 
 - Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone)
-- List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boolean allOrNone)
+- List\<Database.DeleteResult\> doDelete(List\<SObject\> recordsToDelete, Boolean allOrNone)
 - Database.DeleteResult doDelete(Id recordID, Boolean allOrNone)
-- List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNone)
+- List\<Database.DeleteResult\> doDelete(List\<Id\> recordIDs, Boolean allOrNone)
 
 - Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone)
 - List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone)
