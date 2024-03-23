@@ -40,4 +40,84 @@ private with sharing class CommonTest {
         Test.stopTest();
         Assert.isTrue(isExceptionThrown, 'IllegalArgumentException should be thrown');
     }
+
+    @IsTest
+    static void testPutReadOnlyField() {
+        Account acc = new Account(
+            Name = 'Test Account'
+        );
+
+        Test.startTest();
+        Account updatedAcct = (Account) Common.putReadOnlyField(
+            acc, 
+            'IsDeleted', 
+            true
+        );
+        Test.stopTest();
+
+        Assert.isTrue(updatedAcct.IsDeleted, 'IsDeleted should be true');
+    }
+
+    @IsTest
+    static void testPutReadOnlyFields() {
+        Account acc = new Account(
+            Name = 'Test Account'
+        );
+
+        Test.startTest();
+        Account updatedAcct = (Account) Common.putReadOnlyFields(
+            acc, 
+            new Map<String, Object> {
+                'IsDeleted' => true,
+                'LastModifiedDate' => Datetime.now()
+            }
+        );
+        Test.stopTest();
+
+        Assert.isTrue(updatedAcct.IsDeleted, 'IsDeleted should be true');
+        Assert.isNotNull(updatedAcct.LastModifiedDate, 'LastModifiedDate should not be null');
+    }
+
+    @IsTest
+    static void testMapFromRecord() {
+        Account acc = new Account(
+            Name = 'Test Account'
+        );
+
+        Test.startTest();
+        Map<String, Object> accMap = Common.mapFromRecord(
+            acc
+        );
+        Test.stopTest();
+
+        for(String key : acc.getPopulatedFieldsAsMap().keySet()) {
+            Assert.areEqual(
+                acc.get(key), 
+                accMap.get(key), 
+                key + 'should be the same'
+            );
+        }
+    }
+
+    @IsTest
+    static void testRecordFromMap() {
+        Map<String, Object> accMap = new Map<String, Object> {
+            'Name' => 'Test Account'
+        };
+
+        Test.startTest();
+        Account acc = (Account) Common.recordFromMap(
+            accMap,
+            'Account'
+        );
+        Test.stopTest();
+
+        for(String key : accMap.keySet()) {
+            Assert.areEqual(
+                acc.get(key), 
+                accMap.get(key), 
+                key + ' should be the same'
+            );
+        }
+    }
 }
