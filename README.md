@@ -146,24 +146,24 @@ The IDML interface defines the following methods, reflecting their equivalent st
 - List\<Database.DeleteResult\> doDelete(List\<Id\> recordIDs, Boolean allOrNone)
 
 - Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone)
-- List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone)
+- List\<Database.SaveResult\> doInsert(List\<SObject\> recordsToInsert, Boolean allOrNone)
 - Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone, System.AccessLevel accessLevel)
-- List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel)
+- List\<Database.SaveResult\> doInsert(List\<SObject\> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel)
 
 - Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone)
-- List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone)
+- List\<Database.SaveResult\> doUpdate(List\<SObject\> recordsToUpdate, Boolean allOrNone)
 - Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, System.AccessLevel accessLevel)
-- List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel)
+- List\<Database.SaveResult\> doUpdate(List\<SObject\> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel)
 
 - Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone)
-- List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone)
+- List\<Database.UpsertResult\> doUpsert(List\<SObject\> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone)
 - Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel)
-- List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel)
+- List\<Database.UpsertResult\> doUpsert(List\<SObject\> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel)
 
 - Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone)
-- List<Database.UndeleteResult> doUndelete(List<SObject> recordsToUndelete, Boolean allOrNone)
+- List\<Database.UndeleteResult\> doUndelete(List\<SObject\> recordsToUndelete, Boolean allOrNone)
 - Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone)
-- List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone)
+- List\<Database.UndeleteResult\> doUndelete(List\<Id\> recordIDs, Boolean allOrNone)
 - Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel)
 
 ### ORM
@@ -253,7 +253,7 @@ Resets the tracking on DML operations
 
 Resets the tracking on SOQL queries
 
-#### public void registerQuery(String queryString, List<SObject> records)
+#### public void registerQuery(String queryString, List\<SObject\> records)
 
 Register a query so that when it is called, it returns a specific set of SObjects.
 Because the SObjects are passed in a list, edits to these SObjects will be reflected
@@ -264,7 +264,7 @@ in the mock database (i.e. pointer logic)
 Register a query such that when it is called, an exception is thrown.
 This throws a generic QueryException.
 
-#### public void registerAggregateQuery(String queryString, List<Aggregate> records)
+#### public void registerAggregateQuery(String queryString, List\<Aggregate\> records)
 
 Register an aggregate query to return a list of Aggregate objects when its called.
 
@@ -308,31 +308,31 @@ Returns the number of deleted records in the mock database.
 
 This is a mock version of the selector.
 
-#### public List<SObject> query(String queryString)
+#### public List\<SObject\> query(String queryString)
 
 - Returns a list of SObjects if this query was registered via "registerQuery",
 - Throws an exception if this query was registered via "registerFailedQuery",
 - Returns an empty List of SObjects if this query was not registered
 
-#### public List<SObject> query(String queryString, System.AccessLevel accessLevel)
+#### public List\<SObject\> query(String queryString, System.AccessLevel accessLevel)
 
 Same behavior as query, accessLevel is ignored.
 
-#### public List<SObject> queryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel)
+#### public List\<SObject\> queryWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel)
 
 Same behavior as query, bindMap and accessLevel are ignored.
 
-#### public List<Aggregate> queryAggregate(String queryString)
+#### public List\<Aggregate\> queryAggregate(String queryString)
 
 - Returns a list of Aggregates if this query was registered via "registerAggregateQuery",
 - Throws an exception if this query was registered via "registerFailedAggregateQuery",
 - Returns an empty List of Aggregates if this query was not registered
 
-#### public List<Aggregate> queryAggregate(String queryString, System.AccessLevel accessLevel)
+#### public List\<Aggregate\> queryAggregate(String queryString, System.AccessLevel accessLevel)
 
 Same behavior as queryAggregate, accessLevel is ignored
 
-#### List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel);
+#### List\<Aggregate\> queryAggregateWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel);
 
 Same behavior as queryAggregate, bindMap and accessLevel are ignored.
 
@@ -356,7 +356,7 @@ Inserts a record into the mock database. Populates system fields.
 
 This object is a wrapper around AggregateResult. The reason for its existence is that
 AggregateResult objects cannot be mocked. It takes the AggregateResult record, and perserves
-it as a read-only Map<String, Object>.
+it as a read-only Map\<String, Object\>.
 
 #### public Object get(String field)
 
@@ -377,7 +377,7 @@ This class has five methods, four of which are setters and then there is the
 build method which returns the connected SObject.
 
 - public ChildRelationshipBuilder setParent(SObject parent)
-- public ChildRelationshipBuilder setChildren(List<SObject> children)
+- public ChildRelationshipBuilder setChildren(List\<SObject\> children)
 - public ChildRelationshipBuilder setRelationshipName(String relationshipName)
 - public ChildRelationshipBuilder setRelationshipField(String relationshipField)
 - public SObject build()
