@@ -663,4 +663,27 @@ public inherited sharing class SchemaService {
 
         return sot.getDescribe().fields.getMap().containsKey(fieldApiName);
     }
+
+    /**
+     * @description Returns the specified record type's id for a given sObject type 
+     * @param sot `Schema.SObjectType`
+     * @param recordTypeName `String`
+     * @return  `Id`
+     */
+    public static Id getRecordTypeId(Schema.SObjectType sot, String recordTypeName) {
+        Map<String, Object> args = new Map<String, Object> {
+            'sot' => sot,
+            'recordTypeName' => recordTypeName
+        };
+        Common.nullCheck(args);
+        recordTypeName = recordTypeName.toLowerCase();
+
+        Map<String, Schema.RecordTypeInfo> recordTypes = sot.getDescribe().getRecordTypeInfosByDeveloperName();
+        for(String key : recordTypes.keySet()) {
+            if(key.toLowerCase() == recordTypeName) {
+                return recordTypes.get(key).getRecordTypeId();
+            }
+        }
+        throw new SchemaServiceException('Invalid record type name: ' + recordTypeName);
+    }
 }
