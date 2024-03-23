@@ -25,6 +25,8 @@
 
 /**
  * @description Common utility class for basic operations, should not contain complex code
+ * @author Zackary Frazier
+ * @since 3/22/2024
  */
 public with sharing class Common {
 
