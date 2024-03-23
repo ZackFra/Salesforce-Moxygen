@@ -111,7 +111,6 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
      * @param recordsToInsert List of records to insert
      */
     public void doMockInsert(List<SObject> recordsToInsert) {
-        List<SObject> insertedRecords = new List<SObject>();
         for(SObject record : recordsToInsert) {
             doMockInsert(record);
         }
@@ -124,7 +123,7 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
     public void doMockInsert(SObject recordToInsert) {
         Schema.SObjectType sot = SchemaService.getSObjectType(recordToInsert);
         recordToInsert.put('Id', fflib_IDGenerator.generate(sot));
-        
+
         SObject insertedRecord = setSystemFields(recordToInsert);
         String objName = SchemaService.getSObjectName(insertedRecord);
         Map<Id, SObject> mockRecords = this.mockObjects.get(objName);

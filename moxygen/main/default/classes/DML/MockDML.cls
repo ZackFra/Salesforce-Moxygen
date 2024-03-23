@@ -232,7 +232,6 @@ public inherited sharing class MockDML implements IDML {
     /**
      * @description doMockInsert is used to insert a record into the mock database without setting the `wasCalled` flag
      * @param recordToInsert - The record to insert
-     * @return  `SObject`
      */
     public void doMockInsert(SObject recordToInsert) {
         insertHandler.doMockInsert(recordToInsert);
@@ -241,7 +240,6 @@ public inherited sharing class MockDML implements IDML {
     /**
      * @description doMockInsert is used to insert a list of records into the mock database without setting the `wasCalled` flag
      * @param recordsToInsert - The records to insert
-     * @return  `List<SObject>`
      */
     public void doMockInsert(List<SObject> recordsToInsert) {
         insertHandler.doMockInsert(recordsToInsert);
