@@ -7,27 +7,15 @@ their respective static Database methods.
 
 Using this, we can mock the Selector and DML classes using interface trickery.
 
-## Install
-
-### Production:
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04tak0000000OWz
-
-### Sandbox
-https://test.salesforce.com/packaging/installPackage.apexp?p0=04tak0000000OWz
-
 ## Example
 
-Lets say you have an AccountsService class like so:
+Lets say you have an AccountService class like so:
 
 ```
-public with sharing class AccountsService {
-
-    private IORM db = new ORM();
+public class AccountService {
+	
     @TestVisible
-    public AccountsService setORM(IORM db) {
-        this.db = db;
-        return this;
-    }
+    private IORM db = new ORM();
 
     public void updateAcctName(Id accountId) {
 
@@ -56,70 +44,71 @@ To test this, you can create an account with an @TestSetup class... orr....
 
 ```
 @IsTest
-public class AccountsServiceTest {
+public class AccountServiceTest {
 
     @IsTest
     private static void testUpdateAcctName() {
-        MockORM mockDatabase = new MockORM();
-        MockDML dml = (MockDML) mockDatabase.getDML();
+        MockORM db = new MockORM();
+        MockDML dml = (MockDML) db.getDML();
 
         Account newAcct = new Account(
             Name = 'Lame'
         );
 
-        // this will add a fake id, fake system mod stamp,
-        // fake ownerId, etc. - returns a reference to what is literally in the database
-        Account insertedAcct = (Account) dml.doMockInsert(newAcct);
-        List<Account> acctList = new List<Account> { insertedAcct };
+        dml.doMockInsert(newAcct);
+        
+        List<Account> acctList = new List<Account> { newAcct };
 
         // when this query is made, return the account list
-        mockDatabase.registerQuery(
+        db.registerQuery(
             'SELECT Name FROM Account WHERE Id = :acctId',
             acctList
         );
 
-        AccountsService service = new AccountsService()
-            .setORM(mockDatabase);
+        AccountService service = new AccountService();
+        service.db = db;
 
         // we used doMockInsert, so no DML is registered
         Assert.isFalse(
-            mockDatabase.didAnyDML(),
+            db.didAnyDML(),
             'Expected no DML statement to register'
         );
 
         Test.startTest();
-            service.updateAcctName(insertedAcct.Id);
+            service.updateAcctName(newAcct.Id);
         Test.stopTest();
+        
+        Account updatedAcct = (Account) db.selectRecordById(newAcct.Id);
 
         // Did we actually update the record?
         Assert.areEqual(
             'WOOOO!!!!',
-            insertedAcct.Name,
+            updatedAcct.Name,
             'Expected account name to be updated'
         );
 
         // check for any DML
         Assert.isTrue(
-            mockDatabase.didAnyDML(),
+            db.didAnyDML(),
             'Expected DML to fire'
         );
 
 
         // check for a specific DML operation
         Assert.isTrue(
-            mockDatabase.didDML(Types.DML.UPDATED),
+            db.didDML(Types.DML.UPDATED),
             'Expected data to be updated'
         );
 
         // did we call a query?
         Assert.isTrue(
-            mockDatabase.calledAnyQuery(),
+            db.calledAnyQuery(),
             'Expected some query to be called'
         );
 
         // check that our query was called
         Assert.isTrue(
-            mockDatabase.calledQuery('SELECT Name FROM Account WHERE Id = :acctId'),
+            db.calledQuery('SELECT Name FROM Account WHERE Id = :acctId'),
             'Expected query to be called'
         );
     }
@@ -354,18 +343,14 @@ under the hood.
 
 Unique methods for this class, that aren't covered by IDML or are hoisted to MockORM are,
 
-#### List<SObject> doMockInsert(List\<SObject\> recordsToInsert)
+#### void doMockInsert(List\<SObject\> recordsToInsert)
 
 Inserts a list of records into the mock database without it registering as a DML statement,
 used for setting mock data. Populates system fields.
 
-Returns a reference to the SObject in the database.
-
-#### SObject doMockInsert(SObject recordToInsert)
+#### void doMockInsert(SObject recordToInsert)
 
 Inserts a record into the mock database. Populates system fields.
-
-Returns a reference to the SObject in the database.
 
 ### Aggregate
 
