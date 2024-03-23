@@ -130,7 +130,7 @@ The ISelector interface defines three methods,
 
 - List\<SObject\> query(String queryString)
 - List\<SObject\> query(String queryString, System.AccessLevel accessLevel)
-- List\<SObject\> queryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel)
+- List\<SObject\> queryWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel)
 
 - List\<Aggregate\> queryAggregate(String queryString);
 - List\<Aggregate\> queryAggregate(String queryString, System.AccessLevel accessLevel);
