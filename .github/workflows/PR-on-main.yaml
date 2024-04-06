@@ -57,7 +57,7 @@ jobs:
           node scripts/js/raise-warnings.js
       - name: Create Auth File
         run: |
-          echo "${{ secrets.SF_AUTH_URL }}" > authFile.json
+          echo "{\"sfdxAuthUrl\": \"${{ secrets.SF_AUTH_URL }}\"}" > authFile.json
       - name: Authenticate
         run: | 
           sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
