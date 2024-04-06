@@ -51,8 +51,7 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoInsert1() {
-        MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -72,7 +71,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoInsert2() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -107,7 +106,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoInsert3() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -131,7 +130,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoInsert4() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -170,7 +169,7 @@ private class MockDMLTest {
     @IsTest
     static void testCount() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -200,7 +199,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoDelete1() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -222,7 +221,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoDelete2() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -253,7 +252,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoDelete3() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -275,7 +274,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoDelete4() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -310,7 +309,7 @@ private class MockDMLTest {
     @IsTest
     static void testDeletedCount() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -341,7 +340,7 @@ private class MockDMLTest {
     @IsTest
     static void testWasCalled1() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -360,7 +359,7 @@ private class MockDMLTest {
     @IsTest
     static void testWasCalled2() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Boolean wasCalled = dml.wasCalled();
         Assert.isFalse(
@@ -372,7 +371,7 @@ private class MockDMLTest {
     @IsTest
     static void testWasCalled3() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -391,7 +390,7 @@ private class MockDMLTest {
     @IsTest
     static void testWasCalled4() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -416,7 +415,7 @@ private class MockDMLTest {
     @IsTest
     static void testIsDeleted() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -436,7 +435,7 @@ private class MockDMLTest {
     @IsTest
     static void testSelectDeletedRecordById1() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -457,7 +456,7 @@ private class MockDMLTest {
     @IsTest
     static void testSelectDeletedRecordById2() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -477,7 +476,7 @@ private class MockDMLTest {
     @IsTest
     static void testSelectRecordById() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -497,7 +496,7 @@ private class MockDMLTest {
     @IsTest
     static void testSelectRecordById2() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -519,7 +518,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoMockInsert1() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -538,7 +537,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoMockInsert2() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -573,7 +572,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUpdate1() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -596,7 +595,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUpdate2() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -639,7 +638,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUpdate3() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -662,7 +661,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUpdate4() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -705,7 +704,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUpsert1() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -728,7 +727,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUpsert2() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -767,7 +766,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUpsert3() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -791,7 +790,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUpsert4() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -831,7 +830,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUndelete1() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -853,7 +852,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUndelete2() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -885,7 +884,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUndelete3() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
@@ -907,7 +906,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUndelete4() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -943,7 +942,7 @@ private class MockDMLTest {
     @IsTest
     static void testDoUndelete5() {
         MockORM db = new MockORM();
-        MockDML dml = new MockDML();
+        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
