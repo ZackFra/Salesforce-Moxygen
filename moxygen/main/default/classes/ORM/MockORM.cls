@@ -31,12 +31,15 @@
 public inherited sharing class MockORM implements IORM {
     ISelector s;
     IDML d;
+
+    MockDatabase db = new MockDatabase();
+
     /**
      * @description Mock ORM constructor
      */
     public MockORM() {
-        s = new MockSelector();
-        d = new MockDML();
+        s = new MockSelector(db);
+        d = new MockDML(db);
     }
 
     /**
@@ -53,6 +56,22 @@ public inherited sharing class MockORM implements IORM {
      */
     public IDML getDML() {
         return d;
+    }
+
+    /**
+     * @description returns the MockDML object 
+     * @return  `MockDML`
+     */
+    public MockDML getMockDML() {
+        return (MockDML) d;
+    }
+
+    /**
+     * @description Retunrs the MockSelector object 
+     * @return  `MockSelector`
+     */
+    public MockSelector getMockSelector() {
+        return (MockSelector) s;
     }
 
     /**

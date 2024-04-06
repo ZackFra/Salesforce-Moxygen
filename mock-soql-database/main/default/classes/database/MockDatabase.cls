@@ -7,7 +7,7 @@
 public with sharing class MockDatabase {
 
     private final Map<Node, TopLevelNodes> topLevelNodes = new Map<Node, TopLevelNodes>();
-    public Map<String, Map<Id, sObject>> db;
+    public Map<String, Map<Id, SObject>> db;
     public MockDatabaseUtils utils = new MockDatabaseUtils(this);
     public enum QueryType {
         RECORD, AGGREGATE, COUNT

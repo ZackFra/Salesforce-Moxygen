@@ -45,11 +45,18 @@ public inherited sharing class MockDML implements IDML {
     MockUndeleteHandler undeleteHandler;
 
     private Map<Types.DML, MockDMLHandler> handlerMap;
+    MockDatabase db;
 
     /**
      * @description MockDML is the constructor for the MockDML class
      */
     public MockDML() {
+        resetHandlers();
+    }
+
+    public MockDML(MockDatabase db) {
+        this.db = db;
+        this.mockObjects = db.db;
         resetHandlers();
     }
 
