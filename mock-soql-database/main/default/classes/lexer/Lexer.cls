@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/6/2024
  */
-@SuppressWarnings('PMD.ExcessiveClassLength, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity')
+@SuppressWarnings('PMD.ExcessiveClassLength, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.NcssTypeCount')
 public with sharing class Lexer {
 
     /**
