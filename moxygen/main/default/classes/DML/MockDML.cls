@@ -28,7 +28,6 @@
  *              unit tests.
  */
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.ExcessivePublicCount, PMD.CyclomaticComplexity')
-@IsTest
 public inherited sharing class MockDML implements IDML {
     @TestVisible
     Map<String, Map<Id, SObject>> mockObjects = new Map<String, Map<Id, SObject>>();
