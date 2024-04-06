@@ -60,7 +60,7 @@ jobs:
           echo ${{ secrets.SF_AUTH_URL }} > authFile.json
       - name: Authenticate
         run: | 
-          sf org login sfdx-url --set-default-dev-hub --alias DevHub --sfdx-url-file authFile.json
+          sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
       - name: Validate
         run: |
           sf project deploy validate --manifest manifest/package.xml -o DevHub -w 120
