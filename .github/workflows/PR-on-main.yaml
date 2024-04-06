@@ -57,6 +57,6 @@ jobs:
           node scripts/js/raise-warnings.js
       - name: Validate to Org
         run: |
-          echo ${{ secrets.SF_AUTH_URL }} > authFile.json
+          echo "${{ secrets.SF_AUTH_URL }}" > authFile.json
           sf org login sfdx-url --set-default-dev-hub --alias DevHub --sfdx-url-file authFile.json
           sf project deploy validate --manifest manifest/package.xml -o DevHub -w 120
