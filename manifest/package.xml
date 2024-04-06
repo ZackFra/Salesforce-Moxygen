@@ -111,6 +111,9 @@
         <members>SaveResultService</members>
         <members>Selector</members>
         <members>Types</members>
+        <members>MockORMTest</members>
+        <members>MockDMLTest</members>
+        <members>MockSelectorTest</members>
         <name>ApexClass</name>
     </types>
     <version>60.0</version>
