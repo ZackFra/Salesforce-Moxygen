@@ -33,7 +33,8 @@ jobs:
   run-test-classes:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Install Java
@@ -54,3 +55,8 @@ jobs:
       - name: Raise Warnings
         run: |
           node scripts/js/raise-warnings.js
+      - name: Validate to Org
+        run: |
+          echo ${{ secrets.SF_AUTH_URL }} > authFile.json
+          sf org login sfdx-url --set-default-dev-hub --alias DevHub --sfdx-url-file authFile.json
+          sf project deploy validate --manifest manifest/package.xml -o DevHub -w 120
