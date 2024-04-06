@@ -27,7 +27,6 @@
  * @description Mock ORM, for testing purposes
  */
 @SuppressWarnings('PMD.ExcessivePublicCount')
-@IsTest
 public inherited sharing class MockORM implements IORM {
     ISelector s;
     IDML d;
@@ -86,14 +85,14 @@ public inherited sharing class MockORM implements IORM {
      * @description reset the DML
      */
     public void resetDML() {
-        ((MockDML) d).resetHandlers();
+        getMockDML().resetHandlers();
     }
 
     /**
      * @description reset the Selector
      */
     public void resetSelector() {
-        ((MockSelector) s).resetCallState();
+        getMockSelector().resetCallState();
     }
 
     /**
@@ -102,7 +101,7 @@ public inherited sharing class MockORM implements IORM {
      * @return if the record is deleted
      */
     public Boolean isDeleted(Id recordId) {
-        return ((MockDML) d).isDeleted(recordId);
+        return getMockDML().isDeleted(recordId);
     }
 
     /**
@@ -111,7 +110,7 @@ public inherited sharing class MockORM implements IORM {
      * @return the record
      */
     public SObject selectRecordById(Id recordId) {
-        return ((MockDML) d).selectRecordById(recordId);
+        return getMockDML().selectRecordById(recordId);
     }
 
     /**
@@ -120,7 +119,7 @@ public inherited sharing class MockORM implements IORM {
      * @return the deleted record
      */
     public SObject selectDeletedRecordById(Id recordId) {
-        return ((MockDML) d).selectDeletedRecordById(recordId);
+        return getMockDML().selectDeletedRecordById(recordId);
     }
 
     /**
@@ -128,7 +127,7 @@ public inherited sharing class MockORM implements IORM {
      * @return the number of records
      */
     public Integer size() {
-        return ((MockDML) d).count();
+        return getMockDML().count();
     }
 
     /**
@@ -137,7 +136,7 @@ public inherited sharing class MockORM implements IORM {
      * @param records the records to return
      */
     public void registerQuery(String queryString, List<SObject> records) {
-        ((MockSelector) s).registerQuery(queryString, records);
+        getMockSelector().registerQuery(queryString, records);
     }
 
     /**
@@ -145,7 +144,7 @@ public inherited sharing class MockORM implements IORM {
      * @param queryString the query string
      */
     public void registerFailedQuery(String queryString) {
-        ((MockSelector) s).registerFailedQuery(queryString);
+        getMockSelector().registerFailedQuery(queryString);
     }
 
     /**
@@ -154,7 +153,7 @@ public inherited sharing class MockORM implements IORM {
      * @param records the records to return
      */
     public void registerAggregateQuery(String queryString, List<Aggregate> records) {
-        ((MockSelector) s).registerAggregateQuery(queryString, records);
+        getMockSelector().registerAggregateQuery(queryString, records);
     }
 
     /**
@@ -162,7 +161,7 @@ public inherited sharing class MockORM implements IORM {
      * @param queryString the query string
      */
     public void registerFailedAggregateQuery(String queryString) {
-        ((MockSelector) s).registerFailedAggregateQuery(queryString);
+        getMockSelector().registerFailedAggregateQuery(queryString);
     }
 
     /**
@@ -171,7 +170,7 @@ public inherited sharing class MockORM implements IORM {
      * @param count the count to return
      */
     public void registerCountQuery(String queryString, Integer count) {
-        ((MockSelector) s).registerCountQuery(queryString, count);
+        getMockSelector().registerCountQuery(queryString, count);
     }
 
     /**
@@ -179,7 +178,7 @@ public inherited sharing class MockORM implements IORM {
      * @param queryString the query string
      */
     public void registerFailedCountQuery(String queryString) {
-        ((MockSelector) s).registerFailedCountQuery(queryString);
+        getMockSelector().registerFailedCountQuery(queryString);
     }
 
     /**
@@ -187,7 +186,7 @@ public inherited sharing class MockORM implements IORM {
      * @return the number of deleted records
      */
     public Integer deletedSize() {
-        return ((MockDML) d).deletedCount();
+        return getMockDML().deletedCount();
     }
 
     /**
@@ -196,7 +195,7 @@ public inherited sharing class MockORM implements IORM {
      * @return if the DML operation was performed
      */
     public Boolean didDML(Types.DML type) {
-        return ((MockDML) d).wasCalled(type);
+        return getMockDML().wasCalled(type);
     }
 
     /**
@@ -204,7 +203,7 @@ public inherited sharing class MockORM implements IORM {
      * @return if any DML operation was performed
      */
     public Boolean didAnyDML() {
-        return ((MockDML) d).wasCalled();
+        return getMockDML().wasCalled();
     }
 
     /**
@@ -213,7 +212,7 @@ public inherited sharing class MockORM implements IORM {
      * @return if the query was performed
      */
     public Boolean calledQuery(String queryString) {
-        return ((MockSelector) s).wasCalled(queryString);
+        return getMockSelector().wasCalled(queryString);
     }
 
     /**
@@ -221,6 +220,6 @@ public inherited sharing class MockORM implements IORM {
      * @return if any query was performed
      */
     public Boolean calledAnyQuery() {
-        return ((MockSelector) s).wasCalled();
+        return getMockSelector().wasCalled();
     }
 }
