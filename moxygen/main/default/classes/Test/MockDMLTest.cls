@@ -51,6 +51,7 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoInsert1() {
+        MockORM db = new MockORM();
         MockDML dml = db.getMockDML();
 
         Account account = new Account(
