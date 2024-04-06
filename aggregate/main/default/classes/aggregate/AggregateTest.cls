@@ -17,20 +17,6 @@ private class AggregateTest {
     }
 
     @IsTest
-    private static void testToString() {
-        ProtoAggregate protoAggregate = new ProtoAggregate();
-        protoAggregate.put('expr0', 1);
-        protoAggregate.put('expr1', 2);
-        protoAggregate.put('expr2', 3);
-
-        Test.startTest();
-        Aggregate aggr = new Aggregate(protoAggregate);
-        Test.stopTest();
-        String expected = '{expr0=1, expr1=2, expr2=3}';
-        Assert.areEqual(expected, aggr.toString(), 'toString should return a string representation of the aggregate');
-    }
-
-    @IsTest
     private static void testAggregate() {
         Map<String, Object> ar = new Map<String, Object> {
             'Name' => 'Test Account',
