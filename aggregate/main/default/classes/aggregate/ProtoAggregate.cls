@@ -96,6 +96,10 @@ public with sharing class ProtoAggregate {
         return this.prototype.values();
     }
 
+    /**
+     * @description Returns the proto-aggregate as a `Map<String, Object>` 
+     * @return  `Map<String, Object>`
+     */
     public Map<String, Object> getPrototype() {
         return this.prototype;
     }

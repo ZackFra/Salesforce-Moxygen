@@ -53,6 +53,10 @@ public inherited sharing class MockDML implements IDML {
         resetHandlers();
     }
 
+    /**
+     * @description Builds a new MockDML instance with the given MockDatabase
+     * @param db 
+     */
     public MockDML(MockDatabase db) {
         this.db = db;
         this.mockObjects = db.db;

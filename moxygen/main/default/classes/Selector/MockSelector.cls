@@ -28,6 +28,7 @@
  * @author Zackary Frazier
  * @since 3/9/2024
  */
+@SuppressWarnings('PMD.CyclomaticComplexity')
 public inherited sharing class MockSelector implements ISelector {
     Map<String, List<SObject>> queries = new Map<String, List<SObject>>();
     Map<String, List<Aggregate>> aggregateQueries = new Map<String, List<Aggregate>>();
@@ -37,6 +38,10 @@ public inherited sharing class MockSelector implements ISelector {
     Map<String, Boolean> callMap = new Map<String, Boolean>();
 
     MockDatabase db;
+    /**
+     * @description Constructor for the MockSelector class 
+     * @param db 
+     */
     public MockSelector(MockDatabase db) {
         this.db = db;
     }
@@ -265,7 +270,8 @@ public inherited sharing class MockSelector implements ISelector {
 
     /**
      * @description The method that is called when a query is executed
-     * @param queryString The query string that was executed
+     * @param queryString `String` The query string that was executed
+     * @param bindMap `Map<String, Object>`
      * @return The records to return
      */
     private List<SObject> onQuery(String queryString, Map<String, Object> bindMap) {
@@ -302,6 +308,7 @@ public inherited sharing class MockSelector implements ISelector {
     /**
      * @description The method that is called when an aggregate query is executed
      * @param queryString `String`
+     * @param bindMap `Map<String, Object>`
      * @return `List<Aggregate>`
      */
     private List<Aggregate> onQueryAggregate(String queryString, Map<String, Object> bindMap) {

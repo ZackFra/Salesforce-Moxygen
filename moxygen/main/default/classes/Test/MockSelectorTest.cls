@@ -24,6 +24,7 @@
 */
 
 @IsTest
+@SuppressWarnings('PMD.CyclomaticComplexity')
 private class MockSelectorTest {
     @IsTest
     private static void testSelectQueryWithMockDatabase() {
@@ -382,7 +383,6 @@ private class MockSelectorTest {
     @IsTest
     static void testRegisterFailedCountQuery() {
         MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
         MockSelector selector = db.getMockSelector();
 
         selector.registerFailedCountQuery('SELECT COUNT() FROM Account');
@@ -476,7 +476,6 @@ private class MockSelectorTest {
     @IsTest
     static void testAggregateQueryWithBindsFail() {
         MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
         MockSelector selector = db.getMockSelector();
         Boolean isExceptionThrown = false;
         selector.registerFailedAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name');
@@ -566,7 +565,6 @@ private class MockSelectorTest {
     @IsTest
     static void testQueryWithBindsWithRegisterFailedQuery() {
         MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
         MockSelector selector = db.getMockSelector();
         selector.registerFailedQuery('SELECT Id, Name FROM Account WHERE Name = :name');
         Boolean isExceptionThrown = false;
@@ -590,7 +588,6 @@ private class MockSelectorTest {
     @IsTest
     static void testCountQueryWithBindsWithRegisteredQuery() {
         MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
         MockSelector selector = db.getMockSelector();
         selector.registerCountQuery('SELECT COUNT() FROM Account WHERE Name = :name', 1);
         Test.startTest();
@@ -610,7 +607,6 @@ private class MockSelectorTest {
     @IsTest
     static void testCountQueryWithBindsWithRegisterFailedQuery() {
         MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
         MockSelector selector = db.getMockSelector();
         selector.registerFailedCountQuery('SELECT COUNT() FROM Account WHERE Name = :name');
         Boolean isExceptionThrown = false;
