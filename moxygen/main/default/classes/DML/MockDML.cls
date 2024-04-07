@@ -28,7 +28,6 @@
  *              unit tests.
  */
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.ExcessivePublicCount, PMD.CyclomaticComplexity')
-@IsTest
 public inherited sharing class MockDML implements IDML {
     @TestVisible
     Map<String, Map<Id, SObject>> mockObjects = new Map<String, Map<Id, SObject>>();
@@ -45,11 +44,22 @@ public inherited sharing class MockDML implements IDML {
     MockUndeleteHandler undeleteHandler;
 
     private Map<Types.DML, MockDMLHandler> handlerMap;
+    MockDatabase db;
 
     /**
      * @description MockDML is the constructor for the MockDML class
      */
     public MockDML() {
+        resetHandlers();
+    }
+
+    /**
+     * @description Builds a new MockDML instance with the given MockDatabase
+     * @param db 
+     */
+    public MockDML(MockDatabase db) {
+        this.db = db;
+        this.mockObjects = db.db;
         resetHandlers();
     }
 

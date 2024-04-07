@@ -686,4 +686,36 @@ public inherited sharing class SchemaService {
         }
         throw new SchemaServiceException('Invalid record type name: ' + recordTypeName);
     }
+
+    /**
+     * @description Given two fields, return whether they reference the same SObject
+     * @param field1 : the first id or reference field
+     * @param field2 : the second id or reference field
+     * @return : whether the fields reference the same SObject
+     * @throws QueryException : if the sObject or field names are invalid
+     */
+    public static Boolean idsReferenceSameSObject(Schema.SObjectField field1, Schema.SObjectField field2) {
+
+        Comparator<Schema.SObjectField> comparator = IdFieldComparatorFactory.create(field1, field2);
+        return comparator.compare(field1, field2) == 0;
+    }
+
+    /**
+     * @description Given a field, determine if it is required (system-level)
+     * @param field : the field
+     * @return : whether the field is required or not
+     */
+    public static Boolean isRequiredField(Schema.SObjectField field) {
+        Map<String, Object> args = new Map<String, Object> {
+            'field' => field
+        };
+        Common.nullCheck(args);
+
+        Schema.DescribeFieldResult describeFieldResult = field.getDescribe();
+        return (
+            describeFieldResult.isCreateable() && 
+            !describeFieldResult.isNillable() && 
+            describeFieldResult.getType() != DisplayType.BOOLEAN
+        );
+    }
 }

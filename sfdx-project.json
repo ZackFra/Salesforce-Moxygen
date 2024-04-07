@@ -7,6 +7,22 @@
     {
       "path": "schema-service",
       "default": false
+    },
+    {
+      "path": "mock-soql-database",
+      "default": false
+    },
+    {
+      "path": "aggregate",
+      "default": false
+    },
+    {
+      "path": "common",
+      "default": false
+    },
+    {
+      "path": "fflib",
+      "default": false
     }
   ],
   "name": "Moxygen",

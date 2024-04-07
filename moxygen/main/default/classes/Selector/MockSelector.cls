@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/9/2024
  */
-@IsTest
+@SuppressWarnings('PMD.CyclomaticComplexity')
 public inherited sharing class MockSelector implements ISelector {
     Map<String, List<SObject>> queries = new Map<String, List<SObject>>();
     Map<String, List<Aggregate>> aggregateQueries = new Map<String, List<Aggregate>>();
@@ -36,6 +36,15 @@ public inherited sharing class MockSelector implements ISelector {
 
     Boolean wasCalled = false;
     Map<String, Boolean> callMap = new Map<String, Boolean>();
+
+    MockDatabase db;
+    /**
+     * @description Constructor for the MockSelector class 
+     * @param db 
+     */
+    public MockSelector(MockDatabase db) {
+        this.db = db;
+    }
 
     /**
      * @description Returns whether or not the mock object was called
@@ -152,7 +161,7 @@ public inherited sharing class MockSelector implements ISelector {
      * @return  `List<SObject>`
      */
     public List<SObject> queryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
-        return onQuery(queryString);
+        return onQuery(queryString, bindMap);
     }
 
     /**
@@ -182,7 +191,7 @@ public inherited sharing class MockSelector implements ISelector {
      * @return  `List<Aggregate>`
      */
     public List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
-        return onQueryAggregate(queryString);
+        return onQueryAggregate(queryString, bindMap);
     }
 
     /**
@@ -212,7 +221,20 @@ public inherited sharing class MockSelector implements ISelector {
      * @return  `Integer`
      */
     public Integer countQueryWithBinds(String query, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
-        return onQueryCount(query);
+        return onQueryCountWithBinds(query, bindMap);
+    }
+
+    private Integer onQueryCountWithBinds(String queryString, Map<String, Object> bindMap) {
+        this.wasCalled = true;
+        callMap.put(queryString, true);
+
+        if(countQueries.containsKey(queryString) && countQueries.get(queryString) == null) {
+            throw new QueryException('Query failed');
+        } else if(countQueries.containsKey(queryString)) {
+            return countQueries.get(queryString);
+        } else {
+            return (Integer) db.queryWithBinds(queryString, bindMap);
+        }        
     }
 
     private Integer onQueryCount(String queryString) {
@@ -223,8 +245,9 @@ public inherited sharing class MockSelector implements ISelector {
             throw new QueryException('Query failed');
         } else if(countQueries.containsKey(queryString)) {
             return countQueries.get(queryString);
+        } else {
+            return (Integer) db.query(queryString);
         }
-        return 0;
     }
 
     /**
@@ -240,8 +263,28 @@ public inherited sharing class MockSelector implements ISelector {
             throw new QueryException('Query failed');
         } else if(queries.containsKey(queryString)) {
             return queries.get(queryString);
+        } else {
+            return (List<SObject>) db.query(queryString);
         }
-        return new List<SObject>();
+    }
+
+    /**
+     * @description The method that is called when a query is executed
+     * @param queryString `String` The query string that was executed
+     * @param bindMap `Map<String, Object>`
+     * @return The records to return
+     */
+    private List<SObject> onQuery(String queryString, Map<String, Object> bindMap) {
+        this.wasCalled = true;
+        callMap.put(queryString, true);
+
+        if(queries.containsKey(queryString) && queries.get(queryString) == null) {
+            throw new QueryException('Query failed');
+        } else if(queries.containsKey(queryString)) {
+            return queries.get(queryString);
+        } else {
+            return (List<SObject>) db.queryWithBinds(queryString, bindMap);
+        }
     }
 
     /**
@@ -257,7 +300,27 @@ public inherited sharing class MockSelector implements ISelector {
             throw new QueryException('Query failed');
         } else if(aggregateQueries.containsKey(queryString)) {
             return aggregateQueries.get(queryString);
+        } else {
+            return (List<Aggregate>) db.query(queryString);
         }
-        return new List<Aggregate>();
+    }
+
+    /**
+     * @description The method that is called when an aggregate query is executed
+     * @param queryString `String`
+     * @param bindMap `Map<String, Object>`
+     * @return `List<Aggregate>`
+     */
+    private List<Aggregate> onQueryAggregate(String queryString, Map<String, Object> bindMap) {
+        this.wasCalled = true;
+        callMap.put(queryString, true);
+
+        if(aggregateQueries.containsKey(queryString) && aggregateQueries.get(queryString) == null) {
+            throw new QueryException('Query failed');
+        } else if(aggregateQueries.containsKey(queryString)) {
+            return aggregateQueries.get(queryString);
+        } else {
+            return (List<Aggregate>) db.queryWithBinds(queryString, bindMap);
+        }
     }
 }
