@@ -330,8 +330,7 @@ public with sharing class Lexer {
     
     private Intermediary parseSelect(String query) {
         
-        query = consume(query, 'select');
-        query = consume(query, ' ');
+        query = consume(query, 'select ');
         Intermediary leftIntermediary = parseSelectExpr(query);
         query = leftIntermediary.subquery;
         return new Intermediary(
