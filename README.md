@@ -51,7 +51,7 @@ public class AccountServiceTest {
     @IsTest
     private static void testUpdateAcctName() {
         MockORM db = new MockORM();
-        MockDML dml = (MockDML) db.getDML();
+        MockDML dml = db.getMockDML();
 
         Account newAcct = new Account(
             Name = 'Lame'
