@@ -3030,7 +3030,7 @@ private class MockDatabaseTest {
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees > NULL');
+            mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees > NULL');
         } catch(QueryException e) {
             isExceptionThrown = true;
         }
@@ -3061,7 +3061,7 @@ private class MockDatabaseTest {
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees < NULL');
+            mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees < NULL');
         } catch(QueryException e) {
             isExceptionThrown = true;
         }
@@ -3092,7 +3092,7 @@ private class MockDatabaseTest {
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees >= NULL');
+            mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees >= NULL');
         } catch(QueryException e) {
             isExceptionThrown = true;
         }
@@ -3123,7 +3123,7 @@ private class MockDatabaseTest {
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees <= NULL');
+            mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees <= NULL');
         } catch(QueryException e) {
             isExceptionThrown = true;
         }
