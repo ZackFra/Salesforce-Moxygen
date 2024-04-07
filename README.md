@@ -113,7 +113,8 @@ public class AccountServiceTest {
 
 # Mock SOQL Database
 
-This project mocks the logic of the Salesforce database for testing. The purpose is to create a unified mocking framework for DML statements and SOQL queries that simplifies the mocking process.
+Under the hood, a mock SOQL lexer and parser is used to handle queries. It can be instantiated on its own as shown below.
+
 ## Example
 ```
 Account a = new Account(Name = 'Test1', NumberOfEmployees = 5);
