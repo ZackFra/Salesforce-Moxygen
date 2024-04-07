@@ -24,7 +24,7 @@
  */
 
 @IsTest
-@SuppressWarnings('PMD.NcssTypeCount, PMD.CyclomaticComplexity')
+@SuppressWarnings('PMD.NcssTypeCount, PMD.CyclomaticComplexity, PMD.CognitiveComplexity')
 private with sharing class LexerTest {
 
     @IsTest
@@ -2751,5 +2751,725 @@ private with sharing class LexerTest {
             exMessage, 
             'Expected WITH DATA CATEGORY to not be supported'
         );
+    }
+
+    // Syntax Tests
+    @IsTest
+    static void testSpacing1() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECTNameFROMAccount');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing2() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECTName FROM Account');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing3() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT NameFROM Account');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing4() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROMAccount');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing5() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHEREName = \'test\'');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing6() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name= \'test\'');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing7() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name =\'test\'');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing8() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\'AND Id = \'test\'');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing9() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' ANDId = \'test\'');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing10() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id= \'test\'');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing11() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id =\'test\'');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing12() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\'GROUP BY Name');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing13() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUPBY Name');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing14() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BYName');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing15() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing16() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY NameORDER BY Name');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing17() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDERBY Name');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing18() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BYName');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing19() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing20() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY NameLIMIT 10');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing21() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT10');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing22() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing23() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10OFFSET 5');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing24() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET5');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing25() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing26() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5FOR VIEW');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing27() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FORVIEW');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing28() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing29() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECTName FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing30() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT NameFROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing31() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROMAccount WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing32() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND(Name = \'test\' OR Id !=null)GROUP BY Name ORDER BY Name');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing33() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing34() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing35() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing36() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing37() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing38() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing39() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing40() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing41() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing42() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\'');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing43() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account GROUP BY NameHAVING Name = \'test\'');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing44() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account GROUP BY Name HAVINGName = \'test\'');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing45() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name= \'test\'');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing46() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name =\'test\'');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing47() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\'AND Id = \'test\'');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing48() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' ANDId = \'test\'');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing49() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' AND Id= \'test\'');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
+    }
+
+    @IsTest
+    static void testSpacing50() {
+        Lexer t = new Lexer();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' AND Id =\'test\'');
+        } catch(Exception e) {
+            System.debug(e.getMessage());
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isFalse(isExceptionThrown, 'Expected exception not to be thrown');
     }
 }

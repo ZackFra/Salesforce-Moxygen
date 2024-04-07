@@ -241,8 +241,7 @@ public with sharing class Lexer {
             return null;
         }
         
-        query = consume(query, 'update');
-        query = consume(query, ' ');
+        query = consume(query, 'update ');
         query = ParserUtils.skipWhitespace(query);
 
         if(lookahead(query, 8) != 'tracking' && lookahead(query, 4) != 'view') {
@@ -276,7 +275,7 @@ public with sharing class Lexer {
         if(lookahead(query, 3) != 'for') {
             return null;
         }
-        query = consume(query, 'for');
+        query = consume(query, 'for ');
         query = ParserUtils.skipWhitespace(query);
 
         // could be FOR UPDATE, if its not view or reference, return null
@@ -308,7 +307,7 @@ public with sharing class Lexer {
             return null;
         }
 
-        query = consume(query, 'offset');
+        query = consume(query, 'offset ');
         query = ParserUtils.skipWhitespace(query);
         Intermediary offsetValue;
         if(lookahead(query, 1) == ':') {
@@ -332,6 +331,7 @@ public with sharing class Lexer {
     private Intermediary parseSelect(String query) {
         
         query = consume(query, 'select');
+        query = consume(query, ' ');
         Intermediary leftIntermediary = parseSelectExpr(query);
         query = leftIntermediary.subquery;
         return new Intermediary(
@@ -673,6 +673,7 @@ public with sharing class Lexer {
     private Intermediary parseFrom(String query) {
         query = ParserUtils.skipWhitespace(query);
         query = consume(query, 'from');
+        query = consume(query, ' ');
         
         
         Intermediary leftIntermediary = parseObj(query);
@@ -711,7 +712,7 @@ public with sharing class Lexer {
         if(lookahead(query, 5) != 'where') {
             return null;
         }
-        query = consume(query, 'where');
+        query = consume(query, 'where ');
         
         Intermediary leftIntermediary = parseConditionalExpr(query);
         
@@ -912,6 +913,9 @@ public with sharing class Lexer {
         }
 
         query = consume(query, token);
+        if(lookahead(query, 1) != '(') {
+            query = consume(query, ' ');
+        }
         Intermediary restOfExpr = parseHavingConditionalExpr(query);
         query = restOfExpr.subquery;
 
@@ -968,6 +972,9 @@ public with sharing class Lexer {
         }
 
         query = consume(query, token);
+        if(lookahead(query, 1) != '(') {
+            query = consume(query, ' ');
+        }
         Intermediary restOfExpr = parseConditionalExpr(query);
         query = restOfExpr.subquery;
 
@@ -1068,9 +1075,22 @@ public with sharing class Lexer {
         } else if(lookahead(query, 1) == ':') {
             query = consume(query, ':');
             return parseBindVariable(query);
+        } else if(lookahead(query, 4) == 'null') {
+            return parseNull(query);
         } else {
         	return parseNum(query);
         }
+    }
+
+    private Intermediary parseNull(String query) {
+        query = consume(query, 'null');
+        return new Intermediary(
+        	new NodeBuilder()
+            	.setId('null')
+            	.setNodeType('null')
+            	.build(),
+            query
+        );
     }
 
     private Intermediary parseBindVariable(String query) {
@@ -1171,8 +1191,10 @@ public with sharing class Lexer {
         }
         
         query = consume(query, 'group');
+        query = consume(query, ' ');
         query = ParserUtils.skipWhitespace(query);
         query = consume(query, 'by');
+        query = consume(query, ' ');
         query = ParserUtils.skipWhitespace(query);
 
         Intermediary fieldList;
@@ -1204,14 +1226,16 @@ public with sharing class Lexer {
             return null;
         }
         
-        query = query.subString(5);
+        query = consume(query, 'order');
+        query = consume(query, ' ');
         query = ParserUtils.skipWhitespace(query);
         
         if(lookahead(query, 2) != 'by') {
             throw new ParsingException(query, 'BY');
         }
 
-        query = query.subString(2);
+        query = consume(query, 'by');
+        query = consume(query, ' ');
         query = ParserUtils.skipWhitespace(query);
 
         Intermediary fieldList = parseOrderByFieldList(query);
@@ -1231,7 +1255,7 @@ public with sharing class Lexer {
             return null;
         }
         
-        query = consume(query, 'limit');
+        query = consume(query, 'limit ');
         query = ParserUtils.skipWhitespace(query);
         Intermediary limitSize;
         if(lookahead(query, 1) == ':') {
@@ -1402,7 +1426,7 @@ public with sharing class Lexer {
             return null;
         }
 
-        query = consume(query, 'having');
+        query = consume(query, 'having ');
         query = ParserUtils.skipWhitespace(query);
         Intermediary conditionalExpr = parseHavingConditionalExpr(query);
         query = conditionalExpr.subquery;
@@ -1472,9 +1496,10 @@ public with sharing class Lexer {
             return null;
         }
 
-        query = consume(query, 'using');
+        query = consume(query, 'using ');
         query = ParserUtils.skipWhitespace(query);
-        query = consume(query, 'scope');
+        query = consume(query, 'scope ');
+
         query = ParserUtils.skipWhitespace(query);
         Intermediary scope = parseScopeName(query);
         query = scope.subquery;
