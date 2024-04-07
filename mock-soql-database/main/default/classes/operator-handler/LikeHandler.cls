@@ -38,6 +38,8 @@ public class LikeHandler implements IOperatorHandler {
     public Boolean handle(Object sObjectFieldValue, Object fieldValue) {
         if(sObjectFieldValue == null) {
             return false;
+        } else if(fieldValue == null) {
+            throw new QueryException('invalid operator');
         }
 
         String regexPattern = String.valueOf(fieldValue)

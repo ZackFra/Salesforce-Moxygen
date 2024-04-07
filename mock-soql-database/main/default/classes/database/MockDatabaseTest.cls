@@ -25,7 +25,7 @@
 
 @IsTest
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.NcssTypeCount')
-private with sharing class MockDatabaseTest {
+private class MockDatabaseTest {
 
     /* DML Tests */
 
@@ -2875,5 +2875,325 @@ private with sharing class MockDatabaseTest {
 
         Assert.areEqual('Contact', queriedTasks[0].What.Type, 'Incorrect Type');
         Assert.areEqual('Account', queriedTasks[1].What.Type, 'Incorrect Type');
+    }
+
+    @IsTest
+    static void testWhereClauseComparisonToNull1() {
+        MockDatabase mockDb = new MockDatabase();
+        Account acct = new Account(
+            Name = 'Test'
+        );
+        mockDb.doInsert(acct);
+
+        Contact con = new Contact(
+            LastName = 'Test',
+            AccountId = acct.Id
+        );
+
+        mockDb.doInsert(con);
+
+        Task t = new Task(
+            Subject = 'Test',
+            WhatId = acct.Id
+        );
+
+        Task t2 = new Task(
+            Subject = 'Test',
+            WhatId = con.Id
+        );
+
+        List<Task> taskList = new List<Task>{t, t2};
+
+        mockDb.doInsert(taskList);
+
+        Test.startTest();
+        List<Task> queriedTasks = (List<Task>) mockDb.query('SELECT Id, What.Type FROM Task WHERE What.Type = NULL');
+        Test.stopTest();
+
+        Assert.areEqual(
+            0, 
+            queriedTasks.size(), 
+            'Incorrect number of tasks'
+        );
+    }
+
+    @IsTest
+    static void testWhereClauseComparisonToNull2() {
+        MockDatabase mockDb = new MockDatabase();
+        Account acct = new Account(
+            Name = 'Test'
+        );
+        mockDb.doInsert(acct);
+
+        Contact con = new Contact(
+            LastName = 'Test',
+            AccountId = acct.Id
+        );
+
+        mockDb.doInsert(con);
+
+        Task t = new Task(
+            Subject = 'Test',
+            WhatId = acct.Id
+        );
+
+        Task t2 = new Task(
+            Subject = 'Test',
+            WhatId = con.Id
+        );
+
+        List<Task> taskList = new List<Task>{t, t2};
+
+        mockDb.doInsert(taskList);
+
+        Test.startTest();
+        List<Task> queriedTasks = (List<Task>) mockDb.query('SELECT Id, What.Type FROM Task WHERE What.Type != NULL');
+        Test.stopTest();
+
+        Assert.areEqual(
+            2, 
+            queriedTasks.size(), 
+            'Incorrect number of tasks'
+        );
+    }
+
+    @IsTest
+    static void testWhereClauseComparisonToNull3() {
+        MockDatabase mockDb = new MockDatabase();
+        Account acct1 = new Account(
+            Name = 'Test1',
+            NumberOfEmployees = 5
+        );
+        Account acct2 = new Account(
+            Name = 'Test2'
+        );
+        List<Account> acctList = new List<Account>{
+            acct1, 
+            acct2
+        };
+        mockDb.doInsert(acctList);
+
+        Test.startTest();
+        List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees <> NULL');
+        Test.stopTest();
+
+        Assert.areEqual(
+            1, 
+            queriedAccounts.size(), 
+            'Incorrect number of tasks'
+        );
+    }
+
+    @IsTest
+    static void testWhereClauseComparisonToNull4() {
+        MockDatabase mockDb = new MockDatabase();
+        Account acct1 = new Account(
+            Name = 'Test1',
+            NumberOfEmployees = 5
+        );
+        Account acct2 = new Account(
+            Name = 'Test2'
+        );
+        List<Account> acctList = new List<Account>{
+            acct1, 
+            acct2
+        };
+        mockDb.doInsert(acctList);
+
+        Test.startTest();
+        List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees = NULL');
+        Test.stopTest();
+
+        Assert.areEqual(
+            1, 
+            queriedAccounts.size(), 
+            'Incorrect number of tasks'
+        );
+    }
+
+    @IsTest
+    static void testWhereClauseComparisonToNull5() {
+        MockDatabase mockDb = new MockDatabase();
+        Account acct1 = new Account(
+            Name = 'Test1',
+            NumberOfEmployees = 5
+        );
+        Account acct2 = new Account(
+            Name = 'Test2'
+        );
+        List<Account> acctList = new List<Account>{
+            acct1, 
+            acct2
+        };
+        mockDb.doInsert(acctList);
+
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees > NULL');
+        } catch(QueryException e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isTrue(
+            isExceptionThrown, 
+            'Exception should have been thrown'
+        );
+    }
+
+    @IsTest
+    static void testWhereClauseComparisonToNull6() {
+        MockDatabase mockDb = new MockDatabase();
+        Account acct1 = new Account(
+            Name = 'Test1',
+            NumberOfEmployees = 5
+        );
+        Account acct2 = new Account(
+            Name = 'Test2'
+        );
+        List<Account> acctList = new List<Account>{
+            acct1, 
+            acct2
+        };
+        mockDb.doInsert(acctList);
+
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees < NULL');
+        } catch(QueryException e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isTrue(
+            isExceptionThrown, 
+            'Exception should have been thrown'
+        );
+    }
+
+    @IsTest
+    static void testWhereClauseComparisonToNull7() {
+        MockDatabase mockDb = new MockDatabase();
+        Account acct1 = new Account(
+            Name = 'Test1',
+            NumberOfEmployees = 5
+        );
+        Account acct2 = new Account(
+            Name = 'Test2'
+        );
+        List<Account> acctList = new List<Account>{
+            acct1, 
+            acct2
+        };
+        mockDb.doInsert(acctList);
+
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees >= NULL');
+        } catch(QueryException e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isTrue(
+            isExceptionThrown, 
+            'Exception should have been thrown'
+        );
+    }
+
+    @IsTest
+    static void testWhereClauseComparisonToNull8() {
+        MockDatabase mockDb = new MockDatabase();
+        Account acct1 = new Account(
+            Name = 'Test1',
+            NumberOfEmployees = 5
+        );
+        Account acct2 = new Account(
+            Name = 'Test2'
+        );
+        List<Account> acctList = new List<Account>{
+            acct1, 
+            acct2
+        };
+        mockDb.doInsert(acctList);
+
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees <= NULL');
+        } catch(QueryException e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isTrue(
+            isExceptionThrown, 
+            'Exception should have been thrown'
+        );
+    }
+
+    @IsTest
+    static void testWhereClauseComparisonToNull9() {
+        MockDatabase mockDb = new MockDatabase();
+        Account acct1 = new Account(
+            Name = 'Test1',
+            NumberOfEmployees = 5
+        );
+        Account acct2 = new Account(
+            Name = 'Test2'
+        );
+        List<Account> acctList = new List<Account>{
+            acct1, 
+            acct2
+        };
+        mockDb.doInsert(acctList);
+
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            mockDb.query('SELECT Id, Name FROM Account WHERE Name IN NULL');
+        } catch(QueryException e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isTrue(
+            isExceptionThrown, 
+            'Exception should have been thrown'
+        );
+    }
+
+    @IsTest
+    static void testWhereClauseComparisonToNull10() {
+        MockDatabase mockDb = new MockDatabase();
+        Account acct1 = new Account(
+            Name = 'Test1',
+            NumberOfEmployees = 5
+        );
+        Account acct2 = new Account(
+            Name = 'Test2'
+        );
+        List<Account> acctList = new List<Account>{
+            acct1, 
+            acct2
+        };
+        mockDb.doInsert(acctList);
+
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            mockDb.query('SELECT Id, Name FROM Account WHERE Name NOT IN NULL');
+        } catch(QueryException e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isTrue(
+            isExceptionThrown, 
+            'Exception should have been thrown'
+        );
     }
 }

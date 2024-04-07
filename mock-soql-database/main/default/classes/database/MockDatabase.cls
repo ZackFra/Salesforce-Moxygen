@@ -29,7 +29,7 @@
  * @since 3/23/2024
  */
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.ExcessivePublicCount')
-public with sharing class MockDatabase {
+public inherited sharing class MockDatabase {
 
     private final Map<Node, TopLevelNodes> topLevelNodes = new Map<Node, TopLevelNodes>();
     public Map<String, Map<Id, SObject>> db;

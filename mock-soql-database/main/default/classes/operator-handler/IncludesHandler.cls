@@ -37,6 +37,10 @@ public class IncludesHandler implements IOperatorHandler {
      * @exception QueryException
      */
     public Boolean handle(Object sObjectFieldValue, Object fieldValue) {
+        if(fieldValue == null) {
+            throw new QueryException('invalid operator');
+        }
+        
         List<String> values = new List<String>();
         try {
             List<Object> objList = (List<Object>) fieldValue;
