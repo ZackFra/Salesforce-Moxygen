@@ -1,6 +1,8 @@
 # Salesforce Moxygen
 
-Salesforce Moxygen is a light-weight Salesforce mocking framework for Apex unit testing.
+Salesforce Moxygen is an intuitive Salesforce mocking framework for Apex unit testing.
+
+Moxygen is unique from other unit testing frameworks in that it includes a functional in-memory mock database that can handle most SOQL queries, parse them, and return the correct results. This means, in most cases, it is not required to specify what's returned from queries or to stub the data access object.
 
 The ORM object encapsulates both DML and query logic by creating non-static wrappers around
 their respective static Database methods.
@@ -59,12 +61,6 @@ public class AccountServiceTest {
         
         List<Account> acctList = new List<Account> { newAcct };
 
-        // when this query is made, return the account list
-        db.registerQuery(
-            'SELECT Name FROM Account WHERE Id = :acctId',
-            acctList
-        );
-
         AccountService service = new AccountService();
         service.db = db;
 
@@ -114,6 +110,76 @@ public class AccountServiceTest {
     }
 }
 ```
+
+## Mock SOQL Database
+
+# Mock SOQL Database
+
+This project mocks the logic of the Salesforce database for testing. The purpose is to create a unified mocking framework for DML statements and SOQL queries that simplifies the mocking process.
+## Example
+```
+Account a = new Account(Name = 'Test1', NumberOfEmployees = 5);
+Account b = new Account(Name = 'Test1', NumberOfEmployees = 10);
+Account c = new Account(Name = 'Test2', NumberOfEmployees = 15);
+Account d = new Account(Name = 'Test2', NumberOfEmployees = 20);
+MockDatabase mockDb = new MockDatabase();
+List<Account> acctList = new List<Account>{a, b, c, d};
+mockDb.doInsert(acctList);
+
+Test.startTest();
+    List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name ORDER BY Name ASC');
+Test.stopTest();
+
+Assert.areEqual('Test1', queriedAccts[0].get('Name'), 'Incorrect order');
+Assert.areEqual('Test2', queriedAccts[1].get('Name'), 'Incorrect order');
+```
+
+
+A SOQL query will have the following format.
+
+```
+SELECT fieldList [subquery][...]
+[TYPEOF typeOfField whenExpression[...] elseExpression END][...]
+FROM objectType[,...] 
+    [USING SCOPE filterScope]
+[WHERE conditionExpression]
+[WITH [DATA CATEGORY] filteringExpression]
+[GROUP BY {fieldGroupByList|ROLLUP (fieldSubtotalGroupByList)|CUBE (fieldSubtotalGroupByList)} 
+    [HAVING havingConditionExpression] ] 
+[ORDER BY fieldOrderByList {ASC|DESC} [NULLS {FIRST|LAST}] ]
+[LIMIT numberOfRowsToReturn]
+[OFFSET numberOfRowsToSkip]
+[{FOR VIEW  | FOR REFERENCE} ]
+[UPDATE {TRACKING|VIEWSTAT} ]
+[FOR UPDATE]
+```
+
+# Levels of Support
+There are four categories of support for a SOQL query done via the mock SOQL database.
+* Fully Supported
+* Partially Supported
+* Ignored
+  * It won't throw an exception when parsed, but won't be applied by the mock database
+* Not Supported
+  * Throws a QueryException when read by the parser
+
+# Supported Clauses
+| Clause      | Level of Support    | Notes |
+|-------------|---------------------|-------|
+| SELECT      | Partially Supported | FORMAT(), convertCurrency(), convertTimezone(), date functions, GROUPING(), and toLabel() are not supported |
+| TYPEOF      | Fully Supported     ||
+| FROM        | Fully Supported     ||
+| USING SCOPE | Ignored             ||
+| WHERE       | Partially Supported | Null checks are not yet supported. |
+| WITH        | Not Supported       ||
+| GROUP BY    | Partially Supported | GROUP BY ROLLUP and GROUP BY CUBE are not supported |
+| HAVING | Partially Supported | Null checks are not yet supported.|
+| ORDER BY | Fully Supported ||
+| LIMIT | Fully Supported ||
+| OFFSET | Fully Supported ||
+| FOR VIEW\|REFERENCE | Ignored ||
+| UPDATE TRACKING\|VIEWSTAT | Not Supported ||
+| FOR UPDATE | Ignored ||
 
 ## Classes
 
@@ -218,6 +284,14 @@ Returns a MockDML object
 These need to be cast to MockDML and MockSelector get the full use out of them.
 For testing, the following methods are also defined,
 
+### MockDML getMockDML()
+
+Returns the MockDML object, without the need to type-cast it.
+
+### MockSelector getMockSelector()
+
+Returns the MockSelector object, without the need to type-cast it.
+
 #### public Boolean didAnyDML()
 
 Returns where any DML operation was performed by the mock database.
@@ -257,7 +331,9 @@ Resets the tracking on SOQL queries
 
 Register a query so that when it is called, it returns a specific set of SObjects.
 Because the SObjects are passed in a list, edits to these SObjects will be reflected
-in the mock database (i.e. pointer logic)
+in the mock database (i.e. pointer logic).
+
+If a query is registered, the mock soql database will not be used.
 
 #### public void registerFailedQuery(String queryString)
 
@@ -268,6 +344,8 @@ This throws a generic QueryException.
 
 Register an aggregate query to return a list of Aggregate objects when its called.
 
+If a query is registered, the mock soql database will not be used.
+
 #### public void registerFailedAggregateQuery(String queryString)
 
 Register a failed aggregate query. Will throw a QueryException when called (via the queryAggregate methods).
@@ -275,6 +353,8 @@ Register a failed aggregate query. Will throw a QueryException when called (via 
 #### public void registerCountQuery(String queryString, Integer count)
 
 Register a count query (i.e. a call to queryCount).
+
+If a query is registered, the mock soql database will not be used.
 
 #### public void registerFailedCountQuery(String queryString)
 
@@ -310,9 +390,9 @@ This is a mock version of the selector.
 
 #### public List\<SObject\> query(String queryString)
 
-- Returns a list of SObjects if this query was registered via "registerQuery",
-- Throws an exception if this query was registered via "registerFailedQuery",
-- Returns an empty List of SObjects if this query was not registered
+- If this query was not registered, queries the database via the mock soql database
+- Returns a list of SObjects if this query was registered via "registerQuery"
+- Throws an exception if this query was registered via "registerFailedQuery"
 
 #### public List\<SObject\> query(String queryString, System.AccessLevel accessLevel)
 
@@ -320,13 +400,14 @@ Same behavior as query, accessLevel is ignored.
 
 #### public List\<SObject\> queryWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel)
 
-Same behavior as query, bindMap and accessLevel are ignored.
+- If a query is registered, Same behavior as query, bindMap and accessLevel are ignored.
+- If a query is not registered, performs a query with binds call through the mock soql database.
 
 #### public List\<Aggregate\> queryAggregate(String queryString)
 
-- Returns a list of Aggregates if this query was registered via "registerAggregateQuery",
-- Throws an exception if this query was registered via "registerFailedAggregateQuery",
-- Returns an empty List of Aggregates if this query was not registered
+- If this query was not registered, queries the mock soql database
+- Returns a list of Aggregates if this query was registered via "registerAggregateQuery"
+- Throws an exception if this query was registered via "registerFailedAggregateQuery"
 
 #### public List\<Aggregate\> queryAggregate(String queryString, System.AccessLevel accessLevel)
 
@@ -334,7 +415,8 @@ Same behavior as queryAggregate, accessLevel is ignored
 
 #### List\<Aggregate\> queryAggregateWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel);
 
-Same behavior as queryAggregate, bindMap and accessLevel are ignored.
+- If the query was not registered, performs a query with binds on the mock soql database
+- Otherwise, same behavior as queryAggregate, bindMap and accessLevel are ignored.
 
 ### MockDML
 
