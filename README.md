@@ -59,8 +59,6 @@ public class AccountServiceTest {
 
         dml.doMockInsert(newAcct);
         
-        List<Account> acctList = new List<Account> { newAcct };
-
         AccountService service = new AccountService();
         service.db = db;
 
