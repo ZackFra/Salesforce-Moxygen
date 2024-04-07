@@ -167,10 +167,10 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 | TYPEOF      | Fully Supported     ||
 | FROM        | Fully Supported     ||
 | USING SCOPE | Ignored             ||
-| WHERE       | Partially Supported | Null checks are not yet supported. |
+| WHERE       | Partially Supported | Null checks are not yet supported |
 | WITH        | Not Supported       ||
 | GROUP BY    | Partially Supported | GROUP BY ROLLUP and GROUP BY CUBE are not supported |
-| HAVING | Partially Supported | Null checks are not yet supported.|
+| HAVING | Partially Supported | Null checks are not yet supported|
 | ORDER BY | Fully Supported ||
 | LIMIT | Fully Supported ||
 | OFFSET | Fully Supported ||
