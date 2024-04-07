@@ -3196,7 +3196,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND(Name = \'test\' OR Id !=null)GROUP BY Name ORDER BY Name');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3211,7 +3211,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3226,7 +3226,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3241,7 +3241,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3256,7 +3256,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3271,7 +3271,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3286,7 +3286,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3301,7 +3301,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3316,7 +3316,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3331,7 +3331,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3346,7 +3346,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\'');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3361,7 +3361,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account GROUP BY NameHAVING Name = \'test\'');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3376,7 +3376,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account GROUP BY Name HAVINGName = \'test\'');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3391,7 +3391,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name= \'test\'');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3406,7 +3406,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name =\'test\'');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3421,7 +3421,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\'AND Id = \'test\'');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3436,7 +3436,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' ANDId = \'test\'');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3451,7 +3451,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' AND Id= \'test\'');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -3466,7 +3466,7 @@ private with sharing class LexerTest {
         try {
             t.parse('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' AND Id =\'test\'');
         } catch(Exception e) {
-            System.debug(e.getMessage());
+            
             isExceptionThrown = true;
         }
         Test.stopTest();
