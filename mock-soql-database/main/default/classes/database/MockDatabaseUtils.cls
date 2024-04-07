@@ -240,6 +240,10 @@ public with sharing class MockDatabaseUtils {
             return values;
         }
 
+        if(valueNode.nodeType == 'null') {
+            return null;
+        }
+
         if(valueNode.nodeType == 'subquery') {
             Node subquerySelectNode = valueNode.right;
             Node subqueryFieldNode = subquerySelectNode.left;

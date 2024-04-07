@@ -41,6 +41,8 @@ public class LessThanOrEqualHandler implements IOperatorHandler {
     public Boolean handle(Object sObjectFieldValue, Object fieldValue) {
         if(sObjectFieldValue == null) {
             return false;
+        } else if(fieldValue == null) {
+            throw new QueryException('invalid operator');
         }
 
         if(sObjectFieldValue instanceOf Date) {

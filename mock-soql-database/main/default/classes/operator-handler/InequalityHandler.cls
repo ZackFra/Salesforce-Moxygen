@@ -39,6 +39,8 @@ public class InequalityHandler implements IOperatorHandler {
         Boolean isSObjNull = (sObjectFieldValue == null);
         Boolean isFieldNull = (fieldValue == null);
 
+        // if their both null, return false, they're equal
+        // if they're not both null, return true, they're not equal
         if(isSObjNull && isFieldNull) {
             return false;
         } else if(isSObjNull || isFieldNull) {

@@ -59,8 +59,6 @@ public class AccountServiceTest {
 
         dml.doMockInsert(newAcct);
         
-        List<Account> acctList = new List<Account> { newAcct };
-
         AccountService service = new AccountService();
         service.db = db;
 
@@ -169,10 +167,10 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 | TYPEOF      | Fully Supported     ||
 | FROM        | Fully Supported     ||
 | USING SCOPE | Ignored             ||
-| WHERE       | Partially Supported | Null checks are not yet supported. |
+| WHERE       | Fully Supported ||
 | WITH        | Not Supported       ||
 | GROUP BY    | Partially Supported | GROUP BY ROLLUP and GROUP BY CUBE are not supported |
-| HAVING | Partially Supported | Null checks are not yet supported.|
+| HAVING | Fully Supported ||
 | ORDER BY | Fully Supported ||
 | LIMIT | Fully Supported ||
 | OFFSET | Fully Supported ||
