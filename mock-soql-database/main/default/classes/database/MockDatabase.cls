@@ -32,7 +32,6 @@
 public inherited sharing class MockDatabase {
 
     private final Map<Node, TopLevelNodes> topLevelNodes = new Map<Node, TopLevelNodes>();
-    MockDatabaseQueryHandler queryHandler;
     MockDatabaseDMLHandler dmlHandler;
     public Map<String, Map<Id, SObject>> db;
     public MockDatabaseUtils utils = new MockDatabaseUtils(this);
@@ -47,7 +46,6 @@ public inherited sharing class MockDatabase {
      */
     public MockDatabase() {
         this.db = new Map<String, Map<Id, SObject>>();
-        this.queryHandler = new MockDatabaseQueryHandler(db);
         this.dmlHandler = new MockDatabaseDMLHandler(db);
     }
 
@@ -58,7 +56,6 @@ public inherited sharing class MockDatabase {
      */
     public MockDatabase(Map<String, Map<Id, SObject>> db) {
         this.db = db;
-        this.queryHandler = new MockDatabaseQueryHandler(db);
         this.dmlHandler = new MockDatabaseDMLHandler(db);
     }
 

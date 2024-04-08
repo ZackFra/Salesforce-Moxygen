@@ -200,7 +200,7 @@ public class TestDataFactory {
             );
             userLicenses.add(userLicense);
         }
-        db.doInsert(userLicenses);
+        db.doInsert(userLicenses, true);
     }
     private class ProfileData {
         public String name;
@@ -238,7 +238,7 @@ public class TestDataFactory {
             );
             profiles.add(profile);
         }
-        db.doInsert(profiles);
+        db.doInsert(profiles, true);
     }
 
     private static void createTrailheadUserRoles(MockDatabase db) {
@@ -249,7 +249,7 @@ public class TestDataFactory {
                 DeveloperName = 'CEO',
                 OpportunityAccessForAccountOwner = 'Read/Write'
         );
-        db.doInsert(ceoRole);
+        db.doInsert(ceoRole, true);
 
         UserRole cfoRole = new UserRole(
             Name = 'CFO', 
@@ -298,7 +298,7 @@ public class TestDataFactory {
         List<UserRole> secondLevelRoles = new List<UserRole> {
             cfoRole, cooRole, svpCsutomerServiceRole, svpHumanResourcesRole, svpSalesMarketingRole
         };
-        db.doInsert(secondLevelRoles);
+        db.doInsert(secondLevelRoles, true);
     }
 
     /**
@@ -350,7 +350,7 @@ public class TestDataFactory {
         List<User> userList = new List<User> {
             u, u2
         };
-        db.doInsert(userList);
+        db.doInsert(userList, true);
     }
 
     /**
