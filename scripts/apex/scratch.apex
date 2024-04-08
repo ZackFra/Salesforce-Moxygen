@@ -8,13 +8,3 @@ Opportunity opp = new Opportunity(
     Name = 'Test Opportunity',
     AccountId = '0011a00000Bb9ZzAAJ'
 );
-
-System.debug(
-    new RelationshipBuilder()
-        .relateParent()
-            .setParent(acct)
-            .setChild(opp)
-            .setRelationshipField('AccountId')
-            .setRelationshipName('Opportunity')
-            .build()
-);
