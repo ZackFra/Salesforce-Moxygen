@@ -56,10 +56,10 @@ public with sharing class OffsetHandlerFactory {
 
     /**
      * @description Setter for the query type 
-     * @param type `MockDatabase.QueryType`
+     * @param type `Types.SOQL`
      * @return  `OffsetHandlerFactory`
      */
-    public OffsetHandlerFactory setType(MockDatabase.QueryType type) {
+    public OffsetHandlerFactory setType(Types.SOQL type) {
         this.options.setType(type);
         return this;
     }

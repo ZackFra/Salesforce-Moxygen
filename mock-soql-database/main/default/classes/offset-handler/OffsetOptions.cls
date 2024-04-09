@@ -28,9 +28,9 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public with sharing class OffsetOptions {
+public inherited sharing class OffsetOptions {
     public Integer offset;
-    public MockDatabase.QueryType type;
+    public Types.SOQL type;
     public Object obj;
 
     /**
@@ -53,19 +53,19 @@ public with sharing class OffsetOptions {
 
     /**
      * @description Setter for the type of query 
-     * @param type `MockDatabase.QueryType`
+     * @param type `Types.SOQL`
      * @return  `OffsetOptions`
      */
-    public OffsetOptions setType(MockDatabase.QueryType type) {
+    public OffsetOptions setType(Types.SOQL type) {
         this.type = type;
         return this;
     }
 
     /**
      * @description Getter for the type of query 
-     * @return  `MockDatabase.QueryType`
+     * @return  `Types.SOQL`
      */
-    public MockDatabase.QueryType getType() {
+    public Types.SOQL getType() {
         return this.type;
     }
 

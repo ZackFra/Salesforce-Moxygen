@@ -36,4 +36,10 @@ public inherited sharing class Types {
         DELETED,
         UNDELETED
     }
+
+    public enum SOQL {
+        RECORD,
+        AGGREGATE,
+        COUNT
+    }
 }

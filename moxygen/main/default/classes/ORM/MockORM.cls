@@ -37,6 +37,7 @@ public inherited sharing class MockORM implements IORM {
      * @description Mock ORM constructor
      */
     public MockORM() {
+        db.resetHandlers();
         s = new MockSelector(db);
         d = new MockDML(db);
     }
@@ -85,7 +86,7 @@ public inherited sharing class MockORM implements IORM {
      * @description reset the DML
      */
     public void resetDML() {
-        getMockDML().resetHandlers();
+        db.resetHandlers();
     }
 
     /**
@@ -101,7 +102,7 @@ public inherited sharing class MockORM implements IORM {
      * @return if the record is deleted
      */
     public Boolean isDeleted(Id recordId) {
-        return getMockDML().isDeleted(recordId);
+        return db.isDeleted(recordId);
     }
 
     /**
@@ -110,16 +111,7 @@ public inherited sharing class MockORM implements IORM {
      * @return the record
      */
     public SObject selectRecordById(Id recordId) {
-        return getMockDML().selectRecordById(recordId);
-    }
-
-    /**
-     * @description returns the deleted record by id
-     * @param recordId the record id
-     * @return the deleted record
-     */
-    public SObject selectDeletedRecordById(Id recordId) {
-        return getMockDML().selectDeletedRecordById(recordId);
+        return db.selectRecordById(recordId);
     }
 
     /**
@@ -127,7 +119,7 @@ public inherited sharing class MockORM implements IORM {
      * @return the number of records
      */
     public Integer size() {
-        return getMockDML().count();
+        return db.count();
     }
 
     /**
@@ -182,20 +174,12 @@ public inherited sharing class MockORM implements IORM {
     }
 
     /**
-     * @description returns the number of deleted records in the database
-     * @return the number of deleted records
-     */
-    public Integer deletedSize() {
-        return getMockDML().deletedCount();
-    }
-
-    /**
      * @description Returns whether a specific DML operation was performed
      * @param type the DML type
      * @return if the DML operation was performed
      */
     public Boolean didDML(Types.DML type) {
-        return getMockDML().wasCalled(type);
+        return db.didDML(type);
     }
 
     /**
@@ -203,7 +187,7 @@ public inherited sharing class MockORM implements IORM {
      * @return if any DML operation was performed
      */
     public Boolean didAnyDML() {
-        return getMockDML().wasCalled();
+        return db.didAnyDML();
     }
 
     /**

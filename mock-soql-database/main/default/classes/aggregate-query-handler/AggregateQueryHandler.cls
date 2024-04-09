@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public with sharing class AggregateQueryHandler {
+public inherited sharing class AggregateQueryHandler {
     MockDatabase db;
     TopLevelNodes topLevelNodes;
 

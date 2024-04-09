@@ -143,23 +143,6 @@ private class MockORMTest {
     }
 
     @IsTest
-    static void testSelectDeletedRecordById() {
-        MockORM mockORM = new MockORM();
-        MockDML dml = mockORM.getMockDML();
-        Account acct = new Account(
-            Name = 'Test Account'
-        );
-        dml.doInsert(acct, true);
-        dml.doDelete(acct, true);
-
-        Test.startTest();
-        Account result = (Account) mockORM.selectDeletedRecordById(acct.Id);
-        Test.stopTest();
-
-        Assert.isNotNull(result, 'Result should not be null');
-    }
-
-    @IsTest
     static void testSize() {
         MockORM mockORM = new MockORM();
         MockDML dml = mockORM.getMockDML();
@@ -335,27 +318,6 @@ private class MockORMTest {
         Test.stopTest();
 
         Assert.isFalse(isExceptionThrown, 'Exception should not be thrown');
-    }
-
-    @IsTest
-    static void testDeletedSize() {
-        MockORM mockORM = new MockORM();
-        MockDML dml = mockORM.getMockDML();
-        Account acct = new Account(
-            Name = 'Test Account'
-        );
-        dml.doInsert(acct, true);
-        dml.doDelete(acct, true);
-
-        Test.startTest();
-        Integer result = mockORM.deletedSize();
-        Test.stopTest();
-
-        Assert.areEqual(
-            1,
-            result,
-            'Result should be 1'
-        );
     }
 
     @IsTest

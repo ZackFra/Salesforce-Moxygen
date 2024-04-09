@@ -66,8 +66,7 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
         fieldParts = new List<String>(fieldParts);
         String fieldPart = fieldParts[0];
 
-        Map<String, Object> parentInfo = ComparableService.getParentObject(db, db.findRecord(sObj.Id), fieldPart);
-
+        Map<String, Object> parentInfo = ComparableService.getParentObject(db, db.selectRecordById(sObj.Id), fieldPart);
         sObject parentRecord = (sObject) parentInfo.get('parentRecord');
         String fieldApiName = (String) parentInfo.get('fieldApiName');
         String fieldRelationshipName = (String) parentInfo.get('fieldRelationshipName');

@@ -28,154 +28,335 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-@SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.ExcessivePublicCount')
+@SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.ExcessivePublicCount')
 public inherited sharing class MockDatabase {
 
-    private final Map<Node, TopLevelNodes> topLevelNodes = new Map<Node, TopLevelNodes>();
-    public Map<String, Map<Id, SObject>> db;
-    public MockDatabaseUtils utils = new MockDatabaseUtils(this);
-    public enum QueryType {
-        RECORD, AGGREGATE, COUNT
-    }
+    final Map<Node, TopLevelNodes> topLevelNodes = new Map<Node, TopLevelNodes>();
+    MockDatabaseDMLHandler dmlHandler;
 
-    Boolean enforceRequiredFields = false;
+    public Map<String, Map<Id, SObject>> mockRecords;
+    public MockDatabaseUtils utils = new MockDatabaseUtils(this);
 
     /**
      * @description The MockDatabase constructor
      */
     public MockDatabase() {
-        this.db = new Map<String, Map<Id, SObject>>();
+        this.mockRecords = new Map<String, Map<Id, SObject>>();
+        this.dmlHandler = new MockDatabaseDMLHandler(mockRecords);
     }
 
     /**
      * @description The MockDatabase constructor with a database parameter, used for integrating this class 
      *              with other classes
-     * @param db The database to use
+     * @param mockRecords The database to use
      */
-    public MockDatabase(Map<String, Map<Id, SObject>> db) {
-        this.db = db;
+    public MockDatabase(Map<String, Map<Id, SObject>> mockRecords) {
+        this.mockRecords = mockRecords;
+        this.dmlHandler = new MockDatabaseDMLHandler(mockRecords);
     }
 
+    /** Utility methods (For Testing) */
+
+    /**
+     * @description Reset the DML handlers call state
+     */
+    public void resetHandlers() {
+        this.dmlHandler.resetHandlers();
+    }
+
+    /**
+     * @description Returns whether any DML operation was called 
+     * @return  `Boolean`
+     */
+    public Boolean didAnyDML() {
+        return this.dmlHandler.wasCalled();
+    }
+
+    /**
+     * @description Returns whether a specific DML operation was called
+     * @param dmlType 
+     * @return  `Boolean`
+     */
+    public Boolean didDML(Types.DML dmlType) {
+        return this.dmlHandler.wasCalled(dmlType);
+    }
+
+    /**
+     * @description Count the number of records in the mock database 
+     * @return  `Integer`
+     */
+    public Integer count() {
+        Integer count = 0;
+        for(String objApiName : this.mockRecords.keySet()) {
+            count += this.mockRecords.get(objApiName).size();
+        }
+        return count;
+    }
+
+    /**
+     * @description wasDeleted is used to check if a record was deleted from the database
+     * @param recordId - The Id of the record to check
+     * @return Boolean - Whether the record was deleted
+     */
+    public Boolean isDeleted(Id recordId) {
+        SObject record = this.utils.findRecord(recordId);
+        return (
+            record.get('IsDeleted') == true
+        );
+    }
+
+    /**
+     * @description Returns the deleted record by Id
+     * @param recordId 
+     * @return  `SObject`
+     */
+    public SObject selectRecordById(Id recordId) {
+        return this.utils.findRecord(recordId);
+    }
 
     /** DML methods **/
 
     /**
-     * @description This method is used to insert an sObject into the mock database
-     * @param record : the sObject to insert
+     * @description Deletes a record from the mock database
+     * @param recordToDelete - The record to delete
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @return Database.DeleteResult - The result of the delete operation
      */
-    public void doInsert(SObject record) {
-        if(record.Id != null) {
-            throw new DmlException('Cannot insert an object with an Id');
-        }
-
-        if(enforceRequiredFields) {
-            this.utils.checkForRequiredFieldsOnInsert(record);
-        }
-
-        String objName = SchemaService.getSObjectName(record);
-        Map<Id, sObject> mockObjects = this.db.get(objName);
-
-        Schema.SObjectType sot = SchemaService.getSObjectType(record);
-        String fakeId = fflib_IDGenerator.generate(sot);
-        record.put('Id', fakeId);
-
-        mockObjects = this.db.get(objName);
-        if(mockObjects == null) {
-            mockObjects = new Map<Id, sObject>();
-            this.db.put(objName, mockObjects);
-        }
-        mockObjects.put(record.Id, record);
+    public Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone) {
+        return dmlHandler.doDelete(recordToDelete, allOrNone);
     }
 
     /**
-     * @description This method is used to insert a list of sObjects into the mock database
-     * @param objList : the list of sObjects to insert
+     * @description doDelete is used to delete a list of records from the database
+     * @param recordsToDelete - The records to delete
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return List<Database.DeleteResult> - The results of the delete operations
      */
-    public void doInsert(List<sObject> objList) {
-        for(sObject obj : objList) {
-            doInsert(obj);
-        }
+    public List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boolean allOrNone) {
+        return dmlHandler.doDelete(recordsToDelete, allOrNone);
     }
 
     /**
-     * @description This method is used to update an sObject in the mock database
-     * @param record : the sObject to update
+     * @description doDelete is used to delete a record from the database
+     * @param recordID - The Id of the record to delete
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @return Database.DeleteResult - The result of the delete operation
      */
-    public void doUpdate(SObject record) {
-        if(record == null) {
-            throw new DmlException('Argument cannot be null');
-        }
-
-        String objName = SchemaService.getSObjectName(record);
-        Map<Id, sObject> mockObjects = this.db.get(objName);
-
-        if (mockObjects == null) {
-            throw new DmlException('Object does not exist');
-        } else if (mockObjects.get(record.Id) == null) {
-            throw new DmlException('Object does not exist');
-        }
-
-        if(enforceRequiredFields) {
-            this.utils.checkForRequiredFieldsOnUpdate(record);
-        }
-
-        SObject databaseRecord = mockObjects.get(record.Id);
-        
-        for(String field : record.getPopulatedFieldsAsMap().keySet()) {
-
-            // check for foreign key references
-            Schema.SObjectType  sot = SchemaService.getSObjectType(record);
-            Schema.DisplayType fieldType = SchemaService.getFieldType(sot, field);
-            Boolean isRef = (fieldType == Schema.DisplayType.REFERENCE);
-            if(!isRef) {
-                databaseRecord.put(field, record.get(field));
-                continue;
-            }
-
-            Id parentRecordId = (Id) record.get(field);
-
-            if(isRef && !this.utils.isRecordInDatabase(parentRecordId)) {
-                throw new DmlException('Foreign key reference does not exist');
-            }
-            databaseRecord.put(field, record.get(field));
-        }
+    public Database.DeleteResult doDelete(Id recordID, Boolean allOrNone) {
+        return dmlHandler.doDelete(recordID, allOrNone);
     }
 
     /**
-     * @description This method is used to update a list of sObjects in the mock database
-     * @param objList : the list of sObjects to update
+     * @description doDelete is used to delete a list of records from the database
+     * @param recordIDs - The Ids of the records to delete
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return List<Database.DeleteResult> - The results of the delete operations
      */
-    public void doUpdate(List<sObject> objList) {
-        for(sObject obj : objList) {
-            doUpdate(obj);
-        }
+    public List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNone) {
+        return dmlHandler.doDelete(recordIDs, allOrNone);
     }
 
     /**
-     * @description This method is used to delete an sObject from the mock database
-     * @param obj : the sObject to delete
+     * @description doMockInsert is used to insert a record into the mock database without setting the `wasCalled` flag
+     * @param recordToInsert - The record to insert
      */
-    public void doDelete(sObject obj) {
-        String objName = SchemaService.getSObjectName(obj);
-        Map<Id, sObject> mockObjects = this.db.get(objName);
-
-        if (mockObjects == null) {
-            throw new DmlException('Object does not exist');
-        } else if (mockObjects.get(obj.Id) == null) {
-            throw new DmlException('Object does not exist');
-        }
-
-        mockObjects.remove(obj.Id);
+    public void doMockInsert(SObject recordToInsert) {
+        dmlHandler.doMockInsert(recordToInsert);
     }
 
     /**
-     * @description This method is used to delete a list of sObjects from the mock database
-     * @param objList : the list of sObjects to delete
+     * @description doMockInsert is used to insert a list of records into the mock database without setting the `wasCalled` flag
+     * @param recordsToInsert - The records to insert
      */
-    public void doDelete(List<sObject> objList) {
-        for(sObject obj : objList) {
-            doDelete(obj);
-        }
+    public void doMockInsert(List<SObject> recordsToInsert) {
+        dmlHandler.doMockInsert(recordsToInsert);
+    }
+
+    /**
+     * @description doInsert is used to insert a record into the database
+     * @param recordToInsert - The record to insert
+     * @param allOrNone - Whether to throw an exception if the record already exists
+     * @param accessLevel - The access level of the user performing the operation
+     * @return Database.SaveResult - The result of the insert operation
+     */
+    public Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
+        return dmlHandler.doInsert(recordToInsert, allOrNone, accessLevel);
+    }
+
+    /**
+     * @description doInsert is used to insert a list of records into the database
+     * @param recordToInsert - The record to insert
+     * @param allOrNone - Whether to throw an exception if any of the records already exist
+     * @return List<Database.SaveResult> - The results of the insert operations
+     */
+    public Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone) {
+        return dmlHandler.doInsert(recordToInsert, allOrNone);
+    }
+
+    /**
+     * @description doInsert is used to insert a list of records into the database
+     * @param recordsToInsert - The records to insert
+     * @param allOrNone - Whether to throw an exception if any of the records already exist
+     * @return List<Database.SaveResult> - The results of the insert operations
+     */
+    public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone) {
+        return dmlHandler.doInsert(recordsToInsert, allOrNone);
+    }
+
+    /**
+     * @description doInsert is used to insert a list of records into the database
+     * @param recordsToInsert - The records to insert
+     * @param allOrNone - Whether to throw an exception if any of the records already exist
+     * @param accessLevel - The access level of the user performing the operation
+     * @return List<Database.SaveResult> - The results of the insert operations
+     */
+    public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
+        return dmlHandler.doInsert(recordsToInsert, allOrNone, accessLevel);
+    }
+
+    /**
+     * @description doUpdate is used to update a record in the database
+     * @param recordToUpdate - The record to update
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @return Database.SaveResult - The result of the update operation
+     * @throws DmlException - If the record does not exists and allOrNone is true
+     */
+    public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone) {
+        return dmlHandler.doUpdate(recordToUpdate, allOrNone);
+    }
+
+    /**
+     * @description doUpdate is used to update a list of records in the database
+     * @param recordsToUpdate - The records to update
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return `List<Database.SaveResult>` - The results of the update operations
+     */
+    public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone) {
+        return dmlHandler.doUpdate(recordsToUpdate, allOrNone);
+    }
+
+    /**
+     * @description Updates a record in the mock database
+     * @param recordToUpdate Record to update
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @param accessLevel AccessLevel of the user performing the operation
+     * @return  `Database.SaveResult`
+     */
+    public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
+        return dmlHandler.doUpdate(recordToUpdate, allOrNone, accessLevel);
+    }
+
+    /**
+     * @description Update a list of records in the mock database
+     * @param recordsToUpdate Records to update
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @param accessLevel Access Level of the user performing the operation
+     * @return  `List<Database.SaveResult>`
+     */
+    public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
+        return dmlHandler.doUpdate(recordsToUpdate, allOrNone, accessLevel);
+    }
+
+    /**
+     * @description Upserts a record into the mock database
+     * @param recordToUpsert Records to upsert
+     * @param externalIdField Optional field to use as the external ID
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @return  `Database.UpsertResult`
+     */
+    public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone) {
+        return dmlHandler.doUpsert(recordToUpsert, externalIdField, allOrNone);
+    }
+
+    /**
+     * @description Upserts a record in the mock database
+     * @param recordsToUpsert Records to upsert
+     * @param externalIdField Optional field to use as the external ID
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @return  `List<Database.UpsertResult>`
+     */
+    public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone) {
+        return dmlHandler.doUpsert(recordsToUpsert, externalIdField, allOrNone);
+    }
+
+    /**
+     * @description Upserts a record in the mock database
+     * @param recordToUpsert Record to upsert
+     * @param externalIdField Optional external ID field
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @param accessLevel Access level of the user performing the operation
+     * @return  `Database.UpsertResult`
+     */
+    @SuppressWarnings('PMD.ExcessiveParameterList')
+    public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
+        return dmlHandler.doUpsert(recordToUpsert, externalIdField, allOrNone, accessLevel);
+    }
+
+    /**
+     * @description Upsert a list of records in the mock database
+     * @param recordsToUpsert Records to upsert
+     * @param externalIdField Optional external ID field
+     * @param allOrNone Boolean to throw an exception if the record does not exist
+     * @param accessLevel Access level of the user performing the operation
+     * @return  `List<Database.UpsertResult>`
+     */
+    @SuppressWarnings('PMD.ExcessiveParameterList')
+    public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
+        return dmlHandler.doUpsert(recordsToUpsert, externalIdField, allOrNone, accessLevel);
+    }
+
+    /**
+     * @description doUndelete is used to undelete a record from the database
+     * @param recordToUndelete - The record to undelete
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @return Database.UndeleteResult - The result of the undelete operation
+     * @throws DmlException - If the record does not exists and allOrNone is true
+     */
+    public Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone) {
+        return dmlHandler.doUndelete(recordToUndelete, allOrNone);
+    }
+
+    /**
+     * @description doUndelete is used to undelete a list of records from the database
+     * @param recordsToUndelete - The records to undelete
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return List<Database.UndeleteResult> - The results of the undelete operations
+     * @throws DmlException - If any of the records do not exists and allOrNone is true
+     */
+    public List<Database.UndeleteResult> doUndelete(List<sObject> recordsToUndelete, Boolean allOrNone) {
+        return dmlHandler.doUndelete(recordsToUndelete, allOrNone);
+    }
+
+    /**
+     * @description doUndelete is used to undelete a record from the database
+     * @param recordID - The Id of the record to undelete
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @return Database.UndeleteResult - The result of the undelete operation
+     */
+    public Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone) {
+        return dmlHandler.doUndelete(recordID, allOrNone);
+    }
+
+    /**
+     * @description doUndelete is used to undelete a list of records from the database
+     * @param recordIDs - The Ids of the records to undelete
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return List<Database.UndeleteResult> - The results of the undelete operations
+     * @throws DmlException - If any of the records do not exists and allOrNone is true
+     */
+    public List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone) {
+        return this.dmlHandler.doUndelete(recordIDs, allOrNone);
+    }
+
+    /**
+     * @description doUndelete is used to undelete a record from the database
+     * @param recordToUndelete - The record to undelete
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @param accessLevel - The access level of the user performing the operation
+     * @return Database.UndeleteResult - The result of the undelete operation
+     */
+    public Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel) {
+        return this.dmlHandler.doUndelete(recordToUndelete, allOrNone, accessLevel);
     }
 
 
@@ -247,7 +428,7 @@ public inherited sharing class MockDatabase {
         String objApiName = SchemaService.getSObjectName(objName);
 
         // otherwise valid query, but there's no data in the database
-        Map<Id, sObject> mockObjects = this.db.get(objApiName);
+        Map<Id, sObject> mockObjects = this.mockRecords.get(objApiName);
         if (mockObjects == null) {
             return this.utils.emptyResponse(topLevelNodes);
         }
@@ -267,6 +448,10 @@ public inherited sharing class MockDatabase {
 
         // process the query, whether it's a count, aggregate, or regular query
         for(sObject databaseRecord : mockObjects.values()) {
+
+            if(databaseRecord.get('IsDeleted') == true) {
+                continue;
+            }
 
             if(!checkWhereClause(databaseRecord, whereNode, params)) {
                 continue;
@@ -297,9 +482,9 @@ public inherited sharing class MockDatabase {
         // handle the ORDER BY and LIMIT logic here
         if(isAggregateQuery) {
             aggregateResults = (List<ProtoAggregate>) handleHavingNode(aggregateResults, selectNode, params);
-            aggregateResults = (List<ProtoAggregate>) handleOrderByNode(QueryType.AGGREGATE, aggregateResults, selectNode);
-            aggregateResults = (List<ProtoAggregate>) handleOffsetNode(QueryType.AGGREGATE, offsetNode, aggregateResults, params);
-            aggregateResults = (List<ProtoAggregate>) handleLimitNode(QueryType.AGGREGATE, limitNode, aggregateResults, params);
+            aggregateResults = (List<ProtoAggregate>) handleOrderByNode(Types.SOQL.AGGREGATE, aggregateResults, selectNode);
+            aggregateResults = (List<ProtoAggregate>) handleOffsetNode(Types.SOQL.AGGREGATE, offsetNode, aggregateResults, params);
+            aggregateResults = (List<ProtoAggregate>) handleLimitNode(Types.SOQL.AGGREGATE, limitNode, aggregateResults, params);
 
             // Remove internal fields from the aggregate result proto-records and return the list of aggregates
             List<Aggregate> aggregateResultsList = new AggregateBuilder()
@@ -310,27 +495,17 @@ public inherited sharing class MockDatabase {
             
             results = aggregateResultsList;
         } else if(isCount) {
-            count = (Integer) handleOffsetNode(QueryType.COUNT, offsetNode, count, params);
-            count = (Integer) handleLimitNode(QueryType.COUNT, limitNode, count, params);
+            count = (Integer) handleOffsetNode(Types.SOQL.COUNT, offsetNode, count, params);
+            count = (Integer) handleLimitNode(Types.SOQL.COUNT, limitNode, count, params);
             results = count;
         } else {
-            sObjects = (List<SObject>) handleOrderByNode(QueryType.RECORD, sObjects, selectNode);
-            sObjects = (List<SObject>) handleOffsetNode(QueryType.RECORD, offsetNode, sObjects, params);
-            sObjects = (List<SObject>) handleLimitNode(QueryType.RECORD, limitNode, sObjects, params);
+            sObjects = (List<SObject>) handleOrderByNode(Types.SOQL.RECORD, sObjects, selectNode);
+            sObjects = (List<SObject>) handleOffsetNode(Types.SOQL.RECORD, offsetNode, sObjects, params);
+            sObjects = (List<SObject>) handleLimitNode(Types.SOQL.RECORD, limitNode, sObjects, params);
             results = sObjects;
         }
         this.topLevelNodes.remove(selectNode);
         return results;
-    }
-
-    /**
-     * @description Set whether or not to enforce system-required fields on insert and update
-     * @param isEnforced 
-     * @return  `MockDatabase`
-     */
-    public MockDatabase setEnforceRequiredFields(Boolean isEnforced) {
-        this.enforceRequiredFields = isEnforced;
-        return this;
     }
 
     /**
@@ -339,17 +514,7 @@ public inherited sharing class MockDatabase {
      * @return : the map of SObjects
      */
     public Map<Id, sObject> get(String objApiName) {
-        return this.db.get(objApiName);
-    }
-
-    /**
-     * @description Given a recor id, return the database record for it
-     * @param recordId : the record id
-     * @return : the database record
-     * @throws QueryException : if the record does not exist
-     */
-    public SObject findRecord(Id recordId) {
-        return this.utils.findRecord(recordId);
+        return this.mockRecords.get(objApiName);
     }
 
     /**
@@ -429,7 +594,7 @@ public inherited sharing class MockDatabase {
     }
 
     @SuppressWarnings('PMD.ExcessiveParameterList')
-    private Object handleLimitNode(QueryType typeOfQuery, Node limitNode, Object results, Map<String, Object> params) {
+    private Object handleLimitNode(Types.SOQL typeOfQuery, Node limitNode, Object results, Map<String, Object> params) {
         if(limitNode == null) {
             return results;
         }
@@ -483,7 +648,7 @@ public inherited sharing class MockDatabase {
     }
 
     private Object handleOrderByNode(
-        QueryType typeOfQuery, 
+        Types.SOQL typeOfQuery, 
         Object results, 
         Node selectNode
     ) {
@@ -511,7 +676,7 @@ public inherited sharing class MockDatabase {
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
     private Object handleOffsetNode(
-        QueryType typeOfQuery, 
+        Types.SOQL typeOfQuery, 
         Node offsetNode, 
         Object results, 
         Map<String, Object> params

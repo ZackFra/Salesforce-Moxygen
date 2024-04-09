@@ -163,7 +163,7 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
             'IsDeleted' => false
         };
 
-        if(SchemaService.hasField(sot, 'OwnerId')) {
+        if(SchemaService.hasField(sot, 'OwnerId') && recordToInsert.get('OwnerId') == null) {
             readOnlyFields.put('OwnerId', UserInfo.getUserId());
         }
 
