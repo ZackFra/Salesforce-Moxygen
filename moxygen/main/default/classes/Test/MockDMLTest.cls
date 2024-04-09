@@ -168,36 +168,6 @@ private class MockDMLTest {
     }
 
     @IsTest
-    static void testCount() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
-        Account account1 = new Account(
-            Name = 'Test Account'
-        );
-
-        Account account2 = new Account(
-            Name = 'Test Account'
-        );
-
-        List<Account> acctList = new List<Account> {
-            account1,
-            account2
-        };
-
-        Test.startTest();
-        dml.doInsert(acctList, false);
-        Test.stopTest();
-
-        Integer count = dml.count();
-        Assert.areEqual(
-            2, 
-            count,
-            'Count should be 2'
-        );
-    }
-
-    @IsTest
     static void testDoDelete1() {
         MockORM db = new MockORM();
         MockDML dml = db.getMockDML();
@@ -211,11 +181,9 @@ private class MockDMLTest {
         dml.doDelete(account, true);
         Test.stopTest();
 
-        Integer count = dml.count();
-        Assert.areEqual(
-            0, 
-            count,
-            'Count should be 0'
+        Assert.isTrue(
+            db.isDeleted(account.Id), 
+            'Record should have been deleted'
         );
     }
 
@@ -242,11 +210,9 @@ private class MockDMLTest {
         dml.doDelete(acctList, false);
         Test.stopTest();
 
-        Integer count = dml.count();
-        Assert.areEqual(
-            0, 
-            count,
-            'Count should be 0'
+        Assert.isTrue(
+            db.isDeleted(account1.Id) && db.isDeleted(account2.Id), 
+            'Records should have been deleted'
         );
     }
 
@@ -264,11 +230,9 @@ private class MockDMLTest {
         dml.doDelete(account.Id, false);
         Test.stopTest();
 
-        Integer count = dml.count();
-        Assert.areEqual(
-            0, 
-            count,
-            'Count should be 0'
+        Assert.isTrue(
+            db.isDeleted(account.Id), 
+            'Record should have been deleted'
         );
     }
 
@@ -298,118 +262,10 @@ private class MockDMLTest {
         Test.startTest();
         dml.doDelete(acctIds, false);
         Test.stopTest();
-
-        Integer count = dml.count();
-        Assert.areEqual(
-            0, 
-            count,
-            'Count should be 0'
-        );
-    }
-
-    @IsTest
-    static void testDeletedCount() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
-        Account account1 = new Account(
-            Name = 'Test Account'
-        );
-
-        Account account2 = new Account(
-            Name = 'Test Account'
-        );
-
-        List<Account> acctList = new List<Account> {
-            account1,
-            account2
-        };
-
-        dml.doInsert(acctList, false);
-        Test.startTest();
-        dml.doDelete(acctList, false);
-        Test.stopTest();
-
-        Integer count = dml.deletedCount();
-        Assert.areEqual(
-            2, 
-            count,
-            'Count should be 2'
-        );
-    }
-
-    @IsTest
-    static void testWasCalled1() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
-        Account account = new Account(
-            Name = 'Test Account'
-        );
-        Test.startTest();
-        dml.doInsert(account, true);
-        Test.stopTest();
-
-        Boolean wasCalled = dml.wasCalled();
+        Boolean isAllDeleted = (db.isDeleted(account1.Id) && db.isDeleted(account2.Id));
         Assert.isTrue(
-            wasCalled,
-            'DML should have been called'
-        );
-    }
-
-    @IsTest
-    static void testWasCalled2() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
-        Boolean wasCalled = dml.wasCalled();
-        Assert.isFalse(
-            wasCalled,
-            'DML should not have been called'
-        );
-    }
-
-    @IsTest
-    static void testWasCalled3() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
-        Account account = new Account(
-            Name = 'Test Account'
-        );
-        Test.startTest();
-        dml.doInsert(account, true);
-        Test.stopTest();
-
-        Boolean wasCalled = dml.wasCalled(Types.DML.INSERTED);
-        Assert.isTrue(
-            wasCalled,
-            'DML should have been called'
-        );
-    }
-
-    @IsTest
-    static void testWasCalled4() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
-        Account account = new Account(
-            Name = 'Test Account'
-        );
-        dml.doInsert(account, true);
-        Test.startTest();
-        Boolean isExceptionThrown = false;
-        try {
-            dml.wasCalled(null);
-        } catch (Exception e) {
-            isExceptionThrown = true;
-        }
-        Test.stopTest();
-
-        
-        Assert.isTrue(
-            isExceptionThrown,
-            'Exception should have been thrown'
+            isAllDeleted, 
+            'Records should have been deleted'
         );
     }
 
@@ -426,51 +282,10 @@ private class MockDMLTest {
         dml.doDelete(account, true);
         Test.stopTest();
 
-        Boolean isDeleted = dml.isDeleted(account.Id);
+        Boolean isDeleted = db.isDeleted(account.Id);
         Assert.isTrue(
             isDeleted,
             'Account should have been deleted'
-        );
-    }
-
-    @IsTest
-    static void testSelectDeletedRecordById1() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
-        Account account = new Account(
-            Name = 'Test Account'
-        );
-        dml.doInsert(account, true);
-        dml.doDelete(account, true);
-        Test.startTest();
-        Account deletedAccount = (Account) dml.selectDeletedRecordById(account.Id);        
-        Test.stopTest();
-
-        Assert.areEqual(
-            account.Id, 
-            deletedAccount.Id,
-            'Account Id should be the same'
-        );
-    }
-
-    @IsTest
-    static void testSelectDeletedRecordById2() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
-        Account account = new Account(
-            Name = 'Test Account'
-        );
-        dml.doInsert(account, true);
-        Test.startTest();
-        Account deletedAccount = (Account) dml.selectDeletedRecordById(account.Id);
-        Test.stopTest();
-
-        
-        Assert.isNull(
-            deletedAccount,
-            'Account should be null'
         );
     }
 
@@ -484,7 +299,7 @@ private class MockDMLTest {
         );
         dml.doInsert(account, true);
         Test.startTest();
-        Account selectedAccount = (Account) dml.selectRecordById(account.Id);
+        Account selectedAccount = (Account) db.selectRecordById(account.Id);
         Test.stopTest();
 
         Assert.areEqual(
@@ -505,7 +320,7 @@ private class MockDMLTest {
         dml.doInsert(account, true);
         dml.doDelete(account, true);
         Test.startTest();
-        Account selectedAccount = (Account) dml.selectRecordById(
+        Account selectedAccount = (Account) db.selectRecordById(
             account.Id
         );
         Test.stopTest();
@@ -585,7 +400,7 @@ private class MockDMLTest {
         dml.doUpdate(account, true);
         Test.stopTest();
 
-        Account updatedAccount = (Account) dml.selectRecordById(account.Id);
+        Account updatedAccount = (Account) db.selectRecordById(account.Id);
         Assert.areEqual(
             'Updated Account', 
             updatedAccount.Name,
@@ -620,8 +435,8 @@ private class MockDMLTest {
         dml.doUpdate(acctList, false);
         Test.stopTest();
 
-        Account updatedAccount1 = (Account) dml.selectRecordById(account1.Id);
-        Account updatedAccount2 = (Account) dml.selectRecordById(account2.Id);
+        Account updatedAccount1 = (Account) db.selectRecordById(account1.Id);
+        Account updatedAccount2 = (Account) db.selectRecordById(account2.Id);
 
         Assert.areEqual(
             'Updated Account', 
@@ -651,7 +466,7 @@ private class MockDMLTest {
         dml.doUpdate(account, false, AccessLevel.USER_MODE);
         Test.stopTest();
 
-        Account updatedAccount = (Account) dml.selectRecordById(account.Id);
+        Account updatedAccount = (Account) db.selectRecordById(account.Id);
         Assert.areEqual(
             'Updated Account', 
             updatedAccount.Name,
@@ -686,8 +501,8 @@ private class MockDMLTest {
         dml.doUpdate(acctList, false, AccessLevel.USER_MODE);
         Test.stopTest();
 
-        Account updatedAccount1 = (Account) dml.selectRecordById(account1.Id);
-        Account updatedAccount2 = (Account) dml.selectRecordById(account2.Id);
+        Account updatedAccount1 = (Account) db.selectRecordById(account1.Id);
+        Account updatedAccount2 = (Account) db.selectRecordById(account2.Id);
 
         Assert.areEqual(
             'Updated Account', 
@@ -842,11 +657,9 @@ private class MockDMLTest {
         dml.doUndelete(account, true);
         Test.stopTest();
 
-        Integer count = dml.count();
-        Assert.areEqual(
-            1, 
-            count,
-            'Count should be 1'
+        Assert.isFalse(
+            db.isDeleted(account.Id), 
+            'Record should not be deleted'
         );
     }
 
@@ -874,11 +687,9 @@ private class MockDMLTest {
         dml.doUndelete(acctList, false);
         Test.stopTest();
 
-        Integer count = dml.count();
-        Assert.areEqual(
-            2, 
-            count,
-            'Count should be 2'
+        Assert.isFalse(
+            db.isDeleted(account1.Id) || db.isDeleted(account2.Id), 
+            'Records should not be deleted'
         );
     }
 
@@ -896,11 +707,9 @@ private class MockDMLTest {
         dml.doUndelete(account.Id, true);
         Test.stopTest();
 
-        Integer count = dml.count();
-        Assert.areEqual(
-            1, 
-            count,
-            'Count should be 1'
+        Assert.isFalse(
+            db.isDeleted(account.Id), 
+            'Record should not be deleted'
         );
     }
 
@@ -932,11 +741,10 @@ private class MockDMLTest {
         dml.doUndelete(acctIds, false);
         Test.stopTest();
 
-        Integer count = dml.count();
-        Assert.areEqual(
-            2, 
-            count,
-            'Count should be 2'
+        Boolean isEitherDeleted = (db.isDeleted(account1.Id) || db.isDeleted(account2.Id));
+        Assert.isFalse(
+            isEitherDeleted,
+            'Records should not be deleted'
         );
     }
 
@@ -959,11 +767,9 @@ private class MockDMLTest {
         );
         Test.stopTest();
 
-        Integer count = dml.count();
-        Assert.areEqual(
-            1, 
-            count,
-            'Count should be 1'
+        Assert.isFalse(
+            db.isDeleted(account.Id), 
+            'Record should not be deleted'
         );
     }
 }

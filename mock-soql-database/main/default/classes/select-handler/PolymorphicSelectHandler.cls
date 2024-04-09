@@ -73,7 +73,7 @@ public inherited sharing class PolymorphicSelectHandler implements ISelectHandle
         if(parentRecordId == null) {
             return queriedRecord;
         }
-        SObject parentRecord = db.findRecord(parentRecordId);
+        SObject parentRecord = db.selectRecordById(parentRecordId);
         String parentObjApiName = SchemaService.getSObjectName(parentRecord).toLowerCase();
 
         Node curr = whenNode;

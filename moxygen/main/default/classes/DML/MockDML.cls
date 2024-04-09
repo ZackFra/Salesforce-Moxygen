@@ -29,28 +29,14 @@
  */
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.ExcessivePublicCount, PMD.CyclomaticComplexity')
 public inherited sharing class MockDML implements IDML {
-    @TestVisible
-    Map<String, Map<Id, SObject>> mockObjects = new Map<String, Map<Id, SObject>>();
-    
-    @TestVisible
-    Set<Id> deletedRecords = new Set<Id>();
 
-    SaveResultService srService = new SaveResultService();
-    
-    MockDeleteHandler deleteHandler;
-    MockInsertHandler insertHandler;
-    MockUpdateHandler updateHandler;
-    MockUpsertHandler upsertHandler;
-    MockUndeleteHandler undeleteHandler;
-
-    private Map<Types.DML, MockDMLHandler> handlerMap;
     MockDatabase db;
 
     /**
      * @description MockDML is the constructor for the MockDML class
      */
     public MockDML() {
-        resetHandlers();
+        this.db = new MockDatabase();
     }
 
     /**
@@ -59,101 +45,6 @@ public inherited sharing class MockDML implements IDML {
      */
     public MockDML(MockDatabase db) {
         this.db = db;
-        this.mockObjects = db.db;
-        this.db.resetHandlers();
-    }
-
-    /**
-     * @description Returns the number of records in the mock database
-     * @return Integer - The number of records in the mock database
-     */
-    public Integer count() {
-        Integer count = 0;
-        for(String sObjName : mockObjects.keySet()) {
-            List<SObject> records = mockObjects.get(sObjName).values();
-            count += countRecords(records);
-        }
-        return count;
-    }
-
-    private Integer countRecords(List<SObject> records) {
-        Integer count = 0;
-        for(SObject record : records) {
-            if(!deletedRecords.contains(record.Id)) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    /**
-     * @description Returns the number of deleted records in the mock database
-     * @return Integer - The number of deleted records in the mock database
-     */
-    public Integer deletedCount() {
-        return deletedRecords.size();
-    }
-
-    /**
-     * @description resetHandlers is used to reset the DML handlers to their default state
-     */
-    public void resetHandlers() {
-        this.db.resetHandlers();
-    }
-
-    /**
-     * @description Returns whether a specific DML operation was called
-     * @param type - The type of DML operation to check
-     * @return Boolean - Whether the DML operation was called
-     */
-    public Boolean wasCalled(Types.DML type) {
-        return this.db.didDML(type);
-    }
-
-    /**
-     * @description Returns whether any DML operation was called
-     * @return Boolean - Whether any DML operation was called
-     */
-    public Boolean wasCalled() {
-        return this.db.didAnyDML();
-    }
-
-    /**
-     * @description wasDeleted is used to check if a record was deleted from the database
-     * @param recordId - The Id of the record to check
-     * @return Boolean - Whether the record was deleted
-     */
-    public Boolean isDeleted(Id recordId) {
-        return this.deletedRecords.contains(recordId);
-    }
-
-    /**
-     * @description selectDeletedRecordById is used to select a record from the database by its Id. This method
-     *             is used to select a record from the database regardless of whether it has been deleted or not.
-     * @param recordId - The Id of the record to select
-     * @return SObject - The record with the given Id
-     */
-    public SObject selectDeletedRecordById(Id recordId) {
-        String sObjName = SchemaService.getSObjectName(recordId);
-        if(!deletedRecords.contains(recordId)) {
-            return null;
-        }
-        return this.mockObjects.get(sObjName).get(recordId);
-    }
-
-    /**
-     * @description selectRecordById is used to select a record from the database by its Id. This method
-     *            is used to select a record from the database only if it has not been deleted.
-     * @param recordId - The Id of the record to select
-     * @return SObject - The record with the given Id
-     */
-    public SObject selectRecordById(Id recordId) {
-        String sObjName = SchemaService.getSObjectName(recordId);
-        SObject mockRecord = this.mockObjects.get(sObjName).get(recordId);
-        if(deletedRecords.contains(recordId)) {
-            return null;
-        }
-        return mockRecord;
     }
 
     /**

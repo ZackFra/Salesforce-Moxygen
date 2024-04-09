@@ -60,7 +60,7 @@ public with sharing class MockDatabaseUtils {
     public SObject findRecord(Id recordId) {
         String objApiName = SchemaService.getSObjectName(recordId);
         try {
-            return this.db.get(objApiName).get(recordId);
+            return this.db.mockRecords.get(objApiName).get(recordId);
         } catch(Exception e) {
             throw new QueryException('No record found for ' + recordId);
         }

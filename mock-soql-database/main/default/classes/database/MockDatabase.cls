@@ -33,7 +33,8 @@ public inherited sharing class MockDatabase {
 
     private final Map<Node, TopLevelNodes> topLevelNodes = new Map<Node, TopLevelNodes>();
     MockDatabaseDMLHandler dmlHandler;
-    public Map<String, Map<Id, SObject>> db;
+
+    public Map<String, Map<Id, SObject>> mockRecords;
     public MockDatabaseUtils utils = new MockDatabaseUtils(this);
     public enum QueryType {
         RECORD, AGGREGATE, COUNT
@@ -45,23 +46,21 @@ public inherited sharing class MockDatabase {
      * @description The MockDatabase constructor
      */
     public MockDatabase() {
-        this.db = new Map<String, Map<Id, SObject>>();
-        this.dmlHandler = new MockDatabaseDMLHandler(db);
+        this.mockRecords = new Map<String, Map<Id, SObject>>();
+        this.dmlHandler = new MockDatabaseDMLHandler(mockRecords);
     }
 
     /**
      * @description The MockDatabase constructor with a database parameter, used for integrating this class 
      *              with other classes
-     * @param db The database to use
+     * @param mockRecords The database to use
      */
-    public MockDatabase(Map<String, Map<Id, SObject>> db) {
-        this.db = db;
-        this.dmlHandler = new MockDatabaseDMLHandler(db);
+    public MockDatabase(Map<String, Map<Id, SObject>> mockRecords) {
+        this.mockRecords = mockRecords;
+        this.dmlHandler = new MockDatabaseDMLHandler(mockRecords);
     }
 
-
-    /** DML methods **/
-
+    /** Utility methods (For Testing) */
     public void resetHandlers() {
         this.dmlHandler.resetHandlers();
     }
@@ -73,6 +72,37 @@ public inherited sharing class MockDatabase {
     public Boolean didDML(Types.DML dmlType) {
         return this.dmlHandler.wasCalled(dmlType);
     }
+
+    public Integer count() {
+        Integer count = 0;
+        for(String objApiName : this.mockRecords.keySet()) {
+            count += this.mockRecords.get(objApiName).size();
+        }
+        return count;
+    }
+
+    /**
+     * @description wasDeleted is used to check if a record was deleted from the database
+     * @param recordId - The Id of the record to check
+     * @return Boolean - Whether the record was deleted
+     */
+    public Boolean isDeleted(Id recordId) {
+        SObject record = this.utils.findRecord(recordId);
+        return (
+            record.get('IsDeleted') == true
+        );
+    }
+
+    /**
+     * @description Returns the deleted record by Id
+     * @param recordId 
+     * @return  `SObject`
+     */
+    public SObject selectRecordById(Id recordId) {
+        return this.utils.findRecord(recordId);
+    }
+
+    /** DML methods **/
 
     /**
      * @description Deletes a record from the mock database
@@ -386,7 +416,7 @@ public inherited sharing class MockDatabase {
         String objApiName = SchemaService.getSObjectName(objName);
 
         // otherwise valid query, but there's no data in the database
-        Map<Id, sObject> mockObjects = this.db.get(objApiName);
+        Map<Id, sObject> mockObjects = this.mockRecords.get(objApiName);
         if (mockObjects == null) {
             return this.utils.emptyResponse(topLevelNodes);
         }
@@ -482,17 +512,7 @@ public inherited sharing class MockDatabase {
      * @return : the map of SObjects
      */
     public Map<Id, sObject> get(String objApiName) {
-        return this.db.get(objApiName);
-    }
-
-    /**
-     * @description Given a recor id, return the database record for it
-     * @param recordId : the record id
-     * @return : the database record
-     * @throws QueryException : if the record does not exist
-     */
-    public SObject findRecord(Id recordId) {
-        return this.utils.findRecord(recordId);
+        return this.mockRecords.get(objApiName);
     }
 
     /**
