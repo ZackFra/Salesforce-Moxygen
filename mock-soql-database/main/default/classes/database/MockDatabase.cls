@@ -62,6 +62,18 @@ public inherited sharing class MockDatabase {
 
     /** DML methods **/
 
+    public void resetHandlers() {
+        this.dmlHandler.resetHandlers();
+    }
+
+    public Boolean didAnyDML() {
+        return this.dmlHandler.wasCalled();
+    }
+
+    public Boolean didDML(Types.DML dmlType) {
+        return this.dmlHandler.wasCalled(dmlType);
+    }
+
     /**
      * @description Deletes a record from the mock database
      * @param recordToDelete - The record to delete
@@ -281,6 +293,28 @@ public inherited sharing class MockDatabase {
      */
     public Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone) {
         return dmlHandler.doUndelete(recordID, allOrNone);
+    }
+
+    /**
+     * @description doUndelete is used to undelete a list of records from the database
+     * @param recordIDs - The Ids of the records to undelete
+     * @param allOrNone - Whether to throw an exception if any of the records do not exist
+     * @return List<Database.UndeleteResult> - The results of the undelete operations
+     * @throws DmlException - If any of the records do not exists and allOrNone is true
+     */
+    public List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone) {
+        return this.dmlHandler.doUndelete(recordIDs, allOrNone);
+    }
+
+    /**
+     * @description doUndelete is used to undelete a record from the database
+     * @param recordToUndelete - The record to undelete
+     * @param allOrNone - Whether to throw an exception if the record does not exist
+     * @param accessLevel - The access level of the user performing the operation
+     * @return Database.UndeleteResult - The result of the undelete operation
+     */
+    public Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel) {
+        return this.dmlHandler.doUndelete(recordToUndelete, allOrNone, accessLevel);
     }
 
 

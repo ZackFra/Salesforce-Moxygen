@@ -60,7 +60,7 @@ public inherited sharing class MockDML implements IDML {
     public MockDML(MockDatabase db) {
         this.db = db;
         this.mockObjects = db.db;
-        resetHandlers();
+        this.db.resetHandlers();
     }
 
     /**
@@ -98,42 +98,7 @@ public inherited sharing class MockDML implements IDML {
      * @description resetHandlers is used to reset the DML handlers to their default state
      */
     public void resetHandlers() {
-        setHandlers();
-        setMockObjects(mockObjects);
-        setDeletedRecords(deletedRecords);        
-    }
-
-    private void setHandlers() {
-        this.deleteHandler = new MockDeleteHandler();
-        this.insertHandler = new MockInsertHandler();
-        this.updateHandler = new MockUpdateHandler();
-        this.upsertHandler = new MockUpsertHandler();
-        this.undeleteHandler = new MockUndeleteHandler();
-        this.handlerMap = new Map<Types.DML, MockDMLHandler> {
-            Types.DML.INSERTED => insertHandler,
-            Types.DML.UPDATED => updateHandler,
-            Types.DML.UPSERTED => upsertHandler,
-            Types.DML.DELETED => deleteHandler,
-            Types.DML.UNDELETED => undeleteHandler
-        };
-    }
-
-    private void setMockObjects(Map<String, Map<Id, SObject>> mockObjects) {
-        this.mockObjects = mockObjects;
-        this.deleteHandler.setMockObjects(mockObjects);
-        this.insertHandler.setMockObjects(mockObjects);
-        this.updateHandler.setMockObjects(mockObjects);
-        this.upsertHandler.setMockObjects(mockObjects);
-        this.undeleteHandler.setMockObjects(mockObjects);
-    }
-
-    private void setDeletedRecords(Set<Id> deletedRecords) {
-        this.deletedRecords = deletedRecords;
-        this.deleteHandler.setDeletedRecords(deletedRecords);
-        this.insertHandler.setDeletedRecords(deletedRecords);
-        this.updateHandler.setDeletedRecords(deletedRecords);
-        this.upsertHandler.setDeletedRecords(deletedRecords);
-        this.undeleteHandler.setDeletedRecords(deletedRecords);
+        this.db.resetHandlers();
     }
 
     /**
@@ -142,10 +107,7 @@ public inherited sharing class MockDML implements IDML {
      * @return Boolean - Whether the DML operation was called
      */
     public Boolean wasCalled(Types.DML type) {
-        if(type == null) {
-            throw new IllegalArgumentException('Type cannot be null');
-        }
-        return handlerMap.get(type).wasCalled();
+        return this.db.didDML(type);
     }
 
     /**
@@ -153,12 +115,7 @@ public inherited sharing class MockDML implements IDML {
      * @return Boolean - Whether any DML operation was called
      */
     public Boolean wasCalled() {
-        for(Types.DML type : Types.DML.values()) {
-            if(wasCalled(type)) {
-                return true;
-            }
-        }
-        return false;
+        return this.db.didAnyDML();
     }
 
     /**
@@ -206,7 +163,7 @@ public inherited sharing class MockDML implements IDML {
      * @return Database.DeleteResult - The result of the delete operation
      */
     public Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone) {
-        return deleteHandler.doDelete(recordToDelete, allOrNone);
+        return this.db.doDelete(recordToDelete, allOrNone);
     }
 
     /**
@@ -216,7 +173,7 @@ public inherited sharing class MockDML implements IDML {
      * @return List<Database.DeleteResult> - The results of the delete operations
      */
     public List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boolean allOrNone) {
-        return deleteHandler.doDelete(recordsToDelete, allOrNone);
+        return this.db.doDelete(recordsToDelete, allOrNone);
     }
 
     /**
@@ -226,7 +183,7 @@ public inherited sharing class MockDML implements IDML {
      * @return Database.DeleteResult - The result of the delete operation
      */
     public Database.DeleteResult doDelete(Id recordID, Boolean allOrNone) {
-        return deleteHandler.doDelete(recordID, allOrNone);
+        return this.db.doDelete(recordID, allOrNone);
     }
 
     /**
@@ -236,7 +193,7 @@ public inherited sharing class MockDML implements IDML {
      * @return List<Database.DeleteResult> - The results of the delete operations
      */
     public List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNone) {
-        return deleteHandler.doDelete(recordIDs, allOrNone);
+        return this.db.doDelete(recordIDs, allOrNone);
     }
 
     /**
@@ -244,7 +201,7 @@ public inherited sharing class MockDML implements IDML {
      * @param recordToInsert - The record to insert
      */
     public void doMockInsert(SObject recordToInsert) {
-        insertHandler.doMockInsert(recordToInsert);
+        this.db.doMockInsert(recordToInsert);
     }
 
     /**
@@ -252,7 +209,7 @@ public inherited sharing class MockDML implements IDML {
      * @param recordsToInsert - The records to insert
      */
     public void doMockInsert(List<SObject> recordsToInsert) {
-        insertHandler.doMockInsert(recordsToInsert);
+        this.db.doMockInsert(recordsToInsert);
     }
 
     /**
@@ -263,7 +220,7 @@ public inherited sharing class MockDML implements IDML {
      * @return Database.SaveResult - The result of the insert operation
      */
     public Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
-        return insertHandler.doInsert(recordToInsert, allOrNone, accessLevel);
+        return this.db.doInsert(recordToInsert, allOrNone, accessLevel);
     }
 
     /**
@@ -273,7 +230,7 @@ public inherited sharing class MockDML implements IDML {
      * @return List<Database.SaveResult> - The results of the insert operations
      */
     public Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone) {
-        return insertHandler.doInsert(recordToInsert, allOrNone);
+        return this.db.doInsert(recordToInsert, allOrNone);
     }
 
     /**
@@ -283,7 +240,7 @@ public inherited sharing class MockDML implements IDML {
      * @return List<Database.SaveResult> - The results of the insert operations
      */
     public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone) {
-        return insertHandler.doInsert(recordsToInsert, allOrNone);
+        return this.db.doInsert(recordsToInsert, allOrNone);
     }
 
     /**
@@ -294,7 +251,7 @@ public inherited sharing class MockDML implements IDML {
      * @return List<Database.SaveResult> - The results of the insert operations
      */
     public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
-        return insertHandler.doInsert(recordsToInsert, allOrNone, accessLevel);
+        return this.db.doInsert(recordsToInsert, allOrNone, accessLevel);
     }
 
     /**
@@ -305,7 +262,7 @@ public inherited sharing class MockDML implements IDML {
      * @throws DmlException - If the record does not exists and allOrNone is true
      */
     public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone) {
-        return updateHandler.doUpdate(recordToUpdate, allOrNone);
+        return this.db.doUpdate(recordToUpdate, allOrNone);
     }
 
     /**
@@ -315,7 +272,7 @@ public inherited sharing class MockDML implements IDML {
      * @return `List<Database.SaveResult>` - The results of the update operations
      */
     public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone) {
-        return updateHandler.doUpdate(recordsToUpdate, allOrNone);
+        return this.db.doUpdate(recordsToUpdate, allOrNone);
     }
 
     /**
@@ -326,7 +283,7 @@ public inherited sharing class MockDML implements IDML {
      * @return  `Database.SaveResult`
      */
     public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
-        return updateHandler.doUpdate(recordToUpdate, allOrNone, accessLevel);
+        return this.db.doUpdate(recordToUpdate, allOrNone, accessLevel);
     }
 
     /**
@@ -337,7 +294,7 @@ public inherited sharing class MockDML implements IDML {
      * @return  `List<Database.SaveResult>`
      */
     public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
-        return updateHandler.doUpdate(recordsToUpdate, allOrNone, accessLevel);
+        return this.db.doUpdate(recordsToUpdate, allOrNone, accessLevel);
     }
 
     /**
@@ -348,7 +305,7 @@ public inherited sharing class MockDML implements IDML {
      * @return  `Database.UpsertResult`
      */
     public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone) {
-        return upsertHandler.doUpsert(recordToUpsert, externalIdField, allOrNone);
+        return this.db.doUpsert(recordToUpsert, externalIdField, allOrNone);
     }
 
     /**
@@ -359,7 +316,7 @@ public inherited sharing class MockDML implements IDML {
      * @return  `List<Database.UpsertResult>`
      */
     public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone) {
-        return upsertHandler.doUpsert(recordsToUpsert, externalIdField, allOrNone);
+        return this.db.doUpsert(recordsToUpsert, externalIdField, allOrNone);
     }
 
     /**
@@ -372,7 +329,7 @@ public inherited sharing class MockDML implements IDML {
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
     public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
-        return upsertHandler.doUpsert(recordToUpsert, externalIdField, allOrNone, accessLevel);
+        return this.db.doUpsert(recordToUpsert, externalIdField, allOrNone, accessLevel);
     }
 
     /**
@@ -385,7 +342,7 @@ public inherited sharing class MockDML implements IDML {
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
     public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
-        return upsertHandler.doUpsert(recordsToUpsert, externalIdField, allOrNone, accessLevel);
+        return this.db.doUpsert(recordsToUpsert, externalIdField, allOrNone, accessLevel);
     }
 
     /**
@@ -396,7 +353,7 @@ public inherited sharing class MockDML implements IDML {
      * @throws DmlException - If the record does not exists and allOrNone is true
      */
     public Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone) {
-        return undeleteHandler.doUndelete(recordToUndelete, allOrNone);
+        return this.db.doUndelete(recordToUndelete, allOrNone);
     }
 
     /**
@@ -407,7 +364,7 @@ public inherited sharing class MockDML implements IDML {
      * @throws DmlException - If any of the records do not exists and allOrNone is true
      */
     public List<Database.UndeleteResult> doUndelete(List<sObject> recordsToUndelete, Boolean allOrNone) {
-        return undeleteHandler.doUndelete(recordsToUndelete, allOrNone);
+        return this.db.doUndelete(recordsToUndelete, allOrNone);
     }
 
     /**
@@ -417,7 +374,7 @@ public inherited sharing class MockDML implements IDML {
      * @return Database.UndeleteResult - The result of the undelete operation
      */
     public Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone) {
-        return undeleteHandler.doUndelete(recordID, allOrNone);
+        return this.db.doUndelete(recordID, allOrNone);
     }
 
     /**
@@ -428,7 +385,7 @@ public inherited sharing class MockDML implements IDML {
      * @throws DmlException - If any of the records do not exists and allOrNone is true
      */
     public List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone) {
-        return undeleteHandler.doUndelete(recordIDs, allOrNone);
+        return this.db.doUndelete(recordIDs, allOrNone);
     }
 
     /**
@@ -439,6 +396,6 @@ public inherited sharing class MockDML implements IDML {
      * @return Database.UndeleteResult - The result of the undelete operation
      */
     public Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel) {
-        return undeleteHandler.doUndelete(recordToUndelete, allOrNone, accessLevel);
+        return this.db.doUndelete(recordToUndelete, allOrNone, accessLevel);
     }
 }
