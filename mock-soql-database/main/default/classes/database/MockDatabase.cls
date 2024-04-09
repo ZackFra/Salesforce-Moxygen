@@ -28,10 +28,10 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-@SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.ExcessivePublicCount')
+@SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.ExcessivePublicCount')
 public inherited sharing class MockDatabase {
 
-    private final Map<Node, TopLevelNodes> topLevelNodes = new Map<Node, TopLevelNodes>();
+    final Map<Node, TopLevelNodes> topLevelNodes = new Map<Node, TopLevelNodes>();
     MockDatabaseDMLHandler dmlHandler;
 
     public Map<String, Map<Id, SObject>> mockRecords;
@@ -61,18 +61,35 @@ public inherited sharing class MockDatabase {
     }
 
     /** Utility methods (For Testing) */
+
+    /**
+     * @description Reset the DML handlers call state
+     */
     public void resetHandlers() {
         this.dmlHandler.resetHandlers();
     }
 
+    /**
+     * @description Returns whether any DML operation was called 
+     * @return  `Boolean`
+     */
     public Boolean didAnyDML() {
         return this.dmlHandler.wasCalled();
     }
 
+    /**
+     * @description Returns whether a specific DML operation was called
+     * @param dmlType 
+     * @return  `Boolean`
+     */
     public Boolean didDML(Types.DML dmlType) {
         return this.dmlHandler.wasCalled(dmlType);
     }
 
+    /**
+     * @description Count the number of records in the mock database 
+     * @return  `Integer`
+     */
     public Integer count() {
         Integer count = 0;
         for(String objApiName : this.mockRecords.keySet()) {
@@ -100,6 +117,16 @@ public inherited sharing class MockDatabase {
      */
     public SObject selectRecordById(Id recordId) {
         return this.utils.findRecord(recordId);
+    }
+
+    /**
+     * @description Set whether or not to enforce system-required fields on insert and update
+     * @param isEnforced 
+     * @return  `MockDatabase`
+     */
+    public MockDatabase setEnforceRequiredFields(Boolean isEnforced) {
+        this.enforceRequiredFields = isEnforced;
+        return this;
     }
 
     /** DML methods **/
@@ -494,16 +521,6 @@ public inherited sharing class MockDatabase {
         }
         this.topLevelNodes.remove(selectNode);
         return results;
-    }
-
-    /**
-     * @description Set whether or not to enforce system-required fields on insert and update
-     * @param isEnforced 
-     * @return  `MockDatabase`
-     */
-    public MockDatabase setEnforceRequiredFields(Boolean isEnforced) {
-        this.enforceRequiredFields = isEnforced;
-        return this;
     }
 
     /**
