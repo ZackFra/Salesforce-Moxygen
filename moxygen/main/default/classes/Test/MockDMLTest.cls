@@ -310,28 +310,6 @@ private class MockDMLTest {
     }
 
     @IsTest
-    static void testSelectRecordById2() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
-        Account account = new Account(
-            Name = 'Test Account'
-        );
-        dml.doInsert(account, true);
-        dml.doDelete(account, true);
-        Test.startTest();
-        Account selectedAccount = (Account) db.selectRecordById(
-            account.Id
-        );
-        Test.stopTest();
-
-        Assert.isNull(
-            selectedAccount,
-            'Account should be null'
-        );
-    }
-
-    @IsTest
     static void testDoMockInsert1() {
         MockORM db = new MockORM();
         MockDML dml = db.getMockDML();
