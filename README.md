@@ -281,13 +281,13 @@ Returns a MockDML object
 These need to be cast to MockDML and MockSelector get the full use out of them.
 For testing, the following methods are also defined,
 
-### MockDML getMockDML()
-
-Returns the MockDML object, without the need to type-cast it.
-
 ### MockSelector getMockSelector()
 
 Returns the MockSelector object, without the need to type-cast it.
+
+### MockDML getMockDML()
+
+Returns the MockDML object, without the need to type-cast it.
 
 #### public Boolean didAnyDML()
 
@@ -364,22 +364,9 @@ that was created for it when it was inserted
 
 #### public SObject selectRecordById(Id recordId)
 
-Retrieve a non-deleted record from the mock database, by Id.
+Retrieve a record from the mock database, by Id.
 
-#### public SObject selectDeletedRecordById(Id recordId)
-
-If a record is deleted, it is still tracked. This allows us to
-retrieve the deleted record.
-
-NOTE: The IsDeleted field will not be set on the record
-
-#### public Integer size()
-
-Returns the number of non-deleted records in the mock database.
-
-#### public Integer deletedSize()
-
-Returns the number of deleted records in the mock database.
+NOTE: This will grab deleted records.
 
 ### MockSelector
 
