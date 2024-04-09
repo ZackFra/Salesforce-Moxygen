@@ -40,8 +40,6 @@ public inherited sharing class MockDatabase {
         RECORD, AGGREGATE, COUNT
     }
 
-    Boolean enforceRequiredFields = false;
-
     /**
      * @description The MockDatabase constructor
      */
@@ -117,16 +115,6 @@ public inherited sharing class MockDatabase {
      */
     public SObject selectRecordById(Id recordId) {
         return this.utils.findRecord(recordId);
-    }
-
-    /**
-     * @description Set whether or not to enforce system-required fields on insert and update
-     * @param isEnforced 
-     * @return  `MockDatabase`
-     */
-    public MockDatabase setEnforceRequiredFields(Boolean isEnforced) {
-        this.enforceRequiredFields = isEnforced;
-        return this;
     }
 
     /** DML methods **/
