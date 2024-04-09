@@ -28,25 +28,25 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public with sharing class OrderByOptions {
+public inherited sharing class OrderByOptions {
     private Object obj;
     private TopLevelNodes topLevelNodes;
-    private MockDatabase.QueryType type;
+    private Types.SOQL type;
 
     /**
      * @description Getter for the type of query 
-     * @return  `MockDatabase.QueryType`
+     * @return  `Types.SOQL`
      */
-    public MockDatabase.QueryType getType() {
+    public Types.SOQL getType() {
         return type;
     }
 
     /**
      * @description Setter for the type of query 
-     * @param type `MockDatabase.QueryType`
+     * @param type `Types.SOQL`
      * @return  `OrderByOptions`
      */
-    public OrderByOptions setType(MockDatabase.QueryType type) {
+    public OrderByOptions setType(Types.SOQL type) {
         this.type = type;
         return this;
     }

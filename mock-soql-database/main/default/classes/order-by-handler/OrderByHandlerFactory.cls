@@ -35,10 +35,10 @@ public with sharing class OrderByHandlerFactory {
 
     /**
      * @description Setter for the type of query to be executed 
-     * @param type `MockDatabase.QueryType`
+     * @param type `Types.SOQL`
      * @return  `OrderByHandlerFactory`
      */
-    public OrderByHandlerFactory setType(MockDatabase.QueryType type) {
+    public OrderByHandlerFactory setType(Types.SOQL type) {
         options.setType(type);
         return this;
     }
@@ -76,7 +76,7 @@ public with sharing class OrderByHandlerFactory {
         };
         Common.nullCheck(args);
 
-        MockDatabase.QueryType type = options.getType();
+        Types.SOQL type = options.getType();
         switch on type {
             when RECORD {
                 return new RecordOrderByHandler(options);

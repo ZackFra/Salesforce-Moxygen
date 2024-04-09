@@ -36,9 +36,6 @@ public inherited sharing class MockDatabase {
 
     public Map<String, Map<Id, SObject>> mockRecords;
     public MockDatabaseUtils utils = new MockDatabaseUtils(this);
-    public enum QueryType {
-        RECORD, AGGREGATE, COUNT
-    }
 
     /**
      * @description The MockDatabase constructor
@@ -485,9 +482,9 @@ public inherited sharing class MockDatabase {
         // handle the ORDER BY and LIMIT logic here
         if(isAggregateQuery) {
             aggregateResults = (List<ProtoAggregate>) handleHavingNode(aggregateResults, selectNode, params);
-            aggregateResults = (List<ProtoAggregate>) handleOrderByNode(QueryType.AGGREGATE, aggregateResults, selectNode);
-            aggregateResults = (List<ProtoAggregate>) handleOffsetNode(QueryType.AGGREGATE, offsetNode, aggregateResults, params);
-            aggregateResults = (List<ProtoAggregate>) handleLimitNode(QueryType.AGGREGATE, limitNode, aggregateResults, params);
+            aggregateResults = (List<ProtoAggregate>) handleOrderByNode(Types.SOQL.AGGREGATE, aggregateResults, selectNode);
+            aggregateResults = (List<ProtoAggregate>) handleOffsetNode(Types.SOQL.AGGREGATE, offsetNode, aggregateResults, params);
+            aggregateResults = (List<ProtoAggregate>) handleLimitNode(Types.SOQL.AGGREGATE, limitNode, aggregateResults, params);
 
             // Remove internal fields from the aggregate result proto-records and return the list of aggregates
             List<Aggregate> aggregateResultsList = new AggregateBuilder()
@@ -498,13 +495,13 @@ public inherited sharing class MockDatabase {
             
             results = aggregateResultsList;
         } else if(isCount) {
-            count = (Integer) handleOffsetNode(QueryType.COUNT, offsetNode, count, params);
-            count = (Integer) handleLimitNode(QueryType.COUNT, limitNode, count, params);
+            count = (Integer) handleOffsetNode(Types.SOQL.COUNT, offsetNode, count, params);
+            count = (Integer) handleLimitNode(Types.SOQL.COUNT, limitNode, count, params);
             results = count;
         } else {
-            sObjects = (List<SObject>) handleOrderByNode(QueryType.RECORD, sObjects, selectNode);
-            sObjects = (List<SObject>) handleOffsetNode(QueryType.RECORD, offsetNode, sObjects, params);
-            sObjects = (List<SObject>) handleLimitNode(QueryType.RECORD, limitNode, sObjects, params);
+            sObjects = (List<SObject>) handleOrderByNode(Types.SOQL.RECORD, sObjects, selectNode);
+            sObjects = (List<SObject>) handleOffsetNode(Types.SOQL.RECORD, offsetNode, sObjects, params);
+            sObjects = (List<SObject>) handleLimitNode(Types.SOQL.RECORD, limitNode, sObjects, params);
             results = sObjects;
         }
         this.topLevelNodes.remove(selectNode);
@@ -597,7 +594,7 @@ public inherited sharing class MockDatabase {
     }
 
     @SuppressWarnings('PMD.ExcessiveParameterList')
-    private Object handleLimitNode(QueryType typeOfQuery, Node limitNode, Object results, Map<String, Object> params) {
+    private Object handleLimitNode(Types.SOQL typeOfQuery, Node limitNode, Object results, Map<String, Object> params) {
         if(limitNode == null) {
             return results;
         }
@@ -651,7 +648,7 @@ public inherited sharing class MockDatabase {
     }
 
     private Object handleOrderByNode(
-        QueryType typeOfQuery, 
+        Types.SOQL typeOfQuery, 
         Object results, 
         Node selectNode
     ) {
@@ -679,7 +676,7 @@ public inherited sharing class MockDatabase {
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
     private Object handleOffsetNode(
-        QueryType typeOfQuery, 
+        Types.SOQL typeOfQuery, 
         Node offsetNode, 
         Object results, 
         Map<String, Object> params

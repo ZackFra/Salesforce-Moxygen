@@ -28,26 +28,26 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public with sharing class LimitOptions {
+public inherited sharing class LimitOptions {
     public Integer limitSize;
-    public MockDatabase.QueryType type;
+    public Types.SOQL type;
     public Object obj;
 
     /**
      * @description Setter for the type of query 
-     * @param type `MockDatabase.QueryType`
+     * @param type `MockDatabase.Types.SOQL`
      * @return  `LimitOptions`
      */
-    public LimitOptions setType(MockDatabase.QueryType type) {
+    public LimitOptions setType(Types.SOQL type) {
         this.type = type;
         return this;
     }
 
     /**
      * @description Getter for the type of query
-     * @return  `MockDatabase.QueryType`
+     * @return  `MockDatabase.Types.SOQL`
      */
-    public MockDatabase.QueryType getType() {
+    public Types.SOQL getType() {
         return this.type;
     }
 

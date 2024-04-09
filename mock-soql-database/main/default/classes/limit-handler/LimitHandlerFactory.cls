@@ -37,10 +37,10 @@ public with sharing class LimitHandlerFactory {
 
     /**
      * @description Sets the type of the query 
-     * @param type `MockDatabase.QueryType`
+     * @param type `Types.SOQL`
      * @return  `LimitHandlerFactory`
      */
-    public LimitHandlerFactory setType(MockDatabase.QueryType type) {
+    public LimitHandlerFactory setType(Types.SOQL type) {
         options.setType(type);
         return this;
     }
