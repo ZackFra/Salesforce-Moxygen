@@ -1,3 +1,9 @@
+/**
+ * @description MockDatabaseDMLHandler is used to handle DML operations on the mock database 
+ * @author Zackary Frazier
+ * @since 4/8/2024
+ */
+@SuppressWarnings('PMD.CognitiveComplexity, PMD.ExcessivePublicCount')
 public inherited sharing class MockDatabaseDMLHandler {
     private Map<String, Map<Id, SObject>> mockObjects;
     Set<Id> deletedRecords = new Set<Id>();
@@ -8,6 +14,10 @@ public inherited sharing class MockDatabaseDMLHandler {
     MockUndeleteHandler undeleteHandler;
     Map<Types.DML, MockDMLHandler> handlerMap;
 
+    /**
+     * @description Constructor
+     * @param mockObjects `Map<String, Map<Id, SObject>>`
+     */
     public MockDatabaseDMLHandler(Map<String, Map<Id, SObject>> mockObjects) {
         this.mockObjects = mockObjects;
         resetHandlers();
@@ -301,11 +311,11 @@ public inherited sharing class MockDatabaseDMLHandler {
         this.upsertHandler = new MockUpsertHandler();
         this.undeleteHandler = new MockUndeleteHandler();
         this.handlerMap = new Map<Types.DML, MockDMLHandler> {
-            Types.DML.INSERTED => insertHandler,
-            Types.DML.UPDATED => updateHandler,
-            Types.DML.UPSERTED => upsertHandler,
-            Types.DML.DELETED => deleteHandler,
-            Types.DML.UNDELETED => undeleteHandler
+            Types.DML.INSERTED => this.insertHandler,
+            Types.DML.UPDATED => this.updateHandler,
+            Types.DML.UPSERTED => this.upsertHandler,
+            Types.DML.DELETED => this.deleteHandler,
+            Types.DML.UNDELETED => this.undeleteHandler
         };
     }
 
