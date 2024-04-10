@@ -50,4 +50,66 @@ public with sharing class ParserUtils {
     public static Boolean validCharForFieldOrObject(String character) {
         return character.isAlpha() || character == '_' || character.isNumeric();
     }
+
+    /**
+     * @description : Consumes the first token in the query if it matches the token
+     * @param query : String, the query to consume
+     * @param token : String, the token to consume
+     * @return : String, the query with the token consumed
+     * @throws ParsingException : if the token is not the first token in the query
+     */
+    public static String consume(String query, String token) {
+        if(query.length() < token.length() || query.subString(0, token.length()).toLowerCase() != token) {
+            throw new ParsingException(query, token);
+        }
+        return query.subString(token.length());
+    }
+
+    /** 
+     * @description : Look ahead at the next numChars characters in the query
+     * @param query : String, the query to look ahead in
+     * @param numChars : Integer, the number of characters to look ahead
+     * @return : String, the next numChars characters in the query
+     */
+    public static String lookahead(String query, Integer numChars) {
+        if(query.length() < numChars) { 
+            return query.toLowerCase();
+        }
+        return query.subString(0, numChars).toLowerCase();
+    }
+
+    /**
+     * @description Look ahead at the next numChars characters in the query, with case sensitivity
+     * @param query `String`
+     * @param numChars `Integer`
+     * @param isCaseSensitive `Boolean`
+     * @return  `String`
+     */
+    public static String lookahead(String query, Integer numChars, Boolean isCaseSensitive) {
+        if(!isCaseSensitive) {
+            return lookahead(query, numChars);
+        }
+
+        if(query.length() < numChars) { 
+            return query;
+        }
+        return query.subString(0, numChars);
+    }
+
+    /**
+     * @description Lowercases every node's id that isn't an alias 
+     * @param head `Node`
+     */
+    public static void applyCasing(Node head) {
+        if(head == null) {
+            return;
+        }
+
+        if(head.nodeType != 'alias') {
+            head.id = head.id.toLowerCase();
+        }
+
+        applyCasing(head.left);
+        applyCasing(head.right);
+    }    
 }

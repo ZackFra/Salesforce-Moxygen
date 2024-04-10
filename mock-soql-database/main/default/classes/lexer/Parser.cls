@@ -24,12 +24,12 @@
  */
 
 /**
- * @description The lexer breaks down a SOQL query into an AST, to be fed into the parser (MockDatabase)
+ * @description The parser breaks down a SOQL query into an AST, to be fed into the parser (MockDatabase)
  * @author Zackary Frazier
  * @since 4/6/2024
  */
 @SuppressWarnings('PMD.ExcessiveClassLength, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.NcssTypeCount')
-public with sharing class Lexer {
+public inherited sharing class Parser {
 
     /**
      * @description : Parses a trimmed SOQL query into an AST
@@ -40,102 +40,6 @@ public with sharing class Lexer {
         query = query.trim();
         Intermediary fullQuery = parseQuery(query);
         return fullQuery.head;
-    }
-
-    /**
-     * Helper classes for the lexer, meant to be used internally
-     */
-
-    /**
-     * Private methods for the lexer, meant to be used internally
-     */
-    
-    /**
-     * @description : Consumes the first token in the query if it matches the token
-     * @param query : String, the query to consume
-     * @param token : String, the token to consume
-     * @return : String, the query with the token consumed
-     * @throws ParsingException : if the token is not the first token in the query
-     */
-    private String consume(String query, String token) {
-        if(query.length() < token.length() || query.subString(0, token.length()).toLowerCase() != token) {
-            throw new ParsingException(query, token);
-        }
-        return query.subString(token.length());
-    }
-
-    /** 
-     * @description : Look ahead at the next numChars characters in the query
-     * @param query : String, the query to look ahead in
-     * @param numChars : Integer, the number of characters to look ahead
-     * @return : String, the next numChars characters in the query
-     */
-    private String lookahead(String query, Integer numChars) {
-        if(query.length() < numChars) { 
-            return query.toLowerCase();
-        }
-        return query.subString(0, numChars).toLowerCase();
-    }
-
-    private String lookahead(String query, Integer numChars, Boolean isCaseSensitive) {
-        if(!isCaseSensitive) {
-            return lookahead(query, numChars);
-        }
-
-        if(query.length() < numChars) { 
-            return query;
-        }
-        return query.subString(0, numChars);
-    }
-    
-    /**
-     * @description : Class to hold the head of a parsed query and the remaining subquery
-     */
-    private class Intermediary {
-        protected Node head;
-        protected String subquery;
-
-        /**
-         * @description : Constructor for an Intermediary
-         * @param head : Node, the head of the parsed query
-         * @param subquery : String, the remaining subquery
-         */
-        public Intermediary(Node head, String subquery) {
-            this.head = head;
-            this.subquery = subquery;
-        }
-    }
-    
-    /** 
-     * @description Custom error thrown when a query cannot be parsed
-     */
-    private class ParsingException extends Exception {
-
-        /**
-         * @description Constructor for a ParsingException
-         * @param message `String` the message to display
-         * @param expected : `String` the expected token
-         */
-        public ParsingException(String message, String expected) {
-            if(expected == null) {
-                this.setMessage('Unkown parsing exception, "' + message + '" could not be parsed.');
-            } else {
-                this.setMessage('Parsing exception, expected "' + expected + '", instead saw "' + message + '".');
-            }
-        }
-    }
-
-    private void applyCasing(Node head) {
-        if(head == null) {
-            return;
-        }
-
-        if(head.nodeType != 'alias') {
-            head.id = head.id.toLowerCase();
-        }
-
-        applyCasing(head.left);
-        applyCasing(head.right);
     }
     
     @SuppressWarnings('PMD.NcssMethodCount')
@@ -233,7 +137,7 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseUpdateTrackingOrViewStat(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() == 0) {
             return null;
         }
@@ -242,7 +146,7 @@ public with sharing class Lexer {
         }
         
         query = consume(query, 'update ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         if(lookahead(query, 8) != 'tracking' && lookahead(query, 4) != 'view') {
             return null;
@@ -260,7 +164,7 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseWithDataCategory(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(lookahead(query, 4) == 'with') {
             throw new QueryException('WITH [DATA CATEGORY] is not supported by the mock SOQL parser');
         }
@@ -268,7 +172,7 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseForViewOrReference(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() == 0) {
             return null;
         }
@@ -276,7 +180,7 @@ public with sharing class Lexer {
             return null;
         }
         query = consume(query, 'for ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         // could be FOR UPDATE, if its not view or reference, return null
         if(lookahead(query, 4) != 'view' && lookahead(query, 9) != 'reference') {
@@ -299,7 +203,7 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseOffset(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() == 0) {
             return null;
         }
@@ -308,7 +212,7 @@ public with sharing class Lexer {
         }
 
         query = consume(query, 'offset ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary offsetValue;
         if(lookahead(query, 1) == ':') {
             query = consume(query, ':');
@@ -349,7 +253,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseSelectExpr(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary selectExpr;
 
         if(isTypeOf(query)) {
@@ -362,7 +266,7 @@ public with sharing class Lexer {
             query = consume(query, '(');
             Intermediary soqlSubQuery = parseQuery(query);
             query = soqlSubQuery.subquery;
-            query = ParserUtils.skipWhitespace(query);
+            query = skipWhitespace(query);
             query = consume(query, ')');
             selectExpr = new Intermediary(
             	new NodeBuilder()
@@ -377,7 +281,7 @@ public with sharing class Lexer {
             query = selectExpr.subquery;
         }
         
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         String nextChar = lookahead(query, 1);
         if(nextChar == ',') {
             query = consume(query, ',');
@@ -400,7 +304,7 @@ public with sharing class Lexer {
     */
     @SuppressWarnings('PMD.NcssMethodCount')
     private Intermediary parseFieldListWithAliases(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary nextItem;
         if(isTypeOf(query)) {
             nextItem = parseTypeOf(query);
@@ -410,12 +314,12 @@ public with sharing class Lexer {
             query = nextItem.subquery;
         } else {
             nextItem = parseField(query);
-            query = ParserUtils.skipWhitespace(nextItem.subquery);
+            query = skipWhitespace(nextItem.subquery);
         }
         
         String nextChar = lookahead(query, 1);
-        String nextCharAfterThat = lookahead(ParserUtils.skipWhitespace(query.subString(1)), 1);
-        Boolean isAggrFuncNext = isAggregateFunction(ParserUtils.skipWhitespace(query.subString(1)));
+        String nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
+        Boolean isAggrFuncNext = isAggregateFunction(skipWhitespace(query.subString(1)));
         
         if(nextChar == ',' && nextCharAfterThat != '(' && !isAggrFuncNext) {
             query = query.subString(1);
@@ -425,7 +329,7 @@ public with sharing class Lexer {
         }
 
         Intermediary alias = null;
-        query = ParserUtils.skipWhitespace(nextItem.subquery);
+        query = skipWhitespace(nextItem.subquery);
         if(lookahead(query, 5) != 'from ' && lookahead(query, 1) != ',') {
             // NOTE: alias might still be null after parsing, that's ok
             alias = parseAlias(query);
@@ -437,10 +341,10 @@ public with sharing class Lexer {
             nextItem.subquery = query;
         }
 
-        query = ParserUtils.skipWhitespace(nextItem.subquery);
+        query = skipWhitespace(nextItem.subquery);
         nextChar = lookahead(query, 1);
-        nextCharAfterThat = lookahead(ParserUtils.skipWhitespace(query.subString(1)), 1);
-        isAggrFuncNext = isAggregateFunction(ParserUtils.skipWhitespace(query.subString(1)));
+        nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
+        isAggrFuncNext = isAggregateFunction(skipWhitespace(query.subString(1)));
         
         if(nextChar == ',' && nextCharAfterThat != '(' && !isAggrFuncNext) {
             query = query.subString(1);
@@ -454,7 +358,7 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseDirection(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         String dir = '';
         if(lookahead(query, 3) == 'asc') {
             dir = 'asc';
@@ -476,12 +380,12 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseNulls(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(lookahead(query, 5) != 'nulls') {
             return null;
         }
         query = consume(query, 'nulls');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         String dir;
         if(lookahead(query, 5) == 'first') {
             dir = 'nulls first';
@@ -503,7 +407,7 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseOrderByFieldList(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary nextItem;
 
         if(isAggregateFunction(query)) {
@@ -511,13 +415,13 @@ public with sharing class Lexer {
         } else {
             nextItem = parseField(query);
         }
-        query = ParserUtils.skipWhitespace(nextItem.subquery);
+        query = skipWhitespace(nextItem.subquery);
         
         Intermediary dir = parseDirection(query);
         if(dir != null) {
             nextItem.head.right = dir.head;
             nextItem.subquery = dir.subquery;
-            query = ParserUtils.skipWhitespace(dir.subquery);
+            query = skipWhitespace(dir.subquery);
         }
         
         Intermediary nullsDir = parseNulls(query);
@@ -530,14 +434,14 @@ public with sharing class Lexer {
             nextItem.subquery = nullsDir.subquery;
             query = nullsDir.subquery;
         }
-        query = ParserUtils.skipWhitespace(nextItem.subquery);
+        query = skipWhitespace(nextItem.subquery);
 
         if(query.length() == 0) {
             return nextItem;
         }
         
         String nextChar = lookahead(query, 1);
-        String nextCharAfterThat = lookahead(ParserUtils.skipWhitespace(query.subString(1)), 1);
+        String nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
         
         if(nextChar == ',' && nextCharAfterThat != '(') {
             query = query.subString(1);
@@ -557,9 +461,9 @@ public with sharing class Lexer {
             throw new ParsingException(query, 'Group By with ROLLUP or CUBE must contain 3 fields or less');
         }
 
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary nextItem = parseField(query);
-        query = ParserUtils.skipWhitespace(nextItem.subquery);
+        query = skipWhitespace(nextItem.subquery);
         
         if(query.length() == 0) {
             return nextItem;
@@ -577,21 +481,21 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseFieldList(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary nextItem;
         if(isAggregateFunction(query)) {
             nextItem = parseAggregateFunc(query);
             query = nextItem.subquery;
         } else {
             nextItem = parseField(query);
-            query = ParserUtils.skipWhitespace(nextItem.subquery);
+            query = skipWhitespace(nextItem.subquery);
             if(query.length() == 0) {
                 return nextItem;
             }
         }
         
         String nextChar = lookahead(query, 1);
-        String nextCharAfterThat = lookahead(ParserUtils.skipWhitespace(query.subString(1)), 1);
+        String nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
         
         if(nextChar == ',' && nextCharAfterThat != '(') {
             query = query.subString(1);
@@ -603,7 +507,7 @@ public with sharing class Lexer {
     }
 
     private Boolean isAggregateFunction(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Boolean isLongEnough = (query.length() >= 3);
         Boolean isSum = isLongEnough && lookahead(query, 3) == 'sum';
         Boolean isAvg = isLongEnough && lookahead(query, 3) == 'avg';
@@ -629,7 +533,7 @@ public with sharing class Lexer {
     }
 
     private Map<String, String> getFieldName(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         String fieldName = '';
         while(query.length() != 0 && 
               isNextTokenFieldOrObject(query) ||
@@ -656,7 +560,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseField(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Map<String, String> dataMap = getFieldName(query);
         String fieldName = dataMap.get('fieldName');
         query = dataMap.get('subquery');
@@ -670,7 +574,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseFrom(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         query = consume(query, 'from');
         query = consume(query, ' ');
         
@@ -688,7 +592,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseObj(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         String objectName = '';
         while(query.length() != 0 && (ParserUtils.validCharForFieldOrObject(query.subString(0, 1)))) {
             objectName += query.subString(0, 1);
@@ -704,7 +608,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseWhere(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() == 0) {
             return null;
         }
@@ -743,7 +647,7 @@ public with sharing class Lexer {
     private Intermediary parseNot(String query) {
         query = consume(query, 'not');
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         Intermediary subExpr = parseConditionalExpr(query);
         query = subExpr.subquery;
@@ -763,11 +667,11 @@ public with sharing class Lexer {
         }
         Intermediary fieldIntermediary = parseField(query);
         query = fieldIntermediary.subquery;
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         Intermediary operatorIntermediary = parseOperator(query);
         query = operatorIntermediary.subquery;
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         Boolean isIn = operatorIntermediary.head.id == 'in';
         Boolean isNotIn = operatorIntermediary.head.id == 'not in';
@@ -792,7 +696,7 @@ public with sharing class Lexer {
                 listOrQuery = parseValueList(query);
             }
             query = listOrQuery.subquery;
-            query = ParserUtils.skipWhitespace(query);
+            query = skipWhitespace(query);
 
             query = consume(query, ')');
 
@@ -826,7 +730,7 @@ public with sharing class Lexer {
     private Intermediary parseHavingNot(String query) {
         query = consume(query, 'not');
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         Intermediary subExpr = parseHavingConditionalExpr(query);
         query = subExpr.subquery;
@@ -851,11 +755,11 @@ public with sharing class Lexer {
             nextItem = parseField(query);
         }
         query = nextItem.subquery;
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         Intermediary operatorIntermediary = parseOperator(query);
         query = operatorIntermediary.subquery;
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Boolean isIn = operatorIntermediary.head.id == 'in';
         Boolean isNotIn = operatorIntermediary.head.id == 'not in';
         if((isIn || isNotIn) && lookahead(query, 1) == '(') {
@@ -867,7 +771,7 @@ public with sharing class Lexer {
                 listOrQuery = parseValueList(query);
             }
             query = listOrQuery.subquery;
-            query = ParserUtils.skipWhitespace(query);
+            query = skipWhitespace(query);
 
             query = consume(query, ')');
 
@@ -884,7 +788,7 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseHavingConditionalExpr(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         Intermediary leftIntermediary;
 
@@ -895,7 +799,7 @@ public with sharing class Lexer {
             leftIntermediary = parseHavingConditionalOperationExpr(query);
         }
         query = leftIntermediary.subquery;
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         // if the next token is an AND or OR, parse it
         String token = null;
@@ -943,7 +847,7 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseConditionalExpr(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         Intermediary leftIntermediary;
 
@@ -954,7 +858,7 @@ public with sharing class Lexer {
             leftIntermediary = parseConditionalOperationExpr(query);
         }
         query = leftIntermediary.subquery;
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         // if the next token is an AND or OR, parse it
         String token = null;
@@ -1002,11 +906,11 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseValueList(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         
         Intermediary value = parseValue(query);
         query = value.subquery;
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         
         if(lookahead(query, 1) == ',') {
             query = consume(query, ',');
@@ -1026,7 +930,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseOperator(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         NodeBuilder nb = new NodeBuilder()
             .setNodeType('operator');
         List<String> opTokens = new List<String> {
@@ -1057,7 +961,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseValue(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary baseValue;
         if(lookahead(query, 1) == '\'') {
             query = query.subString(1);
@@ -1093,7 +997,7 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseBindVariable(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         String bindVarName = '';
         while(query.length() > 0 && isNextTokenFieldOrObject(query)) {
             bindVarName += query.subString(0, 1);
@@ -1114,7 +1018,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseNum(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         String numericValue = '';
         
         while(query.length() != 0 && (query.subString(0, 1).isNumeric() || (query.subString(0, 1) == '.') )) {
@@ -1138,7 +1042,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseBoolean(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         Boolean isTrue = (lookahead(query, 4) == 'true');
         Boolean isFalse = (lookahead(query, 5) == 'false');
@@ -1164,7 +1068,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseString(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         String strValue = '';
         while(query.length() != 0 && lookahead(query, 1) != '\'') {
             strValue += lookahead(query, 1);
@@ -1180,7 +1084,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseGroupBy(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         
         if(query.length() == 0) {
             return null;
@@ -1191,10 +1095,10 @@ public with sharing class Lexer {
         
         query = consume(query, 'group');
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         query = consume(query, 'by');
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         Intermediary fieldList;
         String nodeId = 'group by';
@@ -1217,7 +1121,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseOrderBy(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() < 5) {
             return null;
         }
@@ -1227,7 +1131,7 @@ public with sharing class Lexer {
         
         query = consume(query, 'order');
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         
         if(lookahead(query, 2) != 'by') {
             throw new ParsingException(query, 'BY');
@@ -1235,7 +1139,7 @@ public with sharing class Lexer {
 
         query = consume(query, 'by');
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         Intermediary fieldList = parseOrderByFieldList(query);
         return new Intermediary(
@@ -1249,13 +1153,13 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseLimit(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() < 5 || lookahead(query, 5) != 'limit') { 
             return null;
         }
         
         query = consume(query, 'limit ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary limitSize;
         if(lookahead(query, 1) == ':') {
             query = consume(query, ':');
@@ -1282,13 +1186,13 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseElse(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() == 0 || !isElse(query)) {
             return null;
         }
         query = consume(query, 'else');
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary fieldList = parseFieldList(query);
         return new Intermediary(
         	new NodeBuilder()
@@ -1301,7 +1205,7 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseWhenList(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(!isWhen(query)) {
             return null;
         }
@@ -1310,7 +1214,7 @@ public with sharing class Lexer {
         while(isWhen(query)) {
             Intermediary whenExpr = parseWhen(query);
             query = whenExpr.subquery;
-            query = ParserUtils.skipWhitespace(query);
+            query = skipWhitespace(query);
             if(whenList == null) {
                 whenList = whenExpr;
             } else {
@@ -1337,22 +1241,22 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseWhen(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() < 4 || lookahead(query, 4) != 'when') {
             return null;
         }
 
         query = consume(query, 'when');
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary obj = parseObj(query);
         query = obj.subquery;
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         query = consume(query, 'then');
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary thenExpr = parseFieldList(query);
         query = thenExpr.subquery;
         return new Intermediary(
@@ -1367,23 +1271,23 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseTypeOf(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() < 6 || lookahead(query, 6) != 'typeof') {
             return null;
         }
 
         query = consume(query, 'typeof');
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Map<String, String> dataMap = getFieldName(query);
         String fieldName = dataMap.get('fieldName');
         query = dataMap.get('subquery');
         query = consume(query, ' ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
 
         Intermediary whenExpr = parseWhenList(query);
         query = whenExpr.subquery;
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         query = consume(query, 'end');
         query = consume(query, ' ');
 
@@ -1398,7 +1302,7 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseForUpdate(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() == 0 || query.length() < 3) { 
             return null;
         }
@@ -1407,7 +1311,7 @@ public with sharing class Lexer {
         }
         
         query = query.subString(3);
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         query = consume(query, 'update');
         
         return new Intermediary(
@@ -1420,13 +1324,13 @@ public with sharing class Lexer {
     }
     
     private Intermediary parseHaving(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() < 6 || lookahead(query, 6) != 'having') {
             return null;
         }
 
         query = consume(query, 'having ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary conditionalExpr = parseHavingConditionalExpr(query);
         query = conditionalExpr.subquery;
         
@@ -1443,7 +1347,7 @@ public with sharing class Lexer {
     // @description : Parses an alias, which is a string of characters that is not a number
     private Intermediary parseAlias(String query) {
 
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         // if the next character is not a letter, it's not an alias
         if(!lookahead(query, 1).isAlpha()) {
             return null;
@@ -1469,7 +1373,7 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseScopeName(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         String scopeName = '';
         while(ParserUtils.validCharForFieldOrObject(lookahead(query, 1))) {
             scopeName += lookahead(query, 1);
@@ -1490,16 +1394,16 @@ public with sharing class Lexer {
     }
 
     private Intermediary parseScope(String query) {
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(query.length() < 5 || lookahead(query, 5) != 'using') {
             return null;
         }
 
         query = consume(query, 'using ');
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         query = consume(query, 'scope ');
 
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary scope = parseScopeName(query);
         query = scope.subquery;
         return new Intermediary(
@@ -1537,7 +1441,7 @@ public with sharing class Lexer {
         } else {
             throw new ParsingException( query, 'aggregate function');
         }
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         
         query = consume(query, '(');
         if(nb.id == 'count' && lookahead(query, 1) == ')') {
@@ -1548,14 +1452,14 @@ public with sharing class Lexer {
             );
         }
 
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         Intermediary field = parseField(query);
         
         query = field.subquery;
         query = consume(query, ')');
 
         Intermediary alias = null;
-        query = ParserUtils.skipWhitespace(query);
+        query = skipWhitespace(query);
         if(lookahead(query, 5) != 'from ') {
             // NOTE: alias might still be null after parsing, that's ok
             alias = parseAlias(query);
@@ -1572,5 +1476,42 @@ public with sharing class Lexer {
 			nb.build(),
             query
         );
+    }
+
+    /**
+     * Private methods for the parser, meant to be used internally
+     */
+    
+    /**
+     * @description : Consumes the first token in the query if it matches the token
+     * @param query : String, the query to consume
+     * @param token : String, the token to consume
+     * @return : String, the query with the token consumed
+     * @throws ParsingException : if the token is not the first token in the query
+     */
+    private String consume(String query, String token) {
+        return ParserUtils.consume(query, token);
+    }
+
+    /** 
+     * @description : Look ahead at the next numChars characters in the query
+     * @param query : String, the query to look ahead in
+     * @param numChars : Integer, the number of characters to look ahead
+     * @return : String, the next numChars characters in the query
+     */
+    private String lookahead(String query, Integer numChars) {
+        return ParserUtils.lookahead(query, numChars);
+    }
+
+    private String lookahead(String query, Integer numChars, Boolean isCaseSensitive) {
+        return ParserUtils.lookahead(query, numChars, isCaseSensitive);
+    }
+
+    private void applyCasing(Node head) {
+        ParserUtils.applyCasing(head);
+    }
+
+    private String skipWhitespace(String query) {
+        return ParserUtils.skipWhitespace(query);
     }
 }

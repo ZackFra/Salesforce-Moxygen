@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Service class for manipulating and describing the nodes of the AST created by the lexer
+ * @description Service class for manipulating and describing the nodes of the AST created by the parser
  *              each method is a static method that takes in a TopLevelNodes
  * @author Zackary Frazier
  * @since 3/23/2024
