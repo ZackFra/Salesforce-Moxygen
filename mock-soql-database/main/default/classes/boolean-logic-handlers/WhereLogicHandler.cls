@@ -51,7 +51,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         SObject sObj = (SObject) this.obj;
         Map<String, Object> params = this.params;
         
-        Object fieldValue = this.db.utils.getFieldNodeValue(valueNode, sObj, params);
+        Object fieldValue = MockDatabase.utils.getFieldNodeValue(valueNode, sObj, params);
         
         String fieldName = fieldNode.id;
         Object sObjectFieldValue;
@@ -80,7 +80,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             do {
                 String field = fieldParts[0];
                 childRecord = parentRecord;
-                parentInfo = ComparableService.getParentObject(db, parentRecord, field);
+                parentInfo = ComparableService.getParentObject(parentRecord, field);
                 parentRecord = (sObject) parentInfo.get('parentRecord');
                 parentObjApiName = (String) parentInfo.get('parentObjApiName');
                 fieldParts.remove(0);
@@ -112,7 +112,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
                     sObjectFieldValue = null;
                 }
             } else {
-                parentRecord = this.db.get(parentObjApiName).get(parentRecord.Id);
+                parentRecord = MockDatabase.get(parentObjApiName).get(parentRecord.Id);
                 sObjectFieldValue = parentRecord.get(finalFieldApiName);
             }
         }

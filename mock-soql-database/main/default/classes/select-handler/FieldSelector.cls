@@ -35,8 +35,6 @@ public with sharing class FieldSelector {
     public Node fieldNode;
     public Map<String, Object> params;
 
-    public MockDatabase db;
-
     /**
      * @description Setter for the `databaseRecord` property
      * @param databaseRecord 
@@ -74,16 +72,6 @@ public with sharing class FieldSelector {
      */
     public FieldSelector setParams(Map<String, Object> params) {
         this.params = params;
-        return this;
-    }
-
-    /**
-     * @description Setter for the `db` property 
-     * @param db 
-     * @return  `FieldSelector`
-     */
-    public FieldSelector setDatabase(MockDatabase db) {
-        this.db = db;
         return this;
     }
 }

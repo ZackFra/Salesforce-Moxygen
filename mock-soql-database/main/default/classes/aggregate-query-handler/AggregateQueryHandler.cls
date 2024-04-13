@@ -29,7 +29,6 @@
  * @since 3/23/2024
  */
 public inherited sharing class AggregateQueryHandler {
-    MockDatabase db;
     TopLevelNodes topLevelNodes;
 
     AggregateProcessor standardProcessor;
@@ -40,9 +39,8 @@ public inherited sharing class AggregateQueryHandler {
      * @param topLevelNodes 
      * @exception AggregateQueryException
      */
-    public AggregateQueryHandler(MockDatabase db, TopLevelNodes topLevelNodes) {
+    public AggregateQueryHandler(TopLevelNodes topLevelNodes) {
         this.topLevelNodes = topLevelNodes;
-        this.db = db;
 
         Node groupByNode = topLevelNodes.groupByNode;
 
@@ -55,7 +53,6 @@ public inherited sharing class AggregateQueryHandler {
         }
 
         standardProcessor = new AggregateStandardProcessor()
-            .setDatabase(db)
             .setTopLevelNodes(topLevelNodes);
     }
 

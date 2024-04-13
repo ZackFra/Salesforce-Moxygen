@@ -5,7 +5,6 @@
  */
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.ExcessivePublicCount')
 public inherited sharing class MockDatabaseDMLHandler {
-    private Map<String, Map<Id, SObject>> mockObjects;
     Set<Id> deletedRecords = new Set<Id>();
     MockDeleteHandler deleteHandler;
     MockInsertHandler insertHandler;
@@ -16,10 +15,8 @@ public inherited sharing class MockDatabaseDMLHandler {
 
     /**
      * @description Constructor
-     * @param mockObjects `Map<String, Map<Id, SObject>>`
      */
-    public MockDatabaseDMLHandler(Map<String, Map<Id, SObject>> mockObjects) {
-        this.mockObjects = mockObjects;
+    public MockDatabaseDMLHandler() {
         resetHandlers();
     }
 
@@ -299,9 +296,7 @@ public inherited sharing class MockDatabaseDMLHandler {
      * @description resetHandlers is used to reset the DML handlers to their default state
      */
     public void resetHandlers() {
-        setHandlers();
-        setMockObjects(mockObjects);
-        setDeletedRecords(deletedRecords);        
+        setHandlers();      
     }
 
     private void setHandlers() {
@@ -317,24 +312,6 @@ public inherited sharing class MockDatabaseDMLHandler {
             Types.DML.DELETED => this.deleteHandler,
             Types.DML.UNDELETED => this.undeleteHandler
         };
-    }
-
-    private void setMockObjects(Map<String, Map<Id, SObject>> mockObjects) {
-        this.mockObjects = mockObjects;
-        this.deleteHandler.setMockObjects(mockObjects);
-        this.insertHandler.setMockObjects(mockObjects);
-        this.updateHandler.setMockObjects(mockObjects);
-        this.upsertHandler.setMockObjects(mockObjects);
-        this.undeleteHandler.setMockObjects(mockObjects);
-    }
-
-    private void setDeletedRecords(Set<Id> deletedRecords) {
-        this.deletedRecords = deletedRecords;
-        this.deleteHandler.setDeletedRecords(deletedRecords);
-        this.insertHandler.setDeletedRecords(deletedRecords);
-        this.updateHandler.setDeletedRecords(deletedRecords);
-        this.upsertHandler.setDeletedRecords(deletedRecords);
-        this.undeleteHandler.setDeletedRecords(deletedRecords);
     }
 
 }

@@ -46,11 +46,6 @@ public with sharing class BooleanLogicOptions {
     public Node head;
 
     /**
-     * @description The database to use for queries
-     */
-    public MockDatabase db;
-
-    /**
      * @description The select node to compare against
      */
     public Node selectNode;
@@ -62,16 +57,6 @@ public with sharing class BooleanLogicOptions {
      */
     public BooleanLogicOptions setParams(Map<String, Object> params) {
         this.params = params;
-        return this;
-    }
-
-    /**
-     * @description Setter for `db` 
-     * @param db 
-     * @return  `BooleanLogicOptions`
-     */
-    public BooleanLogicOptions setDatabase(MockDatabase db) {
-        this.db = db;
         return this;
     }
 

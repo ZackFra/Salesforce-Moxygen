@@ -156,10 +156,10 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
         recordToInsert.put('Id', fakeId);
         recordToInsert = setSystemFieldsOnInsert(recordToInsert);
 
-        Map<Id, SObject> mockRecords = this.mockObjects.get(objName);
+        Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(objName);
         if(mockRecords == null) {
             mockRecords = new Map<Id, SObject>();
-            this.mockObjects.put(objName, mockRecords);
+            MockDatabase.mockRecords.put(objName, mockRecords);
         }
         mockRecords.put(recordToInsert.Id, recordToInsert);
         return (Database.SaveResult) srService.createSuccess(
@@ -193,7 +193,7 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
         Common.nullCheck(args);
 
         String objName = SchemaService.getSObjectName(recordToUpdate);
-        Map<Id, sObject> mockRecords = this.mockObjects.get(objName);
+        Map<Id, sObject> mockRecords = MockDatabase.mockRecords.get(objName);
 
         if (mockRecords == null && allOrNone) {
             throw new DmlException('Record does not exist');

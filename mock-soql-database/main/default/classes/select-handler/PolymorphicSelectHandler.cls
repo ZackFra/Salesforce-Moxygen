@@ -50,7 +50,6 @@ public inherited sharing class PolymorphicSelectHandler implements ISelectHandle
         SObject databaseRecord = fSelector.databaseRecord;
         SObject queriedRecord = fSelector.queriedRecord;
         Node fieldNode = fSelector.fieldNode;
-        MockDatabase db = fSelector.db;
 
         if(fieldNode.nodeType != 'typeof') {
             throw new QueryException('Unexpected error');
@@ -73,7 +72,7 @@ public inherited sharing class PolymorphicSelectHandler implements ISelectHandle
         if(parentRecordId == null) {
             return queriedRecord;
         }
-        SObject parentRecord = db.selectRecordById(parentRecordId);
+        SObject parentRecord = MockDatabase.selectRecordById(parentRecordId);
         String parentObjApiName = SchemaService.getSObjectName(parentRecord).toLowerCase();
 
         Node curr = whenNode;

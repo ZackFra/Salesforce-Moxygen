@@ -53,7 +53,6 @@ public with sharing class ChildSubQuerySelectHandler implements ISelectHandler {
         SObject queriedRecord = fSelector.queriedRecord;
         Node fieldNode = fSelector.fieldNode;
         Map<String, Object> params = fSelector.params;
-        MockDatabase db = fSelector.db;
 
         String objApiName = SchemaService.getSObjectName(queriedRecord);
         Node subquerySelectNode = fieldNode.right;
@@ -133,7 +132,7 @@ public with sharing class ChildSubQuerySelectHandler implements ISelectHandler {
                 .build();
         }
 
-        List<SObject> subQueryRecords = (List<SObject>) db.doQuery(subqueryCloneSelectNode, params);
+        List<SObject> subQueryRecords = (List<SObject>) MockDatabase.doQuery(subqueryCloneSelectNode, params);
 
         // so we can't mock the subquery results directly, but we can serialize them and then deserialize them
         // here we serialize the subquery results, which can't be instaniated,

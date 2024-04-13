@@ -29,17 +29,7 @@
  *              : the database
  */
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity, PMD.CyclomaticComplexity')
-public with sharing class MockDatabaseUtils {
-
-    private MockDatabase db;
-
-    /**
-     * @description Constructor 
-     * @param db 
-     */
-    public MockDatabaseUtils(MockDatabase db) {
-        this.db = db;
-    }
+public inherited sharing class MockDatabaseUtils {
 
     /**
      * @description Given a record id, verify it exists in the database
@@ -48,7 +38,7 @@ public with sharing class MockDatabaseUtils {
      */
     public Boolean isRecordInDatabase(Id recordId) {
         String recordApiName = SchemaService.getSObjectName(recordId);
-        Map<Id, sObject> mockObjects = this.db.get(recordApiName);
+        Map<Id, sObject> mockObjects = MockDatabase.get(recordApiName);
         return mockObjects.containsKey(recordId);
     }
 
@@ -119,7 +109,7 @@ public with sharing class MockDatabaseUtils {
 
                 sObject parentRecord = ((sObject) Type.forName(parentObjApiName).newInstance()).getSObjectType().newSObject();
                 
-                Map<Id, sObject> mockRecordsChild = this.db.get(objApiName);
+                Map<Id, sObject> mockRecordsChild = MockDatabase.get(objApiName);
                 Id parentId = (Id) mockRecordsChild.get(sObj.Id).get(fieldApiName);
 
                 parentRecord.put('Id', parentId);
@@ -303,7 +293,7 @@ public with sharing class MockDatabaseUtils {
                 throw new QueryException('Subquery must select a field of the same type as the parent object');
             }
 
-            List<SObject> subQueryObjects = (List<SObject>) this.db.doQuery(subquerySelectNode, params);
+            List<SObject> subQueryObjects = (List<SObject>) MockDatabase.doQuery(subquerySelectNode, params);
             List<Id> subQueryIds = new List<Id>();
             for(sObject subQueryObj : subQueryObjects) {
                 subQueryIds.add((Id) subQueryObj.get(fieldApiName));

@@ -36,7 +36,7 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
         if(!deletedRecords.contains(recordId)) {
             return null;
         }
-        return this.mockObjects.get(sObjName).get(recordId);
+        return MockDatabase.mockRecords.get(sObjName).get(recordId);
     }
 
     /**
@@ -59,7 +59,7 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
 
         deletedRecords.remove(recordToUndelete.Id);
         String sObjName = SchemaService.getSObjectName(recordToUndelete);
-        Map<Id, SObject> mockRecords = this.mockObjects.get(sObjName);
+        Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(sObjName);
         SObject mockRecord = mockRecords.get(recordToUndelete.Id);
         SObject updatedRecord = Common.putReadOnlyField(mockRecord, 'IsDeleted', false);
         mockRecords.put(updatedRecord.Id, updatedRecord);

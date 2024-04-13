@@ -29,7 +29,6 @@
  * @since 3/9/2024
  */
 public abstract class MockDMLHandler {
-    protected Map<String, Map<Id, SObject>> mockObjects;
     protected Set<Id> deletedRecords;
     protected SaveResultService srService = new SaveResultService();
 
@@ -41,21 +40,5 @@ public abstract class MockDMLHandler {
      */
     public Boolean wasCalled() {
         return this.wasCalled;
-    }
-
-    /**
-     * @description Sets the mockObjects map to the provided map.
-     * @param mockObjects 
-     */
-    public void setMockObjects(Map<String, Map<Id, SObject>> mockObjects) {
-        this.mockObjects = mockObjects;
-    }
-
-    /**
-     * @description Sets the deletedRecords set to the provided set.
-     * @param deletedRecords The set of Ids to set the deletedRecords to.
-     */
-    public void setDeletedRecords(Set<Id> deletedRecords) {
-        this.deletedRecords = deletedRecords;
     }
 }

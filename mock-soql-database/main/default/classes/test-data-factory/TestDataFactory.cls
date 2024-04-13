@@ -190,7 +190,7 @@ public class TestDataFactory {
         }
     }
 
-    private static void createTrailheadUserLicenses(MockDatabase db) {
+    private static void createTrailheadUserLicenses() {
         List<UserLicense> userLicenses = new List<UserLicense>();
         for(UserLicenseData u : USER_LICENSE_DATA) {
             UserLicense userLicense = new UserLicense(
@@ -200,7 +200,7 @@ public class TestDataFactory {
             );
             userLicenses.add(userLicense);
         }
-        db.doInsert(userLicenses, true);
+        MockDatabase.doInsert(userLicenses, true);
     }
     private class ProfileData {
         public String name;
@@ -217,8 +217,8 @@ public class TestDataFactory {
         }
     }
 
-    private static void createTrailheadProfiles(MockDatabase db) {
-        List<UserLicense> userLicenses= (List<UserLicense>) db.query(
+    private static void createTrailheadProfiles() {
+        List<UserLicense> userLicenses= (List<UserLicense>) MockDatabase.query(
             'SELECT Name, Id ' + 
             'FROM UserLicense '
         );
@@ -238,10 +238,10 @@ public class TestDataFactory {
             );
             profiles.add(profile);
         }
-        db.doInsert(profiles, true);
+        MockDatabase.doInsert(profiles, true);
     }
 
-    private static void createTrailheadUserRoles(MockDatabase db) {
+    private static void createTrailheadUserRoles() {
         UserRole ceoRole = new UserRole(
                 Name = 'CEO', 
                 PortalType = 'None', 
@@ -249,7 +249,7 @@ public class TestDataFactory {
                 DeveloperName = 'CEO',
                 OpportunityAccessForAccountOwner = 'Read/Write'
         );
-        db.doInsert(ceoRole, true);
+        MockDatabase.doInsert(ceoRole, true);
 
         UserRole cfoRole = new UserRole(
             Name = 'CFO', 
@@ -298,17 +298,16 @@ public class TestDataFactory {
         List<UserRole> secondLevelRoles = new List<UserRole> {
             cfoRole, cooRole, svpCsutomerServiceRole, svpHumanResourcesRole, svpSalesMarketingRole
         };
-        db.doInsert(secondLevelRoles, true);
+        MockDatabase.doInsert(secondLevelRoles, true);
     }
 
     /**
      * @description Create trailhead users 
-     * @param db 
      */
-    public static void createTrailheadUsers(MockDatabase db) {
-        UserRole ceoRole = ((List<UserRole>) db.query('SELECT Name, Id FROM UserRole WHERE Name = \'CEO\''))[0];
-        UserRole svpSalesMarketingRole = ((List<UserRole>) db.query('SELECT Name, Id FROM UserRole WHERE Name = \'SVP, Sales & Marketing\''))[0];
-        Profile prof = ((List<Profile>) db.query('SELECT Name, Id FROM Profile WHERE Name = \'System Administrator\''))[0];
+    public static void createTrailheadUsers() {
+        UserRole ceoRole = ((List<UserRole>) MockDatabase.query('SELECT Name, Id FROM UserRole WHERE Name = \'CEO\''))[0];
+        UserRole svpSalesMarketingRole = ((List<UserRole>) MockDatabase.query('SELECT Name, Id FROM UserRole WHERE Name = \'SVP, Sales & Marketing\''))[0];
+        Profile prof = ((List<Profile>) MockDatabase.query('SELECT Name, Id FROM Profile WHERE Name = \'System Administrator\''))[0];
         User u = new User(
             FirstName = 'John', 
             LastName = 'Doe', 
@@ -350,17 +349,16 @@ public class TestDataFactory {
         List<User> userList = new List<User> {
             u, u2
         };
-        db.doInsert(userList, true);
+        MockDatabase.doInsert(userList, true);
     }
 
     /**
      * @description Create trailhead data
-     * @param db 
      */
-    public static void createUsers(MockDatabase db) {
-        createTrailheadUserLicenses(db);
-        createTrailheadProfiles(db);
-        createTrailheadUserRoles(db);
-        createTrailheadUsers(db);
+    public static void createUsers() {
+        createTrailheadUserLicenses();
+        createTrailheadProfiles();
+        createTrailheadUserRoles();
+        createTrailheadUsers();
     }
 }

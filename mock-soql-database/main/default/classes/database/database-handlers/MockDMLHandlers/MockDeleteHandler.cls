@@ -4,7 +4,7 @@
  * Copyright (c) 2024 Zackary Frazier
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * of this software and associated documentation files (ttabasehe "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
@@ -33,7 +33,7 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
 
     private SObject selectRecordById(Id recordId) {
         String sObjName = SchemaService.getSObjectName(recordId);
-        SObject mockRecord = this.mockObjects.get(sObjName).get(recordId);
+        SObject mockRecord = MockDatabase.mockRecords.get(sObjName).get(recordId);
         if(deletedRecords.contains(recordId)) {
             return null;
         }
@@ -52,7 +52,7 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
     public Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone) {
         wasCalled = true;
         String sObjName = SchemaService.getSObjectName(recordToDelete);
-        Map<Id, SObject> mockRecords = this.mockObjects.get(sObjName);
+        Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(sObjName);
         if(mockRecords == null && allOrNone) {
             throw new DmlException('Record does not exist');
         } else if(mockRecords == null) {
