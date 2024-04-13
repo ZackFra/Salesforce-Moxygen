@@ -63,7 +63,6 @@ public virtual with sharing class BooleanLogicHandler {
         this.obj = options.obj;
         this.params = options.params;
         this.head = options.head;
-        this.db = options.db;
         this.selectNode = options.selectNode;
     }
 

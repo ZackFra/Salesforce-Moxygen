@@ -61,12 +61,11 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
 
     @SuppressWarnings('PMD.NcssMethodCount, PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
     private sObject buildObjWithRelations(SObject sObj, List<String> fieldParts, String finalField) {
-        MockDatabase db = fSelector.db;
 
         fieldParts = new List<String>(fieldParts);
         String fieldPart = fieldParts[0];
 
-        Map<String, Object> parentInfo = ComparableService.getParentObject(db, db.selectRecordById(sObj.Id), fieldPart);
+        Map<String, Object> parentInfo = ComparableService.getParentObject(MockDatabase.selectRecordById(sObj.Id), fieldPart);
         sObject parentRecord = (sObject) parentInfo.get('parentRecord');
         String fieldApiName = (String) parentInfo.get('fieldApiName');
         String fieldRelationshipName = (String) parentInfo.get('fieldRelationshipName');
@@ -83,7 +82,7 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
             sObjClone.put(fieldApiName, nextParent.Id);
             sObjClone.put(fieldRelationshipName, nextParent);
         } else {
-            Map<Id, sObject> mockRecords = db.get(parentRecordApiName);
+            Map<Id, sObject> mockRecords = MockDatabase.get(parentRecordApiName);
             
             Schema.SObjectType parentRecordSObjType = SchemaService.getSObjectType(parentRecord);
             Boolean isRelationshipPolymorphic = (Boolean) parentInfo.get('isPolymorphic');

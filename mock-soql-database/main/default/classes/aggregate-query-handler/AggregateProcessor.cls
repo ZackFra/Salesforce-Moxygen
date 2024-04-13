@@ -29,7 +29,6 @@
  * @since 3/23/2024
  */
 public abstract class AggregateProcessor {
-    protected MockDatabase db;
     protected TopLevelNodes topLevelNodes;
 
     /**
@@ -43,16 +42,6 @@ public abstract class AggregateProcessor {
      * @return  `List<ProtoAggregate>`
      */
     public abstract List<ProtoAggregate> finish();
-
-    /**
-     * @description Set the database to use for processing 
-     * @param db 
-     * @return  `AggregateProcessor`
-     */
-    public AggregateProcessor setDatabase(MockDatabase db) {
-        this.db = db;
-        return this;
-    }
 
     /**
      * @description Set the top level nodes to use for processing

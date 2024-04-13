@@ -47,7 +47,7 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
         Common.nullCheck(args);
 
         String objName = SchemaService.getSObjectName(recordToUpdate);
-        Map<Id, sObject> mockRecords = this.mockObjects.get(objName);
+        Map<Id, sObject> mockRecords = MockDatabase.mockRecords.get(objName);
 
         if (mockRecords == null && allOrNone) {
             throw new DmlException('Record does not exist');

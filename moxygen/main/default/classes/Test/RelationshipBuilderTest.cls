@@ -2,16 +2,14 @@
 private class RelationshipBuilderTest {
     @IsTest
     static void testParent() {
-        MockORM db = new MockORM();
-        MockDML dml = (MockDML) db.getDML();
 
         Account acct = new Account(Name = 'Test Account');
 
-        dml.doMockInsert(acct);
-        Account insertedAcct = (Account) db.selectRecordById(acct.Id);
+        DML.doMockInsert(acct);
+        Account insertedAcct = (Account) Selector.selectRecordById(acct.Id);
         Opportunity opp = new Opportunity(Name = 'Test Opportunity', AccountId = insertedAcct.Id);
-        dml.doMockInsert(opp);
-        Opportunity insertedOpp = (Opportunity) db.selectRecordById(opp.Id);
+        DML.doMockInsert(opp);
+        Opportunity insertedOpp = (Opportunity) Selector.selectRecordById(opp.Id);
 
         Test.startTest();
         Opportunity oppWithAcct = (Opportunity) new RelationshipBuilder()
@@ -32,18 +30,16 @@ private class RelationshipBuilderTest {
 
     @IsTest
     static void testChild() {
-        MockORM db = new MockORM();
-        MockDML dml = (MockDML) db.getDML();
 
         Account acct = new Account(Name = 'Test Account');
 		
-        dml.doMockInsert(acct);
-        Account insertedAcct = (Account) db.selectRecordById(acct.Id);
+        DML.doMockInsert(acct);
+        Account insertedAcct = (Account) Selector.selectRecordById(acct.Id);
         
         Opportunity opp = new Opportunity(Name = 'Test Opportunity', AccountId = insertedAcct.Id);
         
-        dml.doMockInsert(opp);
-        Opportunity insertedOpp = (Opportunity) db.selectRecordById(opp.Id);
+        DML.doMockInsert(opp);
+        Opportunity insertedOpp = (Opportunity) Selector.selectRecordById(opp.Id);
 
         List<Opportunity> oppList = new List<Opportunity>{insertedOpp};
 

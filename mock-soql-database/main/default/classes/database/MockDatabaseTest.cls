@@ -36,15 +36,14 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test 2');
         Account c = new Account(Name = 'Test 3');
         Account d = new Account(Name = 'Test 4');
-        MockDatabase mockDb = new MockDatabase();
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        mockDb.doDelete(acctList, true);
+        MockDatabase.doDelete(acctList, true);
         Test.stopTest();
 
-        List<sObject> queriedAccts = (List<sObject>) mockDb.query('SELECT Id FROM Account');
+        List<sObject> queriedAccts = (List<sObject>) MockDatabase.query('SELECT Id FROM Account');
         Assert.areEqual(0, queriedAccts.size(), 'Incorrect number of accounts queried');
     }
 
@@ -54,18 +53,17 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test 2');
         Account c = new Account(Name = 'Test 3');
         Account d = new Account(Name = 'Test 4');
-        MockDatabase mockDb = new MockDatabase();
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         for(Account acct : acctList) {
             acct.Name = 'Updated';
         }
         Test.startTest();
-        mockDb.doUpdate(acctList, true);
+        MockDatabase.doUpdate(acctList, true);
         Test.stopTest();
 
-        List<sObject> queriedAccts = (List<sObject>) mockDb.query('SELECT Id, Name FROM Account');
+        List<sObject> queriedAccts = (List<sObject>) MockDatabase.query('SELECT Id, Name FROM Account');
         for(sObject acct : queriedAccts) {
             Assert.areEqual('Updated', acct.get('Name'), 'Account was not updated');
         }
@@ -74,25 +72,25 @@ private class MockDatabaseTest {
     @IsTest
     static void testInsert() {
         Account a = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
+        
         Test.startTest();
-        mockDb.doInsert(a, true);
+        MockDatabase.doInsert(a, true);
         Test.stopTest();
 
-        Assert.isNotNull(mockDb.selectRecordById(a.Id), 'Account was not inserted');
+        Assert.isNotNull(MockDatabase.selectRecordById(a.Id), 'Account was not inserted');
     }
 
     @IsTest
     static void testInsertList() {
         Account a = new Account(Name = 'Test');
         Account b = new Account(Name = 'Test2');
-        MockDatabase mockDb = new MockDatabase();
+        
         Test.startTest();
-        mockDb.doInsert(new List<SObject>{a, b}, true);
+        MockDatabase.doInsert(new List<SObject>{a, b}, true);
         Test.stopTest();
 
-        Account insertedAcctA = (Account) mockDb.selectRecordById(a.Id);
-        Account insertedAcctB = (Account) mockDb.selectRecordById(b.Id);
+        Account insertedAcctA = (Account) MockDatabase.selectRecordById(a.Id);
+        Account insertedAcctB = (Account) MockDatabase.selectRecordById(b.Id);
 
         Assert.isNotNull(insertedAcctA, 'Account A was not inserted');
         Assert.isNotNull(insertedAcctB, 'Account B was not inserted');
@@ -101,15 +99,15 @@ private class MockDatabaseTest {
     @IsTest
     static void testUpdate() {
         Account a = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
+        
+        MockDatabase.doInsert(a, true);
 
         Test.startTest();
         a.Name = 'Test2';
-        mockDb.doUpdate(a, true);
+        MockDatabase.doUpdate(a, true);
         Test.stopTest();
 
-        Account updatedAcct = (Account) mockDb.selectRecordById(a.Id);
+        Account updatedAcct = (Account) MockDatabase.selectRecordById(a.Id);
 
         Assert.areEqual('Test2', updatedAcct.Name, 'Account was not updated');
     }
@@ -120,11 +118,11 @@ private class MockDatabaseTest {
     @IsTest
     static void testQuerySingle() {
         Account a = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
+        
+        MockDatabase.doInsert(a, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account');
         Test.stopTest();
         Account queriedAcct = queriedAccts[0];
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -135,12 +133,12 @@ private class MockDatabaseTest {
     static void testQueryMultiple() {
         Account a = new Account(Name = 'Test');
         Account b = new Account(Name = 'Test2');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
-        mockDb.doInsert(b, true);
+        
+        MockDatabase.doInsert(a, true);
+        MockDatabase.doInsert(b, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account');
         Test.stopTest();
 
         Assert.isNotNull(queriedAccts, 'Accounts were not queried');
@@ -151,14 +149,14 @@ private class MockDatabaseTest {
     static void testInsertMultiple() {
         Account a = new Account(Name = 'Test');
         Account b = new Account(Name = 'Test2');
-        MockDatabase mockDb = new MockDatabase();
+        
 
         Test.startTest();
-        mockDb.doInsert(new List<SObject>{a, b}, true);
+        MockDatabase.doInsert(new List<SObject>{a, b}, true);
         Test.stopTest();
         
-        Account insertedAcctA = (Account) mockDb.selectRecordById(a.Id);
-        Account insertedAcctB = (Account) mockDb.selectRecordById(b.Id);
+        Account insertedAcctA = (Account) MockDatabase.selectRecordById(a.Id);
+        Account insertedAcctB = (Account) MockDatabase.selectRecordById(b.Id);
 
         Assert.isNotNull(insertedAcctA, 'Account A was not inserted');
         Assert.isNotNull(insertedAcctB, 'Account B was not inserted');
@@ -167,8 +165,8 @@ private class MockDatabaseTest {
     @IsTest
     static void testParentSubQuery() {
         Account a = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
+        
+        MockDatabase.doInsert(a, true);
 
         Contact con = new Contact(
             FirstName = 'Steve',
@@ -176,10 +174,10 @@ private class MockDatabaseTest {
             AccountId = a.Id
         );
 
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         Test.startTest();
-        List<Contact> queriedCons = (List<Contact>) mockDb.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact');
+        List<Contact> queriedCons = (List<Contact>) MockDatabase.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact');
         Test.stopTest();
 
         Contact queriedCon = queriedCons[0];
@@ -193,8 +191,8 @@ private class MockDatabaseTest {
     @IsTest
     static void testChildSubQuery(){
         Account acct = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         Contact con = new Contact(
             FirstName = 'Steve',
@@ -202,10 +200,10 @@ private class MockDatabaseTest {
             AccountId = acct.Id
         );
 
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, (SELECT Id, FirstName, LastName FROM Contacts) FROM Account');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, (SELECT Id, FirstName, LastName FROM Contacts) FROM Account');
         Test.stopTest();
 
         Account queriedAcct = queriedAccts[0];
@@ -223,8 +221,8 @@ private class MockDatabaseTest {
     @IsTest
     static void testChildSubQueryMultiple() {
         Account acct = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         List<Contact> conList = new List<Contact>();
         for(Integer i = 0; i < 5; i++) {
@@ -235,10 +233,10 @@ private class MockDatabaseTest {
             );
             conList.add(con);
         }
-        mockDb.doInsert(conList, true);
+        MockDatabase.doInsert(conList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, (SELECT Id, FirstName, LastName FROM Contacts) FROM Account');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, (SELECT Id, FirstName, LastName FROM Contacts) FROM Account');
         Test.stopTest();
 
         Account queriedAcct = queriedAccts[0];
@@ -265,8 +263,8 @@ private class MockDatabaseTest {
     @IsTest
     static void testMutipleChildSubQueries() {
         Account acct = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         List<sObject> childRecords = new List<sObject>();
         for(Integer i = 0; i < 5; i++) {
@@ -287,10 +285,10 @@ private class MockDatabaseTest {
             );
             childRecords.add(opp);
         }
-        mockDb.doInsert(childRecords, true);
+        MockDatabase.doInsert(childRecords, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, (SELECT Id, FirstName, LastName FROM Contacts), (SELECT Id, Name FROM Opportunities) FROM Account');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, (SELECT Id, FirstName, LastName FROM Contacts), (SELECT Id, Name FROM Opportunities) FROM Account');
         Test.stopTest();
 
         Account queriedAcct = queriedAccts[0];
@@ -330,8 +328,8 @@ private class MockDatabaseTest {
     @IsTest
     static void testDisallowDuplicateSubQueries() {
         Account acct = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         List<sObject> childRecords = new List<sObject>();
         for(Integer i = 0; i < 5; i++) {
@@ -352,12 +350,12 @@ private class MockDatabaseTest {
             );
             childRecords.add(opp);
         }
-        mockDb.doInsert(childRecords, true);
+        MockDatabase.doInsert(childRecords, true);
 
         String exMessage;
         Test.startTest();
         try {
-            mockDb.query('SELECT Id, Name, (SELECT Id, FirstName, LastName FROM Contacts), (SELECT Id, Name FROM Opportunities), (SELECT Id, Name FROM Opportunities WHERE Name = \'Test1\') FROM Account');
+            MockDatabase.query('SELECT Id, Name, (SELECT Id, FirstName, LastName FROM Contacts), (SELECT Id, Name FROM Opportunities), (SELECT Id, Name FROM Opportunities WHERE Name = \'Test1\') FROM Account');
         } catch(QueryException e) {
             exMessage = e.getMessage();
         }
@@ -369,11 +367,11 @@ private class MockDatabaseTest {
     @IsTest
     static void testQueryWithWhereClause() {
         Account a = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
+        
+        MockDatabase.doInsert(a, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE Name = \'Test\'');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE Name = \'Test\'');
         Test.stopTest();
 
         Account queriedAcct = queriedAccts[0];
@@ -385,12 +383,12 @@ private class MockDatabaseTest {
     static void testQueryWithWhereClauseMultiple() {
         Account a = new Account(Name = 'Test');
         Account b = new Account(Name = 'Test2');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
-        mockDb.doInsert(b, true);
+        
+        MockDatabase.doInsert(a, true);
+        MockDatabase.doInsert(b, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE Name = \'Test\'');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE Name = \'Test\'');
         Test.stopTest();
 
         Account queriedAcct = queriedAccts[0];
@@ -402,12 +400,12 @@ private class MockDatabaseTest {
     static void testQueryWithWhereClauseNone() {
         Account a = new Account(Name = 'Test');
         Account b = new Account(Name = 'Test2');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
-        mockDb.doInsert(b, true);
+        
+        MockDatabase.doInsert(a, true);
+        MockDatabase.doInsert(b, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE Name = \'Test3\'');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE Name = \'Test3\'');
         Test.stopTest();
 
         Assert.areEqual(0, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -417,12 +415,12 @@ private class MockDatabaseTest {
     static void testQueryWithWhereClauseMultipleFields() {
         Account a = new Account(Name = 'Test');
         Account b = new Account(Name = 'Test2');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
-        mockDb.doInsert(b, true);
+        
+        MockDatabase.doInsert(a, true);
+        MockDatabase.doInsert(b, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE Name = \'Test\' OR Name = \'Test2\'');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE Name = \'Test\' OR Name = \'Test2\'');
         Test.stopTest();
         Assert.areEqual(2, queriedAccts.size(), 'Incorrect number of accounts queried');
     }
@@ -431,12 +429,12 @@ private class MockDatabaseTest {
     static void testQueryWithWhereClauseMultipleFieldsNone() {
         Account a = new Account(Name = 'Test');
         Account b = new Account(Name = 'Test2');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
-        mockDb.doInsert(b, true);
+        
+        MockDatabase.doInsert(a, true);
+        MockDatabase.doInsert(b, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE Name = \'Test3\' OR Name = \'Test4\'');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE Name = \'Test3\' OR Name = \'Test4\'');
         Test.stopTest();
 
         Assert.areEqual(0, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -446,12 +444,12 @@ private class MockDatabaseTest {
     static void testQueryWithWhereClauseMultipleFieldsOne() {
         Account a = new Account(Name = 'Test');
         Account b = new Account(Name = 'Test2');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
-        mockDb.doInsert(b, true);
+        
+        MockDatabase.doInsert(a, true);
+        MockDatabase.doInsert(b, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE Name = \'Test\' OR Name = \'Test4\'');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE Name = \'Test\' OR Name = \'Test4\'');
         Test.stopTest();
 
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -460,8 +458,8 @@ private class MockDatabaseTest {
     @IsTest
     static void testQueryWithSubQueryInWhereClause() {
         Account acct = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         Contact con = new Contact(
             FirstName = 'Steve',
@@ -469,10 +467,10 @@ private class MockDatabaseTest {
             AccountId = acct.Id
         );
 
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         Test.startTest();
-        List<Contact> queriedCons = (List<Contact>) mockDb.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE AccountId IN (SELECT Id FROM Account WHERE Name = \'Test\')');
+        List<Contact> queriedCons = (List<Contact>) MockDatabase.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE AccountId IN (SELECT Id FROM Account WHERE Name = \'Test\')');
         Test.stopTest();
 
         Contact queriedCon = queriedCons[0];
@@ -486,12 +484,12 @@ private class MockDatabaseTest {
     @IsTest
     static void testDuplicateFieldsQueried() {
         Account acct = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
         String exMessage;
         Test.startTest();
         try {
-            mockDb.query('SELECT Id, Name, Name FROM Account');
+            MockDatabase.query('SELECT Id, Name, Name FROM Account');
         } catch(QueryException e) {
             exMessage = e.getMessage();
         }
@@ -502,8 +500,8 @@ private class MockDatabaseTest {
     @IsTest
     static void testQueryWithSubQueryInWhereClauseMultiple() {
         Account acct = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         List<Contact> conList = new List<Contact>();
         for(Integer i = 0; i < 5; i++) {
@@ -514,10 +512,10 @@ private class MockDatabaseTest {
             );
             conList.add(con);
         }
-        mockDb.doInsert(conList, true);
+        MockDatabase.doInsert(conList, true);
         
         Test.startTest();
-        List<Contact> queriedCons = (List<Contact>) mockDb.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE AccountId IN (SELECT Id FROM Account WHERE Name = \'Test\')');
+        List<Contact> queriedCons = (List<Contact>) MockDatabase.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE AccountId IN (SELECT Id FROM Account WHERE Name = \'Test\')');
         Test.stopTest();
 
         Contact queriedCon = queriedCons[0];
@@ -542,8 +540,8 @@ private class MockDatabaseTest {
     @IsTest
     static void testQueryWithSubQueryInWhereClauseMultipleNone() {
         Account acct = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         List<Contact> conList = new List<Contact>();
         for(Integer i = 0; i < 5; i++) {
@@ -554,10 +552,10 @@ private class MockDatabaseTest {
             );
             conList.add(con);
         }
-        mockDb.doInsert(conList, true);
+        MockDatabase.doInsert(conList, true);
 
         Test.startTest();
-        List<Contact> queriedCons = (List<Contact>) mockDb.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE AccountId IN (SELECT Id FROM Account WHERE Name = \'Test2\')');
+        List<Contact> queriedCons = (List<Contact>) MockDatabase.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE AccountId IN (SELECT Id FROM Account WHERE Name = \'Test2\')');
         Test.stopTest();
 
         Assert.areEqual(0, queriedCons.size(), 'Incorrect number of contacts queried');
@@ -567,12 +565,12 @@ private class MockDatabaseTest {
     static void testCount() {
         Account a = new Account(Name = 'Test');
         Account b = new Account(Name = 'Test2');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
-        mockDb.doInsert(b, true);
+        
+        MockDatabase.doInsert(a, true);
+        MockDatabase.doInsert(b, true);
 
         Test.startTest();
-        Integer count = (Integer) mockDb.query('SELECT COUNT() FROM Account');
+        Integer count = (Integer) MockDatabase.query('SELECT COUNT() FROM Account');
         Test.stopTest();
 
         Assert.areEqual(2, count, 'Incorrect number of accounts queried');
@@ -582,12 +580,11 @@ private class MockDatabaseTest {
     static void testCountWithWhereClause() {
         Account a = new Account(Name = 'Test');
         Account b = new Account(Name = 'Test2');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(a, true);
-        mockDb.doInsert(b, true);
+        MockDatabase.doInsert(a, true);
+        MockDatabase.doInsert(b, true);
 
         Test.startTest();
-        Integer count = (Integer) mockDb.query('SELECT COUNT() FROM Account WHERE Name = \'Test\'');
+        Integer count = (Integer) MockDatabase.query('SELECT COUNT() FROM Account WHERE Name = \'Test\'');
         Test.stopTest();
 
         Assert.areEqual(1, count, 'Incorrect number of accounts queried');
@@ -599,12 +596,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2');
         Account c = new Account(Name = 'Test3');
         Account d = new Account(Name = 'Not Test');
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE Name LIKE \'Test%\'');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE Name LIKE \'Test%\'');
         Test.stopTest();
         Assert.areEqual(3, queriedAccts.size(), 'Incorrect number of accounts queried');
     }
@@ -615,12 +612,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2');
         Account c = new Account(Name = 'Test3');
         Account d = new Account(Name = 'Not Test');
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDB.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE Name LIKE \'%Test%\' AND Name != \'Test\'');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE Name LIKE \'%Test%\' AND Name != \'Test\'');
         Test.stopTest();
 
         Assert.areEqual(3, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -632,12 +629,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2');
         Account c = new Account(Name = 'Test3');
         Account d = new Account(Name = 'Not Test');
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE Name LIKE \'%Test%\' OR Name != \'Test\'');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE Name LIKE \'%Test%\' OR Name != \'Test\'');
         Test.stopTest();
         Assert.areEqual(4, queriedAccts.size(), 'Incorrect number of accounts queried');
     }
@@ -648,16 +645,16 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2');
         Account c = new Account(Name = 'Test3');
         Account d = new Account(Name = 'Not Test');
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Map<String, Object> binds = new Map<String, Object> {
             'name' => 'Test'
         };
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.queryWithBinds('SELECT Id, Name FROM Account WHERE Name = :name', binds);
+        List<Account> queriedAccts = (List<Account>) MockDatabase.queryWithBinds('SELECT Id, Name FROM Account WHERE Name = :name', binds);
         Test.stopTest();
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
     }
@@ -668,9 +665,9 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2');
         Account c = new Account(Name = 'Test3');
         Account d = new Account(Name = 'Not Test');
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         List<String> names = new List<String>{'Test', 'Test2'};
 
@@ -679,7 +676,7 @@ private class MockDatabaseTest {
         };
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.queryWithBinds('SELECT Id, Name FROM Account WHERE Name IN :names', binds);
+        List<Account> queriedAccts = (List<Account>) MockDatabase.queryWithBinds('SELECT Id, Name FROM Account WHERE Name IN :names', binds);
         Test.stopTest();
 
         Assert.areEqual(2, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -691,12 +688,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2');
         Account c = new Account(Name = 'Test3');
         Account d = new Account(Name = 'Not Test');
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE Name IN (\'Test\', \'Test2\')');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE Name IN (\'Test\', \'Test2\')');
         Test.stopTest();
 
         Assert.areEqual(2, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -707,8 +704,8 @@ private class MockDatabaseTest {
         Account acct = new Account(Name = 'Test');
         Account acct2 = new Account(Name = 'Test2');
         List<Account> accts = new List<Account>{acct, acct2};
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(accts, true);
+        
+        MockDatabase.doInsert(accts, true);
 
         Contact con = new Contact(
             FirstName = 'Steve',
@@ -716,10 +713,10 @@ private class MockDatabaseTest {
             AccountId = acct.Id
         );
 
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         Test.startTest();
-        List<Contact> queriedCons = (List<Contact>) mockDb.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE Account.Name = \'Test\'');
+        List<Contact> queriedCons = (List<Contact>) MockDatabase.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact WHERE Account.Name = \'Test\'');
         Test.stopTest();
 
         Contact queriedCon = queriedCons[0];
@@ -737,12 +734,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees FROM Account WHERE NumberOfEmployees > 5 AND NumberOfEmployees < 20 AND NumberOfEmployees >= 10 AND NumberOfEmployees <= 15 AND NumberOfEmployees != 20 AND NumberOfEmployees IN (5, 10, 15)');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees FROM Account WHERE NumberOfEmployees > 5 AND NumberOfEmployees < 20 AND NumberOfEmployees >= 10 AND NumberOfEmployees <= 15 AND NumberOfEmployees != 20 AND NumberOfEmployees IN (5, 10, 15)');
         Test.stopTest();
 
         Assert.areEqual(2, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -755,12 +752,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
     
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees FROM Account WHERE NumberOfEmployees = 5');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees FROM Account WHERE NumberOfEmployees = 5');
         Test.stopTest();
 
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -773,12 +770,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees FROM Account WHERE NumberOfEmployees NOT IN (5, 10, 15)');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees FROM Account WHERE NumberOfEmployees NOT IN (5, 10, 15)');
         Test.stopTest();
 
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -790,19 +787,19 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Contact con = new Contact(
             FirstName = 'Steve',
             LastName = 'Banner',
             AccountId = a.Id
         );
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees FROM Account WHERE Id IN (SELECT AccountId FROM Contact WHERE Account.Name = \'Test\')');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees FROM Account WHERE Id IN (SELECT AccountId FROM Contact WHERE Account.Name = \'Test\')');
         Test.stopTest();
 
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -814,12 +811,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT SUM(NumberOfEmployees) FROM Account');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT SUM(NumberOfEmployees) FROM Account');
         Test.stopTest();
 
         Decimal sum = (Decimal) queriedAccts[0].get('expr0');
@@ -832,12 +829,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        Integer count = (Integer) mockDb.query('SELECT COUNT() FROM Account');
+        Integer count = (Integer) MockDatabase.query('SELECT COUNT() FROM Account');
         Test.stopTest();
 
         Assert.areEqual(4, count, 'Incorrect count');
@@ -849,12 +846,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT COUNT(Id) FROM Account GROUP BY Name');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT COUNT(Id) FROM Account GROUP BY Name');
         Test.stopTest();
 
         Assert.areEqual(4, queriedAccts.size(), 'Incorrect count');
@@ -866,12 +863,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT COUNT_DISTINCT(Name) FROM Account');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT COUNT_DISTINCT(Name) FROM Account');
         Test.stopTest();
 
         Integer count = (Integer) queriedAccts[0].get('expr0');
@@ -884,12 +881,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT MIN(NumberOfEmployees) FROM Account');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT MIN(NumberOfEmployees) FROM Account');
         Test.stopTest();
 
         Decimal min = (Decimal) queriedAccts[0].get('expr0');
@@ -902,12 +899,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT MAX(NumberOfEmployees) FROM Account');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT MAX(NumberOfEmployees) FROM Account');
         Test.stopTest();
 
         Decimal max = (Decimal) queriedAccts[0].get('expr0');
@@ -920,12 +917,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT SUM(NumberOfEmployees) sum FROM Account');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT SUM(NumberOfEmployees) sum FROM Account');
         Test.stopTest();
         Decimal sum = (Decimal) queriedAccts[0].get('sum');
         Assert.areEqual(50, sum, 'Incorrect sum');
@@ -937,12 +934,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT AVG(NumberOfEmployees) FROM Account');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT AVG(NumberOfEmployees) FROM Account');
         Test.stopTest();
 
         Decimal avg = (Decimal) queriedAccts[0].get('expr0');
@@ -955,12 +952,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 5);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT SUM(NumberOfEmployees) FROM Account GROUP BY Name');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT SUM(NumberOfEmployees) FROM Account GROUP BY Name');
         Test.stopTest();
 
         Assert.areEqual(3, queriedAccts.size(), 'Incorrect count');
@@ -972,13 +969,13 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 5);
         Account d = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
         String exMessage;
         Test.startTest();
         try {
-            mockDb.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY NumberOfEmployees');
+            MockDatabase.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY NumberOfEmployees');
         } catch(QueryException e) {
             exMessage = e.getMessage();
         }
@@ -1000,12 +997,12 @@ private class MockDatabaseTest {
         Account e = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account f = new Account(Name = 'Test3', NumberOfEmployees = 5);
         Account g = new Account(Name = 'Not Test', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Name, SUM(NumberOfEmployees), AVG(NumberOfEmployees) FROM Account GROUP BY Name');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Name, SUM(NumberOfEmployees), AVG(NumberOfEmployees) FROM Account GROUP BY Name');
         Test.stopTest();
 
         Assert.areEqual(4, queriedAccts.size(), 'Incorrect count');
@@ -1035,14 +1032,14 @@ private class MockDatabaseTest {
         Account c = new Account(Name = 'Test', NumberOfEmployees = 5);
         Account d = new Account(Name = 'Test', NumberOfEmployees = 5);
 
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         String exMessage;
         Test.startTest();
         try {
-            mockDb.query('SELECT Name, COUNT_DISTINCT(Name) FROM Account GROUP BY Name');
+            MockDatabase.query('SELECT Name, COUNT_DISTINCT(Name) FROM Account GROUP BY Name');
         } catch(QueryException e) {
             exMessage = e.getMessage();
         }
@@ -1056,9 +1053,9 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testEmptyQuery() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Test.startTest();
-        List<sObject> queriedAccts = (List<sObject>) mockDb.query('SELECT Id FROM Account');
+        List<sObject> queriedAccts = (List<sObject>) MockDatabase.query('SELECT Id FROM Account');
         Test.stopTest();
         Assert.areEqual(0, queriedAccts.size(), 'Incorrect number of accounts queried');
     }
@@ -1069,21 +1066,21 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test 2');
         Account c = new Account(Name = 'Test 3');
         Account d = new Account(Name = 'Test 4');
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Contact con = new Contact(
             FirstName = 'Steve',
             LastName = 'Banner',
             AccountId = a.Id
         );
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         String exMessage;
         Test.startTest();
         try {
-            mockDb.query('SELECT Account.Name, Name, COUNT(Id) FROM Contact GROUP BY Name, Account.Name');
+            MockDatabase.query('SELECT Account.Name, Name, COUNT(Id) FROM Contact GROUP BY Name, Account.Name');
         } catch(QueryException e) {
             exMessage = e.getMessage();
         }
@@ -1101,19 +1098,19 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test 2');
         Account c = new Account(Name = 'Test 3');
         Account d = new Account(Name = 'Test 4');
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Contact con = new Contact(
             FirstName = 'Steve',
             LastName = 'Banner',
             AccountId = a.Id
         );
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Account.Name acctName, Name, COUNT(Id) FROM Contact GROUP BY Name, Account.Name');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Account.Name acctName, Name, COUNT(Id) FROM Contact GROUP BY Name, Account.Name');
         Test.stopTest();
 
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1125,21 +1122,21 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test 2');
         Account c = new Account(Name = 'Test 3');
         Account d = new Account(Name = 'Test 4');
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Contact con = new Contact(
             FirstName = 'Steve',
             LastName = 'Banner',
             AccountId = a.Id
         );
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         String exMessage;
         Test.startTest();
         try {
-            mockDb.query('SELECT Account.Name acctName, Name acctName, COUNT(Id) FROM Contact GROUP BY Name, Account.Name');
+            MockDatabase.query('SELECT Account.Name acctName, Name acctName, COUNT(Id) FROM Contact GROUP BY Name, Account.Name');
         } catch(QueryException e) {
             exMessage = e.getMessage();
         }
@@ -1154,8 +1151,8 @@ private class MockDatabaseTest {
     @IsTest
     static void testChildSubQueryWithWhereClause() {
         Account acct = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         List<Contact> conList = new List<Contact>();
         for(Integer i = 0; i < 5; i++) {
@@ -1166,10 +1163,10 @@ private class MockDatabaseTest {
             );
             conList.add(con);
         }
-        mockDb.doInsert(conList, true);
+        MockDatabase.doInsert(conList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, (SELECT FirstName, LastName FROM Contacts WHERE FirstName LIKE \'%Steve%\') FROM Account');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, (SELECT FirstName, LastName FROM Contacts WHERE FirstName LIKE \'%Steve%\') FROM Account');
         Test.stopTest();
 
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1183,8 +1180,8 @@ private class MockDatabaseTest {
     @IsTest
     static void testChildSubQueryWithWhereClause2() {
         Account acct = new Account(Name = 'Test');
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         List<Contact> conList = new List<Contact>();
         for(Integer i = 0; i < 5; i++) {
@@ -1195,10 +1192,10 @@ private class MockDatabaseTest {
             );
             conList.add(con);
         }
-        mockDb.doInsert(conList, true);
+        MockDatabase.doInsert(conList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, (SELECT FirstName, LastName FROM Contacts WHERE LastName IN (\'Banner1\', \'Banner2\', \'Banner3\')) FROM Account');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, (SELECT FirstName, LastName FROM Contacts WHERE LastName IN (\'Banner1\', \'Banner2\', \'Banner3\')) FROM Account');
         Test.stopTest();
 
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1219,12 +1216,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2');
         Account c = new Account(Name = 'Test3');
         Account d = new Account(Name = 'Not Test');
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NOT Name = \'Test\'');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE NOT Name = \'Test\'');
         Test.stopTest();
 
         Assert.areEqual(3, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1236,12 +1233,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2');
         Account c = new Account(Name = 'Test3');
         Account d = new Account(Name = 'Not Test');
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE Name = \'Test\' OR (Name = \'Test2\' AND Name = \'Test3\')');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE Name = \'Test\' OR (Name = \'Test2\' AND Name = \'Test3\')');
         Test.stopTest();
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
     }
@@ -1252,12 +1249,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test1', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test2', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Test2', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name HAVING SUM(NumberOfEmployees) > 10');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name HAVING SUM(NumberOfEmployees) > 10');
         Test.stopTest();
         Assert.areEqual(2, queriedAccts.size(), 'Incorrect count');
     }
@@ -1268,12 +1265,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test1', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test2', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Test2', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name HAVING Name = \'Test1\' AND SUM(NumberOfEmployees) > 10 AND Name = \'Test2\'');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name HAVING Name = \'Test1\' AND SUM(NumberOfEmployees) > 10 AND Name = \'Test2\'');
         Test.stopTest();
 
         Assert.areEqual(0, queriedAccts.size(), 'Incorrect count');
@@ -1285,12 +1282,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test1', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test2', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Test2', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name HAVING Name = \'Test2\' OR Name = \'Test1\' AND SUM(NumberOfEmployees) > 10');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name HAVING Name = \'Test2\' OR Name = \'Test1\' AND SUM(NumberOfEmployees) > 10');
         Test.stopTest();
 
         Assert.areEqual(2, queriedAccts.size(), 'Incorrect count');       
@@ -1302,16 +1299,16 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test1', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test2', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Test2', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Map<String, Object> binds = new Map<String, Object> {
             'num' => 10
         };
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.queryWithBinds('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name HAVING SUM(NumberOfEmployees) > :num', binds);
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.queryWithBinds('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name HAVING SUM(NumberOfEmployees) > :num', binds);
         Test.stopTest();
         Assert.areEqual(2, queriedAccts.size(), 'Incorrect count');
     }
@@ -1322,12 +1319,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test1', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test2', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Test2', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name HAVING Name = \'Test1\' AND SUM(NumberOfEmployees) > 10 OR Name = \'Test2\' AND SUM(NumberOfEmployees) > 10');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name HAVING Name = \'Test1\' AND SUM(NumberOfEmployees) > 10 OR Name = \'Test2\' AND SUM(NumberOfEmployees) > 10');
         Test.stopTest();
 
         Assert.areEqual(2, queriedAccts.size(), 'Incorrect count');
@@ -1339,11 +1336,11 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Test4', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees FROM Account ORDER BY Name');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees FROM Account ORDER BY Name');
         Test.stopTest();
 
         Assert.areEqual(4, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1359,12 +1356,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Test4', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees FROM Account ORDER BY Name DESC');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees FROM Account ORDER BY Name DESC');
         Test.stopTest();
 
         Assert.areEqual(4, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1380,12 +1377,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test2', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test3', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Test4', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
         
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees FROM Account ORDER BY Name ASC');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees FROM Account ORDER BY Name ASC');
         Test.stopTest();
 
         Assert.areEqual(4, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1401,11 +1398,11 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test1', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test2', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Test2', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name ORDER BY Name');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name ORDER BY Name');
         Test.stopTest();
 
         Assert.areEqual('Test1', queriedAccts[0].get('Name'), 'Incorrect order');
@@ -1418,12 +1415,12 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test1', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test2', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Test2', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
         
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name ORDER BY Name DESC');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name ORDER BY Name DESC');
         Test.stopTest();
 
         Assert.areEqual('Test2', queriedAccts[0].get('Name'), 'Incorrect order');
@@ -1436,11 +1433,11 @@ private class MockDatabaseTest {
         Account b = new Account(Name = 'Test1', NumberOfEmployees = 10);
         Account c = new Account(Name = 'Test2', NumberOfEmployees = 15);
         Account d = new Account(Name = 'Test2', NumberOfEmployees = 20);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name ORDER BY Name ASC');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name ORDER BY Name ASC');
         Test.stopTest();
         Assert.areEqual('Test1', queriedAccts[0].get('Name'), 'Incorrect order');
         Assert.areEqual('Test2', queriedAccts[1].get('Name'), 'Incorrect order');
@@ -1461,11 +1458,11 @@ private class MockDatabaseTest {
         Account k = new Account(Name = 'Test4', NumberOfEmployees = 15);
         Account l = new Account(Name = 'Test4', NumberOfEmployees = 20);
         Account m = new Account(Name = 'Test4', NumberOfEmployees = 5);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees FROM Account ORDER BY Name, NumberOfEmployees');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees FROM Account ORDER BY Name, NumberOfEmployees');
         Test.stopTest();
         Assert.areEqual(13, queriedAccts.size(), 'Incorrect number of accounts queried');
         Assert.areEqual('Test1', queriedAccts[0].Name, 'Incorrect order');
@@ -1513,11 +1510,11 @@ private class MockDatabaseTest {
         Account k = new Account(Name = 'Test4', NumberOfEmployees = 10, AnnualRevenue = 2000);
         Account l = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 4000);
         Account m = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 3000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY Name, NumberOfEmployees, AnnualRevenue');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY Name, NumberOfEmployees, AnnualRevenue');
         Test.stopTest();
         Assert.areEqual(13, queriedAccts.size(), 'Incorrect number of accounts queried');
 
@@ -1589,9 +1586,9 @@ private class MockDatabaseTest {
         Account k = new Account(Name = 'Test4', NumberOfEmployees = 10, AnnualRevenue = 2000);
         Account l = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 4000);
         Account m = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 3000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Contact con0 = new Contact(
             FirstName = 'Steve',
@@ -1617,10 +1614,10 @@ private class MockDatabaseTest {
             AccountId = d.Id
         );
         List<Contact> conList = new List<Contact>{con0, con1, con2, con3};
-        mockDb.doInsert(conList, true);
+        MockDatabase.doInsert(conList, true);
 
         Test.startTest();
-        List<Contact> queriedContacts = (List<Contact>) mockDb.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact ORDER BY Account.Name');
+        List<Contact> queriedContacts = (List<Contact>) MockDatabase.query('SELECT Id, FirstName, LastName, Account.Name FROM Contact ORDER BY Account.Name');
         Test.stopTest();
 
         Assert.areEqual(4, queriedContacts.size(), 'Incorrect number of contacts queried');
@@ -1645,9 +1642,9 @@ private class MockDatabaseTest {
         Account k = new Account(Name = 'Test4', NumberOfEmployees = 10, AnnualRevenue = 2000);
         Account l = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 4000);
         Account m = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 3000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Contact con0 = new Contact(
             FirstName = 'Steve',
@@ -1673,10 +1670,10 @@ private class MockDatabaseTest {
             AccountId = j.Id
         );
         List<Contact> conList = new List<Contact>{con0, con1, con2, con3};
-        mockDb.doInsert(conList, true);
+        MockDatabase.doInsert(conList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Account.Name, COUNT(Id) FROM Contact GROUP BY Account.Name ORDER BY Account.Name');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Account.Name, COUNT(Id) FROM Contact GROUP BY Account.Name ORDER BY Account.Name');
         Test.stopTest();
 
         Assert.areEqual(4, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1702,9 +1699,9 @@ private class MockDatabaseTest {
         Account k = new Account(Name = 'Test4', NumberOfEmployees = 10, AnnualRevenue = 2000);
         Account l = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 4000);
         Account m = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 3000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Contact con0 = new Contact(
             FirstName = 'Steve',
@@ -1730,10 +1727,10 @@ private class MockDatabaseTest {
             AccountId = j.Id
         );
         List<Contact> conList = new List<Contact>{con0, con1, con2, con3};
-        mockDb.doInsert(conList, true);
+        MockDatabase.doInsert(conList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Account.Name, COUNT(Id) FROM Contact GROUP BY Account.Name ORDER BY Account.Name, COUNT(Id)');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Account.Name, COUNT(Id) FROM Contact GROUP BY Account.Name ORDER BY Account.Name, COUNT(Id)');
         Test.stopTest();
 
         Assert.areEqual(4, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1758,9 +1755,9 @@ private class MockDatabaseTest {
         Account k = new Account(Name = 'Test4', NumberOfEmployees = 10, AnnualRevenue = 2000);
         Account l = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 4000);
         Account m = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 3000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Contact con0 = new Contact(
             FirstName = 'Steve',
@@ -1792,10 +1789,10 @@ private class MockDatabaseTest {
             AccountId = k.Id
         );
         List<Contact> conList = new List<Contact>{con0, con1, con2, con3, con4};
-        mockDb.doInsert(conList, true);
+        MockDatabase.doInsert(conList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Account.Name, COUNT(Id) FROM Contact GROUP BY Account.Name ORDER BY Account.Name DESC, COUNT(Id) DESC');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Account.Name, COUNT(Id) FROM Contact GROUP BY Account.Name ORDER BY Account.Name DESC, COUNT(Id) DESC');
         Test.stopTest();
 
         Assert.areEqual(4, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1827,12 +1824,12 @@ private class MockDatabaseTest {
         Account m = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 3000);
         Account n = new Account(Name = 'Test5', NumberOfEmployees = 5, AnnualRevenue = null);
         Account o = new Account(Name = 'Test5', NumberOfEmployees = 5, AnnualRevenue = 1000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m, n, o};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue NULLS FIRST');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue NULLS FIRST');
         Test.stopTest();
 
         Assert.areEqual(15, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1870,12 +1867,12 @@ private class MockDatabaseTest {
         Account m = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 3000);
         Account n = new Account(Name = 'Test5', NumberOfEmployees = 5, AnnualRevenue = null);
         Account o = new Account(Name = 'Test5', NumberOfEmployees = 5, AnnualRevenue = 1000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m, n, o};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue NULLS LAST');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue NULLS LAST');
         Test.stopTest();
         
         Assert.areEqual(15, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1914,12 +1911,12 @@ private class MockDatabaseTest {
         Account m = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 3000);
         Account n = new Account(Name = 'Test5', NumberOfEmployees = 5, AnnualRevenue = null);
         Account o = new Account(Name = 'Test5', NumberOfEmployees = 5, AnnualRevenue = 1000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m, n, o};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue NULLS LAST, Name NULLS FIRST LIMIT 5');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue NULLS LAST, Name NULLS FIRST LIMIT 5');
         Test.stopTest();
 
         Assert.areEqual(5, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -1953,12 +1950,12 @@ private class MockDatabaseTest {
         Account m = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 3000);
         Account n = new Account(Name = 'Test5', NumberOfEmployees = 5, AnnualRevenue = null);
         Account o = new Account(Name = 'Test5', NumberOfEmployees = 5, AnnualRevenue = 1000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m, n, o};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        Integer acctCount = (Integer) mockDb.query('SELECT COUNT() FROM Account LIMIT 5');
+        Integer acctCount = (Integer) MockDatabase.query('SELECT COUNT() FROM Account LIMIT 5');
         Test.stopTest();
 
         Assert.areEqual(5, acctCount, 'Incorrect number of accounts queried');
@@ -1981,12 +1978,12 @@ private class MockDatabaseTest {
         Account m = new Account(Name = 'Test4', NumberOfEmployees = 5, AnnualRevenue = 3000);
         Account n = new Account(Name = 'Test5', NumberOfEmployees = 5, AnnualRevenue = null);
         Account o = new Account(Name = 'Test5', NumberOfEmployees = 5, AnnualRevenue = 1000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m, n, o};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Name, COUNT(Id) FROM Account GROUP BY Name ORDER BY Name LIMIT 3');
+        List<Aggregate> queriedAccts = (List<Aggregate>) MockDatabase.query('SELECT Name, COUNT(Id) FROM Account GROUP BY Name ORDER BY Name LIMIT 3');
         Test.stopTest();
         
         Assert.areEqual(3, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -2002,11 +1999,11 @@ private class MockDatabaseTest {
     @IsTest
     static void testOnlyQueriedFieldsReturned() {
         Account a = new Account(Name = 'Test1', NumberOfEmployees = 5, AnnualRevenue = 1000);
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(new List<Account>{a}, true);
+        
+        MockDatabase.doInsert(new List<Account>{a}, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Name FROM Account');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Name FROM Account');
         Test.stopTest();
 
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -2032,12 +2029,12 @@ private class MockDatabaseTest {
         Account m = new Account(Name = 'Test13', NumberOfEmployees = 5, AnnualRevenue = 13000);
         Account n = new Account(Name = 'Test14', NumberOfEmployees = 5, AnnualRevenue = 14000);
         Account o = new Account(Name = 'Test15', NumberOfEmployees = 5, AnnualRevenue = 15000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m, n, o};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue OFFSET 5');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue OFFSET 5');
         Test.stopTest();
 
         Assert.areEqual(10, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -2071,15 +2068,15 @@ private class MockDatabaseTest {
         Account m = new Account(Name = 'Test13', NumberOfEmployees = 5, AnnualRevenue = 13000);
         Account n = new Account(Name = 'Test14', NumberOfEmployees = 5, AnnualRevenue = 14000);
         Account o = new Account(Name = 'Test15', NumberOfEmployees = 5, AnnualRevenue = 15000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m, n, o};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Map<String, Object> binds = new Map<String, Object>{
             'offset' => 5
         };
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.queryWithBinds('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue OFFSET :offset', binds);
+        List<Account> queriedAccts = (List<Account>) MockDatabase.queryWithBinds('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue OFFSET :offset', binds);
         Test.stopTest();
 
         Assert.areEqual(10, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -2112,15 +2109,15 @@ private class MockDatabaseTest {
         Account m = new Account(Name = 'Test13', NumberOfEmployees = 5, AnnualRevenue = 13000);
         Account n = new Account(Name = 'Test14', NumberOfEmployees = 5, AnnualRevenue = 14000);
         Account o = new Account(Name = 'Test15', NumberOfEmployees = 5, AnnualRevenue = 15000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m, n, o};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Map<String, Object> binds = new Map<String, Object>{
             'limit' => 5
         };
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.queryWithBinds('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue LIMIT :limit', binds);
+        List<Account> queriedAccts = (List<Account>) MockDatabase.queryWithBinds('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue LIMIT :limit', binds);
         Test.stopTest();
 
         Assert.areEqual(5, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -2143,16 +2140,16 @@ private class MockDatabaseTest {
         Account m = new Account(Name = 'Test13', NumberOfEmployees = 5, AnnualRevenue = 13000);
         Account n = new Account(Name = 'Test14', NumberOfEmployees = 5, AnnualRevenue = 14000);
         Account o = new Account(Name = 'Test15', NumberOfEmployees = 5, AnnualRevenue = 15000);
-        MockDatabase mockDb = new MockDatabase();
+        
         List<Account> acctList = new List<Account>{a, b, c, d, e, f, g, h, i, j, k, l, m, n, o};
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Map<String, Object> binds = new Map<String, Object>{
             'limit' => 5,
             'offset' => 5
         };
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.queryWithBinds('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue LIMIT :limit OFFSET :offset', binds);
+        List<Account> queriedAccts = (List<Account>) MockDatabase.queryWithBinds('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account ORDER BY AnnualRevenue LIMIT :limit OFFSET :offset', binds);
         Test.stopTest();
 
         Assert.areEqual(5, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -2168,11 +2165,11 @@ private class MockDatabaseTest {
     static void testForUpdate() {
         Account acct = new Account(Name = 'Test1', NumberOfEmployees = 5, AnnualRevenue = 1000);
 
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         Test.startTest();
-        List<Account> queriedAccts = (List<Account>) mockDb.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account FOR UPDATE');
+        List<Account> queriedAccts = (List<Account>) MockDatabase.query('SELECT Id, Name, NumberOfEmployees, AnnualRevenue FROM Account FOR UPDATE');
         Test.stopTest();
 
         Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
@@ -2182,13 +2179,13 @@ private class MockDatabaseTest {
     static void testForUpdateFailOnGroupBy() {
         Account acct = new Account(Name = 'Test1', NumberOfEmployees = 5, AnnualRevenue = 1000);
 
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         String exMessage;
         Test.startTest();
         try {
-            mockDb.query('SELECT Name, COUNT(Id) FROM Account GROUP BY Name FOR UPDATE');
+            MockDatabase.query('SELECT Name, COUNT(Id) FROM Account GROUP BY Name FOR UPDATE');
         } catch(Exception e) {
             exMessage = e.getMessage();
         }
@@ -2205,13 +2202,13 @@ private class MockDatabaseTest {
     static void testForUpdateFailOnCount() {
         Account acct = new Account(Name = 'Test1', NumberOfEmployees = 5, AnnualRevenue = 1000);
 
-        MockDatabase mockDb = new MockDatabase();
-        mockDb.doInsert(acct, true);
+        
+        MockDatabase.doInsert(acct, true);
 
         String exMessage;
         Test.startTest();
         try {
-            mockDb.query('SELECT COUNT() FROM Account FOR UPDATE');
+            MockDatabase.query('SELECT COUNT() FROM Account FOR UPDATE');
         } catch(Exception e) {
             exMessage = e.getMessage();
         }
@@ -2226,7 +2223,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testIncludes() {
-        MockDatabase mockDb = new MockDatabase();
+        
 
         QuickText qt1 = new QuickText(
             Name = 'Test1',
@@ -2240,10 +2237,10 @@ private class MockDatabaseTest {
 
         List<QuickText> qtList = new List<QuickText>{qt1, qt2};
 
-        mockDb.doInsert(qtList, true);
+        MockDatabase.doInsert(qtList, true);
 
         Test.startTest();
-        List<QuickText> queriedQTs = (List<QuickText>) mockDb.query('SELECT Name, Channel FROM QuickText WHERE Channel INCLUDES (\'Email\')');
+        List<QuickText> queriedQTs = (List<QuickText>) MockDatabase.query('SELECT Name, Channel FROM QuickText WHERE Channel INCLUDES (\'Email\')');
         Test.stopTest();
 
         Assert.areEqual(1, queriedQTs.size(), 'Incorrect number of quick texts queried');
@@ -2251,7 +2248,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testExcludes() {
-        MockDatabase mockDb = new MockDatabase();
+        
 
         QuickText qt1 = new QuickText(
             Name = 'Test1',
@@ -2265,10 +2262,10 @@ private class MockDatabaseTest {
 
         List<QuickText> qtList = new List<QuickText>{qt1, qt2};
 
-        mockDb.doInsert(qtList, true);
+        MockDatabase.doInsert(qtList, true);
 
         Test.startTest();
-        List<QuickText> queriedQTs = (List<QuickText>) mockDb.query('SELECT Name, Channel FROM QuickText WHERE Channel EXCLUDES (\'Email\')');
+        List<QuickText> queriedQTs = (List<QuickText>) MockDatabase.query('SELECT Name, Channel FROM QuickText WHERE Channel EXCLUDES (\'Email\')');
         Test.stopTest();
 
         Assert.areEqual(1, queriedQTs.size(), 'Incorrect number of quick texts queried');
@@ -2276,19 +2273,19 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeOf() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct = new Account(
             Name = 'Test'
         );
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
         Task t = new Task(
             Subject = 'Test',
             WhatId = acct.Id
         );
-        mockDb.doInsert(t, true);
+        MockDatabase.doInsert(t, true);
 
         Test.startTest();
-        List<Task> queriedTaskList = (List<Task>) mockDb.query('SELECT TYPEOF What WHEN Account THEN Name ELSE Id END FROM Task');
+        List<Task> queriedTaskList = (List<Task>) MockDatabase.query('SELECT TYPEOF What WHEN Account THEN Name ELSE Id END FROM Task');
         Test.stopTest();
 
         Task queriedTask = queriedTaskList[0];
@@ -2298,19 +2295,19 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeOfWithOtherFields() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct = new Account(
             Name = 'Test'
         );
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
         Task t = new Task(
             Subject = 'Test',
             WhatId = acct.Id
         );
-        mockDb.doInsert(t, true);
+        MockDatabase.doInsert(t, true);
 
         Test.startTest();
-        List<Task> queriedTaskList = (List<Task>) mockDb.query('SELECT Id, Subject, TYPEOF What WHEN Account THEN Name ELSE Id END FROM Task');
+        List<Task> queriedTaskList = (List<Task>) MockDatabase.query('SELECT Id, Subject, TYPEOF What WHEN Account THEN Name ELSE Id END FROM Task');
         Test.stopTest();
 
         Task queriedTask = queriedTaskList[0];
@@ -2321,19 +2318,19 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeOfNoElse() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct = new Account(
             Name = 'Test'
         );
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
         Task t = new Task(
             Subject = 'Test',
             WhatId = acct.Id
         );
-        mockDb.doInsert(t, true);
+        MockDatabase.doInsert(t, true);
 
         Test.startTest();
-        List<Task> queriedTaskList = (List<Task>) mockDb.query('SELECT TYPEOF What WHEN Account THEN Name END FROM Task');
+        List<Task> queriedTaskList = (List<Task>) MockDatabase.query('SELECT TYPEOF What WHEN Account THEN Name END FROM Task');
         Test.stopTest();
 
         Task queriedTask = queriedTaskList[0];
@@ -2343,18 +2340,18 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeOfNoCaseMet() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct = new Account(
             Name = 'Test'
         );
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
         Task t = new Task(
             Subject = 'Test',
             WhatId = acct.Id
         );
-        mockDb.doInsert(t, true);
+        MockDatabase.doInsert(t, true);
         Test.startTest();
-        List<Task> queriedTaskList = (List<Task>) mockDb.query('SELECT TYPEOF What WHEN Opportunity THEN Name END FROM Task');
+        List<Task> queriedTaskList = (List<Task>) MockDatabase.query('SELECT TYPEOF What WHEN Opportunity THEN Name END FROM Task');
         Test.stopTest();
 
         Task queriedTask = queriedTaskList[0];
@@ -2364,19 +2361,19 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeOfWithMultipleCases() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct = new Account(
             Name = 'Test'
         );
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
         Task t = new Task(
             Subject = 'Test',
             WhatId = acct.Id
         );
-        mockDb.doInsert(t, true);
+        MockDatabase.doInsert(t, true);
 
         Test.startTest();
-        List<Task> queriedTaskList = (List<Task>) mockDb.query('SELECT TYPEOF What WHEN Opportunity THEN Name WHEN Account THEN Name ELSE Id END FROM Task');
+        List<Task> queriedTaskList = (List<Task>) MockDatabase.query('SELECT TYPEOF What WHEN Opportunity THEN Name WHEN Account THEN Name ELSE Id END FROM Task');
         Test.stopTest();
 
         Task queriedTask = queriedTaskList[0];
@@ -2386,7 +2383,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeOfWithOwner() {
-        MockDatabase mockDb = new MockDatabase();
+        
 
         User u = new User(
             FirstName = 'Test',
@@ -2395,14 +2392,14 @@ private class MockDatabaseTest {
             Email = 'realemail@email.com'
         );
 
-        mockDb.doInsert(u, true);
+        MockDatabase.doInsert(u, true);
         Case c = new Case(
             OwnerId = u.Id
         );
-        mockDb.doInsert(c, true);
+        MockDatabase.doInsert(c, true);
 
         Test.startTest();
-        List<Case> queriedCaseList = (List<Case>) mockDb.query('SELECT TYPEOF Owner WHEN User THEN FirstName ELSE Id END FROM Case');
+        List<Case> queriedCaseList = (List<Case>) MockDatabase.query('SELECT TYPEOF Owner WHEN User THEN FirstName ELSE Id END FROM Case');
         Test.stopTest();
 
         Case queriedCase = queriedCaseList[0];
@@ -2412,21 +2409,21 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeOfWithOwnerElse() {
-        MockDatabase mockDb = new MockDatabase();
+        
 
         Group caseQueue = new Group(
             Name = 'Case Queue',
             DeveloperName = 'Case_Queue'
         );
 
-        mockDb.doInsert(caseQueue, true);
+        MockDatabase.doInsert(caseQueue, true);
         Case c = new Case(
             OwnerId = caseQueue.Id
         );
-        mockDb.doInsert(c, true);
+        MockDatabase.doInsert(c, true);
 
         Test.startTest();
-        List<Case> queriedCaseList = (List<Case>) mockDb.query('SELECT TYPEOF Owner WHEN User THEN FirstName ELSE Name END FROM Case');
+        List<Case> queriedCaseList = (List<Case>) MockDatabase.query('SELECT TYPEOF Owner WHEN User THEN FirstName ELSE Name END FROM Case');
         Test.stopTest();
 
         Case queriedCase = queriedCaseList[0];
@@ -2436,23 +2433,23 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeOfWithGroupBy() {
-        MockDatabase mockDb = new MockDatabase();
+        
 
         Group caseQueue = new Group(
             Name = 'Case Queue',
             DeveloperName = 'Case_Queue'
         );
 
-        mockDb.doInsert(caseQueue, true);
+        MockDatabase.doInsert(caseQueue, true);
         Case c = new Case(
             OwnerId = caseQueue.Id
         );
-        mockDb.doInsert(c, true);
+        MockDatabase.doInsert(c, true);
 
         String exMessage;
         Test.startTest();
         try {
-            mockDb.query('SELECT OwnerId, TYPEOF Owner WHEN User THEN FirstName ELSE Name END FROM Case GROUP BY OwnerId');
+            MockDatabase.query('SELECT OwnerId, TYPEOF Owner WHEN User THEN FirstName ELSE Name END FROM Case GROUP BY OwnerId');
         } catch(Exception e) {
             exMessage = e.getMessage();
         }
@@ -2466,32 +2463,32 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeOfOuterJoin() {
-        MockDatabase mockDb = new MockDatabase();
+        
 
         User u = new User( 
             FirstName = 'Test',
             LastName = 'User',
             Username = 'test@test.com'
         );
-        mockDb.doInsert(u, true);
+        MockDatabase.doInsert(u, true);
 
         Account acct = new Account(
             OwnerId = u.Id,
             Name = 'Test'
         );
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
 
         Opportunity opp = new Opportunity(
             OwnerId = u.Id,
             Name = 'Test Opp',
             AccountId = acct.Id
         );
-        mockDb.doInsert(opp, true);
+        MockDatabase.doInsert(opp, true);
 
         String exMessage;
         Test.startTest();
         try {
-            mockDb.query('SELECT Name FROM Account WHERE Id IN (SELECT TYPEOF Owner WHEN User THEN Id ELSE Id END FROM Opportunity)');
+            MockDatabase.query('SELECT Name FROM Account WHERE Id IN (SELECT TYPEOF Owner WHEN User THEN Id ELSE Id END FROM Opportunity)');
         } catch(Exception e) {
             exMessage = e.getMessage();
         }
@@ -2505,21 +2502,21 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testNormalPolymorphic() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Opportunity opp = new Opportunity(
             Name = 'Test'
         );
 
-        mockDb.doInsert(opp, true);
+        MockDatabase.doInsert(opp, true);
 
         Task t = new Task(
             Subject = 'Test',
             WhatId = opp.Id
         );
-        mockDb.doInsert(t, true);
+        MockDatabase.doInsert(t, true);
 
         Test.startTest();
-        List<Task> queriedTaskList = (List<Task>) mockDb.query('SELECT Id, Subject, WhatId, What.Name FROM Task');
+        List<Task> queriedTaskList = (List<Task>) MockDatabase.query('SELECT Id, Subject, WhatId, What.Name FROM Task');
         Test.stopTest();
 
         Task queriedTask = queriedTaskList[0];
@@ -2528,21 +2525,21 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testWhatType() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Opportunity opp = new Opportunity(
             Name = 'Test'
         );
 
-        mockDb.doInsert(opp, true);
+        MockDatabase.doInsert(opp, true);
 
         Task t = new Task(
             Subject = 'Test',
             WhatId = opp.Id
         );
-        mockDb.doInsert(t, true);
+        MockDatabase.doInsert(t, true);
 
         Test.startTest();
-        List<Task> queriedTaskList = (List<Task>) mockDb.query('SELECT Id, Subject, WhatId, What.Type FROM Task');
+        List<Task> queriedTaskList = (List<Task>) MockDatabase.query('SELECT Id, Subject, WhatId, What.Type FROM Task');
         Test.stopTest();
 
         Task queriedTask = queriedTaskList[0];
@@ -2551,14 +2548,14 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testOwnerType() {
-        MockDatabase mockDb = new MockDatabase();
+        
         User u = new User(
             FirstName = 'Test',
             LastName = 'User',
             Username = 'fakeemail@email.com'
         );
 
-        mockDb.doInsert(u, true);
+        MockDatabase.doInsert(u, true);
 
         case c = new Case(
             OwnerId = u.Id,
@@ -2566,10 +2563,10 @@ private class MockDatabaseTest {
             Status = 'New'
         );
 
-        mockDb.doInsert(c, true);
+        MockDatabase.doInsert(c, true);
 
         Test.startTest();
-        List<Case> queriedCaseList = (List<Case>) mockDb.query('SELECT Id, Subject, OwnerId, Owner.Type FROM Case');
+        List<Case> queriedCaseList = (List<Case>) MockDatabase.query('SELECT Id, Subject, OwnerId, Owner.Type FROM Case');
         Test.stopTest();
 
         Case queriedCase = queriedCaseList[0];
@@ -2578,14 +2575,14 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testOwnerTypeAndName() {
-        MockDatabase mockDb = new MockDatabase();
+        
         User u = new User(
             FirstName = 'Test',
             LastName = 'User',
             Username = 'fakeemail@email.com'
         );
 
-        mockDb.doInsert(u, true);
+        MockDatabase.doInsert(u, true);
 
         case c = new Case(
             OwnerId = u.Id,
@@ -2593,10 +2590,10 @@ private class MockDatabaseTest {
             Status = 'New'
         );
 
-        mockDb.doInsert(c, true);
+        MockDatabase.doInsert(c, true);
 
         Test.startTest();
-        List<Case> queriedCaseList = (List<Case>) mockDb.query('SELECT Id, Subject, OwnerId, Owner.FirstName, Owner.Type FROM Case');
+        List<Case> queriedCaseList = (List<Case>) MockDatabase.query('SELECT Id, Subject, OwnerId, Owner.FirstName, Owner.Type FROM Case');
         Test.stopTest();
 
         Case queriedCase = queriedCaseList[0];
@@ -2606,7 +2603,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testFirstNameQueueAndUser() {
-        MockDatabase mockDb = new MockDatabase();
+        
         User u = new User(
             FirstName = 'Test',
             LastName = 'User',
@@ -2620,7 +2617,7 @@ private class MockDatabaseTest {
 
         List<SObject> owners = new List<SObject>{u, caseQueue};
 
-        mockDb.doInsert(owners, true);
+        MockDatabase.doInsert(owners, true);
 
         case c1 = new Case(
             OwnerId = caseQueue.Id,
@@ -2636,10 +2633,10 @@ private class MockDatabaseTest {
 
         List<Case> caseList = new List<Case>{c1, c2};
 
-        mockDb.doInsert(caseList, true);
+        MockDatabase.doInsert(caseList, true);
 
         Test.startTest();
-        List<Case> queriedCaseList = (List<Case>) mockDb.query('SELECT Id, Subject, OwnerId, Owner.FirstName, Owner.Type FROM Case');
+        List<Case> queriedCaseList = (List<Case>) MockDatabase.query('SELECT Id, Subject, OwnerId, Owner.FirstName, Owner.Type FROM Case');
         Test.stopTest();
 
         for(case c: queriedCaseList) {
@@ -2653,7 +2650,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testOwnerTypeAndNameWithWhere() {
-        MockDatabase mockDb = new MockDatabase();
+        
         User u = new User(
             FirstName = 'Test',
             LastName = 'User',
@@ -2666,7 +2663,7 @@ private class MockDatabaseTest {
         );
 
         List<SObject> owners = new List<SObject>{u, caseQueue};
-        mockDb.doInsert(owners, true);
+        MockDatabase.doInsert(owners, true);
 
         case c1 = new Case(
             OwnerId = u.Id,
@@ -2682,10 +2679,10 @@ private class MockDatabaseTest {
 
         List<Case> caseList = new List<Case>{c1, c2};
 
-        mockDb.doInsert(caseList, true);
+        MockDatabase.doInsert(caseList, true);
 
         Test.startTest();
-        List<Case> queriedCaseList = (List<Case>) mockDb.query('SELECT Id, Subject, OwnerId, Owner.FirstName, Owner.Type FROM Case WHERE Owner.Type = \'User\'');
+        List<Case> queriedCaseList = (List<Case>) MockDatabase.query('SELECT Id, Subject, OwnerId, Owner.FirstName, Owner.Type FROM Case WHERE Owner.Type = \'User\'');
         Test.stopTest();
 
         Case queriedCase = queriedCaseList[0];
@@ -2695,7 +2692,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeWithGroupBy() {
-        MockDatabase mockDb = new MockDatabase();
+        
         User u = new User(
             FirstName = 'Test',
             LastName = 'User',
@@ -2708,7 +2705,7 @@ private class MockDatabaseTest {
         );
 
         List<SObject> owners = new List<SObject>{u, caseQueue};
-        mockDb.doInsert(owners, true);
+        MockDatabase.doInsert(owners, true);
 
         case c1 = new Case(
             OwnerId = u.Id,
@@ -2724,10 +2721,10 @@ private class MockDatabaseTest {
 
         List<Case> caseList = new List<Case>{c1, c2};
 
-        mockDb.doInsert(caseList, true);
+        MockDatabase.doInsert(caseList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAggregates = (List<Aggregate>) mockDb.query('SELECT Owner.Type, Subject FROM Case GROUP BY Owner.Type, Subject');
+        List<Aggregate> queriedAggregates = (List<Aggregate>) MockDatabase.query('SELECT Owner.Type, Subject FROM Case GROUP BY Owner.Type, Subject');
         Test.stopTest();
 
         Assert.areEqual(2, queriedAggregates.size(), 'Incorrect number of aggregates');
@@ -2742,22 +2739,22 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeWithSubqery() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct = new Account(
             Name = 'Test'
         );
 
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
 
         Task t = new Task(
             Subject = 'Test',
             WhatId = acct.Id
         );
 
-        mockDb.doInsert(t, true);
+        MockDatabase.doInsert(t, true);
 
         Test.startTest();
-        List<Account> queriedAcctList = (List<Account>) mockDb.query('SELECT (SELECT What.Type FROM Tasks) FROM Account');
+        List<Account> queriedAcctList = (List<Account>) MockDatabase.query('SELECT (SELECT What.Type FROM Tasks) FROM Account');
         Test.stopTest();
 
         Account queriedAcct = queriedAcctList[0];
@@ -2767,18 +2764,18 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeInHavingClause() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct = new Account(
             Name = 'Test'
         );
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
 
         Contact con = new Contact(
             LastName = 'Test',
             AccountId = acct.Id
         );
 
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         Task t = new Task(
             Subject = 'Test',
@@ -2792,10 +2789,10 @@ private class MockDatabaseTest {
 
         List<Task> taskList = new List<Task>{t, t2};
 
-        mockDb.doInsert(taskList, true);
+        MockDatabase.doInsert(taskList, true);
 
         Test.startTest();
-        List<Aggregate> queriedAggregates = (List<Aggregate>) mockDb.query('SELECT What.Type, COUNT(Id) FROM Task GROUP BY What.Type HAVING What.Type = \'Account\'');
+        List<Aggregate> queriedAggregates = (List<Aggregate>) MockDatabase.query('SELECT What.Type, COUNT(Id) FROM Task GROUP BY What.Type HAVING What.Type = \'Account\'');
         Test.stopTest();
 
         Assert.areEqual(1, queriedAggregates.size(), 'Incorrect number of aggregates');
@@ -2804,18 +2801,18 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeInOrderBy() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct = new Account(
             Name = 'Test'
         );
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
 
         Contact con = new Contact(
             LastName = 'Test',
             AccountId = acct.Id
         );
 
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         Task t = new Task(
             Subject = 'Test',
@@ -2829,10 +2826,10 @@ private class MockDatabaseTest {
 
         List<Task> taskList = new List<Task>{t, t2};
 
-        mockDb.doInsert(taskList, true);
+        MockDatabase.doInsert(taskList, true);
 
         Test.startTest();
-        List<Task> queriedTasks = (List<Task>) mockDb.query('SELECT Id, What.Type FROM Task ORDER BY What.Type');
+        List<Task> queriedTasks = (List<Task>) MockDatabase.query('SELECT Id, What.Type FROM Task ORDER BY What.Type');
         Test.stopTest();
 
         Assert.areEqual('Account', queriedTasks[0].What.Type, 'Incorrect Type');
@@ -2841,18 +2838,18 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testTypeInOrderByDesc() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct = new Account(
             Name = 'Test'
         );
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
 
         Contact con = new Contact(
             LastName = 'Test',
             AccountId = acct.Id
         );
 
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         Task t = new Task(
             Subject = 'Test',
@@ -2866,10 +2863,10 @@ private class MockDatabaseTest {
 
         List<Task> taskList = new List<Task>{t, t2};
 
-        mockDb.doInsert(taskList, true);
+        MockDatabase.doInsert(taskList, true);
 
         Test.startTest();
-        List<Task> queriedTasks = (List<Task>) mockDb.query('SELECT Id, What.Type FROM Task ORDER BY What.Type DESC');
+        List<Task> queriedTasks = (List<Task>) MockDatabase.query('SELECT Id, What.Type FROM Task ORDER BY What.Type DESC');
         Test.stopTest();
 
         Assert.areEqual('Contact', queriedTasks[0].What.Type, 'Incorrect Type');
@@ -2878,18 +2875,18 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testWhereClauseComparisonToNull1() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct = new Account(
             Name = 'Test'
         );
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
 
         Contact con = new Contact(
             LastName = 'Test',
             AccountId = acct.Id
         );
 
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         Task t = new Task(
             Subject = 'Test',
@@ -2903,10 +2900,10 @@ private class MockDatabaseTest {
 
         List<Task> taskList = new List<Task>{t, t2};
 
-        mockDb.doInsert(taskList, true);
+        MockDatabase.doInsert(taskList, true);
 
         Test.startTest();
-        List<Task> queriedTasks = (List<Task>) mockDb.query('SELECT Id, What.Type FROM Task WHERE What.Type = NULL');
+        List<Task> queriedTasks = (List<Task>) MockDatabase.query('SELECT Id, What.Type FROM Task WHERE What.Type = NULL');
         Test.stopTest();
 
         Assert.areEqual(
@@ -2918,18 +2915,18 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testWhereClauseComparisonToNull2() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct = new Account(
             Name = 'Test'
         );
-        mockDb.doInsert(acct, true);
+        MockDatabase.doInsert(acct, true);
 
         Contact con = new Contact(
             LastName = 'Test',
             AccountId = acct.Id
         );
 
-        mockDb.doInsert(con, true);
+        MockDatabase.doInsert(con, true);
 
         Task t = new Task(
             Subject = 'Test',
@@ -2943,10 +2940,10 @@ private class MockDatabaseTest {
 
         List<Task> taskList = new List<Task>{t, t2};
 
-        mockDb.doInsert(taskList, true);
+        MockDatabase.doInsert(taskList, true);
 
         Test.startTest();
-        List<Task> queriedTasks = (List<Task>) mockDb.query('SELECT Id, What.Type FROM Task WHERE What.Type != NULL');
+        List<Task> queriedTasks = (List<Task>) MockDatabase.query('SELECT Id, What.Type FROM Task WHERE What.Type != NULL');
         Test.stopTest();
 
         Assert.areEqual(
@@ -2958,7 +2955,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testWhereClauseComparisonToNull3() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct1 = new Account(
             Name = 'Test1',
             NumberOfEmployees = 5
@@ -2970,10 +2967,10 @@ private class MockDatabaseTest {
             acct1, 
             acct2
         };
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees <> NULL');
+        List<Account> queriedAccounts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees <> NULL');
         Test.stopTest();
 
         Assert.areEqual(
@@ -2985,7 +2982,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testWhereClauseComparisonToNull4() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct1 = new Account(
             Name = 'Test1',
             NumberOfEmployees = 5
@@ -2997,10 +2994,10 @@ private class MockDatabaseTest {
             acct1, 
             acct2
         };
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
-        List<Account> queriedAccounts = (List<Account>) mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees = NULL');
+        List<Account> queriedAccounts = (List<Account>) MockDatabase.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees = NULL');
         Test.stopTest();
 
         Assert.areEqual(
@@ -3012,7 +3009,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testWhereClauseComparisonToNull5() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct1 = new Account(
             Name = 'Test1',
             NumberOfEmployees = 5
@@ -3024,12 +3021,12 @@ private class MockDatabaseTest {
             acct1, 
             acct2
         };
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees > NULL');
+            MockDatabase.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees > NULL');
         } catch(QueryException e) {
             isExceptionThrown = true;
         }
@@ -3043,7 +3040,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testWhereClauseComparisonToNull6() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct1 = new Account(
             Name = 'Test1',
             NumberOfEmployees = 5
@@ -3055,12 +3052,12 @@ private class MockDatabaseTest {
             acct1, 
             acct2
         };
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees < NULL');
+            MockDatabase.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees < NULL');
         } catch(QueryException e) {
             isExceptionThrown = true;
         }
@@ -3074,7 +3071,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testWhereClauseComparisonToNull7() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct1 = new Account(
             Name = 'Test1',
             NumberOfEmployees = 5
@@ -3086,12 +3083,12 @@ private class MockDatabaseTest {
             acct1, 
             acct2
         };
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees >= NULL');
+            MockDatabase.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees >= NULL');
         } catch(QueryException e) {
             isExceptionThrown = true;
         }
@@ -3105,7 +3102,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testWhereClauseComparisonToNull8() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct1 = new Account(
             Name = 'Test1',
             NumberOfEmployees = 5
@@ -3117,12 +3114,12 @@ private class MockDatabaseTest {
             acct1, 
             acct2
         };
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            mockDb.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees <= NULL');
+            MockDatabase.query('SELECT Id, Name FROM Account WHERE NumberOfEmployees <= NULL');
         } catch(QueryException e) {
             isExceptionThrown = true;
         }
@@ -3136,7 +3133,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testWhereClauseComparisonToNull9() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct1 = new Account(
             Name = 'Test1',
             NumberOfEmployees = 5
@@ -3148,12 +3145,12 @@ private class MockDatabaseTest {
             acct1, 
             acct2
         };
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            mockDb.query('SELECT Id, Name FROM Account WHERE Name IN NULL');
+            MockDatabase.query('SELECT Id, Name FROM Account WHERE Name IN NULL');
         } catch(QueryException e) {
             isExceptionThrown = true;
         }
@@ -3167,7 +3164,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void testWhereClauseComparisonToNull10() {
-        MockDatabase mockDb = new MockDatabase();
+        
         Account acct1 = new Account(
             Name = 'Test1',
             NumberOfEmployees = 5
@@ -3179,12 +3176,12 @@ private class MockDatabaseTest {
             acct1, 
             acct2
         };
-        mockDb.doInsert(acctList, true);
+        MockDatabase.doInsert(acctList, true);
 
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            mockDb.query('SELECT Id, Name FROM Account WHERE Name NOT IN NULL');
+            MockDatabase.query('SELECT Id, Name FROM Account WHERE Name NOT IN NULL');
         } catch(QueryException e) {
             isExceptionThrown = true;
         }

@@ -34,14 +34,13 @@ public with sharing class ComparableService {
      * @description : given an sObject and a field name (which may be a relationon i.e. Account.Name),
      *              : return a map with the comparable sObject (i.e. the parent), the field api name of that object, 
      *              : and the relationship name
-     * @param db : the mock database
      * @param obj : the sObject
      * @param field : the field name
      * @return : a map with the comparable sObject, the field api name, and the relationship name, and whether the field is polymorphic
      * @throws QueryException : if the field name is invalid
      */
     @SuppressWarnings('PMD.NcssMethodCount')
-    public static Map<String, Object> getComparables(MockDatabase db, sObject obj, String field) {
+    public static Map<String, Object> getComparables(sObject obj, String field) {
         sObject comparableRecord = obj;
         String comparableField = field;
 
@@ -72,14 +71,14 @@ public with sharing class ComparableService {
                 priorRecord = parentRecord;
             }
 
-            Map<String, Object> parentInfo = db.findParentRecord(obj, parentField);
+            Map<String, Object> parentInfo = MockDatabase.findParentRecord(obj, parentField);
             parentRecord = (sObject) parentInfo.get('parentRecord');
             parentObjApiName = (String) parentInfo.get('parentObjApiName');
             fieldRelationshipName = (String) parentInfo.get('fieldRelationshipName');
             relationshipName += fieldRelationshipName + '.';
             isPolymorphic = (Boolean) parentInfo.get('isPolymorphic');
 
-            parentRecord = db.get(parentObjApiName).get(parentRecord.Id);
+            parentRecord = MockDatabase.get(parentObjApiName).get(parentRecord.Id);
             
 
             fieldParts.remove(0);
@@ -245,13 +244,12 @@ public with sharing class ComparableService {
     }
 
     /** @description : return a parent sObject from a field name and a child sObject
-      * @param db : the mock database
       * @param sObj : the child sObject
       * @param fieldName : the field name of the parent sObject from the child
       *                  : ex. OpportunityLineItem, the field is Opportunity
       * @return A map with the parent sObject, the field api name, and the relationship name
       */
-      public static Map<String, Object> getParentObject(MockDatabase db, sObject sObj, String fieldName) {
+      public static Map<String, Object> getParentObject(sObject sObj, String fieldName) {
         // api name of the child sObject
         String objApiName = sObj.getSObjectType().getDescribe().getName();
         // api name of the id object on the child (i.e. OpportunityId)
@@ -298,7 +296,7 @@ public with sharing class ComparableService {
 
                 sObject parentRecord = ((sObject) Type.forName(parentObjApiName).newInstance()).getSObjectType().newSObject();
                 
-                Map<Id, sObject> mockRecordsChild = db.get(objApiName);
+                Map<Id, sObject> mockRecordsChild = MockDatabase.get(objApiName);
                 Id parentId = (Id) mockRecordsChild.get(sObj.Id).get(fieldApiName);
 
                 parentRecord.put('Id', parentId);

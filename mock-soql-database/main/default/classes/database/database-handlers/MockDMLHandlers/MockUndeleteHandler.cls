@@ -33,10 +33,10 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
     
     private SObject selectDeletedRecordById(Id recordId) {
         String sObjName = SchemaService.getSObjectName(recordId);
-        if(!deletedRecords.contains(recordId)) {
+        if(!MockDatabase.deletedRecords.contains(recordId)) {
             return null;
         }
-        return this.mockObjects.get(sObjName).get(recordId);
+        return MockDatabase.mockRecords.get(sObjName).get(recordId);
     }
 
     /**
@@ -47,7 +47,7 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
      * @throws DmlException - If the record does not exists and allOrNone is true
      */
     public Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone) {
-        if(!deletedRecords.contains(recordToUndelete.Id)) {
+        if(!MockDatabase.deletedRecords.contains(recordToUndelete.Id)) {
             if(allOrNone) {
                 throw new DmlException('Record does not exist');
             }
@@ -57,9 +57,9 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
             );
         }
 
-        deletedRecords.remove(recordToUndelete.Id);
+        MockDatabase.deletedRecords.remove(recordToUndelete.Id);
         String sObjName = SchemaService.getSObjectName(recordToUndelete);
-        Map<Id, SObject> mockRecords = this.mockObjects.get(sObjName);
+        Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(sObjName);
         SObject mockRecord = mockRecords.get(recordToUndelete.Id);
         SObject updatedRecord = Common.putReadOnlyField(mockRecord, 'IsDeleted', false);
         mockRecords.put(updatedRecord.Id, updatedRecord);

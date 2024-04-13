@@ -187,14 +187,13 @@ private class SObjectComparatorTest {
         Account a1 = new Account(Name = 'Test Account');
         Account a2 = new Account(Name = 'Test Account');
 
-        MockDatabase db = new MockDatabase();
-        db.doInsert(new List<Account>{a1, a2}, true);
+        MockDatabase.doInsert(new List<Account>{a1, a2}, true);
 
         Contact con1 = new Contact(LastName = 'Test Contact', AccountId = a1.Id);
         Contact con2 = new Contact(LastName = 'Test Contact', AccountId = a2.Id);
-        db.doInsert(new List<Contact>{con1, con2}, true);
+        MockDatabase.doInsert(new List<Contact>{con1, con2}, true);
 
-        List<Contact> queriedCons = (List<Contact>) db.query('SELECT Account.Name FROM Contact');
+        List<Contact> queriedCons = (List<Contact>) MockDatabase.query('SELECT Account.Name FROM Contact');
 
         SObjectComparator comparator = new SObjectComparator(fieldData);
         Test.startTest();

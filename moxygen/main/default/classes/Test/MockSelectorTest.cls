@@ -28,9 +28,6 @@
 private class MockSelectorTest {
     @IsTest
     private static void testSelectQueryWithMockDatabase() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -39,9 +36,9 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
+        DML.doInsert(accounts, true);
         Test.startTest();
-        List<Account> selectedAccounts = selector.query('SELECT Id, Name FROM Account');
+        List<Account> selectedAccounts = Selector.query('SELECT Id, Name FROM Account');
         Test.stopTest();
         Assert.areEqual(
             10,
@@ -52,9 +49,7 @@ private class MockSelectorTest {
 
     @IsTest
     static void testSelectQueryWithBindsWithMockDatabase() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -63,9 +58,9 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
+        DML.doInsert(accounts, true);
         Test.startTest();
-        List<Account> selectedAccounts = selector.queryWithBinds(
+        List<Account> selectedAccounts = Selector.queryWithBinds(
             'SELECT Id, Name FROM Account WHERE Name = :name', 
             new Map<String, Object>{'name' => 'Test Account 1'},
             AccessLevel.USER_MODE
@@ -80,9 +75,7 @@ private class MockSelectorTest {
 
     @IsTest
     private static void testCountQueryWithMockDatabase() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -91,9 +84,9 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
+        DML.doInsert(accounts, true);
         Test.startTest();
-        Integer accountSize = selector.countQuery('SELECT COUNT() FROM Account');
+        Integer accountSize = Selector.countQuery('SELECT COUNT() FROM Account');
         Test.stopTest();
         Assert.areEqual(
             10,
@@ -104,9 +97,7 @@ private class MockSelectorTest {
 
     @IsTest
     private static void testCountQueryWithBindsWithMockDatabase() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -115,9 +106,9 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
+        DML.doInsert(accounts, true);
         Test.startTest();
-        Integer accountSize = selector.countQueryWithBinds(
+        Integer accountSize = Selector.countQueryWithBinds(
             'SELECT COUNT() FROM Account WHERE Name = :name',
             new Map<String, Object>{'name' => 'Test Account 1'},
             AccessLevel.USER_MODE
@@ -132,9 +123,7 @@ private class MockSelectorTest {
 
     @IsTest
     static void testAggregateQueryWithMockDatabase() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -144,9 +133,9 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
+        DML.doInsert(accounts, true);
         Test.startTest();
-        List<Aggregate> arList = selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account');
+        List<Aggregate> arList = Selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account');
         Test.stopTest();
         Decimal totalRevenue = (Decimal) arList[0].get('expr0');
         Assert.areEqual(
@@ -158,9 +147,7 @@ private class MockSelectorTest {
 
     @IsTest
     static void testAggregateQueryWithBindsWithMockDatabase() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -170,9 +157,9 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
+        DML.doInsert(accounts, true);
         Test.startTest();
-        List<Aggregate> arList = selector.queryAggregateWithBinds(
+        List<Aggregate> arList = Selector.queryAggregateWithBinds(
             'SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name',
             new Map<String, Object>{'name' => 'Test Account 1'},
             AccessLevel.USER_MODE
@@ -188,9 +175,7 @@ private class MockSelectorTest {
 
     @IsTest
     static void testWasCalled() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -199,22 +184,20 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
-        selector.registerQuery('SELECT Id, Name FROM Account', accounts);
+        DML.doInsert(accounts, true);
+        Selector.registerQuery('SELECT Id, Name FROM Account', accounts);
         Test.startTest();
-        selector.query('SELECT Id, Name FROM Account');
+        Selector.query('SELECT Id, Name FROM Account');
         Test.stopTest();
         Assert.isTrue(
-            selector.wasCalled(),
+            Selector.calledAnyQuery(),
             'The query method should have been called'
         );
     }
 
     @IsTest
     static void testWasCalledWithQuery() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -223,22 +206,20 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
-        selector.registerQuery('SELECT Id, Name FROM Account', accounts);
+        DML.doInsert(accounts, true);
+        Selector.registerQuery('SELECT Id, Name FROM Account', accounts);
         Test.startTest();
-        selector.query('SELECT Id, Name FROM Account');
+        Selector.query('SELECT Id, Name FROM Account');
         Test.stopTest();
         Assert.isTrue(
-            selector.wasCalled('SELECT Id, Name FROM Account'),
+            Selector.calledQuery('SELECT Id, Name FROM Account'),
             'The query method should have been called with the query'
         );
     }
 
     @IsTest
     static void testResetCallState() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -247,27 +228,25 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
-        selector.registerQuery('SELECT Id, Name FROM Account', accounts);
+        DML.doInsert(accounts, true);
+        Selector.registerQuery('SELECT Id, Name FROM Account', accounts);
         Test.startTest();
-        selector.query('SELECT Id, Name FROM Account');
+        Selector.query('SELECT Id, Name FROM Account');
         Test.stopTest();
         Assert.isTrue(
-            selector.wasCalled(),
+            Selector.calledAnyQuery(),
             'The query method should have been called'
         );
-        selector.resetCallState();
+        Selector.resetCallState();
         Assert.isFalse(
-            selector.wasCalled(),
+            Selector.calledAnyQuery(),
             'The query method should not have been called'
         );
     }
 
     @IsTest
     static void testRegisterFailedQuery() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -276,12 +255,12 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
-        selector.registerFailedQuery('SELECT Id, Name FROM Account');
+        DML.doInsert(accounts, true);
+        Selector.registerFailedQuery('SELECT Id, Name FROM Account');
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
-            selector.query('SELECT Id, Name FROM Account');
+            Selector.query('SELECT Id, Name FROM Account');
         } catch(Exception e) {
             isExceptionThrown = true;
         }
@@ -294,9 +273,7 @@ private class MockSelectorTest {
 
     @IsTest
     static void testRegisterAggregateQuery() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -306,8 +283,8 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
-        selector.registerAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account', new List<Aggregate> {
+        DML.doInsert(accounts, true);
+        Selector.registerAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account', new List<Aggregate> {
             new Aggregate(
                 new Map<String, Object> {
                     'expr0' => 10000
@@ -315,7 +292,7 @@ private class MockSelectorTest {
             )
         });
         Test.startTest();
-        List<Aggregate> arList = selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account');
+        List<Aggregate> arList = Selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account');
         Test.stopTest();
         Decimal totalRevenue = (Decimal) arList[0].get('expr0');
         Assert.areEqual(
@@ -327,9 +304,7 @@ private class MockSelectorTest {
 
     @IsTest
     static void testRegisterFailedAggregateQuery() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -339,12 +314,12 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
-        selector.registerFailedAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account');
+        DML.doInsert(accounts, true);
+        Selector.registerFailedAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account');
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
-            selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account');
+            Selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account');
         } catch(Exception e) {
             isExceptionThrown = true;
         }
@@ -357,9 +332,7 @@ private class MockSelectorTest {
 
     @IsTest
     static void testRegisterCountQuery() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
 
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
@@ -368,10 +341,10 @@ private class MockSelectorTest {
             accounts.add(a);
         }
 
-        dml.doInsert(accounts, true);
-        selector.registerCountQuery('SELECT COUNT() FROM Account', 10);
+        DML.doInsert(accounts, true);
+        Selector.registerCountQuery('SELECT COUNT() FROM Account', 10);
         Test.startTest();
-        Integer accountSize = selector.countQuery('SELECT COUNT() FROM Account');
+        Integer accountSize = Selector.countQuery('SELECT COUNT() FROM Account');
         Test.stopTest();
         Assert.areEqual(
             10,
@@ -382,14 +355,13 @@ private class MockSelectorTest {
 
     @IsTest
     static void testRegisterFailedCountQuery() {
-        MockORM db = new MockORM();
-        MockSelector selector = db.getMockSelector();
 
-        selector.registerFailedCountQuery('SELECT COUNT() FROM Account');
+
+        Selector.registerFailedCountQuery('SELECT COUNT() FROM Account');
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
-            selector.countQuery('SELECT COUNT() FROM Account');
+            Selector.countQuery('SELECT COUNT() FROM Account');
         } catch(Exception e) {
             isExceptionThrown = true;
         }
@@ -402,31 +374,27 @@ private class MockSelectorTest {
 
     @IsTest
     static void testQueryWithAccessLevel() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
             a.Name = 'Test Account ' + i;
             accounts.add(a);
         }
-        dml.doInsert(accounts, true);
-        selector.registerQuery('SELECT Id, Name FROM Account', accounts);
+        DML.doInsert(accounts, true);
+        Selector.registerQuery('SELECT Id, Name FROM Account', accounts);
         Test.startTest();
-        selector.query('SELECT Id, Name FROM Account', AccessLevel.USER_MODE);
+        Selector.query('SELECT Id, Name FROM Account', AccessLevel.USER_MODE);
         Test.stopTest();
         Assert.isTrue(
-            selector.wasCalled(),
+            Selector.calledAnyQuery(),
             'The query method should have been called'
         );
     }
 
     @IsTest
     static void testQueryAggregateWithAccessLevel() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -434,8 +402,8 @@ private class MockSelectorTest {
             a.AnnualRevenue = 1000;
             accounts.add(a);
         }
-        dml.doInsert(accounts, true);
-        selector.registerAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account', new List<Aggregate> {
+        DML.doInsert(accounts, true);
+        Selector.registerAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account', new List<Aggregate> {
             new Aggregate(
                 new Map<String, Object> {
                     'expr0' => 10000
@@ -443,45 +411,42 @@ private class MockSelectorTest {
             )
         });
         Test.startTest();
-        selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account', AccessLevel.USER_MODE);
+        Selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account', AccessLevel.USER_MODE);
         Test.stopTest();
         Assert.isTrue(
-            selector.wasCalled(),
+            Selector.calledAnyQuery(),
             'The query method should have been called'
         );
     }
 
     @IsTest
     static void testCountQueryWithAccessLevel() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
             a.Name = 'Test Account ' + i;
             accounts.add(a);
         }
-        dml.doInsert(accounts, true);
-        selector.registerCountQuery('SELECT COUNT() FROM Account', 10);
+        DML.doInsert(accounts, true);
+        Selector.registerCountQuery('SELECT COUNT() FROM Account', 10);
         Test.startTest();
-        selector.countQuery('SELECT COUNT() FROM Account', AccessLevel.USER_MODE);
+        Selector.countQuery('SELECT COUNT() FROM Account', AccessLevel.USER_MODE);
         Test.stopTest();
         Assert.isTrue(
-            selector.wasCalled(),
+            Selector.calledAnyQuery(),
             'The query method should have been called'
         );
     }
 
     @IsTest
     static void testAggregateQueryWithBindsFail() {
-        MockORM db = new MockORM();
-        MockSelector selector = db.getMockSelector();
+
         Boolean isExceptionThrown = false;
-        selector.registerFailedAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name');
+        Selector.registerFailedAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name');
         Test.startTest();
         try {
-            selector.queryAggregateWithBinds(
+            Selector.queryAggregateWithBinds(
                 'SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name',
                 new Map<String, Object>{'name' => 'Test Account 1'},
                 AccessLevel.USER_MODE
@@ -498,9 +463,7 @@ private class MockSelectorTest {
 
     @IsTest
     static void testAggregateQueryWithBindsWithRegisteredQuery() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -508,8 +471,8 @@ private class MockSelectorTest {
             a.AnnualRevenue = 1000;
             accounts.add(a);
         }
-        dml.doInsert(accounts, true);
-        selector.registerAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name', new List<Aggregate> {
+        DML.doInsert(accounts, true);
+        Selector.registerAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name', new List<Aggregate> {
             new Aggregate(
                 new Map<String, Object> {
                     'expr0' => 1000
@@ -517,7 +480,7 @@ private class MockSelectorTest {
             )
         });
         Test.startTest();
-        List<Aggregate> arList = selector.queryAggregateWithBinds(
+        List<Aggregate> arList = Selector.queryAggregateWithBinds(
             'SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name',
             new Map<String, Object>{'name' => 'Test Account 1'},
             AccessLevel.USER_MODE
@@ -533,23 +496,21 @@ private class MockSelectorTest {
 
     @IsTest
     static void testQueryWithBindsWithRegisteredQuery() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-        MockSelector selector = db.getMockSelector();
+
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
             a.Name = 'Test Account ' + i;
             accounts.add(a);
         }
-        dml.doInsert(accounts, true);
-        selector.registerQuery('SELECT Id, Name FROM Account WHERE Name = :name',
+        DML.doInsert(accounts, true);
+        Selector.registerQuery('SELECT Id, Name FROM Account WHERE Name = :name',
             new List<Account> {
                 accounts[1]
             }
         );
         Test.startTest();
-        List<Account> selectedAccounts = selector.queryWithBinds(
+        List<Account> selectedAccounts = Selector.queryWithBinds(
             'SELECT Id, Name FROM Account WHERE Name = :name', 
             new Map<String, Object>{'name' => 'Test Account 1'},
             AccessLevel.USER_MODE
@@ -564,13 +525,12 @@ private class MockSelectorTest {
 
     @IsTest
     static void testQueryWithBindsWithRegisterFailedQuery() {
-        MockORM db = new MockORM();
-        MockSelector selector = db.getMockSelector();
-        selector.registerFailedQuery('SELECT Id, Name FROM Account WHERE Name = :name');
+
+        Selector.registerFailedQuery('SELECT Id, Name FROM Account WHERE Name = :name');
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
-            selector.queryWithBinds(
+            Selector.queryWithBinds(
                 'SELECT Id, Name FROM Account WHERE Name = :name', 
                 new Map<String, Object>{'name' => 'Test Account 1'},
                 AccessLevel.USER_MODE
@@ -587,11 +547,10 @@ private class MockSelectorTest {
 
     @IsTest
     static void testCountQueryWithBindsWithRegisteredQuery() {
-        MockORM db = new MockORM();
-        MockSelector selector = db.getMockSelector();
-        selector.registerCountQuery('SELECT COUNT() FROM Account WHERE Name = :name', 1);
+
+        Selector.registerCountQuery('SELECT COUNT() FROM Account WHERE Name = :name', 1);
         Test.startTest();
-        Integer accountSize = selector.countQueryWithBinds(
+        Integer accountSize = Selector.countQueryWithBinds(
             'SELECT COUNT() FROM Account WHERE Name = :name',
             new Map<String, Object>{'name' => 'Test Account 1'},
             AccessLevel.USER_MODE
@@ -606,13 +565,12 @@ private class MockSelectorTest {
 
     @IsTest
     static void testCountQueryWithBindsWithRegisterFailedQuery() {
-        MockORM db = new MockORM();
-        MockSelector selector = db.getMockSelector();
-        selector.registerFailedCountQuery('SELECT COUNT() FROM Account WHERE Name = :name');
+
+        Selector.registerFailedCountQuery('SELECT COUNT() FROM Account WHERE Name = :name');
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
-            selector.countQueryWithBinds(
+            Selector.countQueryWithBinds(
                 'SELECT COUNT() FROM Account WHERE Name = :name',
                 new Map<String, Object>{'name' => 'Test Account 1'},
                 AccessLevel.USER_MODE
