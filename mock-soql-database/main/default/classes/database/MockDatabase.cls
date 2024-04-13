@@ -32,7 +32,7 @@
 public inherited sharing class MockDatabase {
 
     final static Map<Node, TopLevelNodes> TOP_LEVEL_NODES = new Map<Node, TopLevelNodes>();
-    static MockDatabaseDMLHandler dmlHandler = new MockDatabaseDMLHandler();
+    public static MockDatabaseDMLHandler dmlHandler = new MockDatabaseDMLHandler();
 
     public static Map<String, Map<Id, SObject>> mockRecords = new Map<String, Map<Id, SObject>>();
     public static MockDatabaseUtils utils = new MockDatabaseUtils();
@@ -45,23 +45,6 @@ public inherited sharing class MockDatabase {
      */
     public static void resetHandlers() {
         dmlHandler.resetHandlers();
-    }
-
-    /**
-     * @description Returns whether any DML operation was called 
-     * @return  `Boolean`
-     */
-    public static Boolean didAnyDML() {
-        return dmlHandler.wasCalled();
-    }
-
-    /**
-     * @description Returns whether a specific DML operation was called
-     * @param dmlType 
-     * @return  `Boolean`
-     */
-    public static Boolean didDML(Types.DML dmlType) {
-        return dmlHandler.wasCalled(dmlType);
     }
 
     /**

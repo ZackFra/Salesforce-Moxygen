@@ -326,4 +326,23 @@ public inherited sharing class DML {
     private static void doMockInsert(List<SObject> recordsToInsert) {
         MockDatabase.doMockInsert(recordsToInsert);
     }
+
+    /**
+     * @description Returns whether any DML operation was called 
+     * @return  `Boolean`
+     */
+    @TestVisible
+    private static Boolean didAnyDML() {
+        return MockDatabase.dmlHandler.wasCalled();
+    }
+
+    /**
+     * @description Returns whether a specific DML operation was called
+     * @param dmlType 
+     * @return  `Boolean`
+     */
+    @TestVisible
+    private static Boolean didDML(Types.DML dmlType) {
+        return MockDatabase.dmlHandler.wasCalled(dmlType);
+    }
 }

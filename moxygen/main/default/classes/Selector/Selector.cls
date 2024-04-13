@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/9/2024
  */
-public inherited sharing class Selector implements ISelector {
+public inherited sharing class Selector {
     /**
      * @description Query for a list of sObjects
      * @param queryString `String`
@@ -268,6 +268,17 @@ public inherited sharing class Selector implements ISelector {
     private static void registerFailedCountQuery(String queryString) {
         ORM.validateUnitTestContext();
         countQueries.put(queryString, null);
+    }
+
+    /**
+     * @description Selects a record by its Id
+     * @param recordId `Id`
+     * @return  `SObject`
+     */
+    @TestVisible
+    private static SObject selectRecordById(Id recordId) {
+        ORM.validateUnitTestContext();
+        return MockDatabase.selectRecordById(recordId);
     }
 
 
