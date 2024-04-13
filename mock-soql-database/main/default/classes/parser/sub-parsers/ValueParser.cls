@@ -1,8 +1,8 @@
 public inherited sharing class ValueParser extends SubParser {
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        Intermediary baseValue;
         if(lookahead(query, 1) == '\'') {
+            Intermediary baseValue;
             query = query.subString(1);
             baseValue = parseString(query);
             query = baseValue.subquery;

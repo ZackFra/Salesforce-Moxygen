@@ -429,6 +429,7 @@ private class ParserTest {
             Assert.areEqual('from', fromNode.id, 'Expected id to be "from"');
             Assert.areEqual('from', fromNode.nodeType, 'Expected nodeType to be "from"');
             Assert.isNotNull(fromNode.left, 'Expected left to be not null');
+            System.debug(fromNode.right);
             Assert.isNull(fromNode.right, 'Expected right to be null');
     
             Node opportunityNode = fromNode.left;

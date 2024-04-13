@@ -1,5 +1,5 @@
 public inherited sharing class QueryParser extends SubParser {
-    public Intermediary parse(String query) {
+    public override Intermediary parse(String query) {
 
         Intermediary selectIntermediary = new SelectParser().parse(query);
         query = selectIntermediary.subquery;
