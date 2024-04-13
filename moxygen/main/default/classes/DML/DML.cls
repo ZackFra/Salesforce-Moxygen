@@ -32,6 +32,8 @@
 @SuppressWarnings('PMD.ExcessivePublicCount, PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
 public inherited sharing class DML {
 
+    final static Integer MAX_DML_CHUNKING = 10;
+
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
      * @param recordToDelete - The record to delete
@@ -55,6 +57,7 @@ public inherited sharing class DML {
         if(ORM.isUnitTest()) {
             return MockDatabase.doDelete(recordsToDelete, allOrNone);
         }
+        sortToPreventChunkingErrors(recordsToDelete);
         return Database.delete(recordsToDelete, allOrNone);
     }
 
@@ -106,6 +109,7 @@ public inherited sharing class DML {
         if(ORM.isUnitTest()) {
             return MockDatabase.doInsert(recordsToInsert, allOrNone);
         }
+        sortToPreventChunkingErrors(recordsToInsert);
         return Database.insert(recordsToInsert, allOrNone);
     }
 
@@ -134,6 +138,7 @@ public inherited sharing class DML {
         if(ORM.isUnitTest()) {
             return MockDatabase.doInsert(recordsToInsert, allOrNone, accessLevel);
         }
+        sortToPreventChunkingErrors(recordsToInsert);
         return Database.insert(recordsToInsert, allOrNone, accessLevel);
     }
 
@@ -160,6 +165,7 @@ public inherited sharing class DML {
         if(ORM.isUnitTest()) {
             return MockDatabase.doUpdate(recordsToUpdate, allOrNone);
         }
+        sortToPreventChunkingErrors(recordsToUpdate);
         return Database.update(recordsToUpdate, allOrNone);
     }
 
@@ -188,6 +194,7 @@ public inherited sharing class DML {
         if(ORM.isUnitTest()) {
             return MockDatabase.doUpdate(recordsToUpdate, allOrNone, accessLevel);
         }
+        sortToPreventChunkingErrors(recordsToUpdate);
         return Database.update(recordsToUpdate, allOrNone, accessLevel);
     }
 
@@ -216,6 +223,7 @@ public inherited sharing class DML {
         if(ORM.isUnitTest()) {
             return MockDatabase.doUpsert(recordsToUpsert, externalIdField, allOrNone);
         }
+        sortToPreventChunkingErrors(recordsToUpsert);
         return Database.upsert(recordsToUpsert, externalIdField, allOrNone);
     }
 
@@ -248,6 +256,7 @@ public inherited sharing class DML {
         if(ORM.isUnitTest()) {
             return MockDatabase.doUpsert(recordsToUpsert, externalIdField, allOrNone, accessLevel);
         }
+        sortToPreventChunkingErrors(recordsToUpsert);
         return Database.upsert(recordsToUpsert, externalIdField, allOrNone, accessLevel);
     }
 
@@ -270,10 +279,11 @@ public inherited sharing class DML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.UndeleteResult> - The result of the undelete operation
      */
-    public static List<Database.UndeleteResult> doUndelete(List<sObject> recordsToUndelete, Boolean allOrNone) {
+    public static List<Database.UndeleteResult> doUndelete(List<SObject> recordsToUndelete, Boolean allOrNone) {
         if(ORM.isUnitTest()) {
             return MockDatabase.doUndelete(recordsToUndelete, allOrNone);
         }
+        sortToPreventChunkingErrors(recordsToUndelete);
         return Database.undelete(recordsToUndelete, allOrNone);
     }
 
@@ -349,4 +359,16 @@ public inherited sharing class DML {
         ORM.validateUnitTestContext();
         return MockDatabase.dmlHandler.wasCalled(dmlType);
     }
+
+    /**
+     * @description Methods taken from James Simone's blog post on mocking DML operations
+     * @param records `List<SObject>`
+     */
+    private static void sortToPreventChunkingErrors(List<SObject> records) {
+        // prevents a chunking error that can occur if SObject types are in the list out of order.
+        // no need to sort if the list size is below the limit
+        if (records.size() >= MAX_DML_CHUNKING) {
+          records.sort();
+        }
+      }
 }
