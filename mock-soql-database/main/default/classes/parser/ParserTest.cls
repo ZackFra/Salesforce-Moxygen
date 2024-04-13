@@ -81,7 +81,7 @@ private class ParserTest {
         );
         Assert.isTrue(
             exMessage.startsWith('Parsing exception, expected "from"'),
-            'Expected exception message to start with "Parsing exception, expected "from""'
+            'Expected exception message to start with "Parsing exception, expected "from"", got "' + exMessage + '"'
         );
     }
 

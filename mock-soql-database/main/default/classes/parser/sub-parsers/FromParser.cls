@@ -36,7 +36,8 @@ public inherited sharing class FromParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        query = consume(query, 'from ');
+        query = consume(query, 'from');
+        query = consume(query, ' ');
         
         
         Intermediary leftIntermediary = new SObjectParser().parse(query);
