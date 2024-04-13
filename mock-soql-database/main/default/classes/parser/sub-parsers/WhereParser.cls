@@ -134,7 +134,7 @@ public inherited sharing class WhereParser extends SubParser {
         if(lookahead(query, 3) == 'not') {
             return parseNot(query);
         }
-        Intermediary fieldIntermediary = parseField(query);
+        Intermediary fieldIntermediary = new FieldParser().parse(query);
         query = fieldIntermediary.subquery;
         query = skipWhitespace(query);
 
@@ -198,20 +198,6 @@ public inherited sharing class WhereParser extends SubParser {
         );
     }
 
-
-    private Intermediary parseField(String query) {
-        query = skipWhitespace(query);
-        Map<String, String> dataMap = getFieldName(query);
-        String fieldName = dataMap.get('fieldName');
-        query = dataMap.get('subquery');
-        
-        Node head = new NodeBuilder()
-            .setId(fieldName)
-            .setNodeType('field')
-            .build();
-
-        return new Intermediary(head, query);
-    }
 
     private Intermediary parseOperator(String query) {
         query = skipWhitespace(query);
