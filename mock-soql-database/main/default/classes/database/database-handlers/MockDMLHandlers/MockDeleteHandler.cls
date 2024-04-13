@@ -34,7 +34,7 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
     private SObject selectRecordById(Id recordId) {
         String sObjName = SchemaService.getSObjectName(recordId);
         SObject mockRecord = MockDatabase.mockRecords.get(sObjName).get(recordId);
-        if(deletedRecords.contains(recordId)) {
+        if(MockDatabase.deletedRecords.contains(recordId)) {
             return null;
         }
         return mockRecord;
@@ -72,7 +72,7 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
             );
         }
 
-        deletedRecords.add(recordToDelete.Id);
+        MockDatabase.deletedRecords.add(recordToDelete.Id);
         
         SObject updatedRecord = Common.putReadOnlyField(mockRecord, 'IsDeleted', true);
         mockRecords.put(updatedRecord.Id, updatedRecord);

@@ -30,14 +30,18 @@
  *              a way that would be meaningful. The methods are all wrappers around Database methods
  */
 @SuppressWarnings('PMD.ExcessivePublicCount')
-public inherited sharing class DML implements IDML {
+public inherited sharing class DML {
+
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
      * @param recordToDelete - The record to delete
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.DeleteResult - The result of the delete operation
      */
-    public Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone) {
+    public static Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doDelete(recordToDelete, allOrNone);
+        }
         return Database.delete(recordToDelete, allOrNone);
     }
 
@@ -47,7 +51,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.DeleteResult> - The result of the delete operation
      */
-    public List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boolean allOrNone) {
+    public static List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doDelete(recordsToDelete, allOrNone);
+        }
         return Database.delete(recordsToDelete, allOrNone);
     }
 
@@ -57,7 +64,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.DeleteResult - The result of the delete operation
      */
-    public Database.DeleteResult doDelete(Id recordID, Boolean allOrNone) {
+    public static Database.DeleteResult doDelete(Id recordID, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doDelete(recordID, allOrNone);
+        }
         return Database.delete(recordID, allOrNone);
     }
 
@@ -67,7 +77,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.DeleteResult> - The result of the delete operation
      */
-    public List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNone) {
+    public static List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doDelete(recordIDs, allOrNone);
+        }
         return Database.delete(recordIDs, allOrNone);
     }
 
@@ -77,7 +90,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.SaveResult - The result of the insert operation
      */
-    public Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone) {
+    public static Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doInsert(recordToInsert, allOrNone);
+        }
         return Database.insert(recordToInsert, allOrNone);
     }
     /**
@@ -86,7 +102,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.SaveResult> - The result of the insert operation
      */
-    public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone) {
+    public static List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doInsert(recordsToInsert, allOrNone);
+        }
         return Database.insert(recordsToInsert, allOrNone);
     }
 
@@ -97,7 +116,10 @@ public inherited sharing class DML implements IDML {
      * @param accessLevel - The access level for the operation
      * @return Database.SaveResult - The result of the update operation
      */
-    public  Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static  Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doInsert(recordToInsert, allOrNone, accessLevel);
+        }
         return Database.insert(recordToInsert, allOrNone, accessLevel);
     }
 
@@ -108,7 +130,10 @@ public inherited sharing class DML implements IDML {
      * @param accessLevel - The access level for the operation
      * @return List<Database.SaveResult> - The result of the update operation
      */
-    public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doInsert(recordsToInsert, allOrNone, accessLevel);
+        }
         return Database.insert(recordsToInsert, allOrNone, accessLevel);
     }
 
@@ -118,7 +143,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.SaveResult - The result of the update operation
      */
-    public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone) {
+    public static Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUpdate(recordToUpdate, allOrNone);
+        }
         return Database.update(recordToUpdate, allOrNone);
     }
 
@@ -128,7 +156,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.SaveResult> - The result of the update operation
      */
-    public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone) {
+    public static List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUpdate(recordsToUpdate, allOrNone);
+        }
         return Database.update(recordsToUpdate, allOrNone);
     }
 
@@ -139,7 +170,10 @@ public inherited sharing class DML implements IDML {
      * @param accessLevel - The access level for the operation
      * @return Database.SaveResult - The result of the update operation
      */
-    public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUpdate(recordToUpdate, allOrNone, accessLevel);
+        }
         return Database.update(recordToUpdate, allOrNone, accessLevel);
     }
 
@@ -150,7 +184,10 @@ public inherited sharing class DML implements IDML {
      * @param accessLevel - The access level for the operation
      * @return List<Database.SaveResult> - The result of the update operation
      */
-    public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUpdate(recordsToUpdate, allOrNone, accessLevel);
+        }
         return Database.update(recordsToUpdate, allOrNone, accessLevel);
     }
 
@@ -161,7 +198,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.UpsertResult - The result of the upsert operation
      */
-    public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone) {
+    public static Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUpsert(recordToUpsert, externalIdField, allOrNone);
+        }
         return Database.upsert(recordToUpsert, externalIdField, allOrNone);
     }
 
@@ -172,7 +212,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.UpsertResult> - The result of the upsert operation
      */
-    public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone) {
+    public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUpsert(recordsToUpsert, externalIdField, allOrNone);
+        }
         return Database.upsert(recordsToUpsert, externalIdField, allOrNone);
     }
 
@@ -185,7 +228,10 @@ public inherited sharing class DML implements IDML {
      * @return Database.UpsertResult - The result of the upsert operation
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
-    public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUpsert(recordToUpsert, externalIdField, allOrNone, accessLevel);
+        }
         return Database.upsert(recordToUpsert, externalIdField, allOrNone, accessLevel);
     }
 
@@ -198,7 +244,10 @@ public inherited sharing class DML implements IDML {
      * @return List<Database.UpsertResult> - The result of the upsert operation
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
-    public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUpsert(recordsToUpsert, externalIdField, allOrNone, accessLevel);
+        }
         return Database.upsert(recordsToUpsert, externalIdField, allOrNone, accessLevel);
     }
 
@@ -208,7 +257,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.UndeleteResult - The result of the undelete operation
      */
-    public  Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone) {
+    public static  Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUndelete(recordToUndelete, allOrNone);
+        }
         return Database.undelete(recordToUndelete, allOrNone);
     }
 
@@ -218,7 +270,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.UndeleteResult> - The result of the undelete operation
      */
-    public List<Database.UndeleteResult> doUndelete(List<sObject> recordsToUndelete, Boolean allOrNone) {
+    public static List<Database.UndeleteResult> doUndelete(List<sObject> recordsToUndelete, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUndelete(recordsToUndelete, allOrNone);
+        }
         return Database.undelete(recordsToUndelete, allOrNone);
     }
 
@@ -228,7 +283,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.UndeleteResult - The result of the undelete operation
      */
-    public Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone) {
+    public static Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUndelete(recordID, allOrNone);
+        }
         return Database.undelete(recordID, allOrNone);
     }
 
@@ -238,7 +296,10 @@ public inherited sharing class DML implements IDML {
      * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.UndeleteResult> - The result of the undelete operation
      */
-    public List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone) {
+    public static List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUndelete(recordIDs, allOrNone);
+        }
         return Database.undelete(recordIDs, allOrNone);
     }
 
@@ -249,7 +310,20 @@ public inherited sharing class DML implements IDML {
      * @param accessLevel - The access level for the operation
      * @return Database.UndeleteResult - The result of the undelete operation
      */
-    public Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel) {
+        if(ORM.isUnitTest()) {
+            return MockDatabase.doUndelete(recordToUndelete, allOrNone, accessLevel);
+        }
         return Database.undelete(recordToUndelete, allOrNone, accessLevel);
+    }
+
+    @TestVisible
+    private static void doMockInsert(SObject recordToInsert) {
+        MockDatabase.doMockInsert(recordToInsert);
+    } 
+
+    @TestVisible 
+    private static void doMockInsert(List<SObject> recordsToInsert) {
+        MockDatabase.doMockInsert(recordsToInsert);
     }
 }

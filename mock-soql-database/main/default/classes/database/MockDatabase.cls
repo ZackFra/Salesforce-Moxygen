@@ -36,6 +36,7 @@ public inherited sharing class MockDatabase {
 
     public static Map<String, Map<Id, SObject>> mockRecords = new Map<String, Map<Id, SObject>>();
     public static MockDatabaseUtils utils = new MockDatabaseUtils();
+    public static Set<Id> deletedRecords = new Set<Id>();
 
     /** Utility methods (For Testing) */
 

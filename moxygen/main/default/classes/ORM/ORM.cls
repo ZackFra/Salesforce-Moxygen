@@ -27,34 +27,33 @@
  * @description ORM class is responsible for creating and returning the Selector and DML objects
  *              ORM is short for Object Relationshal Mapping, i.e. Salesforce's database
  */
-public inherited sharing class ORM implements IORM {
+public inherited sharing class ORM {
 
-    private Boolean isUnitTest = Test.isRunningTest();
-
-    ISelector s;
-    IDML d;
+    @TestVisible
+    private static Boolean isUnitTest = Test.isRunningTest();
 
     /**
-     * @description Constructor for ORM class
+     * @description Returns if the current context is a unit test 
+     * @return  `Boolean`
      */
-    public ORM() {
-        this.s = new Selector();
-        this.d = new DML();
+    public static Boolean isUnitTest() {
+        return isUnitTest;
     }
 
     /**
-     * @description Returns the Selector object
-     * @return ISelector
+     * @description Sets the isUnitTest flag to false
      */
-    public ISelector getSelector() {
-        return s;
+    @TestVisible
+    private static void doIntegrationTest() {
+        ORM.isUnitTest = false;
     }
 
-    /**
-     * @description Returns the DML object
-     * @return IDML
-     */
-    public IDML getDML() {
-        return d;
+
+    private class NoAccessException extends Exception {}
+
+    public static void validateUnitTestContext() {
+        if(!ORM.isUnitTest) {
+            throw new NoAccessException('This method is only available in a unit test context.');
+        }
     }
 }

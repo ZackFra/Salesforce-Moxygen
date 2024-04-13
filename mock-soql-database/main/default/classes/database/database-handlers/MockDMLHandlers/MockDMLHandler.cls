@@ -29,7 +29,6 @@
  * @since 3/9/2024
  */
 public abstract class MockDMLHandler {
-    protected Set<Id> deletedRecords;
     protected SaveResultService srService = new SaveResultService();
 
     protected Boolean wasCalled = false;

@@ -25,41 +25,16 @@
 
 @IsTest
 private class MockDMLTest {
-    @IsTest
-    static void testConstructor() {
-        Test.startTest();
-        MockDML mockDML = new MockDML();
-        Test.stopTest();
-        Assert.areNotEqual(
-            null, 
-            mockDML,
-            'MockDML should not be null'
-        );
-    }
-
-    @IsTest
-    static void testConstructorWithMockDatabase() {
-        Test.startTest();
-        MockDML mockDML = new MockDML(new MockDatabase());
-        Test.stopTest();
-        Assert.areNotEqual(
-            null, 
-            mockDML,
-            'MockDML should not be null'
-        );
-    }
 
     @IsTest
     static void testDoInsert1() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
 
         Test.startTest();
-        dml.doInsert(account, true);
+        DML.doInsert(account, true);
         Test.stopTest();
 
         Assert.areNotEqual(
@@ -71,8 +46,6 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoInsert2() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -88,7 +61,7 @@ private class MockDMLTest {
         };
 
         Test.startTest();
-        dml.doInsert(acctList, false);
+        DML.doInsert(acctList, false);
         Test.stopTest();
 
         Assert.areNotEqual(
@@ -106,15 +79,13 @@ private class MockDMLTest {
     
     @IsTest
     static void testDoInsert3() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
 
         Test.startTest();
-        dml.doInsert(
+        DML.doInsert(
             account, 
             false,
             AccessLevel.USER_MODE
@@ -130,8 +101,6 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoInsert4() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -147,7 +116,7 @@ private class MockDMLTest {
         };
 
         Test.startTest();
-        dml.doInsert(
+        DML.doInsert(
             acctList, 
             false,
             AccessLevel.USER_MODE
@@ -169,28 +138,25 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoDelete1() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
 
-        dml.doInsert(account, true);
+        DML.doInsert(account, true);
         Test.startTest();
-        dml.doDelete(account, true);
+        DML.doDelete(account, true);
         Test.stopTest();
 
         Assert.isTrue(
-            db.isDeleted(account.Id), 
+            MockDatabase.isDeleted(account.Id), 
             'Record should have been deleted'
         );
     }
 
     @IsTest
     static void testDoDelete2() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
+
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -205,41 +171,37 @@ private class MockDMLTest {
             account2
         };
 
-        dml.doInsert(acctList, false);
+        DML.doInsert(acctList, false);
         Test.startTest();
-        dml.doDelete(acctList, false);
+        DML.doDelete(acctList, false);
         Test.stopTest();
 
         Assert.isTrue(
-            db.isDeleted(account1.Id) && db.isDeleted(account2.Id), 
+            MockDatabase.isDeleted(account1.Id) && MockDatabase.isDeleted(account2.Id), 
             'Records should have been deleted'
         );
     }
 
     @IsTest
     static void testDoDelete3() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
 
-        dml.doInsert(account, false);
+        DML.doInsert(account, false);
         Test.startTest();
-        dml.doDelete(account.Id, false);
+        DML.doDelete(account.Id, false);
         Test.stopTest();
 
         Assert.isTrue(
-            db.isDeleted(account.Id), 
+            MockDatabase.isDeleted(account.Id), 
             'Record should have been deleted'
         );
     }
 
     @IsTest
     static void testDoDelete4() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -254,15 +216,18 @@ private class MockDMLTest {
             account2
         };
 
-        dml.doInsert(acctList, false);
+        DML.doInsert(acctList, false);
         List<Id> acctIds = new List<Id> {
             account1.Id,
             account2.Id
         };
         Test.startTest();
-        dml.doDelete(acctIds, false);
+        DML.doDelete(acctIds, false);
         Test.stopTest();
-        Boolean isAllDeleted = (db.isDeleted(account1.Id) && db.isDeleted(account2.Id));
+        Boolean isAllDeleted = (
+            MockDatabase.isDeleted(account1.Id) && 
+            MockDatabase.isDeleted(account2.Id)
+        );
         Assert.isTrue(
             isAllDeleted, 
             'Records should have been deleted'
@@ -271,18 +236,15 @@ private class MockDMLTest {
 
     @IsTest
     static void testIsDeleted() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
         Account account = new Account(
             Name = 'Test Account'
         );
-        dml.doInsert(account, true);
+        DML.doInsert(account, true);
         Test.startTest();
-        dml.doDelete(account, true);
+        DML.doDelete(account, true);
         Test.stopTest();
 
-        Boolean isDeleted = db.isDeleted(account.Id);
+        Boolean isDeleted = MockDatabase.isDeleted(account.Id);
         Assert.isTrue(
             isDeleted,
             'Account should have been deleted'
@@ -291,15 +253,13 @@ private class MockDMLTest {
 
     @IsTest
     static void testSelectRecordById() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
-        dml.doInsert(account, true);
+        DML.doInsert(account, true);
         Test.startTest();
-        Account selectedAccount = (Account) db.selectRecordById(account.Id);
+        Account selectedAccount = (Account) MockDatabase.selectRecordById(account.Id);
         Test.stopTest();
 
         Assert.areEqual(
@@ -311,14 +271,12 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoMockInsert1() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
         Test.startTest();
-        dml.doMockInsert(account);
+        DML.doMockInsert(account);
         Test.stopTest();
 
         Assert.areNotEqual(
@@ -330,8 +288,6 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoMockInsert2() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -347,7 +303,7 @@ private class MockDMLTest {
         };
 
         Test.startTest();
-        dml.doMockInsert(acctList);
+        DML.doMockInsert(acctList);
         Test.stopTest();
 
         Assert.areNotEqual(
@@ -365,20 +321,18 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoUpdate1() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
-        dml.doInsert(account, true);
+        DML.doInsert(account, true);
 
         account.Name = 'Updated Account';
         Test.startTest();
-        dml.doUpdate(account, true);
+        DML.doUpdate(account, true);
         Test.stopTest();
 
-        Account updatedAccount = (Account) db.selectRecordById(account.Id);
+        Account updatedAccount = (Account) MockDatabase.selectRecordById(account.Id);
         Assert.areEqual(
             'Updated Account', 
             updatedAccount.Name,
@@ -388,8 +342,6 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoUpdate2() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -404,17 +356,17 @@ private class MockDMLTest {
             account2
         };
 
-        dml.doInsert(acctList, false);
+        DML.doInsert(acctList, false);
 
         account1.Name = 'Updated Account';
         account2.Name = 'Updated Account';
 
         Test.startTest();
-        dml.doUpdate(acctList, false);
+        DML.doUpdate(acctList, false);
         Test.stopTest();
 
-        Account updatedAccount1 = (Account) db.selectRecordById(account1.Id);
-        Account updatedAccount2 = (Account) db.selectRecordById(account2.Id);
+        Account updatedAccount1 = (Account) MockDatabase.selectRecordById(account1.Id);
+        Account updatedAccount2 = (Account) MockDatabase.selectRecordById(account2.Id);
 
         Assert.areEqual(
             'Updated Account', 
@@ -431,20 +383,18 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoUpdate3() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
-        dml.doInsert(account, true);
+        DML.doInsert(account, true);
 
         account.Name = 'Updated Account';
         Test.startTest();
-        dml.doUpdate(account, false, AccessLevel.USER_MODE);
+        DML.doUpdate(account, false, AccessLevel.USER_MODE);
         Test.stopTest();
 
-        Account updatedAccount = (Account) db.selectRecordById(account.Id);
+        Account updatedAccount = (Account) MockDatabase.selectRecordById(account.Id);
         Assert.areEqual(
             'Updated Account', 
             updatedAccount.Name,
@@ -454,9 +404,6 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoUpdate4() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
         Account account1 = new Account(
             Name = 'Test Account'
         );
@@ -470,17 +417,17 @@ private class MockDMLTest {
             account2
         };
 
-        dml.doInsert(acctList, false);
+        DML.doInsert(acctList, false);
 
         account1.Name = 'Updated Account';
         account2.Name = 'Updated Account';
 
         Test.startTest();
-        dml.doUpdate(acctList, false, AccessLevel.USER_MODE);
+        DML.doUpdate(acctList, false, AccessLevel.USER_MODE);
         Test.stopTest();
 
-        Account updatedAccount1 = (Account) db.selectRecordById(account1.Id);
-        Account updatedAccount2 = (Account) db.selectRecordById(account2.Id);
+        Account updatedAccount1 = (Account) MockDatabase.selectRecordById(account1.Id);
+        Account updatedAccount2 = (Account) MockDatabase.selectRecordById(account2.Id);
 
         Assert.areEqual(
             'Updated Account', 
@@ -497,14 +444,12 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoUpsert1() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
         Test.startTest();
-        dml.doUpsert(
+        DML.doUpsert(
             account, 
             null, 
             true
@@ -520,8 +465,6 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoUpsert2() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -537,7 +480,7 @@ private class MockDMLTest {
         };
 
         Test.startTest();
-        dml.doUpsert(
+        DML.doUpsert(
             acctList, 
             null, 
             false
@@ -559,14 +502,12 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoUpsert3() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
         Test.startTest();
-        dml.doUpsert(
+        DML.doUpsert(
             account, 
             null,
             false,
@@ -583,8 +524,6 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoUpsert4() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -600,7 +539,7 @@ private class MockDMLTest {
         };
 
         Test.startTest();
-        dml.doUpsert(
+        DML.doUpsert(
             acctList,
             null,
             false, 
@@ -623,28 +562,24 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoUndelete1() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
-        dml.doInsert(account, true);
-        dml.doDelete(account, true);
+        DML.doInsert(account, true);
+        DML.doDelete(account, true);
         Test.startTest();
-        dml.doUndelete(account, true);
+        DML.doUndelete(account, true);
         Test.stopTest();
 
         Assert.isFalse(
-            db.isDeleted(account.Id), 
+            MockDatabase.isDeleted(account.Id), 
             'Record should not be deleted'
         );
     }
 
     @IsTest
     static void testDoUndelete2() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -659,42 +594,40 @@ private class MockDMLTest {
             account2
         };
 
-        dml.doInsert(acctList, false);
-        dml.doDelete(acctList, false);
+        DML.doInsert(acctList, false);
+        DML.doDelete(acctList, false);
         Test.startTest();
-        dml.doUndelete(acctList, false);
+        DML.doUndelete(acctList, false);
         Test.stopTest();
 
         Assert.isFalse(
-            db.isDeleted(account1.Id) || db.isDeleted(account2.Id), 
+            MockDatabase.isDeleted(account1.Id) || 
+            MockDatabase.isDeleted(account2.Id), 
             'Records should not be deleted'
         );
     }
 
     @IsTest
     static void testDoUndelete3() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
 
         Account account = new Account(
             Name = 'Test Account'
         );
-        dml.doInsert(account, true);
-        dml.doDelete(account, true);
+        DML.doInsert(account, true);
+        DML.doDelete(account, true);
         Test.startTest();
-        dml.doUndelete(account.Id, true);
+        DML.doUndelete(account.Id, true);
         Test.stopTest();
 
         Assert.isFalse(
-            db.isDeleted(account.Id), 
+            MockDatabase.isDeleted(account.Id), 
             'Record should not be deleted'
         );
     }
 
     @IsTest
     static void testDoUndelete4() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
+
 
         Account account1 = new Account(
             Name = 'Test Account'
@@ -709,17 +642,17 @@ private class MockDMLTest {
             account2
         };
 
-        dml.doInsert(acctList, false);
-        dml.doDelete(acctList, false);
+        DML.doInsert(acctList, false);
+        DML.doDelete(acctList, false);
         List<Id> acctIds = new List<Id> {
             account1.Id,
             account2.Id
         };
         Test.startTest();
-        dml.doUndelete(acctIds, false);
+        DML.doUndelete(acctIds, false);
         Test.stopTest();
 
-        Boolean isEitherDeleted = (db.isDeleted(account1.Id) || db.isDeleted(account2.Id));
+        Boolean isEitherDeleted = (MockDatabase.isDeleted(account1.Id) || MockDatabase.isDeleted(account2.Id));
         Assert.isFalse(
             isEitherDeleted,
             'Records should not be deleted'
@@ -728,17 +661,16 @@ private class MockDMLTest {
 
     @IsTest
     static void testDoUndelete5() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
+
 
         Account account = new Account(
             Name = 'Test Account'
         );
 
-        dml.doInsert(account, false);
-        dml.doDelete(account, false);
+        DML.doInsert(account, false);
+        DML.doDelete(account, false);
         Test.startTest();
-        dml.doUndelete(
+        DML.doUndelete(
             account, 
             false,
             AccessLevel.USER_MODE
@@ -746,7 +678,7 @@ private class MockDMLTest {
         Test.stopTest();
 
         Assert.isFalse(
-            db.isDeleted(account.Id), 
+            MockDatabase.isDeleted(account.Id), 
             'Record should not be deleted'
         );
     }
