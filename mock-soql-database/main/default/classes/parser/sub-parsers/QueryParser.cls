@@ -1,5 +1,20 @@
+/**
+ * @description This class is responsible for parsing a SOQL query
+ * @author Zackary Frazier
+ * @since 4/12/2024
+ */
+@SuppressWarnings('PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity')
 public inherited sharing class QueryParser extends SubParser {
+
+    /**
+     * @description Parses a SOQL query
+     * @param query 
+     * @return  `Intermediary`
+     * @exception ParsingException
+     */
+    @SuppressWarnings('PMD.StdCyclomaticComplexity, PMD.NcssMethodCount, PMD.CyclomaticComplexity')
     public override Intermediary parse(String query) {
+        // NOTE: The order of the parsers is important, makes this hard to refactor further
 
         Intermediary selectIntermediary = new SelectParser().parse(query);
         query = selectIntermediary.subquery;
@@ -86,6 +101,7 @@ public inherited sharing class QueryParser extends SubParser {
 		if(nextLink.subquery != '' && lookahead(nextLink.subquery, 1) != ')') {
             throw new ParsingException(nextLink.subquery, null);
         }
+
         // just making sure everything is lowercase
         applyCasing(selectIntermediary.head);
         
