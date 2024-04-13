@@ -28,7 +28,7 @@
 private with sharing class MockDatabaseUtilsTest {
     @IsTest
     static void testClone() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account');
         Test.startTest();
         Node clone = head.deepClone();

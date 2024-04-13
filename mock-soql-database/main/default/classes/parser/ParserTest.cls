@@ -25,12 +25,12 @@
 
 @IsTest
 @SuppressWarnings('PMD.NcssTypeCount, PMD.CyclomaticComplexity, PMD.CognitiveComplexity')
-private with sharing class LexerTest {
+private class ParserTest {
 
     @IsTest
     private static void testToString() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account');
         String result = head.toString();
         Test.stopTest();
@@ -47,7 +47,7 @@ private with sharing class LexerTest {
     private static void testAggrFuncFail1() {
         String exMessage;
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         try {
             t.parse('SELECT SUM_DISTINCT(Amount) FROM Opportunity');
         } catch(Exception e) {
@@ -68,7 +68,7 @@ private with sharing class LexerTest {
     private static void testAggrFuncFail2() {
         String exMessage;
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         try {
             t.parse('SELECT C(Amount) FROM Opportunity');
         } catch(Exception e) {
@@ -81,13 +81,13 @@ private with sharing class LexerTest {
         );
         Assert.isTrue(
             exMessage.startsWith('Parsing exception, expected "from"'),
-            'Expected exception message to start with "Parsing exception, expected "from""'
+            'Expected exception message to start with "Parsing exception, expected "from"", got "' + exMessage + '"'
         );
     }
 
     @IsTest
     private static void testAggrFuncFail3() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Boolean isExceptionThrown = false;
         String exMessage;
 
@@ -113,7 +113,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testParseBoolean() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account WHERE IsDeleted = true');
         Test.stopTest();
 
@@ -169,7 +169,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testOrderBy() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account ORDER BY Name, Id');
         Test.stopTest();
 
@@ -218,7 +218,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testLimit() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account LIMIT 10');
         Test.stopTest();
 
@@ -261,7 +261,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testForUpdate() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account FOR UPDATE');
         Test.stopTest();
 
@@ -299,7 +299,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testHavingClause() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account GROUP BY Id HAVING COUNT(Id) > 0');
         Test.stopTest();
 
@@ -392,7 +392,7 @@ private with sharing class LexerTest {
         List<Map<String, Object>> nodes = new List<Map<String, Object>>();
         Test.startTest();
         for(String func : aggrFuncs) {
-            Lexer t = new Lexer();
+            Parser t = new Parser();
             Node head = t.parse('SELECT ' + func + '(Amount) FROM Opportunity');
             Map<String, Object> nodeDatum = new Map<String, Object> {
                 'head' => head,
@@ -442,7 +442,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testSelectAccount() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account');
         Test.stopTest();
         
@@ -474,7 +474,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testSelectWithWhereClause() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account WHERE Name = \'Test\'');
         Test.stopTest();
         
@@ -531,7 +531,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testMixedFieldsSubQueries() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id, (SELECT Id FROM Contacts), Name FROM Account');
         Test.stopTest();
 
@@ -599,7 +599,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testSubQueryWithSubQueryFirst() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT (SELECT Id FROM Contacts), Id FROM Account');
         Test.stopTest();
 
@@ -643,7 +643,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testSubQueryWithSubQuerySecond() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id, (SELECT Id FROM Contacts) FROM Account');
         Test.stopTest();
 
@@ -693,7 +693,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testMultipleSubQueries() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id, (SELECT Id FROM Contacts), (SELECT Id FROM Opportunities) FROM Account');
         Test.stopTest();
 
@@ -774,7 +774,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testSubQueryWithQueryInWhereClause() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account WHERE Id IN (SELECT AccountId FROM Contact)');
         Test.stopTest();
 
@@ -854,7 +854,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testSubQueryWithQueryInWhereClause2() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account WHERE Id IN (SELECT AccountId FROM Contact WHERE Name = \'Test\')');
         Test.stopTest();
 
@@ -955,7 +955,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testBindVar() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Account WHERE Id = :id');
         Test.stopTest();
 
@@ -1011,7 +1011,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testAndStatements() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Contact WHERE FirstName = \'test\' AND LastName = \'test2\' AND Account.Name = \'testAcct\'');
         Test.stopTest();
 
@@ -1115,7 +1115,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testQueryWithOrAnd() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Contact WHERE FirstName = \'test\' OR LastName = \'test2\' AND Account.Name = \'testAcct\'');
         Test.stopTest();
 
@@ -1221,7 +1221,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testNot() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Contact WHERE NOT FirstName = \'test\'');
         Test.stopTest();
 
@@ -1283,7 +1283,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testCorrectsForAndWithOr() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Contact WHERE FirstName = \'test\' OR LastName = \'test2\' AND Account.Name = \'testAcct\' OR Account.Name = \'testAcct2\'');
         Test.stopTest();
 
@@ -1411,7 +1411,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testCorrectsForAndWithOrWithSubExpr() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Contact WHERE FirstName = \'test\' AND LastName = \'test2\' OR (Account.Name = \'testAcct\' AND Account.Name = \'testAcct2\' OR Account.Name = \'testAcct3\')');
         Test.stopTest();
 
@@ -1569,7 +1569,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testAlias() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT COUNT(Id) Cnt1 FROM Account GROUP BY Id');
         Test.stopTest();
 
@@ -1625,7 +1625,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testParseValueList() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id FROM Contact WHERE FirstName IN (\'test\', \'test2\')');
         Test.stopTest();
         Assert.areEqual('select', head.id, 'Expected id to be "select"');
@@ -1697,7 +1697,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testSingularCount() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT COUNT() FROM Account');
         Test.stopTest();
         Assert.areEqual('select', head.id, 'Expected id to be "select"');
@@ -1728,7 +1728,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testSimpleAlias() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id id FROM Account');
         Test.stopTest();
         Assert.areEqual('select', head.id, 'Expected id to be "select"');
@@ -1765,7 +1765,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testAliases() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Account.Name acctName, Name, COUNT(Id) FROM Contact GROUP BY Name, Account.Name');
         Test.stopTest();
         Assert.areEqual('select', head.id, 'Expected id to be "select"');
@@ -1838,7 +1838,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testSubQueryNoAlias() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id, Name, (SELECT Id, FirstName, LastName FROM Contacts) FROM Account');
         Test.stopTest();
         Assert.areEqual('select', head.id, 'Expected id to be "select"');
@@ -1917,7 +1917,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testHavingClauseWithMultipleConditions() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Name, COUNT(Id) FROM Account GROUP BY Name HAVING COUNT(Id) > 1 AND COUNT(Id) < 10');
         Test.stopTest();
 
@@ -2032,7 +2032,7 @@ private with sharing class LexerTest {
     @IsTest
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testHavingClauseWhereAdjust() {
-        Lexer l = new Lexer();
+        Parser l = new Parser();
         
         Test.startTest();
         Node head = l.parse('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name HAVING Name = \'Test2\' OR Name = \'Test1\' AND SUM(NumberOfEmployees) > 10');
@@ -2167,7 +2167,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testOrderByDesc() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Name FROM Account ORDER BY Name DESC');
         Test.stopTest();
         
@@ -2216,7 +2216,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testNullsFirst() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Name FROM Account ORDER BY Name NULLS FIRST');
         Test.stopTest();
         
@@ -2266,7 +2266,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testNullsLast() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Name FROM Account ORDER BY Name NULLS LAST');
         Test.stopTest();
 
@@ -2315,7 +2315,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testOffset() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Name FROM Account OFFSET 10');
         Test.stopTest();
 
@@ -2360,7 +2360,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testTypeOf() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT TYPEOF What WHEN Account THEN Name WHEN Opportunity THEN Amount ELSE Name END FROM Event');
         Test.stopTest();
 
@@ -2441,7 +2441,7 @@ private with sharing class LexerTest {
     @SuppressWarnings('PMD.NcssMethodCount')
     private static void testTypeOfMultipleFields() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT TYPEOF What WHEN Account THEN Name, Phone WHEN Opportunity THEN Amount ELSE Name END FROM Event');
         Test.stopTest();
 
@@ -2503,7 +2503,7 @@ private with sharing class LexerTest {
     @IsTest
     private static void testScope() {
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Node head = t.parse('SELECT Id, Name FROM Account USING SCOPE everything');
         Test.stopTest();
 
@@ -2554,7 +2554,7 @@ private with sharing class LexerTest {
     static void testGroupByRollup() {
         String exMessage;
         Test.startTest();
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         try {
             t.parse('SELECT Name, COUNT(Id) FROM Account GROUP BY ROLLUP(Name)');
         } catch(QueryException ex) {
@@ -2573,7 +2573,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testGroupByCube() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         String exMessage;
         Test.startTest();
         try {
@@ -2595,7 +2595,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testForView() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Node head = t.parse('SELECT Name, COUNT(Id) FROM Account FOR VIEW');
         Test.stopTest();
@@ -2644,7 +2644,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testForReference() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Node head = t.parse('SELECT Name, COUNT(Id) FROM Account FOR REFERENCE');
         Test.stopTest();
@@ -2692,7 +2692,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testUpdateTrackingExpectError() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         String exMessage;
         Test.startTest();
         try {
@@ -2713,7 +2713,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testUpdateViewStatExpectError() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         String exMessage;
         Test.startTest();
         try {
@@ -2734,7 +2734,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testWithDataCategoryExpectError() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         String exMessage;
         Test.startTest();
         try {
@@ -2756,7 +2756,7 @@ private with sharing class LexerTest {
     // Syntax Tests
     @IsTest
     static void testSpacing1() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2770,7 +2770,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing2() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2784,7 +2784,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing3() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2798,7 +2798,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing4() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2812,7 +2812,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing5() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2826,7 +2826,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing6() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2840,7 +2840,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing7() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2854,7 +2854,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing8() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2868,7 +2868,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing9() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2882,7 +2882,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing10() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2896,7 +2896,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing11() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2910,7 +2910,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing12() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2924,7 +2924,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing13() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2938,7 +2938,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing14() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2952,7 +2952,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing15() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2966,7 +2966,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing16() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2980,7 +2980,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing17() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -2994,7 +2994,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing18() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3008,7 +3008,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing19() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3022,7 +3022,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing20() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3036,7 +3036,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing21() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3050,7 +3050,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing22() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3064,7 +3064,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing23() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3078,7 +3078,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing24() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3092,7 +3092,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing25() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3106,7 +3106,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing26() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3120,7 +3120,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing27() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3134,7 +3134,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing28() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3148,7 +3148,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing29() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3162,7 +3162,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing30() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3176,7 +3176,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing31() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3190,7 +3190,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing32() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3205,7 +3205,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing33() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3220,7 +3220,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing34() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3235,7 +3235,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing35() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3250,7 +3250,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing36() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3265,7 +3265,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing37() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3280,7 +3280,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing38() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3295,7 +3295,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing39() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3310,7 +3310,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing40() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3325,7 +3325,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing41() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3340,7 +3340,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing42() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3355,7 +3355,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing43() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3370,7 +3370,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing44() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3385,7 +3385,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing45() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3400,7 +3400,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing46() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3415,7 +3415,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing47() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3430,7 +3430,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing48() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3445,7 +3445,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing49() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
@@ -3460,7 +3460,7 @@ private with sharing class LexerTest {
 
     @IsTest
     static void testSpacing50() {
-        Lexer t = new Lexer();
+        Parser t = new Parser();
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {

@@ -398,7 +398,7 @@ public inherited sharing class MockDatabase {
 
     // @description: This method is used to query the mock database by traversing the AST
     private Object doQuery(String query, Map<String, Object> params) {
-        Lexer parser = new Lexer();
+        Parser parser = new Parser();
         Node selectNode = parser.parse(query);
         return doQuery(selectNode, params);
     }

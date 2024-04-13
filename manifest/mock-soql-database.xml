@@ -42,8 +42,8 @@
         <members>InequalityHandler</members>
         <members>LessThanHandler</members>
         <members>LessThanOrEqualHandler</members>
-        <members>Lexer</members>
-        <members>LexerTest</members>
+        <members>Parser</members>
+        <members>ParserTest</members>
         <members>LikeHandler</members>
         <members>LimitHandlerFactory</members>
         <members>LimitOptions</members>

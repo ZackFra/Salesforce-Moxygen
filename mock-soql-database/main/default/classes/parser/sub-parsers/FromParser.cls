@@ -24,30 +24,32 @@
  */
 
 /**
- * @description Contains utility methods for the parser, could probably be refactored out of existance though
+ * @description Class is responsible for parsing the 'from' clause of a query 
  * @author Zackary Frazier
- * @since 3/23/2024
+ * @since 4/12/2024
  */
-public with sharing class ParserUtils {
-
+public inherited sharing class FromParser extends SubParser {
     /**
-     * @description Skips whitespace in a query string
+     * @description Parses the 'from' clause of a query
      * @param query `String`
-     * @return  `String`
+     * @return  `Intermediary`
      */
-    public static String skipWhitespace(String query) {
-        while(query.length() > 0 && query.substring(0, 1).isWhitespace()) {
-            query = query.subString(1);
-        }
-        return query;
+    public override Intermediary parse(String query) {
+        query = skipWhitespace(query);
+        query = consume(query, 'from');
+        query = consume(query, ' ');
+        
+        
+        Intermediary leftIntermediary = new SObjectParser().parse(query);
+		
+        return new Intermediary(
+        	new NodeBuilder()
+            	.setId('from')
+            	.setNodeType('from')
+            	.setLeft(leftIntermediary.head)
+            	.build(),
+            leftIntermediary.subquery
+        );
     }
-    
-    /**
-     * @description Checks if a character is a valid character for a field or object name
-     * @param character `String`
-     * @return  `Boolean`
-     */
-    public static Boolean validCharForFieldOrObject(String character) {
-        return character.isAlpha() || character == '_' || character.isNumeric();
-    }
+
 }

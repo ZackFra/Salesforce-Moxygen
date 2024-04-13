@@ -111,7 +111,7 @@ public class AccountServiceTest {
 
 # Mock SOQL Database
 
-Under the hood, a mock SOQL lexer and parser is used to handle queries. It can be instantiated on its own as shown below.
+Under the hood, a mock SOQL parser is used to handle queries. It can be instantiated on its own as shown below.
 
 ## Example
 ```
