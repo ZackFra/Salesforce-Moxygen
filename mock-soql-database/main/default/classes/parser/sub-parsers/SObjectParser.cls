@@ -23,38 +23,30 @@
  *
  */
 
-/**
- * @description This class is responsible for parsing the limit clause of a query
- * @author Zackary Frazier
- * @since 4/12/2024
- */
-public inherited sharing class LimitParser extends SubParser {
-
+ /**
+  * @description Parses an SObject name in a query
+  * @author Zackary Frazier
+  * @since 4/12/2024
+  */
+public inherited sharing class SObjectParser extends SubParser {
     /**
-     * @description Parses the limit clause of a query
+     * @description Parses the object from the 'from' clause
      * @param query `String`
      * @return  `Intermediary`
-     * @exception ParsingException
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(query.length() < 5 || lookahead(query, 5) != 'limit') { 
-            return null;
-        }
-        
-        query = consume(query, 'limit ');
-        query = skipWhitespace(query);
-        Intermediary limitSize = new ValueParser().parse(query);
-        if(limitSize.head.nodeType != 'bind variable' && limitSize.head.nodeType != 'number') {
-            throw new ParsingException('Invalid offset value');
+        String objectName = '';
+        while(query.length() != 0 && (ParserUtils.validCharForFieldOrObject(query.subString(0, 1)))) {
+            objectName += query.subString(0, 1);
+            query = query.subString(1);
         }
         return new Intermediary(
         	new NodeBuilder()
-            	.setId('limit')
-            	.setNodeType('limit')
-            	.setLeft(limitSize.head)
+            	.setId(objectName)
+            	.setNodeType('object')
             	.build(),
-            limitSize.subquery
+            query
         );
     }
 }

@@ -23,38 +23,43 @@
  *
  */
 
-/**
- * @description This class is responsible for parsing the limit clause of a query
- * @author Zackary Frazier
- * @since 4/12/2024
- */
-public inherited sharing class LimitParser extends SubParser {
+ /**
+  * @description This class is responsible for parsing a list of fields.
+  * @author Zackary Frazier
+  * @since 4/12/2024
+  */
+public inherited sharing class FieldListParser extends SubParser {
 
     /**
-     * @description Parses the limit clause of a query
+     * @description Parses a list of fields
      * @param query `String`
      * @return  `Intermediary`
-     * @exception ParsingException
      */
+
+    @SuppressWarnings('PMD.CognitiveComplexity')
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(query.length() < 5 || lookahead(query, 5) != 'limit') { 
-            return null;
+        Intermediary nextItem;
+        if(isAggregateFunc(query)) {
+            nextItem = new AggregateFuncParser().parse(query);
+            query = nextItem.subquery;
+        } else {
+            nextItem = new FieldParser().parse(query);
+            query = skipWhitespace(nextItem.subquery);
+            if(query.length() == 0) {
+                return nextItem;
+            }
         }
         
-        query = consume(query, 'limit ');
-        query = skipWhitespace(query);
-        Intermediary limitSize = new ValueParser().parse(query);
-        if(limitSize.head.nodeType != 'bind variable' && limitSize.head.nodeType != 'number') {
-            throw new ParsingException('Invalid offset value');
+        String nextChar = lookahead(query, 1);
+        String nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
+        
+        if(nextChar == ',' && nextCharAfterThat != '(') {
+            query = query.subString(1);
+            Intermediary restOfList = parse(query);
+            nextItem.head.left = restOfList.head;
+            nextItem.subquery = restOfList.subquery;
         }
-        return new Intermediary(
-        	new NodeBuilder()
-            	.setId('limit')
-            	.setNodeType('limit')
-            	.setLeft(limitSize.head)
-            	.build(),
-            limitSize.subquery
-        );
+        return nextItem;
     }
 }

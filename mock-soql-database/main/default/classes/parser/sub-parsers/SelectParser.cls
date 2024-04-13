@@ -1,3 +1,34 @@
+/* 
+ * MIT License
+ *
+ * Copyright (c) 2024 Zackary Frazier
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ */
+
+ /**
+  * @description Parser for the SELECT clause
+  * @author Zackary Frazier
+  * @since 4/12/2024
+  */
+@SuppressWarnings('PMD.CognitiveComplexity')
 public inherited sharing class SelectParser extends SubParser {
 
     private FieldParser fieldParser = new FieldParser();
@@ -24,7 +55,7 @@ public inherited sharing class SelectParser extends SubParser {
             selectExpr = parseTypeOf(query);
             query = selectExpr.subquery;
         } else if(isAggregateFunc(query)) {
-            selectExpr = parseAggregateFunc(query);
+            selectExpr = new AggregateFuncParser().parse(query);
             query = selectExpr.subquery;
         } else if(lookahead(query, 1) == '(') {
             query = consume(query, '(');
@@ -66,7 +97,7 @@ public inherited sharing class SelectParser extends SubParser {
      * @param query `String`
      * @return : `Intermediary`
     */
-    @SuppressWarnings('PMD.NcssMethodCount')
+    @SuppressWarnings('PMD.NcssMethodCount, PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
     private Intermediary parseFieldListWithAliases(String query) {
         query = skipWhitespace(query);
         Intermediary nextItem;
@@ -74,7 +105,7 @@ public inherited sharing class SelectParser extends SubParser {
             nextItem = parseTypeOf(query);
             query = nextItem.subquery;
         } else if(isAggregateFunc(query)) {
-            nextItem = parseAggregateFunc(query);
+            nextItem = new AggregateFuncParser().parse(query);
             query = nextItem.subquery;
         } else {
             nextItem = this.fieldParser.parse(query);
@@ -96,7 +127,7 @@ public inherited sharing class SelectParser extends SubParser {
         query = skipWhitespace(nextItem.subquery);
         if(lookahead(query, 5) != 'from ' && lookahead(query, 1) != ',') {
             // NOTE: alias might still be null after parsing, that's ok
-            alias = parseAlias(query);
+            alias = new AliasParser().parse(query);
         }
         
         if(alias != null) {
@@ -141,7 +172,7 @@ public inherited sharing class SelectParser extends SubParser {
         query = consume(query, 'else');
         query = consume(query, ' ');
         query = skipWhitespace(query);
-        Intermediary fieldList = parseFieldList(query);
+        Intermediary fieldList = new FieldListParser().parse(query);
         return new Intermediary(
         	new NodeBuilder()
             	.setId('else')
@@ -197,7 +228,7 @@ public inherited sharing class SelectParser extends SubParser {
         query = consume(query, 'when');
         query = consume(query, ' ');
         query = skipWhitespace(query);
-        Intermediary obj = parseObj(query);
+        Intermediary obj = new SObjectParser().parse(query);
         query = obj.subquery;
         query = consume(query, ' ');
         query = skipWhitespace(query);
@@ -205,7 +236,7 @@ public inherited sharing class SelectParser extends SubParser {
         query = consume(query, 'then');
         query = consume(query, ' ');
         query = skipWhitespace(query);
-        Intermediary thenExpr = parseFieldList(query);
+        Intermediary thenExpr = new FieldListParser().parse(query);
         query = thenExpr.subquery;
         return new Intermediary(
         	new NodeBuilder()
@@ -244,138 +275,6 @@ public inherited sharing class SelectParser extends SubParser {
             	.setId(fieldName)
             	.setNodeType('typeof')
             	.setRight(whenExpr.head)
-            	.build(),
-            query
-        );
-    }
-
-    private Intermediary parseFieldList(String query) {
-        query = skipWhitespace(query);
-        Intermediary nextItem;
-        if(isAggregateFunc(query)) {
-            nextItem = parseAggregateFunc(query);
-            query = nextItem.subquery;
-        } else {
-            nextItem = this.fieldParser.parse(query);
-            query = skipWhitespace(nextItem.subquery);
-            if(query.length() == 0) {
-                return nextItem;
-            }
-        }
-        
-        String nextChar = lookahead(query, 1);
-        String nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
-        
-        if(nextChar == ',' && nextCharAfterThat != '(') {
-            query = query.subString(1);
-            Intermediary restOfList = parseFieldList(query);
-            nextItem.head.left = restOfList.head;
-            nextItem.subquery = restOfList.subquery;
-        }
-        return nextItem;
-    }
-
-    @SuppressWarnings('PMD.NcssMethodCount')
-    private Intermediary parseAggregateFunc(String query) {
-        NodeBuilder nb = new NodeBuilder()
-            .setNodeType('aggregate function');
-        if(lookahead(query, 14) == 'count_distinct') {
-            query = consume(query, 'count_distinct');
-            nb.setId('count_distinct');
-        } else if(lookahead(query, 5) == 'count') {
-            query = consume(query, 'count');
-            nb.setId('count');
-        } else if(lookahead(query, 3) == 'sum') {
-            query = consume(query, 'sum');
-            nb.setId('sum');
-        } else if(lookahead(query, 3) == 'avg') {
-            query = consume(query, 'avg');
-            nb.setId('avg');
-        } else if(lookahead(query, 3) == 'min') {
-            query = consume(query, 'min');
-            nb.setId('min');
-        } else if(lookahead(query, 3) == 'max') {
-            query = consume(query, 'max');
-            nb.setId('max');
-        } else {
-            throw new ParsingException( query, 'aggregate function');
-        }
-        query = skipWhitespace(query);
-        
-        query = consume(query, '(');
-        if(nb.id == 'count' && lookahead(query, 1) == ')') {
-            query = consume(query, ')');
-            return new Intermediary(
-            	nb.build(),
-                query
-            );
-        }
-
-        query = skipWhitespace(query);
-        Intermediary field = this.fieldParser.parse(query);
-        
-        query = field.subquery;
-        query = consume(query, ')');
-
-        Intermediary alias = null;
-        query = skipWhitespace(query);
-        if(lookahead(query, 5) != 'from ') {
-            // NOTE: alias might still be null after parsing, that's ok
-            alias = parseAlias(query);
-        }
-
-        if(alias != null) {
-            field.head.left = alias.head;
-            query = alias.subquery;
-        }
-        nb.setRight(field.head);
-        
-        
-        return new Intermediary(
-			nb.build(),
-            query
-        );
-    }
-
-    // @description : Parses an alias, which is a string of characters that is not a number
-    private Intermediary parseAlias(String query) {
-
-        query = skipWhitespace(query);
-        // if the next character is not a letter, it's not an alias
-        if(!lookahead(query, 1).isAlpha()) {
-            return null;
-        }
-
-        String aliasName = '';
-        while(query.length() > 0 && ParserUtils.validCharForFieldOrObject(lookahead(query, 1))) {
-            aliasName += lookahead(query, 1, true);
-            query = query.subString(1);
-        }
-
-        if(aliasName.isNumeric()) {
-            throw new ParsingException(aliasName, 'alias name');
-        }
-
-        return new Intermediary(
-            new NodeBuilder()
-                .setId(aliasName)
-                .setNodeType('alias')
-                .build(),
-            query
-        );
-    }
-
-    private Intermediary parseObj(String query) {
-        query = skipWhitespace(query);
-        String objectName = '';
-        while(query.length() != 0 && (ParserUtils.validCharForFieldOrObject(query.subString(0, 1)))) {
-            objectName += query.subString(0, 1);
-            query = query.subString(1);
-        }
-        return new Intermediary(
-        	new NodeBuilder()
-            	.setId(objectName)
-            	.setNodeType('object')
             	.build(),
             query
         );
