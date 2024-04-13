@@ -319,11 +319,13 @@ public inherited sharing class DML {
 
     @TestVisible
     private static void doMockInsert(SObject recordToInsert) {
+        ORM.validateUnitTestContext();
         MockDatabase.doMockInsert(recordToInsert);
     } 
 
     @TestVisible 
     private static void doMockInsert(List<SObject> recordsToInsert) {
+        ORM.validateUnitTestContext();
         MockDatabase.doMockInsert(recordsToInsert);
     }
 
@@ -333,6 +335,7 @@ public inherited sharing class DML {
      */
     @TestVisible
     private static Boolean didAnyDML() {
+        ORM.validateUnitTestContext();
         return MockDatabase.dmlHandler.wasCalled();
     }
 
@@ -343,6 +346,13 @@ public inherited sharing class DML {
      */
     @TestVisible
     private static Boolean didDML(Types.DML dmlType) {
+        ORM.validateUnitTestContext();
         return MockDatabase.dmlHandler.wasCalled(dmlType);
+    }
+
+    @TestVisible
+    private static Boolean isDeleted(Id recordId) {
+        ORM.validateUnitTestContext();
+        return MockDatabase.isDeleted(recordId);
     }
 }
