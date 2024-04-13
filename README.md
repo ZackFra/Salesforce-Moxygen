@@ -2,12 +2,7 @@
 
 Salesforce Moxygen is an intuitive Salesforce mocking framework for Apex unit testing.
 
-Moxygen is unique from other unit testing frameworks in that it includes a functional in-memory mock database that can handle most SOQL queries, parse them, and return the correct results. This means, in most cases, it is not required to specify what's returned from queries or to stub the data access object.
-
-The ORM object encapsulates both DML and query logic by creating non-static wrappers around
-their respective static Database methods.
-
-Using this, we can mock the Selector and DML classes using interface trickery.
+Moxygen is unique from other unit testing frameworks in that it includes a functional in-memory mock database that can handle most SOQL queries, parse them, and return the correct results. This means, in most cases, it is not required to specify what's returned from queries or to stub a data access object.
 
 ## Example
 
@@ -15,9 +10,6 @@ Lets say you have an AccountService class like so:
 
 ```
 public class AccountService {
-	
-    @TestVisible
-    private IORM db = new ORM();
 
     public void updateAcctName(Id accountId) {
 
@@ -26,7 +18,7 @@ public class AccountService {
         };
 
         // one-to-one wrapper around Database.queryWithBinds
-        List<Account> acctList = db.getSelector().queryWithBinds(
+        List<Account> acctList = Selector.queryWithBinds(
             'SELECT Name FROM Account WHERE Id = :acctId',
             binds,
             AccessLevel.USER_MODE
@@ -37,7 +29,7 @@ public class AccountService {
         }
 
         // one-to-one wrapper around Database.update
-        db.getDML().doUpdate(acctList, true);
+        DML.doUpdate(acctList, true);
     }
 }
 ```
@@ -49,30 +41,28 @@ To test this, you can create an account with an @TestSetup class... orr....
 public class AccountServiceTest {
 
     @IsTest
-    private static void testUpdateAcctName() {
-        MockORM db = new MockORM();
-        MockDML dml = db.getMockDML();
-
+    private static void testUpdateAcctNameUnitTest() {
+	// Moxygen already knows its in a unit test, no setup required
+	
         Account newAcct = new Account(
             Name = 'Lame'
         );
+	
+	// Does an insert without registering that DML was performed
+        DML.doMockInsert(newAcct);
 
-        dml.doMockInsert(newAcct);
-        
         AccountService service = new AccountService();
-        service.db = db;
 
-        // we used doMockInsert, so no DML is registered
         Assert.isFalse(
-            db.didAnyDML(),
+            DML.didAnyDML(),
             'Expected no DML statement to register'
         );
 
         Test.startTest();
             service.updateAcctName(newAcct.Id);
         Test.stopTest();
-        
-        Account updatedAcct = (Account) db.selectRecordById(newAcct.Id);
+
+        Account updatedAcct = (Account) Selector.selectRecordById(newAcct.Id);
 
         // Did we actually update the record?
         Assert.areEqual(
@@ -83,56 +73,70 @@ public class AccountServiceTest {
 
         // check for any DML
         Assert.isTrue(
-            db.didAnyDML(),
+            DML.didAnyDML(),
             'Expected DML to fire'
         );
 
-
         // check for a specific DML operation
         Assert.isTrue(
-            db.didDML(Types.DML.UPDATED),
+            DML.didDML(Types.DML.UPDATED),
             'Expected data to be updated'
         );
 
         // did we call a query?
         Assert.isTrue(
-            db.calledAnyQuery(),
+            Selector.calledAnyQuery(),
             'Expected some query to be called'
         );
 
-        // check that our query was called
+        // check that our specific query was called
         Assert.isTrue(
-            db.calledQuery('SELECT Name FROM Account WHERE Id = :acctId'),
+            Selector.calledQuery('SELECT Name FROM Account WHERE Id = :acctId'),
             'Expected query to be called'
         );
     }
+    
+    @IsTest
+    private static void testUpdateAcctNameIntegrationTest() {
+	// defaults to unit tests, need to specify when we want real DML and SOQL to fire off
+	ORM.doIntegrationTest();
+        
+        Account newAcct = new Account(
+            Name = 'Lame'
+        );
+
+        DML.doInsert(newAcct, true);
+
+        AccountService service = new AccountService();
+
+        Test.startTest();
+            service.updateAcctName(newAcct.Id);
+        Test.stopTest();
+        
+        Map<String, Object> acctBinds = new Map<String, Object> {
+            'newAcctId' => newAcct.Id
+        };
+        List<Account> updatedAcctList = (List<Account>) Selector.queryWithBinds(
+            'SELECT Name FROM Account WHERE Id = :newAcctId',
+            acctBinds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Account updatedAcct = updatedAcctList[0];
+
+        // Did we actually update the record?
+        Assert.areEqual(
+            'WOOOO!!!!',
+            updatedAcct.Name,
+            'Expected account name to be updated'
+        );
+    }
+}
 }
 ```
 
 # Mock SOQL Database
 
-Under the hood, a mock SOQL parser is used to handle queries. It can be instantiated on its own as shown below.
-
-## Example
-```
-Account a = new Account(Name = 'Test1', NumberOfEmployees = 5);
-Account b = new Account(Name = 'Test1', NumberOfEmployees = 10);
-Account c = new Account(Name = 'Test2', NumberOfEmployees = 15);
-Account d = new Account(Name = 'Test2', NumberOfEmployees = 20);
-MockDatabase mockDb = new MockDatabase();
-List<Account> acctList = new List<Account>{a, b, c, d};
-mockDb.doInsert(acctList);
-
-Test.startTest();
-    List<Aggregate> queriedAccts = (List<Aggregate>) mockDb.query('SELECT Name, SUM(NumberOfEmployees) FROM Account GROUP BY Name ORDER BY Name ASC');
-Test.stopTest();
-
-Assert.areEqual('Test1', queriedAccts[0].get('Name'), 'Incorrect order');
-Assert.areEqual('Test2', queriedAccts[1].get('Name'), 'Incorrect order');
-```
-
-
-A SOQL query will have the following format.
+Under the hood, a mock SOQL parser is used to handle queries in the context of a unit test.
 
 ```
 SELECT fieldList [subquery][...]
@@ -180,16 +184,19 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 
 ## Classes
 
-### IORM
+### ORM
 
-The IORM interface defines two methods that can be expected to exist on both the MockORM and ORM classes,
+The ORM class acts as a simple state manager for the Selector and DML classes. It determines whether to make calls to the Database class or the MockDatabase class based on
+the isUnitTest variable. This variable's value defaults to Test.isRunningTest(), but can be set to false via a call to ORM.doIntegrationTest().
 
-- ISelector getSelector()
-- IDML getDML()
+#### @TestVisible private static void doIntegrationTest()
+Sets isUnitTest to false, causes DML and Selector class methods to use the Database class when doing DML statements or SOQL queries.
 
-### ISelector
+### Selector
 
-The ISelector interface defines three methods,
+The selector manages SOQL queries. It determines whether to use a call to the Database class or MockDatabase class
+based on the context set in the ORM class. In normal usage, it calls Database methods, in a test class it defaults to
+MockDatabase but this can be changed by calling ORM.doIntegrationTest();
 
 - List\<SObject\> query(String queryString)
 - List\<SObject\> query(String queryString, System.AccessLevel accessLevel)
@@ -199,9 +206,60 @@ The ISelector interface defines three methods,
 - List\<Aggregate\> queryAggregate(String queryString, System.AccessLevel accessLevel);
 - List\<Aggregate\> queryAggregateWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel);
 
-### IDML
+There is also a suite of @TestVisible methods that are only available in the context of a unit test.
 
-The IDML interface defines the following methods, reflecting their equivalent static Database methods.
+#### @TestVisible private static SObject selectRecordById(Id recordId)
+
+Retrieve a record from the mock database, by Id.
+
+NOTE: This will grab deleted records.
+
+#### @TestVisible private static Boolean calledAnyQuery()
+
+Returns whether any query was called.
+
+#### @TestVisible private static Boolean calledQuery(String queryString)
+
+Returns whether a specific query was called.
+
+#### @TestVisible private static void registerQuery(String queryString, List\<SObject\> records)
+
+Register a query so that when it is called, it returns a specific set of SObjects.
+Because the SObjects are passed in a list, edits to these SObjects will be reflected
+in the mock database (i.e. pointer logic).
+
+If a query is registered, the mock soql database will not be used.
+
+#### @TestVisible private static void registerFailedQuery(String queryString)
+
+Register a query such that when it is called, an exception is thrown.
+This throws a generic QueryException.
+
+#### @TestVisible private static void registerAggregateQuery(String queryString, List\<Aggregate\> records)
+
+Register an aggregate query to return a list of Aggregate objects when its called.
+
+If a query is registered, the mock soql database will not be used.
+
+#### @TestVisible private static void registerFailedAggregateQuery(String queryString)
+
+Register a failed aggregate query. Will throw a QueryException when called (via the queryAggregate methods).
+
+#### @TestVisible private static void registerCountQuery(String queryString, Integer count)
+
+Register a count query (i.e. a call to queryCount).
+
+If a query is registered, the mock soql database will not be used.
+
+#### @TestVisible private static void registerFailedCountQuery(String queryString)
+
+Register a failed count query. Throws a QueryException.
+
+### DML
+
+The DML class handles DML statements. Just like the Selector class, it determines whether to make calls to the Database or MockDatabase class
+based on the context set in the ORM class. In normal usage, it calls Database methods, in a test class it defaults to
+MockDatabase but this can be changed by calling ORM.doIntegrationTest();
 
 - Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone)
 - List\<Database.DeleteResult\> doDelete(List\<SObject\> recordsToDelete, Boolean allOrNone)
@@ -229,73 +287,23 @@ The IDML interface defines the following methods, reflecting their equivalent st
 - List\<Database.UndeleteResult\> doUndelete(List\<Id\> recordIDs, Boolean allOrNone)
 - Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel)
 
-### ORM
+This class also contains a suite of @TestVisible methods that can only be used in the context of a unit test.
 
-The ORM class is the implementation of the IORM that that is meant for regular use.
+#### @TestVisible private static doMockInsert(SObject recordToInsert)
 
-#### ISelector getSelector()
+Inserts a record into the mock database without registering an insert.
 
-Returns a Selector object
+#### @TestVisible private static doMockInsert(List\<SObject\> recordsToInsert)
 
-#### getDML()
+Inserts a list of records into the mock database without registering an insert.
 
-Returns a DML object
+#### @TestVisible private static Boolean didAnyDML()
 
-### Selector
+Returns whether and DML, aside from calls to doMockInsert, were made.
 
-The Selector class implements the ISelector methods as wrappers around their Database methods.
-ex.
+#### @TestVisible private static Boolean didDML(Types.DML type)
 
-```
-public List<SObject> query(String queryString) {
-    return Database.query(queryString);
-}
-```
-
-### DML
-
-The DML class class is a wrapper around the DML-related Database methods. They behave the same as
-the Selector methods. The only thing to note is that DML operations are reserved words in Apex, so
-all methods are prefixed with "do",
-
-i.e.
-
-- doUpdate
-- doInsert
-- doUpsert
-- etc.
-
-### MockORM
-
-The MockORM object is used for mocking database interactions. It keeps a mock database tracked
-internally for records that have been fake-inserted.
-
-#### ISelector getSelector()
-
-Returns a MockSelector object
-
-#### IDML getDML()
-
-Returns a MockDML object
-
-These need to be cast to MockDML and MockSelector get the full use out of them.
-For testing, the following methods are also defined,
-
-### MockSelector getMockSelector()
-
-Returns the MockSelector object, without the need to type-cast it.
-
-### MockDML getMockDML()
-
-Returns the MockDML object, without the need to type-cast it.
-
-#### public Boolean didAnyDML()
-
-Returns where any DML operation was performed by the mock database.
-
-#### public Boolean didDML(Types.DML type)
-
-Returns whether a specific DML operation was performed.
+Returns whether a specific DML operation was performed, excluding calls to doMockInsert.
 The options for type are:
 
 Types.DML.INSERTED
@@ -304,119 +312,10 @@ Types.DML.UPDATED
 Types.DML.DELETED
 Types.DML.UNDELETED
 
-#### public Boolean calledAnyQuery()
-
-Returns whether any query was called.
-
-#### public Boolean calledQuery(String queryString)
-
-Returns whether a specific query was called.
-
-#### public void reset()
-
-Resets the tracking on queries and DML operations, does NOT reset the mock database records.
-
-#### public void resetDML()
-
-Resets the tracking on DML operations
-
-#### public void resetSelector()
-
-Resets the tracking on SOQL queries
-
-#### public void registerQuery(String queryString, List\<SObject\> records)
-
-Register a query so that when it is called, it returns a specific set of SObjects.
-Because the SObjects are passed in a list, edits to these SObjects will be reflected
-in the mock database (i.e. pointer logic).
-
-If a query is registered, the mock soql database will not be used.
-
-#### public void registerFailedQuery(String queryString)
-
-Register a query such that when it is called, an exception is thrown.
-This throws a generic QueryException.
-
-#### public void registerAggregateQuery(String queryString, List\<Aggregate\> records)
-
-Register an aggregate query to return a list of Aggregate objects when its called.
-
-If a query is registered, the mock soql database will not be used.
-
-#### public void registerFailedAggregateQuery(String queryString)
-
-Register a failed aggregate query. Will throw a QueryException when called (via the queryAggregate methods).
-
-#### public void registerCountQuery(String queryString, Integer count)
-
-Register a count query (i.e. a call to queryCount).
-
-If a query is registered, the mock soql database will not be used.
-
-#### public void registerFailedCountQuery(String queryString)
-
-Register a failed count query. Throws a QueryException.
-
-#### public Boolean isDeleted(Id recordId)
+#### @TestVisible private Boolean isDeleted(Id recordId)
 
 Returns whether a record has been deleted, given the fake ID
 that was created for it when it was inserted
-
-#### public SObject selectRecordById(Id recordId)
-
-Retrieve a record from the mock database, by Id.
-
-NOTE: This will grab deleted records.
-
-### MockSelector
-
-This is a mock version of the selector.
-
-#### public List\<SObject\> query(String queryString)
-
-- If this query was not registered, queries the database via the mock soql database
-- Returns a list of SObjects if this query was registered via "registerQuery"
-- Throws an exception if this query was registered via "registerFailedQuery"
-
-#### public List\<SObject\> query(String queryString, System.AccessLevel accessLevel)
-
-Same behavior as query, accessLevel is ignored.
-
-#### public List\<SObject\> queryWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel)
-
-- If a query is registered, Same behavior as query, bindMap and accessLevel are ignored.
-- If a query is not registered, performs a query with binds call through the mock soql database.
-
-#### public List\<Aggregate\> queryAggregate(String queryString)
-
-- If this query was not registered, queries the mock soql database
-- Returns a list of Aggregates if this query was registered via "registerAggregateQuery"
-- Throws an exception if this query was registered via "registerFailedAggregateQuery"
-
-#### public List\<Aggregate\> queryAggregate(String queryString, System.AccessLevel accessLevel)
-
-Same behavior as queryAggregate, accessLevel is ignored
-
-#### List\<Aggregate\> queryAggregateWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel);
-
-- If the query was not registered, performs a query with binds on the mock soql database
-- Otherwise, same behavior as queryAggregate, bindMap and accessLevel are ignored.
-
-### MockDML
-
-The MockDML methods update the system fields on the SOBject and persist them to a mock database
-under the hood.
-
-Unique methods for this class, that aren't covered by IDML or are hoisted to MockORM are,
-
-#### void doMockInsert(List\<SObject\> recordsToInsert)
-
-Inserts a list of records into the mock database without it registering as a DML statement,
-used for setting mock data. Populates system fields.
-
-#### void doMockInsert(SObject recordToInsert)
-
-Inserts a record into the mock database. Populates system fields.
 
 ### Aggregate
 
