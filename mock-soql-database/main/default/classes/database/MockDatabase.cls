@@ -34,24 +34,13 @@ public inherited sharing class MockDatabase {
     final Map<Node, TopLevelNodes> topLevelNodes = new Map<Node, TopLevelNodes>();
     MockDatabaseDMLHandler dmlHandler;
 
-    public Map<String, Map<Id, SObject>> mockRecords;
+    public static Map<String, Map<Id, SObject>> mockRecords = new Map<String, Map<Id, SObject>>();
     public MockDatabaseUtils utils = new MockDatabaseUtils(this);
 
     /**
      * @description The MockDatabase constructor
      */
     public MockDatabase() {
-        this.mockRecords = new Map<String, Map<Id, SObject>>();
-        this.dmlHandler = new MockDatabaseDMLHandler(mockRecords);
-    }
-
-    /**
-     * @description The MockDatabase constructor with a database parameter, used for integrating this class 
-     *              with other classes
-     * @param mockRecords The database to use
-     */
-    public MockDatabase(Map<String, Map<Id, SObject>> mockRecords) {
-        this.mockRecords = mockRecords;
         this.dmlHandler = new MockDatabaseDMLHandler(mockRecords);
     }
 
@@ -87,8 +76,8 @@ public inherited sharing class MockDatabase {
      */
     public Integer count() {
         Integer count = 0;
-        for(String objApiName : this.mockRecords.keySet()) {
-            count += this.mockRecords.get(objApiName).size();
+        for(String objApiName : mockRecords.keySet()) {
+            count += mockRecords.get(objApiName).size();
         }
         return count;
     }
@@ -428,7 +417,7 @@ public inherited sharing class MockDatabase {
         String objApiName = SchemaService.getSObjectName(objName);
 
         // otherwise valid query, but there's no data in the database
-        Map<Id, sObject> mockObjects = this.mockRecords.get(objApiName);
+        Map<Id, sObject> mockObjects = mockRecords.get(objApiName);
         if (mockObjects == null) {
             return this.utils.emptyResponse(topLevelNodes);
         }
@@ -514,7 +503,7 @@ public inherited sharing class MockDatabase {
      * @return : the map of SObjects
      */
     public Map<Id, sObject> get(String objApiName) {
-        return this.mockRecords.get(objApiName);
+        return mockRecords.get(objApiName);
     }
 
     /**

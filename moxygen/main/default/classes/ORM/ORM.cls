@@ -28,8 +28,12 @@
  *              ORM is short for Object Relationshal Mapping, i.e. Salesforce's database
  */
 public inherited sharing class ORM implements IORM {
+
+    private Boolean isUnitTest = Test.isRunningTest();
+
     ISelector s;
     IDML d;
+
     /**
      * @description Constructor for ORM class
      */
