@@ -34,8 +34,7 @@ public inherited sharing class AggregateQueryHandler {
     AggregateProcessor standardProcessor;
     
     /**
-     * @description Constructor 
-     * @param db 
+     * @description Constructor  
      * @param topLevelNodes 
      * @exception AggregateQueryException
      */

@@ -28,7 +28,19 @@
  * @author Zackary Frazier
  * @since 3/9/2024
  */
+@SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
 public inherited sharing class Selector {
+ 
+    /*** UNIT TEST ATTRIBUTES  */
+    static Map<String, List<SObject>> queries = new Map<String, List<SObject>>();
+    static Map<String, List<Aggregate>> aggregateQueries = new Map<String, List<Aggregate>>();
+    static Map<String, Integer> countQueries = new Map<String, Integer>();
+
+    static Boolean wasCalled = false;
+    static Map<String, Boolean> callMap = new Map<String, Boolean>();
+
+
+
     /**
      * @description Query for a list of sObjects
      * @param queryString `String`
@@ -163,13 +175,6 @@ public inherited sharing class Selector {
 
     /** Unit Test Logic */
 
-    static Map<String, List<SObject>> queries = new Map<String, List<SObject>>();
-    static Map<String, List<Aggregate>> aggregateQueries = new Map<String, List<Aggregate>>();
-    static Map<String, Integer> countQueries = new Map<String, Integer>();
-
-    static Boolean wasCalled = false;
-    static Map<String, Boolean> callMap = new Map<String, Boolean>();
-
     /**
      * @description Returns whether or not the mock object was called
      * @return `Boolean`
@@ -205,7 +210,6 @@ public inherited sharing class Selector {
      * @description Registers a query that will return the given records when executed
      * @param queryString The query string to register
      * @param records The records to return when the query is executed
-     * @return The current instance of the MockQuery
      */
     @TestVisible
     private static void registerQuery(String queryString, List<SObject> records) {
@@ -216,7 +220,6 @@ public inherited sharing class Selector {
     /**
      * @description Registers a query that will throw an exception when executed
      * @param queryString The query string to register
-     * @return The current instance of the MockQuery
      */
     @TestVisible
     private static void registerFailedQuery(String queryString) {
@@ -228,7 +231,6 @@ public inherited sharing class Selector {
      * @description Registers an aggregate query that will return the given records when executed
      * @param queryString The query string to register
      * @param records The records to return when the query is executed
-     * @return The current instance of the MockQuery
      */
     @TestVisible
     private static void registerAggregateQuery(String queryString, List<Aggregate> records) {
@@ -239,7 +241,6 @@ public inherited sharing class Selector {
     /**
      * @description Registers an aggregate query that will throw an exception when executed
      * @param queryString The query string to register
-     * @return The current instance of the MockQuery
      */
     @TestVisible
     private static void registerFailedAggregateQuery(String queryString) {
@@ -251,7 +252,6 @@ public inherited sharing class Selector {
      * @description Registers a count query that will return the given count when executed
      * @param queryString The query string to register
      * @param count The count to return when the query is executed
-     * @return The current instance of the MockQuery
      */
     @TestVisible
     private static void registerCountQuery(String queryString, Integer count) {
@@ -262,7 +262,6 @@ public inherited sharing class Selector {
     /**
      * @description Registers a count query that will throw an exception when executed
      * @param queryString The query string to register
-     * @return The current instance of the MockQuery
      */
     @TestVisible
     private static void registerFailedCountQuery(String queryString) {

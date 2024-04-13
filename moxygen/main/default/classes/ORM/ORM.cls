@@ -51,6 +51,10 @@ public inherited sharing class ORM {
 
     private class NoAccessException extends Exception {}
 
+    /**
+     * @description Validates that the current context is a unit test 
+     * @exception NoAccessException
+     */
     public static void validateUnitTestContext() {
         if(!ORM.isUnitTest) {
             throw new NoAccessException('This method is only available in a unit test context.');
