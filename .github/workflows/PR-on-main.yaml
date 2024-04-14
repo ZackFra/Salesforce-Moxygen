@@ -31,7 +31,7 @@ on:
       - "**/main/default/**"
 
 jobs:
-  run-test-classes:
+  validate-pull-request:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
