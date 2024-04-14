@@ -347,34 +347,83 @@ public inherited sharing class MockDatabase {
         return soqlHandler.query(query);
     }
 
+    /**
+     * @description Query the database for records, with access level
+     * @param query `String`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<SObject>`
+     */
     public static List<SObject> query(String query, System.AccessLevel accessLevel) {
         return soqlHandler.query(query, accessLevel);
     }
 
+    /**
+     * @description Query the database for records, with binds
+     * @param query `String`
+     * @param binds `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<SObject>`
+     */
     public static List<SObject> queryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
         return soqlHandler.queryWithBinds(query, lowercaseParams(binds), accessLevel);
     }
 
+    /**
+     * @description Perform a count query
+     * @param query `String`
+     * @return  `Integer`
+     */
     public static Integer countQuery(String query) {
         return soqlHandler.countQuery(query);
     }
 
+    /**
+     * @description Perform a count query with access level
+     * @param query `String`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `Integer`
+     */
     public static Integer countQuery(String query, System.AccessLevel accessLevel) {
         return soqlHandler.countQuery(query, accessLevel);
     }
 
+    /**
+     * @description Perform a count query with binds
+     * @param query `String`
+     * @param binds `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `Integer`
+     */
     public static Integer countQueryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
         return soqlHandler.countQueryWithBinds(query, lowercaseParams(binds), accessLevel);
     }
 
+    /**
+     * @description Perform an aggregate query
+     * @param query `String`
+     * @return  `List<Aggregate>`
+     */
     public static List<Aggregate> aggregateQuery(String query) {
         return soqlHandler.aggregateQuery(query);
     }
 
+    /**
+     * @description Perform an aggregate query with access level
+     * @param query `String`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<Aggregate>`
+     */
     public static List<Aggregate> aggregateQuery(String query, System.AccessLevel accessLevel) {
         return soqlHandler.aggregateQuery(query, accessLevel);
     }
 
+    /**
+     * @description Perform an aggregate query with binds
+     * @param query `String`
+     * @param binds `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<Aggregate>`
+     */
     public static List<Aggregate> aggregateQueryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
         return soqlHandler.aggregateQueryWithBinds(query, lowercaseParams(binds), accessLevel);
     }
