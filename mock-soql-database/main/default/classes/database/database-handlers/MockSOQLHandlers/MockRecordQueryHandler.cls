@@ -23,15 +23,38 @@
  *
 */
 
+/**
+ * @description This class is responsible for handling record SOQL queries to the mock database 
+ * @author Zackary Frazier
+ * @since 4/12/2024
+ */
 public inherited sharing class MockRecordQueryHandler extends MockSOQLHandler {
+    /**
+     * @description Query the database for records
+     * @param query `String`
+     * @return  `List<SObject>`
+     */
     public List<SObject> query(String query) {
         return doQuery(query, null);
     }
 
+    /**
+     * @description Query the database for records, with access level
+     * @param query `String`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<SObject>`
+     */
     public List<SObject> query(String query, System.AccessLevel accessLevel) {
         return doQuery(query, null);
     }
 
+    /**
+     * @description Query the database for records, with binds
+     * @param query `String`
+     * @param binds `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<SObject>`
+     */
     public List<SObject> queryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
         return doQuery(query, binds);
     }

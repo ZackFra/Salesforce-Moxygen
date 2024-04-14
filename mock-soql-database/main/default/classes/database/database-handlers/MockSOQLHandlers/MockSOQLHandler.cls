@@ -1,6 +1,11 @@
 public virtual class MockSOQLHandler {
     final private static Map<Node, TopLevelNodes> TOP_LEVEL_NODES = new Map<Node, TopLevelNodes>();
 
+    /**
+     * @description Get the top level nodes for a given select node
+     * @param selectNode `Node`
+     * @return  `TopLeveLNodes`
+     */
     protected TopLeveLNodes getTopLevelNodes(Node selectNode) {
         TopLevelNodes topLevelNodes = TOP_LEVEL_NODES.get(selectNode);
         if(topLevelNodes == null) {
@@ -10,6 +15,13 @@ public virtual class MockSOQLHandler {
         return topLevelNodes;
     }
 
+    /**
+     * @description Handles the "ORDER BY" node
+     * @param typeOfQuery `Types.SOQL`
+     * @param results `Object`
+     * @param selectNode `Node`
+     * @return  `Object`
+     */
     protected Object handleOrderByNode(
         Types.SOQL typeOfQuery, 
         Object results, 
@@ -58,6 +70,13 @@ public virtual class MockSOQLHandler {
         return offsetHandler.handleOffset();
     }
 
+    /**
+     * @description Check the "WHERE" clause
+     * @param databaseRecord `SObject`
+     * @param whereNode `Node`
+     * @param params `Map<String, Object>`
+     * @return  `Boolean`
+     */
     protected Boolean checkWhereClause(SObject databaseRecord, node whereNode, Map<String, Object> params) {
         BooleanLogicOptions whereLogicOptions = new BooleanLogicOptions()
             .setHead(whereNode)
@@ -81,6 +100,14 @@ public virtual class MockSOQLHandler {
         return true;
      }
 
+     /**
+      * @description Handle the "LIMIT" node
+      * @param typeOfQuery `Types.SOQL`
+      * @param limitNode `Node`
+      * @param results `Object`
+      * @param params `Map<String, Object>`
+      * @return  `Object`
+      */
      @SuppressWarnings('PMD.ExcessiveParameterList')
      protected Object handleLimitNode(Types.SOQL typeOfQuery, Node limitNode, Object results, Map<String, Object> params) {
          if(limitNode == null) {
