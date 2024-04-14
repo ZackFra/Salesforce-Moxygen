@@ -207,7 +207,7 @@ MockDatabase but this can be changed by calling ORM.doIntegrationTest();
 
 - Integer countQuery(String queryString)
 - Integer countQuery(String queryString, System.AccessLevel accessLevel)
-- Integer countQueryWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel)
+- Integer countQueryWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel)
 
 There is also a suite of @TestVisible methods that are only available in the context of a unit test.
 
