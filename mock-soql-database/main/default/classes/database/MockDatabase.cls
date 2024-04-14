@@ -31,8 +31,8 @@
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.ExcessivePublicCount')
 public inherited sharing class MockDatabase {
 
-    final static Map<Node, TopLevelNodes> TOP_LEVEL_NODES = new Map<Node, TopLevelNodes>();
     public static MockDatabaseDMLHandler dmlHandler = new MockDatabaseDMLHandler();
+    public static MockDatabaseSOQLHandler soqlHandler = new MockDatabaseSOQLHandler();
 
     public static Map<String, Map<Id, SObject>> mockRecords = new Map<String, Map<Id, SObject>>();
     public static MockDatabaseUtils utils = new MockDatabaseUtils();
@@ -329,149 +329,111 @@ public inherited sharing class MockDatabase {
     /** SOQL methods **/
 
     /**
-     * @description This method is used to query the mock database by traversing the AST
-     * @param query : the query string
-     * @return : the query results
+     * @description Internal method to handle the select query 
+     * @param head `Node`
+     * @param params `Map<String, Object>`
+     * @return  `List<SObject>`
      */
-    public static Object query(String query) {
-        return doQuery(query, null);
+    public static List<SObject> doSelectQueryInternal(Node head, Map<String, Object> params) {
+        return soqlHandler.doSelectQueryInternal(head, params);
     }
 
     /**
      * @description This method is used to query the mock database by traversing the AST
      * @param query : the query string
-     * @param params : the query parameters
      * @return : the query results
      */
-    public static Object queryWithBinds(String query, Map<String, Object> params) {
+    public static List<SObject> query(String query) {
+        return soqlHandler.query(query);
+    }
+
+    /**
+     * @description Query the database for records, with access level
+     * @param query `String`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<SObject>`
+     */
+    public static List<SObject> query(String query, System.AccessLevel accessLevel) {
+        return soqlHandler.query(query, accessLevel);
+    }
+
+    /**
+     * @description Query the database for records, with binds
+     * @param query `String`
+     * @param binds `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<SObject>`
+     */
+    public static List<SObject> queryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
+        return soqlHandler.queryWithBinds(query, lowercaseParams(binds), accessLevel);
+    }
+
+    /**
+     * @description Perform a count query
+     * @param query `String`
+     * @return  `Integer`
+     */
+    public static Integer countQuery(String query) {
+        return soqlHandler.countQuery(query);
+    }
+
+    /**
+     * @description Perform a count query with access level
+     * @param query `String`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `Integer`
+     */
+    public static Integer countQuery(String query, System.AccessLevel accessLevel) {
+        return soqlHandler.countQuery(query, accessLevel);
+    }
+
+    /**
+     * @description Perform a count query with binds
+     * @param query `String`
+     * @param binds `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `Integer`
+     */
+    public static Integer countQueryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
+        return soqlHandler.countQueryWithBinds(query, lowercaseParams(binds), accessLevel);
+    }
+
+    /**
+     * @description Perform an aggregate query
+     * @param query `String`
+     * @return  `List<Aggregate>`
+     */
+    public static List<Aggregate> aggregateQuery(String query) {
+        return soqlHandler.aggregateQuery(query);
+    }
+
+    /**
+     * @description Perform an aggregate query with access level
+     * @param query `String`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<Aggregate>`
+     */
+    public static List<Aggregate> aggregateQuery(String query, System.AccessLevel accessLevel) {
+        return soqlHandler.aggregateQuery(query, accessLevel);
+    }
+
+    /**
+     * @description Perform an aggregate query with binds
+     * @param query `String`
+     * @param binds `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
+     * @return  `List<Aggregate>`
+     */
+    public static List<Aggregate> aggregateQueryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
+        return soqlHandler.aggregateQueryWithBinds(query, lowercaseParams(binds), accessLevel);
+    }
+
+    private static Map<String, Object> lowercaseParams(Map<String, Object> params) {
         Map<String, Object> lowerCaseParams = new Map<String, Object>();
         for(String key : params.keySet()) {
             lowerCaseParams.put(key.toLowerCase(), params.get(key));
         }
-        return doQuery(query, lowerCaseParams);       
-    }
-
-    /**
-     * @description This method is used to query the mock database by traversing the AST
-     * @param query : the query string
-     * @param params : the query parameters
-     * @param access : the access level
-     * @return : the query results
-     */
-    public static Object queryWithBinds(String query, Map<String, Object> params, AccessLevel access) {
-        return queryWithBinds(query, params);
-    }
-
-    // @description: This method is used to query the mock database by traversing the AST
-    private static Object doQuery(String query, Map<String, Object> params) {
-        Parser parser = new Parser();
-        Node selectNode = parser.parse(query);
-        return doQuery(selectNode, params);
-    }
-
-    /**
-     * @description Used internally, do not use this method
-     * @param selectNode : the select node
-     * @param params : the query parameters
-     * @return : the query results
-     * @throws QueryException : if the query is invalid
-     */
-    @SuppressWarnings('PMD.NcssMethodCount')
-    public static Object doQuery(Node selectNode, Map<String, Object> params) {
-        TopLevelNodes topLevelNodes = getTopLevelNodes(selectNode);
-        Node fromNode = topLevelNodes.fromNode;
-        Node whereNode = topLevelNodes.whereNode;
-        Node limitNode = topLevelNodes.limitNode;
-        Node offsetNode = topLevelNodes.offsetNode;
-        Node usingScopeNode = topLevelNodes.usingScopeNode;
-
-        // validate the query, throws exception if invalid
-        QueryValidator validator = new QueryValidator(topLevelNodes);
-        validator.validate();
-
-        Node objNode = fromNode.left;
-        String objName = objNode.id;
-        String objApiName = SchemaService.getSObjectName(objName);
-
-        // otherwise valid query, but there's no data in the database
-        Map<Id, sObject> mockObjects = mockRecords.get(objApiName);
-        if (mockObjects == null) {
-            return utils.emptyResponse(topLevelNodes);
-        }
-
-        Boolean isAggregateQuery = NodeService.isAggregateQuery(topLevelNodes);
-        Boolean isCount = NodeService.isSingularCount(topLevelNodes);
-
-        Object results;
-
-        // results will either be a count, a list of sObjects, or a list of aggregates
-        Integer count = 0;
-        List<ProtoAggregate> aggregateResults = new List<ProtoAggregate>();
-        List<sObject> sObjects = new List<sObject>();
-
-
-        AggregateQueryHandler aggrHandler = new AggregateQueryHandler(topLevelNodes);
-
-        // process the query, whether it's a count, aggregate, or regular query
-        for(sObject databaseRecord : mockObjects.values()) {
-
-            if(databaseRecord.get('IsDeleted') == true) {
-                continue;
-            }
-
-            if(!checkWhereClause(databaseRecord, whereNode, params)) {
-                continue;
-            }
-
-            if(!handleUsingScopeNode(databaseRecord, usingScopeNode, params)) {
-                continue;
-            }
-
-            if(isAggregateQuery) {
-                aggrHandler.processRecord(databaseRecord);
-                continue;
-            }
-
-            if(isCount) {
-                count++;
-                continue;
-            }
-
-            // handle fields
-            SObject queriedRecord = handleSelectQuery(databaseRecord, selectNode, params);
-            sObjects.add(queriedRecord);
-
-            
-        }
-        aggregateResults = aggrHandler.finish();
-
-        // handle the ORDER BY and LIMIT logic here
-        if(isAggregateQuery) {
-            aggregateResults = (List<ProtoAggregate>) handleHavingNode(aggregateResults, selectNode, params);
-            aggregateResults = (List<ProtoAggregate>) handleOrderByNode(Types.SOQL.AGGREGATE, aggregateResults, selectNode);
-            aggregateResults = (List<ProtoAggregate>) handleOffsetNode(Types.SOQL.AGGREGATE, offsetNode, aggregateResults, params);
-            aggregateResults = (List<ProtoAggregate>) handleLimitNode(Types.SOQL.AGGREGATE, limitNode, aggregateResults, params);
-
-            // Remove internal fields from the aggregate result proto-records and return the list of aggregates
-            List<Aggregate> aggregateResultsList = new AggregateBuilder()
-                .setParams(params)
-                .setProtoAggregates(aggregateResults)
-                .setTopLevelNodes(topLevelNodes)
-                .build();
-            
-            results = aggregateResultsList;
-        } else if(isCount) {
-            count = (Integer) handleOffsetNode(Types.SOQL.COUNT, offsetNode, count, params);
-            count = (Integer) handleLimitNode(Types.SOQL.COUNT, limitNode, count, params);
-            results = count;
-        } else {
-            sObjects = (List<SObject>) handleOrderByNode(Types.SOQL.RECORD, sObjects, selectNode);
-            sObjects = (List<SObject>) handleOffsetNode(Types.SOQL.RECORD, offsetNode, sObjects, params);
-            sObjects = (List<SObject>) handleLimitNode(Types.SOQL.RECORD, limitNode, sObjects, params);
-            results = sObjects;
-        }
-        TOP_LEVEL_NODES.remove(selectNode);
-        return results;
+        return lowerCaseParams;
     }
 
     /**
@@ -504,170 +466,4 @@ public inherited sharing class MockDatabase {
     public static Map<String, Object> getComparables(SObject record, String field) {
         return ComparableService.getComparables(record, field);
     }
-    
-    private static Boolean checkHavingClause(BooleanLogicOptions havingLogicOptions) {
-        HavingLogicHandler havingLogicHandler = new HavingLogicHandler(havingLogicOptions);
-        return havingLogicHandler.evaluate();
-    }
-
-    private static Boolean checkWhereClause(SObject databaseRecord, node whereNode, Map<String, Object> params) {
-        BooleanLogicOptions whereLogicOptions = new BooleanLogicOptions()
-            .setHead(whereNode)
-            .setObj(databaseRecord)
-            .setParams(params);
-        WhereLogicHandler whereLogicHandler = new WhereLogicHandler(whereLogicOptions);
-        return whereLogicHandler.evaluate();
-    }
-
-    private static SObject handleSelectQuery(FieldSelector fSelector) {
-        Node fieldNode = fSelector.fieldNode;
-
-        SObject queriedRecord = fSelector.queriedRecord;
-        if(fieldNode == null) {
-            return queriedrecord;
-        }
-
-        ISelectHandler selectHandler = new SelectHandlerFactory(fSelector)
-            .createHandler();
-        queriedRecord = selectHandler.handleSelect();
-
-        // to check the next field node in the list, 
-        // the only changes are the queriedRecord and the fieldNode
-        fSelector
-            .setQueriedRecord(queriedRecord)
-            .setFieldNode(fieldNode.left);
-
-        // Recursion, baby!
-        return handleSelectQuery(fSelector);
-    }
-
-    private static SObject handleSelectQuery(sObject databaseRecord, Node selectNode, Map<String, Object> params) {
-        Node fieldNode = selectNode.left;
-        
-        String sObjApiName = SchemaService.getSObjectName(databaseRecord);
-        SObject queriedRecord = SchemaService.blankSObjectFrom(sObjApiName);
-        queriedRecord.put('Id', databaseRecord.Id);
-
-        FieldSelector fSelector = new FieldSelector()
-            .setDatabaseRecord(databaseRecord)
-            .setQueriedRecord(queriedRecord)
-            .setFieldNode(fieldNode)
-            .setParams(params);
-
-        return handleSelectQuery(fSelector);
-    }
-
-    @SuppressWarnings('PMD.ExcessiveParameterList')
-    private static Object handleLimitNode(Types.SOQL typeOfQuery, Node limitNode, Object results, Map<String, Object> params) {
-        if(limitNode == null) {
-            return results;
-        }
-
-        ILimitHandler limitHandler = new LimitHandlerFactory()
-            .setLimitNode(limitNode)
-            .setParams(params)
-            .setType(typeOfQuery)
-            .setObj(results)
-            .createHandler();
-        
-        return limitHandler.handleLimit();
-    }
-
-    private static TopLevelNodes getTopLevelNodes(Node selectNode) {
-        TopLevelNodes topLevelNodes = TOP_LEVEL_NODES.get(selectNode);
-        if(topLevelNodes == null) {
-            topLevelNodes = new TopLevelNodes(selectNode);
-            TOP_LEVEL_NODES.put(selectNode, topLevelNodes);
-        }
-        return topLevelNodes;
-    }
-
-    private static List<ProtoAggregate> handleHavingNode(
-        List<ProtoAggregate> aggregateResults, 
-        Node selectNode, 
-        Map<String, Object> params
-    ) {
-        TopLevelNodes topLevelNodes = getTopLevelNodes(selectNode);
-        Node havingNode = topLevelNodes.havingNode;
-        if(havingNode == null) {
-            return aggregateResults;
-        }
-
-        List<ProtoAggregate> results = new List<ProtoAggregate>();
-        for(ProtoAggregate ar : aggregateResults) {
-
-            BooleanLogicOptions havingLogicOptions = new BooleanLogicOptions()
-                .setHead(havingNode)
-                .setSelectNode(selectNode)
-                .setObj(ar)
-                .setParams(params);
-            
-            if(checkHavingClause(havingLogicOptions)) {
-                results.add(ar);
-            }
-        }
-        return results;
-    }
-
-    private static Object handleOrderByNode(
-        Types.SOQL typeOfQuery, 
-        Object results, 
-        Node selectNode
-    ) {
-        if(results == null) {
-            return results;
-        }
-
-        TopLevelNodes topLevelNodes = getTopLevelNodes(selectNode);
-
-        OrderByHandler orderByHandler = new OrderByHandlerFactory()
-            .setObj(results)
-            .setTopLevelNodes(topLevelNodes)
-            .setType(typeOfQuery)
-            .createHandler();
-        return orderByHandler.handleOrderBy();
-    }
-
-    /**
-     * @description : given an offset node, return the offset value
-     * @param typeOfQuery : the type of query
-     * @param offsetNode : the offset node
-     * @param results : the results
-     * @param params : the query parameters
-     * @return : the offset value
-     */
-    @SuppressWarnings('PMD.ExcessiveParameterList')
-    private static Object handleOffsetNode(
-        Types.SOQL typeOfQuery, 
-        Node offsetNode, 
-        Object results, 
-        Map<String, Object> params
-    ) {
-        if(offsetNode == null) {
-            return results;
-        }
-        
-        IOffsetHandler offsetHandler = new OffsetHandlerFactory()
-            .setType(typeOfQuery)
-            .setObj(results)
-            .setOffsetNode(offsetNode)
-            .setParams(params)
-            .createHandler();
-        
-        return offsetHandler.handleOffset();
-    }
-
-    /**
-     * @description Filter on the "USING SCOPE" clause
-     * @param sObj The SObject to filter
-     * @param usingScopeNode The "USING SCOPE" node
-     * @param params The query parameters
-     * @return Whether the SObject passes the filter
-     */
-     private static Boolean handleUsingScopeNode(SObject sObj, Node usingScopeNode, Map<String, Object> params) {
-        // Salesforce at some point will support evaluating formulas in Apex
-        // that day is not today, so until then we're just assuming the scope is good
-        // https://help.salesforce.com/s/articleView?id=release-notes.rn_apex_formulaeval.htm&release=248&type=5
-        return true;
-     }
 }

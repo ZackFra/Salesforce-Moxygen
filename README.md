@@ -201,9 +201,13 @@ MockDatabase but this can be changed by calling ORM.doIntegrationTest();
 - List\<SObject\> query(String queryString, System.AccessLevel accessLevel)
 - List\<SObject\> queryWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel)
 
-- List\<Aggregate\> queryAggregate(String queryString);
-- List\<Aggregate\> queryAggregate(String queryString, System.AccessLevel accessLevel);
-- List\<Aggregate\> queryAggregateWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel);
+- List\<Aggregate\> aggregateQuery(String queryString);
+- List\<Aggregate\> aggregateQuery(String queryString, System.AccessLevel accessLevel);
+- List\<Aggregate\> aggregateQueryWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel accessLevel);
+
+- Integer countQuery(String queryString)
+- Integer countQuery(String queryString, System.AccessLevel accessLevel)
+- Integer countQueryWithBinds(String queryString, Map\<String, Object\> bindMap, System.AccessLevel)
 
 There is also a suite of @TestVisible methods that are only available in the context of a unit test.
 

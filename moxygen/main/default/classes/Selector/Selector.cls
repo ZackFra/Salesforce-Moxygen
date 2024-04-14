@@ -75,17 +75,17 @@ public inherited sharing class Selector {
      */
     public static List<SObject> queryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
         if(ORM.isUnitTest()) {
-            return onQuery(queryString, bindMap);
+            return onQuery(queryString, bindMap, accessLevel);
         }
         return Database.queryWithBinds(queryString, bindMap, accessLevel);
     }
 
     /**
-     * @description Count the number of records returned by a query
+     * @description perform an aggregate query
      * @param queryString `String`
      * @return  `List<Aggregate>`
      */
-    public static List<Aggregate> queryAggregate(String queryString) {
+    public static List<Aggregate> aggregateQuery(String queryString) {
         if(ORM.isUnitTest()) {
             return onQueryAggregate(queryString);
         }
@@ -103,7 +103,7 @@ public inherited sharing class Selector {
      * @param accessLevel `System.AccessLevel`
      * @return  `List<Aggregate>`
      */
-    public static List<Aggregate> queryAggregate(String queryString, System.AccessLevel accessLevel) {
+    public static List<Aggregate> aggregateQuery(String queryString, System.AccessLevel accessLevel) {
         if(ORM.isUnitTest()) {
             return onQueryAggregate(queryString);
         }
@@ -122,9 +122,9 @@ public inherited sharing class Selector {
      * @param accessLevel `System.AccessLevel`
      * @return  `List<Aggregate>`
      */
-    public static List<Aggregate> queryAggregateWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
+    public static List<Aggregate> aggregateQueryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
         if(ORM.isUnitTest()) {
-            return onQueryAggregate(queryString, bindMap);
+            return onQueryAggregate(queryString, bindMap, accessLevel);
         }
         List<AggregateResult> arList = Database.queryWithBinds(queryString, bindMap, accessLevel);
         List<Aggregate> agList = new List<Aggregate>();
@@ -168,7 +168,7 @@ public inherited sharing class Selector {
      */
     public static Integer countQueryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
         if(ORM.isUnitTest()) {
-            return onQueryCountWithBinds(queryString, bindMap);
+            return onQueryCountWithBinds(queryString, bindMap, accessLevel);
         }
         return Database.countQueryWithBinds(queryString, bindMap, accessLevel);
     }
@@ -282,7 +282,7 @@ public inherited sharing class Selector {
 
 
 
-    private static Integer onQueryCountWithBinds(String queryString, Map<String, Object> bindMap) {
+    private static Integer onQueryCountWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
         wasCalled = true;
         callMap.put(queryString, true);
 
@@ -291,7 +291,7 @@ public inherited sharing class Selector {
         } else if(countQueries.containsKey(queryString)) {
             return countQueries.get(queryString);
         } else {
-            return (Integer) MockDatabase.queryWithBinds(queryString, bindMap);
+            return MockDatabase.countQueryWithBinds(queryString, bindMap, accessLevel);
         }        
     }
 
@@ -304,7 +304,7 @@ public inherited sharing class Selector {
         } else if(countQueries.containsKey(queryString)) {
             return countQueries.get(queryString);
         } else {
-            return (Integer) MockDatabase.query(queryString);
+            return MockDatabase.countQuery(queryString);
         }
     }
 
@@ -322,7 +322,7 @@ public inherited sharing class Selector {
         } else if(queries.containsKey(queryString)) {
             return queries.get(queryString);
         } else {
-            return (List<SObject>) MockDatabase.query(queryString);
+            return MockDatabase.query(queryString);
         }
     }
 
@@ -330,9 +330,10 @@ public inherited sharing class Selector {
      * @description The method that is called when a query is executed
      * @param queryString `String` The query string that was executed
      * @param bindMap `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
      * @return The records to return
      */
-    private static List<SObject> onQuery(String queryString, Map<String, Object> bindMap) {
+    private static List<SObject> onQuery(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
         wasCalled = true;
         callMap.put(queryString, true);
 
@@ -341,7 +342,7 @@ public inherited sharing class Selector {
         } else if(queries.containsKey(queryString)) {
             return queries.get(queryString);
         } else {
-            return (List<SObject>) MockDatabase.queryWithBinds(queryString, bindMap);
+            return MockDatabase.queryWithBinds(queryString, bindMap, accessLevel);
         }
     }
 
@@ -359,7 +360,7 @@ public inherited sharing class Selector {
         } else if(aggregateQueries.containsKey(queryString)) {
             return aggregateQueries.get(queryString);
         } else {
-            return (List<Aggregate>) MockDatabase.query(queryString);
+            return MockDatabase.aggregateQuery(queryString);
         }
     }
 
@@ -367,9 +368,10 @@ public inherited sharing class Selector {
      * @description The method that is called when an aggregate query is executed
      * @param queryString `String`
      * @param bindMap `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
      * @return `List<Aggregate>`
      */
-    private static List<Aggregate> onQueryAggregate(String queryString, Map<String, Object> bindMap) {
+    private static List<Aggregate> onQueryAggregate(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
         wasCalled = true;
         callMap.put(queryString, true);
 
@@ -378,7 +380,7 @@ public inherited sharing class Selector {
         } else if(aggregateQueries.containsKey(queryString)) {
             return aggregateQueries.get(queryString);
         } else {
-            return (List<Aggregate>) MockDatabase.queryWithBinds(queryString, bindMap);
+            return MockDatabase.aggregateQueryWithBinds(queryString, bindMap, accessLevel);
         }
     }
 }

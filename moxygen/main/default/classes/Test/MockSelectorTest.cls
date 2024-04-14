@@ -135,7 +135,7 @@ private class MockSelectorTest {
 
         DML.doInsert(accounts, true);
         Test.startTest();
-        List<Aggregate> arList = Selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account');
+        List<Aggregate> arList = Selector.aggregateQuery('SELECT SUM(AnnualRevenue) FROM Account');
         Test.stopTest();
         Decimal totalRevenue = (Decimal) arList[0].get('expr0');
         Assert.areEqual(
@@ -159,7 +159,7 @@ private class MockSelectorTest {
 
         DML.doInsert(accounts, true);
         Test.startTest();
-        List<Aggregate> arList = Selector.queryAggregateWithBinds(
+        List<Aggregate> arList = Selector.aggregateQueryWithBinds(
             'SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name',
             new Map<String, Object>{'name' => 'Test Account 1'},
             AccessLevel.USER_MODE
@@ -292,7 +292,7 @@ private class MockSelectorTest {
             )
         });
         Test.startTest();
-        List<Aggregate> arList = Selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account');
+        List<Aggregate> arList = Selector.aggregateQuery('SELECT SUM(AnnualRevenue) FROM Account');
         Test.stopTest();
         Decimal totalRevenue = (Decimal) arList[0].get('expr0');
         Assert.areEqual(
@@ -319,7 +319,7 @@ private class MockSelectorTest {
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
-            Selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account');
+            Selector.aggregateQuery('SELECT SUM(AnnualRevenue) FROM Account');
         } catch(Exception e) {
             isExceptionThrown = true;
         }
@@ -411,7 +411,7 @@ private class MockSelectorTest {
             )
         });
         Test.startTest();
-        Selector.queryAggregate('SELECT SUM(AnnualRevenue) FROM Account', AccessLevel.USER_MODE);
+        Selector.aggregateQuery('SELECT SUM(AnnualRevenue) FROM Account', AccessLevel.USER_MODE);
         Test.stopTest();
         Assert.isTrue(
             Selector.calledAnyQuery(),
@@ -446,7 +446,7 @@ private class MockSelectorTest {
         Selector.registerFailedAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name');
         Test.startTest();
         try {
-            Selector.queryAggregateWithBinds(
+            Selector.aggregateQueryWithBinds(
                 'SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name',
                 new Map<String, Object>{'name' => 'Test Account 1'},
                 AccessLevel.USER_MODE
@@ -480,7 +480,7 @@ private class MockSelectorTest {
             )
         });
         Test.startTest();
-        List<Aggregate> arList = Selector.queryAggregateWithBinds(
+        List<Aggregate> arList = Selector.aggregateQueryWithBinds(
             'SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name',
             new Map<String, Object>{'name' => 'Test Account 1'},
             AccessLevel.USER_MODE
