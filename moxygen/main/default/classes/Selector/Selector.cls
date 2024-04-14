@@ -330,6 +330,7 @@ public inherited sharing class Selector {
      * @description The method that is called when a query is executed
      * @param queryString `String` The query string that was executed
      * @param bindMap `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
      * @return The records to return
      */
     private static List<SObject> onQuery(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
@@ -367,6 +368,7 @@ public inherited sharing class Selector {
      * @description The method that is called when an aggregate query is executed
      * @param queryString `String`
      * @param bindMap `Map<String, Object>`
+     * @param accessLevel `System.AccessLevel`
      * @return `List<Aggregate>`
      */
     private static List<Aggregate> onQueryAggregate(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {

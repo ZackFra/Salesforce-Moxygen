@@ -72,6 +72,7 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
         return doQuery(selectNode, params);
     }
 
+    @SuppressWarnings('PMD.NcssMethodCount')
     private List<Aggregate> doQuery(Node selectNode, Map<String, Object> params) {
         TopLevelNodes topLevelNodes = getTopLevelNodes(selectNode);
         Node fromNode = topLevelNodes.fromNode;
