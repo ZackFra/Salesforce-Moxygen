@@ -293,7 +293,7 @@ public inherited sharing class MockDatabaseUtils {
                 throw new QueryException('Subquery must select a field of the same type as the parent object');
             }
 
-            List<SObject> subQueryObjects = (List<SObject>) MockDatabase.doQuery(subquerySelectNode, params);
+            List<SObject> subQueryObjects = (List<SObject>) MockDatabase.doSelectQueryInternal(subquerySelectNode, params);
             List<Id> subQueryIds = new List<Id>();
             for(sObject subQueryObj : subQueryObjects) {
                 subQueryIds.add((Id) subQueryObj.get(fieldApiName));
