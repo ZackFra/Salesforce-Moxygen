@@ -132,7 +132,7 @@ public with sharing class ChildSubQuerySelectHandler implements ISelectHandler {
                 .build();
         }
 
-        List<SObject> subQueryRecords = (List<SObject>) MockDatabase.doQuery(subqueryCloneSelectNode, params);
+        List<SObject> subQueryRecords = MockDatabase.doSelectQueryInternal(subqueryCloneSelectNode, params);
 
         // so we can't mock the subquery results directly, but we can serialize them and then deserialize them
         // here we serialize the subquery results, which can't be instaniated,
