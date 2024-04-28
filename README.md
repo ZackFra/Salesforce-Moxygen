@@ -181,7 +181,7 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 | FOR VIEW\|REFERENCE | Ignored ||
 | UPDATE TRACKING\|VIEWSTAT | Not Supported ||
 | FOR UPDATE | Ignored ||
-| WITH SECURITY_ENFORCED | Ignored ||
+| WITH SECURITY_ENFORCED | Ignored | Syntax is enforced, will not allow this clause in sub-queries |
 
 ## Classes
 
