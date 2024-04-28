@@ -30,6 +30,11 @@
  */
 public inherited sharing class WithSecurityEnforcedParser extends SubParser {
     
+    /**
+     * @description Parses the WITH SECURITY_ENFORCED clause in a SOQL query
+     * @param query `String`
+     * @return  `Intermediary`
+     */
     public override Intermediary parse(String query) {
         if(lookahead(query, 4) != 'with') {
             return null;
