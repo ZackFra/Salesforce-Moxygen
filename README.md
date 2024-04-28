@@ -167,7 +167,7 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 # Supported Clauses
 | Clause      | Level of Support    | Notes |
 |-------------|---------------------|-------|
-| SELECT      | Partially Supported | FORMAT(), convertCurrency(), convertTimezone(), GROUPING(), and toLabel() are not supported. CALENDAR_MONTH() is supported, other date functions are not yet supported |
+| SELECT      | Partially Supported | FORMAT(), convertCurrency(), convertTimezone(), GROUPING(), date functions, and toLabel() are not supported. |
 | TYPEOF      | Fully Supported     ||
 | FROM        | Fully Supported     ||
 | USING SCOPE | Ignored             ||
