@@ -31,6 +31,54 @@
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity')
 public with sharing class AggregateService {
 
+    private final static List<String> SUPPORTED_NUMERIC_FUNCS = new List<String> {
+        'avg',
+        'count',
+        'min',
+        'max',
+        'sum'
+    };
+
+    private final static List<String> SUPPORTED_DATE_FUNCS = new List<String> {
+        'calendar_month'
+    };
+
+    /**
+     * @description Returns whether this function is a date function
+     * @param nodeType `String`
+     * @param nodeId `String`
+     * @return  `Boolean`
+     */
+    public static Boolean isDateFunc(String nodeType, String nodeId) {
+        if(nodeType != 'aggregate function') {
+            return false;
+        }
+        return SUPPORTED_DATE_FUNCS.contains(nodeId);
+    }
+
+    /**
+     * @description Returns whether this function is a numeric function
+     * @param nodeType `String`
+     * @param nodeId `String`
+     * @return  `Boolean`
+     */
+    public static Boolean isNumericFunc(String nodeType, String nodeId) {
+        if(nodeType != 'aggregate function') {
+            return false;
+        }
+        return SUPPORTED_NUMERIC_FUNCS.contains(nodeType);
+    }
+
+    /**
+     * @description Returns whether the node is an aggregate function 
+     * @param nodeType `String`
+     * @param nodeId `String`
+     * @return  `Boolean`
+     */
+    public static Boolean isAggregateFunc(String nodeType, String nodeId) {
+        return isNumericFunc(nodeType, nodeId) || isDateFunc(nodeType, nodeId);
+    }
+
     /**
      * @description : given the top level nodes, return a map with the fields to group by and the fields to select
      * @param topLevelNodes : the top level nodes of the query
@@ -53,7 +101,13 @@ public with sharing class AggregateService {
         if(groupByNode != null) {
             Node currGroupByNode = groupByNode.left;
             while(currGroupByNode != null) {
-                groupByFields.add(currGroupByNode.id);
+                if(isDateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
+                    groupByFields.add(currGroupByNode.right.id);
+                } else if(isAggregateFunc(currGroupByNode.nodeType, currGroupByNode.id) && !isDateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
+                    throw new QueryException('Only date aggregate functions are allowed as grouping expressions: ' + currGroupByNode.id);
+                } else {
+                    groupByFields.add(currGroupByNode.id); 
+                }
                 currGroupByNode = currGroupByNode.left;
             }
         }
@@ -92,7 +146,7 @@ public with sharing class AggregateService {
             } else if(currSelectNode.nodeType == 'aggregate function') {
                 // check that aggregated fields are not grouped
                 Node fieldNode = currSelectNode.right;
-                if(groupByFields.contains(fieldNode.id)) {
+                if(groupByFields.contains(fieldNode.id) && !isDateFunc(currSelectNode.nodeType, currSelectNode.id)) {
                     throw new QueryException('Grouped field should not be aggregated: ' + fieldNode.id);
                 }
             }

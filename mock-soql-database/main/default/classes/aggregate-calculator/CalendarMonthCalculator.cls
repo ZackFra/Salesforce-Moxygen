@@ -24,17 +24,18 @@
  */
 
 /**
- * @description Calculates the average of a set of values. 
+ * @description Calculates the calendar month from a date value 
  * @author Zackary Frazier
- * @since 3/23/2024
+ * @since 4/28/2024
  */
-public inherited sharing class AverageCalculator implements IAggregateCalculator {
+public inherited sharing class CalendarMonthCalculator implements IAggregateCalculator {
     AggregateCalculatorOptions options;
+
     /**
-     * @description Constructor for the AverageCalculator class
+     * @description Constructor for the CalendarMonthCalculator class
      * @param options 
      */
-    public AverageCalculator(AggregateCalculatorOptions options) {
+    public CalendarMonthCalculator(AggregateCalculatorOptions options) {
         this.options = options;
     }
 
@@ -65,22 +66,19 @@ public inherited sharing class AverageCalculator implements IAggregateCalculator
             }
             return aggregateResult;
         }
-        Decimal currValue = (Decimal) aggregateResult.get(alias);
-        Decimal newValue = (Decimal) value;
-        Decimal n = (Decimal) aggregateResult.get(alias + '__n');
-        if(n == null) {
-            n = 1;
-        }
 
-        if(currValue == null) {
-            currValue = newValue;
+        Integer calendarMonth;
+        if(value instanceof DateTime) {
+            DateTime dateTimeValue = (DateTime) value;
+            calendarMonth = dateTimeValue.month();
+        } else if(value instanceof Date) {
+            Date dateValue = (Date) value;
+            calendarMonth = dateValue.month();
         } else {
-            currValue = currValue + (newValue - currValue) / n;
+            throw new QueryException('Invalid value type for calendar month calculation');
         }
 
-        aggregateResult.put(alias, currValue);
-        aggregateResult.put(alias + '__n', n + 1);
-
+        aggregateResult.put(alias, calendarMonth);
         return aggregateResult;
     }
 }

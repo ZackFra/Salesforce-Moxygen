@@ -58,6 +58,9 @@ public inherited sharing class AggregateFuncParser extends SubParser{
         } else if(lookahead(query, 3) == 'max') {
             query = consume(query, 'max');
             nb.setId('max');
+        } else if(lookahead(query, 14) == 'calendar_month') {
+            query = consume(query, 'calendar_month');
+            nb.setId('calendar_month');
         } else {
             throw new ParsingException( query, 'aggregate function');
         }

@@ -121,8 +121,18 @@ public inherited sharing class QueryParser extends SubParser {
             nextLink = forUpdateIntermediary;
         }
         
+        // WITH SECURITY_ENFORCED is only allowed at the top level of a query
+        Intermediary withSecurityEnforcedIntermediary = new WithSecurityEnforcedParser().parse(query);
+        if(withSecurityEnforcedIntermediary != null) {
+            Boolean isTopLevelQuery = ((lookahead(withSecurityEnforcedIntermediary.subquery, 1).trim()) != '');
+            Boolean isSecurityEnforced = (withSecurityEnforcedIntermediary != null);
+            if(isSecurityEnforced && !isTopLevelQuery) {
+                throw new ParsingException(withSecurityEnforcedIntermediary.subquery, null);
+            }
+        }
+
         // head node, so to speak
-        selectIntermediary.subquery = nextLink.subquery;
+        selectIntermediary.subquery = skipWhiteSpace(nextLink.subquery);
 		if(nextLink.subquery != '' && lookahead(nextLink.subquery, 1) != ')') {
             throw new ParsingException(nextLink.subquery, null);
         }

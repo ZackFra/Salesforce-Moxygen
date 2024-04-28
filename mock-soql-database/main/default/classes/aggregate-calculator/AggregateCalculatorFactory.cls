@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public with sharing class AggregateCalculatorFactory {
+public inherited sharing class AggregateCalculatorFactory {
     private class AggregateCalculatorException extends Exception {}
     
     /**
@@ -45,7 +45,8 @@ public with sharing class AggregateCalculatorFactory {
             'max' => new MaxCalculator(options),
             'min' => new MinCalculator(options),
             'count_distinct' => new CountDistinctCalculator(options),
-            'count' => new CountCalculator(options)
+            'count' => new CountCalculator(options),
+            'calendar_month' => new CalendarMonthCalculator(options)
         };
         IAggregateCalculator calculator = calculators.get(type);
         if(calculator == null) {

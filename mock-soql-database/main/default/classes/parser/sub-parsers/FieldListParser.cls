@@ -52,7 +52,15 @@ public inherited sharing class FieldListParser extends SubParser {
         }
         
         String nextChar = lookahead(query, 1);
-        String nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
+        String nextCharAfterThat = null;
+        if(query.length() > 1) {
+            nextCharAfterThat = lookahead(
+                skipWhitespace(
+                    query.subString(1)
+                ), 
+                1
+            );
+        }
         
         if(nextChar == ',' && nextCharAfterThat != '(') {
             query = query.subString(1);

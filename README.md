@@ -152,6 +152,7 @@ FROM objectType[,...]
 [{FOR VIEW  | FOR REFERENCE} ]
 [UPDATE {TRACKING|VIEWSTAT} ]
 [FOR UPDATE]
+[WITH SECURITY_ENFORCED]
 ```
 
 # Levels of Support
@@ -166,7 +167,7 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 # Supported Clauses
 | Clause      | Level of Support    | Notes |
 |-------------|---------------------|-------|
-| SELECT      | Partially Supported | FORMAT(), convertCurrency(), convertTimezone(), date functions, GROUPING(), and toLabel() are not supported |
+| SELECT      | Partially Supported | FORMAT(), convertCurrency(), convertTimezone(), GROUPING(), and toLabel() are not supported. CALENDAR_MONTH() is supported, other date functions are not yet supported. |
 | TYPEOF      | Fully Supported     ||
 | FROM        | Fully Supported     ||
 | USING SCOPE | Ignored             ||
@@ -180,6 +181,7 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 | FOR VIEW\|REFERENCE | Ignored ||
 | UPDATE TRACKING\|VIEWSTAT | Not Supported ||
 | FOR UPDATE | Ignored ||
+| WITH SECURITY_ENFORCED | Ignored | Syntax is enforced, will not allow this clause in sub-queries |
 
 ## Classes
 
