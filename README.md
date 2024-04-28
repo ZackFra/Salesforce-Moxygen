@@ -152,6 +152,7 @@ FROM objectType[,...]
 [{FOR VIEW  | FOR REFERENCE} ]
 [UPDATE {TRACKING|VIEWSTAT} ]
 [FOR UPDATE]
+[WITH SECURITY_ENFORCED]
 ```
 
 # Levels of Support
@@ -180,6 +181,7 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 | FOR VIEW\|REFERENCE | Ignored ||
 | UPDATE TRACKING\|VIEWSTAT | Not Supported ||
 | FOR UPDATE | Ignored ||
+| WITH SECURITY_ENFORCED | Ignored ||
 
 ## Classes
 
