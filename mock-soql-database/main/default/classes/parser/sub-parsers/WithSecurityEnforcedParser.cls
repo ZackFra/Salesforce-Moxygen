@@ -36,6 +36,7 @@ public inherited sharing class WithSecurityEnforcedParser extends SubParser {
      * @return  `Intermediary`
      */
     public override Intermediary parse(String query) {
+        query = skipWhiteSpace(query);
         if(lookahead(query, 4) != 'with') {
             return null;
         }

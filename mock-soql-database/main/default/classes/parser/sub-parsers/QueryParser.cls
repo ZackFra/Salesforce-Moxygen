@@ -132,7 +132,7 @@ public inherited sharing class QueryParser extends SubParser {
         }
 
         // head node, so to speak
-        selectIntermediary.subquery = nextLink.subquery;
+        selectIntermediary.subquery = skipWhiteSpace(nextLink.subquery);
 		if(nextLink.subquery != '' && lookahead(nextLink.subquery, 1) != ')') {
             throw new ParsingException(nextLink.subquery, null);
         }
