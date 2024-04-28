@@ -105,7 +105,6 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
     private ProtoAggregate createGroupedAggregate(SObject databaseRecord, List<String> groupByFields) {
         ProtoAggregate aggregateResult = new ProtoAggregate();
         for(String groupByField : groupByFields) {
-            System.debug(groupByField);
             Map<String, Object> comparableInfo = MockDatabase.getComparables(databaseRecord, groupByField);
             sObject comparableRecord = (sObject) comparableInfo.get('comparableRecord');
             String comparableField = (String) comparableInfo.get('comparableField');

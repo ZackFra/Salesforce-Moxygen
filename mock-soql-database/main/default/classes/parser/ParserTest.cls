@@ -3549,7 +3549,7 @@ private class ParserTest {
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            Node head = t.parse('SELECT Name, CALENDAR_MONTH(CreatedDate) FROM Account GROUP BY Name, CALENDAR_MONTH(CreatedDate)');
+            t.parse('SELECT Name, CALENDAR_MONTH(CreatedDate) FROM Account GROUP BY Name, CALENDAR_MONTH(CreatedDate)');
         } catch(Exception e) {
             isExceptionThrown = true;
         }

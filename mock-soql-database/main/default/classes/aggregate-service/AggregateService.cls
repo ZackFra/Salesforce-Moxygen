@@ -45,6 +45,7 @@ public with sharing class AggregateService {
 
     /**
      * @description Returns whether this function is a date function
+     * @param nodeType `String`
      * @param nodeId `String`
      * @return  `Boolean`
      */
@@ -57,6 +58,7 @@ public with sharing class AggregateService {
 
     /**
      * @description Returns whether this function is a numeric function
+     * @param nodeType `String`
      * @param nodeId `String`
      * @return  `Boolean`
      */
@@ -69,7 +71,8 @@ public with sharing class AggregateService {
 
     /**
      * @description Returns whether the node is an aggregate function 
-     * @param node `Node`
+     * @param nodeType `String`
+     * @param nodeId `String`
      * @return  `Boolean`
      */
     public static Boolean isAggregateFunc(String nodeType, String nodeId) {

@@ -84,7 +84,7 @@ private class MockDatabaseDateFuncTest {
         Test.startTest();
         Boolean isExceptionThrown = false;
         try {
-            List<Aggregate> queriedAccountAggregates = (List<Aggregate>) MockDatabase.aggregateQuery('SELECT Name, CALENDAR_MONTH(CreatedDate) month FROM Account GROUP BY Name, month');
+            MockDatabase.aggregateQuery('SELECT Name, CALENDAR_MONTH(CreatedDate) month FROM Account GROUP BY Name, month');
         } catch(Exception e) {
             isExceptionThrown = true;
         }
