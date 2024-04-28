@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public with sharing class ComparableService {
+public inherited sharing class ComparableService {
 
     /**
      * @description : given an sObject and a field name (which may be a relationon i.e. Account.Name),

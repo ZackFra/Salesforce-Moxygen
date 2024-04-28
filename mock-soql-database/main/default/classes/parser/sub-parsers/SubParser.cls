@@ -100,12 +100,16 @@ public abstract class SubParser {
     protected Boolean isAggregateFunc(String query) {
         query = skipWhitespace(query);
         Boolean isLongEnough = (query.length() >= 3);
-        Boolean isSum = isLongEnough && lookahead(query, 3) == 'sum';
-        Boolean isAvg = isLongEnough && lookahead(query, 3) == 'avg';
-        Boolean isMin = isLongEnough && lookahead(query, 3) == 'min';
-        Boolean isMax = isLongEnough && lookahead(query, 3) == 'max';
-        Boolean isCount = isLongEnough && lookahead(query, 5) == 'count';
-        Boolean isCountDistinct = isLongEnough && lookahead(query, 14) == 'count_distinct';
-        return isSum || isAvg || isMin || isMax || isCount || isCountDistinct;
+        if(!isLongEnough) {
+            return false;
+        }
+        Boolean isSum = lookahead(query, 3) == 'sum';
+        Boolean isAvg = lookahead(query, 3) == 'avg';
+        Boolean isMin = lookahead(query, 3) == 'min';
+        Boolean isMax = lookahead(query, 3) == 'max';
+        Boolean isCount = lookahead(query, 5) == 'count';
+        Boolean isCountDistinct = lookahead(query, 14) == 'count_distinct';
+        Boolean isCalendarMonth =  lookahead(query, 14) == 'calendar_month';
+        return isSum || isAvg || isMin || isMax || isCount || isCountDistinct || isCalendarMonth;
     }
 }
