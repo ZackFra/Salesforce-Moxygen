@@ -3542,4 +3542,19 @@ private class ParserTest {
         Test.stopTest();
         Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
     }
+
+    @IsTest
+    static void testCalendarMonth() {
+        Parser t = new Parser();
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            t.parse('SELECT Name, CALENDAR_MONTH(CreatedDate) FROM Account GROUP BY Name, CALENDAR_MONTH(CreatedDate)');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isFalse(isExceptionThrown, 'Expected exception to not be thrown');
+    }
 }

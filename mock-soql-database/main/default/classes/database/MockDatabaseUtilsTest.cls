@@ -25,7 +25,7 @@
 
 @IsTest
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.NcssTypeCount')
-private with sharing class MockDatabaseUtilsTest {
+private class MockDatabaseUtilsTest {
     @IsTest
     static void testClone() {
         Parser t = new Parser();
