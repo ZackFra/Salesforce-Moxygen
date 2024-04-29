@@ -131,7 +131,6 @@ public inherited sharing class QueryValidator {
             return;
         }
         Node selectNode = topLevelNodes.selectNode;
-        Node fromNode = topLevelNodes.fromNode;
 
         Node currGroupByNode = groupByNode.left;
         while(currGroupByNode != null) {

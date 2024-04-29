@@ -722,6 +722,7 @@ public inherited sharing class SchemaService {
      * @description Given an sObject name and a field name, determine if the field is groupable in a query
      * @param sObjectName `String`
      * @param fieldName  `String`
+     * @return `Boolean`
      */
     public static Boolean isFieldGroupable(String sObjectName, String fieldName) {
         Map<String, Object> args = new Map<String, Object> {

@@ -99,7 +99,6 @@ public with sharing class AggregateService {
         List<String> selectFields = new List<String>();
 
         if(groupByNode != null) {
-            String sObjectName = SchemaService.getSObjectName(topLevelNodes.fromNode.left.id);
             Node currGroupByNode = groupByNode.left;
             while(currGroupByNode != null) {
                 if(isDateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
