@@ -729,6 +729,8 @@ public inherited sharing class SchemaService {
             'fieldName' => fieldName
         };
         Common.nullCheck(args);
+        sObjectName = sObjectName.toLowerCase();
+        fieldName = fieldName.toLowerCase();
 
         Schema.DescribeFieldResult fieldDescribeResult = describeField(
             sObjectName,

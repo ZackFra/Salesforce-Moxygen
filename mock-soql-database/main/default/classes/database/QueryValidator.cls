@@ -130,8 +130,8 @@ public inherited sharing class QueryValidator {
         if(groupByNode == null) {
             return;
         }
+        Node selectNode = topLevelNodes.selectNode;
         Node fromNode = topLevelNodes.fromNode;
-        String sObjectName = SchemaService.getSObjectName(fromNode.left.id);
 
         Node currGroupByNode = groupByNode.left;
         while(currGroupByNode != null) {
@@ -142,7 +142,14 @@ public inherited sharing class QueryValidator {
             if(AggregateService.isAggregateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
                 throw new QueryException('Only date aggregate functions are allowed as grouping expressions: ' + currGroupByNode.id);
             }
-            if(!SchemaService.isFieldGroupable(sObjectName, currGroupByNode.id)) {
+
+            // we can't trust that this isn't something like GROUP BY Account.CreatedDate, so we need to get comparables
+            Map<String, Object> comparableData = ComparableService.getComparableDataFromNodes(currGroupByNode, selectNode);
+            String fieldName = (String) comparableData.get('comparableField');
+            SObject comparableRecord = (SObject) comparableData.get('comparableRecord');
+            String sObjectName = SchemaService.getSObjectName(comparableRecord);
+
+            if(!SchemaService.isFieldGroupable(sObjectName, fieldName)) {
                 throw new QueryException('Field is not groupable: ' + groupByNode.id);
             }
             currGroupByNode = currGroupByNode.left;
