@@ -93,4 +93,59 @@ private class MockDatabaseDateFuncTest {
         Assert.isTrue(isExceptionThrown, 'Exception should have been thrown');
         
     }
+
+    @IsTest
+    static void testCalendarMonthInWhereClause() {
+        Account acct1 = new Account(
+            Name = 'Test'
+        );
+
+        Account acct2 = new Account(
+            Name = 'Test2'
+        );
+
+        List<Account> acctList = new List<Account>{acct1, acct2};
+        MockDatabase.doInsert(acctList, true);
+        Integer month = System.today().month();
+        Map<String, Object> binds = new Map<String, Object>{
+            'month' => month
+        };
+        Test.startTest();
+        List<Account> queriedAccountAggregates = (List<Account>) MockDatabase.queryWithBinds(
+            'SELECT Name FROM Account WHERE CALENDAR_MONTH(CreatedDate) = :month',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Assert.areEqual(2, queriedAccountAggregates.size(), 'Incorrect number of records returned');
+    }
+
+    @IsTest
+    static void testCalendarMonthInWhereClauseWithOpportunityCloseDate() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.today()
+        );
+
+        Opportunity opp2 = new Opportunity(
+            Name = 'Test2',
+            CloseDate = Date.today() - 60
+        );
+
+        List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
+        MockDatabase.doInsert(oppList, true);
+
+        Integer month = System.today().month();
+        Map<String, Object> binds = new Map<String, Object>{
+            'month' => month
+        };
+        Test.startTest();
+        List<Account> queriedOpportunities = (List<Account>) MockDatabase.queryWithBinds(
+            'SELECT Name FROM Opportunity WHERE CALENDAR_MONTH(CloseDate) = :month',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Assert.areEqual(1, queriedOpportunities.size(), 'Incorrect number of records returned');
+    }
 }

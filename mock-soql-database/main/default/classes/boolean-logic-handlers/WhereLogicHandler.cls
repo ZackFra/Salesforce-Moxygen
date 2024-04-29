@@ -66,8 +66,17 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
 
         // the Type field on a polymorphic relationship is a special case
         Boolean isPolyType = false;
-
-        if(!isParentField) {
+        if(AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id)) {
+            if(fieldNode.id == 'calendar_month') {
+                // in this sceneario, fieldNode's actually an aggregate, so fieldNode.right is the actual field
+                fieldName = SchemaService.getFieldName(sObj, fieldNode.right.id);
+                finalField = fieldName;
+                Object dateOrDateTimeValue = sobj.get(fieldName);
+                sObjectFieldValue = DateFuncs.calendarMonth(dateOrDateTimeValue);
+            } else {
+                throw new QueryException('Unsupported date function');
+            }
+        } else if(!isParentField) {
             sObjectFieldValue = sObj.get(fieldName);
         } else {
             List<String> fieldParts = fieldName.split('\\.');
