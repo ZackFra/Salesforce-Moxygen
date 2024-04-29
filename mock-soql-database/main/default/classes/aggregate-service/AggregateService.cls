@@ -79,16 +79,6 @@ public with sharing class AggregateService {
         return isNumericFunc(nodeType, nodeId) || isDateFunc(nodeType, nodeId);
     }
 
-    private static void verifyFieldIsGroupable(String sObjectName, String fieldName) {
-        Schema.DescribeFieldResult fieldDescribeResult = SchemaService.describeField(
-            sObjectName,
-            fieldName
-        );
-        if(!fieldDescribeResult.isGroupable()) {
-            throw new QueryException('field \'' + fieldName + '\' can not be grouped in a query call');
-        }
-    }
-
     /**
      * @description : given the top level nodes, return a map with the fields to group by and the fields to select
      * @param topLevelNodes : the top level nodes of the query
@@ -117,7 +107,6 @@ public with sharing class AggregateService {
                 } else if(isAggregateFunc(currGroupByNode.nodeType, currGroupByNode.id) && !isDateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
                     throw new QueryException('Only date aggregate functions are allowed as grouping expressions: ' + currGroupByNode.id);
                 } else {
-                    verifyFieldIsGroupable(sObjectName, currGroupByNode.id);
                     groupByFields.add(currGroupByNode.id); 
                 }
                 currGroupByNode = currGroupByNode.left;

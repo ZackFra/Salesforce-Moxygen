@@ -67,7 +67,6 @@ public inherited sharing class SchemaService {
             'fieldApiName' => fieldApiName
         };
         Common.nullCheck(args);
-
         SObject record = blankSObjectFrom(sObjApiName);
         Schema.SObjectType sot = getSObjectType(record);
         Schema.SObjectField field = getField(sot, fieldApiName);
@@ -717,5 +716,24 @@ public inherited sharing class SchemaService {
             !describeFieldResult.isNillable() && 
             describeFieldResult.getType() != DisplayType.BOOLEAN
         );
+    }
+
+    /**
+     * @description Given an sObject name and a field name, determine if the field is groupable in a query
+     * @param sObjectName `String`
+     * @param fieldName  `String`
+     */
+    public static Boolean isFieldGroupable(String sObjectName, String fieldName) {
+        Map<String, Object> args = new Map<String, Object> {
+            'sObjectName' => sObjectName,
+            'fieldName' => fieldName
+        };
+        Common.nullCheck(args);
+
+        Schema.DescribeFieldResult fieldDescribeResult = describeField(
+            sObjectName,
+            fieldName
+        );
+        return fieldDescribeResult.isGroupable();
     }
 }

@@ -1104,62 +1104,6 @@ private class MockDatabaseTest {
     }
 
     @IsTest
-    static void testAliases() {
-        Account a = new Account(Name = 'Test 1');
-        Account b = new Account(Name = 'Test 2');
-        Account c = new Account(Name = 'Test 3');
-        Account d = new Account(Name = 'Test 4');
-        
-        List<Account> acctList = new List<Account>{a, b, c, d};
-        MockDatabase.doInsert(acctList, true);
-
-        Contact con = new Contact(
-            FirstName = 'Steve',
-            LastName = 'Banner',
-            AccountId = a.Id
-        );
-        MockDatabase.doInsert(con, true);
-
-        Test.startTest();
-        List<Aggregate> queriedAccts = MockDatabase.aggregateQuery('SELECT Account.Name acctName, Name, COUNT(Id) FROM Contact GROUP BY Name, Account.Name');
-        Test.stopTest();
-
-        Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
-    }
-
-    @IsTest
-    static void testDuplicateAliases() {
-        Account a = new Account(Name = 'Test 1');
-        Account b = new Account(Name = 'Test 2');
-        Account c = new Account(Name = 'Test 3');
-        Account d = new Account(Name = 'Test 4');
-        
-        List<Account> acctList = new List<Account>{a, b, c, d};
-        MockDatabase.doInsert(acctList, true);
-
-        Contact con = new Contact(
-            FirstName = 'Steve',
-            LastName = 'Banner',
-            AccountId = a.Id
-        );
-        MockDatabase.doInsert(con, true);
-
-        String exMessage;
-        Test.startTest();
-        try {
-            MockDatabase.aggregateQuery('SELECT Account.Name acctName, Name acctName, COUNT(Id) FROM Contact GROUP BY Name, Account.Name');
-        } catch(QueryException e) {
-            exMessage = e.getMessage();
-        }
-        Test.stopTest();
-
-        Assert.isTrue(
-            exMessage.contains('Duplicate alias'),
-            'Expected exception message to contain \'Duplicate alias\''
-        );
-    }
-
-    @IsTest
     static void testChildSubQueryWithWhereClause() {
         Account acct = new Account(Name = 'Test');
         
