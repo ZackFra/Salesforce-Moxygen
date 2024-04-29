@@ -178,4 +178,52 @@ private class MockDatabaseDateFuncTest {
         Assert.areEqual(1, queriedOpportunities.size(), 'Incorrect number of records returned');
         Assert.areEqual('Test2', queriedOpportunities[0].Name, 'Incorrect record returned');
     }
+
+    @IsTest
+    static void testCalendarMonthWeirdDateTimeException() {
+        Account acct1 = new Account(
+            Name = 'Test'
+        );
+
+        Account acct2 = new Account(
+            Name = 'Test2'
+        );
+
+        List<Account> acctList = new List<Account>{acct1, acct2};
+        MockDatabase.doInsert(acctList, true);
+
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            MockDatabase.aggregateQuery('SELECT Name, CALENDAR_MONTH(CreatedDate) month FROM Account GROUP BY Name, CreatedDate');
+        } catch(Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isTrue(isExceptionThrown, 'Exception should have been thrown');
+    }
+
+    @IsTest
+    static void testCalendarMonthWeirdDateException() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.today()
+        );
+
+        Opportunity opp2 = new Opportunity(
+            Name = 'Test2',
+            CloseDate = Date.today()
+        );
+
+        List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Aggregate> queriedOpportunityAggregates = (List<Aggregate>) MockDatabase.aggregateQuery('SELECT Name, CALENDAR_MONTH(CloseDate) FROM Opportunity GROUP BY Name, CloseDate');
+        Test.stopTest();
+        Integer calendarMonth = System.today().month();
+        Assert.areEqual(calendarMonth, queriedOpportunityAggregates[0].get('expr0'), 'Incorrect Month');
+        Assert.areEqual(calendarMonth, queriedOpportunityAggregates[1].get('expr0'), 'Incorrect Month');
+    }
 }
