@@ -54,10 +54,6 @@ public class EqualityHandler implements IOperatorHandler {
             fieldValue = Common.parseTime((String) fieldValue);
             return fieldValue == (Time) sObjectFieldValue;
         }
-        
-        if(sObjectFieldValue instanceof Integer && fieldValue instanceof Integer) {
-            return (Integer)sObjectFieldValue == (Integer)fieldValue;
-        }
 
         return (String.valueOf(sObjectFieldValue).toLowerCase() == ((String)fieldValue).toLowerCase());
     }

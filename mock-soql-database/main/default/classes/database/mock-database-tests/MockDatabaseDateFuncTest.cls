@@ -148,4 +148,34 @@ private class MockDatabaseDateFuncTest {
         Test.stopTest();
         Assert.areEqual(1, queriedOpportunities.size(), 'Incorrect number of records returned');
     }
+
+    @IsTest
+    static void testCalendarMonthInWhereClauseWithOpportunityCloseDateLessThan() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.today()
+        );
+
+        Opportunity opp2 = new Opportunity(
+            Name = 'Test2',
+            CloseDate = Date.today() - 60
+        );
+
+        List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
+        MockDatabase.doInsert(oppList, true);
+
+        Integer month = System.today().month();
+        Map<String, Object> binds = new Map<String, Object>{
+            'month' => month
+        };
+        Test.startTest();
+        List<Opportunity> queriedOpportunities = (List<Opportunity>) MockDatabase.queryWithBinds(
+            'SELECT Name FROM Opportunity WHERE CALENDAR_MONTH(CloseDate) < :month',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Assert.areEqual(1, queriedOpportunities.size(), 'Incorrect number of records returned');
+        Assert.areEqual('Test2', queriedOpportunities[0].Name, 'Incorrect record returned');
+    }
 }

@@ -51,7 +51,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         SObject sObj = (SObject) this.obj;
         Map<String, Object> params = this.params;
         
-        Object fieldValue = MockDatabase.utils.getFieldNodeValue(valueNode, sObj, params);
+        Object fieldValue = String.valueOf(MockDatabase.utils.getFieldNodeValue(valueNode, sObj, params));
         
         String fieldName = fieldNode.id;
         Object sObjectFieldValue;
