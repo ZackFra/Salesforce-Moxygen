@@ -108,13 +108,6 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
             sObject comparableRecord = (sObject) comparableInfo.get('comparableRecord');
             String comparableField = (String) comparableInfo.get('comparableField');
 
-            if(!SchemaService.isFieldGroupable(
-                SchemaService.getSObjectName(comparableRecord), 
-                comparableField
-            )) {
-                throw new QueryException('field \'' + comparableField + '\' can not be grouped in a query call');
-            }
-
             Boolean isPolymorphic = (Boolean) comparableInfo.get('isPolymorphic');
             Boolean isType = (comparableField == 'Type');
             if(isPolymorphic && isType) {
