@@ -36,7 +36,6 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
 
         Map<String, List<String>> aggrFields = AggregateService.getAggregateFields(topLevelNodes);
         List<String> groupByFields = aggrFields.get('groupByFields');
-
         ProtoAggregate aggregateResult = findGroupedAggregate(databaseRecord, groupByFields);
         if(aggregateResult == null) {
             aggregateResult = createGroupedAggregate(databaseRecord, groupByFields);

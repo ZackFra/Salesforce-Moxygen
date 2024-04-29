@@ -134,7 +134,12 @@ public inherited sharing class WhereParser extends SubParser {
         if(lookahead(query, 3) == 'not') {
             return parseNot(query);
         }
-        Intermediary fieldIntermediary = new FieldParser().parse(query);
+        Intermediary fieldIntermediary;
+        if(AggregateService.isDateFunc('aggregate function', lookahead(query, 14).toLowercase())) {
+            fieldIntermediary = new AggregateFuncParser().parse(query);
+        } else {
+            fieldIntermediary = new FieldParser().parse(query);
+        }
         query = fieldIntermediary.subquery;
         query = skipWhitespace(query);
 
