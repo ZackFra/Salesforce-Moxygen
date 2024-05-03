@@ -29,9 +29,9 @@
  * @since 3/23/2024
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity')
-public with sharing class AggregateService {
+public inherited sharing class AggregateService {
 
-    private final static List<String> SUPPORTED_NUMERIC_FUNCS = new List<String> {
+    public final static List<String> SUPPORTED_NUMERIC_FUNCS = new List<String> {
         'avg',
         'count',
         'min',
@@ -39,9 +39,20 @@ public with sharing class AggregateService {
         'sum'
     };
 
-    private final static List<String> SUPPORTED_DATE_FUNCS = new List<String> {
-        'calendar_month'
+    public final static List<String> SUPPORTED_DATE_FUNCS = new List<String> {
+        'calendar_month',
+        'calendar_year'
     };
+
+    @SuppressWarnings('PMD.PropertyNamingConventions')
+    public final static List<String> SUPPORTED_AGGREGATE_FUNCS {
+        get {
+            List<String> supportedAggregateFuncs = new List<String>();
+            supportedAggregateFuncs.addAll(SUPPORTED_NUMERIC_FUNCS);
+            supportedAggregateFuncs.addAll(SUPPORTED_DATE_FUNCS);
+            return supportedAggregateFuncs;
+        }
+    }
 
     /**
      * @description Returns whether this function is a date function

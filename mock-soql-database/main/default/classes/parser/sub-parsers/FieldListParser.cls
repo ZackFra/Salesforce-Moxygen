@@ -40,7 +40,7 @@ public inherited sharing class FieldListParser extends SubParser {
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
         Intermediary nextItem;
-        if(isAggregateFunc(query)) {
+        if(AggregateService.isAggregateFunc(query)) {
             nextItem = new AggregateFuncParser().parse(query);
             query = nextItem.subquery;
         } else {
@@ -62,7 +62,7 @@ public inherited sharing class FieldListParser extends SubParser {
             );
         }
         
-        if(nextChar == ',' && nextCharAfterThat != '(') {
+        if(nextChar == Token.COMMA && nextCharAfterThat != Token.LPAREN) {
             query = query.subString(1);
             Intermediary restOfList = parse(query);
             nextItem.head.left = restOfList.head;

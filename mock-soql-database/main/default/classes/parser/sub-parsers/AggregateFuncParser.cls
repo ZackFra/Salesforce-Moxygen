@@ -39,36 +39,40 @@ public inherited sharing class AggregateFuncParser extends SubParser{
     @SuppressWarnings('PMD.CognitiveComplexity, PMD.NcssMethodCount, PMD.CyclomaticComplexity')
     public override Intermediary parse(String query) {
         NodeBuilder nb = new NodeBuilder()
-            .setNodeType('aggregate function');
-        if(lookahead(query, 14) == 'count_distinct') {
-            query = consume(query, 'count_distinct');
-            nb.setId('count_distinct');
-        } else if(lookahead(query, 5) == 'count') {
-            query = consume(query, 'count');
-            nb.setId('count');
-        } else if(lookahead(query, 3) == 'sum') {
-            query = consume(query, 'sum');
-            nb.setId('sum');
-        } else if(lookahead(query, 3) == 'avg') {
-            query = consume(query, 'avg');
-            nb.setId('avg');
-        } else if(lookahead(query, 3) == 'min') {
-            query = consume(query, 'min');
-            nb.setId('min');
-        } else if(lookahead(query, 3) == 'max') {
-            query = consume(query, 'max');
-            nb.setId('max');
-        } else if(lookahead(query, 14) == 'calendar_month') {
-            query = consume(query, 'calendar_month');
-            nb.setId('calendar_month');
+            .setNodeType(NodeType.AGGREGATE_FUNCTION);
+        
+        if(isNext(query, Token.COUNT_DISTINCT)) {
+            query = consume(query, Token.COUNT_DISTINCT);
+            nb.setId(Token.COUNT_DISTINCT);
+        } else if(isNext(query, Token.COUNT)) {
+            query = consume(query, Token.COUNT_DISTINCT);
+            nb.setId(Token.COUNT_DISTINCT);
+        } else if(isNext(query, Token.SUM)) {
+            query = consume(query, Token.SUM);
+            nb.setId(Token.SUM);
+        } else if(isNext(query, Token.AVG)) {
+            query = consume(query, Token.AVG);
+            nb.setId(Token.AVG);
+        } else if(isNext(query, Token.MIN)) {
+            query = consume(query, Token.MIN);
+            nb.setId(Token.MAX);
+        } else if(isNext(query, Token.MAX)) {
+            query = consume(query, Token.MAX);
+            nb.setId(Token.MAX);
+        } else if(isNext(query, Token.CALENDAR_MONTH)) {
+            query = consume(query, Token.CALENDAR_MONTH);
+            nb.setId(Token.CALENDAR_MONTH);
+        } else if(isNext(query, Token.CALENDAR_YEAR)) {
+            query = consume(query, Token.CALENDAR_YEAR);
+            nb.setId(Token.CALENDAR_YEAR);
         } else {
             throw new ParsingException( query, 'aggregate function');
         }
         query = skipWhitespace(query);
         
-        query = consume(query, '(');
-        if(nb.id == 'count' && lookahead(query, 1) == ')') {
-            query = consume(query, ')');
+        query = consume(query, TOKEN.LPAREN);
+        if(nb.id == Token.COUNT && isNext(query, TOKEN.RPAREN)) {
+            query = consume(query, TOKEN.RPAREN);
             return new Intermediary(
             	nb.build(),
                 query
@@ -79,11 +83,11 @@ public inherited sharing class AggregateFuncParser extends SubParser{
         Intermediary field = new FieldParser().parse(query);
         
         query = field.subquery;
-        query = consume(query, ')');
+        query = consume(query, Token.RPAREN);
 
         Intermediary alias = null;
         query = skipWhitespace(query);
-        if(lookahead(query, 5) != 'from ') {
+        if(lookahead(query, 5) != (Token.XFROM + Token.WHITESPACE)) {
             // NOTE: alias might still be null after parsing, that's ok
             alias = new AliasParser().parse(query);
         }
