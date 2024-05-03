@@ -40,7 +40,7 @@ public inherited sharing class FieldListParser extends SubParser {
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
         Intermediary nextItem;
-        if(AggregateService.isAggregateFunc(query)) {
+        if(isAggregateFunc(query)) {
             nextItem = new AggregateFuncParser().parse(query);
             query = nextItem.subquery;
         } else {
