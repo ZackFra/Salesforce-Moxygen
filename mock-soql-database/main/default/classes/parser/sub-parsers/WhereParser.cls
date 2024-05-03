@@ -136,7 +136,7 @@ public inherited sharing class WhereParser extends SubParser {
             return parseNot(query);
         }
         Intermediary fieldIntermediary;
-        if(isNext(query, Token.CALENDAR_MONTH) || isNext(query, Token.CALENDAR_YEAR)) {
+        if(AggregateService.isDateFunc('aggregate function', lookahead(query, 14).toLowercase())) {
             fieldIntermediary = new AggregateFuncParser().parse(query);
         } else {
             fieldIntermediary = new FieldParser().parse(query);
