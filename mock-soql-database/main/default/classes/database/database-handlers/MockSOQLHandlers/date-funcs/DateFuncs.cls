@@ -33,7 +33,7 @@ public inherited sharing class DateFuncs {
      * @description CALENDAR_MONTH function
      * @param value `Date|DateTime`
      * @return  `Integer`
-     * @exception QueryExceptioin
+     * @exception QueryException
      */
     public static Integer calendarMonth(Object value) {
         Integer calendarMonth;
@@ -47,5 +47,25 @@ public inherited sharing class DateFuncs {
             throw new QueryException('Invalid value type for calendar month calculation');
         }
         return calendarMonth;
+    }
+
+    /**
+     * @description CALENDAR_YEAR function
+     * @param value `Date|DateTime`
+     * @return  `Integer`
+     * @exception QueryException
+     */
+    public static Integer calendarYear(Object value) {
+        Integer calendarYear;
+        if(value instanceof DateTime) {
+            DateTime dateTimeValue = (DateTime) value;
+            calendarYear = dateTimeValue.year();
+        } else if(value instanceof Date) {
+            Date dateValue = (Date) value;
+            calendarYear = dateValue.year();
+        } else {
+            throw new QueryException('Invalid value type for calendar year calculation');
+        }
+        return calendarYear;
     }
 }
