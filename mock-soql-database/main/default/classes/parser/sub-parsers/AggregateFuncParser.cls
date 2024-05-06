@@ -45,8 +45,8 @@ public inherited sharing class AggregateFuncParser extends SubParser{
             query = consume(query, Token.COUNT_DISTINCT);
             nb.setId(Token.COUNT_DISTINCT);
         } else if(isNext(query, Token.COUNT)) {
-            query = consume(query, Token.COUNT_DISTINCT);
-            nb.setId(Token.COUNT_DISTINCT);
+            query = consume(query, Token.COUNT);
+            nb.setId(Token.COUNT);
         } else if(isNext(query, Token.SUM)) {
             query = consume(query, Token.SUM);
             nb.setId(Token.SUM);
@@ -55,7 +55,7 @@ public inherited sharing class AggregateFuncParser extends SubParser{
             nb.setId(Token.AVG);
         } else if(isNext(query, Token.MIN)) {
             query = consume(query, Token.MIN);
-            nb.setId(Token.MAX);
+            nb.setId(Token.MIN);
         } else if(isNext(query, Token.MAX)) {
             query = consume(query, Token.MAX);
             nb.setId(Token.MAX);

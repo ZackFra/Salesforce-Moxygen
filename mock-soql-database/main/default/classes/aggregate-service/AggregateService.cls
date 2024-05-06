@@ -34,6 +34,7 @@ public inherited sharing class AggregateService {
     public final static List<String> SUPPORTED_NUMERIC_FUNCS = new List<String> {
         'avg',
         'count',
+        'count_distinct',
         'min',
         'max',
         'sum'
