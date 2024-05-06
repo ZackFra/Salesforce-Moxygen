@@ -29,8 +29,8 @@
  */
 public inherited sharing class ORM {
 
-    @TestVisible
     private static Boolean isUnitTest = Test.isRunningTest();
+    private static Boolean isBacktickReplacementEnabled = true;
 
     /**
      * @description Returns if the current context is a unit test 
@@ -46,6 +46,27 @@ public inherited sharing class ORM {
     @TestVisible
     private static void doIntegrationTest() {
         ORM.isUnitTest = false;
+    }
+
+    /**
+     * @description Returns whether backtick replacement is enabled 
+     * @return  `Boolean`
+     */
+    public static Boolean isBacktickReplacementEnabled() {
+        return ORM.isBacktickReplacementEnabled;
+    }
+
+    /**
+     * @description Sets the isBacktickReplaceEnabled flag to false
+     */
+    public static void disableBacktickReplacement() {
+        ORM.isBacktickReplacementEnabled = false;
+    }
+    /**
+     * @description Sets the isBacktickReplaceEnabled flag to true
+     */
+    public static void enableBacktickReplacement() {
+        ORM.isBacktickReplacementEnabled = true;
     }
 
 
