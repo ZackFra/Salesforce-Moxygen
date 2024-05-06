@@ -103,13 +103,16 @@ public abstract class SubParser {
         if(!isLongEnough) {
             return false;
         }
-        Boolean isSum = lookahead(query, 3) == 'sum';
-        Boolean isAvg = lookahead(query, 3) == 'avg';
-        Boolean isMin = lookahead(query, 3) == 'min';
-        Boolean isMax = lookahead(query, 3) == 'max';
-        Boolean isCount = lookahead(query, 5) == 'count';
-        Boolean isCountDistinct = lookahead(query, 14) == 'count_distinct';
-        Boolean isCalendarMonth =  lookahead(query, 14) == 'calendar_month';
-        return isSum || isAvg || isMin || isMax || isCount || isCountDistinct || isCalendarMonth;
+        for(String aggregateFunc : AggregateService.SUPPORTED_AGGREGATE_FUNCS) {
+            if(isNext(query, aggregateFunc)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected Boolean isNext(String query, String token) {
+        return (query.length() >= token.length()) && 
+            (lookahead(query, token.length()) == token);
     }
 }

@@ -583,5 +583,5 @@ private class MockSelectorTest {
             isExceptionThrown,
             'Expected exception to be thrown'
         );
-    }  
+    }
 }

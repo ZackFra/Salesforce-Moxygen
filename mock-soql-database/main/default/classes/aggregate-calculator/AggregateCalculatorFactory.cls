@@ -46,7 +46,8 @@ public inherited sharing class AggregateCalculatorFactory {
             'min' => new MinCalculator(options),
             'count_distinct' => new CountDistinctCalculator(options),
             'count' => new CountCalculator(options),
-            'calendar_month' => new CalendarMonthCalculator(options)
+            'calendar_month' => new CalendarMonthCalculator(options),
+            'calendar_year' => new CalendarYearCalculator(options)
         };
         IAggregateCalculator calculator = calculators.get(type);
         if(calculator == null) {

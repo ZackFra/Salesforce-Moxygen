@@ -62,7 +62,7 @@ public inherited sharing class FieldListParser extends SubParser {
             );
         }
         
-        if(nextChar == ',' && nextCharAfterThat != '(') {
+        if(nextChar == Token.COMMA && nextCharAfterThat != Token.LPAREN) {
             query = query.subString(1);
             Intermediary restOfList = parse(query);
             nextItem.head.left = restOfList.head;

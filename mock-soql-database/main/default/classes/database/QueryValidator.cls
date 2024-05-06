@@ -28,7 +28,7 @@
  * but rather checks for invalid queries that are not supported by the SOQL parser
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity')
-public with sharing class QueryValidator {
+public inherited sharing class QueryValidator {
     /**
      * @description : The top level nodes of the query
      */
@@ -52,6 +52,7 @@ public with sharing class QueryValidator {
         validateLimit();
         validateOffset();
         validateForUpdate();
+        validateGroupableFields();
     }
 
     private void validateForUpdate() {
@@ -121,6 +122,36 @@ public with sharing class QueryValidator {
 
         if(hasDuplicateFields(selectNode)) {
             throw new QueryException('Duplicate field selected');
+        }
+    }
+
+    private void validateGroupableFields() {
+        Node groupByNode = topLevelNodes.groupByNode;
+        if(groupByNode == null) {
+            return;
+        }
+        Node selectNode = topLevelNodes.selectNode;
+
+        Node currGroupByNode = groupByNode.left;
+        while(currGroupByNode != null) {
+            if(AggregateService.isDateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
+                currGroupByNode = currGroupByNode.left;
+                continue;
+            }
+            if(AggregateService.isAggregateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
+                throw new QueryException('Only date aggregate functions are allowed as grouping expressions: ' + currGroupByNode.id);
+            }
+
+            // we can't trust that this isn't something like GROUP BY Account.CreatedDate, so we need to get comparables
+            Map<String, Object> comparableData = ComparableService.getComparableDataFromNodes(currGroupByNode, selectNode);
+            String fieldName = (String) comparableData.get('comparableField');
+            SObject comparableRecord = (SObject) comparableData.get('comparableRecord');
+            String sObjectName = SchemaService.getSObjectName(comparableRecord);
+
+            if(!SchemaService.isFieldGroupable(sObjectName, fieldName)) {
+                throw new QueryException('Field is not groupable: ' + groupByNode.id);
+            }
+            currGroupByNode = currGroupByNode.left;
         }
     }
 

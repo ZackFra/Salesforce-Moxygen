@@ -34,13 +34,13 @@ public inherited sharing class SelectParser extends SubParser {
     private FieldParser fieldParser = new FieldParser();
 
     public override Intermediary parse(String query) {
-        query = consume(query, 'select ');
+        query = consume(query, (Token.XSELECT + Token.WHITESPACE));
         Intermediary leftIntermediary = parseSelectExpr(query);
         query = leftIntermediary.subquery;
         return new Intermediary(
         	new NodeBuilder()
-            	.setId('select')
-            	.setNodeType('select')
+            	.setId(NodeType.XSELECT)
+            	.setNodeType(NodeType.XSELECT)
             	.setLeft(leftIntermediary.head)
             	.build(),
             query
@@ -51,22 +51,22 @@ public inherited sharing class SelectParser extends SubParser {
         query = skipWhitespace(query);
         Intermediary selectExpr;
 
-        if(isTypeOf(query)) {
+        if(isNext(query, Token.XTYPEOF)) {
             selectExpr = parseTypeOf(query);
             query = selectExpr.subquery;
         } else if(isAggregateFunc(query)) {
             selectExpr = new AggregateFuncParser().parse(query);
             query = selectExpr.subquery;
-        } else if(lookahead(query, 1) == '(') {
-            query = consume(query, '(');
+        } else if(isNext(query, Token.LPAREN)) {
+            query = consume(query, Token.LPAREN);
             Intermediary soqlSubQuery = new QueryParser().parse(query);
             query = soqlSubQuery.subquery;
             query = skipWhitespace(query);
-            query = consume(query, ')');
+            query = consume(query, Token.RPAREN);
             selectExpr = new Intermediary(
             	new NodeBuilder()
-                	.setId('subquery')
-                	.setNodeType('subquery')
+                	.setId(NodeType.SUBQUERY)
+                	.setNodeType(NodeType.SUBQUERY)
                 	.setRight(soqlSubQuery.head)
                 	.build(),
                 query
@@ -77,9 +77,8 @@ public inherited sharing class SelectParser extends SubParser {
         }
         
         query = skipWhitespace(query);
-        String nextChar = lookahead(query, 1);
-        if(nextChar == ',') {
-            query = consume(query, ',');
+        if(isNext(query, Token.COMMA)) {
+            query = consume(query, Token.COMMA);
             Intermediary restOfExpr = parseSelectExpr(query);
             Node curr = selectExpr.head;
             while(curr.left != null) {
@@ -101,7 +100,7 @@ public inherited sharing class SelectParser extends SubParser {
     private Intermediary parseFieldListWithAliases(String query) {
         query = skipWhitespace(query);
         Intermediary nextItem;
-        if(isTypeOf(query)) {
+        if(isNext(query, Token.XTYPEOF)) {
             nextItem = parseTypeOf(query);
             query = nextItem.subquery;
         } else if(isAggregateFunc(query)) {
@@ -116,7 +115,7 @@ public inherited sharing class SelectParser extends SubParser {
         String nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
         Boolean isAggrFuncNext = isAggregateFunc(skipWhitespace(query.subString(1)));
         
-        if(nextChar == ',' && nextCharAfterThat != '(' && !isAggrFuncNext) {
+        if(nextChar == Token.COMMA && nextCharAfterThat != Token.LPAREN && !isAggrFuncNext) {
             query = query.subString(1);
             Intermediary restOfList = parseFieldListWithAliases(query);
             nextItem.head.left = restOfList.head;
@@ -125,7 +124,7 @@ public inherited sharing class SelectParser extends SubParser {
 
         Intermediary alias = null;
         query = skipWhitespace(nextItem.subquery);
-        if(lookahead(query, 5) != 'from ' && lookahead(query, 1) != ',') {
+        if(lookahead(query, 5) != (Token.XFROM + Token.WHITESPACE) && lookahead(query, 1) != Token.COMMA) {
             // NOTE: alias might still be null after parsing, that's ok
             alias = new AliasParser().parse(query);
         }
@@ -141,7 +140,7 @@ public inherited sharing class SelectParser extends SubParser {
         nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
         isAggrFuncNext = isAggregateFunc(skipWhitespace(query.subString(1)));
         
-        if(nextChar == ',' && nextCharAfterThat != '(' && !isAggrFuncNext) {
+        if(nextChar == Token.COMMA && nextCharAfterThat != Token.LPAREN && !isAggrFuncNext) {
             query = query.subString(1);
             Intermediary restOfList = parseFieldListWithAliases(query);
             nextItem.head.left = restOfList.head;
@@ -151,32 +150,20 @@ public inherited sharing class SelectParser extends SubParser {
 
         return nextItem;        
     }
-
-    private Boolean isTypeOf(String query) {
-        return query.length() >= 6 && lookahead(query, 6) == 'typeof';
-    }
-
-    private Boolean isElse(String query) {
-        return query.length() >= 4 && lookahead(query, 4) == 'else';
-    }
-
-    private Boolean isWhen(String query) {
-        return query.length() >= 4 && lookahead(query, 4) == 'when';
-    }
     
     private Intermediary parseElse(String query) {
         query = skipWhitespace(query);
-        if(query.length() == 0 || !isElse(query)) {
+        if(query.length() == 0 || !isNext(query, Token.XELSE)) {
             return null;
         }
-        query = consume(query, 'else');
-        query = consume(query, ' ');
+        query = consume(query, Token.XELSE);
+        query = consume(query, Token.WHITESPACE);
         query = skipWhitespace(query);
         Intermediary fieldList = new FieldListParser().parse(query);
         return new Intermediary(
         	new NodeBuilder()
-            	.setId('else')
-            	.setNodeType('else')
+            	.setId(NodeType.XELSE)
+            	.setNodeType(NodeType.XELSE)
             	.setRight(fieldList.head)
             	.build(),
             fieldList.subquery
@@ -185,12 +172,12 @@ public inherited sharing class SelectParser extends SubParser {
 
     private Intermediary parseWhenList(String query) {
         query = skipWhitespace(query);
-        if(!isWhen(query)) {
+        if(!isNext(query, Token.XWHEN)) {
             return null;
         }
 
         Intermediary whenList;
-        while(isWhen(query)) {
+        while(isNext(query, Token.XWHEN)) {
             Intermediary whenExpr = parseWhen(query);
             query = whenExpr.subquery;
             query = skipWhitespace(query);
@@ -205,7 +192,7 @@ public inherited sharing class SelectParser extends SubParser {
             }
         }
 
-        if(isElse(query)) {
+        if(isNext(query, Token.XELSE)) {
             Intermediary elseExpr = parseElse(query);
             query = elseExpr.subquery;
             Node curr = whenList.head;
@@ -221,27 +208,27 @@ public inherited sharing class SelectParser extends SubParser {
 
     private Intermediary parseWhen(String query) {
         query = skipWhitespace(query);
-        if(query.length() < 4 || lookahead(query, 4) != 'when') {
+        if(!isNext(query, Token.XWHEN)) {
             return null;
         }
 
-        query = consume(query, 'when');
-        query = consume(query, ' ');
+        query = consume(query, Token.XWHEN);
+        query = consume(query, Token.WHITESPACE);
         query = skipWhitespace(query);
         Intermediary obj = new SObjectParser().parse(query);
         query = obj.subquery;
-        query = consume(query, ' ');
+        query = consume(query, Token.WHITESPACE);
         query = skipWhitespace(query);
 
-        query = consume(query, 'then');
-        query = consume(query, ' ');
+        query = consume(query, Token.XTHEN);
+        query = consume(query, Token.WHITESPACE);
         query = skipWhitespace(query);
         Intermediary thenExpr = new FieldListParser().parse(query);
         query = thenExpr.subquery;
         return new Intermediary(
         	new NodeBuilder()
-            	.setId('when')
-            	.setNodeType('when')
+            	.setId(NodeType.XWHEN)
+            	.setNodeType(NodeType.XWHEN)
             	.setLeft(obj.head)
             	.setRight(thenExpr.head)
             	.build(),
@@ -251,29 +238,29 @@ public inherited sharing class SelectParser extends SubParser {
 
     private Intermediary parseTypeOf(String query) {
         query = skipWhitespace(query);
-        if(query.length() < 6 || lookahead(query, 6) != 'typeof') {
+        if(!isNext(query, Token.XTYPEOF)) {
             return null;
         }
 
-        query = consume(query, 'typeof');
-        query = consume(query, ' ');
+        query = consume(query, Token.XTYPEOF);
+        query = consume(query, Token.WHITESPACE);
         query = skipWhitespace(query);
         Map<String, String> dataMap = getFieldName(query);
         String fieldName = dataMap.get('fieldName');
         query = dataMap.get('subquery');
-        query = consume(query, ' ');
+        query = consume(query, Token.WHITESPACE);
         query = skipWhitespace(query);
 
         Intermediary whenExpr = parseWhenList(query);
         query = whenExpr.subquery;
         query = skipWhitespace(query);
-        query = consume(query, 'end');
-        query = consume(query, ' ');
+        query = consume(query, Token.XEND);
+        query = consume(query, Token.WHITESPACE);
 
         return new Intermediary(
         	new NodeBuilder()
             	.setId(fieldName)
-            	.setNodeType('typeof')
+            	.setNodeType(NodeType.XTYPEOF)
             	.setRight(whenExpr.head)
             	.build(),
             query

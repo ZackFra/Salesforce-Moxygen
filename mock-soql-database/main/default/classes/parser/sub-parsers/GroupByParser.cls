@@ -41,22 +41,21 @@ public inherited sharing class GroupByParser extends SubParser {
         if(query.length() == 0) {
             return null;
         }
-        if(lookahead(query, 5) != 'group') { 
+        if(!isNext(query, Token.XGROUP)) { 
             return null;
         }
         
-        query = consume(query, 'group');
-        query = consume(query, ' ');
+        query = consume(query, Token.XGROUP);
+        query = consume(query, Token.WHITESPACE);
         query = skipWhitespace(query);
-        query = consume(query, 'by');
-        query = consume(query, ' ');
+        query = consume(query, Token.XBY);
+        query = consume(query, Token.WHITESPACE);
         query = skipWhitespace(query);
 
         Intermediary fieldList;
-        String nodeId = 'group by';
-        if(lookahead(query, 6) == 'rollup') {
+        if(isNext(query, Token.ROLLUP)) {
             throw new ParsingException('GROUP BY ROLLUP is not supported by the mock SOQL parser');
-        } else if (lookahead(query, 4) == 'cube') {
+        } else if (isNext(query, Token.CUBE)) {
             throw new ParsingException('GROUP BY CUBE is not supported by the mock SOQL parser');
         } else {
             fieldList = new FieldListParser().parse(query);
@@ -64,8 +63,8 @@ public inherited sharing class GroupByParser extends SubParser {
         
         return new Intermediary(
         	new NodeBuilder()
-            	.setId(nodeId)
-            	.setNodeType('group by')
+            	.setId(NodeType.XGROUP_BY)
+            	.setNodeType(NodeType.XGROUP_BY)
             	.setLeft(fieldList.head)
             	.build(),
             fieldList.subquery

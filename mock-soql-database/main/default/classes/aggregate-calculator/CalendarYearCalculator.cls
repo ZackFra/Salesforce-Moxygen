@@ -26,16 +26,16 @@
 /**
  * @description Calculates the calendar month from a date value 
  * @author Zackary Frazier
- * @since 4/28/2024
+ * @since 5/5/2024
  */
-public inherited sharing class CalendarMonthCalculator implements IAggregateCalculator {
+public inherited sharing class CalendarYearCalculator implements IAggregateCalculator {
     AggregateCalculatorOptions options;
 
     /**
      * @description Constructor for the CalendarMonthCalculator class
      * @param options 
      */
-    public CalendarMonthCalculator(AggregateCalculatorOptions options) {
+    public CalendarYearCalculator(AggregateCalculatorOptions options) {
         this.options = options;
     }
 
@@ -67,7 +67,7 @@ public inherited sharing class CalendarMonthCalculator implements IAggregateCalc
             return aggregateResult;
         }
 
-        Integer calendarMonth = DateFuncs.calendarMonth(value);
+        Integer calendarMonth = DateFuncs.calendarYear(value);
 
         aggregateResult.put(alias, calendarMonth);
         return aggregateResult;
