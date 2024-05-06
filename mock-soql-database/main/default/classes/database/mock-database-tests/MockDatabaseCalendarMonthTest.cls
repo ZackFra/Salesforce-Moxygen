@@ -24,7 +24,7 @@
  */
 
 @IsTest
-private class MockDatabaseDateFuncTest {
+private class MockDatabaseCalendarMonthTest  {
     
     @IsTest
     static void testCalendarMonthIsCorrect() {

@@ -45,14 +45,11 @@ public inherited sharing class AggregateService {
         'calendar_year'
     };
 
-    @SuppressWarnings('PMD.PropertyNamingConventions')
-    public final static List<String> SUPPORTED_AGGREGATE_FUNCS {
-        get {
-            List<String> supportedAggregateFuncs = new List<String>();
-            supportedAggregateFuncs.addAll(SUPPORTED_NUMERIC_FUNCS);
-            supportedAggregateFuncs.addAll(SUPPORTED_DATE_FUNCS);
-            return supportedAggregateFuncs;
-        }
+    public final static List<String> SUPPORTED_AGGREGATE_FUNCS; 
+    static {
+        SUPPORTED_AGGREGATE_FUNCS = new List<String>();
+        SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_NUMERIC_FUNCS);
+        SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_DATE_FUNCS);
     }
 
     /**
