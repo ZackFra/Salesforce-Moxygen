@@ -29,19 +29,28 @@
  * @since 3/23/2024
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity')
-public with sharing class AggregateService {
+public inherited sharing class AggregateService {
 
-    private final static List<String> SUPPORTED_NUMERIC_FUNCS = new List<String> {
+    public final static List<String> SUPPORTED_NUMERIC_FUNCS = new List<String> {
         'avg',
         'count',
+        'count_distinct',
         'min',
         'max',
         'sum'
     };
 
-    private final static List<String> SUPPORTED_DATE_FUNCS = new List<String> {
-        'calendar_month'
+    public final static List<String> SUPPORTED_DATE_FUNCS = new List<String> {
+        'calendar_month',
+        'calendar_year'
     };
+
+    public final static List<String> SUPPORTED_AGGREGATE_FUNCS; 
+    static {
+        SUPPORTED_AGGREGATE_FUNCS = new List<String>();
+        SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_NUMERIC_FUNCS);
+        SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_DATE_FUNCS);
+    }
 
     /**
      * @description Returns whether this function is a date function

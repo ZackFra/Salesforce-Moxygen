@@ -381,17 +381,9 @@ private class ParserTest {
 
     @IsTest
     private static void testAggrFuncs() {
-        List<String> aggrFuncs = new List<String> {
-            'avg',
-            'count',
-            'count_distinct',
-            'min',
-            'max',
-            'sum'
-        };
         List<Map<String, Object>> nodes = new List<Map<String, Object>>();
         Test.startTest();
-        for(String func : aggrFuncs) {
+        for(String func : AggregateService.SUPPORTED_NUMERIC_FUNCS) {
             Parser t = new Parser();
             Node head = t.parse('SELECT ' + func + '(Amount) FROM Opportunity');
             Map<String, Object> nodeDatum = new Map<String, Object> {
