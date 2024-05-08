@@ -47,7 +47,7 @@ private class MockSelectorHavingClauseTest {
         Test.stopTest();
         Assert.areEqual(
             1,
-            arList[0].get('month'),
+            ar.get('month'),
             'Should have 1 result'
         );
     }
