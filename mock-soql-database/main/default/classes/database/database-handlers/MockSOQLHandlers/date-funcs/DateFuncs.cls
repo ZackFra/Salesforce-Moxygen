@@ -37,12 +37,12 @@ public inherited sharing class DateFuncs {
      */
     public static Integer calendarMonth(Object value) {
         Integer calendarMonth;
-        if(value instanceof DateTime) {
-            DateTime dateTimeValue = (DateTime) value;
-            calendarMonth = dateTimeValue.month();
-        } else if(value instanceof Date) {
+        if(value instanceof Date) {
             Date dateValue = (Date) value;
             calendarMonth = dateValue.month();
+        } else if(value instanceof DateTime) {
+            DateTime dateTimeValue = (DateTime) value;
+            calendarMonth = dateTimeValue.monthGmt();
         } else {
             throw new QueryException('Invalid value type for calendar month calculation');
         }
@@ -57,12 +57,12 @@ public inherited sharing class DateFuncs {
      */
     public static Integer calendarYear(Object value) {
         Integer calendarYear;
-        if(value instanceof DateTime) {
-            DateTime dateTimeValue = (DateTime) value;
-            calendarYear = dateTimeValue.year();
-        } else if(value instanceof Date) {
+        if(value instanceof Date) {
             Date dateValue = (Date) value;
             calendarYear = dateValue.year();
+        } else if(value instanceof DateTime) {
+            DateTime dateTimeValue = (DateTime) value;
+            calendarYear = dateTimeValue.yearGmt();
         } else {
             throw new QueryException('Invalid value type for calendar year calculation');
         }

@@ -78,6 +78,19 @@ public inherited sharing class Token {
     public final static String XORDER = 'order';
     public final static String XASC = 'asc';
     public final static String XDESC = 'desc';
+    public final static String XHAVING = 'having';
+
+    public final static List<String> PROTECTED_KEYWORDS = new List<String> {
+        XFROM,
+        XSELECT,
+        XWHERE,
+        XGROUP,
+        XBY,
+        XORDER,
+        XASC,
+        XDESC,
+        XHAVING
+    };
 
     public final static String XAND = 'and';
     public final static String XOR = 'or';

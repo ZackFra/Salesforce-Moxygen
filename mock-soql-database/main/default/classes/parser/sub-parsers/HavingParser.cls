@@ -37,19 +37,20 @@ public inherited sharing class HavingParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(query.length() < 6 || lookahead(query, 6) != 'having') {
+
+        if(!isNext(query, Token.XHAVING)) {
             return null;
         }
-
-        query = consume(query, 'having ');
+        query = consume(query, Token.XHAVING);
+        query = consume(query, Token.WHITESPACE);
         query = skipWhitespace(query);
         Intermediary conditionalExpr = parseHavingConditionalExpr(query);
         query = conditionalExpr.subquery;
         
         return new Intermediary(
             new NodeBuilder()
-                .setId('having')
-                .setNodeType('having')
+                .setId(NodeType.XHAVING)
+                .setNodeType(NodeType.XHAVING)
                 .setLeft(conditionalExpr.head)
                 .build(),
             query
@@ -67,7 +68,7 @@ public inherited sharing class HavingParser extends SubParser {
         Intermediary leftIntermediary;
 
         // work out the left intermediary first, it's either a sub-expression or a field being compared to a value
-        if(lookahead(query, 1) == '(') {
+        if(isNext(query, Token.LPAREN)) {
             leftIntermediary = parseHavingConditionalSubExpr(query);
         } else {
             leftIntermediary = parseHavingConditionalOperationExpr(query);
@@ -76,29 +77,29 @@ public inherited sharing class HavingParser extends SubParser {
         query = skipWhitespace(query);
 
         // if the next token is an AND or OR, parse it
-        String token = null;
-        if(lookahead(query, 3) == 'and') {
-            token = 'and';
+        String nextToken = null;
+        if(isNext(query, Token.XAND)) {
+            nextToken = Token.XAND;
         }
 
-        if(lookahead(query, 2) == 'or') {
-            token = 'or';
+        if(isNext(query, Token.XOR)) {
+            nextToken = Token.XOR;
         }
 
-        if(token == null) {
+        if(nextToken == null) {
             return leftIntermediary;
         }
 
-        query = consume(query, token);
-        if(lookahead(query, 1) != '(') {
-            query = consume(query, ' ');
+        query = consume(query, nextToken);
+        if(!isNext(query, Token.LPAREN)) {
+            query = consume(query, Token.WHITESPACE);
         }
         Intermediary restOfExpr = parseHavingConditionalExpr(query);
         query = restOfExpr.subquery;
 
         Node head = new NodeBuilder()
-                .setId(token)
-                .setNodeType(token)
+                .setId(nextToken)
+                .setNodeType(nextToken)
                 .setLeft(leftIntermediary.head)
                 .setRight(restOfExpr.head)
                 .build();
@@ -106,7 +107,7 @@ public inherited sharing class HavingParser extends SubParser {
         Node prev = head;
         Node curr = head.right;
         while(curr != null) {
-            if(curr.nodeType == 'or') {
+            if(curr.nodeType == NodeType.XOR) {
                 prev.right = curr.left;
                 curr.left = head;
                 head = curr;
@@ -126,14 +127,14 @@ public inherited sharing class HavingParser extends SubParser {
      * @return  `Intermediary`
      */
     private Intermediary parseHavingConditionalSubExpr(String query) {
-        query = consume(query, '(');
+        query = consume(query, Token.LPAREN);
         Intermediary subExpr = parseHavingConditionalExpr(query);
         query = subExpr.subquery;
-        query = consume(query, ')');
+        query = consume(query, Token.RPAREN);
         return new Intermediary(
             new NodeBuilder()
-                .setId('conditional subexpression')
-                .setNodeType('conditional subexpression')
+                .setId(NodeType.CONDITONAL_SUBEXPRESSION)
+                .setNodeType(NodeType.CONDITONAL_SUBEXPRESSION)
                 .setLeft(subExpr.head)
                 .build(),
             query
@@ -147,7 +148,7 @@ public inherited sharing class HavingParser extends SubParser {
      * @exception ParsingException
      */
     private Intermediary parseHavingConditionalOperationExpr(String query) {
-        if(lookahead(query, 3) == 'not') {
+        if(isNext(query, Token.XNOT)) {
             return parseHavingNot(query);
         }
         Intermediary nextItem;
@@ -162,12 +163,12 @@ public inherited sharing class HavingParser extends SubParser {
         Intermediary operatorIntermediary = new OperatorParser().parse(query);
         query = operatorIntermediary.subquery;
         query = skipWhitespace(query);
-        Boolean isIn = operatorIntermediary.head.id == 'in';
-        Boolean isNotIn = operatorIntermediary.head.id == 'not in';
-        if((isIn || isNotIn) && lookahead(query, 1) == '(') {
-            query = consume(query, '(');
+        Boolean isIn = operatorIntermediary.head.id == Token.XIN;
+        Boolean isNotIn = operatorIntermediary.head.id == Token.XNOT_IN;
+        if((isIn || isNotIn) && isNext(query,Token.LPAREN)) {
+            query = consume(query, Token.LPAREN);
             Intermediary listOrQuery;
-            if(lookahead(query, 6) == 'select') {
+            if(isNext(query, Token.XSELECT)) {
                 throw new ParsingException(query, 'subquery');
             } else {
                 listOrQuery = new ValueListParser().parse(query);
@@ -175,7 +176,7 @@ public inherited sharing class HavingParser extends SubParser {
             query = listOrQuery.subquery;
             query = skipWhitespace(query);
 
-            query = consume(query, ')');
+            query = consume(query, Token.RPAREN);
 
             operatorIntermediary.head.right = listOrQuery.head;
         } else {
@@ -195,16 +196,16 @@ public inherited sharing class HavingParser extends SubParser {
      * @return  `Intermediary`
      */
     private Intermediary parseHavingNot(String query) {
-        query = consume(query, 'not');
-        query = consume(query, ' ');
+        query = consume(query, Token.XNOT);
+        query = consume(query, Token.WHITESPACE);
         query = skipWhitespace(query);
 
         Intermediary subExpr = parseHavingConditionalExpr(query);
         query = subExpr.subquery;
         return new Intermediary(
             new NodeBuilder()
-                .setId('not')
-                .setNodeType('not')
+                .setId(NodeType.XNOT)
+                .setNodeType(NodeType.XNOT)
                 .setLeft(subExpr.head)
                 .build(),
             query

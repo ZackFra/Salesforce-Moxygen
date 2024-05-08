@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public with sharing class AliasService {
+public inherited sharing class AliasService {
     /**
      * @description Get the field alias 
      * @param curr 
@@ -82,10 +82,10 @@ public with sharing class AliasService {
 
         Node curr = selectNode.left;
         while(curr != null) {
-            Boolean isField = (curr.nodeType == 'field');
+            Boolean isField = (curr.nodeType == NodeType.FIELD);
             Boolean isSameId = (curr.id == fieldNode.id);
             
-            Boolean isAggregateFunc = (curr.nodeType == 'aggregate function');
+            Boolean isAggregateFunc = (curr.nodeType == NodeType.AGGREGATE_FUNCTION);
             Boolean isSameAggrField = (isAggregateFunc && curr.right.id == fieldNode?.right?.id);
 
             if(isField && isSameId) {
