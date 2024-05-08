@@ -74,7 +74,7 @@ public inherited sharing class QueryParser extends SubParser {
             query = groupByIntermediary.subquery;
             nextLink.head.right = groupByIntermediary.head;
             nextLink = groupByIntermediary;
-            
+
             Intermediary havingIntermediary = new HavingParser().parse(query);
             if(havingIntermediary != null) {
                 query = havingIntermediary.subquery;

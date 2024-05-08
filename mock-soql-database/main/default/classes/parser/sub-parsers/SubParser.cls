@@ -115,4 +115,14 @@ public abstract class SubParser {
         return (query.length() >= token.length()) && 
             (lookahead(query, token.length()) == token);
     }
+
+    protected Boolean isProtectedKeyword(String query) {
+        query = skipWhitespace(query);
+        for(String keyword : Token.PROTECTED_KEYWORDS) {
+            if(isNext(query, keyword)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

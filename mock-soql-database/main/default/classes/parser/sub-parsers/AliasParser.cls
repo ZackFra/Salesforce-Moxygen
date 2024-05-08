@@ -45,6 +45,10 @@ public inherited sharing class AliasParser extends SubParser {
             return null;
         }
 
+        if(isProtectedKeyword(query)) {
+            return null;
+        }
+
         String aliasName = '';
         while(query.length() > 0 && ParserUtils.validCharForFieldOrObject(lookahead(query, 1))) {
             aliasName += lookahead(query, 1, true);

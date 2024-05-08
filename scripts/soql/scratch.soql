@@ -1,1 +1,4 @@
-SELECT Id FROM Account GROUP BY Name, Id
+SELECT CALENDAR_MONTH(closeDate) month, SUM(Amount) total 
+FROM Opportunity 
+GROUP BY CALENDAR_MONTH(CloseDate) 
+HAVING CALENDAR_MONTH(CloseDate) < 12

@@ -147,11 +147,6 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
         return results;
     }
 
-    private static Boolean checkHavingClause(BooleanLogicOptions havingLogicOptions) {
-        HavingLogicHandler havingLogicHandler = new HavingLogicHandler(havingLogicOptions);
-        return havingLogicHandler.evaluate();
-    }
-
     private List<ProtoAggregate> handleHavingNode(
         List<ProtoAggregate> aggregateResults, 
         Node selectNode, 
@@ -177,6 +172,11 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
             }
         }
         return results;
+    }
+
+    private static Boolean checkHavingClause(BooleanLogicOptions havingLogicOptions) {
+        HavingLogicHandler havingLogicHandler = new HavingLogicHandler(havingLogicOptions);
+        return havingLogicHandler.evaluate();
     }
 
     private List<Aggregate> emptyResponse() {
