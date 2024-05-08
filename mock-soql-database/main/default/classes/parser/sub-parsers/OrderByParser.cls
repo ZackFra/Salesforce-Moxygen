@@ -82,11 +82,14 @@ public inherited sharing class OrderByParser extends SubParser {
         } else {
             nextItem = new FieldParser().parse(query);
         }
-        query = skipWhitespace(nextItem.subquery);
-        
+        query = nextItem.subquery;
         Intermediary dir = parseDirection(query);
         if(dir != null) {
-            nextItem.head.right = dir.head;
+            Node curr = nextItem.head;
+            while(curr.right != null) {
+                curr = curr.right;
+            }
+            curr.right = dir.head;
             nextItem.subquery = dir.subquery;
             query = skipWhitespace(dir.subquery);
         }
@@ -110,8 +113,8 @@ public inherited sharing class OrderByParser extends SubParser {
         String nextChar = lookahead(query, 1);
         String nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
         
-        if(nextChar == ',' && nextCharAfterThat != '(') {
-            query = query.subString(1);
+        if(nextChar == Token.COMMA && nextCharAfterThat != Token.LPAREN) {
+            query = consume(query, Token.COMMA);
             Intermediary restOfList = parseOrderByFieldList(query);
             nextItem.head.left = restOfList.head;
             nextItem.subquery = restOfList.subquery;
@@ -125,6 +128,10 @@ public inherited sharing class OrderByParser extends SubParser {
      * @return  `Intermediary`
      */
     private Intermediary parseDirection(String query) {
+        // @TODO: Make AggregateFuncParser consistent with FieldParser, i.e. the subquery should retain the trailing whitespace
+        if(isNext(query, Token.WHITESPACE)) {
+            query = consume(query, TOKEN.WHITESPACE);
+        }
         query = skipWhitespace(query);
         String dir = '';
         if(lookahead(query, 3) == 'asc') {
