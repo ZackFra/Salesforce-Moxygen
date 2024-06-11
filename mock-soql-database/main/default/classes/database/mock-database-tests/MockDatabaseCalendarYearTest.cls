@@ -25,6 +25,7 @@
 
 @IsTest
 private class MockDatabaseCalendarYearTest {
+
     @IsTest
     static void testCalendarYearIsCorrect() {
         Account acct1 = new Account(
@@ -224,5 +225,69 @@ private class MockDatabaseCalendarYearTest {
         Integer calendarMonth = System.today().year();
         Assert.areEqual(calendarMonth, queriedOpportunityAggregates[0].get('expr0'), 'Incorrect Year');
         Assert.areEqual(calendarMonth, queriedOpportunityAggregates[1].get('expr0'), 'Incorrect Year');
+    }
+
+    /**
+     * @description This is to test using the CALENDAR_YEAR method in the HAVING clause of a query
+     */
+    @IsTest
+    static void testCalendarYearInHavingClause() {
+        Opportunity testOpp = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.today()
+        );
+        DML.doMockInsert(testOpp);
+
+        Test.startTest();
+        List<Aggregate> ar = Selector.aggregateQuery(
+            String.join(new List<String> {
+                'SELECT Name, CALENDAR_YEAR(CloseDate)',
+                'FROM Opportunity GROUP BY Name, CALENDAR_YEAR(CloseDate)',
+                'HAVING CALENDAR_YEAR(CloseDate) > 2010'
+            }, ' ')
+        );
+        Test.stopTest();
+
+        Assert.areEqual(1, ar.size(), 'Incorrect number of records returned');
+    }
+
+    /**
+     * @description Bulkified test of calendar year logic
+     */
+    @IsTest
+    static void testCalendarYearInHacingClauseMultipleOpps() {
+        List<Opportunity> oppList = new List<Opportunity>();
+
+        // 50 opportunities, each with a close date of a year prior
+        for(Integer i = 0; i < 50; i++) {
+            Date closeDate = Date.today().addYears(-i);
+            Opportunity newOpp = new Opportunity(
+                Name = 'Test Opp' + i,
+                CloseDate = closeDate
+            );
+            oppList.add(newOpp);
+        }
+        DML.doMockInsert(oppList);
+
+        Test.startTest();
+        Map<String, Object> binds = new Map<String, Object> {
+            'year' => Date.today().addYears(-10).year()
+        };
+        List<Aggregate> ar = Selector.aggregateQueryWithBinds(
+            String.join(new List<String> {
+                'SELECT Name, CALENDAR_YEAR(CloseDate)',
+                'FROM Opportunity GROUP BY Name, CALENDAR_YEAR(CloseDate)',
+                'HAVING CALENDAR_YEAR(CloseDate) > :year'
+            }, ' '),
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            10,
+            ar.size(),
+            'Expected 10 opportunities, but got ' + ar.size() + ' instead.'
+        );
     }
 }
