@@ -42,7 +42,8 @@ public inherited sharing class AggregateService {
 
     public final static List<String> SUPPORTED_DATE_FUNCS = new List<String> {
         'calendar_month',
-        'calendar_year'
+        'calendar_year',
+        'calendar_quarter'
     };
 
     public final static List<String> SUPPORTED_AGGREGATE_FUNCS; 

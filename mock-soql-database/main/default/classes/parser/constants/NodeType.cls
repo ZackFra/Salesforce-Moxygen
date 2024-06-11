@@ -56,4 +56,10 @@ public inherited sharing class NodeType {
 
     public final static String FIELD = 'field';
     public final static String SF_OBJECT = 'object';
+
+    public final static String XSTRING = 'string';
+    public final static String XBOOLEAN = 'boolean';
+    public final static String XBIND_VARIABLE = 'bind variable';
+    public final static String XNULL = 'null';
+    public final static String XNUMBER = 'number';
 }
