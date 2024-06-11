@@ -65,6 +65,9 @@ public inherited sharing class AggregateFuncParser extends SubParser{
         } else if(isNext(query, Token.CALENDAR_YEAR)) {
             query = consume(query, Token.CALENDAR_YEAR);
             nb.setId(Token.CALENDAR_YEAR);
+        } else if(isNext(query, Token.CALENDAR_QUARTER)) {
+            query = consume(query, Token.CALENDAR_QUARTER);
+            nb.setId(Token.CALENDAR_QUARTER);
         } else {
             throw new ParsingException( query, 'aggregate function');
         }
