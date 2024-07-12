@@ -74,10 +74,9 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             fieldName = SchemaService.getFieldName(sObj, fieldNode.right.id);
             finalField = fieldName;
             Object dateOrDateTimeValue = sobj.get(fieldName);
-            if(fieldNode.id == 'calendar_month') {
-                sObjectFieldValue = DateFuncs.calendarMonth(dateOrDateTimeValue);
-            } else if(fieldNode.id == 'calendar_year') {
-                sObjectFieldValue = DateFuncs.calendarYear(dateOrDateTimeValue);
+            Boolean isDateFunc = AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id);
+            if(isDateFunc) {
+                sObjectFieldValue = DateFuncs.execute(fieldNode.id, dateOrDateTimeValue);
             } else {
                 throw new QueryException('Unsupported date function');
             }

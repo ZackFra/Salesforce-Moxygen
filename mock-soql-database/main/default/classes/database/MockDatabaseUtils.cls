@@ -138,7 +138,7 @@ public inherited sharing class MockDatabaseUtils {
      */
     public Map<String, Object> getAggrNodeValue(Node aggrNode, Node selectNode) {
 
-        if(aggrNode.nodeType == 'field') {
+        if(aggrNode.nodeType == NodeType.FIELD) {
             Map<String, Object> aggrNodeValue = new Map<String, Object> {
                 'field' => aggrNode.id
             };
@@ -160,7 +160,7 @@ public inherited sharing class MockDatabaseUtils {
         
         Node curr = selectNode;
         while(curr != null) {
-            if(curr.nodeType != 'aggregate function') {
+            if(curr.nodeType != NodeType.AGGREGATE_FUNCTION) {
                 curr = curr.left;
                 continue;
             }

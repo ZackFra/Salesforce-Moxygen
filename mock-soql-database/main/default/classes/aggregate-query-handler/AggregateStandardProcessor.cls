@@ -45,8 +45,11 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
         
         Integer exprNumber = 0;
         for(Node currSelect = selectNode.left; currSelect != null; currSelect = currSelect.left) {
-            Boolean isAggregateFunc = (currSelect.nodeType == 'aggregate function');
+            Boolean isAggregateFunc = (currSelect.nodeType == NodeType.AGGREGATE_FUNCTION);
 
+            // TODO : Figure out how to resolve this not accepting queries of the form,
+            //      : SELECT Name, CloseDate FROM Opportunity GROUP BY Name, CloseDate HAVING CALENDAR_QUARTER(CloseDate) = 3\
+            //      : Note: CALENDAR_QUARTER(CloseDate) is NOT in the select clause, should be valid
             if(!isAggregateFunc) {
                 continue;
             }

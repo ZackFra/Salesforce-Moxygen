@@ -56,7 +56,7 @@ public with sharing class HavingLogicHandler extends BooleanLogicHandler {
         Node valueNode = operatorNode.right;
         Object expectedValue;
 
-        if(valueNode.nodeType == 'bind variable') {
+        if(valueNode.nodeType == NodeType.BIND_VAR) {
             expectedValue = String.valueOf(params.get(valueNode.id));
         } else {
             expectedValue = valueNode.id;
