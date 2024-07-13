@@ -1,0 +1,1 @@
+{"ast":{"right":{"right":null,"nodeType":"from","left":{"right":null,"nodeType":"object","left":null,"id":"contact"},"id":"from"},"nodeType":"select","left":{"right":null,"nodeType":"field","left":null,"id":"account.name"},"id":"select"},"query":"SELECT Account.Name FROM Contact"}
