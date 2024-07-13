@@ -93,7 +93,7 @@ public inherited sharing class AggregateService {
         if(type != NodeType.AGGREGATE_FUNCTION) {
             return false;
         }
-        return SUPPORTED_NUMERIC_FUNCS.contains(nodeType);
+        return SUPPORTED_NUMERIC_FUNCS.contains(nodeId);
     }
 
     /**
