@@ -51,15 +51,31 @@ public with sharing class HavingLogicHandler extends BooleanLogicHandler {
         Node aggrNode = operatorNode.left;
 
         SObject firstRecord = aggr.getRecords()[0];
-        String groupedFieldApiName = SchemaService.getFieldName(
-            firstRecord.getSObjectType(), 
-            aggrNode.right.id
-        );
-        AggregateCalculatorOptions options = new AggregateCalculatorOptions()
-            .setAggregateResult(aggr)
-            .setAlias(groupedFieldApiName);
-        IAggregateCalculator calculator = AggregateCalculatorFactory.getCalculator(operatorNode.left.id, options);
-        Object value = calculator.calculateForField();
+        String groupedFieldApiName;
+        Object value;
+        if(aggrNode.nodeType == NodeType.AGGREGATE_FUNCTION) {
+            groupedFieldApiName = SchemaService.getFieldName(
+                firstRecord.getSObjectType(), 
+                aggrNode.right.id
+            );
+            AggregateCalculatorOptions options = new AggregateCalculatorOptions()
+                .setAggregateResult(aggr)
+                .setAlias(groupedFieldApiName);
+            IAggregateCalculator calculator = AggregateCalculatorFactory.getCalculator(operatorNode.left.id, options);
+            value = calculator.calculateForField();
+        } else {
+            String fieldName = aggrNode.id;
+            Map<String, Object> comparableInfo = ComparableService.getComparables(firstRecord, fieldName);
+            String comparableField = (String) comparableInfo.get('comparableField');
+            SObject comparableRecord = (SObject) comparableInfo.get('comparableRecord');
+            Boolean isPolymorphic = (Boolean) comparableInfo.get('isPolymorphic');
+            Boolean isType = comparableField == 'Type';
+            if(isPolymorphic && isType) {
+                value = SchemaService.getSObjectName(comparableRecord);
+            } else {
+                value = comparableRecord.get(comparableField);
+            }
+        }
 
 
         Node valueNode = operatorNode.right;
