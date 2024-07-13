@@ -77,28 +77,42 @@ public inherited sharing class AverageCalculator implements IAggregateCalculator
      */
     private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
         if(value == null) {
-            // make sure it's explicitly set to null
-            if(!aggregateResult.containsKey(alias)) {
-                aggregateResult.put(alias, null);
-            }
-            return aggregateResult;
+            return setAliasToNull(aggregateResult, alias);
         }
         Decimal currValue = (Decimal) aggregateResult.get(alias);
         Decimal newValue = (Decimal) value;
-        Decimal n = (Decimal) aggregateResult.get(alias + '__n');
-        if(n == null) {
-            n = 1;
-        }
+        Decimal n = getValueForN(aggregateResult, alias);
 
-        if(currValue == null) {
-            currValue = newValue;
-        } else {
-            currValue = currValue + (newValue - currValue) / n;
-        }
+        currValue = calcCurrValue(currValue, newValue, n);
 
         aggregateResult.put(alias, currValue);
         aggregateResult.put(alias + '__n', n + 1);
 
         return aggregateResult;
+    }
+
+    Decimal getValueForN(ProtoAggregate aggregateResult, String alias) {
+        Decimal n = (Decimal) aggregateResult.get(alias + '__n');
+        if(n == null) {
+            n = 1;
+        }
+        return n;
+    }
+
+    ProtoAggregate setAliasToNull(ProtoAggregate aggregateResult, String alias) {
+        // make sure it's explicitly set to null
+        if(!aggregateResult.containsKey(alias)) {
+            aggregateResult.put(alias, null);
+        }
+        return aggregateResult;
+    }
+
+    Decimal calcCurrValue(Decimal currValue, Decimal newValue, Decimal n) {
+        if(currValue == null) {
+            currValue = newValue;
+        } else {
+            currValue = currValue + (newValue - currValue) / n;
+        }
+        return currValue;
     }
 }
