@@ -131,12 +131,21 @@ public inherited sharing class WhereParser extends SubParser {
         );
     }
 
+    private Boolean isNextDateFunc(String query) {
+        for(String token : Token.DATE_FUNCS) {
+            if(isNext(query, token)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private Intermediary parseConditionalOperationExpr(String query) {
         if(isNext(query, Token.XNOT)) {
             return parseNot(query);
         }
         Intermediary fieldIntermediary;
-        if(isNext(query, Token.CALENDAR_YEAR) || isNext(query, Token.CALENDAR_MONTH)) {
+        if(isNextDateFunc(query)) {
             fieldIntermediary = new AggregateFuncParser().parse(query);
         } else {
             fieldIntermediary = new FieldParser().parse(query);

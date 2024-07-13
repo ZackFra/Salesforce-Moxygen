@@ -29,6 +29,28 @@
   * @since 4/28/2024
   */
 public inherited sharing class DateFuncs {
+
+    /**
+     * @description Determins which date function to execute and executes it
+     * @param dateFunc `String`
+     * @param dateOrDateTimeValue `Date|Datetime`
+     * @return  `Integer`
+     * @exception IllegalArgumentException
+     */
+    public static Integer execute(String dateFunc, Object dateOrDateTimeValue) {
+        switch on dateFunc {
+            when 'calendar_month' {
+                return calendarMonth(dateOrDateTimeValue);
+            } when 'calendar_year' {
+                return calendarYear(dateOrDateTimeValue);
+            } when 'calendar_quarter' {
+                return calendarQuarter(dateOrDateTimeValue);
+            } when else {
+                throw new IllegalArgumentException('Invalid date function');
+            }
+        }
+    }
+
     /**
      * @description CALENDAR_MONTH function
      * @param value `Date|DateTime`
@@ -67,5 +89,25 @@ public inherited sharing class DateFuncs {
             throw new QueryException('Invalid value type for calendar year calculation');
         }
         return calendarYear;
+    }
+
+    /**
+     * @description Calculates the calendar quarter of a given Date or DateTime
+     * @param value `Date|DateTime`
+     * @return  `Integer`
+     * @exception QueryException
+     */
+    public static Integer calendarQuarter(Object value) {
+        Integer calendarQuarter;
+        if(value instanceof Date) {
+            Date dateValue = (Date) value;
+            calendarQuarter = 1 + (dateValue.month() / 3);
+        } else if(value instanceof DateTime) {
+            DateTime dateTimeValue = (DateTime) value;
+            calendarQuarter = 1 + (dateTimeValue.monthGmt() / 3);
+        } else {
+            throw new QueryException('Invalid value type for calendar quarter calculation');
+        }
+        return calendarQuarter;
     }
 }

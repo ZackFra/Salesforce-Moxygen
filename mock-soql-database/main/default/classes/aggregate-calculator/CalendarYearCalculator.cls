@@ -52,6 +52,19 @@ public inherited sharing class CalendarYearCalculator implements IAggregateCalcu
     }
 
     /**
+     * @description Calculate the calendar year of the field passed in as the `alias` in options,
+     *              for the record associated with the `aggregateResult` passed into options 
+     * @return  `Object`
+     */
+    public Object calculateForField() {
+        String fieldName = options.alias;
+        ProtoAggregate aggregateResult = options.aggregateResult;
+        SObject firstRecord = aggregateResult.getRecords()[0];
+        Object value = firstRecord.get(fieldName);
+        return DateFuncs.calendarYear(value);
+    }
+
+    /**
      * @description Calculates the average of a set of values with an alias.
      * @param aggregateResult 
      * @param alias 

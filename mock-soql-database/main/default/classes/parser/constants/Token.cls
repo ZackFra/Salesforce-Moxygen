@@ -33,6 +33,9 @@ public inherited sharing class Token {
     public final static String RPAREN = ')';
     public final static String WHITESPACE = ' ';
     public final static String COMMA = ',';
+    public final static String SINGLE_QUOTE = '\'';
+    public final static String COLON = ':';
+    public final static String DOT = '.';
 
 
     public final static String XEQUALS = '=';
@@ -98,6 +101,13 @@ public inherited sharing class Token {
 
     public final static String CALENDAR_YEAR = 'calendar_year';
     public final static String CALENDAR_MONTH = 'calendar_month';
+    public final static String CALENDAR_QUARTER = 'calendar_quarter';
+    public final static List<String> DATE_FUNCS = new List<String> {
+        CALENDAR_YEAR,
+        CALENDAR_MONTH,
+        CALENDAR_QUARTER
+    };
+
     public final static String COUNT_DISTINCT = 'count_distinct';
     public final static String COUNT = 'count';
     public final static String SUM = 'sum';
@@ -109,4 +119,8 @@ public inherited sharing class Token {
 
     public final static String ROLLUP = 'rollup';
     public final static String CUBE = 'cube';
+
+    public final static String XTRUE = 'true';
+    public final static String XFALSE = 'false';
+    public final static String XNULL = 'null';
 }

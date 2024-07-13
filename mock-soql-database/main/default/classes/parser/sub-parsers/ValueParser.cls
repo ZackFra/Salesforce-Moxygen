@@ -38,23 +38,23 @@ public inherited sharing class ValueParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(lookahead(query, 1) == '\'') {
+        if(isNext(query, Token.SINGLE_QUOTE)) {
             Intermediary baseValue;
             query = query.subString(1);
             baseValue = parseString(query);
             query = baseValue.subquery;
-            if(lookahead(query, 1) != '\'') {
-                throw new ParsingException(baseValue.subquery, '\'');
+            if(!isNext(query, Token.SINGLE_QUOTE)) {
+                throw new ParsingException(baseValue.subquery, Token.SINGLE_QUOTE);
             }
-            query = consume(query, '\'');
+            query = consume(query, Token.SINGLE_QUOTE);
             baseValue.subquery = query;
             return baseValue;
-        } else if(lookahead(query, 4) == 'true' || lookahead(query, 5) == 'false') {
+        } else if(isNext(query, Token.XTRUE) || isNext(query, Token.XFALSE)) {
         	return parseBoolean(query);
-        } else if(lookahead(query, 1) == ':') {
-            query = consume(query, ':');
+        } else if(isNext(query, Token.COLON)) {
+            query = consume(query, Token.COLON);
             return parseBindVariable(query);
-        } else if(lookahead(query, 4) == 'null') {
+        } else if(isNext(query, Token.XNULL)) {
             return parseNull(query);
         } else {
         	return parseNum(query);
@@ -64,14 +64,14 @@ public inherited sharing class ValueParser extends SubParser {
     private Intermediary parseString(String query) {
         query = skipWhitespace(query);
         String strValue = '';
-        while(query.length() != 0 && lookahead(query, 1) != '\'') {
+        while(query.length() != 0 && !isNext(query, Token.SINGLE_QUOTE)) {
             strValue += lookahead(query, 1);
             query = query.subString(1);
         }
         return new Intermediary(
         	new NodeBuilder()
             	.setId(strValue)
-            	.setNodeType('string')
+            	.setNodeType(NodeType.XSTRING)
             	.build(),
             query
         );
@@ -80,24 +80,24 @@ public inherited sharing class ValueParser extends SubParser {
     private Intermediary parseBoolean(String query) {
         query = skipWhitespace(query);
 
-        Boolean isTrue = (lookahead(query, 4) == 'true');
-        Boolean isFalse = (lookahead(query, 5) == 'false');
+        Boolean isTrue = (isNext(query, Token.XTRUE));
+        Boolean isFalse = (isNext(query, Token.XFALSE));
         
         if(!isTrue && !isFalse) {
-        	throw new ParsingException(query, 'boolean');
+        	throw new ParsingException(query, NodeType.XBOOLEAN);
         }
         
         String boolVal;
         if(isTrue) {
-            boolVal = 'true';
+            boolVal = Token.XTRUE;
         } else { 
-            boolVal = 'false';
+            boolVal = Token.XFALSE;
         }
         
         return new Intermediary(
             new NodeBuilder()
             .setId(boolVal)
-            .setNodeType('boolean')
+            .setNodeType(NodeType.XBOOLEAN)
             .build(),
             query.subString(boolVal.length())
         );
@@ -118,7 +118,7 @@ public inherited sharing class ValueParser extends SubParser {
         return new Intermediary(
             new NodeBuilder()
                 .setId(bindVarName)
-                .setNodeType('bind variable')
+                .setNodeType(NodeType.XBIND_VARIABLE)
                 .build(),
             query
         );
@@ -128,32 +128,32 @@ public inherited sharing class ValueParser extends SubParser {
         query = skipWhitespace(query);
         String numericValue = '';
         
-        while(query.length() != 0 && (query.subString(0, 1).isNumeric() || (query.subString(0, 1) == '.') )) {
-            if(query.subString(0, 1) == '.' && !query.subString(1, 2).isNumeric()) {
+        while(query.length() != 0 && (query.subString(0, 1).isNumeric() || (query.subString(0, 1) == Token.DOT) )) {
+            if(query.subString(0, 1) == Token.DOT && !query.subString(1, 2).isNumeric()) {
                 throw new ParsingException(query, 'floating point value');
             }
             numericValue += query.subString(0, 1);
             query = query.subString(1);
         }
         if(!numericValue.isNumeric()) {
-            throw new ParsingException(query, 'number');
+            throw new ParsingException(query, NodeType.XNUMBER);
         }
         
         return new Intermediary(
         	new NodeBuilder()
             	.setId(numericValue)
-            	.setNodeType('number')
+            	.setNodeType(NodeType.XNUMBER)
             	.build(),
             query
         );
     }
 
     private Intermediary parseNull(String query) {
-        query = consume(query, 'null');
+        query = consume(query, Token.XNULL);
         return new Intermediary(
         	new NodeBuilder()
-            	.setId('null')
-            	.setNodeType('null')
+            	.setId(Token.XNULL)
+            	.setNodeType(NodeType.XNULL)
             	.build(),
             query
         );

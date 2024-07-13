@@ -28,6 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
+@SuppressWarnings('PMD.CognitiveComplexity')
 public abstract class SubParser {
     /**
      * @description Parses a subquery and returns an `Intermediary` object.

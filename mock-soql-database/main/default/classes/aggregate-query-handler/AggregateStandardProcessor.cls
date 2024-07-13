@@ -36,19 +36,16 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
 
         Map<String, List<String>> aggrFields = AggregateService.getAggregateFields(topLevelNodes);
         List<String> groupByFields = aggrFields.get('groupByFields');
-        ProtoAggregate aggregateResult = findGroupedAggregate(databaseRecord, groupByFields);
-        if(aggregateResult == null) {
-            aggregateResult = createGroupedAggregate(databaseRecord, groupByFields);
-            aggregateResults.add(aggregateResult);
-        }
+        ProtoAggregate aggregateResult = findOrCreateGroupedAggregate(databaseRecord, groupByFields);
+        aggregateResult.addRecord(databaseRecord);
 
         
         Integer exprNumber = 0;
         for(Node currSelect = selectNode.left; currSelect != null; currSelect = currSelect.left) {
-            Boolean isAggregateFunc = (currSelect.nodeType == 'aggregate function');
+            Boolean isAggregateFunc = (currSelect.nodeType == NodeType.AGGREGATE_FUNCTION);
 
             if(!isAggregateFunc) {
-                continue;
+               continue;
             }
 
 
@@ -96,6 +93,23 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
     }
 
     /**
+     * @description Find or create the grouped aggregate
+     * @param databaseRecord 
+     * @param groupByFields 
+     * @return  `ProtoAggregate`
+     */
+    private ProtoAggregate findOrCreateGroupedAggregate(SObject databaseRecord, List<String> groupByFields) {
+        ProtoAggregate aggregateResult;
+        try {
+            aggregateResult = findGroupedAggregate(databaseRecord, groupByFields);
+        } catch(NotFoundException e) {
+            aggregateResult = createGroupedAggregate(databaseRecord, groupByFields);
+            this.aggregateResults.add(aggregateResult);
+        }
+        return aggregateResult;
+    }
+
+    /**
      * @description create a new aggregate result for the grouped aggregate
      * @param databaseRecord the database record
      * @param groupByFields the fields to group by
@@ -129,12 +143,6 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
     }
 
 
-    /**
-     * @description Find the grouped aggregate
-     * @param databaseRecord 
-     * @param groupByFields 
-     * @return  `ProtoAggregate`
-     */
     private ProtoAggregate findGroupedAggregate(SObject databaseRecord, List<String> groupByFields) {
         for(ProtoAggregate ar : aggregateResults) {
             Boolean isSame = true;
@@ -156,6 +164,6 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
                 return ar;
             }
         }
-        return null;
+        throw new NotFoundException('Grouped aggregate not found');
     }
 }

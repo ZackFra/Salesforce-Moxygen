@@ -31,10 +31,13 @@
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity')
 public inherited sharing class AggregateService {
 
+    public final static List<String> SUPPORTED_COUNT_FUNCS = new List<String> {
+        'count',
+        'count_distinct'
+    };
+
     public final static List<String> SUPPORTED_NUMERIC_FUNCS = new List<String> {
         'avg',
-        'count',
-        'count_distinct',
         'min',
         'max',
         'sum'
@@ -42,7 +45,8 @@ public inherited sharing class AggregateService {
 
     public final static List<String> SUPPORTED_DATE_FUNCS = new List<String> {
         'calendar_month',
-        'calendar_year'
+        'calendar_year',
+        'calendar_quarter'
     };
 
     public final static List<String> SUPPORTED_AGGREGATE_FUNCS; 
@@ -50,16 +54,30 @@ public inherited sharing class AggregateService {
         SUPPORTED_AGGREGATE_FUNCS = new List<String>();
         SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_NUMERIC_FUNCS);
         SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_DATE_FUNCS);
+        SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_COUNT_FUNCS);
+    }
+
+    /**
+     * @description Returns whether a node type and node id represent a count function
+     * @param type `String`
+     * @param nodeId `String`
+     * @return  `Boolean`
+     */
+    public static Boolean isCountFunc(String type, String nodeId) {
+        if(type != NodeType.AGGREGATE_FUNCTION) {
+            return false;
+        }
+        return SUPPORTED_DATE_FUNCS.contains(nodeId);        
     }
 
     /**
      * @description Returns whether this function is a date function
-     * @param nodeType `String`
+     * @param type `String`
      * @param nodeId `String`
      * @return  `Boolean`
      */
-    public static Boolean isDateFunc(String nodeType, String nodeId) {
-        if(nodeType != 'aggregate function') {
+    public static Boolean isDateFunc(String type, String nodeId) {
+        if(type != NodeType.AGGREGATE_FUNCTION) {
             return false;
         }
         return SUPPORTED_DATE_FUNCS.contains(nodeId);
@@ -67,15 +85,15 @@ public inherited sharing class AggregateService {
 
     /**
      * @description Returns whether this function is a numeric function
-     * @param nodeType `String`
+     * @param type `String`
      * @param nodeId `String`
      * @return  `Boolean`
      */
-    public static Boolean isNumericFunc(String nodeType, String nodeId) {
-        if(nodeType != 'aggregate function') {
+    public static Boolean isNumericFunc(String type, String nodeId) {
+        if(type != NodeType.AGGREGATE_FUNCTION) {
             return false;
         }
-        return SUPPORTED_NUMERIC_FUNCS.contains(nodeType);
+        return SUPPORTED_NUMERIC_FUNCS.contains(nodeId);
     }
 
     /**
@@ -85,7 +103,11 @@ public inherited sharing class AggregateService {
      * @return  `Boolean`
      */
     public static Boolean isAggregateFunc(String nodeType, String nodeId) {
-        return isNumericFunc(nodeType, nodeId) || isDateFunc(nodeType, nodeId);
+        return (
+            isNumericFunc(nodeType, nodeId) || 
+            isDateFunc(nodeType, nodeId) || 
+            isCountFunc(nodeType, nodeId)
+        );
     }
 
     /**

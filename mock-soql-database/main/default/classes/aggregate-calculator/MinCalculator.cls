@@ -50,6 +50,30 @@ public with sharing class MinCalculator implements IAggregateCalculator {
             options.value
         );
     }
+
+    /**
+     * @description calculate the min of the `alias` field passed into options,
+     *              for the records associated with the `aggregateResult` passed into options
+     * @return  `Object`
+     */
+    public Object calculateForField() {
+        ProtoAggregate aggregateResult = options.aggregateResult;
+        List<SObject> records = aggregateResult.getRecords();
+        SObject firstRecord = records[0];
+
+        String fieldName = options.alias;
+        Decimal min = (Decimal) firstRecord.get(fieldName);
+
+        for(Integer i = 1; i < records.size(); i++) {
+            SObject record = records[i];
+            Object value = record.get(fieldName);
+            if(value != null) {
+                Decimal decimalValue = (Decimal) value;
+                min = Math.min(min, decimalValue);
+            }
+        }
+        return min;        
+    }
     
     private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
         if(value == null) {

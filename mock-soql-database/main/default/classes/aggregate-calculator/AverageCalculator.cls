@@ -51,6 +51,24 @@ public inherited sharing class AverageCalculator implements IAggregateCalculator
     }
 
     /**
+     * @description Calculate the average for the field specified in the `alias` field of options,
+     *              of the grouped records of the `aggregateResult` field of options 
+     * @return  `Object`
+     */
+    public Object calculateForField() {
+        ProtoAggregate aggregateResult = options.aggregateResult;
+        String fieldName = options.alias;
+        Decimal sum = 0;
+        List<SObject> records = aggregateResult.getRecords();
+        Integer size = records.size();
+        for(SObject record : records) {
+            Object value = record.get(fieldName);
+            sum += (Decimal) value;
+        }
+        return sum / size;
+    }
+
+    /**
      * @description Calculates the average of a set of values with an alias.
      * @param aggregateResult 
      * @param alias 
@@ -59,28 +77,42 @@ public inherited sharing class AverageCalculator implements IAggregateCalculator
      */
     private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
         if(value == null) {
-            // make sure it's explicitly set to null
-            if(!aggregateResult.containsKey(alias)) {
-                aggregateResult.put(alias, null);
-            }
-            return aggregateResult;
+            return setAliasToNull(aggregateResult, alias);
         }
         Decimal currValue = (Decimal) aggregateResult.get(alias);
         Decimal newValue = (Decimal) value;
-        Decimal n = (Decimal) aggregateResult.get(alias + '__n');
-        if(n == null) {
-            n = 1;
-        }
+        Decimal n = getValueForN(aggregateResult, alias);
 
-        if(currValue == null) {
-            currValue = newValue;
-        } else {
-            currValue = currValue + (newValue - currValue) / n;
-        }
+        currValue = calcCurrValue(currValue, newValue, n);
 
         aggregateResult.put(alias, currValue);
         aggregateResult.put(alias + '__n', n + 1);
 
         return aggregateResult;
+    }
+
+    Decimal getValueForN(ProtoAggregate aggregateResult, String alias) {
+        Decimal n = (Decimal) aggregateResult.get(alias + '__n');
+        if(n == null) {
+            n = 1;
+        }
+        return n;
+    }
+
+    ProtoAggregate setAliasToNull(ProtoAggregate aggregateResult, String alias) {
+        // make sure it's explicitly set to null
+        if(!aggregateResult.containsKey(alias)) {
+            aggregateResult.put(alias, null);
+        }
+        return aggregateResult;
+    }
+
+    Decimal calcCurrValue(Decimal currValue, Decimal newValue, Decimal n) {
+        if(currValue == null) {
+            currValue = newValue;
+        } else {
+            currValue = currValue + (newValue - currValue) / n;
+        }
+        return currValue;
     }
 }

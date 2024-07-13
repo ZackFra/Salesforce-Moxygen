@@ -50,6 +50,14 @@ public with sharing class CountDistinctCalculator implements IAggregateCalculato
         );
     }
 
+    /**
+     * @description Returns the distinct count of the records passed in as `aggregateResult` in options 
+     * @return  `Object`
+     */
+    public Object calculateForField() {
+        return this.options.aggregateResult.getRecords().size();
+    }
+
     private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
 
         Integer currValue = (Integer) aggregateResult.get(alias);

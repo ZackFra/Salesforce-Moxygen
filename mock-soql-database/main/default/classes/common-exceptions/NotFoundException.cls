@@ -24,20 +24,10 @@
  */
 
 /**
- * @description Interface for aggregate calculator
+ * @description Generic exception for when something is not found 
  * @author Zackary Frazier
- * @since 3/23/2024
+ * @since 7/12/2024
  */
-public interface IAggregateCalculator {
-    /**
-     * @description Calculate the aggregate of the data 
-     * @return  `ProtoAggregate`
-     */
-    ProtoAggregate calculate();
-
-    /**
-     * @description Calculate the aggregate of the data, for the field specified by `alias` in the options
-     * @return  `Object`
-     */
-    Object calculateForField();
+public inherited sharing class NotFoundException extends Exception {
+    
 }

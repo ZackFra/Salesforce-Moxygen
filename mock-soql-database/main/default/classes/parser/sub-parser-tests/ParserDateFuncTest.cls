@@ -220,4 +220,145 @@ private class ParserDateFuncTest {
         Assert.isNull(calendarYearNode2.left, 'Expected calendarYearNode2.left to be null');
         Assert.isNotNull(calendarYearNode2.right, 'Expected calendarYearNode2.right to not be null');
     }
+
+    /**
+     * @description Test for success when CALENDAR_QUARTER is in the SELECT clause
+     */
+    @IsTest
+    static void testParseCalendarQuarterInSelectClause() {
+        Parser p = new Parser();
+        Test.startTest();
+        Node head = p.parse('SELECT Name, CALENDAR_QUARTER(CreatedDate) FROM Account GROUP BY Name, CALENDAR_QUARTER(CreatedDate)');
+        Test.stopTest();
+
+        Assert.areEqual(NodeType.XSELECT, head.nodeType, 'Expected head.nodeType to be select');
+        Assert.areEqual(Token.XSELECT, head.id, 'Expected head.id to be select');
+        Assert.isNotNull(head.left, 'Expected head.left to not be null');
+        Assert.isNotNull(head.right, 'Expected head.right to not be null');
+
+        Node nameNode = head.left;
+        Assert.areEqual(NodeType.FIELD, nameNode.nodeType, 'Expected nameNode.nodeType to be field');
+        Assert.areEqual('name', nameNode.id, 'Expected nameNode.id to be name');
+        Assert.isNotNull(nameNode.left, 'Expected nameNode.left to not be null');
+        Assert.isNull(nameNode.right, 'Expected nameNode.right to be null');
+
+        Node calendarQuarterNode = nameNode.left;
+        Assert.areEqual(NodeType.AGGREGATE_FUNCTION, calendarQuarterNode.nodeType, 'Expected calendarQuarterNode.nodeType to be aggregate function');
+        Assert.areEqual(Token.CALENDAR_QUARTER, calendarQuarterNode.id, 'Expected calendarQuarterNode.id to be CALENDAR_QUARTER');
+        Assert.isNull(calendarQuarterNode.left, 'Expected calendarQuarterNode.left to be null');
+        Assert.isNotNull(calendarQuarterNode.right, 'Expected calendarQuarterNode.right to not be null');
+
+        Node createdDateNode = calendarQuarterNode.right;
+        Assert.areEqual(NodeType.FIELD, createdDateNode.nodeType, 'Expected createdDateNode.nodeType to be field');
+        Assert.areEqual('createddate', createdDateNode.id, 'Expected createdDateNode.id to be CreatedDate');
+        Assert.isNull(createdDateNode.left, 'Expected createdDateNode.left to be null');
+        Assert.isNull(createdDateNode.right, 'Expected createdDateNode.right to be null');
+    }
+
+    @IsTest
+    static void parseCalendarQuarterInWhereClause() {
+        Parser p = new Parser();
+        Test.startTest();
+        Node head = p.parse('SELECT Name FROM Account WHERE CALENDAR_QUARTER(CreatedDate) = 1');
+        Test.stopTest();
+
+        Assert.areEqual(NodeType.XSELECT, head.nodeType, 'Expected head.nodeType to be select');
+        Assert.areEqual(Token.XSELECT, head.id, 'Expected head.id to be select');
+        Assert.isNotNull(head.left, 'Expected head.left to not be null');
+        Assert.isNotNull(head.right, 'Expected head.right to not be null');
+
+        Node fromNode = head.right;
+        Assert.areEqual(NodeType.XFROM, fromNode.nodeType, 'Expected fromNode.nodeType to be from');
+        Assert.areEqual(Token.XFROM, fromNode.id, 'Expected fromNode.id to be from');
+        Assert.isNotNull(fromNode.left, 'Expected fromNode.left to not be null');
+        Assert.isNotNull(fromNode.right, 'Expected fromNode.right to not be null');
+
+        Node whereNode = fromNode.right;
+        Assert.areEqual(NodeType.XWHERE, whereNode.nodeType, 'Expected whereNode.nodeType to be where');
+        Assert.areEqual(Token.XWHERE, whereNode.id, 'Expected whereNode.id to be where');
+        Assert.isNotNull(whereNode.left, 'Expected whereNode.left to not be null');
+        Assert.isNull(whereNode.right, 'Expected whereNode.right to be null');
+
+        Node opNode = whereNode.left;
+        Assert.areEqual(NodeType.OPERATOR, opNode.nodeType, 'Expected opNode.nodeType to be operator');
+        Assert.areEqual(Token.XEQUALS, opNode.id, 'Expected opNode.id to be =');
+        Assert.isNotNull(opNode.left, 'Expected opNode.left to not be null');
+        Assert.isNotNull(opNode.right, 'Expected opNode.right to not be null');
+
+        Node calendarQuarterNode = opNode.left;
+        Assert.areEqual(NodeType.AGGREGATE_FUNCTION, calendarQuarterNode.nodeType, 'Expected calendarQuarterNode.nodeType to be aggregate function');
+        Assert.areEqual(Token.CALENDAR_QUARTER, calendarQuarterNode.id, 'Expected calendarQuarterNode.id to be CALENDAR_QUARTER');
+        Assert.isNotNull(calendarQuarterNode.right, 'Expected calendarQuarterNode.right to not be null');
+        Assert.isNull(calendarQuarterNode.left, 'Expected calendarQuarterNode.left to be null');
+
+        Node createdDateNode = calendarQuarterNode.right;
+        Assert.areEqual(NodeType.FIELD, createdDateNode.nodeType, 'Expected createdDateNode.nodeType to be field');
+        Assert.areEqual('createddate', createdDateNode.id, 'Expected createdDateNode.id to be CreatedDate');
+        Assert.isNull(createdDateNode.left, 'Expected createdDateNode.left to be null');
+        Assert.isNull(createdDateNode.right, 'Expected createdDateNode.right to be null');
+
+        Node valueNode = opNode.right;
+        Assert.areEqual(NodeType.XNUMBER, valueNode.nodeType, 'Expected valueNode.nodeType to be number');
+        Assert.areEqual('1', valueNode.id, 'Expected valueNode.id to be 1');
+        Assert.isNull(valueNode.left, 'Expected valueNode.left to be null');
+        Assert.isNull(valueNode.right, 'Expected valueNode.right to be null');
+    }
+
+    @IsTest
+    static void parseCalendarQuarterInHavingClause() {
+        
+        Parser p = new Parser();
+        Test.startTest();
+        Node head = p.parse('SELECT Name, CALENDAR_QUARTER(CreatedDate) FROM Account GROUP BY Name, CALENDAR_QUARTER(CreatedDate) HAVING CALENDAR_QUARTER(CreatedDate) = 1');
+        Test.stopTest();
+
+        Assert.areEqual(NodeType.XSELECT, head.nodeType, 'Expected head.nodeType to be select');
+        Assert.areEqual(Token.XSELECT, head.id, 'Expected head.id to be select');
+        Assert.isNotNull(head.left, 'Expected head.left to not be null');
+        Assert.isNotNull(head.right, 'Expected head.right to not be null');
+
+        Node fromNode = head.right;
+        Assert.areEqual(NodeType.XFROM, fromNode.nodeType, 'Expected fromNode.nodeType to be from');
+        Assert.areEqual(token.XFROM, fromNode.id, 'Expected fromNode.id to be from');
+        Assert.isNotNull(fromNode.left, 'Expected fromNode.left to not be null');
+        Assert.isNotNull(fromNode.right, 'Expected fromNode.right to not be null');
+
+        
+        Node groupByNode = fromNode.right;
+        Assert.areEqual(NodeType.XGROUP_BY, groupByNode.nodeType, 'Expected groupByNode.nodeType to be group');
+        Assert.areEqual(NodeType.XGROUP_BY, groupByNode.id, 'Expected groupByNode.id to be group');
+        Assert.isNotNull(groupByNode.left, 'Expected groupByNode.left to not be null');
+        Assert.isNotNull(groupByNode.right, 'Expected groupByNode.right to not be null');
+
+        Node havingNode = groupByNode.right;
+        Assert.areEqual(NodeType.XHAVING, havingNode.nodeType, 'Expected havingNode.nodeType to be having');
+        Assert.areEqual(Token.XHAVING, havingNode.id, 'Expected havingNode.id to be having');
+        Assert.isNotNull(havingNode.left, 'Expected havingNode.left to not be null');
+        Assert.isNull(havingNode.right, 'Expected havingNode.right to be null');
+
+        Node opNode = havingNode.left;
+        Assert.areEqual(NodeType.OPERATOR, opNode.nodeType, 'Expected opNode.nodeType to be operator');
+        Assert.areEqual(Token.XEQUALS, opNode.id, 'Expected opNode.id to be =');
+        Assert.isNotNull(opNode.left, 'Expected opNode.left to not be null');
+        Assert.isNotNull(opNode.right, 'Expected opNode.right to not be null');
+
+        Node calendarQuarterNode = opNode.left;
+        Assert.areEqual(NodeType.AGGREGATE_FUNCTION, calendarQuarterNode.nodeType, 'Expected calendarQuarterNode.nodeType to be aggregate function');
+        Assert.areEqual(Token.CALENDAR_QUARTER, calendarQuarterNode.id, 'Expected calendarQuarterNode.id to be CALENDAR_QUARTER');
+        Assert.isNotNull(calendarQuarterNode.right, 'Expected calendarQuarterNode.right to not be null');
+        Assert.isNull(calendarQuarterNode.left, 'Expected calendarQuarterNode.left to be null');
+
+        Node createdDateNode = calendarQuarterNode.right;
+        Assert.areEqual(NodeType.FIELD, createdDateNode.nodeType, 'Expected createdDateNode.nodeType to be field');
+        Assert.areEqual('createddate', createdDateNode.id, 'Expected createdDateNode.id to be CreatedDate');
+        Assert.isNull(createdDateNode.left, 'Expected createdDateNode.left to be null');
+        Assert.isNull(createdDateNode.right, 'Expected createdDateNode.right to be null');
+
+        Node valueNode = opNode.right;
+        Assert.areEqual(NodeType.XNUMBER, valueNode.nodeType, 'Expected valueNode.nodeType to be number');
+        Assert.areEqual('1', valueNode.id, 'Expected valueNode.id to be 1');
+        Assert.isNull(valueNode.left, 'Expected valueNode.left to be null');
+        Assert.isNull(valueNode.right, 'Expected valueNode.right to be null');
+
+    }
 }

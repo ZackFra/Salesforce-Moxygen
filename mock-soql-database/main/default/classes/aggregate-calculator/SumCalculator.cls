@@ -50,6 +50,25 @@ public with sharing class SumCalculator implements IAggregateCalculator {
         );
     }
 
+    /**
+     * @description return the sum of the `alias` field passed into options
+     *              for the records in `aggregateResult` passed into options 
+     * @return  `Object`
+     */
+    public Object calculateForField() {
+        ProtoAggregate aggregateResult = options.aggregateResult;
+        String fieldName = options.alias;
+        Decimal sum = 0;
+        List<SObject> records = aggregateResult.getRecords();
+        for(SObject record : records) {
+            Object value = record.get(fieldName);
+            if(value != null) {
+                sum += (Decimal) value;
+            }
+        }
+        return sum;
+    }
+
     private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
         if(value == null) {
             // make sure it's explicitly set to null

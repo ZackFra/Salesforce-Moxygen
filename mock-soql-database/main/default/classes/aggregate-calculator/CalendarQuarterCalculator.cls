@@ -24,23 +24,24 @@
  */
 
 /**
- * @description calculates the MAX value of a field for an aggregate result
+ * @description Calculates the calendar month from a date value 
  * @author Zackary Frazier
- * @since 3/23/2024
+ * @since 4/28/2024
  */
-public with sharing class MaxCalculator implements IAggregateCalculator {
+public inherited sharing class CalendarQuarterCalculator implements IAggregateCalculator {
     AggregateCalculatorOptions options;
+
     /**
-     * @description Constructor
+     * @description Constructor for the CalendarQuarterCalculaotr class
      * @param options 
      */
-    public MaxCalculator(AggregateCalculatorOptions options) {
+    public CalendarQuarterCalculator(AggregateCalculatorOptions options) {
         this.options = options;
     }
-    
+
     /**
-     * @description calculates the MAX value of a field for an aggregate result
-     * @return `ProtoAggregate`
+     * @description Calculates the average of a set of values. 
+     * @return  `ProtoAggregate`
      */
     public ProtoAggregate calculate() {
         return calculate(
@@ -51,29 +52,25 @@ public with sharing class MaxCalculator implements IAggregateCalculator {
     }
 
     /**
-     * @description Return the max of the field passed in as `alias` in options,
-     *              for the records passed in as `aggregateResult` of options 
+     * @description Calculate the calendar quarter of field passed in as `alias` in options,
+     *              for the grouped records of the `aggregateResult` passed into options 
      * @return  `Object`
      */
     public Object calculateForField() {
-        ProtoAggregate aggregateResult = options.aggregateResult;
-        List<SObject> records = aggregateResult.getRecords();
-        SObject firstRecord = records[0];
-
         String fieldName = options.alias;
-        Decimal max = (Decimal) firstRecord.get(fieldName);
-
-        for(Integer i = 1; i < records.size(); i++) {
-            SObject record = records[i];
-            Object value = record.get(fieldName);
-            if(value != null) {
-                Decimal decimalValue = (Decimal) value;
-                max = Math.max(max, decimalValue);
-            }
-        }
-        return max;
+        ProtoAggregate aggregateResult = options.aggregateResult;
+        SObject firstRecord = aggregateResult.getRecords()[0];
+        Object value = firstRecord.get(fieldName);
+        return DateFuncs.calendarQuarter(value);
     }
 
+    /**
+     * @description Calculates the average of a set of values with an alias.
+     * @param aggregateResult 
+     * @param alias 
+     * @param value 
+     * @return  `ProtoAggregate`
+     */
     private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
         if(value == null) {
             // make sure it's explicitly set to null
@@ -82,16 +79,9 @@ public with sharing class MaxCalculator implements IAggregateCalculator {
             }
             return aggregateResult;
         }
-        Decimal currValue = (Decimal) aggregateResult.get(alias);
-        Decimal newValue = (Decimal) value;
 
-        if(currValue == null) {
-            currValue = newValue;
-        } else {
-            currValue = Math.max(currValue, newValue);
-        }
-
-        aggregateResult.put(alias, currValue);
+        Integer calendarQuarter = DateFuncs.calendarQuarter(value);
+        aggregateResult.put(alias, calendarQuarter);
         return aggregateResult;
     }
 }
