@@ -50,6 +50,11 @@ public with sharing class MaxCalculator implements IAggregateCalculator {
         );
     }
 
+    /**
+     * @description Return the max of the field passed in as `alias` in options,
+     *              for the records passed in as `aggregateResult` of options 
+     * @return  `Object`
+     */
     public Object calculateForField() {
         ProtoAggregate aggregateResult = options.aggregateResult;
         List<SObject> records = aggregateResult.getRecords();

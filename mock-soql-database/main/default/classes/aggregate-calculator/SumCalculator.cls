@@ -50,6 +50,11 @@ public with sharing class SumCalculator implements IAggregateCalculator {
         );
     }
 
+    /**
+     * @description return the sum of the `alias` field passed into options
+     *              for the records in `aggregateResult` passed into options 
+     * @return  `Object`
+     */
     public Object calculateForField() {
         ProtoAggregate aggregateResult = options.aggregateResult;
         String fieldName = options.alias;

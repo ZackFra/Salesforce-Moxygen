@@ -23,7 +23,7 @@
  *
  */
 @isTest
-@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts')
+@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts,PMD.CyclomaticComplexity')
 private class MockDatabaseCalendarQuarterTest {
 
     final static Integer YEAR = 2024;

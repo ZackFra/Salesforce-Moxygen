@@ -50,6 +50,11 @@ public inherited sharing class AverageCalculator implements IAggregateCalculator
         );
     }
 
+    /**
+     * @description Calculate the average for the field specified in the `alias` field of options,
+     *              of the grouped records of the `aggregateResult` field of options 
+     * @return  `Object`
+     */
     public Object calculateForField() {
         ProtoAggregate aggregateResult = options.aggregateResult;
         String fieldName = options.alias;

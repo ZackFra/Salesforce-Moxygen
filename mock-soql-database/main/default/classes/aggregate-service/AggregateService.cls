@@ -57,8 +57,14 @@ public inherited sharing class AggregateService {
         SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_COUNT_FUNCS);
     }
 
-    public static Boolean isCountFunc(String nodeType, String nodeId) {
-        if(nodeType != 'aggregate function') {
+    /**
+     * @description Returns whether a node type and node id represent a count function
+     * @param type `String`
+     * @param nodeId `String`
+     * @return  `Boolean`
+     */
+    public static Boolean isCountFunc(String type, String nodeId) {
+        if(type != NodeType.AGGREGATE_FUNCTION) {
             return false;
         }
         return SUPPORTED_DATE_FUNCS.contains(nodeId);        
@@ -66,12 +72,12 @@ public inherited sharing class AggregateService {
 
     /**
      * @description Returns whether this function is a date function
-     * @param nodeType `String`
+     * @param type `String`
      * @param nodeId `String`
      * @return  `Boolean`
      */
-    public static Boolean isDateFunc(String nodeType, String nodeId) {
-        if(nodeType != 'aggregate function') {
+    public static Boolean isDateFunc(String type, String nodeId) {
+        if(type != NodeType.AGGREGATE_FUNCTION) {
             return false;
         }
         return SUPPORTED_DATE_FUNCS.contains(nodeId);
@@ -79,12 +85,12 @@ public inherited sharing class AggregateService {
 
     /**
      * @description Returns whether this function is a numeric function
-     * @param nodeType `String`
+     * @param type `String`
      * @param nodeId `String`
      * @return  `Boolean`
      */
-    public static Boolean isNumericFunc(String nodeType, String nodeId) {
-        if(nodeType != 'aggregate function') {
+    public static Boolean isNumericFunc(String type, String nodeId) {
+        if(type != NodeType.AGGREGATE_FUNCTION) {
             return false;
         }
         return SUPPORTED_NUMERIC_FUNCS.contains(nodeType);
@@ -97,7 +103,11 @@ public inherited sharing class AggregateService {
      * @return  `Boolean`
      */
     public static Boolean isAggregateFunc(String nodeType, String nodeId) {
-        return isNumericFunc(nodeType, nodeId) || isDateFunc(nodeType, nodeId);
+        return (
+            isNumericFunc(nodeType, nodeId) || 
+            isDateFunc(nodeType, nodeId) || 
+            isCountFunc(nodeType, nodeId)
+        );
     }
 
     /**

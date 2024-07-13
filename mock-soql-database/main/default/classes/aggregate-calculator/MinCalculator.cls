@@ -51,6 +51,11 @@ public with sharing class MinCalculator implements IAggregateCalculator {
         );
     }
 
+    /**
+     * @description calculate the min of the `alias` field passed into options,
+     *              for the records associated with the `aggregateResult` passed into options
+     * @return  `Object`
+     */
     public Object calculateForField() {
         ProtoAggregate aggregateResult = options.aggregateResult;
         List<SObject> records = aggregateResult.getRecords();

@@ -51,6 +51,11 @@ public inherited sharing class CalendarQuarterCalculator implements IAggregateCa
         );
     }
 
+    /**
+     * @description Calculate the calendar quarter of field passed in as `alias` in options,
+     *              for the grouped records of the `aggregateResult` passed into options 
+     * @return  `Object`
+     */
     public Object calculateForField() {
         String fieldName = options.alias;
         ProtoAggregate aggregateResult = options.aggregateResult;

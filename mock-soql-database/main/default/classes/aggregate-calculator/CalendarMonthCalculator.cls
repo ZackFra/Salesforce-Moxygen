@@ -51,6 +51,11 @@ public inherited sharing class CalendarMonthCalculator implements IAggregateCalc
         );
     }
 
+    /**
+     * @description Calculate the calendar month of field passed in as `alias` in options,
+     *              for the grouped records of the `aggregateResult` passed into options 
+     * @return  `Object`
+     */
     public Object calculateForField() {
         String fieldName = options.alias;
         ProtoAggregate aggregateResult = options.aggregateResult;

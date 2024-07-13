@@ -49,8 +49,7 @@ public with sharing class HavingLogicHandler extends BooleanLogicHandler {
         ProtoAggregate aggr = (ProtoAggregate) this.obj;
 
         Node aggrNode = operatorNode.left;
-
-        SObject firstRecord = aggr.getRecords()[0];
+        
         Object value = getGroupByFieldValue(aggr, aggrNode);
 
         Node valueNode = operatorNode.right;

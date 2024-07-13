@@ -50,6 +50,10 @@ public with sharing class CountDistinctCalculator implements IAggregateCalculato
         );
     }
 
+    /**
+     * @description Returns the distinct count of the records passed in as `aggregateResult` in options 
+     * @return  `Object`
+     */
     public Object calculateForField() {
         return this.options.aggregateResult.getRecords().size();
     }

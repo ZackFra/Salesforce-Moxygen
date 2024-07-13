@@ -30,6 +30,13 @@
   */
 public inherited sharing class DateFuncs {
 
+    /**
+     * @description Determins which date function to execute and executes it
+     * @param dateFunc `String`
+     * @param dateOrDateTimeValue `Date|Datetime`
+     * @return  `Integer`
+     * @exception IllegalArgumentException
+     */
     public static Integer execute(String dateFunc, Object dateOrDateTimeValue) {
         switch on dateFunc {
             when 'calendar_month' {
@@ -39,7 +46,7 @@ public inherited sharing class DateFuncs {
             } when 'calendar_quarter' {
                 return calendarQuarter(dateOrDateTimeValue);
             } when else {
-                throw new QueryException('Invalid date function');
+                throw new IllegalArgumentException('Invalid date function');
             }
         }
     }

@@ -133,6 +133,7 @@ public with sharing class ProtoAggregate {
 
     /**
      * @description Gets the internal list of records that comprise of this proto-aggregate
+     * @return `List<SObject>`
      */
     public List<SObject> getRecords() {
         return this.records;
