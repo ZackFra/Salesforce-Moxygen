@@ -24,4 +24,29 @@ private class AggregateFuncParserTest {
             'Parsing exception, expected ")"'
         );
     }
+
+    @IsTest
+    static void allNumericFuncs() {
+        // AVG, MAX, MIN, SUM
+        List<String> srNames = new List<String> {
+            'AGGREGATE_0',
+            'AGGREGATE_1',
+            'AGGREGATE_2',
+            'AGGREGATE_3'
+        };
+        ParserTestUtil.assertStaticResources(srNames);
+    }
+
+    @IsTest
+    static void allCountFuncs() {
+        // COUNT(), COUNT(Id), COUNT_DISTINCT(Id)
+        List<String> srNames = new List<String> {
+            'AGGREGATE_4',
+            'AGGREGATE_5',
+            'AGGREGATE_6'
+        };
+        ParserTestUtil.assertStaticResources(srNames);
+    }
+
+
 }

@@ -1,0 +1,1 @@
+{"ast":{"right":{"right":null,"nodeType":"from","left":{"right":null,"nodeType":"object","left":null,"id":"opportunity"},"id":"from"},"nodeType":"select","left":{"right":{"right":null,"nodeType":"field","left":null,"id":"amount"},"nodeType":"aggregate function","left":null,"id":"max"},"id":"select"},"query":"SELECT MAX(Amount) FROM Opportunity"}

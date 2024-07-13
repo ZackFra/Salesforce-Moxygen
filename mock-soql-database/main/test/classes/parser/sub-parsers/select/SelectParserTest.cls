@@ -45,4 +45,19 @@ private class SelectParserTest {
     static void multipleSubqueriesFromAccount() {
         ParserTestUtil.assertStaticResource('SELECT_8');
     }
+
+    @IsTest
+    static void subqueryAsThirdItemQueried() {
+        ParserTestUtil.assertStaticResource('SELECT_9');
+    }
+
+    @IsTest
+    static void selectTypeofWhatFromEvent() {
+        ParserTestUtil.assertStaticResource('SELECT_10');
+    }
+
+    @IsTest
+    static void selectTypeOfMultipleFields() {
+        ParserTestUtil.assertStaticResource('SELECT_11');
+    }
 }

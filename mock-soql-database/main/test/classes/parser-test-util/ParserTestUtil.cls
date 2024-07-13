@@ -2,16 +2,35 @@
 public with sharing class ParserTestUtil {
 
     /**
+     * @description Assert muliple static resources align with their queries
+     * @param srNames 
+     */
+    public static void assertStaticResources(List<String> srNames) {
+        List<AbstractSyntaxTreeWithQuery> astsWithQueries = getAstsWithQueryFor(srNames);
+        List<Node> headNodes = new List<Node>();
+        Test.startTest();
+        for(AbstractSyntaxTreeWithQuery astWithquery : astsWithQueries) {
+            Node head = parseQuery(astWithQuery.query);
+            headNodes.add(head);
+        }
+        Test.stopTest();
+
+        for(Integer i = 0; i <  astsWithQueries.size(); i++) {
+            assertAstsEqual(astsWithQueries[i].ast, headNodes[i]);
+        }
+    }
+
+    /**
      * @description Given a static resouce name, this method will parsse and compare its query
      *              against its listed AST
      * @param srName 
      */
     public static void assertStaticResource(String srName) {
-        AbstractSyntaxTreeWithQuery astWithQuery = ParserTestUtil.getAstWithQueryFor(srName);
+        AbstractSyntaxTreeWithQuery astWithQuery = getAstWithQueryFor(srName);
         Test.startTest();
-            Node head = ParserTestUtil.parseQuery(astWithQuery.query);
+            Node head = parseQuery(astWithQuery.query);
         Test.stopTest();
-        ParserTestUtil.assertAstsEqual(astWithQuery.ast, head);
+        assertAstsEqual(astWithQuery.ast, head);
     }
 
     public static void assertExceptionIsThrownWithMessage(String query, String message) {
@@ -63,19 +82,33 @@ public with sharing class ParserTestUtil {
         return null;
     }
 
-    private static AbstractSyntaxTreeWithQuery getAstWithQueryFor(String srName) {
-        StaticResource sr = [SELECT Body FROM StaticResource WHERE Name = :srName];
-        String body = sr.Body.toString();
-        return (AbstractSyntaxTreeWithQuery) JSON.deserialize(body, AbstractSyntaxTreeWithQuery.class);
+    static AbstractSyntaxTreeWithQuery getAstWithQueryFor(String srName) {
+        List<AbstractSyntaxTreeWithQuery> astsWithQuery = getAstsWithQueryFor(new List<String>{srName});
+        return astsWithQuery[0];
     }
 
-    private static Node parseQuery(String query) {
+    static List<AbstractSyntaxTreeWithQuery> getAstsWithQueryFor(List<String> srNames) {
+        List<StaticResource> resources = [SELECT Body FROM StaticResource WHERE Name IN :srNames];
+        List<AbstractSyntaxTreeWithQuery> resourceBodies = new List<AbstractSyntaxTreeWithQuery>();
+        for(StaticResource resource : resources) {
+            String body = resource.Body.toString();
+            AbstractSyntaxTreeWithQuery astWithQuery = (AbstractSyntaxTreeWithQuery) JSON.deserialize(
+                body, 
+                AbstractSyntaxTreeWithQuery.class
+            );
+            resourceBodies.add(astWithQuery);
+        }
+
+        return resourceBodies;
+    }
+
+    static Node parseQuery(String query) {
         Parser p = new Parser();
         Node head = p.parse(query);
         return head;
     }
 
-    private static void assertAstsEqual(Node expected, Node actual) {
+    static void assertAstsEqual(Node expected, Node actual) {
         if(expected == null && actual == null) {
             return;
         }
@@ -108,7 +141,7 @@ public with sharing class ParserTestUtil {
         assertAstsEqual(expected.right, actual.right);
     }
 
-    private static String formatAssertionMessage(Node expected, Node actual, String field) {
+    static String formatAssertionMessage(Node expected, Node actual, String field) {
         return (
             'Expected ' + field + ' to be equal' + '\n' + 
             'Expected nodeType : ' + expected.nodeType + ', Actual nodeType: ' + actual.nodeType + '\n' +
