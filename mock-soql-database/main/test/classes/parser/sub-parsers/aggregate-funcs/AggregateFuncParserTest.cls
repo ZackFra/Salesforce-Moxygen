@@ -1,4 +1,5 @@
 @IsTest
+@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts')
 private class AggregateFuncParserTest {
     @IsTest
     static void testAggrFuncFail1() {
