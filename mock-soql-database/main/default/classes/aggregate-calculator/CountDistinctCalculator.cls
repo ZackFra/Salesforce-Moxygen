@@ -50,6 +50,10 @@ public with sharing class CountDistinctCalculator implements IAggregateCalculato
         );
     }
 
+    public Object calculateForField() {
+        return this.options.aggregateResult.getRecords().size();
+    }
+
     private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
 
         Integer currValue = (Integer) aggregateResult.get(alias);

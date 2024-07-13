@@ -51,6 +51,14 @@ public inherited sharing class CalendarMonthCalculator implements IAggregateCalc
         );
     }
 
+    public Object calculateForField() {
+        String fieldName = options.alias;
+        ProtoAggregate aggregateResult = options.aggregateResult;
+        SObject firstRecord = aggregateResult.getRecords()[0];
+        Object value = firstRecord.get(fieldName);
+        return DateFuncs.calendarMonth(value);
+    }
+
     /**
      * @description Calculates the average of a set of values with an alias.
      * @param aggregateResult 

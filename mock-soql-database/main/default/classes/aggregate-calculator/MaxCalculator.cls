@@ -50,6 +50,25 @@ public with sharing class MaxCalculator implements IAggregateCalculator {
         );
     }
 
+    public Object calculateForField() {
+        ProtoAggregate aggregateResult = options.aggregateResult;
+        List<SObject> records = aggregateResult.getRecords();
+        SObject firstRecord = records[0];
+
+        String fieldName = options.alias;
+        Decimal max = (Decimal) firstRecord.get(fieldName);
+
+        for(Integer i = 1; i < records.size(); i++) {
+            SObject record = records[i];
+            Object value = record.get(fieldName);
+            if(value != null) {
+                Decimal decimalValue = (Decimal) value;
+                max = Math.max(max, decimalValue);
+            }
+        }
+        return max;
+    }
+
     private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
         if(value == null) {
             // make sure it's explicitly set to null

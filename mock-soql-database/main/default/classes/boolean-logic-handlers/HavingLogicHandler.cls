@@ -49,10 +49,19 @@ public with sharing class HavingLogicHandler extends BooleanLogicHandler {
         ProtoAggregate aggr = (ProtoAggregate) this.obj;
 
         Node aggrNode = operatorNode.left;
-        Map<String, Object> aggrNodeValue = MockDatabase.utils.getAggrNodeValue(aggrNode, this.selectNode);
-        String alias = (String) aggrNodeValue.get('alias');
 
-        Object value = aggr.get(alias);
+        SObject firstRecord = aggr.getRecords()[0];
+        String groupedFieldApiName = SchemaService.getFieldName(
+            firstRecord.getSObjectType(), 
+            aggrNode.right.id
+        );
+        AggregateCalculatorOptions options = new AggregateCalculatorOptions()
+            .setAggregateResult(aggr)
+            .setAlias(groupedFieldApiName);
+        IAggregateCalculator calculator = AggregateCalculatorFactory.getCalculator(operatorNode.left.id, options);
+        Object value = calculator.calculateForField();
+
+
         Node valueNode = operatorNode.right;
         Object expectedValue;
 

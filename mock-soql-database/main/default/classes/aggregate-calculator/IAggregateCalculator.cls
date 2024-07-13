@@ -34,4 +34,10 @@ public interface IAggregateCalculator {
      * @return  `ProtoAggregate`
      */
     ProtoAggregate calculate();
+
+    /**
+     * @description Calculate the aggregate of the data, for the field specified by `alias` in the options
+     * @return  `Object`
+     */
+    Object calculateForField();
 }

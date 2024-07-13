@@ -184,11 +184,6 @@ public inherited sharing class MockDatabaseUtils {
             break;
         }
 
-        // if we're here, we should have an alias
-        if(alias == null) {
-            throw new QueryException('Invalid alias');
-        }
-
         Node fieldNode = aggrNode.right;
         return new Map<String, Object> {
             'field' => fieldNode.id,

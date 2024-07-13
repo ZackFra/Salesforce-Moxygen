@@ -50,6 +50,10 @@ public with sharing class CountCalculator implements IAggregateCalculator {
         );
     }
 
+    public Object calculateForField() {
+        return options.aggregateResult.getRecords().size();
+    }
+
     /**
      * @description Calculates the count of records
      * @param aggregateResult 

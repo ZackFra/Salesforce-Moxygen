@@ -252,6 +252,28 @@ private class MockDatabaseCalendarYearTest {
     }
 
     /**
+     * @description Should still select the opportunity via the HAVING clause
+     */
+    @IsTest
+    static void testCalendarYearInHavingClauseUnselected() {
+        Opportunity testOpp = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.today()
+        );
+        DML.doMockInsert(testOpp);
+
+        Test.startTest();
+        List<Aggregate> ar = Selector.aggregateQuery(
+            'SELECT Name, CloseDate' +
+            ' FROM Opportunity GROUP BY Name, CloseDate' +
+            ' HAVING CALENDAR_YEAR(CloseDate) > 2010'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(1, ar.size(), 'Incorrect number of records returned');
+    }
+
+    /**
      * @description Bulkified test of calendar year logic
      */
     @IsTest

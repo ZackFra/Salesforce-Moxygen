@@ -31,10 +31,13 @@
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity')
 public inherited sharing class AggregateService {
 
+    public final static List<String> SUPPORTED_COUNT_FUNCS = new List<String> {
+        'count',
+        'count_distinct'
+    };
+
     public final static List<String> SUPPORTED_NUMERIC_FUNCS = new List<String> {
         'avg',
-        'count',
-        'count_distinct',
         'min',
         'max',
         'sum'
@@ -51,6 +54,14 @@ public inherited sharing class AggregateService {
         SUPPORTED_AGGREGATE_FUNCS = new List<String>();
         SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_NUMERIC_FUNCS);
         SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_DATE_FUNCS);
+        SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_COUNT_FUNCS);
+    }
+
+    public static Boolean isCountFunc(String nodeType, String nodeId) {
+        if(nodeType != 'aggregate function') {
+            return false;
+        }
+        return SUPPORTED_DATE_FUNCS.contains(nodeId);        
     }
 
     /**

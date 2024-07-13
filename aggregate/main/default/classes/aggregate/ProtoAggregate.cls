@@ -31,6 +31,8 @@
  */
 public with sharing class ProtoAggregate {
     public Map<String, Object> prototype = new Map<String, Object>();
+    
+    List<SObject> records = new List<SObject>();
 
     /**
      * @description Constructor
@@ -127,6 +129,21 @@ public with sharing class ProtoAggregate {
      */
     public Map<String, Object> getPrototype() {
         return this.prototype;
+    }
+
+    /**
+     * @description Gets the internal list of records that comprise of this proto-aggregate
+     */
+    public List<SObject> getRecords() {
+        return this.records;
+    }
+
+    /**
+     * @description Adds a record to the internal list of records
+     * @param record `SObject`
+     */
+    public void addRecord(SObject record) {
+        this.records.add(record);
     }
 
 }
