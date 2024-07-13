@@ -1,0 +1,1 @@
+{"ast":{"right":{"right":{"right":null,"nodeType":"for reference","left":null,"id":"for reference"},"nodeType":"from","left":{"right":null,"nodeType":"object","left":null,"id":"account"},"id":"from"},"nodeType":"select","left":{"right":null,"nodeType":"field","left":null,"id":"name"},"id":"select"},"query":"SELECT Name FROM Account FOR REFERENCE"}

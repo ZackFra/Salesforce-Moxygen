@@ -93,4 +93,15 @@ public class NodeBuilder {
     public Node build() {
         return new Node(nodeType, id, left, right);
     }
+
+    public static Node fromMap(
+        Map<String, Object> nodeMap
+    ) {
+        return new Node(
+            (String) nodeMap.get('nodeType'),
+            (String) nodeMap.get('id'),
+            fromMap((Map<String, Object>) nodeMap.get('left')),
+            fromMap((Map<String, Object>) nodeMap.get('right'))
+        );
+    }
 }

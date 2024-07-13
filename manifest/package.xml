@@ -4,6 +4,10 @@
         <members>*</members>
         <name>ApexClass</name>
     </types>
+    <types>
+        <members>*</members>
+        <name>StaticResource</name>
+    </types>
     <version>60.0</version>
 </Package>
 

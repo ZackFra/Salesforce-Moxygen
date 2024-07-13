@@ -1,0 +1,1 @@
+{"ast":{"right":{"right":null,"nodeType":"from","left":{"right":null,"nodeType":"object","left":null,"id":"account"},"id":"from"},"nodeType":"select","left":{"right":null,"nodeType":"aggregate function","left":null,"id":"count"},"id":"select"},"query":"SELECT COUNT() FROM Account"}

@@ -1,0 +1,1 @@
+{"ast":{"right":{"right":{"right":null,"nodeType":"limit","left":{"right":null,"nodeType":"number","left":null,"id":"10"},"id":"limit"},"nodeType":"from","left":{"right":null,"nodeType":"object","left":null,"id":"account"},"id":"from"},"nodeType":"select","left":{"right":null,"nodeType":"field","left":null,"id":"id"},"id":"select"},"query":"SELECT Id FROM Account LIMIT 10"}

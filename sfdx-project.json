@@ -23,6 +23,10 @@
     {
       "path": "fflib",
       "default": false
+    },
+    {
+      "path": "apex-mdapi",
+      "default": false
     }
   ],
   "name": "Moxygen",
