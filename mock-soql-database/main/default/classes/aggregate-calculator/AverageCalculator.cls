@@ -60,12 +60,12 @@ public inherited sharing class AverageCalculator implements IAggregateCalculator
         String fieldName = options.alias;
         Decimal sum = 0;
         List<SObject> records = aggregateResult.getRecords();
-        Integer size = aggregateResult.getRecords().size();
-        for(SObject record : aggregateResult.getRecords()) {
+        Integer size = records.size();
+        for(SObject record : records) {
             Object value = record.get(fieldName);
             sum += (Decimal) value;
         }
-        return sum / aggregateResult.getRecords().size();
+        return sum / size;
     }
 
     /**
