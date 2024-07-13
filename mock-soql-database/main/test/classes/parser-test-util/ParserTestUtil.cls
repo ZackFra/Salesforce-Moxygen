@@ -6,7 +6,7 @@ public with sharing class ParserTestUtil {
      *              against its listed AST
      * @param srName 
      */
-    public static void testStaticResource(String srName) {
+    public static void assertStaticResource(String srName) {
         AbstractSyntaxTreeWithQuery astWithQuery = ParserTestUtil.getAstWithQueryFor(srName);
         Test.startTest();
             Node head = ParserTestUtil.parseQuery(astWithQuery.query);
@@ -14,40 +14,53 @@ public with sharing class ParserTestUtil {
         ParserTestUtil.assertAstsEqual(astWithQuery.ast, head);
     }
 
+    public static void assertExceptionIsThrownWithMessage(String query, String message) {
+        Test.startTest();
+        Exception e = tryParsingQuery(query);
+        Test.stopTest();
+        Assert.isNotNull(
+            e, 
+            'Expected exception to be thrown'
+        );
+        Assert.isTrue(
+            e.getMessage().contains(message),
+            'Expected exception message to contain ' + message + ' but was ' + e.getMessage()
+        );
+    }
+
     /**
      * @description Given a query, this method will test it and check if an exception is thrown
      * @param query 
      */
-    public static void testExceptionIsThrown(String query) {
-        Parser t = new Parser();
+    public static void assertExceptionIsThrown(String query) {
         Test.startTest();
-        Boolean isExceptionThrown = false;
-        try {
-            t.parse(query);
-        } catch(Exception e) {
-            isExceptionThrown = true;
-        }
+        Exception e = tryParsingQuery(query);
         Test.stopTest();
 
-        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+        Assert.isNotNull(e, 'Expected exception to be thrown');
     }
 
     /**
      * @description Given a query, this method will test it and check if an exception is not thrown
      * @param query 
      */
-    public static void testExceptionIsNotThrown(String query) {
-        Parser t = new Parser();
+    public static void assertExceptionIsNotThrown(String query) {
         Test.startTest();
-        Boolean isExceptionThrown = false;
-        try {
-            t.parse(query);
-        } catch(Exception e) {
-            isExceptionThrown = true;
-        }
+        Exception e = tryParsingQuery(query);
         Test.stopTest();
 
-        Assert.isFalse(isExceptionThrown, 'Expected exception to not be thrown');
+        Assert.isNull(e, 'Expected exception to not be thrown');
+    }
+
+    static Exception tryParsingQuery(String query) {
+        Parser p = new Parser();
+        Boolean isExceptionThrown = false;
+        try {
+            p.parse(query);
+        } catch(Exception e) {
+            return e;
+        }
+        return null;
     }
 
     private static AbstractSyntaxTreeWithQuery getAstWithQueryFor(String srName) {
