@@ -30,6 +30,7 @@
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
 public class GreaterThanHandler implements IOperatorHandler {
+
     /**
      * @description Handler for the greater than operator
      * @param sObjectFieldValue `Object`

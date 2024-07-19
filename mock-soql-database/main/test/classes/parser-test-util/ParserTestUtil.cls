@@ -33,6 +33,11 @@ public with sharing class ParserTestUtil {
         assertAstsEqual(astWithQuery.ast, head);
     }
 
+    /**
+     * @description Assert that an exception is thrown with a specific message
+     * @param query `String`
+     * @param message `String`
+     */
     public static void assertExceptionIsThrownWithMessage(String query, String message) {
         Test.startTest();
         Exception e = tryParsingQuery(query);
@@ -73,7 +78,6 @@ public with sharing class ParserTestUtil {
 
     static Exception tryParsingQuery(String query) {
         Parser p = new Parser();
-        Boolean isExceptionThrown = false;
         try {
             p.parse(query);
         } catch(Exception e) {
