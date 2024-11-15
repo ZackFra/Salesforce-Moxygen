@@ -71,12 +71,12 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
         String fieldRelationshipName = (String) parentInfo.get('fieldRelationshipName');
         String objApiName = (String) parentInfo.get('objApiName');
 
-        Map<String, Object> sObjClone = SObjectService.mapFromSObject(sObj);
+        Map<String, Object> sObjClone = Common.mapFromRecord(sObj);
         String parentRecordApiName = (String) parentInfo.get('parentObjApiName');
         fieldParts.remove(0);
         if(!fieldParts.isEmpty()) {
             if(sObjClone.containsKey(fieldRelationshipName)) {
-                parentRecord = SObjectService.sObjectFromMap((Map<String, Object>)sObjClone.get(fieldRelationshipName), parentRecordApiName);
+                parentRecord = Common.recordFromMap((Map<String, Object>)sObjClone.get(fieldRelationshipName), parentRecordApiName);
             }
             sObject nextParent = buildObjWithRelations(parentRecord, fieldParts, finalField);
             sObjClone.put(fieldApiName, nextParent.Id);
@@ -95,7 +95,7 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
                 finalFieldApiName = SchemaService.getFieldName(parentRecordSObjType, finalField);
             }
 
-            Map<String, Object> parentRecordData = SObjectService.mapFromSObject(parentRecord);
+            Map<String, Object> parentRecordData = Common.mapFromRecord(parentRecord);
 
             if(sObjClone.containsKey(fieldRelationshipName)) {
                 parentRecordData = (Map<String, Object>) sObjClone.get(fieldRelationshipName);
@@ -131,6 +131,6 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
             sObjClone.put(fieldApiName, parentRecord.Id);
             sObjClone.put(fieldRelationshipName, parentRecordData);
         }
-        return SObjectService.sObjectFromMap(sObjClone, objApiName);
+        return Common.recordFromMap(sObjClone, objApiName);
     }
 }

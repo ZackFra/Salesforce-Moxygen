@@ -137,7 +137,7 @@ public with sharing class ChildSubQuerySelectHandler implements ISelectHandler {
         // so we can't mock the subquery results directly, but we can serialize them and then deserialize them
         // here we serialize the subquery results, which can't be instaniated,
         // then deserialize them into a map, then add the map to the parent object
-        Map<String, Object> objMap = SObjectService.mapFromSObject(queriedRecord);
+        Map<String, Object> objMap = Common.mapFromRecord(queriedRecord);
         Map<String, Object> subQueryResultMap = new Map<String, Object>();
         
         subQueryResultMap.put('records', subQueryRecords);
@@ -146,6 +146,6 @@ public with sharing class ChildSubQuerySelectHandler implements ISelectHandler {
 
         objMap.put(subQueryChildRelationshipName, subQueryResultMap);
 
-        return SObjectService.sObjectFromMap(objMap, ObjApiName);
+        return Common.recordFromMap(objMap, ObjApiName);
     }
 }
