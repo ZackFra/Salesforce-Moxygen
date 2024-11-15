@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public inherited sharing class CountCalculator implements IAggregateCalculator {
+public with sharing class CountCalculator implements IAggregateCalculator {
     AggregateCalculatorOptions options;
 
     /**
