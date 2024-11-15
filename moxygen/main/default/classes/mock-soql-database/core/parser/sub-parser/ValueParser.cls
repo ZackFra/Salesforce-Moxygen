@@ -56,6 +56,8 @@ public inherited sharing class ValueParser extends SubParser {
             return parseBindVariable(query);
         } else if(isNext(query, Token.XNULL)) {
             return parseNull(query);
+        } else if(isNext(query, Token.TODAY_LITERAL)) {
+            return parseToday(query);
         } else {
         	return parseNum(query);
         }
@@ -154,6 +156,17 @@ public inherited sharing class ValueParser extends SubParser {
         	new NodeBuilder()
             	.setId(Token.XNULL)
             	.setNodeType(NodeType.XNULL)
+            	.build(),
+            query
+        );
+    }
+
+    private Intermediary parseToday(String query) {
+        query = consume(query, Token.TODAY_LITERAL);
+        return new Intermediary(
+        	new NodeBuilder()
+            	.setId(Token.TODAY_LITERAL)
+            	.setNodeType(NodeType.XSTRING)
             	.build(),
             query
         );
