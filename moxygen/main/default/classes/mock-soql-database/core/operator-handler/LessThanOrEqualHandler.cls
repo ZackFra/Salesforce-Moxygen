@@ -50,24 +50,15 @@ public class LessThanOrEqualHandler implements IOperatorHandler {
         } else if(sObjectFieldValue instanceOf DateTime) {
             return compareDateTime(fieldValue, sObjectFieldValue);
         } else if(sObjectFieldValue instanceOf Time) {
-            Time sObjTime = (Time) sObjectFieldValue;
-            return sObjTime <= Common.parseTime((String) fieldValue);
+            return compareTime(fieldValue, sObjectFieldValue);
         } else if(sObjectFieldValue instanceOf Integer) {
-            Integer fieldInt = Integer.valueOf((String)fieldValue);
-            Integer sObjInt = (Integer) sObjectFieldValue;
-            return sObjInt <= fieldInt;
+            return compareInteger(fieldValue, sObjectFieldValue);
         }  else if(sObjectFieldValue instanceOf Long) {
-            Long fieldLong = Long.valueOf((String) fieldValue);
-            Long sObjLong = (Long) sObjectFieldValue;
-            return sObjLong <= fieldLong;
+            return compareLong(fieldValue, sObjectFieldValue);
         } else if(sObjectFieldValue instanceOf String) {
-            String fieldString = ((String) fieldValue).toLowerCase();
-            String sObjString = ((String) sObjectFieldValue).toLowerCase();
-            return sObjString <= fieldString;
+            return compareString(fieldValue, sObjectFieldValue);
         } else if(sObjectFieldValue instanceOf Decimal) {
-            Decimal fieldDec = Decimal.valueOf((String)fieldValue);
-            Decimal sObjDec = (Decimal) sObjectFieldValue;
-            return sObjDec <= fieldDec;
+            return compareDecimal(fieldValue, sObjectFieldValue);
         } else {
             throw new QueryException('Invalid field type');
         }
@@ -90,5 +81,34 @@ public class LessThanOrEqualHandler implements IOperatorHandler {
         DateTime fieldDateTime = Common.parseDateTime((String) fieldValue);
         DateTime sObjDateTime = (DateTime) sObjectFieldValue;
         return sObjDateTime <= fieldDateTime;
+    }
+
+    private Boolean compareTime(String fieldValue, Object sObjectFieldValue) {
+        Time sObjTime = (Time) sObjectFieldValue;
+        return sObjTime <= Common.parseTime((String) fieldValue);
+    }
+
+    private Boolean compareInteger(String fieldValue, Object sObjectFieldValue) {
+        Integer fieldInt = Integer.valueOf((String)fieldValue);
+        Integer sObjInt = (Integer) sObjectFieldValue;
+        return sObjInt <= fieldInt;
+    }
+
+    private Boolean compareLong(String fieldValue, Object sObjectFieldValue) {
+        Long fieldLong = Long.valueOf((String) fieldValue);
+        Long sObjLong = (Long) sObjectFieldValue;
+        return sObjLong <= fieldLong;
+    }
+
+    private Boolean compareString(String fieldValue, Object sObjectFieldValue) {
+        String fieldString = ((String) fieldValue).toLowerCase();
+        String sObjString = ((String) sObjectFieldValue).toLowerCase();
+        return sObjString <= fieldString;
+    }
+
+    private Boolean compareDecimal(String fieldValue, Object sObjectFieldValue) {
+        Decimal fieldDec = Decimal.valueOf((String)fieldValue);
+        Decimal sObjDec = (Decimal) sObjectFieldValue;
+        return sObjDec <= fieldDec;
     }
 }
