@@ -76,7 +76,6 @@
         <members>ReferenceFieldComparator</members>
         <members>SObjectComparator</members>
         <members>SObjectComparatorTest</members>
-        <members>SObjectService</members>
         <members>SelectHandlerFactory</members>
         <members>SumCalculator</members>
         <members>TestDataFactory</members>
