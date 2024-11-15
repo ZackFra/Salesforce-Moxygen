@@ -47,9 +47,7 @@ public inherited sharing class Selector {
      * @return  `List<SObject>`
      */
     public static List<SObject> query(String queryString) {
-        if(ORM.isBacktickReplacementEnabled()) {
-            queryString = queryString.replaceAll('`', '\'');
-        }
+        queryString = handleBackticks(queryString);
 
         if(ORM.isUnitTest()) {
             return onQuery(queryString);
@@ -64,9 +62,7 @@ public inherited sharing class Selector {
      * @return  `List<SObject>`
      */
     public static List<SObject> query(String queryString, System.AccessLevel accessLevel) {
-        if(ORM.isBacktickReplacementEnabled()) {
-            queryString = queryString.replaceAll('`', '\'');
-        }
+        queryString = handleBackticks(queryString);
 
         if(ORM.isUnitTest()) {
             return onQuery(queryString);
@@ -82,9 +78,7 @@ public inherited sharing class Selector {
      * @return  `List<SObject>`
      */
     public static List<SObject> queryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
-        if(ORM.isBacktickReplacementEnabled()) {
-            queryString = queryString.replaceAll('`', '\'');
-        }
+        queryString = handleBackticks(queryString);
         
         if(ORM.isUnitTest()) {
             return onQuery(queryString, bindMap, accessLevel);
@@ -98,9 +92,7 @@ public inherited sharing class Selector {
      * @return  `List<Aggregate>`
      */
     public static List<Aggregate> aggregateQuery(String queryString) {
-        if(ORM.isBacktickReplacementEnabled()) {
-            queryString = queryString.replaceAll('`', '\'');
-        }
+        queryString = handleBackticks(queryString);
 
         if(ORM.isUnitTest()) {
             return onQueryAggregate(queryString);
@@ -120,9 +112,7 @@ public inherited sharing class Selector {
      * @return  `List<Aggregate>`
      */
     public static List<Aggregate> aggregateQuery(String queryString, System.AccessLevel accessLevel) {
-        if(ORM.isBacktickReplacementEnabled()) {
-            queryString = queryString.replaceAll('`', '\'');
-        }
+        queryString = handleBackticks(queryString);
 
         if(ORM.isUnitTest()) {
             return onQueryAggregate(queryString);
@@ -143,9 +133,7 @@ public inherited sharing class Selector {
      * @return  `List<Aggregate>`
      */
     public static List<Aggregate> aggregateQueryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
-        if(ORM.isBacktickReplacementEnabled()) {
-            queryString = queryString.replaceAll('`', '\'');
-        }
+        queryString = handleBackticks(queryString);
         
         if(ORM.isUnitTest()) {
             return onQueryAggregate(queryString, bindMap, accessLevel);
@@ -164,9 +152,7 @@ public inherited sharing class Selector {
      * @return  `Integer`
      */
     public static Integer countQuery(String queryString) {
-        if(ORM.isBacktickReplacementEnabled()) {
-            queryString = queryString.replaceAll('`', '\'');
-        }
+        queryString = handleBackticks(queryString);
 
         if(ORM.isUnitTest()) {
             return onQueryCount(queryString);
@@ -181,9 +167,7 @@ public inherited sharing class Selector {
      * @return  `Integer`
      */
     public static Integer countQuery(String queryString, System.AccessLevel accessLevel) {
-        if(ORM.isBacktickReplacementEnabled()) {
-            queryString = queryString.replaceAll('`', '\'');
-        }
+        queryString = handleBackticks(queryString);
 
         if(ORM.isUnitTest()) {
             return onQueryCount(queryString);
@@ -199,9 +183,7 @@ public inherited sharing class Selector {
      * @return  `Integer`
      */
     public static Integer countQueryWithBinds(String queryString, Map<String, Object> bindMap, System.AccessLevel accessLevel) {
-        if(ORM.isBacktickReplacementEnabled()) {
-            queryString = queryString.replaceAll('`', '\'');
-        }
+        queryString = handleBackticks(queryString);
         
         if(ORM.isUnitTest()) {
             return onQueryCountWithBinds(queryString, bindMap, accessLevel);
@@ -418,5 +400,12 @@ public inherited sharing class Selector {
         } else {
             return MockDatabase.aggregateQueryWithBinds(queryString, bindMap, accessLevel);
         }
+    }
+
+    private static String handleBackticks(String queryString) {
+        if(ORM.isBacktickReplacementEnabled()) {
+            return queryString.replaceAll('`', '\'');
+        }
+        return queryString;
     }
 }
