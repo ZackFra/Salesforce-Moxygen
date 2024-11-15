@@ -123,4 +123,6 @@ public inherited sharing class Token {
     public final static String XTRUE = 'true';
     public final static String XFALSE = 'false';
     public final static String XNULL = 'null';
+
+    public final static String TODAY_LITERAL = 'today';
 }

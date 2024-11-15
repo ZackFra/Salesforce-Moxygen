@@ -45,9 +45,16 @@ public class EqualityHandler implements IOperatorHandler {
         }
 
         if(sObjectFieldValue instanceof Date) {
+            if(fieldValue == Token.TODAY_LITERAL) {
+                return ((Date) sObjectFieldValue).isSameDay(System.today());
+            }    
             fieldValue = Common.parseDate((String) fieldValue);
             return fieldValue == (Date) sObjectFieldValue;
         } else if(SObjectFieldValue instanceof DateTime) {
+            if(fieldValue == Token.TODAY_LITERAL) {
+                Date sObjectFieldValueAsDate = ((DateTime) sObjectFieldValue).date();
+                return (sObjectFieldValueAsDate).isSameDay(System.today());
+            }
             fieldValue = Common.parseDateTime((String) fieldValue);
             return fieldValue == (DateTime) sObjectFieldValue;
         } else if(SObjectFieldValue instanceof Time) {

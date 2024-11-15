@@ -3175,4 +3175,48 @@ private class MockDatabaseTest {
             'Exception should have been thrown'
         );
     }
+
+    @IsTest
+    static void testWhereClauseHandlesTodayWithDate() {
+        
+        List<Task> taskList = new List<Task>();
+        for(Integer i = 0; i < 10; i++) {
+            taskList.add(new Task(
+                ActivityDate = System.today()
+            ));
+        }
+
+        MockDatabase.doInsert(taskList, true);
+
+        Test.startTest();
+        List<Task> result = (List<Task>)MockDatabase.query('SELECT Id, ActivityDate FROM Task WHERE ActivityDate = TODAY');
+        Test.stopTest();
+
+        Assert.areEqual(
+            10,
+            result.size(),
+            'Incorrect number of tasks queried'
+        );
+    }
+
+    @IsTest
+    static void testWhereClauseHandlesTodayWithDateTime() {
+        
+        List<Opportunity> opportunities = new List<Opportunity>();
+        for(Integer i = 0; i < 10; i++) {
+            opportunities.add(new Opportunity());
+        }
+
+        MockDatabase.doInsert(opportunities, true);
+
+        Test.startTest();
+        List<Opportunity> result = (List<Opportunity>)MockDatabase.query('SELECT Id FROM Opportunity WHERE CreatedDate = TODAY');
+        Test.stopTest();
+
+        Assert.areEqual(
+            10,
+            result.size(),
+            'Incorrect number of opportunities queried'
+        );
+    }
 }

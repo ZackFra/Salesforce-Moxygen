@@ -1,1 +1,124 @@
-{"ast":{"right":{"right":{"right":null,"nodeType":"where","left":{"right":{"right":null,"nodeType":"conditional subexpression","left":{"right":{"right":{"right":null,"nodeType":"string","left":null,"id":"testacct3"},"nodeType":"operator","left":{"right":null,"nodeType":"field","left":null,"id":"account.name"},"id":"="},"nodeType":"or","left":{"right":{"right":{"right":null,"nodeType":"string","left":null,"id":"testacct2"},"nodeType":"operator","left":{"right":null,"nodeType":"field","left":null,"id":"account.name"},"id":"="},"nodeType":"and","left":{"right":{"right":null,"nodeType":"string","left":null,"id":"testacct"},"nodeType":"operator","left":{"right":null,"nodeType":"field","left":null,"id":"account.name"},"id":"="},"id":"and"},"id":"or"},"id":"conditional subexpression"},"nodeType":"or","left":{"right":{"right":{"right":null,"nodeType":"string","left":null,"id":"test2"},"nodeType":"operator","left":{"right":null,"nodeType":"field","left":null,"id":"lastname"},"id":"="},"nodeType":"and","left":{"right":{"right":null,"nodeType":"string","left":null,"id":"test"},"nodeType":"operator","left":{"right":null,"nodeType":"field","left":null,"id":"firstname"},"id":"="},"id":"and"},"id":"or"},"id":"where"},"nodeType":"from","left":{"right":null,"nodeType":"object","left":null,"id":"contact"},"id":"from"},"nodeType":"select","left":{"right":null,"nodeType":"field","left":null,"id":"id"},"id":"select"},"query":"SELECT Id FROM Contact WHERE FirstName = 'test' AND LastName = 'test2' OR (Account.Name = 'testAcct' AND Account.Name = 'testAcct2' OR Account.Name = 'testAcct3')"}
+{
+  "ast": {
+    "right": {
+      "right": {
+        "right": null,
+        "nodeType": "where",
+        "left": {
+          "right": {
+            "right": null,
+            "nodeType": "conditional subexpression",
+            "left": {
+              "right": {
+                "right": {
+                  "right": null,
+                  "nodeType": "string",
+                  "left": null,
+                  "id": "testacct3"
+                },
+                "nodeType": "operator",
+                "left": {
+                  "right": null,
+                  "nodeType": "field",
+                  "left": null,
+                  "id": "account.name"
+                },
+                "id": "="
+              },
+              "nodeType": "or",
+              "left": {
+                "right": {
+                  "right": {
+                    "right": null,
+                    "nodeType": "string",
+                    "left": null,
+                    "id": "testacct2"
+                  },
+                  "nodeType": "operator",
+                  "left": {
+                    "right": null,
+                    "nodeType": "field",
+                    "left": null,
+                    "id": "account.name"
+                  },
+                  "id": "="
+                },
+                "nodeType": "and",
+                "left": {
+                  "right": {
+                    "right": null,
+                    "nodeType": "string",
+                    "left": null,
+                    "id": "testacct"
+                  },
+                  "nodeType": "operator",
+                  "left": {
+                    "right": null,
+                    "nodeType": "field",
+                    "left": null,
+                    "id": "account.name"
+                  },
+                  "id": "="
+                },
+                "id": "and"
+              },
+              "id": "or"
+            },
+            "id": "conditional subexpression"
+          },
+          "nodeType": "or",
+          "left": {
+            "right": {
+              "right": {
+                "right": null,
+                "nodeType": "string",
+                "left": null,
+                "id": "test2"
+              },
+              "nodeType": "operator",
+              "left": {
+                "right": null,
+                "nodeType": "field",
+                "left": null,
+                "id": "lastname"
+              },
+              "id": "="
+            },
+            "nodeType": "and",
+            "left": {
+              "right": {
+                "right": null,
+                "nodeType": "string",
+                "left": null,
+                "id": "test"
+              },
+              "nodeType": "operator",
+              "left": {
+                "right": null,
+                "nodeType": "field",
+                "left": null,
+                "id": "firstname"
+              },
+              "id": "="
+            },
+            "id": "and"
+          },
+          "id": "or"
+        },
+        "id": "where"
+      },
+      "nodeType": "from",
+      "left": {
+        "right": null,
+        "nodeType": "object",
+        "left": null,
+        "id": "contact"
+      },
+      "id": "from"
+    },
+    "nodeType": "select",
+    "left": { "right": null, "nodeType": "field", "left": null, "id": "id" },
+    "id": "select"
+  },
+  "query": "SELECT Id FROM Contact WHERE FirstName = 'test' AND LastName = 'test2' OR (Account.Name = 'testAcct' AND Account.Name = 'testAcct2' OR Account.Name = 'testAcct3')"
+}

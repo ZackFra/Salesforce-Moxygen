@@ -48,8 +48,15 @@ public class InequalityHandler implements IOperatorHandler {
         }
 
         if(sObjectFieldValue instanceof Date) {
+            if(fieldValue == Token.TODAY_LITERAL) {
+                return !((Date) sObjectFieldValue).isSameDay(System.today());
+            }
             fieldValue = (Object) Common.parseDate((String) fieldValue).toString();
         } else if(SObjectFieldValue instanceof DateTime) {
+            if(fieldValue == Token.TODAY_LITERAL) {
+                Date sObjectFieldValueAsDate = ((DateTime) sObjectFieldValue).date();
+                return !((sObjectFieldValueAsDate).isSameDay(System.today()));
+            }
             fieldValue = (Object) Common.parseDateTime((String) fieldValue).toString();
         } else if(SObjectFieldValue instanceof Time) {
             fieldValue = (Object) Common.parseTime((String) fieldValue).toString();

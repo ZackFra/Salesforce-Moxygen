@@ -47,10 +47,17 @@ public class GreaterThanOrEqualHandler implements IOperatorHandler {
         }
 
         if(sObjectFieldValue instanceOf Date) {
+            if(fieldValue == Token.TODAY_LITERAL) {
+                return ((Date) sObjectFieldValue) >= System.today();
+            }
             Date fieldDate = Common.parseDate((String) fieldValue);
             Date sObjDate = (Date) sObjectFieldValue;
             return sObjDate >= fieldDate;
         } else if(sObjectFieldValue instanceOf DateTime) {
+            if(fieldValue == Token.TODAY_LITERAL) {
+                Date sObjectFieldValueAsDate = ((DateTime) sObjectFieldValue).date();
+                return (sObjectFieldValueAsDate) >= System.today();
+            }
             DateTime fieldDateTime = Common.parseDateTime((String) fieldValue);
             DateTime sObjDateTime = (DateTime) sObjectFieldValue;
             return sObjDateTime >= fieldDateTime;
