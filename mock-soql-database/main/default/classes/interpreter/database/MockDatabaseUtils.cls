@@ -336,7 +336,7 @@ public inherited sharing class MockDatabaseUtils {
      * @exception DMLException
      */
     public void checkForRequiredFieldsOnUpdate(SObject record) {
-        Map<String, Object> newRecordMap = SObjectService.mapFromSObject(record);
+        Map<String, Object> newRecordMap = Common.mapFromRecord(record);
         for(String fieldName : newRecordMap.keySet()) {
             Schema.SObjectField field = SchemaService.getField(record, fieldName);
             if(SchemaService.isRequiredField(field) &&

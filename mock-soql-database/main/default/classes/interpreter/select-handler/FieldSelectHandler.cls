@@ -54,10 +54,10 @@ public with sharing class FieldSelectHandler implements ISelectHandler {
         Schema.SObjectType sot = SchemaService.getSObjectType(databaseRecord);
         String sObjectName = SchemaService.getSObjectName(sot);
         if(fieldValue != null) {
-            Map<String, Object> objMap = SObjectService.mapFromSObject(queriedRecord);
+            Map<String, Object> objMap = Common.mapFromRecord(queriedRecord);
             objMap.put(fieldName, fieldValue);
             
-            queriedRecord = SObjectService.sObjectFromMap(objMap, SObjectName);
+            queriedRecord = Common.recordFromMap(objMap, SObjectName);
         }
         return queriedRecord;
     }

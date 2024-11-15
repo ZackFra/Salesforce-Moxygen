@@ -114,7 +114,7 @@ public inherited sharing class PolymorphicSelectHandler implements ISelectHandle
 
         Map<String, Object> parentRecordData = new Map<String, Object>();
         if(queriedRecord.getSObject(relName) != null) {
-            parentRecordData = SObjectService.mapFromSObject(queriedRecord.getSObject(relName));
+            parentRecordData = Common.mapFromRecord(queriedRecord.getSObject(relName));
         }
 
         for(String parentRecordFieldApiName : selectFields) {
@@ -127,13 +127,13 @@ public inherited sharing class PolymorphicSelectHandler implements ISelectHandle
             'url' => '/' + parentRecord.Id
         };
         parentRecordData.put('attributes', attributes);
-        Map<String, Object> sObjClone = SObjectService.mapFromSObject(queriedRecord);
+        Map<String, Object> sObjClone = Common.mapFromRecord(queriedRecord);
 
         Schema.DescribeFieldResult dfr = SchemaService.describeField(objApiName, fieldApiName);
         String relApiName = dfr.getRelationshipName();
 
         sObjClone.put(relApiName, parentRecordData);
         sObjClone.put(fieldApiName, parentRecord.Id);
-        return SObjectService.sObjectFromMap(sObjClone, objApiName);
+        return Common.recordFromMap(sObjClone, objApiName);
     }
 }
