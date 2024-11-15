@@ -46,69 +46,41 @@ public class LessThanOrEqualHandler implements IOperatorHandler {
         }
 
         if(sObjectFieldValue instanceOf Date) {
-            return compareDate(fieldValue, sObjectFieldValue);
+            if(fieldValue == Token.TODAY_LITERAL) {
+                return ((Date) sObjectFieldValue) <= System.today();
+            }
+            Date fieldDate = Common.parseDate((String) fieldValue);
+            Date sObjDate = (Date) sObjectFieldValue;
+            return sObjDate <= fieldDate;
         } else if(sObjectFieldValue instanceOf DateTime) {
-            return compareDateTime(fieldValue, sObjectFieldValue);
+            if(fieldValue == Token.TODAY_LITERAL) {
+                Date sObjectFieldValueAsDate = ((DateTime) sObjectFieldValue).date();
+                return (sObjectFieldValueAsDate) <= System.today();
+            }
+            DateTime fieldDateTime = Common.parseDateTime((String) fieldValue);
+            DateTime sObjDateTime = (DateTime) sObjectFieldValue;
+            return sObjDateTime <= fieldDateTime;
         } else if(sObjectFieldValue instanceOf Time) {
-            return compareTime(fieldValue, sObjectFieldValue);
+            Time sObjTime = (Time) sObjectFieldValue;
+            return sObjTime <= Common.parseTime((String) fieldValue);
         } else if(sObjectFieldValue instanceOf Integer) {
-            return compareInteger(fieldValue, sObjectFieldValue);
+            Integer fieldInt = Integer.valueOf((String)fieldValue);
+            Integer sObjInt = (Integer) sObjectFieldValue;
+            return sObjInt <= fieldInt;
         }  else if(sObjectFieldValue instanceOf Long) {
-            return compareLong(fieldValue, sObjectFieldValue);
+            Long fieldLong = Long.valueOf((String) fieldValue);
+            Long sObjLong = (Long) sObjectFieldValue;
+            return sObjLong <= fieldLong;
         } else if(sObjectFieldValue instanceOf String) {
-            return compareString(fieldValue, sObjectFieldValue);
+            String fieldString = ((String) fieldValue).toLowerCase();
+            String sObjString = ((String) sObjectFieldValue).toLowerCase();
+            return sObjString <= fieldString;
         } else if(sObjectFieldValue instanceOf Decimal) {
-            return compareDecimal(fieldValue, sObjectFieldValue);
+            Decimal fieldDec = Decimal.valueOf((String)fieldValue);
+            Decimal sObjDec = (Decimal) sObjectFieldValue;
+            return sObjDec <= fieldDec;
         } else {
             throw new QueryException('Invalid field type');
         }
-    }
-
-    private Boolean compareDate(String fieldValue, Object sObjectFieldValue) {
-        if(fieldValue == Token.TODAY_LITERAL) {
-            return ((Date) sObjectFieldValue) <= System.today();
-        }
-        Date fieldDate = Common.parseDate((String) fieldValue);
-        Date sObjDate = (Date) sObjectFieldValue;
-        return sObjDate <= fieldDate;
-    }
-
-    private Boolean compareDateTime(String fieldValue, Object sObjectFieldValue) {
-        if(fieldValue == Token.TODAY_LITERAL) {
-            Date sObjectFieldValueAsDate = ((DateTime) sObjectFieldValue).date();
-            return (sObjectFieldValueAsDate) <= System.today();
-        }
-        DateTime fieldDateTime = Common.parseDateTime((String) fieldValue);
-        DateTime sObjDateTime = (DateTime) sObjectFieldValue;
-        return sObjDateTime <= fieldDateTime;
-    }
-
-    private Boolean compareTime(String fieldValue, Object sObjectFieldValue) {
-        Time sObjTime = (Time) sObjectFieldValue;
-        return sObjTime <= Common.parseTime((String) fieldValue);
-    }
-
-    private Boolean compareInteger(String fieldValue, Object sObjectFieldValue) {
-        Integer fieldInt = Integer.valueOf((String)fieldValue);
-        Integer sObjInt = (Integer) sObjectFieldValue;
-        return sObjInt <= fieldInt;
-    }
-
-    private Boolean compareLong(String fieldValue, Object sObjectFieldValue) {
-        Long fieldLong = Long.valueOf((String) fieldValue);
-        Long sObjLong = (Long) sObjectFieldValue;
-        return sObjLong <= fieldLong;
-    }
-
-    private Boolean compareString(String fieldValue, Object sObjectFieldValue) {
-        String fieldString = ((String) fieldValue).toLowerCase();
-        String sObjString = ((String) sObjectFieldValue).toLowerCase();
-        return sObjString <= fieldString;
-    }
-
-    private Boolean compareDecimal(String fieldValue, Object sObjectFieldValue) {
-        Decimal fieldDec = Decimal.valueOf((String)fieldValue);
-        Decimal sObjDec = (Decimal) sObjectFieldValue;
-        return sObjDec <= fieldDec;
     }
 }
