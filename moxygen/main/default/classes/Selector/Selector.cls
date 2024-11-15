@@ -39,8 +39,6 @@ public inherited sharing class Selector {
     static Boolean wasCalled = false;
     static Map<String, Boolean> callMap = new Map<String, Boolean>();
 
-
-
     /**
      * @description Query for a list of sObjects
      * @param queryString `String`
