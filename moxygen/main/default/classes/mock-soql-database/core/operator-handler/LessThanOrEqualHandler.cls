@@ -46,20 +46,9 @@ public class LessThanOrEqualHandler implements IOperatorHandler {
         }
 
         if(sObjectFieldValue instanceOf Date) {
-            if(fieldValue == Token.TODAY_LITERAL) {
-                return ((Date) sObjectFieldValue) <= System.today();
-            }
-            Date fieldDate = Common.parseDate((String) fieldValue);
-            Date sObjDate = (Date) sObjectFieldValue;
-            return sObjDate <= fieldDate;
+            return compareDate(fieldValue, sObjectFieldValue);
         } else if(sObjectFieldValue instanceOf DateTime) {
-            if(fieldValue == Token.TODAY_LITERAL) {
-                Date sObjectFieldValueAsDate = ((DateTime) sObjectFieldValue).date();
-                return (sObjectFieldValueAsDate) <= System.today();
-            }
-            DateTime fieldDateTime = Common.parseDateTime((String) fieldValue);
-            DateTime sObjDateTime = (DateTime) sObjectFieldValue;
-            return sObjDateTime <= fieldDateTime;
+            return compareDateTime(fieldValue, sObjectFieldValue);
         } else if(sObjectFieldValue instanceOf Time) {
             Time sObjTime = (Time) sObjectFieldValue;
             return sObjTime <= Common.parseTime((String) fieldValue);
@@ -82,5 +71,24 @@ public class LessThanOrEqualHandler implements IOperatorHandler {
         } else {
             throw new QueryException('Invalid field type');
         }
+    }
+
+    private Boolean compareDate(String fieldValue, Object sObjectFieldValue) {
+        if(fieldValue == Token.TODAY_LITERAL) {
+            return ((Date) sObjectFieldValue) <= System.today();
+        }
+        Date fieldDate = Common.parseDate((String) fieldValue);
+        Date sObjDate = (Date) sObjectFieldValue;
+        return sObjDate <= fieldDate;
+    }
+
+    private Boolean compareDateTime(String fieldValue, Object sObjectFieldValue) {
+        if(fieldValue == Token.TODAY_LITERAL) {
+            Date sObjectFieldValueAsDate = ((DateTime) sObjectFieldValue).date();
+            return (sObjectFieldValueAsDate) <= System.today();
+        }
+        DateTime fieldDateTime = Common.parseDateTime((String) fieldValue);
+        DateTime sObjDateTime = (DateTime) sObjectFieldValue;
+        return sObjDateTime <= fieldDateTime;
     }
 }
