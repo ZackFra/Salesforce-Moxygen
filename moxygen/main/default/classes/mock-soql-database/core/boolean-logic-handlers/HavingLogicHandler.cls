@@ -57,7 +57,7 @@ public with sharing class HavingLogicHandler extends BooleanLogicHandler {
         
         OperatorHandlerFactory handlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = handlerFactory.getHandler(operatorNode.id);
-        return handler.handle(value, expectedValue);
+        return handler.handle(value, DynamicCast.castTo(TypeOf.forObject(value), expectedValue));
     }
 
 

@@ -42,12 +42,9 @@ public with sharing class ObjectComparator implements Comparator<Object> {
     public Integer compare(Object obj1, Object obj2) {
         try {
 
-            // if no meaningful data can be returned, returns null
-            Integer result = compareNull(obj1, obj2);
-            if(result != null) {
-                return result;
+            if(obj1 == null || obj2 == null) {
+                return compareNull(obj1, obj2);
             }
-
             // if no meaningful data can be returned, returns null
             return compareSupportedObjects(obj1, obj2);
         } catch(Exception e) {

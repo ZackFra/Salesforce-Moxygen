@@ -220,4 +220,12 @@ public inherited sharing class Common {
             }
         );
     }
+
+    public static String soqlDateTimeToApexDateTime(String dt) {
+        return String.format('{0}-{1}-{2} {3}:{4}:{5}',
+            new List<String> {
+                dt.substring(0, 4), dt.substring(5, 7), dt.substring(8, 10), dt.substring(11, 13), dt.substring(14, 16), dt.substring(17, 19)
+            }
+        );
+    }
 }
