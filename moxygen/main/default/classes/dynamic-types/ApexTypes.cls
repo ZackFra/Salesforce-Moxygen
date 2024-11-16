@@ -9,4 +9,5 @@ public with sharing class ApexTypes {
     public static final String XTIME = 'Time';
     public static final String XID = 'Id';
     public static final String XOBJECT = 'Object';
+    public static final String XNULL = 'Null';
 }

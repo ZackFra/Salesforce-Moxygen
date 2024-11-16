@@ -1,6 +1,8 @@
 public with sharing class TypeOf {
     public static String forObject(Object obj) {
-        if(obj instanceOf Id) {
+        if(obj == null) {
+            return ApexTypes.XNULL;
+        } else if(obj instanceOf Id) {
             return ApexTypes.XID;
         } else if(obj instanceOf String) {
             return ApexTypes.XSTRING;
