@@ -141,6 +141,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         Schema.DisplayType fieldType = SchemaService.getFieldType(parentSot, finalField);
         
         Object comparate = fieldValue;
+        String objectType = TypeOf.forObject(sObjectFieldValue);
         if(handler instanceof IncludesHandler && (fieldType != Schema.DisplayType.MULTIPICKLIST)) {
             throw new QueryException('Invalid field type for INCLUDES operator');
         } else if(handler instanceof ExcludesHandler && (fieldType != Schema.DisplayType.MULTIPICKLIST)) {
@@ -149,6 +150,10 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             comparate = DynamicCast.castTo(TypeOf.forObject(sObjectFieldValue), fieldValue);
         }
 
-        return handler.handle(sObjectFieldValue, comparate);
+        if(objectType == ApexTypes.XSTRING) {
+            return handler.handle(((String) sObjectFieldValue).toLowerCase(), ((String) fieldValue).toLowerCase());
+        } else {
+            return handler.handle(sObjectFieldValue, comparate);
+        }
     }
 }
