@@ -151,8 +151,10 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
                 throw new QueryException('Invalid field type for EXCLUDES operator');
             }
             comparate = fieldValue;
-        } else {
+        } else if(sObjectFieldValue != null) {
             comparate = DynamicCast.castTo(TypeOf.forObject(sObjectFieldValue), fieldValue);
+        } else {
+            comparate = fieldValue;
         }
 
         return handler.handle(sObjectFieldValue, comparate);
