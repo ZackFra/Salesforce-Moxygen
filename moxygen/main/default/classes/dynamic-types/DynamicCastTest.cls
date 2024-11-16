@@ -7,14 +7,20 @@ public with sharing class DynamicCastTest {
         Assert.areEqual(1.0, DynamicCast.castTo(ApexTypes.XDOUBLE, '1'), 'Incorrect cast to Double');
         Assert.areEqual(1.0, DynamicCast.castTo(ApexTypes.XDECIMAL, '1'), 'Incorrect cast to Decimal');
 
-        Date d = Date.parse(Date.today().format());
-        Assert.areEqual(d, DynamicCast.castTo(ApexTypes.XDATE, d.format()), 'Incorrect cast to Date');
-
-        DateTime dt = DateTime.parse(DateTime.now().format());
-        Assert.areEqual(dt, DynamicCast.castTo(ApexTypes.XDATETIME, dt.format()), 'Incorrect cast to DateTime');
-
         Assert.areEqual(true, DynamicCast.castTo(ApexTypes.XBOOLEAN, 'true'), 'Incorrect cast to Boolean');
         Assert.areEqual('1', DynamicCast.castTo(ApexTypes.XOBJECT, '1'), 'Incorrect cast to Object');
+    }
+
+    @IsTest
+    static void testCastToWithDate() {
+        Date d = Date.today();
+        Assert.areEqual(d, DynamicCast.castTo(ApexTypes.XDATE, Common.dateToSoqlString(d)), 'Incorrect cast to Date');
+    }
+
+    @IsTest
+    static void testCastToWithDateTime() {
+        DateTime dt = DateTime.now();
+        Assert.areEqual(dt, DynamicCast.castTo(ApexTypes.XDATETIME, Common.dateTimeToApexString(dt)), 'Incorrect cast to DateTime');
     }
 
     @IsTest
@@ -34,7 +40,6 @@ public with sharing class DynamicCastTest {
 
     @IsTest
     static void testCastWhenNull() {
-
         Test.startTest();
         Object val = DynamicCast.castTo(ApexTypes.XSTRING, null);
         Test.stopTest();

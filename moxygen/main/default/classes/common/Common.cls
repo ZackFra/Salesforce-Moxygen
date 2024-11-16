@@ -198,4 +198,16 @@ public inherited sharing class Common {
             Integer.valueOf(timeMatcher.group(4))
         );
     }
+
+    public static String dateToSoqlString(Date d) {
+        return d.year() + '-' + d.month() + '-' + d.day();
+    }
+
+    public static String dateTimeToSoqlString(DateTime dt) {
+        return dt.year() + '-' + dt.month() + '-' + dt.day() + 'T' + dt.hour() + ':' + dt.minute() + ':' + dt.second() + 'Z';
+    }
+
+    public static String dateTimeToApexString(DateTime dt) {
+        return dt.year() + '-' + dt.month() + '-' + dt.day() + ' ' + dt.hour() + ':' + dt.minute() + ':' + dt.second();
+    }
 }

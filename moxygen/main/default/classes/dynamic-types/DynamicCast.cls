@@ -18,12 +18,12 @@ public with sharing class DynamicCast {
             if(!(value instanceof String)) {
                 throw new IllegalArgumentException('For cast to DateTime, value must be a string');
             }
-            return DateTime.parse((String)value);
+            return DateTime.valueOf((String)value);
         } else if (castTo == ApexTypes.XDATE) {
             if(!(value instanceof String)) {
                 throw new IllegalArgumentException('For cast to Date, value must be a string');
             }
-            return Date.parse((String)value);
+            return Date.valueOf((String)value);
         } else if (castTo == ApexTypes.XBOOLEAN) {
             return Boolean.valueOf(value);
         } else {
