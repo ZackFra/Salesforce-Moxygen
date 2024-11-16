@@ -29,7 +29,6 @@ public with sharing class ComparisonHandler implements IOperatorHandler {
             fieldValue = Common.parseTime((String) fieldValue);
             return this.handler.compare(fieldValue, (Time) sObjectFieldValue);
         }
-
         return this.handler.compare(sObjectFieldValue, fieldValue);
     }
 }

@@ -40,50 +40,22 @@ public with sharing class ObjectComparator implements Comparator<Object> {
      */
     @SuppressWarnings('PMD.CognitiveComplexity')
     public Integer compare(Object obj1, Object obj2) {
-        if(!isTypeSupported(obj1, obj2)) {
-            throw new UnsupportedTypeException('These objects must be of the same type');
-        }
+        try {
 
-        // if no meaningful data can be returned, returns null
-        Integer result = compareNull(obj1, obj2);
-        if(result != null) {
-            return result;
-        }
+            // if no meaningful data can be returned, returns null
+            Integer result = compareNull(obj1, obj2);
+            if(result != null) {
+                return result;
+            }
 
-        // if no meaningful data can be returned, returns null
-        result = compareSupportedObjects(obj1, obj2);
-        if(result != null) {
-            return result;
+            // if no meaningful data can be returned, returns null
+            return compareSupportedObjects(obj1, obj2);
+        } catch(Exception e) {
+            throw new UnsupportedTypeException('Comparisons between these types is not supported.');
         }
-        throw new UnsupportedTypeException('The type of the objects is not supported.');
     }
 
     private class UnsupportedTypeException extends Exception {}
-
-    @SuppressWarnings('PMD.CognitiveComplexity')
-    private Boolean isTypeSupported(Object obj1, Object obj2) {
-        if(obj1 == null || obj2 == null) {
-            return true;
-        } else if(obj1 instanceof Id && obj2 instanceof Id) {
-            return true; 
-        } else if(obj1 instanceof String && obj2 instanceof String) {
-            return true;
-        } else if(obj1 instanceof Integer && obj2 instanceof Integer) {
-            return true;
-        } else if(obj1 instanceof Decimal && obj2 instanceof Decimal) {
-            return true;
-        } else if(obj1 instanceof Date && obj2 instanceof Date) {
-            return true;
-        } else if(obj1 instanceof DateTime && obj2 instanceof DateTime) {
-            return true;
-        } else if(obj1 instanceof Time && obj2 instanceof Time) {
-            return true;
-        } else if(obj1 instanceof Boolean && obj2 instanceof Boolean) {
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * @description This method compares two generic objects of the same type.
@@ -146,7 +118,7 @@ public with sharing class ObjectComparator implements Comparator<Object> {
             }
             return -1;
         }
-        return null;
+        throw new UnsupportedTypeException('Comparisons between these types is not supported.');
     }
 
     /**
