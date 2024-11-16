@@ -4,6 +4,10 @@ public with sharing class OperatorComparator {
         this.operation = operation;
     }
 
+    public String getOperator() {
+        return this.operation;
+    }
+
     public Boolean compare(Object value1, Object value2) {
         Boolean result = false;
         ObjectComparator comparator = new ObjectComparator();

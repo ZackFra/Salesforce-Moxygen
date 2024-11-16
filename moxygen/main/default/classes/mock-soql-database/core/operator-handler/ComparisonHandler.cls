@@ -4,7 +4,13 @@ public with sharing class ComparisonHandler implements IOperatorHandler {
         this.handler = new OperatorComparator(operator);
     }
 
+    static Set<String> ALLOWS_NULL = new Set<String> { '=', '<>', '!=' };
+
     public Boolean handle(Object sObjectFieldValue, Object fieldValue) {
+
+        if(fieldValue == null && !ALLOWS_NULL.contains(this.handler.getOperator())) {
+            throw new QueryException('Invalid comparison with null value');
+        }
 
         if(sObjectFieldValue instanceof Date) {
             if(fieldValue == Token.TODAY_LITERAL) {
@@ -24,6 +30,6 @@ public with sharing class ComparisonHandler implements IOperatorHandler {
             return this.handler.compare(fieldValue, (Time) sObjectFieldValue);
         }
 
-        return this.handler.compare(String.valueOf(sObjectFieldValue).toLowerCase(), ((String)fieldValue).toLowerCase());
+        return this.handler.compare(sObjectFieldValue, fieldValue);
     }
 }
