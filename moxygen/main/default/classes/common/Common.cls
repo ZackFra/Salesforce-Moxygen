@@ -200,14 +200,24 @@ public inherited sharing class Common {
     }
 
     public static String dateToSoqlString(Date d) {
-        return d.year() + '-' + d.month() + '-' + d.day();
+        return String.format('{0}-{1}-{2}', new List<Integer> {
+            d.year(), d.month(), d.day()
+        });
     }
 
     public static String dateTimeToSoqlString(DateTime dt) {
-        return dt.year() + '-' + dt.month() + '-' + dt.day() + 'T' + dt.hour() + ':' + dt.minute() + ':' + dt.second() + 'Z';
+        return String.format('{0}-{1}-{2}T{3}:{4}:{5}Z',
+            new List<Integer> {
+                dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second()
+            }
+        );
     }
 
     public static String dateTimeToApexString(DateTime dt) {
-        return dt.year() + '-' + dt.month() + '-' + dt.day() + ' ' + dt.hour() + ':' + dt.minute() + ':' + dt.second();
+        return String.format('{0}-{1}-{2} {3}:{4}:{5}',
+            new List<Integer> {
+                dt.year(), dt.month(), dt.day(),  dt.hour(), dt.minute(), dt.second()
+            }
+        );
     }
 }
