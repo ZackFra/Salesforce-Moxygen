@@ -140,21 +140,17 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         Schema.SObjectType parentSot = SchemaService.getSObjectType(parentRecord);
         Schema.DisplayType fieldType = SchemaService.getFieldType(parentSot, finalField);
         
-        Object comparate;
+        Object comparate = fieldValue;
         if(handler instanceof IncludesHandler) {
             if(fieldType != Schema.DisplayType.MULTIPICKLIST) {
                 throw new QueryException('Invalid field type for INCLUDES operator');
             }
-            comparate = fieldValue;
         } else if(handler instanceof ExcludesHandler) {
             if(fieldType != Schema.DisplayType.MULTIPICKLIST) {
                 throw new QueryException('Invalid field type for EXCLUDES operator');
             }
-            comparate = fieldValue;
         } else if(sObjectFieldValue != null) {
             comparate = DynamicCast.castTo(TypeOf.forObject(sObjectFieldValue), fieldValue);
-        } else {
-            comparate = fieldValue;
         }
 
         return handler.handle(sObjectFieldValue, comparate);
