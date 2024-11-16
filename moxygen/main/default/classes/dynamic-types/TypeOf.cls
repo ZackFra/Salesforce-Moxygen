@@ -1,23 +1,23 @@
 public with sharing class TypeOf {
     public static String forObject(Object obj) {
         if(obj instanceOf Id) {
-            return 'Id';
+            return ApexTypes.XID;
         } else if(obj instanceOf String) {
-            return 'String';
+            return ApexTypes.XSTRING;
         } else if(obj instanceOf Integer) {
-            return 'Integer';
+            return ApexTypes.XINTEGER;
         } else if(obj instanceOf Decimal) {
-            return 'Decimal';
+            return ApexTypes.XDECIMAL;
         } else if(obj instanceOf Date) {
-            return 'Date';
+            return ApexTypes.XDATE;
         } else if(obj instanceof DateTime) {
-            return 'DateTime';
+            return ApexTypes.XDATETIME;
         } else if(obj instanceOf Time) {
-            return 'Time';
+            return ApexTypes.XTIME;
         } else if(obj instanceOf Boolean) {
-            return 'Boolean';
+            return ApexTypes.XBOOLEAN;
         } else {
-            return 'Unsupported';
+            return ApexTypes.XOBJECT;
         }
     }
 }

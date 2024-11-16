@@ -3,20 +3,20 @@ public with sharing class DynamicCast {
         if (value == null) {
             return null;
         }
-        if (castTo == 'String') {
+        if (castTo == ApexTypes.XSTRING) {
             return String.valueOf(value);
-        } else if (castTo == 'Integer') {
+        } else if (castTo == ApexTypes.XINTEGER) {
             return Integer.valueOf(value);
-        } else if (castTo == 'Decimal' || castTo == 'Double') {
+        } else if (castTo == ApexTypes.XDOUBLE || castTo == ApexTypes.XDECIMAL) {
             return Double.valueOf(value);
-        } else if (castTo == 'Date') {
+        } else if (castTo == ApexTypes.XDATE) {
             return Date.valueOf(value);
-        } else if (castTo == 'DateTime') {
+        } else if (castTo == ApexTypes.XDATETIME) {
             return DateTime.valueOf(value);
-        } else if (castTo == 'Boolean') {
+        } else if (castTo == ApexTypes.XBOOLEAN) {
             return Boolean.valueOf(value);
         } else {
-            throw new IllegalArgumentException('Unsupported type for cast');
+            return value;
         }
     }
 }
