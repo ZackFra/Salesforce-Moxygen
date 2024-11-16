@@ -30,20 +30,18 @@
  */
 public class OperatorHandlerFactory {
 
-    final static Map<String, IOperatorHandler> HANDLERS = new Map<String, IOperatorHandler>{
-        '=' => new EqualityHandler(),
-        '<>' => new InequalityHandler(),
-        '!=' => new InequalityHandler(),
+    final static Map<String, IOperatorHandler> SPECIAL_COMPARISON_HANDLERS = new Map<String, IOperatorHandler>{
         'like' => new LikeHandler(),
         'in' => new InHandler(),
         'not in' => new NotInHandler(),
-        '>' => new GreaterThanHandler(),
-        '<' => new LessThanHandler(),
-        '>=' => new GreaterThanOrEqualHandler(),
-        '<=' => new LessThanOrEqualHandler(),
         'includes' => new IncludesHandler(),
         'excludes' => new ExcludesHandler()
     };
+
+    final static Set<String> NORMAL_COMPARISON_OPERATORS = new Set<String> {
+        '=', '<>', '!=', '>', '<', '>=', '<='
+    };
+
     /**
      * @description Creates an operator handler based on the operator provided.
      * @param operator `String`
@@ -51,8 +49,10 @@ public class OperatorHandlerFactory {
      * @exception QueryException
      */
     public IOperatorHandler getHandler(String operator) {
-        if (HANDLERS.containsKey(operator)) {
-            return handlers.get(operator);
+        if(NORMAL_COMPARISON_OPERATORS.contains(operator)) {
+            return new ComparisonHandler(operator);
+        } else if (SPECIAL_COMPARISON_HANDLERS.containsKey(operator)) {
+            return SPECIAL_COMPARISON_HANDLERS.get(operator);
         }
         throw new QueryException('Invalid operator');
     }
