@@ -13,13 +13,13 @@ public with sharing class DynamicCastTest {
 
     @IsTest
     static void testCastToWithDate() {
-        Date d = Date.today();
+        Date d = GMT.today();
         Assert.areEqual(d, DynamicCast.castTo(ApexTypes.XDATE, Common.dateToSoqlString(d)), 'Incorrect cast to Date');
     }
 
     @IsTest
     static void testCastToWithDateTime() {
-        DateTime dt = DateTime.now();
+        DateTime dt = GMT.now();
         Assert.areEqual(dt, DynamicCast.castTo(ApexTypes.XDATETIME, Common.dateTimeToApexString(dt)), 'Incorrect cast to DateTime');
     }
 
