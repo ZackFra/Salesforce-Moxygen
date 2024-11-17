@@ -37,7 +37,7 @@ public with sharing class DynamicCast {
             if(!(value instanceof String)) {
                 throw new IllegalArgumentException('For cast to Date, value must be a string');
             }
-            return DateTime.valueOfGmt( ((String) value) + 'T00:00:00Z').dateGmt();
+            return DateTime.valueOfGmt( ((String) value) + ' 00:00:00').dateGmt();
         } else if (castTo == ApexTypes.XBOOLEAN) {
             return Boolean.valueOf(value);
         } else {
