@@ -147,7 +147,10 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         } else if(handler instanceof ExcludesHandler && (fieldType != Schema.DisplayType.MULTIPICKLIST)) {
             throw new QueryException('Invalid field type for EXCLUDES operator');
         } else if(sObjectFieldValue != null && (handler instanceOf ComparisonHandler)) {
-            comparate = DynamicCast.castTo(TypeOf.forObject(sObjectFieldValue), fieldValue);
+            if(comparate != Token.TODAY_LITERAL) {
+                comparate = DynamicCast.castTo(TypeOf.forObject(sObjectFieldValue), fieldValue);
+            }
+            
             if(objectType == ApexTypes.XSTRING) {
                 return handler.handle(((String) sObjectFieldValue).toLowerCase(), ((String) fieldValue).toLowerCase());
             } else {
