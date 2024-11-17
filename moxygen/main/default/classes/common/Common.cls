@@ -205,8 +205,11 @@ public inherited sharing class Common {
      * @return String - SOQL date string
      */
     public static String dateToSoqlString(Date d) {
-        return String.format('{0}-{1}-{2}', new List<Integer> {
-            d.year(), d.month(), d.day()
+        return String.format('{0}-{1}-{2}', 
+        new List<Object> {
+            d.year(), 
+            leftPadWithTwoZeroes(d.month()),
+            leftPadWithTwoZeroes(d.day())
         });
     }
 
@@ -217,8 +220,13 @@ public inherited sharing class Common {
      */
     public static String dateTimeToSoqlString(DateTime dt) {
         return String.format('{0}-{1}-{2}T{3}:{4}:{5}Z',
-            new List<Integer> {
-                dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second()
+            new List<Object> {
+                dt.yearGmt(), 
+                leftPadWithTwoZeroes(dt.monthGmt()), 
+                leftPadWithTwoZeroes(dt.dayGmt()), 
+                leftPadWithTwoZeroes(dt.hourGmt()), 
+                leftPadWithTwoZeroes(dt.minuteGmt()), 
+                leftPadWithTwoZeroes(dt.secondGmt())
             }
         );
     }
@@ -230,9 +238,17 @@ public inherited sharing class Common {
      */
     public static String dateTimeToApexString(DateTime dt) {
         return String.format('{0}-{1}-{2} {3}:{4}:{5}',
-            new List<Integer> {
-                dt.year(), dt.month(), dt.day(),  dt.hour(), dt.minute(), dt.second()
-            }
-        );
+        new List<Object> {
+            dt.yearGmt(), 
+            leftPadWithTwoZeroes(dt.monthGmt()), 
+            leftPadWithTwoZeroes(dt.dayGmt()), 
+            leftPadWithTwoZeroes(dt.hourGmt()), 
+            leftPadWithTwoZeroes(dt.minuteGmt()), 
+            leftPadWithTwoZeroes(dt.secondGmt())
+        });
+    }
+
+    private static String leftPadWithTwoZeroes(Integer i) {
+        return String.valueOf(i).leftPad(2, '0');
     }
 }

@@ -42,7 +42,7 @@ private class MockDatabaseCalendarYearTest {
         Test.startTest();
         List<Aggregate> queriedAccountAggregates = (List<Aggregate>) MockDatabase.aggregateQuery('SELECT Name, CALENDAR_YEAR(CreatedDate) FROM Account GROUP BY Name, CALENDAR_YEAR(CreatedDate)');
         Test.stopTest();
-        Integer calendarYear = System.today().year();
+        Integer calendarYear = GMT.today().year();
         Assert.areEqual(calendarYear, queriedAccountAggregates[0].get('expr0'), 'Incorrect Year');
         Assert.areEqual(calendarYear, queriedAccountAggregates[1].get('expr0'), 'Incorrect Year');
     }
@@ -63,7 +63,7 @@ private class MockDatabaseCalendarYearTest {
         Test.startTest();
         List<Aggregate> queriedAccountAggregates = (List<Aggregate>) MockDatabase.aggregateQuery('SELECT Name, CALENDAR_YEAR(CreatedDate) year FROM Account GROUP BY Name, CALENDAR_YEAR(CreatedDate)');
         Test.stopTest();
-        Integer calendarYear = System.today().year();
+        Integer calendarYear = GMT.today().year();
         Assert.areEqual(calendarYear, queriedAccountAggregates[0].get('year'), 'Incorrect Year');
         Assert.areEqual(calendarYear, queriedAccountAggregates[1].get('year'), 'Incorrect Year');
     }
@@ -106,7 +106,7 @@ private class MockDatabaseCalendarYearTest {
 
         List<Account> acctList = new List<Account>{acct1, acct2};
         MockDatabase.doInsert(acctList, true);
-        Integer year = System.today().year();
+        Integer year = GMT.today().year();
         Map<String, Object> binds = new Map<String, Object>{
             'year' => year
         };
@@ -135,7 +135,7 @@ private class MockDatabaseCalendarYearTest {
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
         MockDatabase.doInsert(oppList, true);
 
-        Integer year = System.today().year();
+        Integer year = GMT.today().year();
         Map<String, Object> binds = new Map<String, Object>{
             'year' => year
         };
@@ -164,7 +164,7 @@ private class MockDatabaseCalendarYearTest {
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
         MockDatabase.doInsert(oppList, true);
 
-        Integer year = System.today().year();
+        Integer year = GMT.today().year();
         Map<String, Object> binds = new Map<String, Object>{
             'year' => year
         };
@@ -222,7 +222,7 @@ private class MockDatabaseCalendarYearTest {
         Test.startTest();
         List<Aggregate> queriedOpportunityAggregates = (List<Aggregate>) MockDatabase.aggregateQuery('SELECT Name, CALENDAR_YEAR(CloseDate) FROM Opportunity GROUP BY Name, CloseDate');
         Test.stopTest();
-        Integer calendarMonth = System.today().year();
+        Integer calendarMonth = GMT.today().year();
         Assert.areEqual(calendarMonth, queriedOpportunityAggregates[0].get('expr0'), 'Incorrect Year');
         Assert.areEqual(calendarMonth, queriedOpportunityAggregates[1].get('expr0'), 'Incorrect Year');
     }

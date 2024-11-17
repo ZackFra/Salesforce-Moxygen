@@ -42,7 +42,7 @@ private class MockDatabaseDateFuncTest {
         Test.startTest();
         List<Aggregate> queriedAccountAggregates = (List<Aggregate>) MockDatabase.aggregateQuery('SELECT Name, CALENDAR_MONTH(CreatedDate) FROM Account GROUP BY Name, CALENDAR_MONTH(CreatedDate)');
         Test.stopTest();
-        Integer calendarMonth = System.today().month();
+        Integer calendarMonth = GMT.today().month();
         Assert.areEqual(calendarMonth, queriedAccountAggregates[0].get('expr0'), 'Incorrect Month');
         Assert.areEqual(calendarMonth, queriedAccountAggregates[1].get('expr0'), 'Incorrect Month');
     }
@@ -63,7 +63,7 @@ private class MockDatabaseDateFuncTest {
         Test.startTest();
         List<Aggregate> queriedAccountAggregates = (List<Aggregate>) MockDatabase.aggregateQuery('SELECT Name, CALENDAR_MONTH(CreatedDate) month FROM Account GROUP BY Name, CALENDAR_MONTH(CreatedDate)');
         Test.stopTest();
-        Integer calendarMonth = System.today().month();
+        Integer calendarMonth = GMT.today().month();
         Assert.areEqual(calendarMonth, queriedAccountAggregates[0].get('month'), 'Incorrect Month');
         Assert.areEqual(calendarMonth, queriedAccountAggregates[1].get('month'), 'Incorrect Month');
     }
@@ -106,7 +106,7 @@ private class MockDatabaseDateFuncTest {
 
         List<Account> acctList = new List<Account>{acct1, acct2};
         MockDatabase.doInsert(acctList, true);
-        Integer month = System.today().month();
+        Integer month = GMT.today().month();
         Map<String, Object> binds = new Map<String, Object>{
             'month' => month
         };
@@ -135,7 +135,7 @@ private class MockDatabaseDateFuncTest {
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
         MockDatabase.doInsert(oppList, true);
 
-        Integer month = System.today().month();
+        Integer month = GMT.today().month();
         Map<String, Object> binds = new Map<String, Object>{
             'month' => month
         };
@@ -164,7 +164,7 @@ private class MockDatabaseDateFuncTest {
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
         MockDatabase.doInsert(oppList, true);
 
-        Integer month = System.today().month();
+        Integer month = GMT.today().month();
         Map<String, Object> binds = new Map<String, Object>{
             'month' => month
         };
@@ -222,7 +222,7 @@ private class MockDatabaseDateFuncTest {
         Test.startTest();
         List<Aggregate> queriedOpportunityAggregates = (List<Aggregate>) MockDatabase.aggregateQuery('SELECT Name, CALENDAR_MONTH(CloseDate) FROM Opportunity GROUP BY Name, CloseDate');
         Test.stopTest();
-        Integer calendarMonth = System.today().month();
+        Integer calendarMonth = GMT.today().month();
         Assert.areEqual(calendarMonth, queriedOpportunityAggregates[0].get('expr0'), 'Incorrect Month');
         Assert.areEqual(calendarMonth, queriedOpportunityAggregates[1].get('expr0'), 'Incorrect Month');
     }

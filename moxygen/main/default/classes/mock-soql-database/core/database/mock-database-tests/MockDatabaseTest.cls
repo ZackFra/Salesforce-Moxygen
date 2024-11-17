@@ -277,7 +277,7 @@ private class MockDatabaseTest {
             Opportunity opp = new Opportunity(
                 Name = 'Test' + i,
                 AccountId = acct.Id,
-                CloseDate = Date.today(),
+                CloseDate = GMT.today(),
                 StageName = 'Prospecting'
             );
             childRecords.add(opp);
@@ -342,7 +342,7 @@ private class MockDatabaseTest {
             Opportunity opp = new Opportunity(
                 Name = 'Test' + i,
                 AccountId = acct.Id,
-                CloseDate = Date.today(),
+                CloseDate = GMT.today(),
                 StageName = 'Prospecting'
             );
             childRecords.add(opp);
@@ -3180,16 +3180,16 @@ private class MockDatabaseTest {
     static void ensureTodayLiteralWorksForDateEqual() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = Date.today()
+            CloseDate = GMT.today()
         );
         Opportunity opp2 = new Opportunity(
-            CloseDate = Date.today().addDays(1)
+            CloseDate = GMT.today().addDays(1)
         );
         Opportunity opp3 = new Opportunity(
-            CloseDate = Date.today().addDays(-1)
+            CloseDate = GMT.today().addDays(-1)
         );
         Opportunity opp4 = new Opportunity(
-            CloseDate = Date.today().addDays(2)
+            CloseDate = GMT.today().addDays(2)
         );
 
         MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
@@ -3203,16 +3203,16 @@ private class MockDatabaseTest {
     static void ensureTodayLiteralWorksForDateLessThan() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = Date.today()
+            CloseDate = GMT.today()
         );
         Opportunity opp2 = new Opportunity(
-            CloseDate = Date.today().addDays(1)
+            CloseDate = GMT.today().addDays(1)
         );
         Opportunity opp3 = new Opportunity(
-            CloseDate = Date.today().addDays(-1)
+            CloseDate = GMT.today().addDays(-1)
         );
         Opportunity opp4 = new Opportunity(
-            CloseDate = Date.today().addDays(2)
+            CloseDate = GMT.today().addDays(2)
         );
 
         MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
@@ -3226,16 +3226,16 @@ private class MockDatabaseTest {
     static void ensureTodayLiteralWorksForDateGreaterThan() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = Date.today()
+            CloseDate = GMT.today()
         );
         Opportunity opp2 = new Opportunity(
-            CloseDate = Date.today().addDays(1)
+            CloseDate = GMT.today().addDays(1)
         );
         Opportunity opp3 = new Opportunity(
-            CloseDate = Date.today().addDays(-1)
+            CloseDate = GMT.today().addDays(-1)
         );
         Opportunity opp4 = new Opportunity(
-            CloseDate = Date.today().addDays(2)
+            CloseDate = GMT.today().addDays(2)
         );
 
         MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
@@ -3248,16 +3248,16 @@ private class MockDatabaseTest {
     static void ensureTodayLiteralWorksForDateLessThanOrEqual() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = Date.today()
+            CloseDate = GMT.today()
         );
         Opportunity opp2 = new Opportunity(
-            CloseDate = Date.today().addDays(1)
+            CloseDate = GMT.today().addDays(1)
         );
         Opportunity opp3 = new Opportunity(
-            CloseDate = Date.today().addDays(-1)
+            CloseDate = GMT.today().addDays(-1)
         );
         Opportunity opp4 = new Opportunity(
-            CloseDate = Date.today().addDays(2)
+            CloseDate = GMT.today().addDays(2)
         );
 
         MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
@@ -3270,16 +3270,16 @@ private class MockDatabaseTest {
     static void ensureTodayLiteralWorksForDateGreaterThanOrEqual() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = Date.today()
+            CloseDate = GMT.today()
         );
         Opportunity opp2 = new Opportunity(
-            CloseDate = Date.today().addDays(1)
+            CloseDate = GMT.today().addDays(1)
         );
         Opportunity opp3 = new Opportunity(
-            CloseDate = Date.today().addDays(-1)
+            CloseDate = GMT.today().addDays(-1)
         );
         Opportunity opp4 = new Opportunity(
-            CloseDate = Date.today().addDays(2)
+            CloseDate = GMT.today().addDays(2)
         );
 
         MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);

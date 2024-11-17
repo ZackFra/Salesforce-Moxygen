@@ -32,12 +32,12 @@ public with sharing class DynamicCast {
             if(!(value instanceof String)) {
                 throw new IllegalArgumentException('For cast to DateTime, value must be a string');
             }
-            return DateTime.valueOf((String)value);
+            return DateTime.valueOfGmt((String)value);
         } else if (castTo == ApexTypes.XDATE) {
             if(!(value instanceof String)) {
                 throw new IllegalArgumentException('For cast to Date, value must be a string');
             }
-            return Date.valueOf((String)value);
+            return DateTime.valueOfGmt( ((String) value) + ' 00:00:00').dateGmt();
         } else if (castTo == ApexTypes.XBOOLEAN) {
             return Boolean.valueOf(value);
         } else {
