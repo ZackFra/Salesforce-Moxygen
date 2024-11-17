@@ -3,12 +3,14 @@
  * @author Zackary Frazier
  * @since 11/16/2024
  */
+@SuppressWarnings('PMD.StdCyclomaticComplexity')
 public with sharing class TypeOf {
     /**
      * @description Given an object, determine the type of the object. 
      * @param obj `Object`
      * @return  `String`
      */
+    @SuppressWarnings('PMD.CyclomaticComplexity')
     public static String forObject(Object obj) {
         if(obj == null) {
             return ApexTypes.XNULL;

@@ -3,6 +3,7 @@
  * @author Zackary Frazier
  * @since 11/16/2024
  */
+@SuppressWarnings('PMD.StdCyclomaticComplexity')
 public with sharing class DynamicCast {
     /**
      * @description Given a type and a value, cast the value to the specified type.
@@ -11,6 +12,7 @@ public with sharing class DynamicCast {
      * @return  `Object`
      * @exception IllegalArgumentException
      */
+    @SuppressWarnings('PMD.CyclomaticComplexity')
     public static Object castTo(String castTo, Object value) {
         if(castTo == ApexTypes.XNULL) {
             throw new IllegalArgumentException('Cannot cast to null');

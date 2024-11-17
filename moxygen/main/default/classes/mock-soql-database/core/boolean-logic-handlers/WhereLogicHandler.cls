@@ -152,6 +152,12 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             }
         }
 
+        if(valueNode.nodeType == NodeType.DATE_LITERAL && fieldValue == Token.TODAY_LITERAL) {
+            fieldValue = Common.dateToSoqlString(System.today());
+        } else if(valueNode.nodeType == NodeType.DATE_LITERAL && fieldValue == Token.TODAY_LITERAL) {
+            fieldValue = Common.dateTimeToApexString(System.now());
+        }
+
         return handler.handle(sObjectFieldValue, fieldValue);
     }
 }
