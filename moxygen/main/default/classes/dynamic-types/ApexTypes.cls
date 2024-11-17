@@ -1,3 +1,8 @@
+/**
+ * @description A class that contains the names of the Apex types. 
+ * @author Zackary Frazier
+ * @since 11/16/2024
+ */
 public with sharing class ApexTypes {
     public static final String XDECIMAL = 'Decimal';
     public static final String XDOUBLE = 'Double';

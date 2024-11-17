@@ -1,4 +1,16 @@
+/**
+ * @description DynamicCast is a class that provides a method to cast a value to a specified type. 
+ * @author Zackary Frazier
+ * @since 11/16/2024
+ */
 public with sharing class DynamicCast {
+    /**
+     * @description Given a type and a value, cast the value to the specified type.
+     * @param castTo `String` - ApexTypes
+     * @param value `Object`
+     * @return  `Object`
+     * @exception IllegalArgumentException
+     */
     public static Object castTo(String castTo, Object value) {
         if(castTo == ApexTypes.XNULL) {
             throw new IllegalArgumentException('Cannot cast to null');

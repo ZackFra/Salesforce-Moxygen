@@ -15,6 +15,6 @@ public with sharing class TypeOfTest {
         obj = true;
         Assert.areEqual(ApexTypes.XBOOLEAN, TypeOf.forObject(obj), 'Incorrect type for Boolean');
         obj = null;
-        Assert.areEqual(ApexTypes.XOBJECT, TypeOf.forObject(obj), 'Incorrect type for Object');
+        Assert.areEqual(ApexTypes.XNULL, TypeOf.forObject(obj), 'Incorrect type for Object');
     }
 }
