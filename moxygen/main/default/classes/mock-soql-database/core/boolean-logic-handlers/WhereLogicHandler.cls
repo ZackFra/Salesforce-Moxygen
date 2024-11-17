@@ -152,10 +152,32 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             }
         }
 
-        if(valueNode.nodeType == NodeType.DATE_LITERAL && fieldValue == Token.TODAY_LITERAL) {
-            fieldValue = Common.dateToSoqlString(System.today());
-        } else if(valueNode.nodeType == NodeType.DATE_LITERAL && fieldValue == Token.TODAY_LITERAL) {
-            fieldValue = Common.dateTimeToApexString(System.now());
+        if(valueNode.nodeType == NodeType.DATE_LITERAL) {
+            if(fieldType != Schema.DisplayType.DATE && fieldType != Schema.DisplayType.DATETIME) {
+                throw new QueryException('Invalid field type for date literal');
+            }
+
+            if(fieldType == Schema.DisplayType.DATE && fieldValue == Token.TODAY_LITERAL) {
+                fieldValue = Common.dateToSoqlString(GMT.today());
+            } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue == Token.TODAY_LITERAL) {
+                fieldValue = Common.dateToSoqlString(GMT.today());
+                if(sObjectFieldValue != null) {
+                    sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
+                }
+            } else if(fieldType == Schema.DisplayType.DATE && fieldValue == Token.YESTERDAY_LITERAL) {
+                fieldValue = Common.dateToSoqlString(GMT.today().addDays(-1));
+            } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue == Token.YESTERDAY_LITERAL) {
+                fieldValue = Common.dateToSoqlString(GMT.today().addDays(-1));
+                if(sObjectFieldValue != null) {
+                    sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
+                }
+            }
+        }
+
+        if(fieldType == Schema.DisplayType.DATE && fieldValue instanceOf String) {
+            fieldValue = ((String) fieldValue).toUpperCase();
+        } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue instanceOf String) {
+            fieldValue = ((String) fieldValue).toUpperCase();
         }
 
         return handler.handle(sObjectFieldValue, fieldValue);

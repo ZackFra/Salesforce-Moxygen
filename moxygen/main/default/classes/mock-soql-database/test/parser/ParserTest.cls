@@ -301,4 +301,21 @@ private class ParserTest {
     static void testSpacing50() {
         ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' AND Id =\'test\'');
     }
+
+    @IsTest
+    static void ensureParserCanParseSoqlDateTimeLiteral() {
+        Parser p = new Parser();
+        DateTime now = GMT.now();
+        String nowAsSoqlString = Common.dateTimeToSoqlString(now);
+
+        String soqlQuery = 'SELECT Id FROM Opportunity WHERE CreatedDate = ' + nowAsSoqlString;
+
+        Test.startTest();
+        try {
+            p.parse(soqlQuery);
+        } catch(Exception e) {
+            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + now + ' and ' + nowAsSoqlString + ' and ' + soqlQuery);
+        }
+        Test.stopTest();
+    }
 }

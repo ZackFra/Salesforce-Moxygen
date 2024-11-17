@@ -125,4 +125,5 @@ public inherited sharing class Token {
     public final static String XNULL = 'null';
 
     public final static String TODAY_LITERAL = 'today';
+    public final static String YESTERDAY_LITERAL = 'yesterday';
 }

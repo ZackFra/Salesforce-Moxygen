@@ -57,21 +57,66 @@ public inherited sharing class ValueParser extends SubParser {
         } else if(isNext(query, Token.XNULL)) {
             return parseNull(query);
         } else if(isNext(query, Token.TODAY_LITERAL)) {
-            return parseTodayLiteral(query);
+            return parseDateLiteral(query, Token.TODAY_LITERAL);
+        } else if(isNext(query, Token.YESTERDAY_LITERAL)) {
+            return parseDateLiteral(query, Token.YESTERDAY_LITERAL);
+        } else if(isSoqlDateTime(query)) {
+            return parseDate(query);
+        } else if(isSoqlDate(query)) {
+            return parseDate(query);
         } else {
-        	return parseNum(query);
+            return parseNum(query);
         }
     }
 
-    private Intermediary parseTodayLiteral(String query) {
-        query = consume(query, Token.TODAY_LITERAL);
+    private Boolean isSoqlDateTime(String query) {
+        String dateTimeRegex1 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\+([0-9]{2}):([0-9]{2})';
+        String dateTimeRegex2 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\-([0-9]{2}):([0-9]{2})';
+        String dateTimeRegex3 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})Z';
+
+        Pattern dateTimePattern1 = Pattern.compile(dateTimeRegex1);
+        Pattern dateTimePattern2 = Pattern.compile(dateTimeRegex2);
+        Pattern dateTimePattern3 = Pattern.compile(dateTimeRegex3);
+
+        Matcher dateTimeMatcher1 = dateTimePattern1.matcher(query);
+        Matcher dateTimeMatcher2 = dateTimePattern2.matcher(query);
+        Matcher dateTimeMatcher3 = dateTimePattern3.matcher(query);
+
+        return dateTimeMatcher1.matches() || dateTimeMatcher2.matches() || dateTimeMatcher3.matches();
+    }
+
+    private Boolean isSoqlDate(String query) {
+        String dateRegex = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})';
+        Pattern datePattern = Pattern.compile(dateRegex);
+        Matcher dateMatcher = datePattern.matcher(query);
+        return dateMatcher.matches();
+    }
+
+    private Intermediary parseDateLiteral(String query, String token) {
+        query = consume(query, token);
         return new Intermediary(
             new NodeBuilder()
-                .setId(Token.TODAY_LITERAL)
+                .setId(token)
                 .setNodeType(NodeType.DATE_LITERAL)
                 .build(),
             query
         );
+    }
+
+    private Intermediary parseDate(String query) {
+        query = skipWhitespace(query);
+        String strValue = '';
+        while(query.length() != 0 && !isNext(query, Token.WHITESPACE)) {
+            strValue += lookahead(query, 1);
+            query = query.subString(1);
+        }
+        return new Intermediary(
+        	new NodeBuilder()
+            	.setId(strValue)
+            	.setNodeType(NodeType.XSTRING)
+            	.build(),
+            query
+        );        
     }
 
     private Intermediary parseString(String query) {
