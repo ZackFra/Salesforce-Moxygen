@@ -3287,4 +3287,312 @@ private class MockDatabaseTest {
         List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate >= TODAY');
         Assert.areEqual(3, opportunities.size(), 'Incorrect number of opportunities');
     }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateGreaterThanOrEqual() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = GMT.today()
+        );
+        Opportunity opp2 = new Opportunity(
+            CloseDate = GMT.today().addDays(1)
+        );
+        Opportunity opp3 = new Opportunity(
+            CloseDate = GMT.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(
+            CloseDate = GMT.today().addDays(2)
+        );
+        Opportunity opp5 = new Opportunity(
+            CloseDate = GMT.today().addDays(-2)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4, opp5}, true);
+
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate >= YESTERDAY');
+        Assert.areEqual(4, opportunities.size(), 'Incorrect number of opportunities'); 
+    }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateGreaterThan() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = GMT.today()
+        );
+        Opportunity opp2 = new Opportunity(
+            CloseDate = GMT.today().addDays(1)
+        );
+        Opportunity opp3 = new Opportunity(
+            CloseDate = GMT.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(
+            CloseDate = GMT.today().addDays(2)
+        );
+        Opportunity opp5 = new Opportunity(
+            CloseDate = GMT.today().addDays(-2)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4, opp5}, true);
+
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate > YESTERDAY');
+        Assert.areEqual(3, opportunities.size(), 'Incorrect number of opportunities'); 
+    }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateEquals() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = GMT.today()
+        );
+        Opportunity opp2 = new Opportunity(
+            CloseDate = GMT.today().addDays(1)
+        );
+        Opportunity opp3 = new Opportunity(
+            CloseDate = GMT.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(
+            CloseDate = GMT.today().addDays(2)
+        );
+        Opportunity opp5 = new Opportunity(
+            CloseDate = GMT.today().addDays(-2)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4, opp5}, true);
+
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate = YESTERDAY');
+        Assert.areEqual(1, opportunities.size(), 'Incorrect number of opportunities'); 
+    }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateLessThan() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = GMT.today()
+        );
+        Opportunity opp2 = new Opportunity(
+            CloseDate = GMT.today().addDays(1)
+        );
+        Opportunity opp3 = new Opportunity(
+            CloseDate = GMT.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(
+            CloseDate = GMT.today().addDays(2)
+        );
+        Opportunity opp5 = new Opportunity(
+            CloseDate = GMT.today().addDays(-2)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4, opp5}, true);
+
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate < YESTERDAY');
+        Assert.areEqual(1, opportunities.size(), 'Incorrect number of opportunities'); 
+    }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateLessThanOrEquals() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = GMT.today()
+        );
+        Opportunity opp2 = new Opportunity(
+            CloseDate = GMT.today().addDays(1)
+        );
+        Opportunity opp3 = new Opportunity(
+            CloseDate = GMT.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(
+            CloseDate = GMT.today().addDays(2)
+        );
+        Opportunity opp5 = new Opportunity(
+            CloseDate = GMT.today().addDays(-2)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4, opp5}, true);
+
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate <= YESTERDAY');
+        Assert.areEqual(2, opportunities.size(), 'Incorrect number of opportunities'); 
+    }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateTimeLessThanOrEqual() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime <= TODAY');
+        Assert.areEqual(2, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateTimeLessThan() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime < TODAY');
+        Assert.areEqual(1, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateTimeEquals() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime = TODAY');
+        Assert.areEqual(1, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateTimeGreaterThan() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime > TODAY');
+        Assert.areEqual(2, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateTimeGreaterThanOrEqual() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime >= TODAY');
+        Assert.areEqual(3, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateTimeNotEquals1() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime != TODAY');
+        Assert.areEqual(3, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateTimeNotEquals2() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime <> TODAY');
+        Assert.areEqual(3, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateTimeLessThanOrEqual() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime <= YESTERDAY');
+        Assert.areEqual(1, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateTimeLessThan() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+        Task t5 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4, t5}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime < YESTERDAY');
+        Assert.areEqual(1, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateTimeEquals() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime = YESTERDAY');
+        Assert.areEqual(1, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateTimeGreaterThan() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime > YESTERDAY');
+        Assert.areEqual(3, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateTimeGreaterThanOrEqual() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime >= YESTERDAY');
+        Assert.areEqual(4, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateTimeNotEquals1() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime != YESTERDAY');
+        Assert.areEqual(3, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureYesterdayLiteralWorksForDateTimeNotEquals2() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now());
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(1));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-1));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(2));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime <> YESTERDAY');
+        Assert.areEqual(3, tasks.size(), 'Incorrect number of tasks');
+    }
 }
