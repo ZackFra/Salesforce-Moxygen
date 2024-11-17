@@ -50,4 +50,16 @@ private class WhereParserTest {
     static void correctsSubTreeForOrPrecedence() {
         ParserTestUtil.assertStaticResource('WHERE_9');
     }
+
+    @IsTest
+    static void canParseTodayLiteralInDate() {
+        Parser p = new Parser();
+        Node head = p.parse('SELECT Id FROM Account WHERE CreatedDate = TODAY');
+        Node todayNode = head.right.right.left.right;
+        Assert.areEqual(todayNode.nodeType, NodeType.DATE_LITERAL, 'Should be a date literal');
+        Assert.areEqual(todayNode.id, Token.TODAY_LITERAL, 'Should be a today literal');
+        Assert.isNull(todayNode.left, 'Should not have a left node');
+        Assert.isNull(todayNode.right, 'Should not have a right node');
+        
+    }
 }

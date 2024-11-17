@@ -3175,4 +3175,116 @@ private class MockDatabaseTest {
             'Exception should have been thrown'
         );
     }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateEqual() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = Date.today()
+        );
+        Opportunity opp2 = new Opportunity(
+            CloseDate = Date.today().addDays(1)
+        );
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(
+            CloseDate = Date.today().addDays(2)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
+
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate = TODAY');
+        Assert.areEqual(1, opportunities.size(), 'Incorrect number of opportunities');
+        Assert.areEqual(opp1.Id, opportunities[0].Id, 'Incorrect opportunity queried');
+    }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateLessThan() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = Date.today()
+        );
+        Opportunity opp2 = new Opportunity(
+            CloseDate = Date.today().addDays(1)
+        );
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(
+            CloseDate = Date.today().addDays(2)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
+
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate < TODAY');
+        Assert.areEqual(1, opportunities.size(), 'Incorrect number of opportunities');
+        Assert.areEqual(opp3.Id, opportunities[0].Id, 'Incorrect opportunity queried');
+    }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateGreaterThan() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = Date.today()
+        );
+        Opportunity opp2 = new Opportunity(
+            CloseDate = Date.today().addDays(1)
+        );
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(
+            CloseDate = Date.today().addDays(2)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
+
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate > TODAY');
+        Assert.areEqual(2, opportunities.size(), 'Incorrect number of opportunities');
+    }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateLessThanOrEqual() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = Date.today()
+        );
+        Opportunity opp2 = new Opportunity(
+            CloseDate = Date.today().addDays(1)
+        );
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(
+            CloseDate = Date.today().addDays(2)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
+
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate <= TODAY');
+        Assert.areEqual(2, opportunities.size(), 'Incorrect number of opportunities');
+    }
+
+    @IsTest
+    static void ensureTodayLiteralWorksForDateGreaterThanOrEqual() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = Date.today()
+        );
+        Opportunity opp2 = new Opportunity(
+            CloseDate = Date.today().addDays(1)
+        );
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(
+            CloseDate = Date.today().addDays(2)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
+
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate >= TODAY');
+        Assert.areEqual(3, opportunities.size(), 'Incorrect number of opportunities');
+    }
 }
