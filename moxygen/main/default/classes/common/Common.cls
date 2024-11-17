@@ -199,12 +199,22 @@ public inherited sharing class Common {
         );
     }
 
+    /**
+     * @description Converts a date to a SOQL string
+     * @param d - Date
+     * @return String - SOQL date string
+     */
     public static String dateToSoqlString(Date d) {
         return String.format('{0}-{1}-{2}', new List<Integer> {
             d.year(), d.month(), d.day()
         });
     }
 
+    /**
+     * @description Converts a date time to a SOQL string
+     * @param dt - DateTime
+     * @return String - SOQL date time string
+     */
     public static String dateTimeToSoqlString(DateTime dt) {
         return String.format('{0}-{1}-{2}T{3}:{4}:{5}Z',
             new List<Integer> {
@@ -213,6 +223,11 @@ public inherited sharing class Common {
         );
     }
     
+    /**
+     * @description Converts a date time to an Apex string
+     * @param dt - DateTime
+     * @return String - Apex date time string
+     */
     public static String dateTimeToApexString(DateTime dt) {
         return String.format('{0}-{1}-{2} {3}:{4}:{5}',
             new List<Integer> {
