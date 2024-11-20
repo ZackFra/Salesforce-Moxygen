@@ -1,6 +1,6 @@
 # Salesforce Moxygen
 
-Salesforce Moxygen is an intuitive Salesforce mocking framework for Apex unit testing.
+Salesforce Moxygen is an intuitive Salesforce mocking library for Apex unit testing.
 
 Moxygen is unique from other unit testing frameworks in that it includes a functional in-memory mock database that can handle most SOQL queries, parse them, and return the correct results. This means, in most cases, it is not required to specify what's returned from queries or to stub a data access object.
 
