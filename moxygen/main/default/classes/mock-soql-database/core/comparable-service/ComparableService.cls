@@ -40,7 +40,7 @@ public inherited sharing class ComparableService {
      * @throws QueryException : if the field name is invalid
      */
     @SuppressWarnings('PMD.NcssMethodCount')
-    public static ComparableRecordData getComparables(sObject obj, String field) {
+    public static ComparableRecordData getComparables(SObject obj, String field) {
         sObject comparableRecord = obj;
         String comparableField = field;
 

@@ -19,8 +19,16 @@ public inherited sharing class ComparableRecordData {
         this.comparableRecord = comparableRecord;
         this.comparableFieldName = comparableField;
         this.relationshipName = relationshipName;
-        this.isPolymorphic = SchemaService.isRelationshipPolymorphic(
-            SchemaService.getSObjectType(comparableRecord), 
+        this.isPolymorphic = this.isRelationshipPolymorphic(relationshipName, comparableField);
+    }
+
+    private Boolean isRelationshipPolymorphic(String relationshipName, String fieldName) {
+        if(relationshipName == fieldName) {
+            return false;
+        }
+
+        return SchemaService.isRelationshipPolymorphic(
+            SchemaService.getSObjectType(this.comparableRecord), 
             relationshipName
         );
     }
