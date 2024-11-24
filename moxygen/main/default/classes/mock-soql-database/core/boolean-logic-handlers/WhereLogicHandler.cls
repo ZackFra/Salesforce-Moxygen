@@ -34,6 +34,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
     private Object recordFieldValue;
     private Object comparate;
     private Schema.DisplayType fieldType;
+    private SObject record;
 
     private Boolean isPolymorphicTypeField = false;
 
@@ -43,6 +44,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
      */
     public WhereLogicHandler(BooleanLogicOptions options) {
         super(options);
+        this.record = (SObject) this.obj;
     }
 
     /**
@@ -75,20 +77,11 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
 
         // the Type field on a polymorphic relationship is a special case
         if(AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id)) {
-            // in this sceneario, fieldNode's actually an aggregate, so fieldNode.right is the actual field
-            fieldName = SchemaService.getFieldName(sObj, fieldNode.right.id);
-            finalField = fieldName;
-            Object dateOrDateTimeValue = sobj.get(fieldName);
-            Boolean isDateFunc = AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id);
-            if(isDateFunc) {
-                this.recordFieldValue = DateFuncs.execute(fieldNode.id, dateOrDateTimeValue);
-            } else {
-                throw new QueryException('Unsupported date function');
-            }
+            finalField = resolveDateFunc(fieldNode);
         } else if(!isParentField) {
             this.recordFieldValue = sObj.get(fieldName);
         } else {
-            finalField = resolveParentFieldLookup(finalField, parentRecord);
+            finalField = resolveParentFieldLookup(parentRecord, finalField);
         }
 
         OperatorHandlerFactory handlerFactory = new OperatorHandlerFactory();
@@ -149,13 +142,26 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         return dateTypes.contains(this.fieldType);
     }
 
+    private String resolveDateFunc(Node fieldNode) {
+        // in this sceneario, fieldNode's actually an aggregate, so fieldNode.right is the actual field
+        String fieldName = SchemaService.getFieldName(this.record, fieldNode.right.id);
+        Object dateOrDateTimeValue = this.record.get(fieldName);
+        Boolean isDateFunc = AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id);
+        if(isDateFunc) {
+            this.recordFieldValue = DateFuncs.execute(fieldNode.id, dateOrDateTimeValue);
+        } else {
+            throw new QueryException('Unsupported date function');
+        }
+        return fieldName;
+    }
+
     /**
      * @description Resolves the value of a parent field lookup
      * @param lookupFieldValue `String` String on the form of ParentField.ChildField.ChildField...
      * @param parentRecord `sObject` The first (and possibly last) parent record
      * @return  `String`
      */
-    private String resolveParentFieldLookup(String lookupFieldValue, SObject parentRecord) {
+    private String resolveParentFieldLookup(SObject parentRecord, String lookupFieldValue) {
         List<String> fieldParts = lookupFieldValue.split('\\.');
         String finalField = fieldParts[fieldParts.size()-1];
         fieldParts.remove(fieldParts.size()-1);
