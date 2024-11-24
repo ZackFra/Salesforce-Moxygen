@@ -15,22 +15,11 @@ public inherited sharing class ComparableRecordData {
      * @param comparableField `String`
      * @param relationshipName `String`
      */
-    public ComparableRecordData(SObject comparableRecord, String comparableField, String relationshipName) {
+    public ComparableRecordData(SObject comparableRecord, String comparableField, String relationshipName, Boolean isPolymorphic) {
         this.comparableRecord = comparableRecord;
         this.comparableFieldName = comparableField;
         this.relationshipName = relationshipName;
-        this.isPolymorphic = this.isRelationshipPolymorphic(relationshipName, comparableField);
-    }
-
-    private Boolean isRelationshipPolymorphic(String relationshipName, String fieldName) {
-        if(relationshipName == fieldName) {
-            return false;
-        }
-
-        return SchemaService.isRelationshipPolymorphic(
-            SchemaService.getSObjectType(this.comparableRecord), 
-            relationshipName
-        );
+        this.isPolymorphic = isPolymorphic;
     }
 
     /**
