@@ -44,7 +44,7 @@ public inherited sharing class ComparableService {
         sObject comparableRecord = obj;
         String comparableField = field;
 
-        if(!isParentRecordField(comparableField)) {
+        if(!isParentRecordLookup(comparableField)) {
             return buildStandardComparableRecordData(comparableRecord, comparableField);
         }
 
@@ -90,18 +90,19 @@ public inherited sharing class ComparableService {
             .build();
     }
 
-    private static Boolean isParentRecordField(String fieldName) {
-        return fieldName.contains('.');
+    @TestVisible
+    private static Boolean isParentRecordLookup(String fieldLookupChain) {
+        return fieldLookupChain.contains('.');
     }
 
+    @TestVisible
     private static ComparableRecordData buildStandardComparableRecordData(SObject comparableRecord, String comparableField) {
         Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
         Schema.SObjectField parentRecordField = SchemaService.getField(comparableSot, comparableField);
         comparableField = SchemaService.getFieldName(parentRecordField);
         return new ComparableRecordData.Builder()
             .setComparableRecord(comparableRecord)
-            .setComparableFieldName(comparableField) 
-            .setRelationshipName(comparableField)
+            .setComparableFieldName(comparableField)
             .setIsPolymorphic(false)
             .build();
     }
@@ -134,7 +135,7 @@ public inherited sharing class ComparableService {
     public static Map<String, Object> getComparableData(sObject obj, String field) {
         sObject comparableRecord = obj;
         String comparableField = field;
-        if(!isParentRecordField(comparableField)) {
+        if(!isParentRecordLookup(comparableField)) {
             Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
             comparableField = SchemaService.getFieldName(comparableSot, comparableField);
             return new Map<String, Object> {
