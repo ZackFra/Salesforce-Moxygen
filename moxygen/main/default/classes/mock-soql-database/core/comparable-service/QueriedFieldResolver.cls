@@ -42,7 +42,6 @@ public with sharing virtual class QueriedFieldResolver {
     private ComparableRecordData resolveLookup() {
         ParentLookupChain lookupChain = splitParentLookupChain();
         List<String> fieldParts = lookupChain.getFieldParts();
-        String finalField = lookupChain.getFinalField();
 
         String parentField = fieldParts[0];
         sObject parentRecord;
@@ -72,7 +71,12 @@ public with sharing virtual class QueriedFieldResolver {
         }
         isPolymorphic = parentInfo.getIsPolymorphic();
         comparableRecord = parentRecord;
-        String comparableField = ComparableService.getComparableField(comparableRecord, finalField, isPolymorphic);
+
+        String comparableField = ComparableService.getComparableField(
+            comparableRecord, 
+            lookupChain.getFinalField(), 
+            isPolymorphic
+        );
 
         relationshipName += comparableField;
         return new ComparableRecordData.Builder()
