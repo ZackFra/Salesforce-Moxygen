@@ -50,18 +50,17 @@ public with sharing virtual class QueriedFieldResolver {
         Boolean isPolymorphic = false;
         SObject priorRecord = this.comparableRecord;
 
+        ParentRecordData parentInfo;
         // Produces:
         // relationshipName
         // parentRecord
+        // isPolymorphic
         while(!fieldParts.isEmpty()) {
             if(parentRecord != null) {
                 priorRecord = parentRecord;
             }
-
-            ParentRecordData parentInfo = MockDatabase.findParentRecord(this.comparableRecord, parentField);
+            parentInfo = MockDatabase.findParentRecord(this.comparableRecord, parentField);
             relationshipName += parentInfo.getFieldRelationshipName() + '.';
-            isPolymorphic = parentInfo.getIsPolymorphic();
-
             parentRecord = MockDatabase.get(parentInfo.getParentObjApiName())
                 .get(parentInfo.getParentRecord().Id);
             
@@ -71,6 +70,7 @@ public with sharing virtual class QueriedFieldResolver {
                 parentField = fieldParts[0];
             }
         }
+        isPolymorphic = parentInfo.getIsPolymorphic();
         comparableRecord = parentRecord;
         String comparableField = ComparableService.getComparableField(comparableRecord, finalField, isPolymorphic);
 
