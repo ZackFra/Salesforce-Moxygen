@@ -35,22 +35,16 @@ public with sharing virtual class QueriedFieldResolver {
         List<String> fieldParts = lookupChain.getFieldParts();
         String finalField = lookupChain.getFinalField();
 
-        Map<String, Object> parentInfo = findParentRecordAndRelationshipName(fieldParts);
-        SObject comparableRecord = (SObject) parentInfo.get('parentRecord');
-        String relationshipName = (String) parentInfo.get('relationshipName');
-        Boolean isPolymorphic = (Boolean) parentInfo.get('isPolymorphic');
+        ComparableRecordData.Builder comparableBuilder = findParentRecordAndRelationshipName(fieldParts);
         String comparableField = ComparableService.getComparableField(comparableRecord, finalField, isPolymorphic);
 
         relationshipName += comparableField;
         return new ComparableRecordData.Builder()
-            .setComparableRecord(comparableRecord)
             .setComparableFieldName(comparableField)
-            .setRelationshipName(relationshipName)
-            .setIsPolymorphic(isPolymorphic)
             .build();
     }
 
-    private Map<String, Object> findParentRecordAndRelationshipName(List<String> fieldParts) {
+    private ComparableRecordData.Builder findParentRecordAndRelationshipName(List<String> fieldParts) {
         String parentField = fieldParts[0];
         sObject parentRecord;
         String relationshipName = '';
@@ -84,11 +78,10 @@ public with sharing virtual class QueriedFieldResolver {
             }
         }
 
-        return new Map<String, Object> {
-            'parentRecord' => parentRecord,
-            'relationshipName' => relationshipName,
-            'isPolymorphic' => isPolymorphic
-        };
+        return new ComparableRecordData.Builder()
+            .setComparableRecord(parentRecord)
+            .setRelationshipName(relationshipName)
+            .setIsPolymorphic(isPolymorphic);
     }
 
     private ParentLookupChain splitParentLookupChain() {
