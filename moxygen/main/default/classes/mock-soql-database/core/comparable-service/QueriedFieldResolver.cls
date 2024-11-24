@@ -60,8 +60,7 @@ public with sharing virtual class QueriedFieldResolver {
             }
             parentInfo = MockDatabase.findParentRecord(this.comparableRecord, parentField);
             relationshipName += parentInfo.getFieldRelationshipName() + '.';
-            parentRecord = MockDatabase.get(parentInfo.getParentObjApiName())
-                .get(parentInfo.getParentRecordId());
+            parentRecord = parentInfo.getParentRecord();
             
 
             fieldParts.remove(0);
