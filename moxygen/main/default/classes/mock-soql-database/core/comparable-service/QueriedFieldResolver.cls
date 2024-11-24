@@ -57,7 +57,7 @@ public inherited sharing virtual class QueriedFieldResolver {
             if(parentInfo != null) {
                 priorRecord = parentInfo.getParentRecord();
             }
-            parentInfo = MockDatabase.findParentRecord(this.comparableRecord, parentField);
+            parentInfo = MockDatabase.findParentRecord(priorRecord, parentField);
             relationshipName += parentInfo.getFieldRelationshipName() + '.';
             parentRecord = MockDatabase.get(parentInfo.getObjApiName()).get(parentInfo.getParentRecordId());
             fieldParts.remove(0);
