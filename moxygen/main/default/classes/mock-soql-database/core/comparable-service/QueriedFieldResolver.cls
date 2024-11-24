@@ -7,7 +7,7 @@ public inherited sharing virtual class QueriedFieldResolver {
     protected String fieldLookupChain;
     protected SObject comparableRecord;
 
-
+    @SuppressWarnings('PMD.EmptyStatementBlock')
     protected QueriedFieldResolver() {}
 
     /**
