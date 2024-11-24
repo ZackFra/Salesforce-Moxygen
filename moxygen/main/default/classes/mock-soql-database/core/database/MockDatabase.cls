@@ -452,7 +452,7 @@ public inherited sharing class MockDatabase {
      * @return : the parent record
      * @throws QueryException : if the parent record does not exist
      */
-    public static Map<String, Object> findParentRecord(sObject sObj, String fieldName) {
+    public static ParentRecordData findParentRecord(sObject sObj, String fieldName) {
         return utils.findParentRecord(sObj, fieldName);
     }
 }

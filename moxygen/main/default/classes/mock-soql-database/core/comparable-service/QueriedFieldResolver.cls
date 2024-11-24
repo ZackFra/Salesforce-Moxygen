@@ -51,15 +51,12 @@ public with sharing virtual class QueriedFieldResolver {
                 priorRecord = parentRecord;
             }
 
-            Map<String, Object> parentInfo = MockDatabase.findParentRecord(this.comparableRecord, parentField);
+            ParentRecordData parentInfo = MockDatabase.findParentRecord(this.comparableRecord, parentField);
+            relationshipName += parentInfo.getFieldRelationshipName() + '.';
+            isPolymorphic = parentInfo.getIsPolymorphic();
 
-            parentRecord = (sObject) parentInfo.get('parentRecord');
-            parentObjApiName = (String) parentInfo.get('parentObjApiName');
-            fieldRelationshipName = (String) parentInfo.get('fieldRelationshipName');
-            relationshipName += fieldRelationshipName + '.';
-            isPolymorphic = (Boolean) parentInfo.get('isPolymorphic');
-
-            parentRecord = MockDatabase.get(parentObjApiName).get(parentRecord.Id);
+            parentRecord = MockDatabase.get(parentInfo.getParentObjApiName())
+                .get(parentInfo.getParentRecord().Id);
             
 
             fieldParts.remove(0);
