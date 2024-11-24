@@ -46,7 +46,6 @@ public inherited sharing virtual class QueriedFieldResolver {
         String parentField = fieldParts[0];
         sObject parentRecord;
         String relationshipName = '';
-        Boolean isPolymorphic = false;
         SObject priorRecord = this.comparableRecord;
 
         ParentRecordData parentInfo;
@@ -69,17 +68,16 @@ public inherited sharing virtual class QueriedFieldResolver {
             }
         }
         isPolymorphic = parentInfo.getIsPolymorphic();
-        comparableRecord = parentRecord;
 
         String comparableField = ComparableService.getComparableField(
-            comparableRecord, 
+            parentRecord, 
             lookupChain.getFinalField(), 
             isPolymorphic
         );
 
         relationshipName += comparableField;
         return new ComparableRecordData.Builder()
-            .setComparableRecord(comparableRecord)
+            .setComparableRecord(parentRecord)
             .setComparableFieldName(comparableField)
             .setRelationshipName(relationshipName)
             .setIsPolymorphic(isPolymorphic)
