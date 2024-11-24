@@ -48,7 +48,12 @@ public inherited sharing class ComparableService {
             Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
             Schema.SObjectField parentRecordField = SchemaService.getField(comparableSot, comparableField);
             comparableField = SchemaService.getFieldName(parentRecordField);
-            return new ComparableRecordData(comparableRecord, comparableField, comparableField, false);
+            return new ComparableRecordData.Builder()
+                .setComparableRecord(comparableRecord)
+                .setComparableFieldName(comparableField) 
+                .setRelationshipName(comparableField)
+                .setIsPolymorphic(false)
+                .build();
         }
 
         List<String> fieldParts = comparableField.split('\\.');
@@ -97,7 +102,12 @@ public inherited sharing class ComparableService {
         }
 
         relationshipName += comparableField;
-        return new ComparableRecordData(comparableRecord, comparableField, relationshipName, isPolymorphic);
+        return new ComparableRecordData.Builder()
+            .setComparableRecord(comparableRecord)
+            .setComparableFieldName(comparableField)
+            .setRelationshipName(relationshipName)
+            .setIsPolymorphic(isPolymorphic)
+            .build();
     }
 
     /**

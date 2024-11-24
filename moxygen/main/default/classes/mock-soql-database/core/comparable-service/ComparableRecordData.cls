@@ -3,24 +3,16 @@
  * @author Zackary Frazier
  * @since 11/24/2024
  */
-public inherited sharing class ComparableRecordData {
-    private SObject comparableRecord;
-    private String comparableFieldName;
-    private String relationshipName;
-    private Boolean isPolymorphic;
+public inherited sharing virtual class ComparableRecordData {
+    protected SObject comparableRecord;
+    protected String comparableFieldName;
+    protected String relationshipName;
+    protected Boolean isPolymorphic;
 
     /**
-     * @description Given a record, field, and relationship name, this class will encapsulate the data needed to compare records
-     * @param comparableRecord `SObject`
-     * @param comparableField `String`
-     * @param relationshipName `String`
+     * @description Private constructor, this object is not intended to be created directly
      */
-    public ComparableRecordData(SObject comparableRecord, String comparableField, String relationshipName, Boolean isPolymorphic) {
-        this.comparableRecord = comparableRecord;
-        this.comparableFieldName = comparableField;
-        this.relationshipName = relationshipName;
-        this.isPolymorphic = isPolymorphic;
-    }
+    protected ComparableRecordData() {}
 
     /**
      * @description Get the comparable record 
@@ -52,5 +44,34 @@ public inherited sharing class ComparableRecordData {
      */
     public Boolean getIsPolymorphic() {
         return this.isPolymorphic;
+    }
+
+    public class Builder implements IBuilder {
+        private ComparableRecordData comparableData = new ComparableRecordData();
+
+        public Builder setComparableRecord(SObject comparableRecord) {
+            this.comparableData.comparableRecord = comparableRecord;
+            return this;
+        }
+
+        public Builder setComparableFieldName(String comparableFieldName) {
+            this.comparableData.comparableFieldName = comparableFieldName;
+            return this;
+        }
+
+        public Builder setRelationshipName(String relationshipName) {
+            this.comparableData.relationshipName = relationshipName;
+            return this;
+        }
+
+        public Builder setIsPolymorphic(Boolean isPolymorphic) {
+            this.comparableData.isPolymorphic = isPolymorphic;
+            return this;
+        }
+
+        public ComparableRecordData build() {
+            return this.comparableData;
+        }
+
     }
 }
