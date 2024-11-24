@@ -32,6 +32,10 @@ public with sharing virtual class ParentRecordData {
         return this.isPolymorphic;
     }
 
+    public Id getParentRecordId() {
+        return this.parentRecord.Id;
+    }
+
     public class Builder implements IBuilder {
         private ParentRecordData parentRecordData = new ParentRecordData();
 
