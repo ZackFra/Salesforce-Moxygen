@@ -48,9 +48,11 @@ public inherited sharing class ComparableService {
             return buildStandardComparableRecordData(comparableRecord, comparableField);
         }
 
-        List<String> fieldParts = comparableField.split('\\.');
-        String finalField = fieldParts[fieldParts.size()-1];
-        fieldParts.remove(fieldParts.size()-1);
+        ParentLookupResolver resolver = new ParentLookupResolver();
+        ParentLookupResolver.ParentLookupChain parentLookupChain = resolver.splitParentLookupChain(comparableField);
+        List<String> fieldParts = parentLookupChain.getFieldParts();
+        String finalField = parentLookupChain.getFinalField();
+
         String parentField = fieldParts[0];
         sObject parentRecord;
         String relationshipName = '';
@@ -97,9 +99,12 @@ public inherited sharing class ComparableService {
 
     @TestVisible
     private static ComparableRecordData buildStandardComparableRecordData(SObject comparableRecord, String comparableField) {
-        Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
-        Schema.SObjectField parentRecordField = SchemaService.getField(comparableSot, comparableField);
-        comparableField = SchemaService.getFieldName(parentRecordField);
+        Schema.SObjectType sot = SchemaService.getSObjectType(comparableRecord);
+        if(!SchemaService.hasField(sot, comparableField)) {
+            throw ExceptionFactory.createIllegalFieldNameException(comparableField);
+        }
+        Schema.SObjectField recordField = SchemaService.getField(sot, comparableField);
+        comparableField = SchemaService.getFieldName(recordField);
         return new ComparableRecordData.Builder()
             .setComparableRecord(comparableRecord)
             .setComparableFieldName(comparableField)

@@ -55,4 +55,23 @@ private class ComparableServiceTest {
             'Is polymorphic should be false'
         );
     }
+
+    @isTest
+    static void ensureCorrectExceptionThrownWhenBadDataPassedToBuildStandardComparableRecordDate() {
+        Account acct = new Account(
+            Name = 'Test'
+        );
+        String comparableField = 'Fake_Field__c';
+        String exMessage;
+        Test.startTest();
+        try {
+            ComparableService.buildStandardComparableRecordData(acct, comparableField);
+        } catch (IllegalArgumentException e) {
+            exMessage = e.getMessage();
+        }
+        Test.stopTest();
+        Assert.isNotNull(exMessage, 'Exception should be thrown when bad field name is passed');
+        IllegalArgumentException expected = ExceptionFactory.createIllegalFieldNameException(comparableField);
+        Assert.areEqual(expected.getMessage(), exMessage, 'Exception message should be correct');
+    }
 }
