@@ -40,7 +40,7 @@ public inherited sharing class ComparableService {
      * @throws QueryException : if the field name is invalid
      */
     @SuppressWarnings('PMD.NcssMethodCount')
-    public static Map<String, Object> getComparables(sObject obj, String field) {
+    public static ComparableRecordData getComparables(sObject obj, String field) {
         sObject comparableRecord = obj;
         String comparableField = field;
 
@@ -48,12 +48,7 @@ public inherited sharing class ComparableService {
             Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
             Schema.SObjectField parentRecordField = SchemaService.getField(comparableSot, comparableField);
             comparableField = SchemaService.getFieldName(parentRecordField);
-            return new Map<String, Object> {
-                'comparableRecord' => comparableRecord,
-                'comparableField' => comparableField,
-                'relationshipName' => comparableField,
-                'isPolymorphic' => false
-            };
+            return new ComparableRecordData(comparableRecord, comparableField, comparableField);
         }
 
         List<String> fieldParts = comparableField.split('\\.');
@@ -87,16 +82,11 @@ public inherited sharing class ComparableService {
             }
         }
         comparableRecord = parentRecord;
-
-        Map<String, Object> comparables = new Map<String, Object> {
-            'isPolymorphic' => false
-        };
         if(isPolymorphic) {
             Map<String, String> polymorphicFieldMap = SchemaService.getPolymorphicFieldMap();
             Boolean isPolyField = (polymorphicFieldMap.containsKey(finalField.toLowerCase()));
             if(isPolyField) {
                 comparableField = polymorphicFieldMap.get(finalField.toLowerCase());
-                comparables.put('isPolymorphic', true);
             } else {
                 Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
                 comparableField = SchemaService.getFieldName(comparableSot, finalField);
@@ -107,10 +97,7 @@ public inherited sharing class ComparableService {
         }
 
         relationshipName += comparableField;
-        comparables.put('comparableRecord', comparableRecord);
-        comparables.put('comparableField', comparableField);
-        comparables.put('relationshipName', relationshipName);
-        return comparables;
+        return new ComparableRecordData(comparableRecord, comparableField, relationshipName);
     }
 
     /**

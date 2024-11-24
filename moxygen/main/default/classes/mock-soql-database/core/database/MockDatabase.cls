@@ -463,7 +463,7 @@ public inherited sharing class MockDatabase {
      * @return : the comparables
      * @throws QueryException : if the comparables cannot be found
      */
-    public static Map<String, Object> getComparables(SObject record, String field) {
+    public static ComparableRecordData getComparables(SObject record, String field) {
         return ComparableService.getComparables(record, field);
     }
 }

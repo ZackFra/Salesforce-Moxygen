@@ -53,9 +53,9 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
             Node aliasNode = fieldNode.left;
             String fieldName = fieldNode.id;
 
-            Map<String, Object> comparableInfo = MockDatabase.getComparables(databaseRecord, fieldName);
-            sObject comparableRecord = (SObject) comparableInfo.get('comparableRecord');
-            String comparableField = (String) comparableInfo.get('comparableField');
+            ComparableRecordData comparableInfo = ComparableService.getComparables(databaseRecord, fieldName);
+            SObject comparableRecord = comparableInfo.getComparableRecord();
+            String comparableField = comparableInfo.getComparableFieldName();
 
             Schema.SObjectType sot = SchemaService.getSObjectType(comparableRecord);
             Schema.DisplayType fieldType = SchemaService.getFieldType(sot, comparableField);
@@ -118,11 +118,11 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
     private ProtoAggregate createGroupedAggregate(SObject databaseRecord, List<String> groupByFields) {
         ProtoAggregate aggregateResult = new ProtoAggregate();
         for(String groupByField : groupByFields) {
-            Map<String, Object> comparableInfo = MockDatabase.getComparables(databaseRecord, groupByField);
-            sObject comparableRecord = (sObject) comparableInfo.get('comparableRecord');
-            String comparableField = (String) comparableInfo.get('comparableField');
+            ComparableRecordData comparableInfo = MockDatabase.getComparables(databaseRecord, groupByField);
+            sObject comparableRecord = comparableInfo.getComparableRecord();
+            String comparableField = comparableInfo.getComparableFieldName();
 
-            Boolean isPolymorphic = (Boolean) comparableInfo.get('isPolymorphic');
+            Boolean isPolymorphic = comparableInfo.getIsPolymorphic();
             Boolean isType = (comparableField == 'Type');
             if(isPolymorphic && isType) {
                 String type = SchemaService.getSObjectName(comparableRecord);
@@ -147,11 +147,11 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
         for(ProtoAggregate ar : aggregateResults) {
             Boolean isSame = true;
             for(String groupByField : groupByFields) {
-                Map<String, Object> comparableInfo = MockDatabase.getComparables(databaseRecord, groupByField);
-                sObject comparableRecord = (sObject) comparableInfo.get('comparableRecord');
-                String comparableField = (String) comparableInfo.get('comparableField');
+                ComparableRecordData comparableInfo = ComparableService.getComparables(databaseRecord, groupByField);
+                sObject comparableRecord = comparableInfo.getComparableRecord();
+                String comparableField = comparableInfo.getComparableFieldName();
 
-                Boolean isPolymorphic = (Boolean) comparableInfo.get('isPolymorphic');
+                Boolean isPolymorphic = comparableInfo.getIsPolymorphic();
                 Boolean isType = (comparableField == 'Type');
                 if(isPolymorphic && isType) {
                     String type = SchemaService.getSObjectName(comparableRecord);
