@@ -455,15 +455,4 @@ public inherited sharing class MockDatabase {
     public static Map<String, Object> findParentRecord(sObject sObj, String fieldName) {
         return utils.findParentRecord(sObj, fieldName);
     }
-
-    /**
-     * @description Wrapper aroung the ComparableService.getComparables method
-     * @param record : the record
-     * @param field : the field
-     * @return : the comparables
-     * @throws QueryException : if the comparables cannot be found
-     */
-    public static ComparableRecordData getComparables(SObject record, String field) {
-        return ComparableService.getComparables(record, field);
-    }
 }
