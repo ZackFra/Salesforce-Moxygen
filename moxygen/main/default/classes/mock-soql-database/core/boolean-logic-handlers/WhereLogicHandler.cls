@@ -60,7 +60,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         SObject sObj = (SObject) this.obj;
         Map<String, Object> params = this.params;
         
-        this.comparate = MockDatabase.utils.getFieldNodeValue(valueNode, sObj, params);
+        this.comparate = MockDatabase.utils.getFieldNodeValue(valueNode, this.record, params);
         if(!(this.comparate instanceOf List<Object>)) {
             this.comparate = String.valueOf(this.comparate);
         }
@@ -72,7 +72,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         // if the field is a parent field, we need to get the parent record
         // further down, we can't say for sure whether the field is a parent field or not
         // so we'll need to store our object and field name in a variable
-        sObject parentRecord = sObj;
+        sObject parentRecord = this.record;
         String finalField = fieldName;
 
         // the Type field on a polymorphic relationship is a special case
@@ -81,7 +81,9 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         } else if(!isParentField) {
             this.recordFieldValue = sObj.get(fieldName);
         } else {
-            finalField = resolveParentFieldLookup(parentRecord, finalField);
+            ParentFieldLookupInfo info = resolveParentFieldLookup(parentRecord, finalField);
+            parentRecord = info.parentRecord;
+            finalField = info.finalField;
         }
 
         OperatorHandlerFactory handlerFactory = new OperatorHandlerFactory();
@@ -161,7 +163,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
      * @param parentRecord `sObject` The first (and possibly last) parent record
      * @return  `String`
      */
-    private String resolveParentFieldLookup(SObject parentRecord, String lookupFieldValue) {
+    private ParentFieldLookupInfo resolveParentFieldLookup(SObject parentRecord, String lookupFieldValue) {
         List<String> fieldParts = lookupFieldValue.split('\\.');
         String finalField = fieldParts[fieldParts.size()-1];
         fieldParts.remove(fieldParts.size()-1);
@@ -208,6 +210,15 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             this.recordFieldValue = parentRecord.get(finalFieldApiName);
         }
 
-        return finalFieldApiName;
+        return new ParentFieldLookupInfo(parentRecord, finalField);
+    }
+
+    class ParentFieldLookupInfo {
+        public SObject parentRecord;
+        public String finalField;
+        public ParentFieldLookupInfo(SObject parentRecord, String finalField) {
+            this.parentRecord = parentRecord;
+            this.finalField = finalField;
+        }
     }
 }
