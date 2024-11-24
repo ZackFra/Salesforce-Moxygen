@@ -3,7 +3,7 @@
  * @author Zackary Frazier
  * @since 11/24/2024
  */
-public with sharing class ComparableRecordData {
+public inherited sharing class ComparableRecordData {
     private SObject comparableRecord;
     private String comparableFieldName;
     private String relationshipName;
