@@ -7,7 +7,7 @@ public inherited sharing virtual class ComparableRecordData {
     protected SObject comparableRecord;
     protected String comparableFieldName;
     protected String relationshipName;
-    protected Boolean isPolymorphic;
+    protected Boolean isPolymorphic = false;
 
     /**
      * @description Private constructor, this object is not intended to be created directly

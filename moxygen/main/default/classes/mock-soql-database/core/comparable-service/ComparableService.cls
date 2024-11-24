@@ -103,7 +103,6 @@ public inherited sharing class ComparableService {
         return new ComparableRecordData.Builder()
             .setComparableRecord(comparableRecord)
             .setComparableFieldName(comparableField)
-            .setIsPolymorphic(false)
             .build();
     }
 
