@@ -143,18 +143,8 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         
         Schema.SObjectType parentSot = SchemaService.getSObjectType(parentRecord);
         this.fieldType = SchemaService.getFieldType(parentSot, finalField);
-        
-        if(handler instanceof IncludesHandler) {
-            if(this.fieldType != Schema.DisplayType.MULTIPICKLIST) {
-                throw new QueryException('Invalid field type for INCLUDES operator');
-            }
-        }
 
-        if(handler instanceof ExcludesHandler) {
-            if(this.fieldType != Schema.DisplayType.MULTIPICKLIST) {
-                throw new QueryException('Invalid field type for EXCLUDES operator');
-            }
-        }
+        validateListOperators(handler);
 
         if(valueNode.nodeType == NodeType.DATE_LITERAL) {
             if(this.fieldType != Schema.DisplayType.DATE && this.fieldType != Schema.DisplayType.DATETIME) {
@@ -178,12 +168,27 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             }
         }
 
-        if(this.fieldType == Schema.DisplayType.DATE && this.comparate instanceOf String) {
-            this.comparate = ((String) this.comparate).toUpperCase();
-        } else if(this.fieldType == Schema.DisplayType.DATETIME && this.comparate instanceOf String) {
+        if(isDateOrDateTime() && this.comparate instanceOf String) {
             this.comparate = ((String) this.comparate).toUpperCase();
         }
 
         return handler.handle(this.recordFieldValue, this.comparate);
+    }
+
+    private void validateListOperators(IOperatorHandler handler) {
+        Boolean isMultiSelect = (this.fieldType == Schema.DisplayType.MULTIPICKLIST);
+        Boolean isIncludes = (handler instanceof IncludesHandler);
+        Boolean isExcludes = (handler instanceof ExcludesHandler);
+        if((isIncludes || isExcludes) && !isMultiSelect) {
+            throw new QueryException('Invalid field type for INCLUDES operator');
+        }
+    }
+
+    private Boolean isDateOrDateTime() {
+        List<Schema.DisplayType> dateTypes = new List<Schema.DisplayType> {
+            Schema.DisplayType.DATE,
+            Schema.DisplayType.DATETIME
+        };
+        return dateTypes.contains(this.fieldType);
     }
 }
