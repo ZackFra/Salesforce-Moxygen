@@ -30,6 +30,11 @@
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
 public with sharing class WhereLogicHandler extends BooleanLogicHandler {
+
+    private Object recordFieldValue;
+    private Object comparate;
+    private Schema.DisplayType fieldType;
+
     /**
      * @description Constructor
      * @param options - the options to be used for the handler
@@ -51,13 +56,12 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         SObject sObj = (SObject) this.obj;
         Map<String, Object> params = this.params;
         
-        Object fieldValue = MockDatabase.utils.getFieldNodeValue(valueNode, sObj, params);
-        if(!(fieldValue instanceOf List<Object>)) {
-            fieldValue = String.valueOf(fieldValue);
+        this.comparate = MockDatabase.utils.getFieldNodeValue(valueNode, sObj, params);
+        if(!(this.comparate instanceOf List<Object>)) {
+            this.comparate = String.valueOf(this.comparate);
         }
         
         String fieldName = fieldNode.id;
-        Object sObjectFieldValue;
 
         Boolean isParentField = fieldName.contains('.');
 
@@ -76,12 +80,12 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             Object dateOrDateTimeValue = sobj.get(fieldName);
             Boolean isDateFunc = AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id);
             if(isDateFunc) {
-                sObjectFieldValue = DateFuncs.execute(fieldNode.id, dateOrDateTimeValue);
+                this.recordFieldValue = DateFuncs.execute(fieldNode.id, dateOrDateTimeValue);
             } else {
                 throw new QueryException('Unsupported date function');
             }
         } else if(!isParentField) {
-            sObjectFieldValue = sObj.get(fieldName);
+            this.recordFieldValue = sObj.get(fieldName);
         } else {
             List<String> fieldParts = fieldName.split('\\.');
             finalField = fieldParts[fieldParts.size()-1];
@@ -117,16 +121,16 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
 
             if(finalFieldApiName == 'Type') {
                 isPolyType = true;
-                sObjectFieldValue = SchemaService.getSObjectName(parentRecord);
+                this.recordFieldValue = SchemaService.getSObjectName(parentRecord);
             } else if(isPolymorphic && isPolyField) {
                 try {
-                    sObjectFieldValue = parentRecord.get(finalField);
+                    this.recordFieldValue = parentRecord.get(finalField);
                 } catch(Exception e) {
-                    sObjectFieldValue = null;
+                    this.recordFieldValue = null;
                 }
             } else {
                 parentRecord = MockDatabase.get(parentObjApiName).get(parentRecord.Id);
-                sObjectFieldValue = parentRecord.get(finalFieldApiName);
+                this.recordFieldValue = parentRecord.get(finalFieldApiName);
             }
         }
 
@@ -134,52 +138,52 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
 
         IOperatorHandler handler = handlerFactory.getHandler(operatorNode.id);
         if(isPolyType) {
-            return handler.handle(sObjectFieldValue, fieldValue);
+            return handler.handle(this.recordFieldValue, this.comparate);
         }
         
         Schema.SObjectType parentSot = SchemaService.getSObjectType(parentRecord);
-        Schema.DisplayType fieldType = SchemaService.getFieldType(parentSot, finalField);
+        this.fieldType = SchemaService.getFieldType(parentSot, finalField);
         
         if(handler instanceof IncludesHandler) {
-            if(fieldType != Schema.DisplayType.MULTIPICKLIST) {
+            if(this.fieldType != Schema.DisplayType.MULTIPICKLIST) {
                 throw new QueryException('Invalid field type for INCLUDES operator');
             }
         }
 
         if(handler instanceof ExcludesHandler) {
-            if(fieldType != Schema.DisplayType.MULTIPICKLIST) {
+            if(this.fieldType != Schema.DisplayType.MULTIPICKLIST) {
                 throw new QueryException('Invalid field type for EXCLUDES operator');
             }
         }
 
         if(valueNode.nodeType == NodeType.DATE_LITERAL) {
-            if(fieldType != Schema.DisplayType.DATE && fieldType != Schema.DisplayType.DATETIME) {
+            if(this.fieldType != Schema.DisplayType.DATE && this.fieldType != Schema.DisplayType.DATETIME) {
                 throw new QueryException('Invalid field type for date literal');
             }
 
-            if(fieldType == Schema.DisplayType.DATE && fieldValue == Token.TODAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today());
-            } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue == Token.TODAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today());
-                if(sObjectFieldValue != null) {
-                    sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
+            if(this.fieldType == Schema.DisplayType.DATE && this.comparate == Token.TODAY_LITERAL) {
+                this.comparate = Common.dateToSoqlString(GMT.today());
+            } else if(this.fieldType == Schema.DisplayType.DATETIME && this.comparate == Token.TODAY_LITERAL) {
+                this.comparate = Common.dateToSoqlString(GMT.today());
+                if(this.recordFieldValue != null) {
+                    this.recordFieldValue = GMT.date((DateTime) this.recordFieldValue);
                 }
-            } else if(fieldType == Schema.DisplayType.DATE && fieldValue == Token.YESTERDAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today().addDays(-1));
-            } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue == Token.YESTERDAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today().addDays(-1));
-                if(sObjectFieldValue != null) {
-                    sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
+            } else if(this.fieldType == Schema.DisplayType.DATE && this.comparate == Token.YESTERDAY_LITERAL) {
+                this.comparate = Common.dateToSoqlString(GMT.today().addDays(-1));
+            } else if(this.fieldType == Schema.DisplayType.DATETIME && this.comparate == Token.YESTERDAY_LITERAL) {
+                this.comparate = Common.dateToSoqlString(GMT.today().addDays(-1));
+                if(this.recordFieldValue != null) {
+                    this.recordFieldValue = GMT.date((DateTime) this.recordFieldValue);
                 }
             }
         }
 
-        if(fieldType == Schema.DisplayType.DATE && fieldValue instanceOf String) {
-            fieldValue = ((String) fieldValue).toUpperCase();
-        } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue instanceOf String) {
-            fieldValue = ((String) fieldValue).toUpperCase();
+        if(this.fieldType == Schema.DisplayType.DATE && this.comparate instanceOf String) {
+            this.comparate = ((String) this.comparate).toUpperCase();
+        } else if(this.fieldType == Schema.DisplayType.DATETIME && this.comparate instanceOf String) {
+            this.comparate = ((String) this.comparate).toUpperCase();
         }
 
-        return handler.handle(sObjectFieldValue, fieldValue);
+        return handler.handle(this.recordFieldValue, this.comparate);
     }
 }
