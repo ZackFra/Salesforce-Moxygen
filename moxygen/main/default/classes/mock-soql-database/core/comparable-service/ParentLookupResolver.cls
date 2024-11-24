@@ -8,8 +8,8 @@ public with sharing class ParentLookupResolver {
     }
 
     public class ParentLookupChain {
-        public String finalField;
-        public List<String> fieldParts;
+        private String finalField;
+        private List<String> fieldParts;
 
         public ParentLookupChain(String finalField, List<String> fieldParts) {
             this.finalField = finalField;
