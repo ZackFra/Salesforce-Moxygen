@@ -40,7 +40,7 @@ public inherited sharing virtual class QueriedFieldResolver {
     }
 
     private ComparableRecordData resolveLookup() {
-        ParentLookupChain lookupChain = splitParentLookupChain();
+        ParentLookupChain lookupChain = new ParentLookupChain(this.fieldLookupChain);
         List<String> fieldParts = lookupChain.getFieldParts();
 
         String parentField = fieldParts[0];
@@ -80,13 +80,6 @@ public inherited sharing virtual class QueriedFieldResolver {
             .setRelationshipName(relationshipName)
             .setIsPolymorphic(isPolymorphic)
             .build();
-    }
-
-    private ParentLookupChain splitParentLookupChain() {
-        List<String> fieldParts = this.fieldLookupChain.split('\\.');
-        String finalField = fieldParts[fieldParts.size()-1];
-        fieldParts.remove(fieldParts.size()-1);
-        return new ParentLookupChain(finalField, fieldParts);
     }
 
     /**
