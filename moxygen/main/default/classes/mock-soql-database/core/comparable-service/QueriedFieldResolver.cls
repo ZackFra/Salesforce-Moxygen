@@ -67,7 +67,7 @@ public inherited sharing virtual class QueriedFieldResolver {
                 parentField = fieldParts[0];
             }
         }
-        isPolymorphic = parentInfo.getIsPolymorphic();
+        Boolean isPolymorphic = parentInfo.getIsPolymorphic();
 
         String comparableField = ComparableService.getComparableField(
             parentRecord, 
