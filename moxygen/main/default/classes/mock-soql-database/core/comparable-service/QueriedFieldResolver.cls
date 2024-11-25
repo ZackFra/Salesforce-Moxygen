@@ -65,8 +65,6 @@ public inherited sharing virtual class QueriedFieldResolver {
             if(!fieldParts.isEmpty()) {
                 parentField = fieldParts[0];
             }
-
-            System.debug(parentRecord);
         }
         Boolean isPolymorphic = parentInfo.getIsPolymorphic();
 
