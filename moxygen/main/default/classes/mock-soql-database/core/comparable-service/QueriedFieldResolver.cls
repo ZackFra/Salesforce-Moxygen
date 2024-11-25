@@ -46,7 +46,7 @@ public inherited sharing virtual class QueriedFieldResolver {
         List<String> relationshipMapping = new List<String>();
 
         String parentField = fieldParts[0];
-        sObject parentRecord;
+        SObject parentRecord;
         SObject priorRecord = this.comparableRecord;
 
         ParentRecordData parentInfo;
@@ -60,7 +60,7 @@ public inherited sharing virtual class QueriedFieldResolver {
             }
             parentInfo = MockDatabase.findParentRecord(priorRecord, parentField);
             relationshipMapping.add(parentInfo.getFieldRelationshipName());
-            parentRecord = parentInfo.getParentRecord();
+            parentRecord = MockDatabase.get(parentInfo.getParentObjApiName()).get(parentInfo.getParentRecordId());
             fieldParts.remove(0);
             if(!fieldParts.isEmpty()) {
                 parentField = fieldParts[0];
@@ -75,7 +75,7 @@ public inherited sharing virtual class QueriedFieldResolver {
         );
         relationshipMapping.add(comparableField);
         String relationshipName = String.join(relationshipMapping, '.');
-        
+
         return new ComparableRecordData.Builder()
             .setComparableRecord(parentRecord)
             .setComparableFieldName(comparableField)

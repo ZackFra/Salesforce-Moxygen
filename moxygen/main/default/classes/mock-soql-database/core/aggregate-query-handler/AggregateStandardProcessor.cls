@@ -98,14 +98,21 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
      * @param groupByFields 
      * @return  `ProtoAggregate`
      */
+    @TestVisible
     private ProtoAggregate findOrCreateGroupedAggregate(SObject databaseRecord, List<String> groupByFields) {
         ProtoAggregate aggregateResult;
         try {
             aggregateResult = findGroupedAggregate(databaseRecord, groupByFields);
         } catch(NotFoundException e) {
-            aggregateResult = createGroupedAggregate(databaseRecord, groupByFields);
-            this.aggregateResults.add(aggregateResult);
+            aggregateResult = createAndSaveGroupedAggregate(databaseRecord, groupByFields);
         }
+        return aggregateResult;
+    }
+
+    @TestVisible
+    private ProtoAggregate createAndSaveGroupedAggregate(SObject databaseRecord, List<String> groupByFields) {
+        ProtoAggregate aggregateResult = createGroupedAggregate(databaseRecord, groupByFields);
+        this.aggregateResults.add(aggregateResult);
         return aggregateResult;
     }
 
@@ -115,6 +122,7 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
      * @param groupByFields the fields to group by
      * @return the new aggregate result
      */
+    @TestVisible
     private ProtoAggregate createGroupedAggregate(SObject databaseRecord, List<String> groupByFields) {
         ProtoAggregate aggregateResult = new ProtoAggregate();
         for(String groupByField : groupByFields) {
@@ -136,34 +144,44 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
                     throw e;
                 }
             } else {
+                System.debug(comparableRecord.get(comparableField));
                 aggregateResult.put(comparableField, comparableRecord.get(comparableField));
             }
         }
         return aggregateResult; 
     }
 
-
+    @TestVisible
     private ProtoAggregate findGroupedAggregate(SObject databaseRecord, List<String> groupByFields) {
         for(ProtoAggregate ar : aggregateResults) {
-            Boolean isSame = true;
-            for(String groupByField : groupByFields) {
-                ComparableRecordData comparableInfo = ComparableService.getComparables(databaseRecord, groupByField);
-                sObject comparableRecord = comparableInfo.getComparableRecord();
-                String comparableField = comparableInfo.getComparableFieldName();
-
-                Boolean isPolymorphic = comparableInfo.getIsPolymorphic();
-                Boolean isType = (comparableField == 'Type');
-                if(isPolymorphic && isType) {
-                    String type = SchemaService.getSObjectName(comparableRecord);
-                    isSame = (isSame && (type == ar.get(comparableField)));
-                } else {
-                    isSame = (isSame && (comparableRecord.get(comparableField) == ar.get(comparableField)));
-                }
-            }
-            if(isSame) {
+            if(isGroupedAggregateForThisRecord(ar, databaseRecord, groupByFields)) {
                 return ar;
             }
         }
         throw new NotFoundException('Grouped aggregate not found');
+    }
+
+    @TestVisible
+    private Boolean isGroupedAggregateForThisRecord(ProtoAggregate ar, SObject databaseRecord, List<String> groupByFields) {
+        Boolean isSame = true;
+        for(String groupByField : groupByFields) {
+            ComparableRecordData comparableInfo = ComparableService.getComparables(databaseRecord, groupByField);
+            isSame = isSame && isGroupedAggregateGivenComparableInfo(ar, comparableInfo);
+        }
+        return isSame;
+    }
+
+    @TestVisible
+    private Boolean isGroupedAggregateGivenComparableInfo(ProtoAggregate ar, ComparableRecordData comparableInfo) {
+        SObject comparableRecord = comparableInfo.getComparableRecord();
+        String comparableField = comparableInfo.getComparableFieldName();
+        Boolean isPolymorphic = comparableInfo.getIsPolymorphic();
+        Boolean isType = (comparableField == 'Type');
+        if(isPolymorphic && isType) {
+            String type = SchemaService.getSObjectName(comparableRecord);
+            return (type == ar.get(comparableField));
+        } else {
+            return (comparableRecord.get(comparableField) == ar.get(comparableField));
+        }
     }
 }
