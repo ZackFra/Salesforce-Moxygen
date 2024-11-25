@@ -28,9 +28,6 @@ public inherited sharing virtual class QueriedFieldResolver {
     private ComparableRecordData resolveStandard() {
         Schema.SObjectType sot = SchemaService.getSObjectType(comparableRecord);
         String comparableField = this.fieldLookupChain;
-        if(!SchemaService.hasField(sot, comparableField)) {
-            throw ExceptionFactory.createIllegalFieldNameException(comparableField);
-        }
         Schema.SObjectField recordField = SchemaService.getField(sot, comparableField);
         comparableField = SchemaService.getFieldName(recordField);
         return new ComparableRecordData.Builder()
