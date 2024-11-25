@@ -21,4 +21,24 @@ private class QueriedFieldResolverTest {
         Assert.areEqual(comparableRecord.getSObjectType(), Account.getSObjectType(), 'Parent record should be returned');
         Assert.areEqual(acct.Name, comparableRecord.get('Name'), 'Parent field should be returned');
     }
+
+    @isTest
+    static void ensureQueriedFieldResolverReturnsField() {
+        Contact con = new Contact(FirstName = 'Tess', LastName = 'Thurman');
+        MockDatabase.doInsert(con, true);
+
+        String fieldLookupChain = 'FirstName';
+
+        Test.startTest();
+        ComparableRecordData comparableInfo = new QueriedFieldResolver.Builder()
+            .setComparableRecord(con)
+            .setFieldLookupChain(fieldLookupChain)
+            .build()
+            .resolve();
+        Test.stopTest();
+
+        SObject comparableRecord = comparableInfo.getComparableRecord();
+        Assert.areEqual(comparableRecord.getSObjectType(), Contact.getSObjectType(), 'Record should be returned');
+        Assert.areEqual(con.FirstName, comparableRecord.get('FirstName'), 'Field should be returned');
+    }
 }
