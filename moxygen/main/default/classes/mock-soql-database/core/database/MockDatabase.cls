@@ -452,18 +452,7 @@ public inherited sharing class MockDatabase {
      * @return : the parent record
      * @throws QueryException : if the parent record does not exist
      */
-    public static Map<String, Object> findParentRecord(sObject sObj, String fieldName) {
+    public static ParentRecordData findParentRecord(sObject sObj, String fieldName) {
         return utils.findParentRecord(sObj, fieldName);
-    }
-
-    /**
-     * @description Wrapper aroung the ComparableService.getComparables method
-     * @param record : the record
-     * @param field : the field
-     * @return : the comparables
-     * @throws QueryException : if the comparables cannot be found
-     */
-    public static Map<String, Object> getComparables(SObject record, String field) {
-        return ComparableService.getComparables(record, field);
     }
 }

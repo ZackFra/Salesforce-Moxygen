@@ -62,7 +62,7 @@ public inherited sharing class MockDatabaseUtils {
       *                  : ex. OpportunityLineItem, the field is Opportunity
       * @return : the parent sObject
       */
-      public Map<String, Object> findParentRecord(sObject sObj, String fieldName) {
+      public ParentRecordData findParentRecord(sObject sObj, String fieldName) {
         // api name of the child sObject
         String objApiName = sObj.getSObjectType().getDescribe().getName();
         // api name of the id object on the child (i.e. OpportunityId)
@@ -113,15 +113,14 @@ public inherited sharing class MockDatabaseUtils {
                 Id parentId = (Id) mockRecordsChild.get(sObj.Id).get(fieldApiName);
 
                 parentRecord.put('Id', parentId);
-                Map<String, Object> objInfo = new Map<String, Object> {
-                    'fieldApiName' => fieldApiName,
-                    'fieldRelationshipName' => fieldRelationshipName,
-                    'parentObjApiName' => parentObjApiName,
-                    'objApiName' => objApiName,
-                    'parentRecord' => parentRecord,
-                    'isPolymorphic' => isPolymorphic
-                };
-                return objInfo;
+                return new ParentRecordData.Builder()
+                    .setFieldApiName(fieldApiName)
+                    .setFieldRelationshipName(fieldRelationshipName)
+                    .setParentObjApiName(parentObjApiName)
+                    .setObjApiName(objApiName)
+                    .setParentRecord(parentRecord)
+                    .setIsPolymorphic(isPolymorphic)
+                    .build();
             }
         }
 

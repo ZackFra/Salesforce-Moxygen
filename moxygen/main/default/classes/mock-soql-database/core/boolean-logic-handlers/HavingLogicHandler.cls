@@ -86,10 +86,12 @@ public with sharing class HavingLogicHandler extends BooleanLogicHandler {
     Object getGroupByFieldValueWhenField(ProtoAggregate aggr, Node aggrNode) {
         SObject groupedRecord = aggr.getRecords()[0];
         String fieldName = aggrNode.id;
-        Map<String, Object> comparableInfo = ComparableService.getComparables(groupedRecord, fieldName);
-        String comparableField = (String) comparableInfo.get('comparableField');
-        SObject comparableRecord = (SObject) comparableInfo.get('comparableRecord');
-        Boolean isPolymorphic = (Boolean) comparableInfo.get('isPolymorphic');
+        
+        ComparableRecordData comparableInfo = ComparableService.getComparables(groupedRecord, fieldName);
+        String comparableField = comparableInfo.getComparableFieldName();
+        SObject comparableRecord = comparableInfo.getComparableRecord();
+        Boolean isPolymorphic = comparableInfo.getIsPolymorphic();
+
         Boolean isType = comparableField == 'Type';
         if(isPolymorphic && isType) {
             return SchemaService.getSObjectName(comparableRecord);

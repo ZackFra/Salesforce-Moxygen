@@ -73,6 +73,7 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
     }
 
     @SuppressWarnings('PMD.NcssMethodCount')
+    @TestVisible
     private List<Aggregate> doQuery(Node selectNode, Map<String, Object> params) {
         TopLevelNodes topLevelNodes = getTopLevelNodes(selectNode);
         Node fromNode = topLevelNodes.fromNode;
@@ -102,32 +103,8 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
         }
 
         List<Aggregate> results;
-
-        // results will either be a count, a list of sObjects, or a list of aggregates
-        List<ProtoAggregate> aggregateResults = new List<ProtoAggregate>();
-
-
-        AggregateQueryHandler aggrHandler = new AggregateQueryHandler(topLevelNodes);
-
-        // process the query, whether it's a count, aggregate, or regular query
-        for(sObject databaseRecord : mockObjects.values()) {
-
-            if(databaseRecord.get('IsDeleted') == true) {
-                continue;
-            }
-
-            if(!checkWhereClause(databaseRecord, whereNode, params)) {
-                continue;
-            }
-
-            if(!handleUsingScopeNode(databaseRecord, usingScopeNode, params)) {
-                continue;
-            }
-
-            aggrHandler.processRecord(databaseRecord);
-
-        }
-        aggregateResults = aggrHandler.finish();
+        List<SObject> databaseRecords = mockObjects.values();
+        List<ProtoAggregate> aggregateResults = handleFilterAndGroupByNodes(topLevelNodes, databaseRecords, params);
 
         aggregateResults = (List<ProtoAggregate>) handleHavingNode(aggregateResults, selectNode, params);
         aggregateResults = (List<ProtoAggregate>) handleOrderByNode(Types.SOQL.AGGREGATE, aggregateResults, selectNode);
@@ -145,6 +122,35 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
 
         removeTopLevelNodesFor(selectNode);
         return results;
+    }
+
+    @TestVisible
+    private List<ProtoAggregate> handleFilterAndGroupByNodes(
+        TopLevelNodes topLevelNodes, 
+        List<SObject> databaseRecords, 
+        Map<String, Object> params
+    ) {
+        AggregateQueryHandler aggrHandler = new AggregateQueryHandler(topLevelNodes);
+
+        // process the query, whether it's a count, aggregate, or regular query
+        for(sObject databaseRecord : databaseRecords) {
+
+            if(databaseRecord.get('IsDeleted') == true) {
+                continue;
+            }
+
+            if(!checkWhereClause(databaseRecord, topLevelNodes.whereNode, params)) {
+                continue;
+            }
+
+            if(!handleUsingScopeNode(databaseRecord, topLevelNodes.usingScopeNode, params)) {
+                continue;
+            }
+
+            aggrHandler.processRecord(databaseRecord);
+
+        }
+        return aggrHandler.finish();
     }
 
     private List<ProtoAggregate> handleHavingNode(

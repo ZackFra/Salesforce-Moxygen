@@ -40,63 +40,27 @@ public inherited sharing class ComparableService {
      * @throws QueryException : if the field name is invalid
      */
     @SuppressWarnings('PMD.NcssMethodCount')
-    public static Map<String, Object> getComparables(sObject obj, String field) {
-        sObject comparableRecord = obj;
-        String comparableField = field;
+    public static ComparableRecordData getComparables(SObject record, String fieldLookupChain) {
+        QueriedFieldResolver resolver = new QueriedFieldResolver.Builder()
+            .setFieldLookupChain(fieldLookupChain)
+            .setComparableRecord(record)
+            .build();
 
-        if(!comparableField.contains('.')) {
-            Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
-            Schema.SObjectField parentRecordField = SchemaService.getField(comparableSot, comparableField);
-            comparableField = SchemaService.getFieldName(parentRecordField);
-            return new Map<String, Object> {
-                'comparableRecord' => comparableRecord,
-                'comparableField' => comparableField,
-                'relationshipName' => comparableField,
-                'isPolymorphic' => false
-            };
-        }
+        return resolver.resolve();
+    }
 
-        List<String> fieldParts = comparableField.split('\\.');
-        String finalField = fieldParts[fieldParts.size()-1];
-        fieldParts.remove(fieldParts.size()-1);
-        String parentField = fieldParts[0];
-        sObject parentRecord;
-        String relationshipName = '';
-        String parentObjApiName;
-        String fieldRelationshipName;
-        Boolean isPolymorphic = false;
-        SObject priorRecord = obj;
-        while(!fieldParts.isEmpty()) {
-            if(parentRecord != null) {
-                priorRecord = parentRecord;
-            }
+    @TestVisible
+    private static Boolean isParentRecordLookup(String fieldLookupChain) {
+        return fieldLookupChain.contains('.');
+    }
 
-            Map<String, Object> parentInfo = MockDatabase.findParentRecord(obj, parentField);
-            parentRecord = (sObject) parentInfo.get('parentRecord');
-            parentObjApiName = (String) parentInfo.get('parentObjApiName');
-            fieldRelationshipName = (String) parentInfo.get('fieldRelationshipName');
-            relationshipName += fieldRelationshipName + '.';
-            isPolymorphic = (Boolean) parentInfo.get('isPolymorphic');
-
-            parentRecord = MockDatabase.get(parentObjApiName).get(parentRecord.Id);
-            
-
-            fieldParts.remove(0);
-            if(!fieldParts.isEmpty()) {
-                parentField = fieldParts[0];
-            }
-        }
-        comparableRecord = parentRecord;
-
-        Map<String, Object> comparables = new Map<String, Object> {
-            'isPolymorphic' => false
-        };
+    public static String getComparableField(SObject comparableRecord, String finalField, Boolean isPolymorphic) {
+        String comparableField;
         if(isPolymorphic) {
             Map<String, String> polymorphicFieldMap = SchemaService.getPolymorphicFieldMap();
             Boolean isPolyField = (polymorphicFieldMap.containsKey(finalField.toLowerCase()));
             if(isPolyField) {
                 comparableField = polymorphicFieldMap.get(finalField.toLowerCase());
-                comparables.put('isPolymorphic', true);
             } else {
                 Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
                 comparableField = SchemaService.getFieldName(comparableSot, finalField);
@@ -105,12 +69,7 @@ public inherited sharing class ComparableService {
             Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
             comparableField = SchemaService.getFieldName(comparableSot, finalField);
         }
-
-        relationshipName += comparableField;
-        comparables.put('comparableRecord', comparableRecord);
-        comparables.put('comparableField', comparableField);
-        comparables.put('relationshipName', relationshipName);
-        return comparables;
+        return comparableField;
     }
 
     /**
@@ -123,7 +82,7 @@ public inherited sharing class ComparableService {
     public static Map<String, Object> getComparableData(sObject obj, String field) {
         sObject comparableRecord = obj;
         String comparableField = field;
-        if(!comparableField.contains('.')) {
+        if(!isParentRecordLookup(comparableField)) {
             Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
             comparableField = SchemaService.getFieldName(comparableSot, comparableField);
             return new Map<String, Object> {

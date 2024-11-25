@@ -52,6 +52,7 @@ public virtual class MockSOQLHandler {
      * @param selectNode `Node`
      * @return  `Object`
      */
+    @TestVisible
     protected Object handleOrderByNode(
         Types.SOQL typeOfQuery, 
         Object results, 
