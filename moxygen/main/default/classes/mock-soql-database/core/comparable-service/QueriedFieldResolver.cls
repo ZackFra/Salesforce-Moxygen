@@ -49,23 +49,9 @@ public inherited sharing virtual class QueriedFieldResolver {
         SObject parentRecord;
         SObject priorRecord = this.comparableRecord;
 
-        ParentRecordData parentInfo;
-        // Produces:
-        // relationshipName
-        // parentRecord
-        // isPolymorphic
-        while(!fieldParts.isEmpty()) {
-            if(parentInfo != null) {
-                priorRecord = parentInfo.getParentRecord();
-            }
-            parentInfo = MockDatabase.findParentRecord(priorRecord, parentField);
-            relationshipMapping.add(parentInfo.getFieldRelationshipName());
-            parentRecord = MockDatabase.get(parentInfo.getParentObjApiName()).get(parentInfo.getParentRecordId());
-            fieldParts.remove(0);
-            if(!fieldParts.isEmpty()) {
-                parentField = fieldParts[0];
-            }
-        }
+        ParentRecordDataWithRelationshipMapping parentInfoWithRelationship = findTopLevelParentRecordData(this.comparableRecord, lookupChain);
+        ParentRecordData parentInfo = parentInfoWithRelationship.getParentRecordData();
+        relationshipMapping = parentInfoWithRelationship.getRelationshipMapping();
         Boolean isPolymorphic = parentInfo.getIsPolymorphic();
 
         String comparableField = ComparableService.getComparableField(
@@ -82,6 +68,56 @@ public inherited sharing virtual class QueriedFieldResolver {
             .setRelationshipName(relationshipName)
             .setIsPolymorphic(isPolymorphic)
             .build();
+    }
+
+    private ParentRecordDataWithRelationshipMapping findTopLevelParentRecordData(SObject childRecord, ParentLookupChain lookupChain) {
+        List<String> fieldParts = lookupChain.getFieldParts();
+        String parentField = fieldParts[0];
+        SObject parentRecord;
+        SObject priorRecord = childRecord;
+        List<String> relationshipMapping = new List<String>();
+
+        ParentRecordData parentInfo;
+        // Produces:
+        // relationshipName
+        // parentRecord
+        // isPolymorphic
+        while(!fieldParts.isEmpty()) {
+            if(parentInfo != null) {
+                priorRecord = parentInfo.getParentRecord();
+            }
+            parentInfo = MockDatabase.findParentRecord(priorRecord, parentField);
+            relationshipMapping.add(parentInfo.getFieldRelationshipName());
+            parentRecord = getFullParentRecordWithAllFields(parentInfo);
+            fieldParts.remove(0);
+            if(!fieldParts.isEmpty()) {
+                parentField = fieldParts[0];
+            }
+        }
+        return new ParentRecordDataWithRelationshipMapping(parentInfo, relationshipMapping);
+    }
+
+    public class ParentRecordDataWithRelationshipMapping {
+        private ParentRecordData parentRecordData;
+        private List<String> relationshipMapping;
+
+        public ParentRecordDataWithRelationshipMapping(ParentRecordData parentRecordData, List<String> relationshipMapping) {
+            this.parentRecordData = parentRecordData;
+            this.relationshipMapping = relationshipMapping;
+        }
+
+        public ParentRecordData getParentRecordData() {
+            return this.parentRecordData;
+        }
+
+        public List<String> getRelationshipMapping() {
+            return this.relationshipMapping;
+        }
+    }
+
+    private SObject getFullParentRecordWithAllFields(ParentRecordData recordData) {
+        SObject fullParentRecord = MockDatabase.get(recordData.getParentObjApiName()).get(recordData.getParentRecordId());
+        return fullParentRecord;
     }
 
     /**
