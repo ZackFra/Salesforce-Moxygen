@@ -97,7 +97,12 @@ public inherited sharing virtual class QueriedFieldResolver {
         return new ParentRecordDataWithRelationshipMapping(parentInfo, relationshipMapping);
     }
 
-    public class ParentRecordDataWithRelationshipMapping {
+    private SObject getFullParentRecordWithAllFields(ParentRecordData recordData) {
+        SObject fullParentRecord = MockDatabase.get(recordData.getParentObjApiName()).get(recordData.getParentRecordId());
+        return fullParentRecord;
+    }
+
+    class ParentRecordDataWithRelationshipMapping {
         private ParentRecordData parentRecordData;
         private List<String> relationshipMapping;
 
@@ -113,11 +118,6 @@ public inherited sharing virtual class QueriedFieldResolver {
         public List<String> getRelationshipMapping() {
             return this.relationshipMapping;
         }
-    }
-
-    private SObject getFullParentRecordWithAllFields(ParentRecordData recordData) {
-        SObject fullParentRecord = MockDatabase.get(recordData.getParentObjApiName()).get(recordData.getParentRecordId());
-        return fullParentRecord;
     }
 
     /**
