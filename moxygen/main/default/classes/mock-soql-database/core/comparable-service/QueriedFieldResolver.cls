@@ -75,6 +75,7 @@ public inherited sharing virtual class QueriedFieldResolver {
         );
         relationshipMapping.add(comparableField);
         String relationshipName = String.join(relationshipMapping, '.');
+        
         return new ComparableRecordData.Builder()
             .setComparableRecord(parentRecord)
             .setComparableFieldName(comparableField)
