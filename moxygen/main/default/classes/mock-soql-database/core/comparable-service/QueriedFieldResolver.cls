@@ -43,9 +43,10 @@ public inherited sharing virtual class QueriedFieldResolver {
         ParentLookupChain lookupChain = new ParentLookupChain(this.fieldLookupChain);
         List<String> fieldParts = lookupChain.getFieldParts();
 
+        List<String> relationshipMapping = new List<String>();
+
         String parentField = fieldParts[0];
         sObject parentRecord;
-        String relationshipName = '';
         SObject priorRecord = this.comparableRecord;
 
         ParentRecordData parentInfo;
@@ -58,12 +59,14 @@ public inherited sharing virtual class QueriedFieldResolver {
                 priorRecord = parentInfo.getParentRecord();
             }
             parentInfo = MockDatabase.findParentRecord(priorRecord, parentField);
-            relationshipName += parentInfo.getFieldRelationshipName() + '.';
-            parentRecord = MockDatabase.get(parentInfo.getObjApiName()).get(parentInfo.getParentRecordId());
+            relationshipMapping.add(parentInfo.getFieldRelationshipName());
+            parentRecord = parentInfo.getParentRecord();
             fieldParts.remove(0);
             if(!fieldParts.isEmpty()) {
                 parentField = fieldParts[0];
             }
+
+            System.debug(parentRecord);
         }
         Boolean isPolymorphic = parentInfo.getIsPolymorphic();
 
@@ -72,8 +75,8 @@ public inherited sharing virtual class QueriedFieldResolver {
             lookupChain.getFinalField(), 
             isPolymorphic
         );
-
-        relationshipName += comparableField;
+        relationshipMapping.add(comparableField);
+        String relationshipName = String.join(relationshipMapping, '.');
         return new ComparableRecordData.Builder()
             .setComparableRecord(parentRecord)
             .setComparableFieldName(comparableField)
