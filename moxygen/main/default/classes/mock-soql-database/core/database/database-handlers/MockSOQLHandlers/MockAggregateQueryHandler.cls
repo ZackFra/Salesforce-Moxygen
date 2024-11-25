@@ -66,6 +66,7 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
      * @param params `Map<String, Object>`
      * @return  `List<Aggregate>`
      */
+    @TestVisible
     private List<Aggregate> doQuery(String query, Map<String, Object> params) {
         Parser parser = new Parser();
         Node selectNode = parser.parse(query);
@@ -103,7 +104,7 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
 
         List<Aggregate> results;
         List<SObject> databaseRecords = mockObjects.values();
-        List<ProtoAggregate> aggregateResults = handleFilterAndGroupByNode(topLevelNodes, databaseRecords, params);
+        List<ProtoAggregate> aggregateResults = handleFilterAndGroupByNodes(topLevelNodes, databaseRecords, params);
 
         aggregateResults = (List<ProtoAggregate>) handleHavingNode(aggregateResults, selectNode, params);
         aggregateResults = (List<ProtoAggregate>) handleOrderByNode(Types.SOQL.AGGREGATE, aggregateResults, selectNode);
@@ -124,12 +125,11 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
     }
 
     @TestVisible
-    private List<ProtoAggregate> handleFilterAndGroupByNode(TopLevelNodes topLevelNodes, List<SObject> databaseRecords, Map<String, Object> params) {
-
-        // results will either be a count, a list of sObjects, or a list of aggregates
-        List<ProtoAggregate> aggregateResults = new List<ProtoAggregate>();
-
-
+    private List<ProtoAggregate> handleFilterAndGroupByNodes(
+        TopLevelNodes topLevelNodes, 
+        List<SObject> databaseRecords, 
+        Map<String, Object> params
+    ) {
         AggregateQueryHandler aggrHandler = new AggregateQueryHandler(topLevelNodes);
 
         // process the query, whether it's a count, aggregate, or regular query
@@ -150,8 +150,7 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
             aggrHandler.processRecord(databaseRecord);
 
         }
-        aggregateResults = aggrHandler.finish();
-        return aggregateResults;
+        return aggrHandler.finish();
     }
 
     private List<ProtoAggregate> handleHavingNode(
