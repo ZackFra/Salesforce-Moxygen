@@ -103,7 +103,7 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
 
         List<Aggregate> results;
         List<SObject> databaseRecords = mockObjects.values();
-        List<ProtoAggregate> aggregateResults = processFilterClauses(topLevelNodes, databaseRecords, params);
+        List<ProtoAggregate> aggregateResults = handleFilterAndGroupByNode(topLevelNodes, databaseRecords, params);
 
         aggregateResults = (List<ProtoAggregate>) handleHavingNode(aggregateResults, selectNode, params);
         aggregateResults = (List<ProtoAggregate>) handleOrderByNode(Types.SOQL.AGGREGATE, aggregateResults, selectNode);
@@ -124,7 +124,7 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
     }
 
     @TestVisible
-    private List<ProtoAggregate> processFilterClauses(TopLevelNodes topLevelNodes, List<SObject> databaseRecords, Map<String, Object> params) {
+    private List<ProtoAggregate> handleFilterAndGroupByNode(TopLevelNodes topLevelNodes, List<SObject> databaseRecords, Map<String, Object> params) {
 
         // results will either be a count, a list of sObjects, or a list of aggregates
         List<ProtoAggregate> aggregateResults = new List<ProtoAggregate>();
