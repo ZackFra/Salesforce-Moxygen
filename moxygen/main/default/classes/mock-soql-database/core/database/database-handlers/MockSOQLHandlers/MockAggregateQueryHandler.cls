@@ -66,7 +66,6 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
      * @param params `Map<String, Object>`
      * @return  `List<Aggregate>`
      */
-    @TestVisible
     private List<Aggregate> doQuery(String query, Map<String, Object> params) {
         Parser parser = new Parser();
         Node selectNode = parser.parse(query);
@@ -74,6 +73,7 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
     }
 
     @SuppressWarnings('PMD.NcssMethodCount')
+    @TestVisible
     private List<Aggregate> doQuery(Node selectNode, Map<String, Object> params) {
         TopLevelNodes topLevelNodes = getTopLevelNodes(selectNode);
         Node fromNode = topLevelNodes.fromNode;
