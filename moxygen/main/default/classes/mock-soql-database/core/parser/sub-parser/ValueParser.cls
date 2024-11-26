@@ -30,6 +30,16 @@
   */
 public inherited sharing class ValueParser extends SubParser {
 
+    Map<String, Type> primitiveParsers = new Map<String, Type> {
+        Token.TOMORROW_LITERAL => TomorrowParser.class,
+        Token.TODAY_LITERAL => TodayParser.class,
+        Token.YESTERDAY_LITERAL => YesterdayParser.class,
+        Token.XTRUE => BooleanParser.class,
+        Token.XFALSE => BooleanParser.class,
+        Token.XNULL => NullParser.class,
+        Token.COLON => BindVariableParser.class
+    };
+
     /**
      * @description Parses the value in the query string
      * @param query `String`
@@ -49,24 +59,28 @@ public inherited sharing class ValueParser extends SubParser {
             query = consume(query, Token.SINGLE_QUOTE);
             baseValue.subquery = query;
             return baseValue;
-        } else if(isNext(query, Token.XTRUE) || isNext(query, Token.XFALSE)) {
-        	return parseBoolean(query);
-        } else if(isNext(query, Token.COLON)) {
-            query = consume(query, Token.COLON);
-            return parseBindVariable(query);
-        } else if(isNext(query, Token.XNULL)) {
-            return parseNull(query);
-        } else if(isNext(query, Token.TODAY_LITERAL)) {
-            return parseDateLiteral(query, Token.TODAY_LITERAL);
-        } else if(isNext(query, Token.YESTERDAY_LITERAL)) {
-            return parseDateLiteral(query, Token.YESTERDAY_LITERAL);
-        } else if(isSoqlDateTime(query)) {
-            return parseDate(query);
-        } else if(isSoqlDate(query)) {
-            return parseDate(query);
-        } else {
-            return parseNum(query);
-        }
+        } 
+        List<String> tokens = new List<String> {
+            Token.XTRUE,
+            Token.XFALSE,
+            Token.COLON,
+            Token.XNULL,
+            Token.TODAY_LITERAL,
+            Token.YESTERDAY_LITERAL,
+            Token.TOMORROW_LITERAL
+        };
+        for(String token : tokens) {
+            if(isNext(query, token)) {
+                Type parserType = primitiveParsers.get(token);
+                SubParser primitiveParser = (SubParser) parserType.newInstance();
+                return primitiveParser.parse(query);
+            } else if(isSoqlDate(query)) {
+                return parseDate(query);
+            } else if(isSoqlDateTime(query)) {
+                return parseDate(query);
+            }
+        } 
+        return new NumberParser().parse(query);
     }
 
     private Boolean isSoqlDateTime(String query) {
@@ -158,27 +172,6 @@ public inherited sharing class ValueParser extends SubParser {
             .setNodeType(NodeType.XBOOLEAN)
             .build(),
             query.subString(boolVal.length())
-        );
-    }
-
-    private Intermediary parseBindVariable(String query) {
-        query = skipWhitespace(query);
-        String bindVarName = '';
-        while(query.length() > 0 && isNextTokenFieldOrObject(query)) {
-            bindVarName += query.subString(0, 1);
-            query = query.subString(1);
-        }
-
-        if(bindVarName.isNumeric()) {
-            throw new ParsingException(bindVarName, 'bind variable name');
-        }
-
-        return new Intermediary(
-            new NodeBuilder()
-                .setId(bindVarName)
-                .setNodeType(NodeType.XBIND_VARIABLE)
-                .build(),
-            query
         );
     }
 
