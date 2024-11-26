@@ -144,7 +144,6 @@ public inherited sharing class AggregateStandardProcessor extends AggregateProce
                     throw e;
                 }
             } else {
-                System.debug(comparableRecord.get(comparableField));
                 aggregateResult.put(comparableField, comparableRecord.get(comparableField));
             }
         }

@@ -10,8 +10,9 @@ public inherited sharing virtual class ComparableRecordData {
     protected Boolean isPolymorphic = false;
 
     /**
-     * @description Private constructor, this object is not intended to be created directly
+     * @description Protected constructor, this object is not intended to be created directly
      */
+    @SuppressWarnings('PMD.EmptyStatementBlock')
     protected ComparableRecordData() {}
 
     /**
@@ -46,29 +47,56 @@ public inherited sharing virtual class ComparableRecordData {
         return this.isPolymorphic;
     }
 
+    /**
+     * @description Builder class for ComparableRecordData 
+     */
     public class Builder implements IBuilder {
         private ComparableRecordData comparableData = new ComparableRecordData();
 
+        /**
+         * @description Set the comparable record
+         * @param comparableRecord `SObject`
+         * @return  `Builder`
+         */
         public Builder setComparableRecord(SObject comparableRecord) {
             this.comparableData.comparableRecord = comparableRecord;
             return this;
         }
 
+        /**
+         * @description Set the comparable field name
+         * @param comparableFieldName `String`
+         * @return  `Builder`
+         */
         public Builder setComparableFieldName(String comparableFieldName) {
             this.comparableData.comparableFieldName = comparableFieldName;
             return this;
         }
 
+        /**
+         * @description Set the relationship name
+         * @param relationshipName `String`
+         * @return  `Builder`
+         */
         public Builder setRelationshipName(String relationshipName) {
             this.comparableData.relationshipName = relationshipName;
             return this;
         }
 
+        /**
+         * @description Set whether the relationship is polymorphic
+         * @param isPolymorphic `Boolean`
+         * @return  `Builder`
+         */
         public Builder setIsPolymorphic(Boolean isPolymorphic) {
             this.comparableData.isPolymorphic = isPolymorphic;
             return this;
         }
 
+        /**
+         * @description Returns the built object 
+         * @return  `ComparableRecordData`
+         */
         public ComparableRecordData build() {
             return this.comparableData;
         }
