@@ -31,6 +31,7 @@
 public inherited sharing class ValueParser extends SubParser {
 
     Map<String, Type> primitiveParsers = new Map<String, Type> {
+        Token.SINGLE_QUOTE => StringParser.class,
         Token.TOMORROW_LITERAL => TomorrowParser.class,
         Token.TODAY_LITERAL => TodayParser.class,
         Token.YESTERDAY_LITERAL => YesterdayParser.class,
@@ -48,39 +49,31 @@ public inherited sharing class ValueParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(isNext(query, Token.SINGLE_QUOTE)) {
-            Intermediary baseValue;
-            query = query.subString(1);
-            baseValue = parseString(query);
-            query = baseValue.subquery;
-            if(!isNext(query, Token.SINGLE_QUOTE)) {
-                throw new ParsingException(baseValue.subquery, Token.SINGLE_QUOTE);
-            }
-            query = consume(query, Token.SINGLE_QUOTE);
-            baseValue.subquery = query;
-            return baseValue;
-        } 
-        List<String> tokens = new List<String> {
-            Token.XTRUE,
-            Token.XFALSE,
-            Token.COLON,
-            Token.XNULL,
-            Token.TODAY_LITERAL,
-            Token.YESTERDAY_LITERAL,
-            Token.TOMORROW_LITERAL
-        };
-        for(String token : tokens) {
+        Set<String> expectedTokens = primitiveParsers.keySet();
+        for(String token : expectedTokens) {
             if(isNext(query, token)) {
                 Type parserType = primitiveParsers.get(token);
                 SubParser primitiveParser = (SubParser) parserType.newInstance();
                 return primitiveParser.parse(query);
-            } else if(isSoqlDate(query)) {
-                return parseDate(query);
-            } else if(isSoqlDateTime(query)) {
-                return parseDate(query);
             }
-        } 
-        return new NumberParser().parse(query);
+        }
+        if(isSoqlDateOrDateTime(query)) {
+            return parseDate(query);
+        } else {
+            return tryParsingAsNumber(query);
+        }
+    }
+
+    private Intermediary tryParsingAsNumber(String query) {
+        try {
+            return new NumberParser().parse(query);
+        } catch(Exception e) {
+            throw new ParsingException(query, null);
+        }
+    }
+
+    private Boolean isSoqlDateOrDateTime(String query) {
+        return isSoqlDate(query) || isSoqlDateTime(query);
     }
 
     private Boolean isSoqlDateTime(String query) {
@@ -106,17 +99,6 @@ public inherited sharing class ValueParser extends SubParser {
         return dateMatcher.matches();
     }
 
-    private Intermediary parseDateLiteral(String query, String token) {
-        query = consume(query, token);
-        return new Intermediary(
-            new NodeBuilder()
-                .setId(token)
-                .setNodeType(NodeType.DATE_LITERAL)
-                .build(),
-            query
-        );
-    }
-
     private Intermediary parseDate(String query) {
         query = skipWhitespace(query);
         String strValue = '';
@@ -131,22 +113,6 @@ public inherited sharing class ValueParser extends SubParser {
             	.build(),
             query
         );        
-    }
-
-    private Intermediary parseString(String query) {
-        query = skipWhitespace(query);
-        String strValue = '';
-        while(query.length() != 0 && !isNext(query, Token.SINGLE_QUOTE)) {
-            strValue += lookahead(query, 1);
-            query = query.subString(1);
-        }
-        return new Intermediary(
-        	new NodeBuilder()
-            	.setId(strValue)
-            	.setNodeType(NodeType.XSTRING)
-            	.build(),
-            query
-        );
     }
 
     private Intermediary parseBoolean(String query) {
