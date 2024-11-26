@@ -1,4 +1,14 @@
+/**
+ * @description A parser for boolean values 
+ * @author Zackary Frazier
+ * @since 11/25/2024
+ */
 public with sharing class BooleanParser extends SubParser {
+    /**
+     * @description Parse a boolean value
+     * @param query `String`
+     * @return  `Intermediary`
+     */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
         
