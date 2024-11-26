@@ -50,13 +50,13 @@ public inherited sharing class ValueParser extends SubParser {
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
         
-        if(isSoqlDateOrDateTime(query)) {
-            return tryParsingDateOrDateTime(query);
-        }
-        
         Intermediary intermediary = tryParsingPredictableQueries(query);
         if(intermediary != null) {
             return intermediary;
+        }
+        
+        if(isSoqlDateOrDateTime(query)) {
+            return tryParsingDateOrDateTime(query);
         }
 
         return tryParsingAsNumber(query);
