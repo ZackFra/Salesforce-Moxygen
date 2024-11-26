@@ -1,15 +1,10 @@
 public with sharing class BooleanParser extends SubParser {
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-
-        Boolean isTrue = (isNext(query, Token.XTRUE));
-        Boolean isFalse = (isNext(query, Token.XFALSE));
         
-        String boolVal;
-        if(isTrue) {
+        String boolVal = Token.XFALSE;
+        if(isNext(query, Token.XTRUE)) {
             boolVal = Token.XTRUE;
-        } else { 
-            boolVal = Token.XFALSE;
         }
         
         return new Intermediary(
