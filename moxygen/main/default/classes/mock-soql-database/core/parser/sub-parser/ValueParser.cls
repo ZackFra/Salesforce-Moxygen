@@ -98,22 +98,13 @@ public inherited sharing class ValueParser extends SubParser {
         String dateTimeRegex1 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\+([0-9]{2}):([0-9]{2})';
         String dateTimeRegex2 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\-([0-9]{2}):([0-9]{2})';
         String dateTimeRegex3 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})Z';
-
-        Pattern dateTimePattern1 = Pattern.compile(dateTimeRegex1);
-        Pattern dateTimePattern2 = Pattern.compile(dateTimeRegex2);
-        Pattern dateTimePattern3 = Pattern.compile(dateTimeRegex3);
-
-        Matcher dateTimeMatcher1 = dateTimePattern1.matcher(query);
-        Matcher dateTimeMatcher2 = dateTimePattern2.matcher(query);
-        Matcher dateTimeMatcher3 = dateTimePattern3.matcher(query);
-
-        return dateTimeMatcher1.matches() || dateTimeMatcher2.matches() || dateTimeMatcher3.matches();
+        Regex reg = new Regex();
+        return reg.matches(query, dateTimeRegex1) || reg.matches(query, dateTimeRegex2) || reg.matches(query, dateTimeRegex3);
     }
 
     private Boolean isSoqlDate(String query) {
         String dateRegex = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})';
-        Pattern datePattern = Pattern.compile(dateRegex);
-        Matcher dateMatcher = datePattern.matcher(query);
-        return dateMatcher.matches();
+        Regex reg = new Regex();
+        return reg.matches(query, dateRegex);
     }
 }
