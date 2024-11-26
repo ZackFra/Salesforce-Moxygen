@@ -49,6 +49,20 @@ public inherited sharing class ValueParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
+        
+        if(isSoqlDateOrDateTime(query)) {
+            return tryParsingDateOrDateTime(query);
+        }
+        
+        Intermediary intermediary = tryParsingPredictableQueries(query);
+        if(intermediary != null) {
+            return intermediary;
+        }
+
+        return tryParsingAsNumber(query);
+    }
+
+    private Intermediary tryParsingPredictableQueries(String query) {
         Set<String> expectedTokens = primitiveParsers.keySet();
         for(String token : expectedTokens) {
             if(isNext(query, token)) {
@@ -57,10 +71,14 @@ public inherited sharing class ValueParser extends SubParser {
                 return primitiveParser.parse(query);
             }
         }
-        if(isSoqlDateOrDateTime(query)) {
-            return parseDate(query);
-        } else {
-            return tryParsingAsNumber(query);
+        return null;
+    }
+
+    private Intermediary tryParsingDateOrDateTime(String query) {
+        try {
+            return new DateParser().parse(query);
+        } catch(Exception e) {
+            throw new ParsingException(query, null);
         }
     }
 
@@ -97,82 +115,5 @@ public inherited sharing class ValueParser extends SubParser {
         Pattern datePattern = Pattern.compile(dateRegex);
         Matcher dateMatcher = datePattern.matcher(query);
         return dateMatcher.matches();
-    }
-
-    private Intermediary parseDate(String query) {
-        query = skipWhitespace(query);
-        String strValue = '';
-        while(query.length() != 0 && !isNext(query, Token.WHITESPACE)) {
-            strValue += lookahead(query, 1);
-            query = query.subString(1);
-        }
-        return new Intermediary(
-        	new NodeBuilder()
-            	.setId(strValue)
-            	.setNodeType(NodeType.XSTRING)
-            	.build(),
-            query
-        );        
-    }
-
-    private Intermediary parseBoolean(String query) {
-        query = skipWhitespace(query);
-
-        Boolean isTrue = (isNext(query, Token.XTRUE));
-        Boolean isFalse = (isNext(query, Token.XFALSE));
-        
-        if(!isTrue && !isFalse) {
-        	throw new ParsingException(query, NodeType.XBOOLEAN);
-        }
-        
-        String boolVal;
-        if(isTrue) {
-            boolVal = Token.XTRUE;
-        } else { 
-            boolVal = Token.XFALSE;
-        }
-        
-        return new Intermediary(
-            new NodeBuilder()
-            .setId(boolVal)
-            .setNodeType(NodeType.XBOOLEAN)
-            .build(),
-            query.subString(boolVal.length())
-        );
-    }
-
-    private Intermediary parseNum(String query) {
-        query = skipWhitespace(query);
-        String numericValue = '';
-        
-        while(query.length() != 0 && (query.subString(0, 1).isNumeric() || (query.subString(0, 1) == Token.DOT) )) {
-            if(query.subString(0, 1) == Token.DOT && !query.subString(1, 2).isNumeric()) {
-                throw new ParsingException(query, 'floating point value');
-            }
-            numericValue += query.subString(0, 1);
-            query = query.subString(1);
-        }
-        if(!numericValue.isNumeric()) {
-            throw new ParsingException(query, NodeType.XNUMBER);
-        }
-        
-        return new Intermediary(
-        	new NodeBuilder()
-            	.setId(numericValue)
-            	.setNodeType(NodeType.XNUMBER)
-            	.build(),
-            query
-        );
-    }
-
-    private Intermediary parseNull(String query) {
-        query = consume(query, Token.XNULL);
-        return new Intermediary(
-        	new NodeBuilder()
-            	.setId(Token.XNULL)
-            	.setNodeType(NodeType.XNULL)
-            	.build(),
-            query
-        );
     }
 }
