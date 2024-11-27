@@ -149,19 +149,21 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
                 throw new QueryException('Invalid field type for date literal');
             }
 
-            if(fieldType == Schema.DisplayType.DATE && fieldValue == Token.TODAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today());
-            } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue == Token.TODAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today());
-                if(sObjectFieldValue != null) {
-                    sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
-                }
-            } else if(fieldType == Schema.DisplayType.DATE && fieldValue == Token.YESTERDAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today().addDays(-1));
-            } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue == Token.YESTERDAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today().addDays(-1));
-                if(sObjectFieldValue != null) {
-                    sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
+            Map<String, Integer> daysByDateLiteral = new Map<String, Integer>{
+                Token.TODAY_LITERAL => 0,
+                Token.YESTERDAY_LITERAL => -1,
+                Token.TOMORROW_LITERAL => 1
+            };
+            Set<String> dateLiterals = daysByDateLiteral.keySet();
+            for(String dateLiteral : dateLiterals) {
+                Integer daysToAdjustBy = daysByDateLiteral.get(dateLiteral);
+                if(fieldType == Schema.DisplayType.Date && fieldValue == dateLiteral) {
+                    fieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
+                } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue == dateLiteral) {
+                    fieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
+                    if(sObjectFieldValue != null) {
+                        sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
+                    }
                 }
             }
         }
