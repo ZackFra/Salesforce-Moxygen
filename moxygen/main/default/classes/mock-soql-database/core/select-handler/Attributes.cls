@@ -1,3 +1,8 @@
+/**
+ * @description Attributes for SObject 
+ * @author Zackary Frazier
+ * @since 11/26/2024
+ */
 public with sharing virtual class Attributes {
     public String url;
     public String type;
@@ -11,7 +16,12 @@ public with sharing virtual class Attributes {
         this.type = (String) resultAttributes.get('type');
         this.url = (String) resultAttributes.get('url');
     }
-    
+
+    /**
+     * @description Get the attributes of the SObject
+     * @param recordId `Id`
+     * @return  `Map<String, Object>`
+     */
     protected Map<String, Object> getAttributes(Id recordId) {
         SObject record = recordId.getSObjectType().newSObject(recordId);
         JSONGenerator gen = JSON.createGenerator(false);
