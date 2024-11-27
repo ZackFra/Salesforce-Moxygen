@@ -159,15 +159,14 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
                 if(fieldValue != dateLiteral) {
                     continue;
                 }
-                
+
                 Integer daysToAdjustBy = daysByDateLiteral.get(dateLiteral);
-                if(fieldType == Schema.DisplayType.Date) {
+                if(fieldType == Schema.DisplayType.Date || fieldType == Schema.DisplayType.DATETIME) {
                     fieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
-                } else if(fieldType == Schema.DisplayType.DATETIME) {
-                    fieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
-                    if(sObjectFieldValue != null) {
+                    if(fieldType == Schema.DisplayType.DATETIME && sObjectFieldValue != null) {
                         sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
                     }
+                    break;
                 }
             }
         }
