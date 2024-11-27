@@ -1,4 +1,4 @@
-public with sharing class Attributes {
+public with sharing virtual class Attributes {
     public String url;
     public String type;
 
@@ -11,19 +11,8 @@ public with sharing class Attributes {
         this.type = (String) resultAttributes.get('type');
         this.url = (String) resultAttributes.get('url');
     }
-
-    /**
-     * @description Constructor for the polymorphic relationship
-     * @param recordId 
-     */
-    public Attributes(Id recordId) {
-        Schema.SObjectType polymorphicSObjectSot = SchemaService.getPolymorphicSObjectType();
-        String polymorphicSObjectName = SchemaService.getSObjectName(polymorphicSObjectSot);
-        this.type = polymorphicSObjectName;
-        Map<String, Object> resultAttributes = getAttributes(recordId);
-    }
-
-    private Map<String, Object> getAttributes(Id recordId) {
+    
+    protected Map<String, Object> getAttributes(Id recordId) {
         SObject record = recordId.getSObjectType().newSObject(recordId);
         JSONGenerator gen = JSON.createGenerator(false);
         gen.writeObject(record);

@@ -115,7 +115,7 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
                     }
                 }
 
-                Attributes attributes = new Attributes(parentRecord.Id);                
+                PolymorphicAttributes attributes = new PolymorphicAttributes(parentRecord);                
                 parentRecordData.put('attributes', attributes);
             } else {
                 parentRecordData.put(finalFieldApiName, mockRecords.get(parentRecord.Id).get(finalFieldApiName));
