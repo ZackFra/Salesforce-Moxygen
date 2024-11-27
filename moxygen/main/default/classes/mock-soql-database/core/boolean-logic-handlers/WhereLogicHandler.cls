@@ -179,7 +179,8 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         Boolean isString = (fieldValue instanceof String);
         Boolean isDate = (fieldType == Schema.DisplayType.DATE);
         Boolean isDateTime = (fieldType == Schema.DisplayType.DATETIME);
-        if(!isString && !isDate && !isDateTime) {
+        Boolean isDateOrDateTime = isDate || isDateTime;
+        if(!isString && !isDateOrDateTime) {
             return fieldValue;
         }
         return ((String) fieldValue).toUpperCase();
