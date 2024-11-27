@@ -9,7 +9,7 @@ public with sharing virtual class Attributes {
 
     /**
      * @description Constructor for normal SObject
-     * @param record 
+     * @param record `SObject`
      */
     public Attributes(SObject record) {
         Map<String, Object> resultAttributes = this.getAttributes(record.Id);
