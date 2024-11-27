@@ -176,14 +176,13 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
     }
 
     private Object adjustForSoqlDateString(Object fieldValue, Schema.DisplayType fieldType) {
-        if(!(fieldValue instanceof String)) {
+        Boolean isString = (fieldValue instanceof String);
+        Boolean isDate = (fieldType == Schema.DisplayType.DATE);
+        Boolean isDateTime = (fieldType == Schema.DisplayType.DATETIME);
+        if(!isString && !isDate && !isDateTime) {
             return fieldValue;
         }
-
-        if(fieldType == Schema.DisplayType.DATE || fieldType == Schema.DisplayType.DATETIME) {
-            fieldValue = ((String) fieldValue).toUpperCase();
-        }
-        return fieldValue;
+        return ((String) fieldValue).toUpperCase();
     }
 
     private void validateListHandlers(IOperatorHandler handler, Schema.DisplayType fieldType) {
