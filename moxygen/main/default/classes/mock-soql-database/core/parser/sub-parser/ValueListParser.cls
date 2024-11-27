@@ -29,6 +29,7 @@
  * @since 4/12/2024
  */
 public inherited sharing class ValueListParser extends SubParser {
+
     /**
      * @description Parses a list of values.
      * @param query `String`
@@ -41,8 +42,8 @@ public inherited sharing class ValueListParser extends SubParser {
         query = value.subquery;
         query = skipWhitespace(query);
         
-        if(lookahead(query, 1) == ',') {
-            query = consume(query, ',');
+        if(isNext(query, Token.COMMA)) {
+            query = consume(query, Token.COMMA);
             Intermediary restOfList = parse(query);
             value.head.left = restOfList.head;
             value.subquery = restOfList.subquery;
@@ -50,8 +51,8 @@ public inherited sharing class ValueListParser extends SubParser {
         query = value.subquery;
         return new Intermediary(
             new NodeBuilder()
-            .setId('value list')
-            .setNodeType('value list')
+            .setId(NodeType.VALUE_LIST)
+            .setNodeType(NodeType.VALUE_LIST)
             .setLeft(value.head)
             .build(),
             query
