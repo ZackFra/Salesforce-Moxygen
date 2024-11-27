@@ -42,11 +42,11 @@ private class ParserTest {
     static void canParseYesterdayLiteralInDate() {
         Parser p = new Parser();
         Node head = p.parse('SELECT Id FROM Account WHERE CreatedDate = YESTERDAY');
-        Node todayNode = head.right.right.left.right;
-        Assert.areEqual(todayNode.nodeType, NodeType.DATE_LITERAL, 'Should be a date literal');
-        Assert.areEqual(todayNode.id, Token.TODAY_LITERAL, 'Should be a today literal');
-        Assert.isNull(todayNode.left, 'Should not have a left node');
-        Assert.isNull(todayNode.right, 'Should not have a right node');
+        Node yesterdayNode = head.right.right.left.right;
+        Assert.areEqual(NodeType.DATE_LITERAL, yesterdayNode.nodeType, 'Should be a date literal');
+        Assert.areEqual(yesterdayNode.id, Token.YESTERDAY_LITERAL, 'Should be a today literal');
+        Assert.isNull(yesterdayNode.left, 'Should not have a left node');
+        Assert.isNull(yesterdayNode.right, 'Should not have a right node');
         
     }
 
@@ -54,11 +54,11 @@ private class ParserTest {
     static void canParseTomorrowLiteralInDate() {
         Parser p = new Parser();
         Node head = p.parse('SELECT Id FROM Account WHERE CreatedDate = TOMORROW');
-        Node todayNode = head.right.right.left.right;
-        Assert.areEqual(todayNode.nodeType, NodeType.DATE_LITERAL, 'Should be a date literal');
-        Assert.areEqual(todayNode.id, Token.TODAY_LITERAL, 'Should be a today literal');
-        Assert.isNull(todayNode.left, 'Should not have a left node');
-        Assert.isNull(todayNode.right, 'Should not have a right node');
+        Node tomorrowNode = head.right.right.left.right;
+        Assert.areEqual(NodeType.DATE_LITERAL, tomorrowNode.nodeType, 'Should be a date literal');
+        Assert.areEqual(Token.TOMORROW_LITERAL, tomorrowNode.id, 'Should be a today literal');
+        Assert.isNull(tomorrowNode.left, 'Should not have a left node');
+        Assert.isNull(tomorrowNode.right, 'Should not have a right node');
         
     }
 
