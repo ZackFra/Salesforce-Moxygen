@@ -156,10 +156,14 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             };
             Set<String> dateLiterals = daysByDateLiteral.keySet();
             for(String dateLiteral : dateLiterals) {
+                if(fieldValue != dateLiteral) {
+                    continue;
+                }
+                
                 Integer daysToAdjustBy = daysByDateLiteral.get(dateLiteral);
-                if(fieldType == Schema.DisplayType.Date && fieldValue == dateLiteral) {
+                if(fieldType == Schema.DisplayType.Date) {
                     fieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
-                } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue == dateLiteral) {
+                } else if(fieldType == Schema.DisplayType.DATETIME) {
                     fieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
                     if(sObjectFieldValue != null) {
                         sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
