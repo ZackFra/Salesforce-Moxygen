@@ -142,17 +142,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         Schema.SObjectType parentSot = SchemaService.getSObjectType(parentRecord);
         Schema.DisplayType fieldType = SchemaService.getFieldType(parentSot, finalField);
         
-        if(handler instanceof IncludesHandler) {
-            if(fieldType != Schema.DisplayType.MULTIPICKLIST) {
-                throw new QueryException('Invalid field type for INCLUDES operator');
-            }
-        }
-
-        if(handler instanceof ExcludesHandler) {
-            if(fieldType != Schema.DisplayType.MULTIPICKLIST) {
-                throw new QueryException('Invalid field type for EXCLUDES operator');
-            }
-        }
+        validateListHandlers(handler, fieldType);
 
         if(valueNode.nodeType == NodeType.DATE_LITERAL) {
             if(fieldType != Schema.DisplayType.DATE && fieldType != Schema.DisplayType.DATETIME) {
@@ -183,5 +173,18 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         }
 
         return handler.handle(sObjectFieldValue, fieldValue);
+    }
+
+    private void validateListHandlers(IOperatorHandler handler, Schema.DisplayType fieldType) {
+        Boolean isMultiPicklist = (fieldType == Schema.DisplayType.MULTIPICKLIST);
+        if(isMultiPicklist) {
+            return;
+        }
+
+        Boolean isIncludesHandler = (handler instanceof IncludesHandler);
+        Boolean isExcludesHandler = (handler instanceof ExcludesHandler);
+        if(isIncludesHandler || isExcludesHandler) {
+            throw new QueryException('Invalid field type for INCLUDES operator');
+        }
     }
 }
