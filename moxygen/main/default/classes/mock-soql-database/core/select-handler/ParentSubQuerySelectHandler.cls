@@ -115,9 +115,7 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
                     }
                 }
 
-                // the "Name" object is a hidden SF object for polymorphic relationships
-                Attributes attributes = new Attributes(parentRecord.Id);
-                
+                Attributes attributes = new Attributes(parentRecord.Id);                
                 parentRecordData.put('attributes', attributes);
             } else {
                 parentRecordData.put(finalFieldApiName, mockRecords.get(parentRecord.Id).get(finalFieldApiName));
