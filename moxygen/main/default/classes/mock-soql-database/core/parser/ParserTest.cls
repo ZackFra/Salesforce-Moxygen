@@ -36,6 +36,29 @@ private class ParserTest {
         Assert.areEqual(todayNode.id, Token.TODAY_LITERAL, 'Should be a today literal');
         Assert.isNull(todayNode.left, 'Should not have a left node');
         Assert.isNull(todayNode.right, 'Should not have a right node');
+    }
+
+    @IsTest
+    static void canParseYesterdayLiteralInDate() {
+        Parser p = new Parser();
+        Node head = p.parse('SELECT Id FROM Account WHERE CreatedDate = YESTERDAY');
+        Node todayNode = head.right.right.left.right;
+        Assert.areEqual(todayNode.nodeType, NodeType.DATE_LITERAL, 'Should be a date literal');
+        Assert.areEqual(todayNode.id, Token.TODAY_LITERAL, 'Should be a today literal');
+        Assert.isNull(todayNode.left, 'Should not have a left node');
+        Assert.isNull(todayNode.right, 'Should not have a right node');
+        
+    }
+
+    @IsTest
+    static void canParseTomorrowLiteralInDate() {
+        Parser p = new Parser();
+        Node head = p.parse('SELECT Id FROM Account WHERE CreatedDate = TOMORROW');
+        Node todayNode = head.right.right.left.right;
+        Assert.areEqual(todayNode.nodeType, NodeType.DATE_LITERAL, 'Should be a date literal');
+        Assert.areEqual(todayNode.id, Token.TODAY_LITERAL, 'Should be a today literal');
+        Assert.isNull(todayNode.left, 'Should not have a left node');
+        Assert.isNull(todayNode.right, 'Should not have a right node');
         
     }
 
