@@ -116,10 +116,8 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
                 }
 
                 // the "Name" object is a hidden SF object for polymorphic relationships
-                Schema.SObjectType polymorphicSObjectSot = SchemaService.getPolymorphicSObjectType();
-                String polymorphicSObjectName = SchemaService.getSObjectName(polymorphicSObjectSot);
-
-                Attributes attributes = new Attributes(parentRecord);
+                Attributes attributes = new Attributes(parentRecord.Id);
+                
                 parentRecordData.put('attributes', attributes);
             } else {
                 parentRecordData.put(finalFieldApiName, mockRecords.get(parentRecord.Id).get(finalFieldApiName));
