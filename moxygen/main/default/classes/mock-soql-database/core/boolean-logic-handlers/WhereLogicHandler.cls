@@ -160,8 +160,8 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
                     continue;
                 }
 
-                Integer daysToAdjustBy = daysByDateLiteral.get(dateLiteral);
                 if(fieldType == Schema.DisplayType.Date || fieldType == Schema.DisplayType.DATETIME) {
+                    Integer daysToAdjustBy = daysByDateLiteral.get(dateLiteral);
                     fieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
                     if(fieldType == Schema.DisplayType.DATETIME && sObjectFieldValue != null) {
                         sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
