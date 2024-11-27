@@ -119,11 +119,7 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
                 Schema.SObjectType polymorphicSObjectSot = SchemaService.getPolymorphicSObjectType();
                 String polymorphicSObjectName = SchemaService.getSObjectName(polymorphicSObjectSot);
 
-                Map<String, String> attributes = new Map<String, String> {
-                    'type' => polymorphicSObjectName,
-                    'url' => '/' + parentRecord.Id
-                };
-                
+                Attributes attributes = new Attributes(parentRecord);
                 parentRecordData.put('attributes', attributes);
             } else {
                 parentRecordData.put(finalFieldApiName, mockRecords.get(parentRecord.Id).get(finalFieldApiName));
