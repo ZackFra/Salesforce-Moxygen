@@ -1,6 +1,6 @@
 @IsTest
 @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts')
-private class SecurityEnforcedTest {
+private class WithSecurityEnforcedParserTest {
     @IsTest
     static void testSpacing1() {
         ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' AND Id = \'test\' GROUP BY NameWITH SECURITY_ENFORCED');

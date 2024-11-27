@@ -51,4 +51,19 @@ private class HavingParserTest {
         Assert.isNull(ex, 'Should be able to parse date literals');
 
     }
+
+    @IsTest
+    private static void selectIdFromAccountGroupByIdHavingCountIdGreaterThan0() {
+        ParserTestUtil.assertStaticResource('HAVING_0');
+    }
+
+    @IsTest
+    static void havingClauseWithMultipleConditions() {
+        ParserTestUtil.assertStaticResource('HAVING_1');
+    }
+
+    @IsTest
+    static void correctHavingClauseTreeForOrAndWhereLogic() {
+        ParserTestUtil.assertStaticResource('HAVING_2');
+    }
 }

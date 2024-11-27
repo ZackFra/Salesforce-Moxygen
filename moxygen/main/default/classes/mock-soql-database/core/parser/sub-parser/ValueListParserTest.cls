@@ -1,5 +1,10 @@
 @isTest
 private class ValueListParserTest {
+    @IsTest
+    static void simpleStringValueList() {
+        ParserTestUtil.assertStaticResource('VALUE_LIST_0');
+    }
+
     @isTest
     static void ensureValueListCanParseListOfDateLiterals() {
 
