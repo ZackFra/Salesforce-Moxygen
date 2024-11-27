@@ -170,14 +170,20 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
                 }
             }
         }
-
-        if(fieldType == Schema.DisplayType.DATE && fieldValue instanceOf String) {
-            fieldValue = ((String) fieldValue).toUpperCase();
-        } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue instanceOf String) {
-            fieldValue = ((String) fieldValue).toUpperCase();
-        }
+        fieldValue = adjustForSoqlDateString(fieldValue, fieldType);
 
         return handler.handle(sObjectFieldValue, fieldValue);
+    }
+
+    private Object adjustForSoqlDateString(Object fieldValue, Schema.DisplayType fieldType) {
+        if(!(fieldValue instanceof String)) {
+            return fieldValue;
+        }
+
+        if(fieldType == Schema.DisplayType.DATE || fieldType == Schema.DisplayType.DATETIME) {
+            fieldValue = ((String) fieldValue).toUpperCase();
+        }
+        return fieldValue;
     }
 
     private void validateListHandlers(IOperatorHandler handler, Schema.DisplayType fieldType) {
