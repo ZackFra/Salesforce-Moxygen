@@ -110,6 +110,8 @@ private class AggregateStandardProcessorTest {
         Test.startTest();
         ProtoAggregate protoAggr = processor.findGroupedAggregate(con1, groupByFields);
         Test.stopTest();
+
+        Assert.isNotNull(protoAggr, 'Grouped aggregate not found');
     }
 
     @isTest

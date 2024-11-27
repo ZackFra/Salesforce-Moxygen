@@ -30,6 +30,17 @@
   */
 public inherited sharing class ValueParser extends SubParser {
 
+    Map<String, Type> primitiveParsers = new Map<String, Type> {
+        Token.SINGLE_QUOTE => StringParser.class,
+        Token.TOMORROW_LITERAL => TomorrowParser.class,
+        Token.TODAY_LITERAL => TodayParser.class,
+        Token.YESTERDAY_LITERAL => YesterdayParser.class,
+        Token.XTRUE => BooleanParser.class,
+        Token.XFALSE => BooleanParser.class,
+        Token.XNULL => NullParser.class,
+        Token.COLON => BindVariableParser.class
+    };
+
     /**
      * @description Parses the value in the query string
      * @param query `String`
@@ -38,182 +49,62 @@ public inherited sharing class ValueParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(isNext(query, Token.SINGLE_QUOTE)) {
-            Intermediary baseValue;
-            query = query.subString(1);
-            baseValue = parseString(query);
-            query = baseValue.subquery;
-            if(!isNext(query, Token.SINGLE_QUOTE)) {
-                throw new ParsingException(baseValue.subquery, Token.SINGLE_QUOTE);
-            }
-            query = consume(query, Token.SINGLE_QUOTE);
-            baseValue.subquery = query;
-            return baseValue;
-        } else if(isNext(query, Token.XTRUE) || isNext(query, Token.XFALSE)) {
-        	return parseBoolean(query);
-        } else if(isNext(query, Token.COLON)) {
-            query = consume(query, Token.COLON);
-            return parseBindVariable(query);
-        } else if(isNext(query, Token.XNULL)) {
-            return parseNull(query);
-        } else if(isNext(query, Token.TODAY_LITERAL)) {
-            return parseDateLiteral(query, Token.TODAY_LITERAL);
-        } else if(isNext(query, Token.YESTERDAY_LITERAL)) {
-            return parseDateLiteral(query, Token.YESTERDAY_LITERAL);
-        } else if(isSoqlDateTime(query)) {
-            return parseDate(query);
-        } else if(isSoqlDate(query)) {
-            return parseDate(query);
-        } else {
-            return parseNum(query);
+        
+        Intermediary intermediary = tryParsingPredictableQueries(query);
+        if(intermediary != null) {
+            return intermediary;
         }
+        
+        if(isSoqlDateOrDateTime(query)) {
+            return tryParsingDateOrDateTime(query);
+        }
+
+        return tryParsingAsNumber(query);
+    }
+
+    private Intermediary tryParsingPredictableQueries(String query) {
+        Set<String> expectedTokens = primitiveParsers.keySet();
+        for(String token : expectedTokens) {
+            if(isNext(query, token)) {
+                Type parserType = primitiveParsers.get(token);
+                SubParser primitiveParser = (SubParser) parserType.newInstance();
+                return primitiveParser.parse(query);
+            }
+        }
+        return null;
+    }
+
+    private Intermediary tryParsingDateOrDateTime(String query) {
+        try {
+            return new DateParser().parse(query);
+        } catch(Exception e) {
+            throw new ParsingException(query, null);
+        }
+    }
+
+    private Intermediary tryParsingAsNumber(String query) {
+        try {
+            return new NumberParser().parse(query);
+        } catch(Exception e) {
+            throw new ParsingException(query, null);
+        }
+    }
+
+    private Boolean isSoqlDateOrDateTime(String query) {
+        return isSoqlDate(query) || isSoqlDateTime(query);
     }
 
     private Boolean isSoqlDateTime(String query) {
         String dateTimeRegex1 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\+([0-9]{2}):([0-9]{2})';
         String dateTimeRegex2 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\-([0-9]{2}):([0-9]{2})';
         String dateTimeRegex3 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})Z';
-
-        Pattern dateTimePattern1 = Pattern.compile(dateTimeRegex1);
-        Pattern dateTimePattern2 = Pattern.compile(dateTimeRegex2);
-        Pattern dateTimePattern3 = Pattern.compile(dateTimeRegex3);
-
-        Matcher dateTimeMatcher1 = dateTimePattern1.matcher(query);
-        Matcher dateTimeMatcher2 = dateTimePattern2.matcher(query);
-        Matcher dateTimeMatcher3 = dateTimePattern3.matcher(query);
-
-        return dateTimeMatcher1.matches() || dateTimeMatcher2.matches() || dateTimeMatcher3.matches();
+        Regex reg = new Regex();
+        return reg.matches(query, dateTimeRegex1) || reg.matches(query, dateTimeRegex2) || reg.matches(query, dateTimeRegex3);
     }
 
     private Boolean isSoqlDate(String query) {
         String dateRegex = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})';
-        Pattern datePattern = Pattern.compile(dateRegex);
-        Matcher dateMatcher = datePattern.matcher(query);
-        return dateMatcher.matches();
-    }
-
-    private Intermediary parseDateLiteral(String query, String token) {
-        query = consume(query, token);
-        return new Intermediary(
-            new NodeBuilder()
-                .setId(token)
-                .setNodeType(NodeType.DATE_LITERAL)
-                .build(),
-            query
-        );
-    }
-
-    private Intermediary parseDate(String query) {
-        query = skipWhitespace(query);
-        String strValue = '';
-        while(query.length() != 0 && !isNext(query, Token.WHITESPACE)) {
-            strValue += lookahead(query, 1);
-            query = query.subString(1);
-        }
-        return new Intermediary(
-        	new NodeBuilder()
-            	.setId(strValue)
-            	.setNodeType(NodeType.XSTRING)
-            	.build(),
-            query
-        );        
-    }
-
-    private Intermediary parseString(String query) {
-        query = skipWhitespace(query);
-        String strValue = '';
-        while(query.length() != 0 && !isNext(query, Token.SINGLE_QUOTE)) {
-            strValue += lookahead(query, 1);
-            query = query.subString(1);
-        }
-        return new Intermediary(
-        	new NodeBuilder()
-            	.setId(strValue)
-            	.setNodeType(NodeType.XSTRING)
-            	.build(),
-            query
-        );
-    }
-
-    private Intermediary parseBoolean(String query) {
-        query = skipWhitespace(query);
-
-        Boolean isTrue = (isNext(query, Token.XTRUE));
-        Boolean isFalse = (isNext(query, Token.XFALSE));
-        
-        if(!isTrue && !isFalse) {
-        	throw new ParsingException(query, NodeType.XBOOLEAN);
-        }
-        
-        String boolVal;
-        if(isTrue) {
-            boolVal = Token.XTRUE;
-        } else { 
-            boolVal = Token.XFALSE;
-        }
-        
-        return new Intermediary(
-            new NodeBuilder()
-            .setId(boolVal)
-            .setNodeType(NodeType.XBOOLEAN)
-            .build(),
-            query.subString(boolVal.length())
-        );
-    }
-
-    private Intermediary parseBindVariable(String query) {
-        query = skipWhitespace(query);
-        String bindVarName = '';
-        while(query.length() > 0 && isNextTokenFieldOrObject(query)) {
-            bindVarName += query.subString(0, 1);
-            query = query.subString(1);
-        }
-
-        if(bindVarName.isNumeric()) {
-            throw new ParsingException(bindVarName, 'bind variable name');
-        }
-
-        return new Intermediary(
-            new NodeBuilder()
-                .setId(bindVarName)
-                .setNodeType(NodeType.XBIND_VARIABLE)
-                .build(),
-            query
-        );
-    }
-
-    private Intermediary parseNum(String query) {
-        query = skipWhitespace(query);
-        String numericValue = '';
-        
-        while(query.length() != 0 && (query.subString(0, 1).isNumeric() || (query.subString(0, 1) == Token.DOT) )) {
-            if(query.subString(0, 1) == Token.DOT && !query.subString(1, 2).isNumeric()) {
-                throw new ParsingException(query, 'floating point value');
-            }
-            numericValue += query.subString(0, 1);
-            query = query.subString(1);
-        }
-        if(!numericValue.isNumeric()) {
-            throw new ParsingException(query, NodeType.XNUMBER);
-        }
-        
-        return new Intermediary(
-        	new NodeBuilder()
-            	.setId(numericValue)
-            	.setNodeType(NodeType.XNUMBER)
-            	.build(),
-            query
-        );
-    }
-
-    private Intermediary parseNull(String query) {
-        query = consume(query, Token.XNULL);
-        return new Intermediary(
-        	new NodeBuilder()
-            	.setId(Token.XNULL)
-            	.setNodeType(NodeType.XNULL)
-            	.build(),
-            query
-        );
+        Regex reg = new Regex();
+        return reg.matches(query, dateRegex);
     }
 }

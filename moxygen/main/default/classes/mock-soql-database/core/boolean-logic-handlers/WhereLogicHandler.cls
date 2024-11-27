@@ -30,12 +30,16 @@
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
 public with sharing class WhereLogicHandler extends BooleanLogicHandler {
+
+    SObject record;
+
     /**
      * @description Constructor
      * @param options - the options to be used for the handler
      */
     public WhereLogicHandler(BooleanLogicOptions options) {
         super(options);
+        this.record = (SObject) this.obj;
     }
 
     /**
@@ -48,10 +52,8 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
     public override Boolean isCompareConditionMet(Node operatorNode) {
         Node fieldNode = operatorNode.left;
         Node valueNode = operatorNode.right;
-        SObject sObj = (SObject) this.obj;
-        Map<String, Object> params = this.params;
         
-        Object fieldValue = MockDatabase.utils.getFieldNodeValue(valueNode, sObj, params);
+        Object fieldValue = MockDatabase.utils.getFieldNodeValue(valueNode, this.record, this.params);
         if(!(fieldValue instanceOf List<Object>)) {
             fieldValue = String.valueOf(fieldValue);
         }
@@ -64,16 +66,16 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         // if the field is a parent field, we need to get the parent record
         // further down, we can't say for sure whether the field is a parent field or not
         // so we'll need to store our object and field name in a variable
-        sObject parentRecord = sObj;
+        sObject parentRecord = this.record;
         String finalField = fieldName;
 
         // the Type field on a polymorphic relationship is a special case
         Boolean isPolyType = false;
         if(AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id)) {
             // in this sceneario, fieldNode's actually an aggregate, so fieldNode.right is the actual field
-            fieldName = SchemaService.getFieldName(sObj, fieldNode.right.id);
+            fieldName = SchemaService.getFieldName(this.record, fieldNode.right.id);
             finalField = fieldName;
-            Object dateOrDateTimeValue = sobj.get(fieldName);
+            Object dateOrDateTimeValue = this.record.get(fieldName);
             Boolean isDateFunc = AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id);
             if(isDateFunc) {
                 sObjectFieldValue = DateFuncs.execute(fieldNode.id, dateOrDateTimeValue);
@@ -81,7 +83,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
                 throw new QueryException('Unsupported date function');
             }
         } else if(!isParentField) {
-            sObjectFieldValue = sObj.get(fieldName);
+            sObjectFieldValue = this.record.get(fieldName);
         } else {
             List<String> fieldParts = fieldName.split('\\.');
             finalField = fieldParts[fieldParts.size()-1];
@@ -140,17 +142,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         Schema.SObjectType parentSot = SchemaService.getSObjectType(parentRecord);
         Schema.DisplayType fieldType = SchemaService.getFieldType(parentSot, finalField);
         
-        if(handler instanceof IncludesHandler) {
-            if(fieldType != Schema.DisplayType.MULTIPICKLIST) {
-                throw new QueryException('Invalid field type for INCLUDES operator');
-            }
-        }
-
-        if(handler instanceof ExcludesHandler) {
-            if(fieldType != Schema.DisplayType.MULTIPICKLIST) {
-                throw new QueryException('Invalid field type for EXCLUDES operator');
-            }
-        }
+        validateListHandlers(handler, fieldType);
 
         if(valueNode.nodeType == NodeType.DATE_LITERAL) {
             if(fieldType != Schema.DisplayType.DATE && fieldType != Schema.DisplayType.DATETIME) {
@@ -181,5 +173,18 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         }
 
         return handler.handle(sObjectFieldValue, fieldValue);
+    }
+
+    private void validateListHandlers(IOperatorHandler handler, Schema.DisplayType fieldType) {
+        Boolean isMultiPicklist = (fieldType == Schema.DisplayType.MULTIPICKLIST);
+        if(isMultiPicklist) {
+            return;
+        }
+
+        Boolean isIncludesHandler = (handler instanceof IncludesHandler);
+        Boolean isExcludesHandler = (handler instanceof ExcludesHandler);
+        if(isIncludesHandler || isExcludesHandler) {
+            throw new QueryException('Invalid field type for INCLUDES operator');
+        }
     }
 }

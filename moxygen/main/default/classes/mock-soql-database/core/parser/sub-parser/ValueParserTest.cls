@@ -1,76 +1,29 @@
 @isTest
 private class ValueParserTest {
-    @IsTest 
-    static void ensureValueParserParsesYesterday() {
-        ValueParser vp = new ValueParser();
+
+    @isTest
+    static void ensureTomorrowIsParseable() {
+        ValueParser parser = new ValueParser();
         Test.startTest();
-        Intermediary result = vp.parse('YESTERDAY');
+        Intermediary intermediary = parser.parse(Token.TOMORROW_LITERAL);
         Test.stopTest();
-        Node head = result.head;
-        Assert.areEqual(Token.YESTERDAY_LITERAL, head.id, 'Expected ' + Token.YESTERDAY_LITERAL + ' but got ' + result.head.id);
-        Assert.areEqual(NodeType.DATE_LITERAL, head.nodeType, 'Expected ' + NodeType.DATE_LITERAL + ' but got ' + result.head.nodeType);
-        Assert.isNull(head.left, 'Expected null but got ' + head.left);
-        Assert.isNull(head.right, 'Expected null but got ' + head.right);
-        Assert.areEqual('', result.subquery, 'Expected empty string but got ' + result.subquery);
+        String subquery = intermediary.subquery;
+        Node head = intermediary.head;
+        Assert.areEqual('', subquery, 'Subquery should be empty');
+        Assert.areEqual(Token.TOMORROW_LITERAL, head.id, 'Tomorrow should be parseable');
+        Assert.areEqual(NodeType.DATE_LITERAL, head.nodeType, 'Tomorrow should be of type tomorrow literal');
     }
 
-    @IsTest
-    static void ensureValueParserParsesToday() {
-        ValueParser vp = new ValueParser();
+    @isTest
+    static void ensureTomorrowAndAnotherTokenIsParseable() {
+        ValueParser parser = new ValueParser();
         Test.startTest();
-        Intermediary result = vp.parse('TODAY');
+        Intermediary intermediary = parser.parse(Token.TOMORROW_LITERAL + ' AND Id = 1');
         Test.stopTest();
-        Node head = result.head;
-        Assert.areEqual(Token.TODAY_LITERAL, head.id, 'Expected ' + Token.TODAY_LITERAL + ' but got ' + result.head.id);
-        Assert.areEqual(NodeType.DATE_LITERAL, head.nodeType, 'Expected ' + NodeType.DATE_LITERAL + ' but got ' + result.head.nodeType);
-        Assert.isNull(head.left, 'Expected null but got ' + head.left);
-        Assert.isNull(head.right, 'Expected null but got ' + head.right);
-        Assert.areEqual('', result.subquery, 'Expected empty string but got ' + result.subquery);
-    }
-
-    @IsTest
-    static void ensureValueParserParsesDateTimeLiteral() {
-        ValueParser p = new ValueParser();
-        DateTime now = GMT.now();
-        String nowAsSoqlString = Common.dateTimeToSoqlString(now);
-        
-        Intermediary result;
-        Test.startTest();
-        try {
-            result = p.parse(nowAsSoqlString);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + now);
-        }
-        Test.stopTest();
-        Node head = result.head;
-        Assert.areEqual(nowAsSoqlString.toLowerCase(), head.id, 'Expected ' + nowAsSoqlString + ' but got ' + head.id);
-        Assert.areEqual(NodeType.XSTRING, head.nodeType, 'Expected ' + NodeType.XSTRING + ' but got ' + head.nodeType);
-        Assert.isNull(head.left, 'Expected null but got ' + head.left);
-        Assert.isNull(head.right, 'Expected null but got ' + head.right);
-
-        Assert.areEqual('', result.subquery, 'Expected empty string but got ' + result.subquery);
-    }
-
-    @IsTest
-    static void ensureValueParserParsesDateLiteral() {
-        ValueParser p = new ValueParser();
-        Date today = GMT.today();
-        String nowAsSoqlString = Common.dateToSoqlString(today);
-
-        Intermediary result;
-        Test.startTest();
-        try {
-            result = p.parse(nowAsSoqlString);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + today);
-        }
-        Test.stopTest();
-        Node head = result.head;
-        Assert.areEqual(head.id, nowAsSoqlString, 'Expected ' + nowAsSoqlString + ' but got ' + head.id);
-        Assert.areEqual(head.nodeType, NodeType.XSTRING, 'Expected ' + NodeType.XSTRING + ' but got ' + head.nodeType);
-        Assert.isNull(head.left, 'Expected null but got ' + head.left);
-        Assert.isNull(head.right, 'Expected null but got ' + head.right);
-
-        Assert.areEqual('', result.subquery, 'Expected empty string but got ' + result.subquery);
+        String subquery = intermediary.subquery;
+        Node head = intermediary.head;
+        Assert.areEqual(' AND Id = 1', subquery, 'Subquery should be " AND Id = 1"');
+        Assert.areEqual(Token.TOMORROW_LITERAL, head.id, 'Tomorrow should be parseable');
+        Assert.areEqual(NodeType.DATE_LITERAL, head.nodeType, 'Tomorrow should be of type tomorrow literal');
     }
 }

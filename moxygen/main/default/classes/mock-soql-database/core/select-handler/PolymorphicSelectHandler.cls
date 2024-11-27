@@ -121,11 +121,7 @@ public inherited sharing class PolymorphicSelectHandler implements ISelectHandle
             parentRecordData.put(parentRecordFieldApiName, parentRecord.get(parentRecordFieldApiName));
         }
         parentRecordData.put('Id', parentRecord.Id);
-        
-        Map<String, String> attributes = new Map<String, String> {
-            'type' => SchemaService.getSObjectName(parentRecord),
-            'url' => '/' + parentRecord.Id
-        };
+        Attributes attributes = new Attributes(parentRecord);
         parentRecordData.put('attributes', attributes);
         Map<String, Object> sObjClone = Common.mapFromRecord(queriedRecord);
 

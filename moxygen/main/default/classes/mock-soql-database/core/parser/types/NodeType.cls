@@ -66,4 +66,5 @@ public inherited sharing class NodeType {
     public final static String BIND_VAR = 'bind variable';
 
     public final static String DATE_LITERAL = 'date literal';
+    public final static String VALUE_LIST = 'value list';
 }
