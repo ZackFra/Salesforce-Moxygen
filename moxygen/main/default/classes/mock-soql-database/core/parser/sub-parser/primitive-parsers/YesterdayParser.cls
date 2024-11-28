@@ -5,7 +5,7 @@
  */
 public with sharing class YesterdayParser extends SubParser {
     /**
-     * @description Parse the yesterday literal
+     * @description Parse the YESTERDAY literal
      * @param query `String`
      * @return  `Intermediary`
      */
