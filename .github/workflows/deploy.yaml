@@ -32,5 +32,5 @@ jobs:
           sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
       - name: Deploy
         run: |
-            sf project deploy quick --job-id ${{ steps.PR.outputs.pr_body }} --target DevHub
+            sf project deploy quick --job-id ${{ steps.PR.outputs.pr_body }}
     
