@@ -32,16 +32,7 @@
 public with sharing class WhereLogicHandler extends BooleanLogicHandler {
 
     SObject record;
-
-    /**
-     * @description Constructor
-     * @param options - the options to be used for the handler
-     */
-    public WhereLogicHandler(BooleanLogicOptions options) {
-        super(options);
-        this.record = (SObject) this.obj;
-    }
-
+    
     enum ComparisonStrategy {
         DATE_FUNC,
         PARENT_FIELD,
@@ -55,12 +46,20 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
     };
 
     /**
+     * @description Constructor
+     * @param options - the options to be used for the handler
+     */
+    public WhereLogicHandler(BooleanLogicOptions options) {
+        super(options);
+        this.record = (SObject) this.obj;
+    }
+
+    /**
      * @description Checks if the WHERE clause is met
      * @param operatorNode 
      * @return  `Boolean`
      * @exception QueryException
      */
-    @SuppressWarnings('PMD.CyclomaticComplexity, PMD.NcssMethodCount, PMD.CognitiveComplexity')
     public override Boolean isCompareConditionMet(Node operatorNode) {
         Node fieldNode = operatorNode.left;
         Node valueNode = operatorNode.right;
