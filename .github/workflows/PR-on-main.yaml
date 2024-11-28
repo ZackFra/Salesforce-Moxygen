@@ -68,5 +68,15 @@ jobs:
           sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
       - name: Validate
         run: |
-          sf project deploy validate --manifest manifest/package.xml -o DevHub -w 120
+          sf project deploy validate --manifest manifest/package.xml -o DevHub -w 120 --json > validate.json
+      - name: Get Job Id
+        run: |
+          node scripts/js/get-job-id.js
+      - name: Update PR Description
+        uses: nefrob/pr-description@v1.2.0
+        with:
+          content: job-id.txt
+          contentIsFilePath: true
+          regex: ".*"
+          token: ${{ secrets.GITHUB_TOKEN }}
           
