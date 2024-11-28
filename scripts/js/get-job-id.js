@@ -12,7 +12,7 @@ fileStream.on("end", tryToParseValidateJob);
  * @description writes the validate job's json output to validateJobText
  * @param {string} chunk 
  */
-const buildValidateJobText = (chunk) => {
+function buildValidateJobText(chunk) {
     validateJobText += chunk.toString('utf-8');
 }
 
@@ -20,7 +20,7 @@ const buildValidateJobText = (chunk) => {
  * @description attempts to parse the validate job output and write the job id to a file
  *              if an error occurs, the job-id.txt file will be cleared
  */
-const tryToParseValidateJob = () => {
+function tryToParseValidateJob() {
     try {
         parseValidateJob(validateJobText);
     } catch (err) {
@@ -33,7 +33,7 @@ const tryToParseValidateJob = () => {
  * @description parses the validate job output and writes the job id to a file
  * @param {string} validateJobText 
  */
-const parseValidateJob = (validateJobText) => {
+function parseValidateJob(validateJobText) {
     const validateJob = JSON.parse(removeNonReadable(validateJobText));
     if(validateJob.result.success) {
         fs.writeFileSync(FILE_NAME, validateJob.result.id, "utf-8");
@@ -49,6 +49,6 @@ const parseValidateJob = (validateJobText) => {
  * @param {string} str 
  * @returns {string}
  */
-const removeNonReadable = (str) => {
+function removeNonReadable(str) {
     return str.replace(/[^\x20-\x7E]/g, '');
 }

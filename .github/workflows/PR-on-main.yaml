@@ -32,6 +32,7 @@ on:
 
 jobs:
   validate-pull-request:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
