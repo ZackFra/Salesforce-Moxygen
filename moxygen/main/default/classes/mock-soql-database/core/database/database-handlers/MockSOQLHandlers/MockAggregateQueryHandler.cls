@@ -77,10 +77,8 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
     private List<Aggregate> doQuery(Node selectNode, Map<String, Object> params) {
         TopLevelNodes topLevelNodes = getTopLevelNodes(selectNode);
         Node fromNode = topLevelNodes.fromNode;
-        Node whereNode = topLevelNodes.whereNode;
         Node limitNode = topLevelNodes.limitNode;
         Node offsetNode = topLevelNodes.offsetNode;
-        Node usingScopeNode = topLevelNodes.usingScopeNode;
 
         // validate the query, throws exception if invalid
         QueryValidator validator = new QueryValidator(topLevelNodes);

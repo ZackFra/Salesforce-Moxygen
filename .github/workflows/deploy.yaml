@@ -1,0 +1,36 @@
+name: Deploy
+on:
+    push:
+      branches:
+        - main
+      paths:
+        - "**/main/default/**"
+
+jobs:
+  deploy-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install SFDX
+        run: |
+          npm i -g @salesforce/cli
+          sf --version
+      - name: Create Auth File
+        run: |
+          echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
+      - name: Authenticate
+        run: | 
+          sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
+      - name: Deploy
+        run: |
+            sf project deploy quick --job-id ${{ steps.PR.outputs.pr_body }} --target DevHub
+    

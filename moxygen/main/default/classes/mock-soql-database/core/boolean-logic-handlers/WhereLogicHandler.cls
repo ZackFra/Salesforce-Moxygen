@@ -32,6 +32,18 @@
 public with sharing class WhereLogicHandler extends BooleanLogicHandler {
 
     SObject record;
+    
+    enum ComparisonStrategy {
+        DATE_FUNC,
+        PARENT_FIELD,
+        FIELD
+    }
+
+    Map<ComparisonStrategy, Type> strategyTypeByEnum = new Map<ComparisonStrategy, Type> {
+        ComparisonStrategy.DATE_FUNC => WhereLogicDateFuncStrategy.class,
+        ComparisonStrategy.PARENT_FIELD => WhereLogicParentFieldStrategy.class,
+        ComparisonStrategy.FIELD => WhereLogicRecordFieldStrategy.class
+    };
 
     /**
      * @description Constructor
@@ -48,94 +60,26 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
      * @return  `Boolean`
      * @exception QueryException
      */
-    @SuppressWarnings('PMD.CyclomaticComplexity, PMD.NcssMethodCount, PMD.CognitiveComplexity')
     public override Boolean isCompareConditionMet(Node operatorNode) {
         Node fieldNode = operatorNode.left;
         Node valueNode = operatorNode.right;
         
-        Object fieldValue = MockDatabase.utils.getFieldNodeValue(valueNode, this.record, this.params);
-        if(!(fieldValue instanceOf List<Object>)) {
-            fieldValue = String.valueOf(fieldValue);
-        }
-        
-        String fieldName = fieldNode.id;
-        Object sObjectFieldValue;
-
-        Boolean isParentField = fieldName.contains('.');
-
-        // if the field is a parent field, we need to get the parent record
-        // further down, we can't say for sure whether the field is a parent field or not
-        // so we'll need to store our object and field name in a variable
-        sObject parentRecord = this.record;
-        String finalField = fieldName;
+        Object fieldValue = getFieldValueFromValueNode(valueNode);
 
         // the Type field on a polymorphic relationship is a special case
-        Boolean isPolyType = false;
-        if(AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id)) {
-            // in this sceneario, fieldNode's actually an aggregate, so fieldNode.right is the actual field
-            fieldName = SchemaService.getFieldName(this.record, fieldNode.right.id);
-            finalField = fieldName;
-            Object dateOrDateTimeValue = this.record.get(fieldName);
-            Boolean isDateFunc = AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id);
-            if(isDateFunc) {
-                sObjectFieldValue = DateFuncs.execute(fieldNode.id, dateOrDateTimeValue);
-            } else {
-                throw new QueryException('Unsupported date function');
-            }
-        } else if(!isParentField) {
-            sObjectFieldValue = this.record.get(fieldName);
-        } else {
-            List<String> fieldParts = fieldName.split('\\.');
-            finalField = fieldParts[fieldParts.size()-1];
-            fieldParts.remove(fieldParts.size()-1);
-            
-            Map<String, Object> parentInfo;
-            String parentObjApiName;
-            SObject childRecord;
-            do {
-                String field = fieldParts[0];
-                childRecord = parentRecord;
-                parentInfo = ComparableService.getParentObject(parentRecord, field);
-                parentRecord = (sObject) parentInfo.get('parentRecord');
-                parentObjApiName = (String) parentInfo.get('parentObjApiName');
-                fieldParts.remove(0);
-            } while(!fieldParts.isEmpty());
-            
-            String finalFieldApiName;
-            String fieldRelationshipName = (String) parentInfo.get('fieldRelationshipName');
+        ComparisonStrategy strategy = getComparisonStrategy(fieldNode);
+        Type strategyType = strategyTypeByEnum.get(strategy);
+        IWhereLogicComparisonStrategy comparisonStrategy = (IWhereLogicComparisonStrategy) strategyType.newInstance();
+        WhereLogicComparisonResults comparisonResults = comparisonStrategy.getFieldValue(this.record, fieldNode);
 
-            Schema.SObjectType childRecordSObjType = SchemaService.getSObjectType(childRecord);
-            Boolean isPolymorphic = SchemaService.isRelationshipPolymorphic(childRecordSObjType, fieldRelationshipName);
-            Map<String, String> polymorphicFieldMap = SchemaService.getPolymorphicFieldMap();
-            Boolean isPolyField = polymorphicFieldMap.containsKey(finalField);
-            
-            if(isPolymorphic && isPolyField) {
-                finalFieldApiName = polymorphicFieldMap.get(finalField);
-            } else {
-                Schema.SObjectType parentSot = SchemaService.getSObjectType(parentRecord);
-                Schema.SObjectField parentField = SchemaService.getField(parentSot, finalField);
-                finalFieldApiName = SchemaService.getFieldName(parentField);
-            }
-
-            if(finalFieldApiName == 'Type') {
-                isPolyType = true;
-                sObjectFieldValue = SchemaService.getSObjectName(parentRecord);
-            } else if(isPolymorphic && isPolyField) {
-                try {
-                    sObjectFieldValue = parentRecord.get(finalField);
-                } catch(Exception e) {
-                    sObjectFieldValue = null;
-                }
-            } else {
-                parentRecord = MockDatabase.get(parentObjApiName).get(parentRecord.Id);
-                sObjectFieldValue = parentRecord.get(finalFieldApiName);
-            }
-        }
+        String finalField = comparisonResults.getFinalField();
+        SObject parentRecord = comparisonResults.getParentRecord();
+        Object sObjectFieldValue = comparisonResults.getRecordFieldValue();
 
         OperatorHandlerFactory handlerFactory = new OperatorHandlerFactory();
 
         IOperatorHandler handler = handlerFactory.getHandler(operatorNode.id);
-        if(isPolyType) {
+        if(comparisonResults.getIsPolymorphicTypeField()) {
             return handler.handle(sObjectFieldValue, fieldValue);
         }
         
@@ -145,34 +89,51 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         validateListHandlers(handler, fieldType);
 
         if(valueNode.nodeType == NodeType.DATE_LITERAL) {
-            if(fieldType != Schema.DisplayType.DATE && fieldType != Schema.DisplayType.DATETIME) {
-                throw new QueryException('Invalid field type for date literal');
-            }
-
-            if(fieldType == Schema.DisplayType.DATE && fieldValue == Token.TODAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today());
-            } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue == Token.TODAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today());
-                if(sObjectFieldValue != null) {
-                    sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
-                }
-            } else if(fieldType == Schema.DisplayType.DATE && fieldValue == Token.YESTERDAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today().addDays(-1));
-            } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue == Token.YESTERDAY_LITERAL) {
-                fieldValue = Common.dateToSoqlString(GMT.today().addDays(-1));
-                if(sObjectFieldValue != null) {
-                    sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
-                }
+            DateLiteralOptions dateLiteralOptions = new DateLiteralOptions.Builder()
+                .setFieldType(fieldType)
+                .setFieldValue(fieldValue)
+                .setRecordFieldValue(sObjectFieldValue)
+                .build();
+            DateLiteral dateLiteralValue = DateLiteral.resolve(dateLiteralOptions);
+            fieldValue = dateLiteralValue.getFieldValue();
+            if(dateLiteralValue.hasNewRecordFieldValue()) {
+                sObjectFieldValue = dateLiteralValue.getRecordFieldValue();
             }
         }
-
-        if(fieldType == Schema.DisplayType.DATE && fieldValue instanceOf String) {
-            fieldValue = ((String) fieldValue).toUpperCase();
-        } else if(fieldType == Schema.DisplayType.DATETIME && fieldValue instanceOf String) {
-            fieldValue = ((String) fieldValue).toUpperCase();
-        }
+        fieldValue = adjustForSoqlDateString(fieldValue, fieldType);
 
         return handler.handle(sObjectFieldValue, fieldValue);
+    }
+
+    private ComparisonStrategy getComparisonStrategy(Node fieldNode) {
+        String fieldName = fieldNode.id;
+        Boolean isParentField = fieldName.contains('.');
+        if(AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id)) {
+            return ComparisonStrategy.DATE_FUNC;
+        } else if(isParentField) {
+            return ComparisonStrategy.PARENT_FIELD;
+        } else {
+            return ComparisonStrategy.FIELD;
+        }
+    }
+
+    private Object getFieldValueFromValueNode(Node valueNode) {
+        Object fieldValue = MockDatabase.utils.getFieldNodeValue(valueNode, this.record, this.params);
+        if(!(fieldValue instanceOf List<Object>)) {
+            fieldValue = String.valueOf(fieldValue);
+        }
+        return fieldValue;
+    }
+
+    private Object adjustForSoqlDateString(Object fieldValue, Schema.DisplayType fieldType) {
+        Boolean isString = (fieldValue instanceof String);
+        Boolean isDate = (fieldType == Schema.DisplayType.DATE);
+        Boolean isDateTime = (fieldType == Schema.DisplayType.DATETIME);
+        Boolean isDateOrDateTime = isDate || isDateTime;
+        if(!isString && !isDateOrDateTime) {
+            return fieldValue;
+        }
+        return ((String) fieldValue).toUpperCase();
     }
 
     private void validateListHandlers(IOperatorHandler handler, Schema.DisplayType fieldType) {

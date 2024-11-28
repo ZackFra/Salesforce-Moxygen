@@ -1,4 +1,14 @@
+/**
+ * @description A class to parse a generic string
+ * @author Zackary Frazier
+ * @since 11/27/2024
+ */
 public with sharing class StringParser extends SubParser {
+    /**
+     * @description Parse a generic string
+     * @param query `String`
+     * @return  `Intermediary`
+     */
     public override Intermediary parse(String query) {
         Intermediary baseValue;
         query = query.subString(1);

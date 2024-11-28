@@ -105,7 +105,6 @@ private class AggregateStandardProcessorTest {
 
         List<String> groupByFields = new List<String>{'Account.Name'};
         AggregateStandardProcessor processor = new AggregateStandardProcessor();
-        Set<ProtoAggregate> queriedAggregates = new Set<ProtoAggregate>();
         processor.createAndSaveGroupedAggregate(con1, groupByFields);
         Test.startTest();
         ProtoAggregate protoAggr = processor.findGroupedAggregate(con1, groupByFields);
@@ -161,7 +160,6 @@ private class AggregateStandardProcessorTest {
 
         List<String> groupByFields = new List<String>{'Account.Name'};
         AggregateStandardProcessor processor = new AggregateStandardProcessor();
-        Set<ProtoAggregate> queriedAggregates = new Set<ProtoAggregate>();
         processor.findOrCreateGroupedAggregate(con0, groupByFields);
         processor.findOrCreateGroupedAggregate(con1, groupByFields);
         Test.startTest();
@@ -331,7 +329,6 @@ private class AggregateStandardProcessorTest {
 
         List<String> groupByFields = new List<String>{'Account.Name'};
         AggregateStandardProcessor processor = new AggregateStandardProcessor();
-        Set<ProtoAggregate> queriedAggregates = new Set<ProtoAggregate>();
         ProtoAggregate ar = processor.createGroupedAggregate(con1, groupByFields);
         ComparableRecordData comparableInfo = ComparableService.getComparables(con1, 'Account.Name');
         Test.startTest();
