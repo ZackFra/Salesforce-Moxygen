@@ -28,7 +28,7 @@ public with sharing class DateLiteral {
         Token.TOMORROW_LITERAL => 1
     };
 
-    static DateLiteral resolve(DateLiteralOptions options) {
+    public static DateLiteral resolve(DateLiteralOptions options) {
         Schema.DisplayType fieldType = options.getFieldType();
         Boolean isDate = (fieldType == Schema.DisplayType.DATE);
         Boolean isDateTime = (fieldType == Schema.DisplayType.DATETIME);
