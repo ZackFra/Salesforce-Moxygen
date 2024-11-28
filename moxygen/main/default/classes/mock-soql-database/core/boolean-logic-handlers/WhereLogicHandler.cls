@@ -48,19 +48,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         FIELD
     }
 
-    private ComparisonStrategy getStrategy(Node fieldNode) {
-        String fieldName = fieldNode.id;
-        Boolean isParentField = fieldName.contains('.');
-        if(AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id)) {
-            return ComparisonStrategy.DATE_FUNC;
-        } else if(isParentField) {
-            return ComparisonStrategy.PARENT_FIELD;
-        } else {
-            return ComparisonStrategy.FIELD;
-        }
-    }
-
-    Map<ComparisonStrategy, Type> strategyByEnum = new Map<ComparisonStrategy, Type> {
+    Map<ComparisonStrategy, Type> strategyTypeByEnum = new Map<ComparisonStrategy, Type> {
         ComparisonStrategy.DATE_FUNC => WhereLogicDateFuncStrategy.class,
         ComparisonStrategy.PARENT_FIELD => WhereLogicParentFieldStrategy.class,
         ComparisonStrategy.FIELD => WhereLogicRecordFieldStrategy.class
@@ -92,7 +80,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
 
         // the Type field on a polymorphic relationship is a special case
         ComparisonStrategy strategy = getStrategy(fieldNode);
-        Type strategyType = strategyByEnum.get(strategy);
+        Type strategyType = strategyTypeByEnum.get(strategy);
         IWhereLogicComparisonStrategy comparisonStrategy = (IWhereLogicComparisonStrategy) strategyType.newInstance();
         WhereLogicComparisonResults comparisonResults = comparisonStrategy.getFieldValue(parentRecord, fieldNode);
 
