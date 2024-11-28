@@ -30,7 +30,7 @@
  */
 public class OperatorHandlerFactory {
 
-    final static Map<String, Type> HANDLERS = new Map<String, IOperatorHandler>{
+    final static Map<String, Type> HANDLERS = new Map<String, Type>{
         '=' => EqualityHandler.class,
         '<>' => InequalityHandler.class,
         '!=' => InequalityHandler.class,
