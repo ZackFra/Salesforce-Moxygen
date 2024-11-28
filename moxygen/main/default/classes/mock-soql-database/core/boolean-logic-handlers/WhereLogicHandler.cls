@@ -53,10 +53,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         Node fieldNode = operatorNode.left;
         Node valueNode = operatorNode.right;
         
-        Object fieldValue = MockDatabase.utils.getFieldNodeValue(valueNode, this.record, this.params);
-        if(!(fieldValue instanceOf List<Object>)) {
-            fieldValue = String.valueOf(fieldValue);
-        }
+        Object fieldValue = getFieldValueFromValueNode(valueNode);
         
         String fieldName = fieldNode.id;
         Object sObjectFieldValue;
@@ -173,6 +170,14 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         fieldValue = adjustForSoqlDateString(fieldValue, fieldType);
 
         return handler.handle(sObjectFieldValue, fieldValue);
+    }
+
+    private Object getFieldValueFromValueNode(Node valueNode) {
+        Object fieldValue = MockDatabase.utils.getFieldNodeValue(valueNode, this.record, this.params);
+        if(!(fieldValue instanceOf List<Object>)) {
+            fieldValue = String.valueOf(fieldValue);
+        }
+        return fieldValue;
     }
 
     private Object adjustForSoqlDateString(Object fieldValue, Schema.DisplayType fieldType) {
