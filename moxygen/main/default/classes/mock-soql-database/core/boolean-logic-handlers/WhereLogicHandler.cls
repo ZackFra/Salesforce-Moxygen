@@ -106,37 +106,6 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         return handler.handle(sObjectFieldValue, fieldValue);
     }
 
-    private convertDateLiteral(Schema.DisplayType fieldType, Node valueNode) {
-        if(valueNode.nodeType != NodeType.DATE_LITERAL) {
-            // return something
-        }
-
-        Boolean isDate = (fieldType == Schema.DisplayType.DATE);
-        Boolean isDateTime = (fieldType == Schema.DisplayType.DATETIME);
-
-        if(!isDate && !isDateTime) {
-            throw new QueryException('Invalid field type for date literal');
-        }
-
-        Map<String, Integer> daysByDateLiteral = new Map<String, Integer>{
-            Token.TODAY_LITERAL => 0,
-            Token.YESTERDAY_LITERAL => -1,
-            Token.TOMORROW_LITERAL => 1
-        };
-        Set<String> dateLiterals = daysByDateLiteral.keySet();
-        for(String dateLiteral : dateLiterals) {
-            if(fieldValue != dateLiteral) {
-                continue;
-            }
-            Integer daysToAdjustBy = daysByDateLiteral.get(dateLiteral);
-            fieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
-            if(isDateTime && sObjectFieldValue != null) {
-                sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
-            }
-            break;
-        }
-    }
-
     private ComparisonStrategy getComparisonStrategy(Node fieldNode) {
         String fieldName = fieldNode.id;
         Boolean isParentField = fieldName.contains('.');
