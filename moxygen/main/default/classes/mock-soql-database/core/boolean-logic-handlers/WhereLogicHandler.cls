@@ -42,6 +42,30 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         this.record = (SObject) this.obj;
     }
 
+    enum ComparisonStrategy {
+        DATE_FUNC,
+        PARENT_FIELD,
+        FIELD
+    }
+
+    private ComparisonStrategy getStrategy(Node fieldNode) {
+        String fieldName = fieldNode.id;
+        Boolean isParentField = fieldName.contains('.');
+        if(AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id)) {
+            return ComparisonStrategy.DATE_FUNC;
+        } else if(isParentField) {
+            return ComparisonStrategy.PARENT_FIELD;
+        } else {
+            return ComparisonStrategy.FIELD;
+        }
+    }
+
+    Map<ComparisonStrategy, Type> strategyByEnum = new Map<ComparisonStrategy, Type> {
+        ComparisonStrategy.DATE_FUNC => WhereLogicDateFuncStrategy.class,
+        ComparisonStrategy.PARENT_FIELD => WhereLogicParentFieldStrategy.class,
+        ComparisonStrategy.FIELD => WhereLogicRecordFieldStrategy.class
+    };
+
     /**
      * @description Checks if the WHERE clause is met
      * @param operatorNode 
@@ -67,72 +91,15 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         String finalField = fieldName;
 
         // the Type field on a polymorphic relationship is a special case
-        Boolean isPolyType = false;
-        if(AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id)) {
-            // in this sceneario, fieldNode's actually an aggregate, so fieldNode.right is the actual field
-            fieldName = SchemaService.getFieldName(this.record, fieldNode.right.id);
-            finalField = fieldName;
-            Object dateOrDateTimeValue = this.record.get(fieldName);
-            Boolean isDateFunc = AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id);
-            if(isDateFunc) {
-                sObjectFieldValue = DateFuncs.execute(fieldNode.id, dateOrDateTimeValue);
-            } else {
-                throw new QueryException('Unsupported date function');
-            }
-        } else if(!isParentField) {
-            sObjectFieldValue = this.record.get(fieldName);
-        } else {
-            List<String> fieldParts = fieldName.split('\\.');
-            finalField = fieldParts[fieldParts.size()-1];
-            fieldParts.remove(fieldParts.size()-1);
-            
-            Map<String, Object> parentInfo;
-            String parentObjApiName;
-            SObject childRecord;
-            do {
-                String field = fieldParts[0];
-                childRecord = parentRecord;
-                parentInfo = ComparableService.getParentObject(parentRecord, field);
-                parentRecord = (sObject) parentInfo.get('parentRecord');
-                parentObjApiName = (String) parentInfo.get('parentObjApiName');
-                fieldParts.remove(0);
-            } while(!fieldParts.isEmpty());
-            
-            String finalFieldApiName;
-            String fieldRelationshipName = (String) parentInfo.get('fieldRelationshipName');
-
-            Schema.SObjectType childRecordSObjType = SchemaService.getSObjectType(childRecord);
-            Boolean isPolymorphic = SchemaService.isRelationshipPolymorphic(childRecordSObjType, fieldRelationshipName);
-            Map<String, String> polymorphicFieldMap = SchemaService.getPolymorphicFieldMap();
-            Boolean isPolyField = polymorphicFieldMap.containsKey(finalField);
-            
-            if(isPolymorphic && isPolyField) {
-                finalFieldApiName = polymorphicFieldMap.get(finalField);
-            } else {
-                Schema.SObjectType parentSot = SchemaService.getSObjectType(parentRecord);
-                Schema.SObjectField parentField = SchemaService.getField(parentSot, finalField);
-                finalFieldApiName = SchemaService.getFieldName(parentField);
-            }
-
-            if(finalFieldApiName == 'Type') {
-                isPolyType = true;
-                sObjectFieldValue = SchemaService.getSObjectName(parentRecord);
-            } else if(isPolymorphic && isPolyField) {
-                try {
-                    sObjectFieldValue = parentRecord.get(finalField);
-                } catch(Exception e) {
-                    sObjectFieldValue = null;
-                }
-            } else {
-                parentRecord = MockDatabase.get(parentObjApiName).get(parentRecord.Id);
-                sObjectFieldValue = parentRecord.get(finalFieldApiName);
-            }
-        }
+        ComparisonStrategy strategy = getStrategy(fieldNode);
+        Type strategyType = strategyByEnum.get(strategy);
+        IWhereLogicComparisonStrategy comparisonStrategy = (IWhereLogicComparisonStrategy) strategyType.newInstance();
+        WhereLogicComparisonResults comparisonResults = comparisonStrategy.getFieldValue(parentRecord, fieldNode);
 
         OperatorHandlerFactory handlerFactory = new OperatorHandlerFactory();
 
         IOperatorHandler handler = handlerFactory.getHandler(operatorNode.id);
-        if(isPolyType) {
+        if(comparisonResults.getIsPolymorphicTypeField()) {
             return handler.handle(sObjectFieldValue, fieldValue);
         }
         
