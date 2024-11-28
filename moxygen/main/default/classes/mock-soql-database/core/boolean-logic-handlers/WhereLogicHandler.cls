@@ -79,7 +79,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         String finalField = fieldName;
 
         // the Type field on a polymorphic relationship is a special case
-        ComparisonStrategy strategy = getStrategy(fieldNode);
+        ComparisonStrategy strategy = getComparisonStrategy(fieldNode);
         Type strategyType = strategyTypeByEnum.get(strategy);
         IWhereLogicComparisonStrategy comparisonStrategy = (IWhereLogicComparisonStrategy) strategyType.newInstance();
         WhereLogicComparisonResults comparisonResults = comparisonStrategy.getFieldValue(parentRecord, fieldNode);
@@ -125,6 +125,18 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         fieldValue = adjustForSoqlDateString(fieldValue, fieldType);
 
         return handler.handle(sObjectFieldValue, fieldValue);
+    }
+
+    private ComparisonStrategy getComparisonStrategy(Node fieldNode) {
+        String fieldName = fieldNode.id;
+        Boolean isParentField = fieldName.contains('.');
+        if(AggregateService.isDateFunc(fieldNode.nodeType, fieldNode.id)) {
+            return ComparisonStrategy.DATE_FUNC;
+        } else if(isParentField) {
+            return ComparisonStrategy.PARENT_FIELD;
+        } else {
+            return ComparisonStrategy.FIELD;
+        }
     }
 
     private Object getFieldValueFromValueNode(Node valueNode) {
