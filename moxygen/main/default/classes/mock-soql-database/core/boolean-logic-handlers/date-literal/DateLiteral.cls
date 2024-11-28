@@ -34,7 +34,7 @@ public with sharing class DateLiteral {
         Boolean isDateTime = (fieldType == Schema.DisplayType.DATETIME);
         
         if(!isDate && !isDateTime) {
-            throw new QueryException('Invalid field type for date literal');
+            throw new ValidationException('Invalid field type for date literal');
         }
 
 
@@ -55,6 +55,6 @@ public with sharing class DateLiteral {
             }
             return new DateLiteral(newFieldValue, (Date) newRecordFieldValue);
         }
-        throw new QueryException('Invalid or unsupported date literal: ' + fieldValue);
+        throw new ValidationException('Invalid or unsupported date literal: ' + fieldValue);
     }
 }
