@@ -10,6 +10,8 @@ jobs:
   deploy-pull-request:
     runs-on: ubuntu-latest
     steps:
+      - uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -30,5 +32,5 @@ jobs:
           sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
       - name: Deploy
         run: |
-          sf project deploy quick --job-id ${{ github.event.pull_request.body }} --target DevHub
+            sf project deploy quick --job-id ${{ steps.PR.outputs.pr_body }} --target DevHub
     
