@@ -12,6 +12,7 @@ public with sharing class WhereLogicDateFuncStrategy implements IWhereLogicCompa
         return new WhereLogicComparisonResults.Builder()
             .setRecordFieldValue(recordFieldValue)
             .setFinalField(finalField)
+            .setParentRecord(record)
             .build();
     }
 }

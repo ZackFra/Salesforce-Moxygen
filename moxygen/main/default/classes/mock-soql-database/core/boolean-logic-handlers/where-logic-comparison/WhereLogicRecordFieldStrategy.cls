@@ -5,6 +5,7 @@ public with sharing class WhereLogicRecordFieldStrategy implements IWhereLogicCo
         return new WhereLogicComparisonResults.Builder()
             .setRecordFieldValue(recordFieldValue)
             .setFinalField(fieldName)
+            .setParentRecord(record)
             .build();
     }
 }

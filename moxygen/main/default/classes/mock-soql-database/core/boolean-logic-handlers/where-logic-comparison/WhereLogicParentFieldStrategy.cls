@@ -54,6 +54,7 @@ public with sharing class WhereLogicParentFieldStrategy implements IWhereLogicCo
             .setRecordFieldValue(recordFieldValue)
             .setFinalField(finalField)
             .setIsPolymorphicTypeField(isPolyType)
+            .setParentRecord(parentRecord)
             .build();
     }
 }

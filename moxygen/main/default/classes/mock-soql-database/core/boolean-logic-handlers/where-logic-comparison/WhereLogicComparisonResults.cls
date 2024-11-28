@@ -3,6 +3,7 @@ public virtual class WhereLogicComparisonResults {
     Object recordFieldValue;
     String finalField;
     Boolean isPolymorphicTypeField = false;
+    SObject parentRecord;
 
     /**
      * @description protected constructor
@@ -21,6 +22,10 @@ public virtual class WhereLogicComparisonResults {
         return isPolymorphicTypeField;
     }
 
+    public SObject getParentRecord() {
+        return parentRecord;
+    }
+
     public class Builder implements IBuilder {
         WhereLogicComparisonResults results = new WhereLogicComparisonResults();
         public Builder setFinalField(String finalField) {
@@ -33,13 +38,18 @@ public virtual class WhereLogicComparisonResults {
             return this;
         }
 
-        public WhereLogicComparisonResults build() {
-            return results;
-        }
-
         public Builder setIsPolymorphicTypeField(Boolean isPolymorphicTypeField) {
             results.isPolymorphicTypeField = isPolymorphicTypeField;
             return this;
+        }
+
+        public Builder setParentRecord(SObject parentRecord) {
+            results.parentRecord = parentRecord;
+            return this;
+        }
+
+        public WhereLogicComparisonResults build() {
+            return results;
         }
     }
 }

@@ -66,23 +66,16 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         Node valueNode = operatorNode.right;
         
         Object fieldValue = getFieldValueFromValueNode(valueNode);
-        
-        String fieldName = fieldNode.id;
-        Object sObjectFieldValue;
-
-        Boolean isParentField = fieldName.contains('.');
-
-        // if the field is a parent field, we need to get the parent record
-        // further down, we can't say for sure whether the field is a parent field or not
-        // so we'll need to store our object and field name in a variable
-        sObject parentRecord = this.record;
-        String finalField = fieldName;
 
         // the Type field on a polymorphic relationship is a special case
         ComparisonStrategy strategy = getComparisonStrategy(fieldNode);
         Type strategyType = strategyTypeByEnum.get(strategy);
         IWhereLogicComparisonStrategy comparisonStrategy = (IWhereLogicComparisonStrategy) strategyType.newInstance();
-        WhereLogicComparisonResults comparisonResults = comparisonStrategy.getFieldValue(parentRecord, fieldNode);
+        WhereLogicComparisonResults comparisonResults = comparisonStrategy.getFieldValue(this.record, fieldNode);
+
+        String finalField = comparisonResults.getFinalField();
+        SObject parentRecord = comparisonResults.getParentRecord();
+        Object sObjectFieldValue = comparisonResults.getRecordFieldValue();
 
         OperatorHandlerFactory handlerFactory = new OperatorHandlerFactory();
 
