@@ -31,6 +31,7 @@ jobs:
         run: | 
           sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
       - name: Deploy
+        if: ${{ steps.PR.outputs.pr_body != '' }}
         run: |
-            sf project deploy quick --job-id ${{ steps.PR.outputs.pr_body }}
+          sf project deploy quick --job-id ${{ steps.PR.outputs.pr_body }}
     
