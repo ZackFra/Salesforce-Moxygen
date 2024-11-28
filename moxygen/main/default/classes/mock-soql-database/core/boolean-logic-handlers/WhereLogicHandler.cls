@@ -90,34 +90,51 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         validateListHandlers(handler, fieldType);
 
         if(valueNode.nodeType == NodeType.DATE_LITERAL) {
-            if(fieldType != Schema.DisplayType.DATE && fieldType != Schema.DisplayType.DATETIME) {
-                throw new QueryException('Invalid field type for date literal');
-            }
-
-            Map<String, Integer> daysByDateLiteral = new Map<String, Integer>{
-                Token.TODAY_LITERAL => 0,
-                Token.YESTERDAY_LITERAL => -1,
-                Token.TOMORROW_LITERAL => 1
-            };
-            Set<String> dateLiterals = daysByDateLiteral.keySet();
-            for(String dateLiteral : dateLiterals) {
-                if(fieldValue != dateLiteral) {
-                    continue;
-                }
-
-                if(fieldType == Schema.DisplayType.Date || fieldType == Schema.DisplayType.DATETIME) {
-                    Integer daysToAdjustBy = daysByDateLiteral.get(dateLiteral);
-                    fieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
-                    if(fieldType == Schema.DisplayType.DATETIME && sObjectFieldValue != null) {
-                        sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
-                    }
-                    break;
-                }
+            DateLiteralOptions dateLiteralOptions = new DateLiteralOptions.Builder()
+                .setFieldType(fieldType)
+                .setFieldValue(fieldValue)
+                .setRecordFieldValue(sObjectFieldValue)
+                .build();
+            DateLiteral dateLiteralValue = DateLiteral.resolve(dateLiteralOptions);
+            fieldValue = dateLiteralValue.getFieldValue();
+            if(dateLiteralValue.hasNewRecordFieldValue()) {
+                sObjectFieldValue = dateLiteralValue.getRecordFieldValue();
             }
         }
         fieldValue = adjustForSoqlDateString(fieldValue, fieldType);
 
         return handler.handle(sObjectFieldValue, fieldValue);
+    }
+
+    private convertDateLiteral(Schema.DisplayType fieldType, Node valueNode) {
+        if(valueNode.nodeType != NodeType.DATE_LITERAL) {
+            // return something
+        }
+
+        Boolean isDate = (fieldType == Schema.DisplayType.DATE);
+        Boolean isDateTime = (fieldType == Schema.DisplayType.DATETIME);
+
+        if(!isDate && !isDateTime) {
+            throw new QueryException('Invalid field type for date literal');
+        }
+
+        Map<String, Integer> daysByDateLiteral = new Map<String, Integer>{
+            Token.TODAY_LITERAL => 0,
+            Token.YESTERDAY_LITERAL => -1,
+            Token.TOMORROW_LITERAL => 1
+        };
+        Set<String> dateLiterals = daysByDateLiteral.keySet();
+        for(String dateLiteral : dateLiterals) {
+            if(fieldValue != dateLiteral) {
+                continue;
+            }
+            Integer daysToAdjustBy = daysByDateLiteral.get(dateLiteral);
+            fieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
+            if(isDateTime && sObjectFieldValue != null) {
+                sObjectFieldValue = GMT.date((DateTime) sObjectFieldValue);
+            }
+            break;
+        }
     }
 
     private ComparisonStrategy getComparisonStrategy(Node fieldNode) {
