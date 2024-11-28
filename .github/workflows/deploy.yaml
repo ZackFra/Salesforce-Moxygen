@@ -33,5 +33,5 @@ jobs:
       - name: Deploy
         if: ${{ steps.PR.outputs.pr_body != '' }}
         run: |
-          sf project deploy quick --job-id ${{ steps.PR.outputs.pr_body }}
+          sf project deploy quick --job-id ${{ steps.PR.outputs.pr_body }} --target-org DevHub
     
