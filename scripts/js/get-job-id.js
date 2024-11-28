@@ -5,5 +5,5 @@ if(validateJob.success) {
     fs.writeFileSync("job-id.txt", validateJob.id, "utf8");
 } else {
     console.error("Job failed to validate");
-    process.exit(1);
+    fs.writeFileSync("job-id.txt", "", "utf8");
 }
