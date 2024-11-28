@@ -37,7 +37,6 @@ public with sharing class DateLiteral {
             throw new ValidationException('Invalid field type for date literal');
         }
 
-
         Set<String> dateLiterals = DAYS_BY_LITERAL.keySet();
         Object fieldValue = options.getFieldValue();
         for(String dateLiteralToken : dateLiterals) {
@@ -45,16 +44,20 @@ public with sharing class DateLiteral {
                 continue;
             }
 
-            Integer daysToAdjustBy = DAYS_BY_LITERAL.get(dateLiteralToken);
-            String newFieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
-            Object newRecordFieldValue = null;
-
-            Object recordFieldValue = options.getRecordFieldValue();
-            if(isDateTime && recordFieldValue != null) {
-                newRecordFieldValue = (Object) GMT.date((DateTime) recordFieldValue);
-            }
-            return new DateLiteral(newFieldValue, (Date) newRecordFieldValue);
+            return buildDateLiteral(options, dateLiteralToken);
         }
         throw new ValidationException('Invalid or unsupported date literal: ' + fieldValue);
     }
+
+    private static DateLiteral buildDateLiteral(DateLiteralOptions options, String dateLiteralToken) {
+        Integer daysToAdjustBy = DAYS_BY_LITERAL.get(dateLiteralToken);
+        String newFieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
+        Object newRecordFieldValue = null;
+        Object recordFieldValue = options.getRecordFieldValue();
+        Boolean isDateTime = (options.getFieldType() == Schema.DisplayType.DATETIME);
+        if(isDateTime && recordFieldValue != null) {
+            newRecordFieldValue = (Object) GMT.date((DateTime) recordFieldValue);
+        }
+        return new DateLiteral(newFieldValue, (Date) newRecordFieldValue);
+    } 
 }
