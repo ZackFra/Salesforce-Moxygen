@@ -3,7 +3,7 @@
  * @author Zackary Frazier
  * @since 11/27/2024
  */
-public inherited sharing class DateLiteral {
+public inherited sharing virtual class DateLiteral {
     String fieldValue;
     Date recordFieldValue;
 
@@ -13,7 +13,12 @@ public inherited sharing class DateLiteral {
         Token.TOMORROW_LITERAL => 1
     };
 
-    private DateLiteral(String fieldValue, Date recordFieldValue) {
+    static final Map<String, Type> COMPLEX_DATE_LITERAL_STRATEGIES = new Map<String, Type>{
+        Token.LAST_WEEK_LITERAL => LastWeekStrategy.class,
+        token.THIS_WEEK_LITERAL => ThisWeekStrategy.class
+    };
+
+    protected DateLiteral(String fieldValue, Date recordFieldValue) {
         this.fieldValue = fieldValue;
         this.recordFieldValue = recordFieldValue;
     }
@@ -69,20 +74,36 @@ public inherited sharing class DateLiteral {
         return buildComplexDateLiteral(options, fieldValue);
     }
 
+    public class Builder implements IBuilder {
+        String fieldValue;
+        Object recordFieldValue;
+
+        public Builder setFieldValue(String fieldValue) {
+            this.fieldValue = fieldValue;
+            return this;
+        }
+
+        public Builder setNewRecordFieldValue(Object recordFieldValue) {
+            this.recordFieldValue = recordFieldValue;
+            return this;
+        }
+
+        public DateLiteral build() {
+            return new DateLiteral(fieldValue, (Date) recordFieldValue);
+        }
+    }
+
     private static Boolean isSimple(String token) {
         return DAYS_BY_LITERAL.containsKey(token);
     }
 
     private static DateLiteral buildComplexDateLiteral(DateLiteralOptions options, String dateLiteralToken) {
-        if(dateLiteralToken == Token.LAST_WEEK_LITERAL) {
-            String fieldValue = Common.dateToSoqlString(GMT.today().addDays(-7).toStartOfWeek());
-            Date newRecordFieldValue = null;
-            if(options.getFieldType() == Schema.DisplayType.DATETIME) {
-                newRecordFieldValue = (Date) GMT.date((DateTime) options.getRecordFieldValue());
-            }
-            return new DateLiteral(fieldValue, newRecordFieldValue);
+        Type strategyType = COMPLEX_DATE_LITERAL_STRATEGIES.get(dateLiteralToken);
+        if(strategyType == null) {
+            throw new ValidationException('Invalid or unsupported date literal: ' + dateLiteralToken);
         }
-        throw new ValidationException('Invalid or unsupported date literal: ' + dateLiteralToken);
+        IComplexDateLiteralStrategy strategy = (IComplexDateLiteralStrategy) strategyType.newInstance();
+        return strategy.resolve(options.getFieldType(), options.getRecordFieldValue());
     }
 
     private static DateLiteral buildSimpleDateLiteral(DateLiteralOptions options, String dateLiteralToken) {

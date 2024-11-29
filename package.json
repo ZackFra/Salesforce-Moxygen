@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Salesforce App",
   "scripts": {
+    "sf:deploy": "sf project deploy start --manifest manifest/package.xml -w 120",
     "sf:validate": "sf project deploy validate --manifest manifest/package.xml -w 120",    
     "lint": "eslint **/{aura,lwc}/**/*.js",
     "test": "npm run test:unit",

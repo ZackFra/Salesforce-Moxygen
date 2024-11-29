@@ -28,4 +28,12 @@ public with sharing class GMT {
     public static Date date(DateTime dt) {
         return dt.dateGmt();
     }
+
+    /**
+     * @description Return the date time in GMT of the date
+     * @param d `Date`
+     */
+    public static DateTime dateTime(Date d) {
+        return DateTime.newInstanceGmt(d, Time.newInstance(0, 0, 0, 0));
+    }
 }
