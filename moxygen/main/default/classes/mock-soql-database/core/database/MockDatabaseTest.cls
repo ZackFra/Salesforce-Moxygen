@@ -3595,4 +3595,43 @@ private class MockDatabaseTest {
         List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime <> YESTERDAY');
         Assert.areEqual(3, tasks.size(), 'Incorrect number of tasks');
     }
+
+    @IsTest
+    static void ensureLastWeekLiteralWorksForDateTimeEquals() {
+        Task t1 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-14));
+        Task t2 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-15));
+        Task t3 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-4));
+        Task t4 = (Task) Common.putReadOnlyField(new Task(), 'CompletedDateTime', GMT.now().addDays(-5));
+
+        MockDatabase.doInsert(new List<Task>{t1, t2, t3, t4}, true);
+
+        Test.startTest();
+        List<Task> tasks = MockDatabase.query('SELECT Id FROM Task WHERE CompletedDateTime <= LAST_WEEK');
+        Test.stopTest();
+
+        Assert.areEqual(2, tasks.size(), 'Incorrect number of tasks');
+    }
+
+    @IsTest
+    static void ensureLastWeekLiteralWorksForDateEquals() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = GMT.today().addDays(-14)
+        );
+        Opportunity opp2 = new Opportunity(
+            CloseDate = GMT.today().addDays(-15)
+        );
+        Opportunity opp3 = new Opportunity(
+            CloseDate = GMT.today().addDays(-4)
+        );
+        Opportunity opp4 = new Opportunity(
+            CloseDate = GMT.today().addDays(-5)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate <= LAST_WEEK');
+        Test.stopTest();
+        Assert.areEqual(2, opportunities.size(), 'Incorrect number of opportunities');
+    }
 }
