@@ -353,4 +353,17 @@ private class ParserTest {
         }
         Test.stopTest();
     }
+
+    @IsTest
+    static void ensureParserCanParseDateLiteralToken() {
+        Parser p = new Parser();
+        String soqlQuery = 'SELECT Id FROM Opportunity WHERE CreatedDate = LAST_WEEK';
+        Test.startTest();
+        try {
+            p.parse(soqlQuery);
+        } catch(Exception e) {
+            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        }
+        Test.stopTest();
+    }
 }

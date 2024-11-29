@@ -3,7 +3,7 @@
  * @author Zackary Frazier
  * @since 11/27/2024
  */
-public with sharing class DateLiteral {
+public inherited sharing class DateLiteral {
     String fieldValue;
     Date recordFieldValue;
 
@@ -61,19 +61,31 @@ public with sharing class DateLiteral {
             throw new ValidationException('Invalid field type for date literal');
         }
 
-        Set<String> dateLiterals = DAYS_BY_LITERAL.keySet();
-        Object fieldValue = options.getFieldValue();
-        for(String dateLiteralToken : dateLiterals) {
-            if(fieldValue != dateLiteralToken) {
-                continue;
-            }
-
-            return buildDateLiteral(options, dateLiteralToken);
+        String fieldValue = (String) options.getFieldValue();
+        if(isSimple(fieldValue)) {
+            return buildSimpleDateLiteral(options, fieldValue);
         }
-        throw new ValidationException('Invalid or unsupported date literal: ' + fieldValue);
+
+        return buildComplexDateLiteral(options, fieldValue);
     }
 
-    private static DateLiteral buildDateLiteral(DateLiteralOptions options, String dateLiteralToken) {
+    private static Boolean isSimple(String token) {
+        return DAYS_BY_LITERAL.containsKey(token);
+    }
+
+    private static DateLiteral buildComplexDateLiteral(DateLiteralOptions options, String dateLiteralToken) {
+        if(dateLiteralToken == Token.LAST_WEEK_LITERAL) {
+            String fieldValue = Common.dateToSoqlString(GMT.today().addDays(-7).toStartOfWeek());
+            Date newRecordFieldValue = null;
+            if(options.getFieldType() == Schema.DisplayType.DATETIME) {
+                newRecordFieldValue = (Date) GMT.date((DateTime) options.getRecordFieldValue());
+            }
+            return new DateLiteral(fieldValue, newRecordFieldValue);
+        }
+        throw new ValidationException('Invalid or unsupported date literal: ' + dateLiteralToken);
+    }
+
+    private static DateLiteral buildSimpleDateLiteral(DateLiteralOptions options, String dateLiteralToken) {
         Integer daysToAdjustBy = DAYS_BY_LITERAL.get(dateLiteralToken);
         String newFieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
         Object newRecordFieldValue = null;

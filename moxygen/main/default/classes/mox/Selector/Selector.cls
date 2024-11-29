@@ -311,7 +311,7 @@ public inherited sharing class Selector {
         wasCalled = true;
         callMap.put(queryString, true);
 
-        if(countQueries.containsKey(queryString) && countQueries.get(queryString) == null) {
+        if(isFailedCountQuery(queryString)) {
             throw new QueryException('Query failed');
         } else if(countQueries.containsKey(queryString)) {
             return countQueries.get(queryString);
@@ -324,7 +324,7 @@ public inherited sharing class Selector {
         wasCalled = true;
         callMap.put(queryString, true);
 
-        if(countQueries.containsKey(queryString) && countQueries.get(queryString) == null) {
+        if(isFailedCountQuery(queryString)) {
             throw new QueryException('Query failed');
         } else if(countQueries.containsKey(queryString)) {
             return countQueries.get(queryString);
@@ -342,7 +342,7 @@ public inherited sharing class Selector {
         wasCalled = true;
         callMap.put(queryString, true);
 
-        if(queries.containsKey(queryString) && queries.get(queryString) == null) {
+        if(isFailedQuery(queryString)) {
             throw new QueryException('Query failed');
         } else if(queries.containsKey(queryString)) {
             return queries.get(queryString);
@@ -362,7 +362,7 @@ public inherited sharing class Selector {
         wasCalled = true;
         callMap.put(queryString, true);
 
-        if(queries.containsKey(queryString) && queries.get(queryString) == null) {
+        if(isFailedQuery(queryString)) {
             throw new QueryException('Query failed');
         } else if(queries.containsKey(queryString)) {
             return queries.get(queryString);
@@ -380,7 +380,7 @@ public inherited sharing class Selector {
         wasCalled = true;
         callMap.put(queryString, true);
 
-        if(aggregateQueries.containsKey(queryString) && aggregateQueries.get(queryString) == null) {
+        if(isFailedAggregateQuery(queryString)) {
             throw new QueryException('Query failed');
         } else if(aggregateQueries.containsKey(queryString)) {
             return aggregateQueries.get(queryString);
@@ -400,12 +400,24 @@ public inherited sharing class Selector {
         wasCalled = true;
         callMap.put(queryString, true);
 
-        if(aggregateQueries.containsKey(queryString) && aggregateQueries.get(queryString) == null) {
+        if(isFailedAggregateQuery(queryString)) {
             throw new QueryException('Query failed');
         } else if(aggregateQueries.containsKey(queryString)) {
             return aggregateQueries.get(queryString);
         } else {
             return MockDatabase.aggregateQueryWithBinds(queryString, bindMap, accessLevel);
         }
+    }
+
+    private static Boolean isFailedAggregateQuery(String queryString) {
+        return aggregateQueries.containsKey(queryString) && aggregateQueries.get(queryString) == null;
+    }
+
+    private static Boolean isFailedQuery(String queryString) {
+        return queries.containsKey(queryString) && queries.get(queryString) == null;
+    }
+
+    private static Boolean isFailedCountQuery(String queryString) {
+        return countQueries.containsKey(queryString) && countQueries.get(queryString) == null;
     }
 }
