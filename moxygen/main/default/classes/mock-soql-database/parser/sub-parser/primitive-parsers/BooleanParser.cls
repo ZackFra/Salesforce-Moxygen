@@ -22,8 +22,7 @@ public with sharing class BooleanParser extends SubParser {
                 .setId(boolVal)
                 .setNodeType(NodeType.XBOOLEAN)
                 .build(),
-            query.subString(boolVal.length()
-        )
+            query.subString(boolVal.length())
         );
     }
 }

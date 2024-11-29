@@ -3,20 +3,13 @@
  * @author Zackary Frazier
  * @since 11/27/2024
  */
-public with sharing class YesterdayParser extends SubParser {
+public with sharing class YesterdayParser extends DateLiteralParser {
     /**
      * @description Parse the YESTERDAY literal
      * @param query `String`
      * @return  `Intermediary`
      */
     public override Intermediary parse(String query) {
-        query = consume(query, Token.YESTERDAY_LITERAL);
-        return new Intermediary(
-            new NodeBuilder()
-                .setId(Token.YESTERDAY_LITERAL)
-                .setNodeType(NodeType.DATE_LITERAL)
-                .build(),
-            query
-        );
+        return parse(query, Token.YESTERDAY_LITERAL);
     }
 }
