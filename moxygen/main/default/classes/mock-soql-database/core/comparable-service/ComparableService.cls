@@ -34,8 +34,8 @@ public inherited sharing class ComparableService {
      * @description : given an sObject and a field name (which may be a relationon i.e. Account.Name),
      *              : return a map with the comparable sObject (i.e. the parent), the field api name of that object, 
      *              : and the relationship name
-     * @param obj : the sObject
-     * @param field : the field name
+     * @param record : the sObject
+     * @param fieldLookupChain : the field name
      * @return : a map with the comparable sObject, the field api name, and the relationship name, and whether the field is polymorphic
      * @throws QueryException : if the field name is invalid
      */
@@ -54,6 +54,13 @@ public inherited sharing class ComparableService {
         return fieldLookupChain.contains('.');
     }
 
+    /**
+     * @description Get the comparable field name from a field name and a comparable sObject
+     * @param comparableRecord `SObject`
+     * @param finalField `String`
+     * @param isPolymorphic `Boolean`
+     * @return  `String`
+     */
     public static String getComparableField(SObject comparableRecord, String finalField, Boolean isPolymorphic) {
         String comparableField;
         if(isPolymorphic) {
