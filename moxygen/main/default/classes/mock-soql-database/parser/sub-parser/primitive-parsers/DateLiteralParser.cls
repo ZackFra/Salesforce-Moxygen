@@ -5,7 +5,7 @@
  */
 public abstract class DateLiteralParser extends SubParser {
     /**
-     * @description Parse the TODAY literal
+     * @description Parse a generic date literal
      * @param query `String`
      * @param token `String`
      * @return  `Intermediary`
