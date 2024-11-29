@@ -1,4 +1,15 @@
+/**
+ * @description NumberParser is a parser for numeric values. 
+ * @author Zackary Frazier
+ * @since 11/28/2024
+ */
 public with sharing class NumberParser extends SubParser {
+    /**
+     * @description Parses a numeric value from a query string.
+     * @param query `String`
+     * @return  `Intermediary`
+     * @exception ParsingException
+     */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
         String numericValue = '';

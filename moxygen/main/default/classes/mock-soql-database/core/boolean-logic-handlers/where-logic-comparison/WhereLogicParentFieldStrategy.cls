@@ -1,4 +1,15 @@
+/**
+ * @description Strategy for getting the field value of a parent field 
+ * @author Zackary Frazier
+ * @since 11/28/2024
+ */
 public with sharing class WhereLogicParentFieldStrategy implements IWhereLogicComparisonStrategy {
+    /**
+     * @description Get the field value of a parent field
+     * @param record `SObject`
+     * @param fieldNode `Node`
+     * @return  `WhereLogicComparisonResults`
+     */
     public WhereLogicComparisonResults getFieldValue(SObject record, Node fieldNode) {
         SObject parentRecord = record;
         String fieldName = fieldNode.id;

@@ -1,4 +1,14 @@
+/**
+ * @description DateParser is a parser for date values. 
+ * @author Zackary Frazier
+ * @since 11/28/2024
+ */
 public with sharing class DateParser extends SubParser {
+    /**
+     * @description Parses a date value from a query string.
+     * @param query `String`
+     * @return  `Intermediary`
+     */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
         String strValue = '';

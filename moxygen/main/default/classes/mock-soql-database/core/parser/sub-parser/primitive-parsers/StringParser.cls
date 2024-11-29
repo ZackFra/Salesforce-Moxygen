@@ -3,7 +3,7 @@
  * @author Zackary Frazier
  * @since 11/27/2024
  */
-public with sharing class StringParser extends SubParser {
+public inherited sharing class StringParser extends SubParser {
     /**
      * @description Parse a generic string
      * @param query `String`
