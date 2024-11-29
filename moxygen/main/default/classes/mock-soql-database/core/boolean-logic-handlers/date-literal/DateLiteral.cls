@@ -61,16 +61,16 @@ public with sharing class DateLiteral {
             throw new ValidationException('Invalid field type for date literal');
         }
 
-        Set<String> dateLiterals = DAYS_BY_LITERAL.keySet();
-        Object fieldValue = options.getFieldValue();
-        for(String dateLiteralToken : dateLiterals) {
-            if(fieldValue != dateLiteralToken) {
-                continue;
-            }
-
-            return buildDateLiteral(options, dateLiteralToken);
+        if(isSimple(fieldValue)) {
+            String dateLiteralToken = (String) options.getFieldValue();
+            return buildDateLiteral(options, dateLiteraltoken);
         }
+
         throw new ValidationException('Invalid or unsupported date literal: ' + fieldValue);
+    }
+
+    private Boolean isSimple(String token) {
+        return DAYS_BY_LITERAL.containsKey(token);
     }
 
     private static DateLiteral buildDateLiteral(DateLiteralOptions options, String dateLiteralToken) {
