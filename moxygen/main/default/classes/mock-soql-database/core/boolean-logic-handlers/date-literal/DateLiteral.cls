@@ -63,7 +63,7 @@ public with sharing class DateLiteral {
 
         String fieldValue = options.getFieldValue();
         if(isSimple(fieldValue)) {
-            return buildDateLiteral(options, fieldValue);
+            return buildSimpleDateLiteral(options, fieldValue);
         }
 
         throw new ValidationException('Invalid or unsupported date literal: ' + fieldValue);
@@ -73,7 +73,7 @@ public with sharing class DateLiteral {
         return DAYS_BY_LITERAL.containsKey(token);
     }
 
-    private static DateLiteral buildDateLiteral(DateLiteralOptions options, String dateLiteralToken) {
+    private static DateLiteral buildSimpleDateLiteral(DateLiteralOptions options, String dateLiteralToken) {
         Integer daysToAdjustBy = DAYS_BY_LITERAL.get(dateLiteralToken);
         String newFieldValue = Common.dateToSoqlString(GMT.today().addDays(daysToAdjustBy));
         Object newRecordFieldValue = null;
