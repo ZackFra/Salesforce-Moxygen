@@ -1,4 +1,15 @@
+/**
+ * @description A class to parse a bind variable 
+ * @author Zackary Frazier
+ * @since 11/28/2024
+ */
 public with sharing class BindVariableParser extends SubParser {
+    /**
+     * @description Parse a bind variable
+     * @param query `String`
+     * @return  `Intermediary`
+     * @exception 
+     */
     public override Intermediary parse(String query) {
         query = consume(query, Token.COLON);
         query = skipWhitespace(query);
