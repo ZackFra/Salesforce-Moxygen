@@ -61,7 +61,7 @@ public with sharing class DateLiteral {
             throw new ValidationException('Invalid field type for date literal');
         }
 
-        String fieldValue = options.getFieldValue();
+        String fieldValue = (String) options.getFieldValue();
         if(isSimple(fieldValue)) {
             return buildSimpleDateLiteral(options, fieldValue);
         }
@@ -69,7 +69,7 @@ public with sharing class DateLiteral {
         throw new ValidationException('Invalid or unsupported date literal: ' + fieldValue);
     }
 
-    private Boolean isSimple(String token) {
+    private static Boolean isSimple(String token) {
         return DAYS_BY_LITERAL.containsKey(token);
     }
 
