@@ -169,4 +169,55 @@ private class WhereLogicHandlerTest {
 
         Assert.isFalse(result, 'Expected false but got ' + result);
     }
+
+    @IsTest
+    static void ensureWhereLogicHandlerWorksWithDateEqualsTomorrow() {
+        Parser p = new Parser();
+        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CloseDate = TOMORROW');
+        Node operatorNode = selectNode.right.right.left;
+        Opportunity opp = new Opportunity(
+            Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
+            CloseDate = GMT.today().addDays(1)
+        );
+
+        BooleanLogicOptions options = new BooleanLogicOptions()
+            .setParams(null)
+            .setHead(selectNode)
+            .setObj(opp)
+            .setSelectNode(selectNode);
+        BooleanLogicHandler handler = new WhereLogicHandler(options);
+
+        
+        Test.startTest();
+        Boolean result = handler.isCompareConditionMet(operatorNode);
+        Test.stopTest();
+
+        Assert.isTrue(result, 'Expected true but got ' + result);
+    }
+
+    @IsTest
+    static void ensureWhereLogicHandlerWorksWithDateTimeIsLessThanTomorrow() {
+        Parser p = new Parser();
+        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CreatedDate < TOMORROW');
+        Node operatorNode = selectNode.right.right.left;
+        Opportunity opp = new Opportunity(
+            Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
+            CloseDate = GMT.today().addDays(1)
+        );
+        opp = (Opportunity) Common.putReadOnlyField(opp, 'CreatedDate', GMT.now());
+
+        BooleanLogicOptions options = new BooleanLogicOptions()
+            .setParams(null)
+            .setHead(selectNode)
+            .setObj(opp)
+            .setSelectNode(selectNode);
+        BooleanLogicHandler handler = new WhereLogicHandler(options);
+
+        
+        Test.startTest();
+        Boolean result = handler.isCompareConditionMet(operatorNode);
+        Test.stopTest();
+
+        Assert.isTrue(result, 'Expected true but got ' + result);
+    }
 }
