@@ -1,6 +1,7 @@
 @isTest
 private class ValueListParserTest {
     @IsTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts')
     static void simpleStringValueList() {
         ParserTestUtil.assertStaticResource('VALUE_LIST_0');
     }

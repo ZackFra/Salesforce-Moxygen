@@ -53,16 +53,19 @@ private class HavingParserTest {
     }
 
     @IsTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts')
     private static void selectIdFromAccountGroupByIdHavingCountIdGreaterThan0() {
         ParserTestUtil.assertStaticResource('HAVING_0');
     }
 
     @IsTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts')
     static void havingClauseWithMultipleConditions() {
         ParserTestUtil.assertStaticResource('HAVING_1');
     }
 
     @IsTest
+    @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts')
     static void correctHavingClauseTreeForOrAndWhereLogic() {
         ParserTestUtil.assertStaticResource('HAVING_2');
     }
