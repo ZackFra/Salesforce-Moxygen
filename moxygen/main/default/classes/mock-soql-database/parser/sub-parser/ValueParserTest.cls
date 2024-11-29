@@ -26,4 +26,19 @@ private class ValueParserTest {
         Assert.areEqual(Token.TOMORROW_LITERAL, head.id, 'Tomorrow should be parseable');
         Assert.areEqual(NodeType.DATE_LITERAL, head.nodeType, 'Tomorrow should be of type tomorrow literal');
     }
+
+    @isTest
+    static void ensureLastWeekCanBeParsed() {
+        ValueParser parser = new ValueParser();
+        Test.startTest();
+        Intermediary intermediary = parser.parse(Token.LAST_WEEK_LITERAL);
+        Test.stopTest();
+
+        String subquery = intermediary.subquery;
+        Node head = intermediary.head;
+
+        Assert.areEqual('', subquery, 'Subquery should be empty');
+        Assert.areEqual(Token.LAST_WEEK_LITERAL, head.id, 'Id should be LAST_WEEK_LITERAL');
+        Assert.areEqual(NodeType.DATE_LITERAL, head.nodeType, 'Node type should be DATE_LITERAL');
+    }
 }

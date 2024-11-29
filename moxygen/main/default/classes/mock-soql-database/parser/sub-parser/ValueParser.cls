@@ -35,6 +35,7 @@ public inherited sharing class ValueParser extends SubParser {
         Token.TOMORROW_LITERAL => TomorrowParser.class,
         Token.TODAY_LITERAL => TodayParser.class,
         Token.YESTERDAY_LITERAL => YesterdayParser.class,
+        Token.LAST_WEEK_LITERAL => LastWeekParser.class,
         Token.XTRUE => BooleanParser.class,
         Token.XFALSE => BooleanParser.class,
         Token.XNULL => NullParser.class,
