@@ -74,20 +74,37 @@ public inherited sharing virtual class DateLiteral {
         return buildComplexDateLiteral(options, fieldValue);
     }
 
+    /**
+     * @description Builder for the DateLiteral class
+     */
     public class Builder implements IBuilder {
         String fieldValue;
         Object recordFieldValue;
 
+        /**
+         * @description Set the field value
+         * @param fieldValue `String`
+         * @return  `Builder`
+         */
         public Builder setFieldValue(String fieldValue) {
             this.fieldValue = fieldValue;
             return this;
         }
 
+        /**
+         * @description Set the new record field value
+         * @param recordFieldValue `Object`
+         * @return  `Builder`
+         */
         public Builder setNewRecordFieldValue(Object recordFieldValue) {
             this.recordFieldValue = recordFieldValue;
             return this;
         }
 
+        /**
+         * @description Build the DateLiteral 
+         * @return  `DateLiteral`
+         */
         public DateLiteral build() {
             return new DateLiteral(fieldValue, (Date) recordFieldValue);
         }

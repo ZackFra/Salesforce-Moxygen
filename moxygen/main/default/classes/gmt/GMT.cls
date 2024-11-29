@@ -3,7 +3,7 @@
  * @author Zackary Frazier
  * @since 11/16/2024
  */
-public with sharing class GMT {
+public inherited sharing class GMT {
     /**
      * @description Return today's date in GMT
      * @return  `Date`
@@ -32,6 +32,7 @@ public with sharing class GMT {
     /**
      * @description Return the date time in GMT of the date
      * @param d `Date`
+     * @return `DateTime`
      */
     public static DateTime dateTime(Date d) {
         return DateTime.newInstanceGmt(d, Time.newInstance(0, 0, 0, 0));
