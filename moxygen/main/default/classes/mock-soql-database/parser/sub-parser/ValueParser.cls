@@ -30,19 +30,6 @@
   */
 public inherited sharing class ValueParser extends SubParser {
 
-    Map<String, Type> primitiveParsers = new Map<String, Type> {
-        Token.SINGLE_QUOTE => StringParser.class,
-        Token.TOMORROW_LITERAL => TomorrowParser.class,
-        Token.TODAY_LITERAL => TodayParser.class,
-        Token.YESTERDAY_LITERAL => YesterdayParser.class,
-        Token.LAST_WEEK_LITERAL => LastWeekParser.class,
-        Token.THIS_WEEK_LITERAL => ThisWeekParser.class,
-        Token.XTRUE => BooleanParser.class,
-        Token.XFALSE => BooleanParser.class,
-        Token.XNULL => NullParser.class,
-        Token.COLON => BindVariableParser.class
-    };
-
     /**
      * @description Parses the value in the query string
      * @param query `String`
@@ -65,11 +52,10 @@ public inherited sharing class ValueParser extends SubParser {
     }
 
     private Intermediary tryParsingPredictableQueries(String query) {
-        Set<String> expectedTokens = primitiveParsers.keySet();
+        Set<String> expectedTokens = PrimitiveParserFactory.getPrimitiveParserTokens();
         for(String token : expectedTokens) {
             if(isNext(query, token)) {
-                Type parserType = primitiveParsers.get(token);
-                SubParser primitiveParser = (SubParser) parserType.newInstance();
+                SubParser primitiveParser = PrimitiveParserFactory.getPrimitiveParser(token);
                 return primitiveParser.parse(query);
             }
         }
