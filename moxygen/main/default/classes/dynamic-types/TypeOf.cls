@@ -31,13 +31,17 @@ public inherited sharing class TypeOf {
         } else if(obj instanceOf Boolean) {
             return ApexTypes.XBOOLEAN;
         } else {
-            String typeName = Name.getSObjectType().getDescribe().getName();
-            try {
-                Name a = (Name) obj;
-            } catch(Exception e) {
-                typeName = e.getMessage().substringAfter('Invalid conversion from runtime type ').substringBefore(' to Name');
-            }
-            return typeName;
+            return dynamicallyGetTypeByInvokingAnException(obj);
         }
+    }
+
+    private static String dynamicallyGetTypeByInvokingAnException(Object obj) {
+        String typeName = Name.getSObjectType().getDescribe().getName();
+        try {
+            Name a = (Name) obj;
+        } catch(Exception e) {
+            typeName = e.getMessage().substringAfter('Invalid conversion from runtime type ').substringBefore(' to Name');
+        }
+        return typeName;
     }
 }
