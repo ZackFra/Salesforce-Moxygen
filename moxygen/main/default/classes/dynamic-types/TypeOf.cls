@@ -19,6 +19,7 @@ public inherited sharing class TypeOf {
         }
     }
 
+    @SuppressWarnings('PMD.UnusedLocalVariable')
     private static String dynamicallyGetTypeByInvokingAnException(Object obj) {
         String nameObject = Name.getSObjectType().getDescribe().getName();
         String typeName = nameObject;
