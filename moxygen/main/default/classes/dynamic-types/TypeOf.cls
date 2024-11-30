@@ -31,7 +31,7 @@ public inherited sharing class TypeOf {
         } else if(obj instanceOf Boolean) {
             return ApexTypes.XBOOLEAN;
         } else {
-            String typeName = 'Name';
+            String typeName = Name.getSObjectType().getDescribe().getName();
             try {
                 Name a = (Name) obj;
             } catch(Exception e) {
