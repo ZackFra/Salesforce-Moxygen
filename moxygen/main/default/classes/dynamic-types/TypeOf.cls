@@ -4,7 +4,7 @@
  * @since 11/16/2024
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
-public with sharing class TypeOf {
+public inherited sharing class TypeOf {
     /**
      * @description Given an object, determine the type of the object. 
      * @param obj `Object`
@@ -14,24 +14,22 @@ public with sharing class TypeOf {
     public static String forObject(Object obj) {
         if(obj == null) {
             return ApexTypes.XNULL;
-        } else if(obj instanceOf Id) {
-            return ApexTypes.XID;
-        } else if(obj instanceOf String) {
-            return ApexTypes.XSTRING;
-        } else if(obj instanceOf Integer) {
-            return ApexTypes.XINTEGER;
-        } else if(obj instanceOf Decimal) {
-            return ApexTypes.XDECIMAL;
-        } else if(obj instanceOf Date) {
-            return ApexTypes.XDATE;
-        } else if(obj instanceof DateTime) {
-            return ApexTypes.XDATETIME;
-        } else if(obj instanceOf Time) {
-            return ApexTypes.XTIME;
-        } else if(obj instanceOf Boolean) {
-            return ApexTypes.XBOOLEAN;
         } else {
-            return ApexTypes.XOBJECT;
+            return dynamicallyGetTypeByInvokingAnException(obj);
         }
+    }
+
+    @SuppressWarnings('PMD.UnusedLocalVariable')
+    private static String dynamicallyGetTypeByInvokingAnException(Object obj) {
+        String nameObject = Name.getSObjectType().getDescribe().getName();
+        String typeName = nameObject;
+        try {
+            Name a = (Name) obj;
+        } catch(Exception e) {
+            typeName = e.getMessage()
+                .substringAfter('Invalid conversion from runtime type ')
+                .substringBefore(' to ' + nameObject);
+        }
+        return typeName;
     }
 }

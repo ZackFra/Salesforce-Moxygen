@@ -113,8 +113,7 @@ public abstract class SubParser {
     }
 
     protected Boolean isNext(String query, String token) {
-        return (query.length() >= token.length()) && 
-            (lookahead(query, token.length()) == token);
+        return ParserUtils.isNext(query, token);
     }
 
     protected Boolean isProtectedKeyword(String query) {
