@@ -1,0 +1,28 @@
+public inherited sharing class ComplexDateLiteralFactory {
+    static final Map<String, Type> STRATEGY_BY_TOKEN = new Map<String, Type>{
+        Token.LAST_WEEK_LITERAL => LastWeekStrategy.class,
+        token.THIS_WEEK_LITERAL => ThisWeekStrategy.class,
+        token.NEXT_WEEK_LITERAL => NextWeekStrategy.class,
+        token.THIS_WEEK_LITERAL => ThisWeekStrategy.class
+    };
+
+    @TestVisible
+    private static Set<String> getTokens() {
+        return STRATEGY_BY_TOKEN.keySet();
+    }
+
+    /**
+     * @description Get the strategy for the given token
+     * @param token `String`
+     * @return  `IComplexDateLiteralStrategy`
+     * @exception ValidationException
+     */
+    public static IComplexDateLiteralStrategy getStrategy(String token) {
+        Type strategyType = STRATEGY_BY_TOKEN.get(token);
+        if(strategyType == null) {
+            throw new ValidationException('Invalid or unsupported date literal: ' + token);
+        }
+        IComplexDateLiteralStrategy strategy = (IComplexDateLiteralStrategy) strategyType.newInstance();
+        return strategy;
+    }
+}
