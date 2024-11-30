@@ -4,7 +4,8 @@
  * @since 11/30/2024
  */
 public with sharing class PrimitiveParserFactory {
-    static Map<String, Type> primitiveParsers = new Map<String, Type> {
+    @TestVisible
+    static Map<String, Type> parserTypeByToken = new Map<String, Type> {
         Token.SINGLE_QUOTE => StringParser.class,
         Token.TOMORROW_LITERAL => TomorrowParser.class,
         Token.TODAY_LITERAL => TodayParser.class,
@@ -17,17 +18,49 @@ public with sharing class PrimitiveParserFactory {
         Token.COLON => BindVariableParser.class
     };
 
+    @TestVisible
     static Set<String> getPrimitiveParserTokens() {
-        return primitiveParsers.keySet();
+        return parserTypeByToken.keySet();
     }
 
     /**
-     * @description Returns the primitive parser based on the token
-     * @param token `String`
+     * @description Returns the appropriate primitive parser for the given query
+     * @param query `String`
      * @return  `SubParser`
      */
-    public static SubParser getPrimitiveParser(String token) {
-        Type parserType = primitiveParsers.get(token);
-        return (SubParser) parserType.newInstance();
+    public static SubParser getPrimitiveParser(String query) {
+        if(isSoqlDateOrDateTime(query)) {
+            return new DateParser();
+        }
+
+        Set<String> expectedTokens = getPrimitiveParserTokens();
+        for(String token : expectedTokens) {
+            if(ParserUtils.isNext(query, token)) {
+                Type parserType = parserTypeByToken.get(token);
+                SubParser primitiveParser = (SubParser) parserType.newInstance();
+                return primitiveParser;
+            }
+        }
+
+        // if none of the others, assume it's a number
+        return new NumberParser();
+    }
+
+    private static Boolean isSoqlDateOrDateTime(String query) {
+        return isSoqlDate(query) || isSoqlDateTime(query);
+    }
+
+    private static Boolean isSoqlDateTime(String query) {
+        String dateTimeRegex1 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\+([0-9]{2}):([0-9]{2})';
+        String dateTimeRegex2 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\-([0-9]{2}):([0-9]{2})';
+        String dateTimeRegex3 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})Z';
+        Regex reg = new Regex();
+        return reg.matches(query, dateTimeRegex1) || reg.matches(query, dateTimeRegex2) || reg.matches(query, dateTimeRegex3);
+    }
+
+    private static Boolean isSoqlDate(String query) {
+        String dateRegex = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})';
+        Regex reg = new Regex();
+        return reg.matches(query, dateRegex);
     }
 }

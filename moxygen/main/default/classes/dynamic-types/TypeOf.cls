@@ -4,7 +4,7 @@
  * @since 11/16/2024
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
-public with sharing class TypeOf {
+public inherited sharing class TypeOf {
     /**
      * @description Given an object, determine the type of the object. 
      * @param obj `Object`
@@ -31,7 +31,13 @@ public with sharing class TypeOf {
         } else if(obj instanceOf Boolean) {
             return ApexTypes.XBOOLEAN;
         } else {
-            return ApexTypes.XOBJECT;
+            String typeName = 'Name';
+            try {
+                Name a = (Name) obj;
+            } catch(Exception e) {
+                typeName = e.getMessage().substringAfter('Invalid conversion from runtime type ').substringBefore(' to Name');
+            }
+            return typeName;
         }
     }
 }
