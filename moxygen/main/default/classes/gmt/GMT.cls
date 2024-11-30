@@ -3,7 +3,7 @@
  * @author Zackary Frazier
  * @since 11/16/2024
  */
-public inherited sharing class GMT {
+public inherited sharing class Gmt {
     /**
      * @description Return today's date in GMT
      * @return  `Date`
