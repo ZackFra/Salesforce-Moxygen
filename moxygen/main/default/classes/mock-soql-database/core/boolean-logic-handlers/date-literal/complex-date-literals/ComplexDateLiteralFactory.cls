@@ -1,3 +1,8 @@
+/**
+ * @description Given a token, this class will return the appropriate strategy for the token
+ * @author Zackary Frazier
+ * @since 11/30/2024
+ */
 public inherited sharing class ComplexDateLiteralFactory {
     static final Map<String, Type> STRATEGY_BY_TOKEN = new Map<String, Type>{
         Token.LAST_WEEK_LITERAL => LastWeekStrategy.class,
