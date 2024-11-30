@@ -113,6 +113,12 @@ public with sharing class ParserUtils {
         applyCasing(head.right);
     }
 
+    /**
+     * @description Returns whether the query has the token as the next token
+     * @param query `String`
+     * @param token `String`
+     * @return  `Boolean`
+     */
     public static Boolean isNext(String query, String token) {
         return (query.length() >= token.length()) && 
             (lookahead(query, token.length()) == token);

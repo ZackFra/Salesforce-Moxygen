@@ -1,5 +1,5 @@
 @IsTest
-public with sharing class TypeOfTest {
+private class TypeOfTest {
     @IsTest
     static void testForObject() {
         Object obj = 'Hello';
