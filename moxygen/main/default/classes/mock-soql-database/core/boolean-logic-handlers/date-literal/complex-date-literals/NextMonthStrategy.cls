@@ -6,7 +6,7 @@
 public with sharing class NextMonthStrategy extends ComplexDateLiteralStrategy {
 
     /**
-     * @description Resolve the LAST_WEEK token
+     * @description Resolve the NEXT_MONTH token
      * @param fieldType `Schema.DisplayType`
      * @param recordFieldValue `Object`
      * @return `DateLiteral`
