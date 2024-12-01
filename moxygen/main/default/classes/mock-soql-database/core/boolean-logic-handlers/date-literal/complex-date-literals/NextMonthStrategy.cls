@@ -3,7 +3,7 @@
  * @author Zackary Frazier
  * @since 11/30/2024
  */
-public with sharing class NextMonthStrategy extends ComplexDateLiteralStrategy {
+public inherited sharing class NextMonthStrategy extends ComplexDateLiteralStrategy {
 
     /**
      * @description Resolve the NEXT_MONTH token
