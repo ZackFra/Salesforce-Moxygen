@@ -12,6 +12,7 @@ public with sharing class PrimitiveParserFactory {
         Token.YESTERDAY_LITERAL => YesterdayParser.class,
         Token.LAST_WEEK_LITERAL => LastWeekParser.class,
         Token.THIS_WEEK_LITERAL => ThisWeekParser.class,
+        Token.NEXT_WEEK_LITERAL => NextWeekParser.class,
         Token.XTRUE => BooleanParser.class,
         Token.XFALSE => BooleanParser.class,
         Token.XNULL => NullParser.class,

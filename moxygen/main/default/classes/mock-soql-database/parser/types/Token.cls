@@ -129,4 +129,5 @@ public inherited sharing class Token {
     public final static String TOMORROW_LITERAL = 'tomorrow';
     public final static String LAST_WEEK_LITERAL = 'last_week';
     public final static String THIS_WEEK_LITERAL = 'this_week';
+    public final static String NEXT_WEEK_LITERAL = 'next_week';
 }

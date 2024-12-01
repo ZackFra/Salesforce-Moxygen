@@ -4,26 +4,22 @@ private class LastWeekStrategyTest {
     @IsTest
     static void ensureLastWeekStrategyWorksWithDate() {
         LastWeekStrategy strategy = new LastWeekStrategy();
-        Test.startTest();
-        DateLiteral dl = strategy.resolve(Schema.DisplayType.DATE, GMT.today().addDays(-7));
-        Test.stopTest();
-
-        String expectedFieldValue = Common.dateToSoqlString(GMT.today().addDays(-7).toStartOfWeek());
-        String fieldValue = dl.getFieldValue();
-        Assert.areEqual(expectedFieldValue, fieldValue, 'Record field value should be start of this week');
-        Assert.isFalse(dl.hasNewRecordFieldValue(), 'Has new record field value should be false');
+        Date expectedDate = GMT.today().addDays(-7).toStartOfWeek();
+        Date testDate = GMT.today().addDays(-7);
+        Assert.isTrue(
+            DateLiteralStrategyTestUtils.isSuccessForDate(expectedDate, testDate, strategy),
+            'Last week strategy should return start of last week for date'
+        );
     }
 
     @IsTest
     static void ensureLastWeekStrategyWorksWithDateTime() {
         LastWeekStrategy strategy = new LastWeekStrategy();
-        Test.startTest();
-        DateLiteral dl = strategy.resolve(Schema.DisplayType.DATETIME, GMT.now().addDays(-7));
-        Test.stopTest();
-
-        String expectedFieldValue = Common.dateToSoqlString(GMT.today().addDays(-7).toStartOfWeek());
-        String fieldValue = dl.getFieldValue();
-        Assert.areEqual(expectedFieldValue, fieldValue, 'Record field value should be start of this week');
-        Assert.isTrue(dl.hasNewRecordFieldValue(), 'Has new record field value should be true');
+        Date expectedDate = GMT.today().addDays(-7).toStartOfWeek();
+        DateTime testDateTime = GMT.now().addDays(-7);
+        Assert.isTrue(
+            DateLiteralStrategyTestUtils.isSuccessForDateTime(expectedDate, testDateTime, strategy),
+            'Last week strategy should return start of last week for date time'
+        );
     }
 }

@@ -13,11 +13,6 @@ public inherited sharing virtual class DateLiteral {
         Token.TOMORROW_LITERAL => 1
     };
 
-    static final Map<String, Type> COMPLEX_DATE_LITERAL_STRATEGIES = new Map<String, Type>{
-        Token.LAST_WEEK_LITERAL => LastWeekStrategy.class,
-        token.THIS_WEEK_LITERAL => ThisWeekStrategy.class
-    };
-
     protected DateLiteral(String fieldValue, Date recordFieldValue) {
         this.fieldValue = fieldValue;
         this.recordFieldValue = recordFieldValue;
@@ -114,13 +109,9 @@ public inherited sharing virtual class DateLiteral {
         return DAYS_BY_LITERAL.containsKey(token);
     }
 
-    private static DateLiteral buildComplexDateLiteral(DateLiteralOptions options, String dateLiteralToken) {
-        Type strategyType = COMPLEX_DATE_LITERAL_STRATEGIES.get(dateLiteralToken);
-        if(strategyType == null) {
-            throw new ValidationException('Invalid or unsupported date literal: ' + dateLiteralToken);
-        }
-        IComplexDateLiteralStrategy strategy = (IComplexDateLiteralStrategy) strategyType.newInstance();
-        return strategy.resolve(options.getFieldType(), options.getRecordFieldValue());
+    private static DateLiteral buildComplexDateLiteral(DateLiteralOptions options, String token) {
+        return ComplexDateLiteralFactory.getStrategy(token)
+            .resolve(options.getFieldType(), options.getRecordFieldValue());
     }
 
     private static DateLiteral buildSimpleDateLiteral(DateLiteralOptions options, String dateLiteralToken) {
