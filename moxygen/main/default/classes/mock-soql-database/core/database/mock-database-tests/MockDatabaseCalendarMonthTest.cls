@@ -124,12 +124,12 @@ private class MockDatabaseCalendarMonthTest  {
     static void testCalendarMonthInWhereClauseWithOpportunityCloseDate() {
         Opportunity opp1 = new Opportunity(
             Name = 'Test',
-            CloseDate = Date.today()
+            CloseDate = Gmt.today()
         );
 
         Opportunity opp2 = new Opportunity(
             Name = 'Test2',
-            CloseDate = Date.today() - 60
+            CloseDate = Gmt.today() - 60
         );
 
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
@@ -153,12 +153,12 @@ private class MockDatabaseCalendarMonthTest  {
     static void testCalendarMonthInWhereClauseWithOpportunityCloseDateLessThan() {
         Opportunity opp1 = new Opportunity(
             Name = 'Test',
-            CloseDate = Date.today()
+            CloseDate = Gmt.today()
         );
 
         Opportunity opp2 = new Opportunity(
             Name = 'Test2',
-            CloseDate = Date.today() - 60
+            CloseDate = Gmt.today() - 60
         );
 
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
@@ -208,12 +208,12 @@ private class MockDatabaseCalendarMonthTest  {
     static void testCalendarMonthWeirdDateException() {
         Opportunity opp1 = new Opportunity(
             Name = 'Test',
-            CloseDate = Date.today()
+            CloseDate = Gmt.today()
         );
 
         Opportunity opp2 = new Opportunity(
             Name = 'Test2',
-            CloseDate = Date.today()
+            CloseDate = Gmt.today()
         );
 
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
