@@ -10,7 +10,6 @@ public class DateLiteralStrategyTestUtils {
      */
     public static Boolean isSuccessForDate(Date expectedDate, Date testDate, ComplexDateLiteralStrategy strategy) {
         String expected = Common.dateToSoqlString(expectedDate);
-        String dAsSoqlStr = Common.dateToSoqlString(testDate);
 
         Test.startTest();
         DateLiteral result = strategy.resolve(Schema.DisplayType.DATE, testDate);
