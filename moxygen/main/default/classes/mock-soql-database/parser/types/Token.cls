@@ -134,4 +134,5 @@ public inherited sharing class Token {
     public final static String THIS_MONTH_LITERAL = 'this_month';
     public final static String NEXT_MONTH_LITERAL = 'next_month';
     public final static String LAST_90_DAYS_LITERAL = 'last_90_days';
+    public final static String NEXT_90_DAYS_LITERAL = 'next_90_days';
 }
