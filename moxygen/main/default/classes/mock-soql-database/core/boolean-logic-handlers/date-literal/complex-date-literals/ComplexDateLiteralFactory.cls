@@ -8,7 +8,8 @@ public inherited sharing class ComplexDateLiteralFactory {
         Token.LAST_WEEK_LITERAL => LastWeekStrategy.class,
         token.THIS_WEEK_LITERAL => ThisWeekStrategy.class,
         token.NEXT_WEEK_LITERAL => NextWeekStrategy.class,
-        token.THIS_WEEK_LITERAL => ThisWeekStrategy.class
+        token.THIS_WEEK_LITERAL => ThisWeekStrategy.class,
+        token.LAST_MONTH_LITERAL => LastMonthStrategy.class
     };
 
     @TestVisible
