@@ -1,7 +1,7 @@
 @IsTest
 public class DateLiteralStrategyTestUtils {
 
-    public static Boolean isSuccessForDate(Date expectedDate, Date testDate, IComplexDateLiteralStrategy strategy) {
+    public static Boolean isSuccessForDate(Date expectedDate, Date testDate, ComplexDateLiteralStrategy strategy) {
         String expected = Common.dateToSoqlString(expectedDate);
         String dAsSoqlStr = Common.dateToSoqlString(testDate);
 
@@ -14,7 +14,7 @@ public class DateLiteralStrategyTestUtils {
         return true;
     }
 
-    public static Boolean isSuccessForDateTime(Date expectedDate, DateTime dt, IComplexDateLiteralStrategy strategy) {
+    public static Boolean isSuccessForDateTime(Date expectedDate, DateTime dt, ComplexDateLiteralStrategy strategy) {
         String expected = Common.dateToSoqlString(expectedDate);
         String dtAsSoqlStr = Common.dateToSoqlString(Gmt.date(dt));
 

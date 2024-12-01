@@ -19,15 +19,15 @@ public inherited sharing class ComplexDateLiteralFactory {
     /**
      * @description Get the strategy for the given token
      * @param token `String`
-     * @return  `IComplexDateLiteralStrategy`
+     * @return  `ComplexDateLiteralStrategy`
      * @exception ValidationException
      */
-    public static IComplexDateLiteralStrategy getStrategy(String token) {
+    public static ComplexDateLiteralStrategy getStrategy(String token) {
         Type strategyType = STRATEGY_BY_TOKEN.get(token);
         if(strategyType == null) {
             throw new ValidationException('Invalid or unsupported date literal: ' + token);
         }
-        IComplexDateLiteralStrategy strategy = (IComplexDateLiteralStrategy) strategyType.newInstance();
+        ComplexDateLiteralStrategy strategy = (ComplexDateLiteralStrategy) strategyType.newInstance();
         return strategy;
     }
 }
