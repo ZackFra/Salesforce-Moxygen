@@ -30,7 +30,6 @@ public class DateLiteralStrategyTestUtils {
      */
     public static Boolean isSuccessForDateTime(Date expectedDate, DateTime dt, ComplexDateLiteralStrategy strategy) {
         String expected = Common.dateToSoqlString(expectedDate);
-        String dtAsSoqlStr = Common.dateToSoqlString(Gmt.date(dt));
 
         Test.startTest();
         DateLiteral result = strategy.resolve(Schema.DisplayType.DATETIME, dt);
