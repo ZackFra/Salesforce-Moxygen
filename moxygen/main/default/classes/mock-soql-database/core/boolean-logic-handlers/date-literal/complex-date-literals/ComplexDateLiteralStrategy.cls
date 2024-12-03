@@ -5,6 +5,8 @@
  */
 public abstract class ComplexDateLiteralStrategy {
 
+    protected DateLiteralOptions options;
+
     /**
      * @description Public facing method, resolves the complex date literal
      * @param fieldType `Schema.DisplayType` Date|Datetime
@@ -29,5 +31,14 @@ public abstract class ComplexDateLiteralStrategy {
             .setFieldValue(fieldValue)
             .setNewRecordFieldValue(newRecordFieldValue)
             .build();
+    }
+
+    /**
+     * @description Set the options for the strategy
+     * @param options `ComplexDateLiteralStrategyOptions`
+     */
+    public ComplexDateLiteralStrategy setOptions(DateLiteralOptions options) {
+        this.options = options;
+        return this;
     }
 }

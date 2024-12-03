@@ -13,7 +13,8 @@ public inherited sharing class ComplexDateLiteralFactory {
         token.THIS_MONTH_LITERAL => ThisMonthStrategy.class,
         token.NEXT_MONTH_LITERAL => NextMonthStrategy.class,
         token.LAST_90_DAYS_LITERAL => Last90DaysStrategy.class,
-        token.NEXT_90_DAYS_LITERAL => Next90DaysStrategy.class
+        token.NEXT_90_DAYS_LITERAL => Next90DaysStrategy.class,
+        token.LAST_N_DAYS_LITERAL => LastNDaysStrategy.class
     };
 
     @TestVisible
@@ -28,7 +29,11 @@ public inherited sharing class ComplexDateLiteralFactory {
      * @exception ValidationException
      */
     public static ComplexDateLiteralStrategy getStrategy(String token) {
-        Type strategyType = STRATEGY_BY_TOKEN.get(token);
+        String tkn = token;
+        if(token.contains(':')) {
+            tkn = token.split(':')[0];
+        }
+        Type strategyType = STRATEGY_BY_TOKEN.get(tkn);
         if(strategyType == null) {
             throw new ValidationException('Invalid or unsupported date literal: ' + token);
         }
