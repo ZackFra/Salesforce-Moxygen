@@ -35,7 +35,8 @@ public abstract class ComplexDateLiteralStrategy {
 
     /**
      * @description Set the options for the strategy
-     * @param options `ComplexDateLiteralStrategyOptions`
+     * @param options `DateLiteralOptions`
+     * @return  `ComplexDateLiteralStrategy`
      */
     public ComplexDateLiteralStrategy setOptions(DateLiteralOptions options) {
         this.options = options;

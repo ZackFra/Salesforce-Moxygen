@@ -28,6 +28,7 @@ public with sharing class Regex {
      * @description Get the groups from a regex pattern
      * @param str `String`
      * @param regexPattern `String`
+     * @return  `List<String>`
      */
     public List<String> getGroups(String str, String regexPattern) {
         if(matcherCache.containsKey(regexPattern)) {

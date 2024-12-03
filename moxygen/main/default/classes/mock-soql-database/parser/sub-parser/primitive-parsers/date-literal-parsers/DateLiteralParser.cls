@@ -24,8 +24,8 @@ public abstract class DateLiteralParser extends SubParser {
     /**
      * @description For the N_DAYS dates literals, parse the query and return the token
      * @param query `String`
-     * @param token `String`
-     * @return  `String`
+     * @param nDaysTkn `String`
+     * @return  `Intermediary`
      * @exception ValidationException
      */
     public Intermediary parseNDays(String query, String nDaysTkn) {

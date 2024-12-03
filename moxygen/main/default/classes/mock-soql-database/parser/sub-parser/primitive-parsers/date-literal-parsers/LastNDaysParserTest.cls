@@ -41,7 +41,7 @@ private class LastNDaysParserTest {
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
-            Intermediary result = parser.parse(input);
+            parser.parse(input);
         } catch(ValidationException e) {
             isExceptionThrown = true;
         } 
