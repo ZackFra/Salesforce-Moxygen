@@ -15,7 +15,7 @@ public inherited sharing class LastNDaysStrategy extends ComplexDateLiteralStrat
         List<String> groups = token.split(':');
         String dayValue = groups[1];
         Integer days = Integer.valueOf(dayValue);
-        String fieldValue = Common.dateToSoqlString(GMT.today().addDays(-days));
+        String fieldValue = Common.dateToSoqlString(GMT.today().addDays(-(days+1)));
         return resolve(fieldValue, options.getFieldType(), options.getRecordFieldValue());
     }
 }
