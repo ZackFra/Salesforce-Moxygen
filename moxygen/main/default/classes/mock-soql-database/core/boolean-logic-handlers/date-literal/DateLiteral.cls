@@ -111,6 +111,7 @@ public inherited sharing virtual class DateLiteral {
 
     private static DateLiteral buildComplexDateLiteral(DateLiteralOptions options, String token) {
         return ComplexDateLiteralFactory.getStrategy(token)
+            .setOptions(options)
             .resolve(options.getFieldType(), options.getRecordFieldValue());
     }
 

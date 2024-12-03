@@ -18,6 +18,7 @@ public with sharing class PrimitiveParserFactory {
         Token.NEXT_MONTH_LITERAL => NextMonthParser.class,
         Token.LAST_90_DAYS_LITERAL => Last90DaysParser.class,
         Token.NEXT_90_DAYS_LITERAL => Next90DaysParser.class,
+        Token.LAST_N_DAYS_LITERAL => LastNDaysParser.class,
         Token.XTRUE => BooleanParser.class,
         Token.XFALSE => BooleanParser.class,
         Token.XNULL => NullParser.class,
