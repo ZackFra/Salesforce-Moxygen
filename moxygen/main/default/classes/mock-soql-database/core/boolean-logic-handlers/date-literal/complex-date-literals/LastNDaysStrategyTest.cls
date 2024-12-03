@@ -3,7 +3,7 @@ private class LastNDaysStrategyTest {
 
     @IsTest
     static void ensureStrategyWorksWithDate() {
-        Date expectedDate = GMT.today().addDays(-7);
+        Date expectedDate = GMT.today().addDays(-8);
         Date testDate = GMT.today().addDays(-7);
         DateLiteralOptions options = new DateLiteralOptions.Builder()
             .setFieldValue('last_n_days:7')
@@ -21,7 +21,7 @@ private class LastNDaysStrategyTest {
 
     @IsTest
     static void ensureStrategyWorksWithDateTime() {
-        Date expectedDate = GMT.today().addDays(-7);
+        Date expectedDate = GMT.today().addDays(-8);
         DateTime testDateTime = GMT.now().addDays(-7);
         DateLiteralOptions options = new DateLiteralOptions.Builder()
             .setFieldValue('last_n_days:7')
