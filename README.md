@@ -304,7 +304,7 @@ Inserts a list of records into the mock database without registering an insert.
 
 #### @TestVisible private static Boolean didAnyDML()
 
-Returns whether and DML, aside from calls to doMockInsert, were made.
+Returns whether any DML, aside from calls to doMockInsert, were made.
 
 #### @TestVisible private static Boolean didDML(Types.DML type)
 
