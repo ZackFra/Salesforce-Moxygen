@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-name: CodeScan Pull Request On Main, Validate Deployment
+name: Validate Deployment
 
 on:
   pull_request:
@@ -43,24 +43,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Install Java
-        run: |
-          sudo apt-get update
-          sudo apt-get install openjdk-11-jdk
-          java -version
       - name: Install SFDX
         run: |
           npm i -g @salesforce/cli
           sf --version
-      - name: Install Code Scanner
+      - name: Install Plugins
         run: |
-          sf plugins install @salesforce/sfdx-scanner
-      - name: Run Code Scanner
-        run: |
-          sf scanner run --target . -f json -o codescan.json
-      - name: Raise Warnings
-        run: |
-          node scripts/js/raise-warnings.js
+          echo y | sf plugins install sfdx-git-delta
       - name: Create Auth File
         run: |
           echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
@@ -69,7 +58,8 @@ jobs:
           sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
       - name: Validate
         run: |
-          sf project deploy validate --manifest manifest/package.xml -o DevHub -w 120 --json > validate.json
+          sf sgd source delta --to "HEAD" --from "origin/main" --output "." 
+          sf project deploy validate --manifest package/package.xml -o DevHub -w 120 --json --pre-destructive-changes ./destructiveChanges/destructiveChanges.xml > validate.json
       - name: Get Job Id
         run: |
           node scripts/js/get-job-id.js

@@ -3,13 +3,22 @@
     {
       "path": "moxygen",
       "default": true
+    },
+    {
+      "versionName": "version 0.1",
+      "versionNumber": "0.1.0.NEXT",
+      "path": "moxygen",
+      "default": false,
+      "package": "Moxygen",
+      "versionDescription": ""
     }
   ],
   "name": "Moxygen",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "60.0",
+  "sourceApiVersion": "62.0",
   "packageAliases": {
-    "moxygen": "0Ho3h0000004CwzCAE"
+    "Moxygen": "0Hoak0000000MtNCAU",
+    "Moxygen@0.1.0-2": "04tak0000004wVFAAY"
   }
 }
