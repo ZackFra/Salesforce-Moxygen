@@ -54,7 +54,7 @@ jobs:
           sf --version
       - name: Install Plugins
         run: |
-          sf plugins install sfdx-git-delta
+          echo y | sf plugins install sfdx-git-delta
           sf plugins install @salesforce/sfdx-scanner
       - name: Run Code Scanner
         run: |
