@@ -1,14 +1,10 @@
 {
   "packageDirectories": [
     {
-      "path": "moxygen",
-      "default": true
-    },
-    {
       "versionName": "version 0.1",
       "versionNumber": "0.1.0.NEXT",
       "path": "moxygen",
-      "default": false,
+      "default": true,
       "package": "Moxygen",
       "versionDescription": ""
     }
@@ -19,6 +15,7 @@
   "sourceApiVersion": "62.0",
   "packageAliases": {
     "Moxygen": "0Hoak0000000MtNCAU",
-    "Moxygen@0.1.0-2": "04tak0000004wVFAAY"
+    "Moxygen@0.1.0-2": "04tak0000004wVFAAY",
+    "Moxygen@0.1.0-3": "04tak0000004wbhAAA"
   }
 }

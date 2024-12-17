@@ -6,8 +6,13 @@
   "scripts": {
     "sf:scratch:create": "sf org create scratch --definition-file config/moxygen-scratch-def.json --target-dev-hub Moxygen",
     "sf:scratch:delete": "sf org delete scratch",
+    
     "sf:deploy": "sf project deploy start --source-dir moxygen",
     "sf:validate": "sf project deploy validate --source-dir moxygen",
+    
+    "sf:moxygen:install": "node ./scripts/js/install-moxygen.js",
+    "sf:moxygen:version:create": "sf package version create --package Moxygen --installation-key-bypass --wait 10",
+
     "lint": "eslint **/{aura,lwc}/**/*.js",
     "test": "npm run test:unit",
     "test:unit": "sfdx-lwc-jest",
