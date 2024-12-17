@@ -3683,4 +3683,34 @@ private class MockDatabaseTest {
 
         Assert.areEqual(2, opportunities.size(), 'Incorrect number of opportunities');
     }
+
+    @isTest
+    static void ensureNextNDaysLiteralWorksForDateEquals() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Tomorrow Opp',
+            CloseDate = GMT.today().addDays(1)
+        );
+
+        Opportunity opp2 = new Opportunity(
+            CloseDate = GMT.today().addDays(2)
+        );
+
+        Opportunity opp3 = new Opportunity(
+            CloseDate = GMT.today().addDays(3)
+        );
+
+        Opportunity opp4 = new Opportunity(
+            CloseDate = GMT.today().addDays(4)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate = NEXT_N_DAYS:3');
+        Test.stopTest();
+
+        Assert.areEqual(1, opportunities.size(), 'Incorrect number of opportunities');
+        Assert.areEqual(opp3.Id, opportunities[0].Id, 'Incorrect opportunity queried');
+
+    }
 }
