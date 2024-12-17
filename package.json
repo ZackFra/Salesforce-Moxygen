@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "description": "Salesforce App",
   "scripts": {
-    "sf:scratch:create": "sf org create scratch --definition-file config/moxygen-scratch-def.json --target-dev-hub Moxygen",
+    "sf:env:create": "npm run sf:scratch:create && npm run sf:moxygen:install",
+
+    "sf:scratch:create": "sf org create scratch --definition-file config/moxygen-scratch-def.json --target-dev-hub Moxygen --set-default --alias Dev",
     "sf:scratch:delete": "sf org delete scratch",
     
     "sf:deploy": "sf project deploy start --source-dir moxygen",
