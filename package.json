@@ -4,8 +4,7 @@
   "version": "1.0.0",
   "description": "Salesforce App",
   "scripts": {
-    "sf:deploy": "sf project deploy start --manifest manifest/package.xml -w 120",
-    "sf:validate": "sf project deploy validate --manifest manifest/package.xml -w 120",    
+    "sf:create:scratch": "sf org create scratch --definition-file config/moxygen-scratch-def.json --target-dev-hub Moxygen",
     "lint": "eslint **/{aura,lwc}/**/*.js",
     "test": "npm run test:unit",
     "test:unit": "sfdx-lwc-jest",
