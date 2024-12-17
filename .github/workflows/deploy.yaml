@@ -35,5 +35,5 @@ jobs:
         run: |
           sf project deploy quick --job-id ${{ steps.PR.outputs.pr_body }} --target-org DevHub
         else:
-          sf project deploy --source-dir force-app -o DevHub -w 120
+          sf project deploy --source-dir moxygen -o DevHub -w 120
     

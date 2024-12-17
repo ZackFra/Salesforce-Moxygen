@@ -69,7 +69,7 @@ jobs:
           sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
       - name: Validate
         run: |
-          sf project deploy validate --source-dir force-app -o DevHub -w 120 --json > validate.json
+          sf project deploy validate --source-dir moxygen -o DevHub -w 120 --json > validate.json
       - name: Get Job Id
         run: |
           node scripts/js/get-job-id.js
