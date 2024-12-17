@@ -15,7 +15,8 @@ public inherited sharing class ComplexDateLiteralFactory {
         token.LAST_90_DAYS_LITERAL => Last90DaysStrategy.class,
         token.NEXT_90_DAYS_LITERAL => Next90DaysStrategy.class,
         token.LAST_N_DAYS_LITERAL => LastNDaysStrategy.class,
-        token.NEXT_N_DAYS_LITERAL => NextNDaysStrategy.class
+        token.NEXT_N_DAYS_LITERAL => NextNDaysStrategy.class,
+        token.N_DAYS_AGO_LITERAL => NDaysAgoStrategy.class
     };
 
     @TestVisible

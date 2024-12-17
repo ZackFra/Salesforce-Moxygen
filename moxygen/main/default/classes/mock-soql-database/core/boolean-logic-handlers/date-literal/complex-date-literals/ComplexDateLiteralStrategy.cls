@@ -15,6 +15,19 @@ public abstract class ComplexDateLiteralStrategy {
      */
     public abstract DateLiteral resolve(Schema.DisplayType fieldType, Object recordFieldValue);
 
+    protected DateLiteral resolveWithDateFormula(IDateFormula dateFormula) {
+        String token = (String) options.getFieldValue();
+        List<String> groups = token.split(':');
+        String dayValue = groups[1];
+        Integer days = dateFormula.apply(Integer.valueOf(dayValue));
+        String fieldValue = formatDate(days);
+        return resolve(fieldValue, options.getFieldType(), options.getRecordFieldValue());
+    }
+
+    private String formatDate(Integer days) {
+        return Common.dateToSoqlString(GMT.today().addDays(days));
+    }
+
     /**
      * @description Resolve the date literal
      * @param fieldValue `String` Soql date string
