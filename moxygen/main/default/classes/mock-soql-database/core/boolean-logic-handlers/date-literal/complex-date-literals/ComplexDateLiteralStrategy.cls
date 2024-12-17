@@ -6,6 +6,19 @@
 public abstract class ComplexDateLiteralStrategy {
 
     protected DateLiteralOptions options;
+    protected IDateFormula dateFormula;
+
+    public IDateFormula getDateFormula() {
+        return dateFormula;
+    }
+
+    public ComplexDateLiteralStrategy() {
+        this.dateFormula = null;
+    }
+
+    public ComplexDateLiteralStrategy(IDateFormula dateFormula) {
+        this.dateFormula = dateFormula;
+    }
 
     /**
      * @description Public facing method, resolves the complex date literal
@@ -15,7 +28,8 @@ public abstract class ComplexDateLiteralStrategy {
      */
     public abstract DateLiteral resolve(Schema.DisplayType fieldType, Object recordFieldValue);
 
-    protected DateLiteral resolveWithDateFormula(IDateFormula dateFormula) {
+    protected DateLiteral resolveWithDateFormula() {
+        IDateFormula dateFormula = getDateFormula();
         String token = (String) options.getFieldValue();
         List<String> groups = token.split(':');
         String dayValue = groups[1];
@@ -26,6 +40,13 @@ public abstract class ComplexDateLiteralStrategy {
 
     private String formatDate(Integer days) {
         return Common.dateToSoqlString(GMT.today().addDays(days));
+    }
+
+    protected DateLiteral resolve() {
+        if(getDateFormula() != null) {
+            return resolveWithDateFormula();
+        }
+        return resolve((String) options.getFieldValue(), options.getFieldType(), options.getRecordFieldValue());
     }
 
     /**

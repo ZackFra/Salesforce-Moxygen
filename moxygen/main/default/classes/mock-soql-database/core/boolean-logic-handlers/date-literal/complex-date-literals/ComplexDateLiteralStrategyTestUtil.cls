@@ -8,7 +8,8 @@ public inherited sharing class ComplexDateLiteralStrategyTestUtil {
      */
     private static Boolean ensureStrategyWorksWithDate(ComplexDateLiteralStrategy strategy, String tkn) {
         Integer days = 5;
-        Date expectedDate = GMT.today().addDays(days);
+        IDateFormula dateFormula = strategy.getDateFormula();
+        Date expectedDate = GMT.today().addDays(dateFormula.apply(days));
         Date testDate = GMT.today().addDays(days);
         DateLiteralOptions options = new DateLiteralOptions.Builder()
             .setFieldValue(tkn + ':' + days)
@@ -32,7 +33,8 @@ public inherited sharing class ComplexDateLiteralStrategyTestUtil {
      */
     private static Boolean ensureStrategyWorksWithDateTime(ComplexDateLiteralStrategy strategy, String tkn) {
         Integer days = 5;
-        Date expectedDate = GMT.today().addDays(days);
+        IDateFormula dateFormula = strategy.getDateFormula();
+        Date expectedDate = GMT.today().addDays(dateFormula.apply(days));
         DateTime testDateTime = GMT.now().addDays(days);
         DateLiteralOptions options = new DateLiteralOptions.Builder()
             .setFieldValue(tkn + ':' + days)

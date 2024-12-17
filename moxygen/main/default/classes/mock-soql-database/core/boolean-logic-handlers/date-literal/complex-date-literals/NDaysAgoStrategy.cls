@@ -4,6 +4,11 @@
  * @since 12/17/2024
  */
 public inherited sharing class NDaysAgoStrategy extends ComplexDateLiteralStrategy {
+
+    public NDaysAgoStrategy() {
+        super(new DateFormulas.Invert());
+    }
+    
     /**
      * @description Resolve the N_DAYS_AGO token
      * @param fieldType `Schema.DisplayType`
@@ -11,6 +16,6 @@ public inherited sharing class NDaysAgoStrategy extends ComplexDateLiteralStrate
      * @return  `DateLiteral`
      */
     public override DateLiteral resolve(Schema.DisplayType fieldType, Object recordFieldValue) {
-        return resolveWithDateFormula(new DateFormulas.Invert());
+        return resolve();
     }
 }

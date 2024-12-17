@@ -59,7 +59,7 @@ jobs:
       - name: Validate
         run: |
           sf sgd source delta --to "HEAD" --from "origin/main" --output "." 
-          sf project deploy validate --manifest package/package.xml -o DevHub -w 120 --json --pre-destructive-changes ./destructiveChanges/destructiveChanges.xml > validate.json
+          sf project deploy validate --test-level RunLocalTests --manifest package/package.xml -o DevHub -w 120 --json --pre-destructive-changes ./destructiveChanges/destructiveChanges.xml > validate.json
       - name: Get Job Id
         run: |
           node scripts/js/get-job-id.js
