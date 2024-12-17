@@ -171,7 +171,7 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 | TYPEOF      | Fully Supported     ||
 | FROM        | Fully Supported     ||
 | USING SCOPE | Ignored             ||
-| WHERE       | Partially Supported | Date functions are not supported in the WHERE clause yet |
+| WHERE       | Partially Supported | Date functions and date literals are still being added. |
 | WITH        | Not Supported       ||
 | GROUP BY    | Partially Supported | GROUP BY ROLLUP and GROUP BY CUBE are not supported |
 | HAVING | Partially Supported | Date functions are not supported in the HAVING clause |
