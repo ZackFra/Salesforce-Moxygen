@@ -1,3 +1,8 @@
+/**
+ * @description Parses the NEXT_N_DAYS date literal 
+ * @author Zackary Frazier
+ * @since 12/17/2024
+ */
 public inherited sharing class NextNDaysParser extends DateLiteralParser {
     /**
      * @description Parse the LAST_N_DAYS date literal

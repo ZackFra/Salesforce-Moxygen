@@ -10,6 +10,7 @@
     
     "sf:deploy": "sf project deploy start --source-dir moxygen",
     "sf:validate": "sf project deploy validate --source-dir moxygen",
+    "sf:codescan": "sf scanner run --target .",
     
     "sf:moxygen:scratch": "npm run sf:scratch:create && npm run sf:moxygen:install",
     "sf:moxygen:install": "node ./scripts/js/install-moxygen.js",
