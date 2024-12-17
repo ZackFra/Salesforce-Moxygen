@@ -26,7 +26,7 @@ jobs:
           sf --version
       - name: Install Plugins
         run: |
-          sf plugins install sfdx-git-delta
+          echo y | sf plugins install sfdx-git-delta
       - name: Create Auth File
         run: |
           echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
