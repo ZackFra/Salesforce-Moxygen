@@ -39,23 +39,27 @@ public abstract class ComplexDateLiteralStrategy {
      */
     public abstract DateLiteral resolve(Schema.DisplayType fieldType, Object recordFieldValue);
 
-    protected DateLiteral resolveWithDateFormula() {
+    protected DateLiteral resolveWithDateFormula(Date startDate) {
         IDateFormula dateFormula = getDateFormula();
         String token = (String) options.getFieldValue();
         List<String> groups = token.split(':');
         String dayValue = groups[1];
         Integer days = dateFormula.apply(Integer.valueOf(dayValue));
-        String fieldValue = formatDate(days);
+        String fieldValue = formatDate(startDate, days);
         return resolve(fieldValue, options.getFieldType(), options.getRecordFieldValue());
     }
 
-    private String formatDate(Integer days) {
-        return Common.dateToSoqlString(GMT.today().addDays(days));
+    private String formatDate(Date startDate, Integer days) {
+        return Common.dateToSoqlString(startDate.addDays(days));
+    }
+
+    protected DateLiteral resolve(Date startDate) {
+        return resolveWithDateFormula(startDate);
     }
 
     protected DateLiteral resolve() {
         if(getDateFormula() != null) {
-            return resolveWithDateFormula();
+            return resolveWithDateFormula(GMT.today());
         }
         return resolve((String) options.getFieldValue(), options.getFieldType(), options.getRecordFieldValue());
     }

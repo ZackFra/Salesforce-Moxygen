@@ -6,10 +6,10 @@ public inherited sharing class ComplexDateLiteralStrategyTestUtil {
      * @param tkn `String`
      * @return  `Boolean`
      */
-    private static Boolean ensureStrategyWorksWithDate(ComplexDateLiteralStrategy strategy, String tkn) {
+    private static Boolean ensureStrategyWorksWithDate(ComplexDateLiteralStrategy strategy, Date startDate, String tkn) {
         Integer days = 5;
         IDateFormula dateFormula = strategy.getDateFormula();
-        Date expectedDate = GMT.today().addDays(dateFormula.apply(days));
+        Date expectedDate = startDate.addDays(dateFormula.apply(days));
         Date testDate = GMT.today().addDays(days);
         DateLiteralOptions options = new DateLiteralOptions.Builder()
             .setFieldValue(tkn + ':' + days)
@@ -31,10 +31,10 @@ public inherited sharing class ComplexDateLiteralStrategyTestUtil {
      * @param tkn `String`
      * @return  `Boolean`
      */
-    private static Boolean ensureStrategyWorksWithDateTime(ComplexDateLiteralStrategy strategy, String tkn) {
+    private static Boolean ensureStrategyWorksWithDateTime(ComplexDateLiteralStrategy strategy, Date startDate, String tkn) {
         Integer days = 5;
         IDateFormula dateFormula = strategy.getDateFormula();
-        Date expectedDate = GMT.today().addDays(dateFormula.apply(days));
+        Date expectedDate = startDate.addDays(dateFormula.apply(days));
         DateTime testDateTime = GMT.now().addDays(days);
         DateLiteralOptions options = new DateLiteralOptions.Builder()
             .setFieldValue(tkn + ':' + days)
@@ -56,6 +56,11 @@ public inherited sharing class ComplexDateLiteralStrategyTestUtil {
      * @return  `Boolean`
      */
     public static Boolean ensureStrategyWorksWithDatesAndDateTimes(ComplexDateLiteralStrategy strategy, String tkn) {
-        return ensureStrategyWorksWithDate(strategy, tkn) && ensureStrategyWorksWithDateTime(strategy, tkn);
+        Date startDate = GMT.today();
+        return ensureStrategyWorksWithDatesAndDateTimes(strategy, startDate, tkn);
+    }
+
+    public static Boolean ensureStrategyWorksWithDatesAndDateTimes(ComplexDateLiteralStrategy strategy, Date startDate, String tkn) {
+        return ensureStrategyWorksWithDate(strategy, startDate, tkn) && ensureStrategyWorksWithDateTime(strategy, startDate, tkn);
     }
 }

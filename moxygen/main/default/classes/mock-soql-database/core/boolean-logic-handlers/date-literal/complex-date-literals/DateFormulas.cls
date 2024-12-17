@@ -17,4 +17,10 @@ public inherited sharing class DateFormulas {
             return -dayValue;
         }
     }
+
+    public class Weeks implements IDateFormula {
+        public Integer apply(Integer dayValue) {
+            return dayValue * 7;
+        }
+    }
 }

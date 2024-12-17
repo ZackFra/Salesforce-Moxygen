@@ -3742,4 +3742,33 @@ private class MockDatabaseTest {
 
         Assert.areEqual(2, opportunities.size(), 'Incorrect number of opportunities');
     }
+
+    @isTest
+    static void ensureNextNWeeksWorksForDateLessThanOrEquals() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Tomorrow Opp',
+            CloseDate = GMT.today().toStartOfWeek().addDays(7)
+        );
+
+        Opportunity opp2 = new Opportunity(
+            CloseDate = GMT.today().toStartOfWeek().addDays(14)
+        );
+
+        Opportunity opp3 = new Opportunity(
+            CloseDate = GMT.today().toStartOfWeek().addDays(21)
+        );
+
+        Opportunity opp4 = new Opportunity(
+            CloseDate = GMT.today().toStartOfWeek().addDays(28)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate <= NEXT_N_WEEKS:3');
+        Test.stopTest();
+
+        Assert.areEqual(3, opportunities.size(), 'Incorrect number of opportunities');
+
+    }
 }

@@ -6,17 +6,18 @@
 public inherited sharing class ComplexDateLiteralFactory {
     static final Map<String, Type> STRATEGY_BY_TOKEN = new Map<String, Type>{
         Token.LAST_WEEK_LITERAL => LastWeekStrategy.class,
-        token.THIS_WEEK_LITERAL => ThisWeekStrategy.class,
-        token.NEXT_WEEK_LITERAL => NextWeekStrategy.class,
-        token.THIS_WEEK_LITERAL => ThisWeekStrategy.class,
-        token.LAST_MONTH_LITERAL => LastMonthStrategy.class,
-        token.THIS_MONTH_LITERAL => ThisMonthStrategy.class,
-        token.NEXT_MONTH_LITERAL => NextMonthStrategy.class,
-        token.LAST_90_DAYS_LITERAL => Last90DaysStrategy.class,
-        token.NEXT_90_DAYS_LITERAL => Next90DaysStrategy.class,
-        token.LAST_N_DAYS_LITERAL => LastNDaysStrategy.class,
-        token.NEXT_N_DAYS_LITERAL => NextNDaysStrategy.class,
-        token.N_DAYS_AGO_LITERAL => NDaysAgoStrategy.class
+        Token.THIS_WEEK_LITERAL => ThisWeekStrategy.class,
+        Token.NEXT_WEEK_LITERAL => NextWeekStrategy.class,
+        Token.THIS_WEEK_LITERAL => ThisWeekStrategy.class,
+        Token.LAST_MONTH_LITERAL => LastMonthStrategy.class,
+        Token.THIS_MONTH_LITERAL => ThisMonthStrategy.class,
+        Token.NEXT_MONTH_LITERAL => NextMonthStrategy.class,
+        Token.LAST_90_DAYS_LITERAL => Last90DaysStrategy.class,
+        Token.NEXT_90_DAYS_LITERAL => Next90DaysStrategy.class,
+        Token.LAST_N_DAYS_LITERAL => LastNDaysStrategy.class,
+        Token.NEXT_N_DAYS_LITERAL => NextNDaysStrategy.class,
+        Token.N_DAYS_AGO_LITERAL => NDaysAgoStrategy.class,
+        Token.NEXT_N_WEEKS_LITERAL => NextNWeeksStrategy.class
     };
 
     @TestVisible
