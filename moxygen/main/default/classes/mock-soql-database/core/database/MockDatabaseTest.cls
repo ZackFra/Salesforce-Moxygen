@@ -3713,4 +3713,33 @@ private class MockDatabaseTest {
         Assert.areEqual(opp3.Id, opportunities[0].Id, 'Incorrect opportunity queried');
 
     }
+
+    @isTest
+    static void ensureNDaysAgoLiteralWorksForDateLessThanOrEquals() {
+
+        Opportunity opp1 = new Opportunity(
+            Name = 'Tomorrow Opp',
+            CloseDate = GMT.today().addDays(1)
+        );
+
+        Opportunity opp2 = new Opportunity(
+            CloseDate = GMT.today().addDays(0)
+        );
+
+        Opportunity opp3 = new Opportunity(
+            CloseDate = GMT.today().addDays(-1)
+        );
+
+        Opportunity opp4 = new Opportunity(
+            CloseDate = GMT.today().addDays(-2)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3, opp4}, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate <= N_DAYS_AGO:1');
+        Test.stopTest();
+
+        Assert.areEqual(2, opportunities.size(), 'Incorrect number of opportunities');
+    }
 }
