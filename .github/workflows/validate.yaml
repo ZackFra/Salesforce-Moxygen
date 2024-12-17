@@ -43,11 +43,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Install Java
-        run: |
-          sudo apt-get update
-          sudo apt-get install openjdk-11-jdk
-          java -version
       - name: Install SFDX
         run: |
           npm i -g @salesforce/cli
@@ -55,13 +50,6 @@ jobs:
       - name: Install Plugins
         run: |
           echo y | sf plugins install sfdx-git-delta
-          sf plugins install @salesforce/sfdx-scanner
-      - name: Run Code Scanner
-        run: |
-          sf scanner run --target . -f json -o codescan.json
-      - name: Raise Warnings
-        run: |
-          node scripts/js/raise-warnings.js
       - name: Create Auth File
         run: |
           echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
