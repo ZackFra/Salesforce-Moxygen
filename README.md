@@ -174,7 +174,7 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 | WHERE       | Partially Supported | Date functions and date literals are being gradually rolled out. |
 | WITH        | Not Supported       ||
 | GROUP BY    | Partially Supported | GROUP BY ROLLUP and GROUP BY CUBE are not supported |
-| HAVING | Partially Supported | Date functions are not supported in the HAVING clause |
+| HAVING | Partially Supported | Date functions and date literals are being gradually rolled out. |
 | ORDER BY | Fully Supported ||
 | LIMIT | Fully Supported ||
 | OFFSET | Fully Supported ||
