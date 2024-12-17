@@ -3,7 +3,7 @@ private class ThisMonthStrategyTest {
 
     @IsTest
     static void ensureStrategyWorksWithDate() {
-        ThisWeekStrategy strategy = new ThisWeekStrategy();
+        ThisMonthStrategy strategy = new ThisMonthStrategy();
         Date dt = Gmt.today().toStartOfMonth();
         Assert.isTrue(
             DateLiteralStrategyTestUtils.isSuccessForDate(dt, Gmt.today(), strategy), 
@@ -13,7 +13,7 @@ private class ThisMonthStrategyTest {
 
     @IsTest
     static void ensureStrategyWorksWithDateTime() {
-        ThisWeekStrategy strategy = new ThisWeekStrategy();
+        ThisMonthStrategy strategy = new ThisMonthStrategy();
         Date dt = Gmt.today().toStartOfMonth();
         Assert.isTrue(
             DateLiteralStrategyTestUtils.isSuccessForDateTime(dt, GMT.now(), strategy), 
