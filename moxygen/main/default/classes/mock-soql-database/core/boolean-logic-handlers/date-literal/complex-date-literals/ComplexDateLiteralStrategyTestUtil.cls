@@ -3,6 +3,7 @@ public inherited sharing class ComplexDateLiteralStrategyTestUtil {
     /**
      * @description Ensures a complex date literal strategy works for a generic date value
      * @param strategy `ComplexDateLiteralStrategy`
+     * @param startDate `Date`
      * @param tkn `String`
      * @return  `Boolean`
      */
@@ -28,6 +29,7 @@ public inherited sharing class ComplexDateLiteralStrategyTestUtil {
     /**
      * @description Ensures a complex date literal strategy works for a generic date time value
      * @param strategy `ComplexDateLiteralStrategy`
+     * @param startDate `Date`
      * @param tkn `String`
      * @return  `Boolean`
      */
@@ -60,6 +62,13 @@ public inherited sharing class ComplexDateLiteralStrategyTestUtil {
         return ensureStrategyWorksWithDatesAndDateTimes(strategy, startDate, tkn);
     }
 
+    /**
+     * @description Ensurve a complex date literal strategy works for both date and date time values, using a start date for the expected value
+     * @param strategy `ComplexDateLiteralStrategy`
+     * @param startDate `Date`
+     * @param tkn `String`
+     * @return  `Boolean`
+     */
     public static Boolean ensureStrategyWorksWithDatesAndDateTimes(ComplexDateLiteralStrategy strategy, Date startDate, String tkn) {
         return ensureStrategyWorksWithDate(strategy, startDate, tkn) && ensureStrategyWorksWithDateTime(strategy, startDate, tkn);
     }
