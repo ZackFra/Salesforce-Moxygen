@@ -52,11 +52,9 @@ jobs:
         run: |
           npm i -g @salesforce/cli
           sf --version
-      - name: Install Code Scanner
+      - name: Install Plugins
         run: |
-          sf plugins install sfdx-git-delta 
-      - name: Install SGD
-        run: |
+          sf plugins install sfdx-git-delta
           sf plugins install @salesforce/sfdx-scanner
       - name: Run Code Scanner
         run: |
