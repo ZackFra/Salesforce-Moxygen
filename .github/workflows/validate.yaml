@@ -38,7 +38,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -70,7 +70,7 @@ jobs:
           sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
       - name: Validate
         run: |
-          sf sgd source delta --to "HEAD" --from "main" --output "." 
+          sf sgd source delta --to "HEAD" --from "origin/main" --output "." 
           sf project deploy validate --manifest package/package.xml -o DevHub -w 120 --json --pre-destructive-changes ./destructiveChanges/destructiveChanges.xml > validate.json
       - name: Get Job Id
         run: |
