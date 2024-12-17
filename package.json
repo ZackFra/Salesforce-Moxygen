@@ -8,12 +8,13 @@
     "sf:scratch:create": "sf org create scratch --definition-file config/moxygen-scratch-def.json --target-dev-hub Moxygen --set-default --alias Dev",
     "sf:scratch:delete": "sf org delete scratch",
     
-    "sf:deploy": "sf project deploy start --source-dir moxygen",
+    "sf:deploy": "sf project deploy start --test-level RunLocalTests  --source-dir moxygen",
     "sf:validate": "sf project deploy validate --test-level RunLocalTests --source-dir moxygen",
     "sf:codescan": "sf scanner run --target .",
     
     "sf:moxygen:scratch": "npm run sf:scratch:create && npm run sf:moxygen:install",
-    "sf:moxygen:install": "node ./scripts/js/install-moxygen.js",
+    "sf:moxygen:install": "npm run sf:deploy",
+    "sf:moxygen:install:package": "node ./scripts/js/install-moxygen.js",
     "sf:moxygen:version:create": "sf package version create --package Moxygen --installation-key-bypass --wait 10",
 
     "lint": "eslint **/{aura,lwc}/**/*.js",
