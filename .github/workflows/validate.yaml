@@ -54,6 +54,9 @@ jobs:
           sf --version
       - name: Install Code Scanner
         run: |
+          sf plugins install sfdx-git-delta 
+      - name: Install SGD
+        run: |
           sf plugins install @salesforce/sfdx-scanner
       - name: Run Code Scanner
         run: |
@@ -69,7 +72,8 @@ jobs:
           sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
       - name: Validate
         run: |
-          sf project deploy validate --source-dir moxygen -o DevHub -w 120 --json > validate.json
+          sf sgd source delta --to "HEAD" --from "main" --output "." 
+          sf project deploy validate --manifest package/package.xml -o DevHub -w 120 --json --pre-destructive-changes ./destructiveChanges/destructiveChanges.xml > validate.json
       - name: Get Job Id
         run: |
           node scripts/js/get-job-id.js
