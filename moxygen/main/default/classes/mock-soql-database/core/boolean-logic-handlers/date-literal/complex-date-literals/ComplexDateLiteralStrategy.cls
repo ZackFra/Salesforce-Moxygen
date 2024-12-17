@@ -8,14 +8,25 @@ public abstract class ComplexDateLiteralStrategy {
     protected DateLiteralOptions options;
     protected IDateFormula dateFormula;
 
+    /**
+     * @description Retunrs the date formula used for this strategy 
+     * @return  `IDateFormula`
+     */
     public IDateFormula getDateFormula() {
         return dateFormula;
     }
 
+    /**
+     * @description Constructor
+     */
     public ComplexDateLiteralStrategy() {
         this.dateFormula = null;
     }
 
+    /**
+     * @description Constructor for date formulas
+     * @param dateFormula `IDateFormula`
+     */
     public ComplexDateLiteralStrategy(IDateFormula dateFormula) {
         this.dateFormula = dateFormula;
     }

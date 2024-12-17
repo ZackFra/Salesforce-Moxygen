@@ -5,6 +5,9 @@
  */
 public inherited sharing class NDaysAgoStrategy extends ComplexDateLiteralStrategy {
 
+    /**
+     * @description Sets the invert date formula strategy
+     */
     public NDaysAgoStrategy() {
         super(new DateFormulas.Invert());
     }
