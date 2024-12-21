@@ -33,7 +33,6 @@ jobs:
     permissions: write-all
     steps:
     - name: Validate to Prod
-      uses: ZackFra/sfdx-deploy@master
+      uses: ZackFra/sfdx-deploy/.github/workflows/validate.yaml@master
       with:
         base-branch: "origin/main"
-        validate-only: true
