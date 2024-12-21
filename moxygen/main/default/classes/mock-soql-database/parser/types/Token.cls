@@ -139,4 +139,5 @@ public inherited sharing class Token {
     public final static String NEXT_N_DAYS_LITERAL = 'next_n_days';
     public final static String N_DAYS_AGO_LITERAL = 'n_days_ago';
     public final static String NEXT_N_WEEKS_LITERAL = 'next_n_weeks';
+    public final static String LAST_N_WEEKS_LITERAL = 'last_n_weeks';
 }
