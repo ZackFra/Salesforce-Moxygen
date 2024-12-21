@@ -32,42 +32,12 @@ on:
 
 jobs:
   validate-pull-request:
-    permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Install SFDX
-        run: |
-          npm i -g @salesforce/cli
-          sf --version
-      - name: Install Plugins
-        run: |
-          echo y | sf plugins install sfdx-git-delta
-      - name: Create Auth File
-        run: |
-          echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
-      - name: Authenticate
-        run: | 
-          sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
-      - name: Validate
-        run: |
-          sf sgd source delta --to "HEAD" --from "origin/main" --output "." 
-          sf project deploy validate --test-level RunLocalTests --manifest package/package.xml -o DevHub -w 120 --json --pre-destructive-changes ./destructiveChanges/destructiveChanges.xml > validate.json
-      - name: Get Job Id
-        run: |
-          node scripts/js/get-job-id.js
-      - name: Update PR Description
-        uses: nefrob/pr-description@v1.2.0
-        with:
-          content: job-id.txt
-          contentIsFilePath: true
-          regex: ".*"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          
+    - name: Validate to Prod
+      uses: ZackFra/sfdx-deploy@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        sfdx-auth-url: ${{ secrets.SFDX_AUTH_URL }}
+        base-branch: origin/main
+        validate-only: true
