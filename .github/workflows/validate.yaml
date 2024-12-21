@@ -30,6 +30,7 @@ on:
 jobs:
   validate-pull-request:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
     - name: Validate to Prod
       uses: ZackFra/sfdx-deploy@master
