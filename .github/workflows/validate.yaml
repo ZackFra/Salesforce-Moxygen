@@ -27,7 +27,6 @@ on:
     branches:
       - main
 
-      # uggh
 jobs:
   validate-pull-request:
     permissions: write-all
