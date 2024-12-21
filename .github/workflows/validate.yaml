@@ -26,9 +26,6 @@ on:
   pull_request:
     branches:
       - main
-      - release
-    paths:
-      - "**/main/default/**"
 
 jobs:
   validate-pull-request:
