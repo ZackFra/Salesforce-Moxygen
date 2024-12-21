@@ -37,6 +37,3 @@ jobs:
       with:
         base-branch: "origin/main"
         validate-only: true
-      env:
-        SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
