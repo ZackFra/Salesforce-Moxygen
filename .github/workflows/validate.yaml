@@ -29,6 +29,12 @@ on:
 
 # plz work plz
 jobs:
+  create-auth-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Auth File
+        run: |
+          echo '{"sfdxAuthUrl": "${{ secrets.SFDX_AUTH_URL }}"}' > authFile.json
   validate-pull-request:
     permissions: write-all
     uses: ZackFra/sfdx-deploy/.github/workflows/validate.yaml@master
