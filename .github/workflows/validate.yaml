@@ -27,7 +27,7 @@ on:
     branches:
       - main
 
-# plz work
+# plz work plz
 jobs:
   validate-pull-request:
     permissions: write-all
