@@ -35,7 +35,6 @@ jobs:
     - name: Validate to Prod
       uses: ZackFra/sfdx-deploy@master
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
         sfdx-auth-url: ${{ secrets.SFDX_AUTH_URL }}
         base-branch: origin/main
         validate-only: true
