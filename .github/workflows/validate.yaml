@@ -37,3 +37,5 @@ jobs:
       with:
         base-branch: origin/main
         validate-only: true
+      env:
+        sfdx-auth-url: ${{ secrets.SFDX_AUTH_URL }}
