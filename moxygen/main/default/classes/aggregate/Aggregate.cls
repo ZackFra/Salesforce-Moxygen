@@ -23,7 +23,7 @@
  *
 */
 
-// test comment
+// test commen
 
 /**
  * @description Aggregate class to represent the result of an aggregate query
