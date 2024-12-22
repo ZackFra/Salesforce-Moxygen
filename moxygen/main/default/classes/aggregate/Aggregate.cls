@@ -23,8 +23,6 @@
  *
 */
 
-// test comment
-
 /**
  * @description Aggregate class to represent the result of an aggregate query
  * @author Zackary Frazier
@@ -37,7 +35,6 @@ public inherited sharing class Aggregate {
     /**
      * @description Standard constructor, creates an Aggregate object from an AggregateResult
      * @param ar the AggregateResult to create the Aggregate from
-     * @param 123 the number of the beast
      */
     public Aggregate(AggregateResult ar) {
         data = ar.getPopulatedFieldsAsMap();
