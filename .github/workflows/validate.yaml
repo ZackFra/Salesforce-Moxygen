@@ -45,6 +45,7 @@ jobs:
       - uses: ZackFra/sfdx-validate@master
         with:
           auth-file: authFile.json
+          branch: origin/main
       - name: Get Job Id
         run: |
           node scripts/js/get-job-id.js
