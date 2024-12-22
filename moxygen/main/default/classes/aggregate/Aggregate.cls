@@ -34,10 +34,6 @@ public inherited sharing class Aggregate {
     
     private Map<String, Object> data;
     
-    /**
-     * @description Standard constructor, creates an Aggregate object from an AggregateResult
-     * @param ar the AggregateResult to create the Aggregate from
-     */
     public Aggregate(AggregateResult ar) {
         data = ar.getPopulatedFieldsAsMap();
     }
