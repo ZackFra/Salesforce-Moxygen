@@ -15,3 +15,5 @@ jobs:
     steps:
       - name: Run Code Scan
         uses: ZackFra/sfdx-codescan@master
+        with:
+          max-severity: 5
