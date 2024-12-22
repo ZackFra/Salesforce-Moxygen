@@ -27,8 +27,8 @@ on:
     branches:
       - main
       - release
-    paths:
-      - "**/main/default/**"
+    #paths:
+    #  - "**/main/default/**"
 
 jobs:
   validate-pull-request:
@@ -39,27 +39,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Install SFDX
-        run: |
-          npm i -g @salesforce/cli
-          sf --version
-      - name: Install Plugins
-        run: |
-          echo y | sf plugins install sfdx-git-delta
       - name: Create Auth File
         run: |
           echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
-      - name: Authenticate
-        run: | 
-          sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
-      - name: Validate
-        run: |
-          sf sgd source delta --to "HEAD" --from "origin/main" --output "." 
-          sf project deploy validate --test-level RunLocalTests --manifest package/package.xml -o DevHub -w 120 --json --pre-destructive-changes ./destructiveChanges/destructiveChanges.xml > validate.json
+      - uses: ZackFra/sfdx-validate@master
+        with:
+          auth-file: authFile.json
       - name: Get Job Id
         run: |
           node scripts/js/get-job-id.js
