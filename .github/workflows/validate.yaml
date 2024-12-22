@@ -27,8 +27,8 @@ on:
     branches:
       - main
       - release
-    ##paths:
-    ##  - "**/main/default/**"
+    paths:
+      - "**/main/default/**"
 
 jobs:
   validate-pull-request:
