@@ -23,6 +23,8 @@
  *
 */
 
+// test comment
+
 /**
  * @description Aggregate class to represent the result of an aggregate query
  * @author Zackary Frazier
