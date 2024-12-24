@@ -3811,4 +3811,29 @@ private class MockDatabaseTest {
 
         Assert.areEqual(4, opportunities.size(), 'Incorrect number of opportunities');
     }
+
+    @isTest
+    static void ensureNMonthAgoWorksForDateGreaterThan() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Tomorrow Opp',
+            CloseDate = GMT.today().addMonths(-1)
+        );
+
+        Opportunity opp2 = new Opportunity(
+            CloseDate = GMT.today().addMonths(-2)
+        );
+
+        Opportunity opp3 = new Opportunity(
+            CloseDate = GMT.today().addMonths(-3)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3}, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate > N_MONTHS_AGO:2');
+        Test.stopTest();
+
+
+        Assert.areEqual(1, opportunities.size(), 'Incorrect number of opportunities');
+    }
 }

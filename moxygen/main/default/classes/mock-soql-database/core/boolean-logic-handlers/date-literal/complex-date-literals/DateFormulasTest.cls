@@ -23,4 +23,14 @@ private class DateFormulasTest {
         Integer invertedWeeksValue = invertWeeks.apply(dayValue);
         Assert.areEqual(-35, invertedWeeksValue, 'InvertWeeks should convert the day value to inverted weeks');
     }
+
+    @isTest
+    static void ensureMonthsAgoCalculatesCorrectly() {
+        DateFormulas.MonthsAgo monthsAgo = new DateFormulas.MonthsAgo();
+        Integer monthValue = 5;
+        Integer days = monthsAgo.apply(monthValue);
+        Date today = Gmt.today();
+        Date fiveMonthsAgo = today.addMonths(-monthValue);
+        Assert.areEqual(fiveMonthsAgo, today.addDays(days), 'MonthsAgo should calculate the days between the current date and the date value, subtracting months');
+    }
 }
