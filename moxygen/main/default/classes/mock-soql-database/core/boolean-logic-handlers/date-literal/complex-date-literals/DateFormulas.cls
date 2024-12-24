@@ -45,4 +45,18 @@ public inherited sharing class DateFormulas {
             return -dayValue * 7;
         }
     }
+
+    /**
+     * @description Returns the days between the current date and the date value, subtracting months
+     */
+    public class MonthsAgo implements IDateFormula {
+        /**
+         * @description Apply the months ago formula
+         * @param monthValue `Integer`
+         * @return  `Integer`
+         */
+        public Integer apply(Integer monthValue) {
+            return Gmt.today().daysBetween(Gmt.today().addMonths(-monthValue));
+        }
+    }
 }
