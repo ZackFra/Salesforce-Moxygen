@@ -4,6 +4,9 @@
  * @since 12/23/2024
  */
 public with sharing class NMonthsAgoStrategy extends ComplexDateLiteralStrategy {
+    /**
+     * @description Constructor, set the MonthsAgo date formula strategy
+     */
     public NMonthsAgoStrategy() {
         super(new DateFormulas.MonthsAgo());
     }
