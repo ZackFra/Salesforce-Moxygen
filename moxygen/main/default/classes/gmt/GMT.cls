@@ -37,4 +37,16 @@ public inherited sharing class GMT {
     public static DateTime dateTime(Date d) {
         return DateTime.newInstanceGmt(d, Time.newInstance(0, 0, 0, 0));
     }
+
+    /**
+     * @description Return the start of the current calendar quarter 
+     * @return  `Date`
+     */
+    public static Date calendarQuarter() {
+        Date todaysDate = today();
+        Decimal d = todaysDate.month()/3;
+        Long quarter = d.round(System.roundingMode.HALF_UP);
+        Date quarterStart = Gmt.date(Datetime.newInstanceGmt(todaysDate.year(), (Integer)quarter*3-2, 1));
+        return quarterStart;
+    }
 }

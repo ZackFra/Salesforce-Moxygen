@@ -16,6 +16,7 @@ private class GmtTest {
             Gmt.today();
             Gmt.date(dt);
             Gmt.dateTime(d);
+            Gmt.calendarQuarter();
         } catch(Exception e) {
             isExceptionThrown = true;
         }

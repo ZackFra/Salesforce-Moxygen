@@ -3836,4 +3836,31 @@ private class MockDatabaseTest {
 
         Assert.areEqual(1, opportunities.size(), 'Incorrect number of opportunities');
     }
+
+    @isTest
+    static void ensureThisQuarterWorks() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Tomorrow Opp',
+            CloseDate = GMT.today()
+        );
+
+        Opportunity opp2 = new Opportunity(
+            CloseDate = GMT.today().addMonths(-4)
+        );
+
+        Opportunity opp3 = new Opportunity(
+            CloseDate = GMT.today().addMonths(-5)
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1, opp2, opp3}, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate = THIS_QUARTER');
+        Test.stopTest();
+
+
+        Assert.areEqual(1, opportunities.size(), 'Incorrect number of opportunities');
+
+
+    }
 }
