@@ -3654,6 +3654,23 @@ private class MockDatabaseTest {
         Assert.areEqual(2, tasks.size(), 'Incorrect number of tasks');
     }
 
+    @isTest
+    static void ensureThisWeekWorksForDateTimeEqualsInRange() {
+        Date dayAfterStartOfWeek = GMT.today().toStartOfWeek().addDays(1);
+        Opportunity opp1 = new Opportunity(
+            Name = 'Today Opp',
+            CloseDate = dayAfterStartOfWeek
+        );
+
+        MockDatabase.doInsert(new List<Opportunity>{opp1}, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate = THIS_WEEK');
+        Test.stopTest();
+
+        Assert.areEqual(1, opportunities.size(), 'Incorrect number of opportunities');
+    }
+
     @IsTest
     static void ensureThisWeekLiteralWorksForDateEquals() {
         Date startOfWeek = GMT.today().toStartOfWeek();
@@ -3860,7 +3877,5 @@ private class MockDatabaseTest {
 
 
         Assert.areEqual(1, opportunities.size(), 'Incorrect number of opportunities');
-
-
     }
 }

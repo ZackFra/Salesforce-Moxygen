@@ -45,6 +45,10 @@ public class LessThanHandler implements IOperatorHandler {
             throw new QueryException('invalid operator');
         }
 
+        if(fieldValue instanceof DateLiteral) {
+            return compareDateLiteral(sObjectFieldValue, (DateLiteral) fieldValue);
+        }
+
         if(sObjectFieldValue instanceOf Date) {
             Date fieldDate = Common.parseDate((String) fieldValue);
             Date sObjDate = (Date) sObjectFieldValue;
@@ -75,5 +79,23 @@ public class LessThanHandler implements IOperatorHandler {
         } else {
             throw new QueryException('Invalid field type');
         }
+    }
+
+    private Boolean compareDateLiteral(Object sObjectFieldValue, DateLiteral dateLiteral) {
+        String fieldValue = dateLiteral.getFieldValue();
+        if(fieldValue == Token.TODAY_LITERAL) {
+            if(sObjectFieldValue instanceOf Date) {
+                return (Date) sObjectFieldValue < Gmt.today();
+            } else if(sObjectFieldValue instanceOf DateTime) {
+                return (DateTime) sObjectFieldValue < Gmt.now();
+            }
+        } else if(fieldValue == Token.TOMORROW_LITERAL) {
+            if(sObjectFieldValue instanceOf Date) {
+                return (Date) sObjectFieldValue < Gmt.today().addDays(1);
+            } else if(sObjectFieldValue instanceOf DateTime) {
+                return (DateTime) sObjectFieldValue < Gmt.now().addDays(1);
+            }
+        }
+        return false;
     }
 }

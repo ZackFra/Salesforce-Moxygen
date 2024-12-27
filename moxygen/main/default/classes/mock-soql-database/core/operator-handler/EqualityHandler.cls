@@ -38,10 +38,15 @@ public class EqualityHandler implements IOperatorHandler {
     public Boolean handle(Object sObjectFieldValue, Object fieldValue) {
         Boolean isSObjNull = (sObjectFieldValue == null);
         Boolean isFieldNull = (fieldValue == null);
+
         if(isSObjNull && isFieldNull) {
             return true;
         } else if(isSObjNull || isFieldNull) {
             return false;
+        }
+
+        if(fieldValue instanceof DateLiteral) {
+            return compareDateLiteral(sObjectFieldValue, (DateLiteral) fieldValue);
         }
 
         if(sObjectFieldValue instanceof Date) {
@@ -56,5 +61,10 @@ public class EqualityHandler implements IOperatorHandler {
         }
 
         return (String.valueOf(sObjectFieldValue).toLowerCase() == ((String)fieldValue).toLowerCase());
+    }
+
+    private Boolean compareDateLiteral(Object sObjectFieldValue, DateLiteral fieldValue) {
+        DateLiteralComparable dateLiteralComparable = DateLiteralComparableFactory.create(fieldValue);
+        return dateLiteralComparable.isEqual((DateTime) sObjectFieldValue);
     }
 }

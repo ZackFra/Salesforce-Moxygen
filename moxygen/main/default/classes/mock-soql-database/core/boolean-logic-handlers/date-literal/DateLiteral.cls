@@ -7,6 +7,10 @@ public inherited sharing virtual class DateLiteral {
     String fieldValue;
     Date recordFieldValue;
 
+    public override Boolean equals(Object obj) {
+        
+    }
+
     static final Map<String, Integer> DAYS_BY_LITERAL = new Map<String, Integer>{
         Token.TODAY_LITERAL => 0,
         Token.YESTERDAY_LITERAL => -1,
