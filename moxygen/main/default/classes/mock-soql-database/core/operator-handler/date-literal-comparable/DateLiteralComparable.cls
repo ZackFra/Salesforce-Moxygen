@@ -1,6 +1,6 @@
 public abstract class DateLiteralComparable {
 
-    String token;
+    public String token {get; private set;}
     public abstract Boolean isEqual(DateTime fieldValue);
     
     public DateLiteralComparable withToken(String token) {

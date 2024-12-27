@@ -12,7 +12,7 @@
     "sf:validate": "sf project deploy validate --test-level RunLocalTests --source-dir moxygen",
     "sf:codescan": "sf scanner run --target .",
     
-    "sf:moxygen:scratch": "npm run sf:scratch:create && npm run sf:moxygen:install",
+    "sf:moxygen:scratch": "npm run sf:scratch:create && npm run sf:moxygen:install:package",
     "sf:moxygen:install": "npm run sf:deploy",
     "sf:moxygen:install:package": "node ./scripts/js/install-moxygen.js",
     "sf:moxygen:version:create": "sf package version create --package Moxygen --installation-key-bypass --wait 10",

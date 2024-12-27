@@ -4,7 +4,14 @@ public with sharing class DateLiteralComparableFactory {
         Token.YESTERDAY_LITERAL => YesterdayComparable.class,
         Token.TOMORROW_LITERAL => TomorrowComparable.class,
         Token.THIS_WEEK_LITERAL => ThisWeekComparable.class,
-        Token.LAST_WEEK_LITERAL => LastWeekComparable.class
+        Token.LAST_WEEK_LITERAL => LastWeekComparable.class,
+        Token.NEXT_WEEK_LITERAL => NextWeekComparable.class,
+        Token.LAST_MONTH_LITERAL => LastMonthComparable.class,
+        Token.THIS_MONTH_LITERAL => ThisMonthComparable.class,
+        Token.NEXT_MONTH_LITERAL => NextMonthComparable.class,
+        Token.LAST_90_DAYS_LITERAL => Last90DaysComparable.class,
+        Token.NEXT_90_DAYS_LITERAL => Next90DaysComparable.class,
+        Token.LAST_N_DAYS_LITERAL => LastNDaysComparable.class
     };
 
     public static DateLiteralComparable create(DateLiteral dateLiteral) {
