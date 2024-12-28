@@ -1,6 +1,7 @@
 name: Deploy
 on:
-    push:
+    pull_request_target:
+      types: [closed]
       branches:
         - main
       paths:
@@ -9,6 +10,7 @@ on:
 jobs:
   deploy-pull-request:
     runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') && github.event.pull_request.merged == true }}
     steps:
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
