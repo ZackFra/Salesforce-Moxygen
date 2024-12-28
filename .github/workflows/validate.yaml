@@ -29,8 +29,6 @@ on:
       - release
     paths:
       - "**/main/default/**"
-    labels:
-      - 
 
 jobs:
   validate-pull-request:
