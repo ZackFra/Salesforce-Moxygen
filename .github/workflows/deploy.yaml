@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Check for Don't Deploy
         if: contains(github.event.pull_request.labels.*.name, 'dont deploy')
-        run: exit 78
+        run: exit 0
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
       - name: Checkout
