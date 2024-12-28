@@ -29,12 +29,17 @@ on:
       - release
     paths:
       - "**/main/default/**"
+    labels:
+      - 
 
 jobs:
   validate-pull-request:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
+      - name: Check for Don't Deploy
+        if: contains(github.event.pull_request.labels.*.name, 'dont deploy')
+        run: exit 78
       - name: Checkout
         uses: actions/checkout@v4
         with:
