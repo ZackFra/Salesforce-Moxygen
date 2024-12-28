@@ -46,7 +46,8 @@ public class EqualityHandler implements IOperatorHandler {
         }
 
         if(fieldValue instanceof DateLiteral) {
-            return compareDateLiteral(sObjectFieldValue, (DateLiteral) fieldValue);
+            DateLiteralComparable dateLiteralComparable = DateLiteralComparableFactory.create(fieldValue);
+            return dateLiteralComparable.isEqual((DateTime) sObjectFieldValue);
         }
 
         if(sObjectFieldValue instanceof Date) {
@@ -61,10 +62,5 @@ public class EqualityHandler implements IOperatorHandler {
         }
 
         return (String.valueOf(sObjectFieldValue).toLowerCase() == ((String)fieldValue).toLowerCase());
-    }
-
-    private Boolean compareDateLiteral(Object sObjectFieldValue, DateLiteral fieldValue) {
-        DateLiteralComparable dateLiteralComparable = DateLiteralComparableFactory.create(fieldValue);
-        return dateLiteralComparable.isEqual((DateTime) sObjectFieldValue);
     }
 }
