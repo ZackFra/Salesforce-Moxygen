@@ -34,10 +34,8 @@ jobs:
   validate-pull-request:
     permissions: write-all
     runs-on: ubuntu-latest
+    if: github.event.pull_request.labels.*.name != 'dont deploy'
     steps:
-      - name: Check for Don't Deploy
-        if: contains(github.event.pull_request.labels.*.name, 'dont deploy')
-        run: exit 0
       - name: Checkout
         uses: actions/checkout@v4
         with:
