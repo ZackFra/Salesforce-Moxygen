@@ -15,10 +15,12 @@ public with sharing class DateLiteralComparableFactory {
     };
 
     public static DateLiteralComparable create(DateLiteral dateLiteral) {
-        Type comparableType = COMPARABLE_BY_TOKEN.get(dateLiteral.getFieldValue());
+        String fieldValue = dateLiteral.getFieldValue();
+        Type comparableType = COMPARABLE_BY_TOKEN.get(fieldValue);
         if(comparableType == null) {
-            throw new ValidationException('Unexpected date literal ' + dateLiteral.getFieldValue());
+            throw new ValidationException('Unexpected date literal ' + fieldValue);
         }
-        return ((DateLiteralComparable) comparableType.newInstance()).withToken(dateLiteral.getFieldValue());
+        DateLiteralComparable comparable = (DateLiteralComparable) comparableType.newInstance();
+        return comparable.withToken(fieldValue);
     }
 }
