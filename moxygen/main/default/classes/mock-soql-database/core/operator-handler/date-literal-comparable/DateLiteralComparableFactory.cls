@@ -11,7 +11,12 @@ public with sharing class DateLiteralComparableFactory {
         Token.NEXT_MONTH_LITERAL => NextMonthComparable.class,
         Token.LAST_90_DAYS_LITERAL => Last90DaysComparable.class,
         Token.NEXT_90_DAYS_LITERAL => Next90DaysComparable.class,
-        Token.LAST_N_DAYS_LITERAL => LastNDaysComparable.class
+        Token.LAST_N_DAYS_LITERAL => LastNDaysComparable.class,
+        Token.NEXT_N_DAYS_LITERAL => NextNDaysComparable.class,
+        Token.N_DAYS_AGO_LITERAL => NDaysAgoComparable.class,
+        Token.NEXT_N_WEEKS_LITERAL => NextNWeeksComparable.class,
+        Token.LAST_N_WEEKS_LITERAL => LastNWeeksComparable.class,
+        Token.N_MONTHS_AGO_LITERAL => NMonthsAgoComparable.class
     };
 
     public static DateLiteralComparable create(DateLiteral dateLiteral) {
