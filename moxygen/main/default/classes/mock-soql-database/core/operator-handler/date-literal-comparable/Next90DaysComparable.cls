@@ -11,7 +11,6 @@ public with sharing class Next90DaysComparable extends DateLiteralComparable {
     }
 
     public override Boolean isLessThan(DateTime fieldValue) {
-        Date tomorrow = GMT.today().addDays(1);
-        return (DateTime) fieldValue < tomorrow;
+        return fieldValue < Gmt.today();
     }
 }
