@@ -10,7 +10,7 @@ public with sharing class NextNDaysComparable extends DateLiteralComparable {
         String dayValue = this.token.split(':')[1];
         Integer days = Integer.valueOf(dayValue);
         DateTime nextNDays = Gmt.today().addDays(days);
-        return fieldValue < nextNDays;
+        return fieldValue < Gmt.today();
     }
 
     public override Boolean isGreaterThan(DateTime fieldValue) {
