@@ -19,9 +19,16 @@ public with sharing class DateLiteralComparableFactory {
         Token.N_MONTHS_AGO_LITERAL => NMonthsAgoComparable.class
     };
 
+    @TestVisible
+    private static Set<String> getSupportedTokens() {
+        return COMPARABLE_BY_TOKEN.keySet();
+    }
+
     public static DateLiteralComparable create(DateLiteral dateLiteral) {
         String fieldValue = dateLiteral.getFieldValue();
-        Type comparableType = COMPARABLE_BY_TOKEN.get(fieldValue);
+        String tokenValue = fieldValue.split(':')[0];
+        
+        Type comparableType = COMPARABLE_BY_TOKEN.get(tokenValue);
         if(comparableType == null) {
             throw new ValidationException('Unexpected date literal ' + fieldValue);
         }
