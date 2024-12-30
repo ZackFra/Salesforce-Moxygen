@@ -46,7 +46,7 @@ public class EqualityHandler implements IOperatorHandler {
         }
 
         if(fieldValue instanceof DateLiteral) {
-            DateLiteralComparable dateLiteralComparable = DateLiteralComparableFactory.create(fieldValue);
+            DateLiteralComparable dateLiteralComparable = DateLiteralComparableFactory.create((DateLiteral)fieldValue);
             return dateLiteralComparable.isEqual((DateTime) sObjectFieldValue);
         }
 

@@ -4,7 +4,7 @@
  * @since 11/27/2024
  */
 public inherited sharing virtual class DateLiteral {
-    String fieldValue {get; protected set;}
+    public String fieldValue {get; protected set;}
 
     /**
      * @description Builder for the DateLiteral class

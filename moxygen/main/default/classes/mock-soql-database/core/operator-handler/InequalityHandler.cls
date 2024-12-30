@@ -48,7 +48,7 @@ public class InequalityHandler implements IOperatorHandler {
         }
 
         if(fieldValue instanceof DateLiteral) {
-            DateLiteralComparable dateLiteral = (DateLiteralComparable) fieldValue;
+            DateLiteralComparable dateLiteral = (DateLiteralComparable) DateLiteralComparableFactory.create((DateLiteral)fieldValue);
             return dateLiteral.isNotEqual((DateTime) sObjectFieldValue);
         }
 

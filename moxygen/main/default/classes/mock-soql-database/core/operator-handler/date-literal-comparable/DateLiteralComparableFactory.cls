@@ -25,7 +25,7 @@ public with sharing class DateLiteralComparableFactory {
     }
 
     public static DateLiteralComparable create(DateLiteral dateLiteral) {
-        String fieldValue = dateLiteral.getFieldValue();
+        String fieldValue = dateLiteral.fieldValue;
         String tokenValue = fieldValue.split(':')[0];
         
         Type comparableType = COMPARABLE_BY_TOKEN.get(tokenValue);

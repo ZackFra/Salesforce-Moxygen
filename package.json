@@ -8,7 +8,7 @@
     "sf:scratch:create": "sf org create scratch --definition-file config/moxygen-scratch-def.json --target-dev-hub Moxygen --set-default --alias Dev",
     "sf:scratch:delete": "sf org delete scratch",
     
-    "sf:deploy": "sf project deploy start --test-level RunLocalTests  --source-dir moxygen",
+    "sf:deploy": "sf project deploy start --source-dir moxygen",
     "sf:validate": "sf project deploy validate --test-level RunLocalTests --source-dir moxygen",
     "sf:codescan": "sf scanner run --target .",
     
