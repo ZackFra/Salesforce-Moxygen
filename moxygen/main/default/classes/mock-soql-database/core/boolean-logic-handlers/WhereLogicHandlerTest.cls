@@ -220,4 +220,29 @@ private class WhereLogicHandlerTest {
 
         Assert.isTrue(result, 'Expected true but got ' + result);
     }
+
+    @isTest
+    static void ensureWhereLogicWorksWithThisWeek() {
+        Parser p = new Parser();
+        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CloseDate = THIS_WEEK');
+        Node operatorNode = selectNode.right.right.left;
+
+        Opportunity opp = new Opportunity(
+            Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
+            CloseDate = GMT.today().toStartOfWeek().addDays(2)
+        );
+
+        BooleanLogicOptions options = new BooleanLogicOptions()
+            .setParams(null)
+            .setHead(selectNode)
+            .setObj(opp)
+            .setSelectNode(selectNode);
+        BooleanLogicHandler handler = new WhereLogicHandler(options);
+
+        Test.startTest();
+        Boolean result = handler.isCompareConditionMet(operatorNode);
+        Test.stopTest();
+
+        Assert.isTrue(result, 'Expected true but got ' + result);
+    }
 }

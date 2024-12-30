@@ -46,6 +46,11 @@ public class GreaterThanHandler implements IOperatorHandler {
             throw new QueryException('invalid operator');
         }
 
+        if(fieldValue instanceof DateLiteral) {
+            DateLiteralComparable dateLiteral = DateLiteralComparableFactory.create((DateLiteral)fieldValue);
+            return dateLiteral.isGreaterThan((DateTime) sObjectFieldValue);
+        }
+
         if(sObjectFieldValue instanceOf Date) {
             Date fieldDate = Common.parseDate((String) fieldValue);
             Date sObjDate = (Date) sObjectFieldValue;

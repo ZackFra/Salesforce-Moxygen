@@ -45,6 +45,11 @@ public class LessThanHandler implements IOperatorHandler {
             throw new QueryException('invalid operator');
         }
 
+        if(fieldValue instanceof DateLiteral) {
+            DateLiteralComparable dateLiteral = (DateLiteralComparable) DateLiteralComparableFactory.create((DateLiteral)fieldValue);
+            return dateLiteral.isLessThan((DateTime) sObjectFieldValue);
+        }
+
         if(sObjectFieldValue instanceOf Date) {
             Date fieldDate = Common.parseDate((String) fieldValue);
             Date sObjDate = (Date) sObjectFieldValue;

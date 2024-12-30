@@ -89,18 +89,12 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         validateListHandlers(handler, fieldType);
 
         if(valueNode.nodeType == NodeType.DATE_LITERAL) {
-            DateLiteralOptions dateLiteralOptions = new DateLiteralOptions.Builder()
-                .setFieldType(fieldType)
-                .setFieldValue(fieldValue)
-                .setRecordFieldValue(sObjectFieldValue)
+            fieldValue = new DateLiteral.Builder()
+                .setFieldValue((String) fieldValue)
                 .build();
-            DateLiteral dateLiteralValue = DateLiteral.resolve(dateLiteralOptions);
-            fieldValue = dateLiteralValue.getFieldValue();
-            if(dateLiteralValue.hasNewRecordFieldValue()) {
-                sObjectFieldValue = dateLiteralValue.getRecordFieldValue();
-            }
+        } else {
+            fieldValue = adjustForSoqlDateString(fieldValue, fieldType);
         }
-        fieldValue = adjustForSoqlDateString(fieldValue, fieldType);
 
         return handler.handle(sObjectFieldValue, fieldValue);
     }

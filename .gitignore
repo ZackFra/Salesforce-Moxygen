@@ -6,3 +6,5 @@ package-lock.json
 .sf/
 .sfdx/
 config/
+
+hardis-report/

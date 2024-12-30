@@ -378,6 +378,5 @@ private class ParserTest {
             Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
         }
         Test.stopTest();
-
     }
 }

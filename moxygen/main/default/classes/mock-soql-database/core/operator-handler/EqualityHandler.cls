@@ -38,10 +38,16 @@ public class EqualityHandler implements IOperatorHandler {
     public Boolean handle(Object sObjectFieldValue, Object fieldValue) {
         Boolean isSObjNull = (sObjectFieldValue == null);
         Boolean isFieldNull = (fieldValue == null);
+
         if(isSObjNull && isFieldNull) {
             return true;
         } else if(isSObjNull || isFieldNull) {
             return false;
+        }
+
+        if(fieldValue instanceof DateLiteral) {
+            DateLiteralComparable dateLiteralComparable = DateLiteralComparableFactory.create((DateLiteral)fieldValue);
+            return dateLiteralComparable.isEqual((DateTime) sObjectFieldValue);
         }
 
         if(sObjectFieldValue instanceof Date) {
