@@ -1,3 +1,8 @@
+/**
+ * @description Factory class for creating DateLiteralComparable instances
+ * @author Zackary Frazier
+ * @since 12/29/2024
+ */
 public with sharing class DateLiteralComparableFactory {
     static final Map<String, Type> COMPARABLE_BY_TOKEN = new Map<String, Type> {
         Token.TODAY_LITERAL => TodayComparable.class,
@@ -24,6 +29,12 @@ public with sharing class DateLiteralComparableFactory {
         return COMPARABLE_BY_TOKEN.keySet();
     }
 
+    /**
+     * @description Creates a DateLiteralComparable instance based on the token value
+     * @param dateLiteral `DateLiteral`
+     * @return  `DateLiteralComparable`
+     * @exception ValidationException
+     */
     public static DateLiteralComparable create(DateLiteral dateLiteral) {
         String fieldValue = dateLiteral.fieldValue;
         String tokenValue = fieldValue.split(':')[0];

@@ -4,6 +4,9 @@
  * @since 11/27/2024
  */
 public inherited sharing virtual class DateLiteral {
+    /**
+     * @description The field value to the date literal token
+     */
     public String fieldValue {get; protected set;}
 
     /**

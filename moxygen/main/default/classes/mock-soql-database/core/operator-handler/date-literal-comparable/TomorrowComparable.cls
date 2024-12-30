@@ -11,7 +11,7 @@ public with sharing class TomorrowComparable extends DateLiteralComparable {
      */
     public override Boolean isEqual(DateTime fieldValue) {
         Date tomorrow = GMT.today().addDays(1);
-        return tomorrow <= (DateTime) fieldValue && (DateTime) fieldValue < tomorrow.addDays(1);
+        return tomorrow <= fieldValue && fieldValue < tomorrow.addDays(1);
     }
 
     /**
@@ -21,7 +21,7 @@ public with sharing class TomorrowComparable extends DateLiteralComparable {
      */
     public override Boolean isGreaterThan(DateTime fieldValue) {
         Date tomorrow = GMT.today().addDays(1);
-        return (DateTime) fieldValue > tomorrow.addDays(1);
+        return fieldValue > tomorrow.addDays(1);
     }
 
     /**
@@ -31,6 +31,6 @@ public with sharing class TomorrowComparable extends DateLiteralComparable {
      */
     public override Boolean isLessThan(DateTime fieldValue) {
         Date tomorrow = GMT.today().addDays(1);
-        return (DateTime) fieldValue < tomorrow;
+        return fieldValue < tomorrow;
     }
 }
