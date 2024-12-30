@@ -5,8 +5,7 @@ public with sharing class YesterdayComparable extends DateLiteralComparable {
     }
 
     public override Boolean isGreaterThan(DateTime fieldValue) {
-        Date yesterday = GMT.today().addDays(-1);
-        return (DateTime) fieldValue > yesterday;
+        return (DateTime) fieldValue >= Gmt.today();
     }
 
     public override Boolean isLessThan(DateTime fieldValue) {
