@@ -1,0 +1,26 @@
+name: Run Apex Tests
+
+on:
+    schedule:
+        - cron: '0 0 * * *'
+
+jobs:
+    run-apex-tests:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/setup-node@v4
+              with:
+                node-version: '20'
+            - name: Install SFDX
+              run: |
+                npm i -g @salesforce/cli
+                sf --version
+            - name: Create Auth File
+              run: |
+                echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
+            - name: Authenticate
+              run: | 
+                sf org login sfdx-url --sfdx-url-file "authFile.json" --set-default-dev-hub --alias DevHub
+            - name: Run Apex Tests
+              run: |
+                sf apex run test --target-org DevHub --synchronous
