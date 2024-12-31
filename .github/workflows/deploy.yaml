@@ -32,16 +32,8 @@ jobs:
       - name: Create Auth File
         run: |
           echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
-      - name: Authenticate
-        run: | 
-          sf org login sfdx-url --sfdx-url-file authFile.json --set-default-dev-hub --alias DevHub
-      - name: Deploy Quick
-        if: ${{ steps.PR.outputs.pr_body != '' }}
-        run: |
-          sf project deploy quick --job-id ${{ steps.PR.outputs.pr_body }} --target-org DevHub
-      - name: Deploy Slow
-        if: ${{ steps.PR.outputs.pr_body == '' }}
-        run: |
-          sf sgd source delta --to "HEAD" --from "origin/main" --output "." 
-          sf project deploy start --test-level RunLocalTests --manifest package/package.xml -o DevHub -w 120 --pre-destructive-changes ./destructiveChanges/destructiveChanges.xml
-    
+      - uses: ZackFra/sf-delta-deploy@master
+        with:
+          auth-file: authFile.json
+          branch: origin/main
+          quick-deploy-id: ${{ steps.PR.outputs.pr_body }}
