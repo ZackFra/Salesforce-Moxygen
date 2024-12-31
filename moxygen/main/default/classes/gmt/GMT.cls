@@ -42,11 +42,7 @@ public inherited sharing class GMT {
      * @description Return the start of the current calendar quarter 
      * @return  `Date`
      */
-    public static Date calendarQuarter() {
-        Date todaysDate = today();
-        Decimal d = todaysDate.month()/3;
-        Long quarter = d.round(System.roundingMode.HALF_UP);
-        Date quarterStart = Gmt.date(Datetime.newInstanceGmt(todaysDate.year(), (Integer)quarter*3-2, 1));
-        return quarterStart;
+    public static Datetime startOfThisCalendarQuarter() {
+        return Datetime.newInstanceGmt(Gmt.today().year(), Math.mod(Gmt.today().month() - (Gmt.today().month() - 1), 3), 1);
     }
 }
