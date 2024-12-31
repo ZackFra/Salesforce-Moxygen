@@ -3858,7 +3858,7 @@ private class MockDatabaseTest {
     }
 
     @isTest
-    static void ensureThisQuarterIsWorks() {
+    static void ensureThisQuarterInWhereWorks() {
         List<Opportunity> oppList = new List<Opportunity>();
         Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
         for(Integer i = 0; i < 12; i++) {
