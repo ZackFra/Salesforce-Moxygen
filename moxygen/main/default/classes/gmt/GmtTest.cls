@@ -16,12 +16,31 @@ private class GmtTest {
             Gmt.today();
             Gmt.date(dt);
             Gmt.dateTime(d);
-            Gmt.calendarQuarter();
         } catch(Exception e) {
             isExceptionThrown = true;
         }
         Test.stopTest();
 
         Assert.isFalse(isExceptionThrown, 'Exception was thrown');
+    }
+
+    @isTest
+    static void ensureValidCalendarDateIsReturned() {
+        Datetime startOfThisCalendarQuarter = Gmt.startOfThisCalendarQuarter();
+        List<Datetime> validQuarterDates = new List<Datetime> {
+            Datetime.newInstanceGmt(startOfThisCalendarQuarter.year(), 1, 1),
+            Datetime.newInstanceGmt(startOfThisCalendarQuarter.year(), 4, 1),
+            Datetime.newInstanceGmt(startOfThisCalendarQuarter.year(), 7, 1),
+            Datetime.newInstanceGmt(startOfThisCalendarQuarter.year(), 10, 1)
+        };
+
+        Boolean foundDate = false;
+        for(Datetime validQuarterDate : validQuarterDates) {
+            if(validQuarterDate.month() == startOfThisCalendarQuarter.month()) {
+                foundDate = true;
+                break;
+            }
+        }
+        Assert.isTrue(foundDate, 'Start of this calendar quarter is not a valid quarter date');
     }
 }
