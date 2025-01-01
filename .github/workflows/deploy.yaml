@@ -23,6 +23,5 @@ jobs:
           echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
       - uses: ZackFra/sf-delta-deploy@master
         with:
-          auth-file: authFile.json
           branch: origin/main
           quick-deploy-id: ${{ steps.PR.outputs.pr_body }}
