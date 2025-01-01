@@ -124,12 +124,12 @@ private class MockDatabaseCalendarYearTest {
     static void testCalendarYearInWhereClauseWithOpportunityCloseDate() {
         Opportunity opp1 = new Opportunity(
             Name = 'Test',
-            CloseDate = Date.today()
+            CloseDate = Gmt.today()
         );
 
         Opportunity opp2 = new Opportunity(
             Name = 'Test2',
-            CloseDate = Date.today() - 366
+            CloseDate = Gmt.today() - 366
         );
 
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
@@ -153,12 +153,12 @@ private class MockDatabaseCalendarYearTest {
     static void testCalendarYearInWhereClauseWithOpportunityCloseDateLessThan() {
         Opportunity opp1 = new Opportunity(
             Name = 'Test',
-            CloseDate = Date.today()
+            CloseDate = Gmt.today()
         );
 
         Opportunity opp2 = new Opportunity(
             Name = 'Test2',
-            CloseDate = Date.today() - 366
+            CloseDate = Gmt.today() - 366
         );
 
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
@@ -208,12 +208,12 @@ private class MockDatabaseCalendarYearTest {
     static void testCalendarYearWeirdDateException() {
         Opportunity opp1 = new Opportunity(
             Name = 'Test',
-            CloseDate = Date.today()
+            CloseDate = Gmt.today()
         );
 
         Opportunity opp2 = new Opportunity(
             Name = 'Test2',
-            CloseDate = Date.today()
+            CloseDate = Gmt.today()
         );
 
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
@@ -234,7 +234,7 @@ private class MockDatabaseCalendarYearTest {
     static void testCalendarYearInHavingClause() {
         Opportunity testOpp = new Opportunity(
             Name = 'Test',
-            CloseDate = Date.today()
+            CloseDate = Gmt.today()
         );
         DML.doMockInsert(testOpp);
 
@@ -258,7 +258,7 @@ private class MockDatabaseCalendarYearTest {
     static void testCalendarYearInHavingClauseUnselected() {
         Opportunity testOpp = new Opportunity(
             Name = 'Test',
-            CloseDate = Date.today()
+            CloseDate = Gmt.today()
         );
         DML.doMockInsert(testOpp);
 
@@ -282,7 +282,7 @@ private class MockDatabaseCalendarYearTest {
 
         // 50 opportunities, each with a close date of a year prior
         for(Integer i = 0; i < 50; i++) {
-            Date closeDate = Date.today().addYears(-i);
+            Date closeDate = Gmt.today().addYears(-i);
             Opportunity newOpp = new Opportunity(
                 Name = 'Test Opp' + i,
                 CloseDate = closeDate
@@ -293,7 +293,7 @@ private class MockDatabaseCalendarYearTest {
 
         Test.startTest();
         Map<String, Object> binds = new Map<String, Object> {
-            'year' => Date.today().addYears(-10).year()
+            'year' => Gmt.today().addYears(-10).year()
         };
         List<Aggregate> ar = Selector.aggregateQueryWithBinds(
             String.join(new List<String> {

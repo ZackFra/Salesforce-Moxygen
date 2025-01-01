@@ -11,6 +11,8 @@
     "sf:deploy": "sf project deploy start --source-dir moxygen",
     "sf:validate": "sf project deploy validate --test-level RunLocalTests --source-dir moxygen",
     "sf:codescan": "sf scanner run --target .",
+
+    "sf:apex:test": "sf apex run test --synchronous",
     
     "sf:moxygen:scratch": "npm run sf:scratch:create && npm run sf:deploy",
     "sf:moxygen:install": "npm run sf:deploy",

@@ -158,7 +158,7 @@ private class MockDatabaseCalendarMonthTest  {
 
         Opportunity opp2 = new Opportunity(
             Name = 'Test2',
-            CloseDate = Gmt.today() - 60
+            CloseDate = Gmt.today().addMonths(-2)
         );
 
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
@@ -175,8 +175,14 @@ private class MockDatabaseCalendarMonthTest  {
             AccessLevel.SYSTEM_MODE
         );
         Test.stopTest();
-        Assert.areEqual(1, queriedOpportunities.size(), 'Incorrect number of records returned');
-        Assert.areEqual('Test2', queriedOpportunities[0].Name, 'Incorrect record returned');
+        // When we're about to approach a new year, the month will be 1 and opp2's month will be 11,
+        // so we need to check if the month is less than the current month to work out the correct assertion here
+        if(opp2.CloseDate.month() < month) {
+            Assert.areEqual(1, queriedOpportunities.size(), 'Incorrect number of records returned');
+            Assert.areEqual('Test2', queriedOpportunities[0].Name, 'Incorrect record returned');
+        } else {
+            Assert.areEqual(0, queriedOpportunities.size(), 'Incorrect number of records returned');
+        }
     }
 
     @IsTest

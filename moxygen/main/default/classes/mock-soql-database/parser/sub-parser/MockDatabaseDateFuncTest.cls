@@ -158,7 +158,7 @@ private class MockDatabaseDateFuncTest {
 
         Opportunity opp2 = new Opportunity(
             Name = 'Test2',
-            CloseDate = Gmt.today().addDays(-60)
+            CloseDate = Gmt.today().addMonths(-2)
         );
 
         List<Opportunity> oppList = new List<Opportunity>{opp1, opp2};
@@ -175,8 +175,14 @@ private class MockDatabaseDateFuncTest {
             AccessLevel.SYSTEM_MODE
         );
         Test.stopTest();
-        Assert.areEqual(1, queriedOpportunities.size(), 'Incorrect number of records returned');
-        Assert.areEqual('Test2', queriedOpportunities[0].Name, 'Incorrect record returned');
+
+        // On the new year, the close date month for opp2 will be greater than the current month
+        if(opp2.CloseDate.month() < month) {
+            Assert.areEqual(1, queriedOpportunities.size(), 'Incorrect number of records returned');
+            Assert.areEqual('Test2', queriedOpportunities[0].Name, 'Incorrect record returned');
+        } else {
+            Assert.areEqual(0, queriedOpportunities.size(), 'Incorrect number of records returned');
+        }
     }
 
     @IsTest
