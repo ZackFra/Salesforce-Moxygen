@@ -22,7 +22,8 @@ public with sharing class DateLiteralComparableFactory {
         Token.NEXT_N_WEEKS_LITERAL => NextNWeeksComparable.class,
         Token.LAST_N_WEEKS_LITERAL => LastNWeeksComparable.class,
         Token.N_MONTHS_AGO_LITERAL => NMonthsAgoComparable.class,
-        Token.THIS_QUARTER_LITERAL => ThisQuarterComparable.class
+        Token.THIS_QUARTER_LITERAL => ThisQuarterComparable.class,
+        Token.LAST_QUARTER_LITERAL => LastQuarterComparable.class
     };
 
     @TestVisible
