@@ -3876,4 +3876,24 @@ private class MockDatabaseTest {
 
         Assert.areEqual(3, opportunities.size(), 'Incorrect number of opportunities');
     }
+
+    @isTest
+    static void ensureLastQuarterInWhereClause() {
+        List<Opportunity> oppList = new List<Opportunity>();
+        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        for(Integer i = 0; i < 12; i++) {
+            oppList.add(new Opportunity(
+                Name = 'Opp' + i,
+                CloseDate = startOfYear.addMonths(-i)
+            ));
+        }
+
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate = LAST_QUARTER');
+        Test.stopTest();
+
+        Assert.areEqual(3, opportunities.size(), 'Incorrect number of opportunities');
+    }
 }
