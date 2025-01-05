@@ -145,4 +145,5 @@ public inherited sharing class Token {
     public final static String LAST_QUARTER_LITERAL = 'last_quarter';
     public final static String NEXT_QUARTER_LITERAL = 'next_quarter';
     public final static String NEXT_N_QUARTERS_LITERAL = 'next_n_quarters';
+    public final static String THIS_YEAR_LITERAL = 'this_year';
 }
