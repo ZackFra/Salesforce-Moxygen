@@ -50,5 +50,5 @@ jobs:
       - name: Save To Database
         run: |
           scripts/bash/config-aws.sh
-          scripts/bash/invoke-save-deployment-func.sh
+          scripts/bash/invoke-save-deployment-func.sh "./validate.json" "${{ secrets.AWS_SAVE_DEPLOYMENT_FUNC }}"
           
