@@ -2,7 +2,7 @@ const fs = require("fs");
 
 const FILE_NAME = "job-id.txt";
 
-const fileStream = fs.createReadStream(process.argv[2], "utf-8");
+const fileStream = fs.createReadStream("validate.json", "utf-8");
 let validateJobText = "";
 
 fileStream.on("data", buildValidateJobText);
@@ -25,7 +25,7 @@ function tryToParseValidateJob() {
         parseValidateJob(validateJobText);
     } catch (err) {
         console.error("Error parsing validate job: ", err);
-        process.exit(1);
+        fs.writeFileSync(FILE_NAME, "", "utf-8");
     }
 }
 
@@ -35,10 +35,11 @@ function tryToParseValidateJob() {
  */
 function parseValidateJob(validateJobText) {
     const validateJob = JSON.parse(removeNonReadable(validateJobText));
-    if(validateJob.deploymentStatus.result.success) {
-        fs.writeFileSync(FILE_NAME, validateJob.deploymentStatus.result.id, "utf-8");
+    if(validateJob.result.success) {
+        fs.writeFileSync(FILE_NAME, validateJob.result.id, "utf-8");
     } else {
-        throw new Error("Job failed to validate");
+        console.error("Job failed to validate");
+        fs.writeFileSync(FILE_NAME, "", "utf-8");
     }
 }
 

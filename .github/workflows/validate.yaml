@@ -30,16 +30,6 @@ on:
     paths:
       - "**/main/default/**"
 
-env:
-  AWS_SECRET: ${{ secrets.AWS_SECRET }}
-  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  AWS_SAVE_DEPLOYMENT_FUNC: ${{ secrets.AWS_SAVE_DEPLOYMENT_FUNC }}
-  AWS_GET_DEPLOYMENT_FUNC: ${{ secrets.AWS_GET_DEPLOYMENT_FUNC }}
-  SF_AUTH_URL: ${{ secrets.SF_AUTH_URL }}
-  REPOSITORY: ${{ github.repository }}
-  PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
-
 jobs:
   validate-pull-request:
     permissions: write-all
@@ -51,11 +41,19 @@ jobs:
         with:
           fetch-depth: 0
       - name: Create Auth File
-        run: scripts/bash/create-sfdx-auth-file.sh
+        run: |
+          echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
       - uses: ZackFra/sf-delta-validate@master
         with:
           branch: origin/main
-          auth-file: authFile.json
-      - name: Save To Database
-        run: scripts/bash/save-deployment.sh
+      - name: Get Job Id
+        run: |
+          node scripts/js/get-job-id.js
+      - name: Update PR Description
+        uses: nefrob/pr-description@v1.2.0
+        with:
+          content: job-id.txt
+          contentIsFilePath: true
+          regex: ".*"
+          token: ${{ secrets.GITHUB_TOKEN }}
           

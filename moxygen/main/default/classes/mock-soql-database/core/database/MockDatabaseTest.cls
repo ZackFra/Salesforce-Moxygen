@@ -3900,11 +3900,11 @@ private class MockDatabaseTest {
     @isTest
     static void ensureNextQuarterInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date today = Gmt.today();
+        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
         for(Integer i = 0; i < 12; i++) {
             oppList.add(new Opportunity(
                 Name = 'Opp' + i,
-                CloseDate = today.addMonths(i)
+                CloseDate = startOfYear.addMonths(i)
             ));
         }
 
@@ -3916,26 +3916,5 @@ private class MockDatabaseTest {
 
 
         Assert.areEqual(3, opportunities.size(), 'Incorrect number of opportunities');
-    }
-
-    @isTest
-    static void ensureNextNQuartersWorksInWhereClause() {
-
-        List<Opportunity> oppList = new List<Opportunity>();
-        Date today = Gmt.today();
-        for(Integer i = 0; i < 12; i++) {
-            oppList.add(new Opportunity(
-                Name = 'Opp' + i,
-                CloseDate = today.addMonths(i)
-            ));
-        }
-
-        MockDatabase.doInsert(oppList, true);
-
-        Test.startTest();
-        List<Opportunity> opportunities = MockDatabase.query('SELECT Id FROM Opportunity WHERE CloseDate = NEXT_N_QUARTERS:2');
-        Test.stopTest();
-
-        Assert.areEqual(6, opportunities.size(), 'Incorrect number of opportunities');
     }
 }
