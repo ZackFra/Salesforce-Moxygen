@@ -39,7 +39,7 @@ function parseValidateJob(validateJobText) {
     const validateJob = JSON.parse(removeNonReadable(validateJobText));
     if(validateJob.result.success) {
         fs.writeFileSync(FILE_NAME, JSON.stringify({
-            pullRequestUrl: repository + "/pull/" + pullRequestNumber,
+            pullRequestUrl: `/${repository}/pull/${pullRequestNumber}`,
             deploymentStatus: validateJob
         }), "utf-8");
     } else {
