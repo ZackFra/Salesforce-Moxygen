@@ -59,5 +59,8 @@ jobs:
       - name: Save To Database
         run: scripts/bash/save-deployment.sh
       - name: Get Deployment
+        id: get_deployment
         run: scripts/bash/get-deployment.sh
+      - name: Echo Quick Deploy Id
+        run: echo ${{ steps.get_deployment.outputs.quick-deploy-id }}
           
