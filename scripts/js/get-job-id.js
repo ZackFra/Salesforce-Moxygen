@@ -35,7 +35,7 @@ function tryToParseValidateJob() {
  */
 function parseValidateJob(validateJobText) {
     const validateJob = JSON.parse(removeNonReadable(validateJobText));
-    if(validateJob.result.success) {
+    if(validateJob.status.result.success) {
         fs.writeFileSync(FILE_NAME, validateJob.result.id, "utf-8");
     } else {
         console.error("Job failed to validate");
