@@ -3,6 +3,8 @@ const fs = require("fs");
 const FILE_NAME = "deployment-request.json";
 
 const fileStream = fs.createReadStream(process.argv[2], "utf-8");
+const repository = process.argv[3];
+const pullRequestNumber = process.argv[4];
 let validateJobText = "";
 
 fileStream.on("data", buildValidateJobText);
@@ -36,10 +38,10 @@ function tryToParseValidateJob() {
 function parseValidateJob(validateJobText) {
     const validateJob = JSON.parse(removeNonReadable(validateJobText));
     if(validateJob.result.success) {
-        fs.writeFileSync(FILE_NAME, {
-            pullRequestUrl: "",
+        fs.writeFileSync(FILE_NAME, JSON.stringify({
+            pullRequestUrl: repository + "/pull/" + pullRequestNumber,
             deploymentStatus: validateJob
-        }, "utf-8");
+        }), "utf-8");
     } else {
         console.error("Job failed to validate");
         fs.writeFileSync(FILE_NAME, "", "utf-8");
