@@ -30,6 +30,11 @@ on:
     paths:
       - "**/main/default/**"
 
+env:
+  AWS_SECRET: ${{ secrets.AWS_SECRET }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+
 jobs:
   validate-pull-request:
     permissions: write-all
@@ -49,7 +54,7 @@ jobs:
           auth-file: authFile.json
       - name: Save To Database
         run: |
-          scripts/bash/config-aws.sh "${{ secrets.AWS_ACCESS_KEY }}" "${{ secrets.AWS_SECRET }}" "${{ secrets.AWS_REGION }}"
+          scripts/bash/config-aws.sh
           node scripts/js/format-deployment-data.js "validate.json" "${{ github.repository }}" "${{github.event.pull_request.number}}"
           scripts/bash/invoke-lambda-func.sh "file://deployment-request.json" "${{ secrets.AWS_SAVE_DEPLOYMENT_FUNC }}"
           
