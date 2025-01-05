@@ -39,7 +39,7 @@ function parseValidateJob(validateJobText) {
         fs.writeFileSync(FILE_NAME, validateJob.status.result.id, "utf-8");
     } else {
         console.error("Job failed to validate");
-        fs.writeFileSync(FILE_NAME, "", "utf-8");
+        process.exit(1);
     }
 }
 
