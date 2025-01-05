@@ -22,6 +22,6 @@ jobs:
             - name: Create Auth File
               run: scripts/bash/create-sfdx-auth-file.sh
             - name: Authenticate DevHub
-              run: scripts/bash/config-sf.sh authfile.json
+              run: scripts/bash/config-sf.sh authFile.json
             - name: Run Diagnostics
               run: npm run diagnostics
