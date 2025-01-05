@@ -18,10 +18,10 @@ jobs:
           fetch-depth: 0
       - name: Create Auth File
         run: scripts/bash/create-sfdx-auth-file.sh
-      - name: Get Quick Deploy Id
-        id: get_quick_deploy_id
+      - name: Get Deployment
+        id: get_deployment
         run: scripts/bash/get-deployment.sh
       - uses: ZackFra/sf-delta-deploy@master
         with:
           branch: origin/main
-          quick-deploy-id: ${{ steps.get_quick_deploy_id.outputs.quick-deploy-id }}
+          quick-deploy-id: ${{ steps.get_deployment.outputs.quick-deploy-id }}
