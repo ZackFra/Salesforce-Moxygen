@@ -4,7 +4,7 @@ private class NextNQuartersParserTest {
     @IsTest
     static void ensureNextNQuartersCanBeParsed() {
         Assert.isTrue(
-            DateLiteralParserTestUtil.ensureVariableTokenCanBeParsed('NEXT_N_QUARTERS:5', new NextNQuarters()),
+            DateLiteralParserTestUtil.ensureVariableTokenCanBeParsed('NEXT_N_QUARTERS:5', new NextNQuartersParser()),
             'NEXT_N_QUARTERS should be parsed'
         );
     }
