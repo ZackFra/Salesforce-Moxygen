@@ -25,7 +25,7 @@ function tryToParseValidateJob() {
         parseValidateJob(validateJobText);
     } catch (err) {
         console.error("Error parsing validate job: ", err);
-        fs.writeFileSync(FILE_NAME, "", "utf-8");
+        process.exit(1);
     }
 }
 
@@ -39,7 +39,7 @@ function parseValidateJob(validateJobText) {
         fs.writeFileSync(FILE_NAME, validateJob.status.result.id, "utf-8");
     } else {
         console.error("Job failed to validate");
-        process.exit(1);
+        throw new Error("Job failed to validate");
     }
 }
 
