@@ -7,21 +7,30 @@ on:
       paths:
         - "**/main/default/**"
 
+env:
+  AWS_SECRET: ${{ secrets.AWS_SECRET }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_GET_DEPLOYMENT_FUNC: ${{ secrets.AWS_GET_DEPLOYMENT_FUNC }}
+  SF_AUTH_URL: ${{ secrets.SF_AUTH_URL }}
+  REPOSITORY: ${{ github.repository }}
+  PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+
 jobs:
   deploy-pull-request:
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') && github.event.pull_request.merged == true }}
     steps:
-      - uses: 8BitJonny/gh-get-current-pr@3.0.0
-        id: PR
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Create Auth File
-        run: |
-          echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
+        run: scripts/bash/create-sfdx-auth-file.sh
+      - name: Get Deployment
+        id: get_deployment
+        run: scripts/bash/get-deployment.sh
       - uses: ZackFra/sf-delta-deploy@master
         with:
           branch: origin/main
-          quick-deploy-id: ${{ steps.PR.outputs.pr_body }}
+          quick-deploy-id: ${{ steps.get_deployment.outputs.quick-deploy-id }}
