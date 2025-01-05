@@ -2,7 +2,7 @@ const fs = require("fs");
 
 const FILE_NAME = "job-id.txt";
 
-const fileStream = fs.createReadStream("validate.json", "utf-8");
+const fileStream = fs.createReadStream(provess.argv[2], "utf-8");
 let validateJobText = "";
 
 fileStream.on("data", buildValidateJobText);
