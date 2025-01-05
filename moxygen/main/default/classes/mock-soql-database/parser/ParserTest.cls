@@ -431,4 +431,17 @@ private class ParserTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void ensureParserCanParseThisYear() {
+        Parser p = new Parser();
+        String soqlQuery = 'SELECT Id FROM Opportunity WHERE CreatedDate = THIS_YEAR';
+        Test.startTest();
+        try {
+            p.parse(soqlQuery);
+        } catch(Exception e) {
+            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        }
+        Test.stopTest();
+    }
 }
