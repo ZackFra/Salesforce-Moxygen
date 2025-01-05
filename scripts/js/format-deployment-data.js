@@ -44,7 +44,7 @@ function parseValidateJob(validateJobText) {
         }), "utf-8");
     } else {
         console.error("Job failed to validate");
-        fs.writeFileSync(FILE_NAME, "", "utf-8");
+        process.exit(1);
     }
 }
 
