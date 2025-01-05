@@ -27,7 +27,6 @@ public with sharing class PrimitiveParserFactory {
         Token.THIS_QUARTER_LITERAL => ThisQuarterParser.class,
         Token.LAST_QUARTER_LITERAL => LastQuarterParser.class,
         Token.NEXT_QUARTER_LITERAL => NextQuarterParser.class,
-        Token.NEXT_N_QUARTERS_LITERAL => NextNQuartersParser.class,
         Token.XTRUE => BooleanParser.class,
         Token.XFALSE => BooleanParser.class,
         Token.XNULL => NullParser.class,
