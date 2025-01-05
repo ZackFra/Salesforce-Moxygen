@@ -35,6 +35,7 @@ env:
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
   AWS_SAVE_DEPLOYMENT_FUNC: ${{ secrets.AWS_SAVE_DEPLOYMENT_FUNC }}
+  AWS_GET_DEPLOYMENT_FUNC: ${{ secrets.AWS_GET_DEPLOYMENT_FUNC }}
   SF_AUTH_URL: ${{ secrets.SF_AUTH_URL }}
   REPOSITORY: ${{ github.repository }}
   PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
@@ -57,4 +58,6 @@ jobs:
           auth-file: authFile.json
       - name: Save To Database
         run: scripts/bash/save-deployment.sh
+      - name: Get Deployment
+        run: scripts/bash/get-deployment.sh
           
