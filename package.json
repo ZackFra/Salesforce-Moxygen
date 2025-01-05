@@ -19,6 +19,8 @@
     "sf:moxygen:install:package": "node ./scripts/js/install-moxygen.js",
     "sf:moxygen:version:create": "sf package version create --package Moxygen --installation-key-bypass --wait 10",
 
+    "diagnostics": "./scripts/go/instance_upgrade/bin/main",
+
     "lint": "eslint **/{aura,lwc}/**/*.js",
     "test": "npm run test:unit",
     "test:unit": "sfdx-lwc-jest",
