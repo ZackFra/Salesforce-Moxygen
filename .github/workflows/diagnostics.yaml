@@ -7,7 +7,7 @@ env:
     SF_AUTH_URL: ${{ secrets.SF_AUTH_URL }}
 
 jobs:
-    run-apex-tests:
+    run-diagnostics:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/setup-node@v4
