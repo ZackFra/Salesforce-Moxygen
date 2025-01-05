@@ -46,14 +46,9 @@ jobs:
       - uses: ZackFra/sf-delta-validate@master
         with:
           branch: origin/main
-      - name: Get Job Id
+          auth-file: authFile.json
+      - name: Save To Database
         run: |
-          node scripts/js/get-job-id.js
-      - name: Update PR Description
-        uses: nefrob/pr-description@v1.2.0
-        with:
-          content: job-id.txt
-          contentIsFilePath: true
-          regex: ".*"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          scripts/bash/config-aws.sh
+          scripts/bash/invoke-save-deployment-func.sh
           
