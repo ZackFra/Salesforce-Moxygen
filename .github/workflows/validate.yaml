@@ -35,6 +35,7 @@ env:
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
   AWS_SAVE_DEPLOYMENT_FUNC: ${{ secrets.AWS_SAVE_DEPLOYMENT_FUNC }}
+  SF_AUTH_URL: ${{ secrets.SF_AUTH_URL }}
   REPOSITORY: ${{ github.repository }}
   PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
 
@@ -49,8 +50,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Create Auth File
-        run: |
-          echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
+        run: scripts/bash/create-auth-file.sh
       - uses: ZackFra/sf-delta-validate@master
         with:
           branch: origin/main
