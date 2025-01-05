@@ -49,7 +49,7 @@ jobs:
           auth-file: authFile.json
       - name: Save To Database
         run: |
-          scripts/bash/config-aws.sh
+          scripts/bash/config-aws.sh "${{ secrets.AWS_ACCESS_KEY_ID }}" "${{ secrets.AWS_SECRET_ACCESS_KEY }}" "${{ secrets.AWS_REGION }}"
           node scripts/js/format-deployment-data.js "validate.json" "${{ github.repository }}" "${{github.event.pull_request.number}}"
           scripts/bash/invoke-lambda-func.sh "file://deployment-request.json" "${{ secrets.AWS_SAVE_DEPLOYMENT_FUNC }}"
           
