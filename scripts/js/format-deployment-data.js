@@ -3,8 +3,8 @@ const fs = require("fs");
 const FILE_NAME = "deployment-request.json";
 
 const fileStream = fs.createReadStream(process.argv[2], "utf-8");
-const repository = process.argv[3];
-const pullRequestNumber = process.argv[4];
+const repository = process.env.REPOSITORY;
+const pullRequestNumber = process.env.PULL_REQUEST_NUMBER;
 let validateJobText = "";
 
 fileStream.on("data", buildValidateJobText);

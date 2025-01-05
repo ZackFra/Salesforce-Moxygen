@@ -34,6 +34,8 @@ env:
   AWS_SECRET: ${{ secrets.AWS_SECRET }}
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
+  REPOSITORY: ${{ github.repository }}
+  PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
 
 jobs:
   validate-pull-request:
@@ -55,6 +57,6 @@ jobs:
       - name: Save To Database
         run: |
           scripts/bash/config-aws.sh
-          node scripts/js/format-deployment-data.js "validate.json" "${{ github.repository }}" "${{github.event.pull_request.number}}"
+          node scripts/js/format-deployment-data.js "validate.json"
           scripts/bash/invoke-lambda-func.sh "file://deployment-request.json" "${{ secrets.AWS_SAVE_DEPLOYMENT_FUNC }}"
           
