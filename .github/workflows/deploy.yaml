@@ -12,16 +12,16 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') && github.event.pull_request.merged == true }}
     steps:
-      - uses: 8BitJonny/gh-get-current-pr@3.0.0
-        id: PR
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Create Auth File
-        run: |
-          echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
+        run: scripts/bash/create-sfdx-auth-file.sh
+      - name: Get Deployment
+        id: get_deployment
+        run: scripts/bash/get-deployment.sh
       - uses: ZackFra/sf-delta-deploy@master
         with:
           branch: origin/main
-          quick-deploy-id: ${{ steps.PR.outputs.pr_body }}
+          quick-deploy-id: ${{ steps.get_deployment.outputs.quick-deploy-id }}
