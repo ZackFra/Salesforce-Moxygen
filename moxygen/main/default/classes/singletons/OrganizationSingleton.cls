@@ -21,6 +21,7 @@ public with sharing class OrganizationSingleton {
             org = [
                 SELECT FiscalYearStartMonth 
                 FROM Organization
+                LIMIT 1
             ];
         } else {
             throw new ValidationException('You do not have permission to access the Organization object.');
