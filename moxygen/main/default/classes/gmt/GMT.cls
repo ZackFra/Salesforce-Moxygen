@@ -45,4 +45,18 @@ public inherited sharing class GMT {
     public static Datetime startOfThisCalendarQuarter() {
         return Datetime.newInstanceGmt(Gmt.today().year(), Math.mod(Gmt.today().month() - (Gmt.today().month() - 1), 3), 1);
     }
+
+    /**
+     * @description Return the start of the current fiscal year 
+     * @return  `Date`
+     */
+    public static Date startOfThisFiscalYear() {
+        Organization org = OrganizationSingleton.getInstance();
+        Integer orgFiscalMonth = org.FiscalYearStartMonth;
+        Date possibleStartOfThisFiscalYear = Date.newInstance(Gmt.today().year(), orgFiscalMonth, 1);
+        if(possibleStartOfThisFiscalYear > Gmt.today()) {
+            return possibleStartOfThisFiscalYear.addYears(-1);
+        }
+        return possibleStartOfThisFiscalYear;
+    }
 }
