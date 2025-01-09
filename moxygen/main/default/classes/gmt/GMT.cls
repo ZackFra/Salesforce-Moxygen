@@ -46,6 +46,10 @@ public inherited sharing class GMT {
         return Datetime.newInstanceGmt(Gmt.today().year(), Math.mod(Gmt.today().month() - (Gmt.today().month() - 1), 3), 1);
     }
 
+    /**
+     * @description Return the start of the current fiscal year 
+     * @return  `Date`
+     */
     public static Date startOfThisFiscalYear() {
         Organization org = OrganizationSingleton.getInstance();
         Integer orgFiscalMonth = org.FiscalYearStartMonth;
