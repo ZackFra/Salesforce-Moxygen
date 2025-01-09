@@ -48,7 +48,7 @@ private class LastNFiscalYearsComparableTest {
     @isTest
     static void ensureIsNotEqualWorks() {
         DateLiteralComparable lastNFiscalYearsComparable = new LastNFiscalYearsComparable().withToken('LAST_N_FISCAL_YEARS:5');
-
+ 
         Assert.isTrue(lastNFiscalYearsComparable.isNotEqual(Gmt.startOfThisFiscalYear()), 'Should not be equal');
         Assert.isFalse(lastNFiscalYearsComparable.isNotEqual(Gmt.startOfThisFiscalYear().addYears(-5)), 'Should be equal');
         Assert.isTrue(lastNFiscalYearsComparable.isNotEqual(Gmt.startOfThisFiscalYear().addYears(-6)), 'Should not be equal');
