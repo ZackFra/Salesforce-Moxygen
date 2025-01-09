@@ -49,6 +49,10 @@ public inherited sharing class GMT {
     public static Date startOfThisFiscalYear() {
         Organization org = OrganizationSingleton.getInstance();
         Integer orgFiscalMonth = org.FiscalYearStartMonth;
+        Datetime possibleStartOfThisFiscalYear = Datetime.newInstanceGmt(Gmt.today().year(), orgFiscalMonth, 1);
+        if(possibleStartOfThisFiscalYear > Gmt.today()) {
+            return Date.newInstance(Gmt.today().year() - 1, orgFiscalMonth, 1);
+        }
         return Date.newInstance(Gmt.today().year(), orgFiscalMonth, 1);
     }
 }
