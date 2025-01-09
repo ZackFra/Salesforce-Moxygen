@@ -22,7 +22,7 @@ public with sharing class ThisFiscalYearComparable extends DateLiteralComparable
      */
     public override Boolean isGreaterThan(Datetime fieldValue) {
         Date orgFiscalYear = Gmt.startOfThisFiscalYear();
-        return fieldValue >= orgFiscalYear;
+        return fieldValue >= orgFiscalYear.addYears(1);
     }
 
     /**
