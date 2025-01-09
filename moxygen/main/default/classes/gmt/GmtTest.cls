@@ -43,4 +43,21 @@ private class GmtTest {
         }
         Assert.isTrue(foundDate, 'Start of this calendar quarter is not a valid quarter date');
     }
+
+    @IsTest
+    static void ensureStartOfThisFiscalYearReturnsCorrectValue() {
+        Test.startTest();
+        Date startOfThisFiscalYear = Gmt.startOfThisFiscalYear();
+        Test.stopTest();
+
+        Organization org = OrganizationSingleton.getInstance();
+        Integer orgFiscalMonth = org.FiscalYearStartMonth;
+        Date possibleStartOfThisFiscalYear = Date.newInstance(Gmt.today().year(), orgFiscalMonth, 1);
+        if(possibleStartOfThisFiscalYear > Gmt.today()) {
+            Date expectedStartOfThisFiscalYear = possibleStartOfThisFiscalYear.addYears(-1);
+            Assert.areEqual(expectedStartOfThisFiscalYear, startOfThisFiscalYear, 'Start of this fiscal year is not correct');
+        } else {
+            Assert.areEqual(possibleStartOfThisFiscalYear, startOfThisFiscalYear, 'Start of this fiscal year is not correct');
+        }
+    }
 }
