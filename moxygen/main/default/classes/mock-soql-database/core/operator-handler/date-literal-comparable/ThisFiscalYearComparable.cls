@@ -5,16 +5,31 @@
  */
 public with sharing class ThisFiscalYearComparable extends DateLiteralComparable {
     
+    /**
+     * @description Returns if the field value is equal to the current fiscal year
+     * @param fieldValue `Datetime`
+     * @return  `Boolean`
+     */
     public override Boolean isEqual(Datetime fieldValue) {
         Date orgFiscalYear = Gmt.startOfThisFiscalYear();
         return orgFiscalYear <= fieldValue && fieldValue < orgFiscalYear.addYears(1); 
     }
 
+    /**
+     * @description Returns if the field value is greater than the current fiscal year
+     * @param fieldValue `Datetime`
+     * @return  `Boolean`
+     */
     public override Boolean isGreaterThan(Datetime fieldValue) {
         Date orgFiscalYear = Gmt.startOfThisFiscalYear();
         return fieldValue >= orgFiscalYear;
     }
 
+    /**
+     * @description Returns if the field value is less than the current fiscal year
+     * @param fieldValue `Datetime`
+     * @return  `Boolean`
+     */
     public override Boolean isLessThan(Datetime fieldValue) {
         Date orgFiscalYear = Gmt.startOfThisFiscalYear();
         return fieldValue < orgFiscalYear;
