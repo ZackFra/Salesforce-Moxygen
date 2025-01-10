@@ -15,7 +15,9 @@ public abstract class DateLiteralComparable {
      * @param fieldValue `DateTime`
      * @return  `Boolean`
      */
-    public abstract Boolean isEqual(DateTime fieldValue);
+    public virtual Boolean isEqual(DateTime fieldValue) {
+        return !isGreaterThan(fieldValue) && !isLessThan(fieldValue);
+    }
     /**
      * @description Whether the date literal is greater than the field value
      * @param fieldValue `DateTime`
