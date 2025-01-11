@@ -5,8 +5,11 @@
  */
 public class DateLiteralParser extends SubParser {
 
+    // symbol that denotes this is a variable value, e.g. LAST_N_DAYS:5, LAST_N_WEEKS:3
+    static final String VARIABLE_SINGNIFIER = 'n_';
+
     public override Intermediary parse(String query) {
-        if(this.tkn.contains('n_')) {
+        if(this.tkn.contains(VARIABLE_SINGNIFIER)) {
             return parseNDays(query, this.tkn);
         }
         return parse(query, this.tkn);
@@ -18,7 +21,7 @@ public class DateLiteralParser extends SubParser {
      * @param token `String`
      * @return  `Intermediary`
      */
-    public Intermediary parse(String query, String token) {
+    private Intermediary parse(String query, String token) {
         query = consume(query, token);
         return new Intermediary(
             new NodeBuilder()
@@ -36,7 +39,7 @@ public class DateLiteralParser extends SubParser {
      * @return  `Intermediary`
      * @exception ValidationException
      */
-    public Intermediary parseNDays(String query, String nDaysTkn) {
+    private Intermediary parseN(String query, String nDaysTkn) {
         String tkn = nDaysTkn;
         String subquery = consume(query, tkn);
         subquery = skipWhitespace(subquery);
