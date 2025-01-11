@@ -7,14 +7,10 @@ private class HavingParserTest {
         Exception ex;
         Intermediary intermediary;
         Test.startTest();
-        try {
-            intermediary = parser.parse('HAVING CreatedDate < TODAY');
-        } catch(Exception e) {
-            ex = e;
-        }
+        intermediary = parser.parse('HAVING CreatedDate < TODAY');
         Test.stopTest();
 
-        Assert.isNull(ex, 'Should be able to parse date literals');
+        Assert.isNotNull(intermediary, 'Should be able to parse date literals');
 
     }
 

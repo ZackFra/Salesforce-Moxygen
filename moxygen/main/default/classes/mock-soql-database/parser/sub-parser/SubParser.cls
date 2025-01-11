@@ -30,6 +30,17 @@
  */
 @SuppressWarnings('PMD.CognitiveComplexity')
 public abstract class SubParser {
+
+    protected String tkn;
+
+    /**
+     * @description Sets the token for the parser
+     * @param token `String`
+     */
+    public void setToken(String token) {
+        this.tkn = token;
+    }
+
     /**
      * @description Parses a subquery and returns an `Intermediary` object.
      * @param query `String`

@@ -42,7 +42,8 @@ public inherited sharing class ValueParser extends SubParser {
             SubParser primitiveParser = PrimitiveParserFactory.getPrimitiveParser(query);
             return primitiveParser.parse(query);
         } catch(Exception e) {
-            throw new ValidationException('No valid token found for: ' + query);
+            
+            throw e;
         }
     }
 }
