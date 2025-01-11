@@ -133,6 +133,9 @@ public class AccountServiceTest {
 }
 ```
 
+# 🧰 Documentation
+[Reference Guide](./docs/index.md)
+
 # 🥇 Mock SOQL Database
 
 Under the hood, a mock SOQL parser is used to handle queries in the context of a unit test.
@@ -183,10 +186,7 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 | FOR UPDATE | Ignored ||
 | WITH SECURITY_ENFORCED | Ignored | Syntax is enforced, will not allow this clause in sub-queries |
 
-# 🧰 Documentation
-[Reference Guide](./docs/index.md)
-
-# ⚓ Apex Classes
+# ⚓ Core Apex Classes
 
 ## ORM
 
