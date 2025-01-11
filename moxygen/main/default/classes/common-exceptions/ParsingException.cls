@@ -27,6 +27,7 @@
  * @description Custom exception for parsing errors 
  * @author Zackary Frazier
  * @since 4/9/2024
+ * @group Exceptions
  */
 public inherited sharing class ParsingException extends Exception {
     /**

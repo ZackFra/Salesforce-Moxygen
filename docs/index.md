@@ -6,6 +6,10 @@
 
 Generic exception for when something is not found
 
+### [ParsingException](exceptions/ParsingException.md)
+
+Custom exception for parsing errors
+
 ### [ValidationException](exceptions/ValidationException.md)
 
 This class is responsible for handling validation exceptions
@@ -589,10 +593,6 @@ The parser breaks down a SOQL query into an AST, to be fed into the parser (Mock
 ### [ParserUtils](uncategorized/ParserUtils.md)
 
 Contains utility methods for the parser, could probably be refactored out of existance though
-
-### [ParsingException](uncategorized/ParsingException.md)
-
-Custom exception for parsing errors
 
 ### [PolymorphicAttributes](uncategorized/PolymorphicAttributes.md)
 
