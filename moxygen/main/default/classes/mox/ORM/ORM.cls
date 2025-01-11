@@ -26,6 +26,7 @@
 /**
  * @description ORM class is responsible for creating and returning the Selector and DML objects
  *              ORM is short for Object Relationshal Mapping, i.e. Salesforce's database
+ * @group Moxygen
  */
 public inherited sharing class ORM {
 

@@ -20,8 +20,9 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- * @description Types defined for this package 
+ */
+
+/* @description Types defined for this package 
  * @author Zackary Frazier
  * @since 3/9/2024
  */

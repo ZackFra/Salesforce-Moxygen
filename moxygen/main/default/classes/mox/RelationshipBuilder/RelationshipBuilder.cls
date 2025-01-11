@@ -25,6 +25,7 @@
 
 /**
  * @description RelationshipBuilder class to build parent and child relationships
+ * @group Moxygen
  */
 public inherited sharing class RelationshipBuilder {
     /**
