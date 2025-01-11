@@ -10,7 +10,7 @@ Generic exception for when something is not found
 
 This class is responsible for handling validation exceptions
 
-## interfaces
+## Interfaces
 
 ### [IBuilder](interfaces/IBuilder.md)
 

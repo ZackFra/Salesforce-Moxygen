@@ -6,7 +6,7 @@ Interface for a builder class
 
 11/25/2024
 
-**Group** interfaces
+**Group** Interfaces
 
 **Author** Zackary Frazier
 
