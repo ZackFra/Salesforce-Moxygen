@@ -35,8 +35,10 @@ to allow for mocking and stubbing in unit tests.
 
 ### [ORM](moxygen/ORM.md)
 
-ORM class is responsible for creating and returning the Selector and DML objects 
-ORM is short for Object Relationshal Mapping, i.e. Salesforce&#x27;s database
+ORM class is the state manager for the Moxygen library. 
+It is responsble for managing the state of the library&#x27;s settings and context. 
+It&#x27;s named ORM because Salesforce is an ORM, and unfortunately, the Database namespace 
+is already taken.
 
 ### [Selector](moxygen/Selector.md)
 
