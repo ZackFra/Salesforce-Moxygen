@@ -49,7 +49,7 @@ public static String consume(String query, String token)
 : String, the query with the token consumed
 
 #### Throws
-[ParsingException](ParsingException.md): : if the token is not the first token in the query
+[ParsingException](../exceptions/ParsingException.md): : if the token is not the first token in the query
 
 ---
 
