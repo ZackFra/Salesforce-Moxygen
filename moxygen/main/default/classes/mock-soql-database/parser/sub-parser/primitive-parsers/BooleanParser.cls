@@ -1,5 +1,5 @@
 /**
- * @description A parser for boolean values 
+ * @description A parser for boolean values
  * @author Zackary Frazier
  * @since 11/25/2024
  */
@@ -11,12 +11,12 @@ public with sharing class BooleanParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        
+
         String boolVal = Token.XFALSE;
-        if(isNext(query, Token.XTRUE)) {
+        if (isNext(query, Token.XTRUE)) {
             boolVal = Token.XTRUE;
         }
-        
+
         return new Intermediary(
             new NodeBuilder()
                 .setId(boolVal)

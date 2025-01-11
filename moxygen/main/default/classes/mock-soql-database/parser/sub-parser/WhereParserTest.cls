@@ -1,6 +1,5 @@
 @isTest
 private class WhereParserTest {
-
     @IsTest
     @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts')
     static void selectWithWhereClause() {
@@ -51,7 +50,7 @@ private class WhereParserTest {
 
     @IsTest
     @SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts')
-    static void correctsTreeForOrPrecedence(){
+    static void correctsTreeForOrPrecedence() {
         ParserTestUtil.assertStaticResource('WHERE_8');
     }
 
@@ -69,7 +68,7 @@ private class WhereParserTest {
         Test.startTest();
         try {
             intermediary = parser.parse('WHERE CreatedDate = TODAY');
-        } catch(Exception e) {
+        } catch (Exception e) {
             ex = e;
         }
         Test.stopTest();
@@ -85,7 +84,7 @@ private class WhereParserTest {
         Test.startTest();
         try {
             parser.parse('WHERE CreatedDate = YESTERDAY');
-        } catch(Exception e) {
+        } catch (Exception e) {
             ex = e;
         }
         Test.stopTest();
@@ -101,7 +100,7 @@ private class WhereParserTest {
         Test.startTest();
         try {
             parser.parse('WHERE CreatedDate = TOMORROW');
-        } catch(Exception e) {
+        } catch (Exception e) {
             ex = e;
         }
         Test.stopTest();

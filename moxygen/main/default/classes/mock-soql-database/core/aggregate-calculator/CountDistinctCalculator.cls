@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description CountDistinctCalculator is a class that implements the IAggregateCalculator interface. It calculates the distinct count of a field. 
+ * @description CountDistinctCalculator is a class that implements the IAggregateCalculator interface. It calculates the distinct count of a field.
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -32,44 +32,45 @@ public with sharing class CountDistinctCalculator implements IAggregateCalculato
     AggregateCalculatorOptions options;
     /**
      * @description Constructor for the CountDistinctCalculator class.
-     * @param options 
+     * @param options
      */
     public CountDistinctCalculator(AggregateCalculatorOptions options) {
         this.options = options;
     }
 
     /**
-     * @description This method calculates the distinct count of a field. 
+     * @description This method calculates the distinct count of a field.
      * @return  `ProtoAggregate`
      */
     public ProtoAggregate calculate() {
-        return calculate(
-            options.aggregateResult,
-            options.alias,
-            options.value
-        );
+        return calculate(options.aggregateResult, options.alias, options.value);
     }
 
     /**
-     * @description Returns the distinct count of the records passed in as `aggregateResult` in options 
+     * @description Returns the distinct count of the records passed in as `aggregateResult` in options
      * @return  `Object`
      */
     public Object calculateForField() {
         return this.options.aggregateResult.getRecords().size();
     }
 
-    private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
-
+    private ProtoAggregate calculate(
+        ProtoAggregate aggregateResult,
+        String alias,
+        Object value
+    ) {
         Integer currValue = (Integer) aggregateResult.get(alias);
-        if(currValue == null) {
+        if (currValue == null) {
             currValue = 0;
         }
-        Set<Object> distinctValues = (Set<Object>) aggregateResult.get(alias + '__distinct');
-        if(distinctValues == null) {
+        Set<Object> distinctValues = (Set<Object>) aggregateResult.get(
+            alias + '__distinct'
+        );
+        if (distinctValues == null) {
             distinctValues = new Set<Object>();
         }
         aggregateResult.put(alias + '__distinct', distinctValues);
-        if(value != null) {
+        if (value != null) {
             distinctValues.add(value);
         }
         aggregateResult.put(alias, distinctValues.size());

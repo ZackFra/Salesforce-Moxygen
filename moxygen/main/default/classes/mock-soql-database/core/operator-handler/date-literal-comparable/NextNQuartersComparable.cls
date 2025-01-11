@@ -10,7 +10,8 @@ public with sharing class NextNQuartersComparable extends DateLiteralComparable 
      * @return  `Boolean`
      */
     public override Boolean isEqual(Datetime fieldValue) {
-        Datetime startOfNextQuarter = Gmt.startOfThisCalendarQuarter().addMonths(3);
+        Datetime startOfNextQuarter = Gmt.startOfThisCalendarQuarter()
+            .addMonths(3);
         String nQuarters = this.token.split(':')[1];
         Integer nQuartersInt = Integer.valueOf(nQuarters);
         Datetime nextNQuarters = startOfNextQuarter.addMonths(nQuartersInt * 3);
@@ -35,7 +36,8 @@ public with sharing class NextNQuartersComparable extends DateLiteralComparable 
     public override Boolean isGreaterThan(Datetime fieldValue) {
         String nQuarters = this.token.split(':')[1];
         Integer nQuartersInt = Integer.valueOf(nQuarters);
-        Datetime startOfNextQuarter = Gmt.startOfThisCalendarQuarter().addMonths(3);
+        Datetime startOfNextQuarter = Gmt.startOfThisCalendarQuarter()
+            .addMonths(3);
         Datetime nextNQuarters = startOfNextQuarter.addMonths(nQuartersInt * 3);
 
         return fieldValue >= nextNQuarters;

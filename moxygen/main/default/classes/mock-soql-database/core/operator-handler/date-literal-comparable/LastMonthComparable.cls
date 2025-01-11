@@ -1,5 +1,5 @@
 /**
- * @description Comparable class for LAST_MONTH 
+ * @description Comparable class for LAST_MONTH
  * @author Zackary Frazier
  * @since 12/29/2024
  */
@@ -11,7 +11,8 @@ public with sharing class LastMonthComparable extends DateLiteralComparable {
      */
     public override Boolean isEqual(DateTime fieldValue) {
         DateTime startOfMonth = Gmt.today().toStartOfMonth().addMonths(-1);
-        return startOfMonth <= fieldValue && fieldValue < startOfMonth.addMonths(1);
+        return startOfMonth <= fieldValue &&
+            fieldValue < startOfMonth.addMonths(1);
     }
 
     /**

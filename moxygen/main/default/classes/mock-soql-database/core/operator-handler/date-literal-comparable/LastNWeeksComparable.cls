@@ -1,5 +1,5 @@
 /**
- * @description Comparable class for LAST_N_WEEKS 
+ * @description Comparable class for LAST_N_WEEKS
  * @author Zackary Frazier
  * @since 12/29/2024
  */
@@ -11,8 +11,11 @@ public with sharing class LastNWeeksComparable extends DateLiteralComparable {
      */
     public override Boolean isEqual(DateTime fieldValue) {
         String nWeeks = this.token.split(':')[1];
-        DateTime lastNWeeks = Gmt.today().toStartOfWeek().addDays(-Integer.valueOf(nWeeks) * 7);
-        return lastNWeeks <= fieldValue && fieldValue < Gmt.today().toStartOfWeek();
+        DateTime lastNWeeks = Gmt.today()
+            .toStartOfWeek()
+            .addDays(-Integer.valueOf(nWeeks) * 7);
+        return lastNWeeks <= fieldValue &&
+            fieldValue < Gmt.today().toStartOfWeek();
     }
 
     /**
@@ -22,7 +25,9 @@ public with sharing class LastNWeeksComparable extends DateLiteralComparable {
      */
     public override Boolean isLessThan(DateTime fieldValue) {
         String nWeeks = this.token.split(':')[1];
-        DateTime lastNWeeks = Gmt.today().toStartOfWeek().addDays(-Integer.valueOf(nWeeks) * 7);
+        DateTime lastNWeeks = Gmt.today()
+            .toStartOfWeek()
+            .addDays(-Integer.valueOf(nWeeks) * 7);
         return fieldValue < lastNWeeks;
     }
 

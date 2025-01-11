@@ -2,25 +2,60 @@
 public with sharing class DynamicCastTest {
     @IsTest
     static void testCastTo() {
-        Assert.areEqual('1', DynamicCast.castTo(ApexTypes.XSTRING, 1), 'Incorrect cast to String');
-        Assert.areEqual(1, DynamicCast.castTo(ApexTypes.XINTEGER, '1'), 'Incorrect cast to Integer');
-        Assert.areEqual(1.0, DynamicCast.castTo(ApexTypes.XDOUBLE, '1'), 'Incorrect cast to Double');
-        Assert.areEqual(1.0, DynamicCast.castTo(ApexTypes.XDECIMAL, '1'), 'Incorrect cast to Decimal');
+        Assert.areEqual(
+            '1',
+            DynamicCast.castTo(ApexTypes.XSTRING, 1),
+            'Incorrect cast to String'
+        );
+        Assert.areEqual(
+            1,
+            DynamicCast.castTo(ApexTypes.XINTEGER, '1'),
+            'Incorrect cast to Integer'
+        );
+        Assert.areEqual(
+            1.0,
+            DynamicCast.castTo(ApexTypes.XDOUBLE, '1'),
+            'Incorrect cast to Double'
+        );
+        Assert.areEqual(
+            1.0,
+            DynamicCast.castTo(ApexTypes.XDECIMAL, '1'),
+            'Incorrect cast to Decimal'
+        );
 
-        Assert.areEqual(true, DynamicCast.castTo(ApexTypes.XBOOLEAN, 'true'), 'Incorrect cast to Boolean');
-        Assert.areEqual('1', DynamicCast.castTo(ApexTypes.XOBJECT, '1'), 'Incorrect cast to Object');
+        Assert.areEqual(
+            true,
+            DynamicCast.castTo(ApexTypes.XBOOLEAN, 'true'),
+            'Incorrect cast to Boolean'
+        );
+        Assert.areEqual(
+            '1',
+            DynamicCast.castTo(ApexTypes.XOBJECT, '1'),
+            'Incorrect cast to Object'
+        );
     }
 
     @IsTest
     static void testCastToWithDate() {
         Date d = GMT.today();
-        Assert.areEqual(d, DynamicCast.castTo(ApexTypes.XDATE, Common.dateToSoqlString(d)), 'Incorrect cast to Date');
+        Assert.areEqual(
+            d,
+            DynamicCast.castTo(ApexTypes.XDATE, Common.dateToSoqlString(d)),
+            'Incorrect cast to Date'
+        );
     }
 
     @IsTest
     static void testCastToWithDateTime() {
         DateTime dt = GMT.now();
-        Assert.areEqual(dt, DynamicCast.castTo(ApexTypes.XDATETIME, Common.dateTimeToApexString(dt)), 'Incorrect cast to DateTime');
+        Assert.areEqual(
+            dt,
+            DynamicCast.castTo(
+                ApexTypes.XDATETIME,
+                Common.dateTimeToApexString(dt)
+            ),
+            'Incorrect cast to DateTime'
+        );
     }
 
     @IsTest
@@ -30,7 +65,7 @@ public with sharing class DynamicCastTest {
         try {
             DynamicCast.castTo(ApexTypes.XNULL, '1');
             Assert.fail('Expected exception');
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             isExceptionThrown = true;
         }
         Test.stopTest();

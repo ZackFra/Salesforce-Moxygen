@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Handles the LIKE operator 
+ * @description Handles the LIKE operator
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -36,9 +36,9 @@ public class LikeHandler implements IOperatorHandler {
      * @return  `Boolean`
      */
     public Boolean handle(Object sObjectFieldValue, Object fieldValue) {
-        if(sObjectFieldValue == null) {
+        if (sObjectFieldValue == null) {
             return false;
-        } else if(fieldValue == null) {
+        } else if (fieldValue == null) {
             throw new QueryException('invalid operator');
         }
 
@@ -47,7 +47,9 @@ public class LikeHandler implements IOperatorHandler {
             .replaceAll('%', '.*')
             .replaceAll('_', '.');
         Pattern regex = Pattern.compile(regexPattern);
-        Matcher regexMatcher = regex.matcher(String.valueOf(sObjectFieldValue).toLowerCase());
+        Matcher regexMatcher = regex.matcher(
+            String.valueOf(sObjectFieldValue).toLowerCase()
+        );
         return regexMatcher.matches();
     }
 }

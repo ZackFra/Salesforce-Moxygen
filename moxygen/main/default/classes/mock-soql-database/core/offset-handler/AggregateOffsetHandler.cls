@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Handler for offsetting aggregate results 
+ * @description Handler for offsetting aggregate results
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -47,8 +47,10 @@ public with sharing class AggregateOffsetHandler implements IOffsetHandler {
         Integer offset = options.offset;
         Object obj = options.obj;
 
-        List<ProtoAggregate> aggrResults = new List<ProtoAggregate>((List<ProtoAggregate>) obj);
-        while(offset > 0) {
+        List<ProtoAggregate> aggrResults = new List<ProtoAggregate>(
+            (List<ProtoAggregate>) obj
+        );
+        while (offset > 0) {
             aggrResults.remove(0);
             offset--;
         }

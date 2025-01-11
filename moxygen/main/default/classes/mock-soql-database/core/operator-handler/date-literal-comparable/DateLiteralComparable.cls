@@ -4,11 +4,10 @@
  * @since 12/28/2024
  */
 public abstract class DateLiteralComparable {
-
     /**
      * @description The token for the date literal
      */
-    public String token {get; private set;}
+    public String token { get; private set; }
 
     /**
      * @description Whether the date literal is equal to the field value
@@ -56,7 +55,7 @@ public abstract class DateLiteralComparable {
     public Boolean isNotEqual(DateTime fieldValue) {
         return !isEqual(fieldValue);
     }
-    
+
     /**
      * @description Sets the token for the date literal
      * @param token `String`

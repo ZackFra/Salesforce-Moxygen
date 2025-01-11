@@ -1,5 +1,5 @@
 /**
- * @description A class that contains the names of the Apex types. 
+ * @description A class that contains the names of the Apex types.
  * @author Zackary Frazier
  * @since 11/16/2024
  */

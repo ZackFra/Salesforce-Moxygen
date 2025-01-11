@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,11 +23,11 @@
  *
  */
 
- /**
-  * @description This class is responsible for parsing a field from a query string. 
-  * @author Zackary Frazier
-  * @since 4/12/2024
-  */
+/**
+ * @description This class is responsible for parsing a field from a query string.
+ * @author Zackary Frazier
+ * @since 4/12/2024
+ */
 public inherited sharing class FieldParser extends SubParser {
     /**
      * @description Parses a field from a query string.
@@ -39,7 +39,7 @@ public inherited sharing class FieldParser extends SubParser {
         Map<String, String> dataMap = getFieldName(query);
         String fieldName = dataMap.get('fieldName');
         query = dataMap.get('subquery');
-        
+
         Node head = new NodeBuilder()
             .setId(fieldName)
             .setNodeType('field')

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,14 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
-*/
+ */
 
 @IsTest
 @SuppressWarnings('PMD.CyclomaticComplexity')
 private class MockSelectorTest {
     @IsTest
     private static void testSelectQueryWithMockDatabase() {
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -38,7 +37,9 @@ private class MockSelectorTest {
 
         DML.doInsert(accounts, true);
         Test.startTest();
-        List<Account> selectedAccounts = Selector.query('SELECT Id, Name FROM Account');
+        List<Account> selectedAccounts = Selector.query(
+            'SELECT Id, Name FROM Account'
+        );
         Test.stopTest();
         Assert.areEqual(
             10,
@@ -49,8 +50,6 @@ private class MockSelectorTest {
 
     @IsTest
     static void testSelectQueryWithBindsWithMockDatabase() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -61,8 +60,8 @@ private class MockSelectorTest {
         DML.doInsert(accounts, true);
         Test.startTest();
         List<Account> selectedAccounts = Selector.queryWithBinds(
-            'SELECT Id, Name FROM Account WHERE Name = :name', 
-            new Map<String, Object>{'name' => 'Test Account 1'},
+            'SELECT Id, Name FROM Account WHERE Name = :name',
+            new Map<String, Object>{ 'name' => 'Test Account 1' },
             AccessLevel.USER_MODE
         );
         Test.stopTest();
@@ -75,8 +74,6 @@ private class MockSelectorTest {
 
     @IsTest
     private static void testCountQueryWithMockDatabase() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -86,19 +83,19 @@ private class MockSelectorTest {
 
         DML.doInsert(accounts, true);
         Test.startTest();
-        Integer accountSize = Selector.countQuery('SELECT COUNT() FROM Account');
+        Integer accountSize = Selector.countQuery(
+            'SELECT COUNT() FROM Account'
+        );
         Test.stopTest();
         Assert.areEqual(
             10,
             accountSize,
             'The number of selected accounts should be 10'
-        );        
+        );
     }
 
     @IsTest
     private static void testCountQueryWithBindsWithMockDatabase() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -110,7 +107,7 @@ private class MockSelectorTest {
         Test.startTest();
         Integer accountSize = Selector.countQueryWithBinds(
             'SELECT COUNT() FROM Account WHERE Name = :name',
-            new Map<String, Object>{'name' => 'Test Account 1'},
+            new Map<String, Object>{ 'name' => 'Test Account 1' },
             AccessLevel.USER_MODE
         );
         Test.stopTest();
@@ -123,8 +120,6 @@ private class MockSelectorTest {
 
     @IsTest
     static void testAggregateQueryWithMockDatabase() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -135,7 +130,9 @@ private class MockSelectorTest {
 
         DML.doInsert(accounts, true);
         Test.startTest();
-        List<Aggregate> arList = Selector.aggregateQuery('SELECT SUM(AnnualRevenue) FROM Account');
+        List<Aggregate> arList = Selector.aggregateQuery(
+            'SELECT SUM(AnnualRevenue) FROM Account'
+        );
         Test.stopTest();
         Decimal totalRevenue = (Decimal) arList[0].get('expr0');
         Assert.areEqual(
@@ -147,8 +144,6 @@ private class MockSelectorTest {
 
     @IsTest
     static void testAggregateQueryWithBindsWithMockDatabase() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -161,22 +156,16 @@ private class MockSelectorTest {
         Test.startTest();
         List<Aggregate> arList = Selector.aggregateQueryWithBinds(
             'SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name',
-            new Map<String, Object>{'name' => 'Test Account 1'},
+            new Map<String, Object>{ 'name' => 'Test Account 1' },
             AccessLevel.USER_MODE
         );
         Test.stopTest();
         Decimal totalRevenue = (Decimal) arList[0].get('expr0');
-        Assert.areEqual(
-            1000,
-            totalRevenue,
-            'The total revenue should be 1000'
-        );
+        Assert.areEqual(1000, totalRevenue, 'The total revenue should be 1000');
     }
 
     @IsTest
     static void testWasCalled() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -197,8 +186,6 @@ private class MockSelectorTest {
 
     @IsTest
     static void testWasCalledWithQuery() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -219,8 +206,6 @@ private class MockSelectorTest {
 
     @IsTest
     static void testResetCallState() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -246,8 +231,6 @@ private class MockSelectorTest {
 
     @IsTest
     static void testRegisterFailedQuery() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -261,20 +244,15 @@ private class MockSelectorTest {
         Test.startTest();
         try {
             Selector.query('SELECT Id, Name FROM Account');
-        } catch(Exception e) {
+        } catch (Exception e) {
             isExceptionThrown = true;
         }
         Test.stopTest();
-        Assert.isTrue(
-            isExceptionThrown,
-            'Expected exception to be thrown'
-        );
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
     }
 
     @IsTest
     static void testRegisterAggregateQuery() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -284,15 +262,16 @@ private class MockSelectorTest {
         }
 
         DML.doInsert(accounts, true);
-        Selector.registerAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account', new List<Aggregate> {
-            new Aggregate(
-                new Map<String, Object> {
-                    'expr0' => 10000
-                }
-            )
-        });
+        Selector.registerAggregateQuery(
+            'SELECT SUM(AnnualRevenue) FROM Account',
+            new List<Aggregate>{
+                new Aggregate(new Map<String, Object>{ 'expr0' => 10000 })
+            }
+        );
         Test.startTest();
-        List<Aggregate> arList = Selector.aggregateQuery('SELECT SUM(AnnualRevenue) FROM Account');
+        List<Aggregate> arList = Selector.aggregateQuery(
+            'SELECT SUM(AnnualRevenue) FROM Account'
+        );
         Test.stopTest();
         Decimal totalRevenue = (Decimal) arList[0].get('expr0');
         Assert.areEqual(
@@ -304,8 +283,6 @@ private class MockSelectorTest {
 
     @IsTest
     static void testRegisterFailedAggregateQuery() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -315,25 +292,22 @@ private class MockSelectorTest {
         }
 
         DML.doInsert(accounts, true);
-        Selector.registerFailedAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account');
+        Selector.registerFailedAggregateQuery(
+            'SELECT SUM(AnnualRevenue) FROM Account'
+        );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
             Selector.aggregateQuery('SELECT SUM(AnnualRevenue) FROM Account');
-        } catch(Exception e) {
+        } catch (Exception e) {
             isExceptionThrown = true;
         }
         Test.stopTest();
-        Assert.isTrue(
-            isExceptionThrown,
-            'Expected exception to be thrown'
-        );
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
     }
 
     @IsTest
     static void testRegisterCountQuery() {
-
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -344,7 +318,9 @@ private class MockSelectorTest {
         DML.doInsert(accounts, true);
         Selector.registerCountQuery('SELECT COUNT() FROM Account', 10);
         Test.startTest();
-        Integer accountSize = Selector.countQuery('SELECT COUNT() FROM Account');
+        Integer accountSize = Selector.countQuery(
+            'SELECT COUNT() FROM Account'
+        );
         Test.stopTest();
         Assert.areEqual(
             10,
@@ -355,26 +331,20 @@ private class MockSelectorTest {
 
     @IsTest
     static void testRegisterFailedCountQuery() {
-
-
         Selector.registerFailedCountQuery('SELECT COUNT() FROM Account');
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
             Selector.countQuery('SELECT COUNT() FROM Account');
-        } catch(Exception e) {
+        } catch (Exception e) {
             isExceptionThrown = true;
         }
         Test.stopTest();
-        Assert.isTrue(
-            isExceptionThrown,
-            'Expected exception to be thrown'
-        );
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
     }
 
     @IsTest
     static void testQueryWithAccessLevel() {
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -394,7 +364,6 @@ private class MockSelectorTest {
 
     @IsTest
     static void testQueryAggregateWithAccessLevel() {
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -403,15 +372,17 @@ private class MockSelectorTest {
             accounts.add(a);
         }
         DML.doInsert(accounts, true);
-        Selector.registerAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account', new List<Aggregate> {
-            new Aggregate(
-                new Map<String, Object> {
-                    'expr0' => 10000
-                }
-            )
-        });
+        Selector.registerAggregateQuery(
+            'SELECT SUM(AnnualRevenue) FROM Account',
+            new List<Aggregate>{
+                new Aggregate(new Map<String, Object>{ 'expr0' => 10000 })
+            }
+        );
         Test.startTest();
-        Selector.aggregateQuery('SELECT SUM(AnnualRevenue) FROM Account', AccessLevel.USER_MODE);
+        Selector.aggregateQuery(
+            'SELECT SUM(AnnualRevenue) FROM Account',
+            AccessLevel.USER_MODE
+        );
         Test.stopTest();
         Assert.isTrue(
             Selector.calledAnyQuery(),
@@ -421,7 +392,6 @@ private class MockSelectorTest {
 
     @IsTest
     static void testCountQueryWithAccessLevel() {
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -431,7 +401,10 @@ private class MockSelectorTest {
         DML.doInsert(accounts, true);
         Selector.registerCountQuery('SELECT COUNT() FROM Account', 10);
         Test.startTest();
-        Selector.countQuery('SELECT COUNT() FROM Account', AccessLevel.USER_MODE);
+        Selector.countQuery(
+            'SELECT COUNT() FROM Account',
+            AccessLevel.USER_MODE
+        );
         Test.stopTest();
         Assert.isTrue(
             Selector.calledAnyQuery(),
@@ -441,29 +414,26 @@ private class MockSelectorTest {
 
     @IsTest
     static void testAggregateQueryWithBindsFail() {
-
         Boolean isExceptionThrown = false;
-        Selector.registerFailedAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name');
+        Selector.registerFailedAggregateQuery(
+            'SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name'
+        );
         Test.startTest();
         try {
             Selector.aggregateQueryWithBinds(
                 'SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name',
-                new Map<String, Object>{'name' => 'Test Account 1'},
+                new Map<String, Object>{ 'name' => 'Test Account 1' },
                 AccessLevel.USER_MODE
             );
-        } catch(Exception e) {
+        } catch (Exception e) {
             isExceptionThrown = true;
         }
         Test.stopTest();
-        Assert.isTrue(
-            isExceptionThrown,
-            'Expected exception to be thrown'
-        );
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
     }
 
     @IsTest
     static void testAggregateQueryWithBindsWithRegisteredQuery() {
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -472,31 +442,25 @@ private class MockSelectorTest {
             accounts.add(a);
         }
         DML.doInsert(accounts, true);
-        Selector.registerAggregateQuery('SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name', new List<Aggregate> {
-            new Aggregate(
-                new Map<String, Object> {
-                    'expr0' => 1000
-                }
-            )
-        });
+        Selector.registerAggregateQuery(
+            'SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name',
+            new List<Aggregate>{
+                new Aggregate(new Map<String, Object>{ 'expr0' => 1000 })
+            }
+        );
         Test.startTest();
         List<Aggregate> arList = Selector.aggregateQueryWithBinds(
             'SELECT SUM(AnnualRevenue) FROM Account WHERE Name = :name',
-            new Map<String, Object>{'name' => 'Test Account 1'},
+            new Map<String, Object>{ 'name' => 'Test Account 1' },
             AccessLevel.USER_MODE
         );
         Test.stopTest();
         Decimal totalRevenue = (Decimal) arList[0].get('expr0');
-        Assert.areEqual(
-            1000,
-            totalRevenue,
-            'The total revenue should be 1000'
-        );
+        Assert.areEqual(1000, totalRevenue, 'The total revenue should be 1000');
     }
 
     @IsTest
     static void testQueryWithBindsWithRegisteredQuery() {
-
         List<Account> accounts = new List<Account>();
         for (Integer i = 0; i < 10; i++) {
             Account a = new Account();
@@ -504,15 +468,14 @@ private class MockSelectorTest {
             accounts.add(a);
         }
         DML.doInsert(accounts, true);
-        Selector.registerQuery('SELECT Id, Name FROM Account WHERE Name = :name',
-            new List<Account> {
-                accounts[1]
-            }
+        Selector.registerQuery(
+            'SELECT Id, Name FROM Account WHERE Name = :name',
+            new List<Account>{ accounts[1] }
         );
         Test.startTest();
         List<Account> selectedAccounts = Selector.queryWithBinds(
-            'SELECT Id, Name FROM Account WHERE Name = :name', 
-            new Map<String, Object>{'name' => 'Test Account 1'},
+            'SELECT Id, Name FROM Account WHERE Name = :name',
+            new Map<String, Object>{ 'name' => 'Test Account 1' },
             AccessLevel.USER_MODE
         );
         Test.stopTest();
@@ -525,34 +488,34 @@ private class MockSelectorTest {
 
     @IsTest
     static void testQueryWithBindsWithRegisterFailedQuery() {
-
-        Selector.registerFailedQuery('SELECT Id, Name FROM Account WHERE Name = :name');
+        Selector.registerFailedQuery(
+            'SELECT Id, Name FROM Account WHERE Name = :name'
+        );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
             Selector.queryWithBinds(
-                'SELECT Id, Name FROM Account WHERE Name = :name', 
-                new Map<String, Object>{'name' => 'Test Account 1'},
+                'SELECT Id, Name FROM Account WHERE Name = :name',
+                new Map<String, Object>{ 'name' => 'Test Account 1' },
                 AccessLevel.USER_MODE
             );
-        } catch(Exception e) {
+        } catch (Exception e) {
             isExceptionThrown = true;
         }
         Test.stopTest();
-        Assert.isTrue(
-            isExceptionThrown,
-            'Expected exception to be thrown'
-        );
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
     }
 
     @IsTest
     static void testCountQueryWithBindsWithRegisteredQuery() {
-
-        Selector.registerCountQuery('SELECT COUNT() FROM Account WHERE Name = :name', 1);
+        Selector.registerCountQuery(
+            'SELECT COUNT() FROM Account WHERE Name = :name',
+            1
+        );
         Test.startTest();
         Integer accountSize = Selector.countQueryWithBinds(
             'SELECT COUNT() FROM Account WHERE Name = :name',
-            new Map<String, Object>{'name' => 'Test Account 1'},
+            new Map<String, Object>{ 'name' => 'Test Account 1' },
             AccessLevel.USER_MODE
         );
         Test.stopTest();
@@ -565,23 +528,21 @@ private class MockSelectorTest {
 
     @IsTest
     static void testCountQueryWithBindsWithRegisterFailedQuery() {
-
-        Selector.registerFailedCountQuery('SELECT COUNT() FROM Account WHERE Name = :name');
+        Selector.registerFailedCountQuery(
+            'SELECT COUNT() FROM Account WHERE Name = :name'
+        );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
             Selector.countQueryWithBinds(
                 'SELECT COUNT() FROM Account WHERE Name = :name',
-                new Map<String, Object>{'name' => 'Test Account 1'},
+                new Map<String, Object>{ 'name' => 'Test Account 1' },
                 AccessLevel.USER_MODE
             );
-        } catch(Exception e) {
+        } catch (Exception e) {
             isExceptionThrown = true;
         }
         Test.stopTest();
-        Assert.isTrue(
-            isExceptionThrown,
-            'Expected exception to be thrown'
-        );
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
     }
 }

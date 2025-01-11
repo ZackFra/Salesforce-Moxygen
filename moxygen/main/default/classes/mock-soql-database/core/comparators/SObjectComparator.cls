@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -44,11 +44,11 @@ public with sharing class SObjectComparator implements Comparator<SObject> {
         String fieldApiName = fieldData.get('fieldApiName');
 
         Object fieldValue;
-        if(relationshipName != null) {
+        if (relationshipName != null) {
             List<String> fieldParts = relationshipName.split('\\.');
-            String field = fieldParts[fieldParts.size()-1];
+            String field = fieldParts[fieldParts.size() - 1];
             SObject parentRecord = sObj;
-            for(Integer i = 0; i < fieldParts.size()-1; i++) {
+            for (Integer i = 0; i < fieldParts.size() - 1; i++) {
                 String part = fieldParts[i];
                 parentRecord = parentRecord.getSObject(part);
             }
@@ -61,7 +61,7 @@ public with sharing class SObjectComparator implements Comparator<SObject> {
     }
 
     /**
-     * @description Check for null values and return the appropriate result, 
+     * @description Check for null values and return the appropriate result,
      *              returns null if both are not null
      * @param a The first value
      * @param b The second value
@@ -72,17 +72,17 @@ public with sharing class SObjectComparator implements Comparator<SObject> {
         Boolean isANull = (a == null);
         Boolean isBNull = (b == null);
         Boolean isNullDirFirst = (nullDir == 'first');
-        
+
         Integer nullFirstAdjustment = 1;
-        if(!isNullDirFirst) {
+        if (!isNullDirFirst) {
             nullFirstAdjustment = -1;
         }
 
-        if(isANull && isBNull) {
+        if (isANull && isBNull) {
             return 0;
-        } else if(isANull && !isBNull) {
+        } else if (isANull && !isBNull) {
             return -1 * nullFirstAdjustment;
-        } else if(!isANull && isBNull) {
+        } else if (!isANull && isBNull) {
             return 1 * nullFirstAdjustment;
         }
 
@@ -90,7 +90,7 @@ public with sharing class SObjectComparator implements Comparator<SObject> {
     }
 
     private Integer adjustForOrder(Integer result, String order) {
-        if(order == 'desc') {
+        if (order == 'desc') {
             return result * -1;
         } else {
             return result;
@@ -114,20 +114,23 @@ public with sharing class SObjectComparator implements Comparator<SObject> {
             Object aFieldValue = getFieldValue(a, fieldData);
             Object bFieldValue = getFieldValue(b, fieldData);
 
-
             if (aFieldValue != bFieldValue) {
                 ObjectComparator comparator = new ObjectComparator();
                 Integer result;
 
-                Integer nullResult = checkForNull(aFieldValue, bFieldValue, nullDir);
-                if(nullResult != null && nullResult != 0) {
+                Integer nullResult = checkForNull(
+                    aFieldValue,
+                    bFieldValue,
+                    nullDir
+                );
+                if (nullResult != null && nullResult != 0) {
                     return nullResult;
-                } else if(nullResult == 0) {
+                } else if (nullResult == 0) {
                     continue;
                 }
 
                 result = comparator.compare(aFieldValue, bFieldValue);
-                if(result == 0) {
+                if (result == 0) {
                     continue;
                 }
                 result = adjustForOrder(result, order);

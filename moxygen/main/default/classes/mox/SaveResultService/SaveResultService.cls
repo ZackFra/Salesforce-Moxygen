@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
-*/
+ */
 
 /**
  * @description This class is used to create success and failure results for DML operations.
@@ -36,7 +36,7 @@ public inherited sharing class SaveResultService {
      */
     public Object createSuccess(Id recordId, Type resultType) {
         String serializedResult = '{"success":true,';
-        if(resultType == Database.UpsertResult.class) {
+        if (resultType == Database.UpsertResult.class) {
             serializedResult += '"created":true,';
         }
         serializedResult += '"id":"' + recordId + '"}';
@@ -51,7 +51,7 @@ public inherited sharing class SaveResultService {
      */
     public Object createFailure(String message, Type resultType) {
         String serializedResult = '{"success": false,';
-        if(resultType == Database.UpsertResult.class) {
+        if (resultType == Database.UpsertResult.class) {
             serializedResult += '"created":false,';
         }
         serializedResult += '"errors":[{"message":"' + message + '"}]}';

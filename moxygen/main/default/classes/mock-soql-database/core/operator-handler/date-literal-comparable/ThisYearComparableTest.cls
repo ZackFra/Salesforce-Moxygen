@@ -1,6 +1,5 @@
 @isTest
 private class ThisYearComparableTest {
-
     @isTest
     static void ensureIsEqualWorks() {
         DateLiteralComparable thisYear = new ThisYearComparable();

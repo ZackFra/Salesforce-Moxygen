@@ -1,6 +1,5 @@
 @isTest
 private class EqualityHandlerTest {
-
     @IsTest
     static void ensureYesterdayIsEqualToYesterdayForDateTime() {
         EqualityHandler handler = new EqualityHandler();
@@ -11,12 +10,27 @@ private class EqualityHandlerTest {
         Test.startTest();
         try {
             result = handler.handle(dt, yesterdayAsString);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + dt + ' and ' + yesterdayAsString);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    dt +
+                    ' and ' +
+                    yesterdayAsString
+            );
         }
         Test.stopTest();
 
-        Assert.isTrue(result, 'Expected true but got ' + result + ' for ' + dt + ' and ' + yesterdayAsString);
+        Assert.isTrue(
+            result,
+            'Expected true but got ' +
+                result +
+                ' for ' +
+                dt +
+                ' and ' +
+                yesterdayAsString
+        );
     }
 
     @IsTest
@@ -29,12 +43,27 @@ private class EqualityHandlerTest {
         Test.startTest();
         try {
             result = handler.handle(dt, yesterdayAsString);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + dt + ' and ' + yesterdayAsString);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    dt +
+                    ' and ' +
+                    yesterdayAsString
+            );
         }
         Test.stopTest();
 
-        Assert.isTrue(result, 'Expected true but got ' + result + ' for ' + dt + ' and ' + yesterdayAsString);
+        Assert.isTrue(
+            result,
+            'Expected true but got ' +
+                result +
+                ' for ' +
+                dt +
+                ' and ' +
+                yesterdayAsString
+        );
     }
 
     @isTest
@@ -47,12 +76,27 @@ private class EqualityHandlerTest {
         Test.startTest();
         try {
             result = handler.handle(dt, todayAsString);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + dt + ' and ' + todayAsString);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    dt +
+                    ' and ' +
+                    todayAsString
+            );
         }
         Test.stopTest();
 
-        Assert.isTrue(result, 'Expected true but got ' + result + ' for ' + dt + ' and ' + todayAsString);
+        Assert.isTrue(
+            result,
+            'Expected true but got ' +
+                result +
+                ' for ' +
+                dt +
+                ' and ' +
+                todayAsString
+        );
     }
 
     @IsTest
@@ -65,19 +109,34 @@ private class EqualityHandlerTest {
         Test.startTest();
         try {
             result = handler.handle(dt, todayAsString);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + dt + ' and ' + todayAsString);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    dt +
+                    ' and ' +
+                    todayAsString
+            );
         }
         Test.stopTest();
 
-        Assert.isTrue(result, 'Expected true but got ' + result + ' for ' + dt + ' and ' + todayAsString);
+        Assert.isTrue(
+            result,
+            'Expected true but got ' +
+                result +
+                ' for ' +
+                dt +
+                ' and ' +
+                todayAsString
+        );
     }
 
     @isTest
     static void ensureThisWeekWorksWithRange() {
         EqualityHandler handler = new EqualityHandler();
         Date startOfWeek = GMT.today().toStartOfWeek();
-        for(Integer i =0; i < 6; i++) {
+        for (Integer i = 0; i < 6; i++) {
             DateLiteral fieldValue = new DateLiteral.Builder()
                 .setFieldValue(Token.THIS_WEEK_LITERAL)
                 .build();
@@ -85,10 +144,26 @@ private class EqualityHandlerTest {
             DateTime testedDateTime = Gmt.dateTime(testedDate);
 
             Boolean result = handler.handle(testedDate, fieldValue);
-            Assert.isTrue(result, 'Expected true but got ' + result + ' for ' + testedDate + ' and ' + Token.THIS_WEEK_LITERAL);
+            Assert.isTrue(
+                result,
+                'Expected true but got ' +
+                    result +
+                    ' for ' +
+                    testedDate +
+                    ' and ' +
+                    Token.THIS_WEEK_LITERAL
+            );
 
             result = handler.handle(testedDateTime, fieldValue);
-            Assert.isTrue(result, 'Expected true but got ' + result + ' for ' + testedDateTime + ' and ' + Token.THIS_WEEK_LITERAL);
+            Assert.isTrue(
+                result,
+                'Expected true but got ' +
+                    result +
+                    ' for ' +
+                    testedDateTime +
+                    ' and ' +
+                    Token.THIS_WEEK_LITERAL
+            );
         }
     }
 
@@ -101,10 +176,26 @@ private class EqualityHandlerTest {
         DateLiteral todayLiteral = new DateLiteral.Builder()
             .setFieldValue(Token.TODAY_LITERAL)
             .build();
-        
+
         Boolean result = handler.handle(today, todayLiteral);
-        Assert.isTrue(result, 'Expected true but got ' + result + ' for ' + today + ' and ' + Token.TODAY_LITERAL);
+        Assert.isTrue(
+            result,
+            'Expected true but got ' +
+                result +
+                ' for ' +
+                today +
+                ' and ' +
+                Token.TODAY_LITERAL
+        );
         result = handler.handle(now, todayLiteral);
-        Assert.isTrue(result, 'Expected true but got ' + result + ' for ' + now + ' and ' + Token.TODAY_LITERAL);
+        Assert.isTrue(
+            result,
+            'Expected true but got ' +
+                result +
+                ' for ' +
+                now +
+                ' and ' +
+                Token.TODAY_LITERAL
+        );
     }
 }

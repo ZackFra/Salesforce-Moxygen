@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
-*/
+ */
 
 /**
  * @description This class is response for handling SOQL queries to the mock database
@@ -59,7 +59,11 @@ public inherited sharing class MockDatabaseSOQLHandler {
      * @param accessLevel `System.AccessLevel`
      * @return  `List<SObject>`
      */
-    public List<SObject> queryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
+    public List<SObject> queryWithBinds(
+        String query,
+        Map<String, Object> binds,
+        System.AccessLevel accessLevel
+    ) {
         return recordQueryHandler.queryWithBinds(query, binds, accessLevel);
     }
 
@@ -89,7 +93,11 @@ public inherited sharing class MockDatabaseSOQLHandler {
      * @param accessLevel `System.AccessLevel`
      * @return  `Integer`
      */
-    public Integer countQueryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
+    public Integer countQueryWithBinds(
+        String query,
+        Map<String, Object> binds,
+        System.AccessLevel accessLevel
+    ) {
         return countQueryHandler.countQueryWithBinds(query, binds, accessLevel);
     }
 
@@ -108,7 +116,10 @@ public inherited sharing class MockDatabaseSOQLHandler {
      * @param accessLevel `System.AccessLevel`
      * @return  `List<Aggregate>`
      */
-    public List<Aggregate> aggregateQuery(String query, System.AccessLevel accessLevel) {
+    public List<Aggregate> aggregateQuery(
+        String query,
+        System.AccessLevel accessLevel
+    ) {
         return aggregateQueryHandler.aggregateQuery(query, accessLevel);
     }
 
@@ -119,8 +130,16 @@ public inherited sharing class MockDatabaseSOQLHandler {
      * @param accessLevel `System.AccessLevel`
      * @return  `List<Aggregate>`
      */
-    public List<Aggregate> aggregateQueryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
-        return aggregateQueryHandler.aggregateQueryWithBinds(query, binds, accessLevel);
+    public List<Aggregate> aggregateQueryWithBinds(
+        String query,
+        Map<String, Object> binds,
+        System.AccessLevel accessLevel
+    ) {
+        return aggregateQueryHandler.aggregateQueryWithBinds(
+            query,
+            binds,
+            accessLevel
+        );
     }
 
     /**
@@ -129,7 +148,10 @@ public inherited sharing class MockDatabaseSOQLHandler {
      * @param params `Map<String, Object>`
      * @return  `List<SObject>`
      */
-    public List<SObject> doSelectQueryInternal(Node head, Map<String, Object> params) {
+    public List<SObject> doSelectQueryInternal(
+        Node head,
+        Map<String, Object> params
+    ) {
         return recordQueryHandler.doQuery(head, params);
     }
 }

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -30,7 +30,6 @@
  */
 @SuppressWarnings('PMD.CognitiveComplexity')
 public abstract class SubParser {
-
     protected String tkn;
 
     /**
@@ -58,7 +57,11 @@ public abstract class SubParser {
         return ParserUtils.lookahead(query, numChars);
     }
 
-    protected String lookahead(String query, Integer numChars, Boolean isCaseSensitive) {
+    protected String lookahead(
+        String query,
+        Integer numChars,
+        Boolean isCaseSensitive
+    ) {
         return ParserUtils.lookahead(query, numChars, isCaseSensitive);
     }
 
@@ -72,9 +75,13 @@ public abstract class SubParser {
 
     protected Boolean isSubField(String query) {
         Boolean isLongEnough = (query.length() >= 3);
-        Boolean isValidChar = isLongEnough && ParserUtils.validCharForFieldOrObject(query.subString(0, 1));
+        Boolean isValidChar =
+            isLongEnough &&
+            ParserUtils.validCharForFieldOrObject(query.subString(0, 1));
         Boolean isDot = isValidChar && query.subString(1, 2) == '.';
-        Boolean isSubField = isDot && ParserUtils.validCharForFieldOrObject(query.subString(2, 3));
+        Boolean isSubField =
+            isDot &&
+            ParserUtils.validCharForFieldOrObject(query.subString(2, 3));
         return isSubField;
     }
 
@@ -85,11 +92,11 @@ public abstract class SubParser {
     protected Map<String, String> getFieldName(String query) {
         query = skipWhitespace(query);
         String fieldName = '';
-        while(query.length() != 0 && 
-              isNextTokenFieldOrObject(query) ||
-              isSubField(query)) {
-
-            if(isSubField(query)) {
+        while (
+            query.length() != 0 && isNextTokenFieldOrObject(query) ||
+            isSubField(query)
+        ) {
+            if (isSubField(query)) {
                 fieldName += lookahead(query, 3);
                 query = query.subString(3);
             } else {
@@ -97,12 +104,12 @@ public abstract class SubParser {
                 query = query.subString(1);
             }
         }
-        
-        if(fieldName.isNumeric()) {
+
+        if (fieldName.isNumeric()) {
             throw new ParsingException(fieldName, 'field name');
         }
 
-        Map<String, String> dataMap = new Map<String, String> {
+        Map<String, String> dataMap = new Map<String, String>{
             'fieldName' => fieldName,
             'subquery' => query
         };
@@ -112,11 +119,13 @@ public abstract class SubParser {
     protected Boolean isAggregateFunc(String query) {
         query = skipWhitespace(query);
         Boolean isLongEnough = (query.length() >= 3);
-        if(!isLongEnough) {
+        if (!isLongEnough) {
             return false;
         }
-        for(String aggregateFunc : AggregateService.SUPPORTED_AGGREGATE_FUNCS) {
-            if(isNext(query, aggregateFunc)) {
+        for (
+            String aggregateFunc : AggregateService.SUPPORTED_AGGREGATE_FUNCS
+        ) {
+            if (isNext(query, aggregateFunc)) {
                 return true;
             }
         }
@@ -129,8 +138,8 @@ public abstract class SubParser {
 
     protected Boolean isProtectedKeyword(String query) {
         query = skipWhitespace(query);
-        for(String keyword : Token.PROTECTED_KEYWORDS) {
-            if(isNext(query, keyword)) {
+        for (String keyword : Token.PROTECTED_KEYWORDS) {
+            if (isNext(query, keyword)) {
                 return true;
             }
         }

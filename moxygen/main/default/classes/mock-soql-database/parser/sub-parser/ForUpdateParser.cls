@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description This class is responsible for parsing the FOR UPDATE clause in a SOQL query 
+ * @description This class is responsible for parsing the FOR UPDATE clause in a SOQL query
  * @author Zackary Frazier
  * @since 4/12/2024
  */
@@ -36,22 +36,22 @@ public inherited sharing class ForUpdateParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(query.length() == 0 || query.length() < 3) { 
+        if (query.length() == 0 || query.length() < 3) {
             return null;
         }
-        if(lookahead(query, 3) != 'for') {
+        if (lookahead(query, 3) != 'for') {
             return null;
         }
-        
+
         query = query.subString(3);
         query = skipWhitespace(query);
         query = consume(query, 'update');
-        
+
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId('for update')
-            	.setNodeType('for update')
-            	.build(),
+            new NodeBuilder()
+                .setId('for update')
+                .setNodeType('for update')
+                .build(),
             query
         );
     }

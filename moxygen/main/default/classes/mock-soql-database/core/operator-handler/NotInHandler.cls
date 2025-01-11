@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Handles the NotIn operator 
+ * @description Handles the NotIn operator
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -36,15 +36,15 @@ public class NotInHandler implements IOperatorHandler {
      * @return  `Boolean`
      */
     public Boolean handle(Object sObjectFieldValue, Object fieldValue) {
-        if(sObjectFieldValue == null) {
+        if (sObjectFieldValue == null) {
             return false;
-        } else if(fieldValue == null) {
+        } else if (fieldValue == null) {
             throw new QueryException('invalid operator');
         }
 
         List<Object> values = (List<Object>) fieldValue;
-        for(Integer i = 0; i < values.size(); i++) {
-            if(values[i] instanceof String) {
+        for (Integer i = 0; i < values.size(); i++) {
+            if (values[i] instanceof String) {
                 values[i] = (Object) ((String) values[i]).toLowerCase();
             }
         }

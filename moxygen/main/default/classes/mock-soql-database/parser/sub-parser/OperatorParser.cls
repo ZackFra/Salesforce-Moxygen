@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,12 +24,11 @@
  */
 
 /**
- * @description This class is responsible for parsing operators in the query string. 
+ * @description This class is responsible for parsing operators in the query string.
  * @author Zackary Frazier
  * @since 4/12/2024
  */
 public inherited sharing class OperatorParser extends SubParser {
-
     /**
      * @description Parses the operator from the query string.
      * @param query `String`
@@ -38,9 +37,8 @@ public inherited sharing class OperatorParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        NodeBuilder nb = new NodeBuilder()
-            .setNodeType('operator');
-        List<String> opTokens = new List<String> {
+        NodeBuilder nb = new NodeBuilder().setNodeType('operator');
+        List<String> opTokens = new List<String>{
             'includes',
             'excludes',
             'like',
@@ -54,14 +52,14 @@ public inherited sharing class OperatorParser extends SubParser {
             '>',
             '<'
         };
-        for(String token : opTokens) {
-            if(query.length() >= token.length() && lookahead(query, token.length()) == token) {
+        for (String token : opTokens) {
+            if (
+                query.length() >= token.length() &&
+                lookahead(query, token.length()) == token
+            ) {
                 nb.setId(token);
                 query = consume(query, token);
-                return new Intermediary(
-                    nb.build(),
-                    query
-                );
+                return new Intermediary(nb.build(), query);
             }
         }
         throw new ParsingException(query, null);

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -25,7 +25,6 @@
 
 @isTest
 private class SObjectComparatorTest {
-
     @isTest
     private static void testCompareEqual() {
         Map<String, Map<String, String>> fieldData;
@@ -42,7 +41,7 @@ private class SObjectComparatorTest {
         Account a1 = new Account(Name = 'Test Account');
         Account a2 = new Account(Name = 'Test Account');
         SObjectComparator comparator = new SObjectComparator(fieldData);
-        
+
         Test.startTest();
         Integer result = comparator.compare(a1, a2);
         Test.stopTest();
@@ -70,7 +69,7 @@ private class SObjectComparatorTest {
         Test.stopTest();
 
         Assert.isTrue(
-            result < 0, 
+            result < 0,
             'The first account should be less than the second'
         );
     }
@@ -95,7 +94,7 @@ private class SObjectComparatorTest {
         Test.stopTest();
 
         Assert.isTrue(
-            result > 0, 
+            result > 0,
             'The first account should be greater than the second'
         );
     }
@@ -120,7 +119,7 @@ private class SObjectComparatorTest {
         Test.stopTest();
 
         Assert.isTrue(
-            result < 0, 
+            result < 0,
             'The first account should be less than the second'
         );
     }
@@ -145,7 +144,7 @@ private class SObjectComparatorTest {
         Test.stopTest();
 
         Assert.isTrue(
-            result < 0, 
+            result < 0,
             'The first account should be less than the second'
         );
     }
@@ -187,13 +186,21 @@ private class SObjectComparatorTest {
         Account a1 = new Account(Name = 'Test Account');
         Account a2 = new Account(Name = 'Test Account');
 
-        MockDatabase.doInsert(new List<Account>{a1, a2}, true);
+        MockDatabase.doInsert(new List<Account>{ a1, a2 }, true);
 
-        Contact con1 = new Contact(LastName = 'Test Contact', AccountId = a1.Id);
-        Contact con2 = new Contact(LastName = 'Test Contact', AccountId = a2.Id);
-        MockDatabase.doInsert(new List<Contact>{con1, con2}, true);
+        Contact con1 = new Contact(
+            LastName = 'Test Contact',
+            AccountId = a1.Id
+        );
+        Contact con2 = new Contact(
+            LastName = 'Test Contact',
+            AccountId = a2.Id
+        );
+        MockDatabase.doInsert(new List<Contact>{ con1, con2 }, true);
 
-        List<Contact> queriedCons = (List<Contact>) MockDatabase.query('SELECT Account.Name FROM Contact');
+        List<Contact> queriedCons = (List<Contact>) MockDatabase.query(
+            'SELECT Account.Name FROM Contact'
+        );
 
         SObjectComparator comparator = new SObjectComparator(fieldData);
         Test.startTest();
@@ -202,5 +209,4 @@ private class SObjectComparatorTest {
 
         Assert.areEqual(0, result, 'The two contacts should be equal');
     }
-
 }

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Processor for aggregate functions 
+ * @description Processor for aggregate functions
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -33,19 +33,19 @@ public abstract class AggregateProcessor {
 
     /**
      * @description Process a record from the database
-     * @param databaseRecord 
+     * @param databaseRecord
      */
     public abstract void processRecord(SObject databaseRecord);
 
     /**
-     * @description Finish processing the records and return the aggregates 
+     * @description Finish processing the records and return the aggregates
      * @return  `List<ProtoAggregate>`
      */
     public abstract List<ProtoAggregate> finish();
 
     /**
      * @description Set the top level nodes to use for processing
-     * @param topLevelNodes 
+     * @param topLevelNodes
      * @return  `AggregateProcessor`
      */
     public AggregateProcessor setTopLevelNodes(TopLevelNodes topLevelNodes) {
@@ -55,16 +55,16 @@ public abstract class AggregateProcessor {
 
     /**
      * @description Calculate the aggregate for a given value
-     * @param currSelect 
-     * @param alias 
-     * @param aggregateResult 
-     * @param value 
+     * @param currSelect
+     * @param alias
+     * @param aggregateResult
+     * @param value
      * @return  `ProtoAggregate`
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
     protected ProtoAggregate calculateAggregate(
         Node currSelect,
-        String alias, 
+        String alias,
         ProtoAggregate aggregateResult,
         Object value
     ) {
@@ -73,8 +73,10 @@ public abstract class AggregateProcessor {
             .setAggregateResult(aggregateResult)
             .setValue(value);
 
-
-        IAggregateCalculator calculator = AggregateCalculatorFactory.getCalculator(currSelect.id, options);
+        IAggregateCalculator calculator = AggregateCalculatorFactory.getCalculator(
+            currSelect.id,
+            options
+        );
         return calculator.calculate();
     }
 }

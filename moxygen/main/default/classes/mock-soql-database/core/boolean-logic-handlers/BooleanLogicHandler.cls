@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -29,8 +29,7 @@
  * @since 3/23/2024
  */
 public virtual with sharing class BooleanLogicHandler {
-
-    /** 
+    /**
      * @description Parameters for bind variables in the query
      */
     public Map<String, Object> params;
@@ -71,7 +70,7 @@ public virtual with sharing class BooleanLogicHandler {
      * @return Whether the conditional expression is met
      */
     public Boolean evaluate() {
-        if(this.head == null) {
+        if (this.head == null) {
             return true;
         }
         return isConditionMet(head.left);
@@ -87,25 +86,18 @@ public virtual with sharing class BooleanLogicHandler {
         // override me
     }
 
-
     private Boolean isAndConditionMet(Node node) {
         Node leftNode = node.left;
         Node rightNode = node.right;
 
-        return (
-            isConditionMet(leftNode) &&
-            isConditionMet(rightNode)
-        );
+        return (isConditionMet(leftNode) && isConditionMet(rightNode));
     }
 
     private Boolean isOrConditionMet(Node node) {
         Node leftNode = node.left;
         Node rightNode = node.right;
 
-        return (
-            isConditionMet(leftNode) ||
-            isConditionMet(rightNode)
-        );
+        return (isConditionMet(leftNode) || isConditionMet(rightNode));
     }
 
     private Boolean isConditionalSubExprMet(Node node) {
@@ -113,15 +105,16 @@ public virtual with sharing class BooleanLogicHandler {
     }
 
     private Boolean isConditionMet(Node node) {
-        if(node.nodeType == 'operator') {
+        if (node.nodeType == 'operator') {
             return isCompareConditionMet(node);
-        } else if(node.nodeType == 'and') {
+        } else if (node.nodeType == 'and') {
             return isAndConditionMet(node);
-        } else if(node.nodeType == 'or') {
+        } else if (node.nodeType == 'or') {
             return isOrConditionMet(node);
-        } else if(node.nodeType == 'conditional subexpression') {
+        } else if (node.nodeType == 'conditional subexpression') {
             return isConditionalSubExprMet(node);
-        } if(node.nodeType == 'not') {
+        }
+        if (node.nodeType == 'not') {
             return !isConditionMet(node.left);
         }
 

@@ -1,5 +1,5 @@
 /**
- * @description Comparable class for TOMORROW 
+ * @description Comparable class for TOMORROW
  * @author Zackary Frazier
  * @since 12/29/2024
  */

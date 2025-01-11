@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -29,19 +29,18 @@
  * @since 3/23/2024
  */
 public with sharing class ParserUtils {
-
     /**
      * @description Skips whitespace in a query string
      * @param query `String`
      * @return  `String`
      */
     public static String skipWhitespace(String query) {
-        while(query.length() > 0 && query.substring(0, 1).isWhitespace()) {
+        while (query.length() > 0 && query.substring(0, 1).isWhitespace()) {
             query = query.subString(1);
         }
         return query;
     }
-    
+
     /**
      * @description Checks if a character is a valid character for a field or object name
      * @param character `String`
@@ -59,20 +58,23 @@ public with sharing class ParserUtils {
      * @throws ParsingException : if the token is not the first token in the query
      */
     public static String consume(String query, String token) {
-        if(query.length() < token.length() || query.subString(0, token.length()).toLowerCase() != token) {
+        if (
+            query.length() < token.length() ||
+            query.subString(0, token.length()).toLowerCase() != token
+        ) {
             throw new ParsingException(query, token);
         }
         return query.subString(token.length());
     }
 
-    /** 
+    /**
      * @description : Look ahead at the next numChars characters in the query
      * @param query : String, the query to look ahead in
      * @param numChars : Integer, the number of characters to look ahead
      * @return : String, the next numChars characters in the query
      */
     public static String lookahead(String query, Integer numChars) {
-        if(query.length() < numChars) { 
+        if (query.length() < numChars) {
             return query.toLowerCase();
         }
         return query.subString(0, numChars).toLowerCase();
@@ -85,27 +87,31 @@ public with sharing class ParserUtils {
      * @param isCaseSensitive `Boolean`
      * @return  `String`
      */
-    public static String lookahead(String query, Integer numChars, Boolean isCaseSensitive) {
-        if(!isCaseSensitive) {
+    public static String lookahead(
+        String query,
+        Integer numChars,
+        Boolean isCaseSensitive
+    ) {
+        if (!isCaseSensitive) {
             return lookahead(query, numChars);
         }
 
-        if(query.length() < numChars) { 
+        if (query.length() < numChars) {
             return query;
         }
         return query.subString(0, numChars);
     }
 
     /**
-     * @description Lowercases every node's id that isn't an alias 
+     * @description Lowercases every node's id that isn't an alias
      * @param head `Node`
      */
     public static void applyCasing(Node head) {
-        if(head == null) {
+        if (head == null) {
             return;
         }
 
-        if(head.nodeType != 'alias') {
+        if (head.nodeType != 'alias') {
             head.id = head.id.toLowerCase();
         }
 
@@ -120,7 +126,7 @@ public with sharing class ParserUtils {
      * @return  `Boolean`
      */
     public static Boolean isNext(String query, String token) {
-        return (query.length() >= token.length()) && 
+        return (query.length() >= token.length()) &&
             (lookahead(query, token.length()) == token);
     }
 }

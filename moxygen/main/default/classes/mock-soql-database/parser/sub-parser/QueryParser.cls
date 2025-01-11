@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -30,14 +30,15 @@
  */
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity')
 public inherited sharing class QueryParser extends SubParser {
-
     /**
      * @description Parses a SOQL query
-     * @param query 
+     * @param query
      * @return  `Intermediary`
      * @exception ParsingException
      */
-    @SuppressWarnings('PMD.StdCyclomaticComplexity, PMD.NcssMethodCount, PMD.CyclomaticComplexity')
+    @SuppressWarnings(
+        'PMD.StdCyclomaticComplexity, PMD.NcssMethodCount, PMD.CyclomaticComplexity'
+    )
     public override Intermediary parse(String query) {
         // NOTE: The order of the parsers is important, makes this hard to refactor further
 
@@ -46,21 +47,22 @@ public inherited sharing class QueryParser extends SubParser {
 
         Intermediary fromIntermediary = new FromParser().parse(query);
         query = fromIntermediary.subquery;
-        
+
         Intermediary nextLink = selectIntermediary;
 
         nextLink.head.right = fromIntermediary.head;
         nextLink = fromIntermediary;
 
         Intermediary scopeIntermediary = new ScopeParser().parse(query);
-        if(scopeIntermediary != null) {
+        if (scopeIntermediary != null) {
             query = scopeIntermediary.subquery;
             nextLink.head.right = scopeIntermediary.head;
             nextLink = scopeIntermediary;
         }
-        
-        Intermediary whereIntermediary = new WhereParser().parse(fromIntermediary.subquery);
-        if(whereIntermediary != null) {
+
+        Intermediary whereIntermediary = new WhereParser()
+            .parse(fromIntermediary.subquery);
+        if (whereIntermediary != null) {
             query = whereIntermediary.subquery;
             nextLink.head.right = whereIntermediary.head;
             nextLink = whereIntermediary;
@@ -68,44 +70,45 @@ public inherited sharing class QueryParser extends SubParser {
 
         // throws exception if WITH [DATA CATEGORY] is added to the query
         new WithDataCategoryParser().parse(query);
-        
+
         Intermediary groupByIntermediary = new GroupByParser().parse(query);
-        if(groupByIntermediary != null) {
+        if (groupByIntermediary != null) {
             query = groupByIntermediary.subquery;
             nextLink.head.right = groupByIntermediary.head;
             nextLink = groupByIntermediary;
 
             Intermediary havingIntermediary = new HavingParser().parse(query);
-            if(havingIntermediary != null) {
+            if (havingIntermediary != null) {
                 query = havingIntermediary.subquery;
                 nextLink.head.right = havingIntermediary.head;
                 nextLink = havingIntermediary;
             }
         }
-        
+
         Intermediary orderByIntermediary = new OrderByParser().parse(query);
-        if(orderByIntermediary != null) {
+        if (orderByIntermediary != null) {
             query = orderByIntermediary.subquery;
             nextLink.head.right = orderByIntermediary.head;
             nextLink = orderByIntermediary;
         }
-        
+
         Intermediary limitIntermediary = new LimitParser().parse(query);
-        if(limitIntermediary != null) {
+        if (limitIntermediary != null) {
             query = limitIntermediary.subquery;
             nextLink.head.right = limitIntermediary.head;
             nextLink = limitIntermediary;
         }
 
         Intermediary offsetIntermediary = new OffsetParser().parse(query);
-        if(offsetIntermediary != null) {
+        if (offsetIntermediary != null) {
             query = offsetIntermediary.subquery;
             nextLink.head.right = offsetIntermediary.head;
             nextLink = offsetIntermediary;
         }
 
-        Intermediary forViewOrReferenceIntermediary = new ForViewOrReferenceParser().parse(query);
-        if(forViewOrReferenceIntermediary != null) {
+        Intermediary forViewOrReferenceIntermediary = new ForViewOrReferenceParser()
+            .parse(query);
+        if (forViewOrReferenceIntermediary != null) {
             query = forViewOrReferenceIntermediary.subquery;
             nextLink.head.right = forViewOrReferenceIntermediary.head;
             nextLink = forViewOrReferenceIntermediary;
@@ -113,33 +116,42 @@ public inherited sharing class QueryParser extends SubParser {
 
         // will throw an exception if UPDATE TRACKING or UPDATE VIEWSTAT is added to the query
         new UpdateTrackingOrViewStatParser().parse(query);
-        
+
         Intermediary forUpdateIntermediary = new ForUpdateParser().parse(query);
-        if(forUpdateIntermediary != null) {
+        if (forUpdateIntermediary != null) {
             query = forUpdateIntermediary.subquery;
             nextLink.head.right = forUpdateIntermediary.head;
             nextLink = forUpdateIntermediary;
         }
-        
+
         // WITH SECURITY_ENFORCED is only allowed at the top level of a query
-        Intermediary withSecurityEnforcedIntermediary = new WithSecurityEnforcedParser().parse(query);
-        if(withSecurityEnforcedIntermediary != null) {
-            Boolean isTopLevelQuery = ((lookahead(withSecurityEnforcedIntermediary.subquery, 1).trim()) != '');
-            Boolean isSecurityEnforced = (withSecurityEnforcedIntermediary != null);
-            if(isSecurityEnforced && !isTopLevelQuery) {
-                throw new ParsingException(withSecurityEnforcedIntermediary.subquery, null);
+        Intermediary withSecurityEnforcedIntermediary = new WithSecurityEnforcedParser()
+            .parse(query);
+        if (withSecurityEnforcedIntermediary != null) {
+            Boolean isTopLevelQuery = ((lookahead(
+                    withSecurityEnforcedIntermediary.subquery,
+                    1
+                )
+                .trim()) != '');
+            Boolean isSecurityEnforced = (withSecurityEnforcedIntermediary !=
+            null);
+            if (isSecurityEnforced && !isTopLevelQuery) {
+                throw new ParsingException(
+                    withSecurityEnforcedIntermediary.subquery,
+                    null
+                );
             }
         }
 
         // head node, so to speak
         selectIntermediary.subquery = skipWhiteSpace(nextLink.subquery);
-		if(nextLink.subquery != '' && lookahead(nextLink.subquery, 1) != ')') {
+        if (nextLink.subquery != '' && lookahead(nextLink.subquery, 1) != ')') {
             throw new ParsingException(nextLink.subquery, null);
         }
 
         // just making sure everything is lowercase
         applyCasing(selectIntermediary.head);
-        
+
         return selectIntermediary;
     }
 }

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -34,7 +34,7 @@ public inherited sharing class LimitOptions {
     public Object obj;
 
     /**
-     * @description Setter for the type of query 
+     * @description Setter for the type of query
      * @param type `MockDatabase.Types.SOQL`
      * @return  `LimitOptions`
      */
@@ -62,7 +62,7 @@ public inherited sharing class LimitOptions {
     }
 
     /**
-     * @description Getter for the object to be used in the query 
+     * @description Getter for the object to be used in the query
      * @return  `Object`
      */
     public Object getObj() {
@@ -80,7 +80,7 @@ public inherited sharing class LimitOptions {
     }
 
     /**
-     * @description Getter for the limit size 
+     * @description Getter for the limit size
      * @return  `Integer`
      */
     public Integer getLimitSize() {

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,13 +24,13 @@
  */
 
 /**
- * @description Interface for handling select operations 
+ * @description Interface for handling select operations
  * @author Zackary Frazier
  * @since 3/23/2024
  */
 public interface ISelectHandler {
     /**
-     * @description Handles the select operation 
+     * @description Handles the select operation
      * @return  `SObject`
      */
     SObject handleSelect();

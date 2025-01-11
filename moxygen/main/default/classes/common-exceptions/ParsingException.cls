@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Custom exception for parsing errors 
+ * @description Custom exception for parsing errors
  * @author Zackary Frazier
  * @since 4/9/2024
  * @group Exceptions
@@ -36,10 +36,20 @@ public inherited sharing class ParsingException extends Exception {
      * @param expected : `String` the expected token
      */
     public ParsingException(String message, String expected) {
-        if(expected == null) {
-            this.setMessage('Unkown parsing exception, "' + message + '" could not be parsed.');
+        if (expected == null) {
+            this.setMessage(
+                'Unkown parsing exception, "' +
+                    message +
+                    '" could not be parsed.'
+            );
         } else {
-            this.setMessage('Parsing exception, expected "' + expected + '", instead saw "' + message + '".');
+            this.setMessage(
+                'Parsing exception, expected "' +
+                    expected +
+                    '", instead saw "' +
+                    message +
+                    '".'
+            );
         }
     }
 }

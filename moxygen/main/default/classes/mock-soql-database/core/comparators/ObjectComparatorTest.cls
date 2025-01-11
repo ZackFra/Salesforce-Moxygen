@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -25,7 +25,6 @@
 
 @isTest
 private class ObjectComparatorTest {
-
     @IsTest
     private static void testLeftNull() {
         ObjectComparator comparator = new ObjectComparator();
@@ -35,7 +34,7 @@ private class ObjectComparatorTest {
         Assert.areEqual(-1, results, 'The result should be -1');
     }
 
-    @IsTest 
+    @IsTest
     private static void testRightNull() {
         ObjectComparator comparator = new ObjectComparator();
         Test.startTest();
@@ -286,13 +285,14 @@ private class ObjectComparatorTest {
 
     @IsTest
     private static void testIdLessThan() {
-
         Integer sObjNum = 1;
         Schema.SObjectType sot = Account.sObjectType;
         String result = String.valueOf(sObjNum++);
-        Id a = (Id) (result + sot.getDescribe().getKeyPrefix().rightPad(15 - result.length(), '0'));
+        Id a = (Id) (result +
+        sot.getDescribe().getKeyPrefix().rightPad(15 - result.length(), '0'));
         result = String.valueOf(sObjNum++);
-        Id b = (Id) (result + sot.getDescribe().getKeyPrefix().rightPad(15 - result.length(), '0'));
+        Id b = (Id) (result +
+        sot.getDescribe().getKeyPrefix().rightPad(15 - result.length(), '0'));
 
         Test.startTest();
         ObjectComparator comparator = new ObjectComparator();
@@ -306,15 +306,17 @@ private class ObjectComparatorTest {
         Integer sObjNum = 1;
         Schema.SObjectType sot = Account.sObjectType;
         String result = String.valueOf(sObjNum++);
-        Id a = (Id) (result + sot.getDescribe().getKeyPrefix().rightPad(15 - result.length(), '0'));
+        Id a = (Id) (result +
+        sot.getDescribe().getKeyPrefix().rightPad(15 - result.length(), '0'));
         result = String.valueOf(sObjNum++);
-        Id b = (Id) (result + sot.getDescribe().getKeyPrefix().rightPad(15 - result.length(), '0'));
+        Id b = (Id) (result +
+        sot.getDescribe().getKeyPrefix().rightPad(15 - result.length(), '0'));
 
         Test.startTest();
         ObjectComparator comparator = new ObjectComparator();
         Test.stopTest();
         Integer results = (Integer) comparator.compare(b, a);
-        Assert.areEqual(1, results, 'The result should be 1');        
+        Assert.areEqual(1, results, 'The result should be 1');
     }
 
     @IsTest
@@ -322,13 +324,14 @@ private class ObjectComparatorTest {
         Integer sObjNum = 1;
         Schema.SObjectType sot = Account.sObjectType;
         String result = String.valueOf(sObjNum++);
-        Id a = (Id) (result + sot.getDescribe().getKeyPrefix().rightPad(15 - result.length(), '0'));
+        Id a = (Id) (result +
+        sot.getDescribe().getKeyPrefix().rightPad(15 - result.length(), '0'));
 
         Test.startTest();
         ObjectComparator comparator = new ObjectComparator();
         Test.stopTest();
         Integer results = (Integer) comparator.compare(a, a);
-        Assert.areEqual(0, results, 'The result should be 0');       
+        Assert.areEqual(0, results, 'The result should be 0');
     }
 
     @IsTest

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Order by handler for record data 
+ * @description Order by handler for record data
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -38,7 +38,7 @@ public with sharing class RecordOrderByHandler extends OrderByHandler {
     }
 
     /**
-     * @description Handles the order by clause for record data 
+     * @description Handles the order by clause for record data
      * @return  `Object`
      */
     public override Object handleOrderBy() {
@@ -46,7 +46,7 @@ public with sharing class RecordOrderByHandler extends OrderByHandler {
     }
 
     /**
-     * @description Sorts the records by the order by clause 
+     * @description Sorts the records by the order by clause
      * @return  `Object`
      */
     protected override Object sortByOrderBy() {
@@ -58,32 +58,37 @@ public with sharing class RecordOrderByHandler extends OrderByHandler {
         // clone the list so we don't modify the original
         sObjects = new List<SObject>(sObjects);
 
-        if(orderByNode == null) {
+        if (orderByNode == null) {
             return sObjects;
         }
         Node orderByField = orderByNode.left;
 
         Map<String, Map<String, String>> fields = new Map<String, Map<String, String>>();
-        while(orderByField != null) {
+        while (orderByField != null) {
             String fieldName = orderByField.id;
-            Map<String, Object> comparables = ComparableService.getComparableDataFromNodes(orderByField, selectNode);
-            String relationshipName = (String) comparables.get('relationshipName');
+            Map<String, Object> comparables = ComparableService.getComparableDataFromNodes(
+                orderByField,
+                selectNode
+            );
+            String relationshipName = (String) comparables.get(
+                'relationshipName'
+            );
             String fieldApiName = (String) comparables.get('comparableField');
 
             String order = 'asc';
             String nullDir = 'first';
             Node curr = orderByField.right;
-            if(curr != null && curr.nodeType == 'direction') {
+            if (curr != null && curr.nodeType == 'direction') {
                 order = orderByField.right.id;
                 curr = curr.right;
             }
 
-            if(curr != null && curr.nodeType == 'nulls direction') {
-                if(curr.id == 'nulls last') {
+            if (curr != null && curr.nodeType == 'nulls direction') {
+                if (curr.id == 'nulls last') {
                     nullDir = 'last';
                 }
             }
-            Map<String, String> fieldData = new Map<String, String> {
+            Map<String, String> fieldData = new Map<String, String>{
                 'fieldApiName' => fieldApiName,
                 'relationshipName' => relationshipName,
                 'order' => order,

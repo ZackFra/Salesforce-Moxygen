@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description This class is responsible for handling the Token constants 
+ * @description This class is responsible for handling the Token constants
  * @author Zackary Frazier
  * @since 5/5/2024
  */
@@ -36,7 +36,6 @@ public inherited sharing class Token {
     public final static String SINGLE_QUOTE = '\'';
     public final static String COLON = ':';
     public final static String DOT = '.';
-
 
     public final static String XEQUALS = '=';
     public final static String XINCLUDES = 'includes';
@@ -57,8 +56,7 @@ public inherited sharing class Token {
     public final static String XELSE = 'else';
     public final static String XTHEN = 'then';
 
-
-    public final static List<String> OPERATORS = new List<String> {
+    public final static List<String> OPERATORS = new List<String>{
         XEQUALS,
         XINCLUDES,
         XEXCLUDES,
@@ -83,7 +81,7 @@ public inherited sharing class Token {
     public final static String XDESC = 'desc';
     public final static String XHAVING = 'having';
 
-    public final static List<String> PROTECTED_KEYWORDS = new List<String> {
+    public final static List<String> PROTECTED_KEYWORDS = new List<String>{
         XFROM,
         XSELECT,
         XWHERE,
@@ -102,7 +100,7 @@ public inherited sharing class Token {
     public final static String CALENDAR_YEAR = 'calendar_year';
     public final static String CALENDAR_MONTH = 'calendar_month';
     public final static String CALENDAR_QUARTER = 'calendar_quarter';
-    public final static List<String> DATE_FUNCS = new List<String> {
+    public final static List<String> DATE_FUNCS = new List<String>{
         CALENDAR_YEAR,
         CALENDAR_MONTH,
         CALENDAR_QUARTER

@@ -1,5 +1,5 @@
 /**
- * @description This class is responsible for handling record fields in the WHERE clause 
+ * @description This class is responsible for handling record fields in the WHERE clause
  * @author Zackary Frazier
  * @since 11/28/2024
  */
@@ -10,7 +10,10 @@ public with sharing class WhereLogicRecordFieldStrategy implements IWhereLogicCo
      * @param fieldNode `Node`
      * @return  `WhereLogicComparisonResults`
      */
-    public WhereLogicComparisonResults getFieldValue(SObject record, Node fieldNode) {
+    public WhereLogicComparisonResults getFieldValue(
+        SObject record,
+        Node fieldNode
+    ) {
         String fieldName = fieldNode.id;
         Object recordFieldValue = record.get(fieldName);
         return new WhereLogicComparisonResults.Builder()

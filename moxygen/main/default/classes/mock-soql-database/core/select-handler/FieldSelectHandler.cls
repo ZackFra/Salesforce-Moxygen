@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description FieldSelectHandler is a class that implements ISelectHandler. It is used to handle the selection of a field. 
+ * @description FieldSelectHandler is a class that implements ISelectHandler. It is used to handle the selection of a field.
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -33,7 +33,7 @@ public with sharing class FieldSelectHandler implements ISelectHandler {
 
     /**
      * @description Constructor for FieldSelectHandler
-     * @param fSelector 
+     * @param fSelector
      */
     public FieldSelectHandler(FieldSelector fSelector) {
         this.fSelector = fSelector;
@@ -53,10 +53,10 @@ public with sharing class FieldSelectHandler implements ISelectHandler {
 
         Schema.SObjectType sot = SchemaService.getSObjectType(databaseRecord);
         String sObjectName = SchemaService.getSObjectName(sot);
-        if(fieldValue != null) {
+        if (fieldValue != null) {
             Map<String, Object> objMap = Common.mapFromRecord(queriedRecord);
             objMap.put(fieldName, fieldValue);
-            
+
             queriedRecord = Common.recordFromMap(objMap, SObjectName);
         }
         return queriedRecord;

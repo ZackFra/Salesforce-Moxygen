@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -36,17 +36,17 @@ public inherited sharing class WhereParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(query.length() == 0) {
+        if (query.length() == 0) {
             return null;
         }
-        if(!isNext(query, Token.XWHERE)) {
+        if (!isNext(query, Token.XWHERE)) {
             return null;
         }
         query = consume(query, Token.XWHERE);
         query = consume(query, Token.WHITESPACE);
-        
+
         Intermediary leftIntermediary = parseConditionalExpr(query);
-        
+
         return new Intermediary(
             new NodeBuilder()
                 .setId(Token.XWHERE)
@@ -63,7 +63,7 @@ public inherited sharing class WhereParser extends SubParser {
         Intermediary leftIntermediary;
 
         // work out the left intermediary first, it's either a sub-expression or a field being compared to a value
-        if(isNext(query, Token.LPAREN)) {
+        if (isNext(query, Token.LPAREN)) {
             leftIntermediary = parseConditionalSubExpr(query);
         } else {
             leftIntermediary = parseConditionalOperationExpr(query);
@@ -73,36 +73,36 @@ public inherited sharing class WhereParser extends SubParser {
 
         // if the next token is an AND or OR, parse it
         String nextToken = null;
-        if(isNext(query, Token.XAND)) {
+        if (isNext(query, Token.XAND)) {
             nextToken = Token.XAND;
         }
 
-        if(isNext(query, Token.XOR)) {
+        if (isNext(query, Token.XOR)) {
             nextToken = Token.XOR;
         }
 
-        if(nextToken == null) {
+        if (nextToken == null) {
             return leftIntermediary;
         }
 
         query = consume(query, nextToken);
-        if(!isNext(query, Token.LPAREN)) {
+        if (!isNext(query, Token.LPAREN)) {
             query = consume(query, Token.WHITESPACE);
         }
         Intermediary restOfExpr = parseConditionalExpr(query);
         query = restOfExpr.subquery;
 
         Node head = new NodeBuilder()
-                .setId(nextToken)
-                .setNodeType(nextToken)
-                .setLeft(leftIntermediary.head)
-                .setRight(restOfExpr.head)
-                .build();
+            .setId(nextToken)
+            .setNodeType(nextToken)
+            .setLeft(leftIntermediary.head)
+            .setRight(restOfExpr.head)
+            .build();
 
         Node prev = head;
         Node curr = head.right;
-        while(curr != null) {
-            if(curr.nodeType == NodeType.XOR) {
+        while (curr != null) {
+            if (curr.nodeType == NodeType.XOR) {
                 prev.right = curr.left;
                 curr.left = head;
                 head = curr;
@@ -110,10 +110,7 @@ public inherited sharing class WhereParser extends SubParser {
             curr = curr.right;
         }
 
-        return new Intermediary(
-            head,
-            query
-        );
+        return new Intermediary(head, query);
     }
 
     private Intermediary parseConditionalSubExpr(String query) {
@@ -132,8 +129,8 @@ public inherited sharing class WhereParser extends SubParser {
     }
 
     private Boolean isNextDateFunc(String query) {
-        for(String token : Token.DATE_FUNCS) {
-            if(isNext(query, token)) {
+        for (String token : Token.DATE_FUNCS) {
+            if (isNext(query, token)) {
                 return true;
             }
         }
@@ -141,11 +138,11 @@ public inherited sharing class WhereParser extends SubParser {
     }
 
     private Intermediary parseConditionalOperationExpr(String query) {
-        if(isNext(query, Token.XNOT)) {
+        if (isNext(query, Token.XNOT)) {
             return parseNot(query);
         }
         Intermediary fieldIntermediary;
-        if(isNextDateFunc(query)) {
+        if (isNextDateFunc(query)) {
             fieldIntermediary = new AggregateFuncParser().parse(query);
         } else {
             fieldIntermediary = new FieldParser().parse(query);
@@ -161,12 +158,12 @@ public inherited sharing class WhereParser extends SubParser {
         Boolean isNotIn = operatorIntermediary.head.id == Token.XNOT_IN;
         Boolean isIncludes = operatorIntermediary.head.id == Token.XINCLUDES;
         Boolean isExcludes = operatorIntermediary.head.id == Token.XEXCLUDES;
-        
+
         Boolean isExpectingList = (isIn || isNotIn || isIncludes || isExcludes);
-        if(isExpectingList && isNext(query, Token.LPAREN)) {
+        if (isExpectingList && isNext(query, Token.LPAREN)) {
             query = consume(query, Token.LPAREN);
             Intermediary listOrQuery;
-            if(lookahead(query, 6) == Token.XSELECT) {
+            if (lookahead(query, 6) == Token.XSELECT) {
                 Intermediary soqlSubQuery = new QueryParser().parse(query);
                 listOrQuery = new Intermediary(
                     new NodeBuilder()
@@ -213,20 +210,15 @@ public inherited sharing class WhereParser extends SubParser {
         );
     }
 
-
     private Intermediary parseOperator(String query) {
         query = skipWhitespace(query);
-        NodeBuilder nb = new NodeBuilder()
-            .setNodeType(NodeType.OPERATOR);
+        NodeBuilder nb = new NodeBuilder().setNodeType(NodeType.OPERATOR);
 
-        for(String token : Token.OPERATORS) {
-            if(isNext(query, token)) {
+        for (String token : Token.OPERATORS) {
+            if (isNext(query, token)) {
                 nb.setId(token);
                 query = consume(query, token);
-                return new Intermediary(
-                	nb.build(),
-                    query
-                );
+                return new Intermediary(nb.build(), query);
             }
         }
         throw new ParsingException(query, null);

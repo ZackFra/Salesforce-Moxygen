@@ -1,6 +1,5 @@
 @isTest
 private class LastQuarterComparableTest {
-
     @isTest
     static void ensureIsEqualWorks() {
         DateLiteralComparable lastQuarter = new LastQuarterComparable();
@@ -33,7 +32,7 @@ private class LastQuarterComparableTest {
             lastQuarter.isEqual(Gmt.startOfThisCalendarQuarter().addMonths(-4)),
             'Should not be equal to the last quarter'
         );
-        
+
         Assert.isFalse(
             lastQuarter.isEqual(Gmt.startOfThisCalendarQuarter().addMonths(1)),
             'Should not be equal to the last quarter'
@@ -44,22 +43,30 @@ private class LastQuarterComparableTest {
     static void ensureIsLessThanWorks() {
         DateLiteralComparable lastQuarter = new LastQuarterComparable();
         Assert.isTrue(
-            lastQuarter.isLessThan(Gmt.startOfThisCalendarQuarter().addMonths(-4)),
+            lastQuarter.isLessThan(
+                Gmt.startOfThisCalendarQuarter().addMonths(-4)
+            ),
             'Should be less than the last quarter'
         );
 
         Assert.isFalse(
-            lastQuarter.isLessThan(Gmt.startOfThisCalendarQuarter().addMonths(-3)),
+            lastQuarter.isLessThan(
+                Gmt.startOfThisCalendarQuarter().addMonths(-3)
+            ),
             'Should not be less than the last quarter'
         );
 
         Assert.isFalse(
-            lastQuarter.isLessThan(Gmt.startOfThisCalendarQuarter().addMonths(-2)),
+            lastQuarter.isLessThan(
+                Gmt.startOfThisCalendarQuarter().addMonths(-2)
+            ),
             'Should not be less than the last quarter'
         );
 
         Assert.isFalse(
-            lastQuarter.isLessThan(Gmt.startOfThisCalendarQuarter().addMonths(-1)),
+            lastQuarter.isLessThan(
+                Gmt.startOfThisCalendarQuarter().addMonths(-1)
+            ),
             'Should not be less than the last quarter'
         );
 
@@ -69,7 +76,9 @@ private class LastQuarterComparableTest {
         );
 
         Assert.isFalse(
-            lastQuarter.isLessThan(Gmt.startOfThisCalendarQuarter().addMonths(1)),
+            lastQuarter.isLessThan(
+                Gmt.startOfThisCalendarQuarter().addMonths(1)
+            ),
             'Should not be less than the last quarter'
         );
     }
@@ -78,17 +87,23 @@ private class LastQuarterComparableTest {
     static void ensuresIsGreaterThanWorks() {
         DateLiteralComparable lastQuarter = new LastQuarterComparable();
         Assert.isFalse(
-            lastQuarter.isGreaterThan(Gmt.startOfThisCalendarQuarter().addMonths(-3)),
+            lastQuarter.isGreaterThan(
+                Gmt.startOfThisCalendarQuarter().addMonths(-3)
+            ),
             'Should not be greater than the last quarter'
         );
 
         Assert.isFalse(
-            lastQuarter.isGreaterThan(Gmt.startOfThisCalendarQuarter().addMonths(-2)),
+            lastQuarter.isGreaterThan(
+                Gmt.startOfThisCalendarQuarter().addMonths(-2)
+            ),
             'Should not be greater than the last quarter'
         );
 
         Assert.isFalse(
-            lastQuarter.isGreaterThan(Gmt.startOfThisCalendarQuarter().addMonths(-1)),
+            lastQuarter.isGreaterThan(
+                Gmt.startOfThisCalendarQuarter().addMonths(-1)
+            ),
             'Should not be greater than the last quarter'
         );
 
@@ -98,10 +113,11 @@ private class LastQuarterComparableTest {
         );
 
         Assert.isTrue(
-            lastQuarter.isGreaterThan(Gmt.startOfThisCalendarQuarter().addMonths(1)),
+            lastQuarter.isGreaterThan(
+                Gmt.startOfThisCalendarQuarter().addMonths(1)
+            ),
             'Should be greater than the last quarter'
         );
-
     }
 
     @isTest
@@ -109,22 +125,30 @@ private class LastQuarterComparableTest {
         DateLiteralComparable lastQuarter = new LastQuarterComparable();
 
         Assert.isTrue(
-            lastQuarter.isLessThanOrEqual(Gmt.startOfThisCalendarQuarter().addMonths(-4)),
+            lastQuarter.isLessThanOrEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-4)
+            ),
             'Should be less than or equal to the last quarter'
         );
 
         Assert.isTrue(
-            lastQuarter.isLessThanOrEqual(Gmt.startOfThisCalendarQuarter().addMonths(-3)),
+            lastQuarter.isLessThanOrEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-3)
+            ),
             'Should be less than or equal to the last quarter'
         );
 
         Assert.isTrue(
-            lastQuarter.isLessThanOrEqual(Gmt.startOfThisCalendarQuarter().addMonths(-2)),
+            lastQuarter.isLessThanOrEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-2)
+            ),
             'Should be less than or equal to the last quarter'
         );
 
         Assert.isTrue(
-            lastQuarter.isLessThanOrEqual(Gmt.startOfThisCalendarQuarter().addMonths(-1)),
+            lastQuarter.isLessThanOrEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-1)
+            ),
             'Should be less than or equal to the last quarter'
         );
 
@@ -134,7 +158,9 @@ private class LastQuarterComparableTest {
         );
 
         Assert.isFalse(
-            lastQuarter.isLessThanOrEqual(Gmt.startOfThisCalendarQuarter().addMonths(1)),
+            lastQuarter.isLessThanOrEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(1)
+            ),
             'Should not be less than or equal to the last quarter'
         );
     }
@@ -144,22 +170,30 @@ private class LastQuarterComparableTest {
         DateLiteralComparable lastQuarter = new LastQuarterComparable();
 
         Assert.isFalse(
-            lastQuarter.isGreaterThanOrEqual(Gmt.startOfThisCalendarQuarter().addMonths(-4)),
+            lastQuarter.isGreaterThanOrEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-4)
+            ),
             'Should not be greater than or equal to the last quarter'
         );
 
         Assert.isTrue(
-            lastQuarter.isGreaterThanOrEqual(Gmt.startOfThisCalendarQuarter().addMonths(-3)),
+            lastQuarter.isGreaterThanOrEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-3)
+            ),
             'Should be greater than or equal to the last quarter'
         );
 
         Assert.isTrue(
-            lastQuarter.isGreaterThanOrEqual(Gmt.startOfThisCalendarQuarter().addMonths(-2)),
+            lastQuarter.isGreaterThanOrEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-2)
+            ),
             'Should be greater than or equal to the last quarter'
         );
 
         Assert.isTrue(
-            lastQuarter.isGreaterThanOrEqual(Gmt.startOfThisCalendarQuarter().addMonths(-1)),
+            lastQuarter.isGreaterThanOrEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-1)
+            ),
             'Should be greater than or equal to the last quarter'
         );
 
@@ -169,7 +203,9 @@ private class LastQuarterComparableTest {
         );
 
         Assert.isTrue(
-            lastQuarter.isGreaterThanOrEqual(Gmt.startOfThisCalendarQuarter().addMonths(1)),
+            lastQuarter.isGreaterThanOrEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(1)
+            ),
             'Should be greater than or equal to the last quarter'
         );
     }
@@ -179,23 +215,30 @@ private class LastQuarterComparableTest {
         DateLiteralComparable lastQuarter = new LastQuarterComparable();
 
         Assert.isTrue(
-            lastQuarter.isNotEqual(Gmt.startOfThisCalendarQuarter().addMonths(-4)),
+            lastQuarter.isNotEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-4)
+            ),
             'Should be not equal to the last quarter'
         );
 
         Assert.isFalse(
-            lastQuarter.isNotEqual(Gmt.startOfThisCalendarQuarter().addMonths(-3)),
-            'Should not be not equal to the last quarter'
-        );
-
-
-        Assert.isFalse(
-            lastQuarter.isNotEqual(Gmt.startOfThisCalendarQuarter().addMonths(-2)),
+            lastQuarter.isNotEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-3)
+            ),
             'Should not be not equal to the last quarter'
         );
 
         Assert.isFalse(
-            lastQuarter.isNotEqual(Gmt.startOfThisCalendarQuarter().addMonths(-1)),
+            lastQuarter.isNotEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-2)
+            ),
+            'Should not be not equal to the last quarter'
+        );
+
+        Assert.isFalse(
+            lastQuarter.isNotEqual(
+                Gmt.startOfThisCalendarQuarter().addMonths(-1)
+            ),
             'Should not be not equal to the last quarter'
         );
 
@@ -203,7 +246,5 @@ private class LastQuarterComparableTest {
             lastQuarter.isNotEqual(Gmt.startOfThisCalendarQuarter()),
             'Should be not equal to the last quarter'
         );
-
-
     }
 }

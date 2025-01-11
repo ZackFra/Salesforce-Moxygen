@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,12 +24,11 @@
  */
 
 /**
- * @description This class is responsible for parsing the HAVING clause of a SOQL query. 
+ * @description This class is responsible for parsing the HAVING clause of a SOQL query.
  * @author Zackary Frazier
  * @since 4/12/2024
  */
 public inherited sharing class HavingParser extends SubParser {
-
     /**
      * @description Parses the HAVING clause of a SOQL query.
      * @param query `String`
@@ -38,7 +37,7 @@ public inherited sharing class HavingParser extends SubParser {
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
 
-        if(!isNext(query, Token.XHAVING)) {
+        if (!isNext(query, Token.XHAVING)) {
             return null;
         }
         query = consume(query, Token.XHAVING);
@@ -46,7 +45,7 @@ public inherited sharing class HavingParser extends SubParser {
         query = skipWhitespace(query);
         Intermediary conditionalExpr = parseHavingConditionalExpr(query);
         query = conditionalExpr.subquery;
-        
+
         return new Intermediary(
             new NodeBuilder()
                 .setId(NodeType.XHAVING)
@@ -68,7 +67,7 @@ public inherited sharing class HavingParser extends SubParser {
         Intermediary leftIntermediary;
 
         // work out the left intermediary first, it's either a sub-expression or a field being compared to a value
-        if(isNext(query, Token.LPAREN)) {
+        if (isNext(query, Token.LPAREN)) {
             leftIntermediary = parseHavingConditionalSubExpr(query);
         } else {
             leftIntermediary = parseHavingConditionalOperationExpr(query);
@@ -78,36 +77,36 @@ public inherited sharing class HavingParser extends SubParser {
 
         // if the next token is an AND or OR, parse it
         String nextToken = null;
-        if(isNext(query, Token.XAND)) {
+        if (isNext(query, Token.XAND)) {
             nextToken = Token.XAND;
         }
 
-        if(isNext(query, Token.XOR)) {
+        if (isNext(query, Token.XOR)) {
             nextToken = Token.XOR;
         }
 
-        if(nextToken == null) {
+        if (nextToken == null) {
             return leftIntermediary;
         }
 
         query = consume(query, nextToken);
-        if(!isNext(query, Token.LPAREN)) {
+        if (!isNext(query, Token.LPAREN)) {
             query = consume(query, Token.WHITESPACE);
         }
         Intermediary restOfExpr = parseHavingConditionalExpr(query);
         query = restOfExpr.subquery;
 
         Node head = new NodeBuilder()
-                .setId(nextToken)
-                .setNodeType(nextToken)
-                .setLeft(leftIntermediary.head)
-                .setRight(restOfExpr.head)
-                .build();
+            .setId(nextToken)
+            .setNodeType(nextToken)
+            .setLeft(leftIntermediary.head)
+            .setRight(restOfExpr.head)
+            .build();
 
         Node prev = head;
         Node curr = head.right;
-        while(curr != null) {
-            if(curr.nodeType == NodeType.XOR) {
+        while (curr != null) {
+            if (curr.nodeType == NodeType.XOR) {
                 prev.right = curr.left;
                 curr.left = head;
                 head = curr;
@@ -115,10 +114,7 @@ public inherited sharing class HavingParser extends SubParser {
             curr = curr.right;
         }
 
-        return new Intermediary(
-            head,
-            query
-        );
+        return new Intermediary(head, query);
     }
 
     /**
@@ -148,11 +144,11 @@ public inherited sharing class HavingParser extends SubParser {
      * @exception ParsingException
      */
     private Intermediary parseHavingConditionalOperationExpr(String query) {
-        if(isNext(query, Token.XNOT)) {
+        if (isNext(query, Token.XNOT)) {
             return parseHavingNot(query);
         }
         Intermediary nextItem;
-        if(isAggregateFunc(query)) {
+        if (isAggregateFunc(query)) {
             nextItem = new AggregateFuncParser().parse(query);
         } else {
             nextItem = new FieldParser().parse(query);
@@ -165,10 +161,10 @@ public inherited sharing class HavingParser extends SubParser {
         query = skipWhitespace(query);
         Boolean isIn = operatorIntermediary.head.id == Token.XIN;
         Boolean isNotIn = operatorIntermediary.head.id == Token.XNOT_IN;
-        if((isIn || isNotIn) && isNext(query,Token.LPAREN)) {
+        if ((isIn || isNotIn) && isNext(query, Token.LPAREN)) {
             query = consume(query, Token.LPAREN);
             Intermediary listOrQuery;
-            if(isNext(query, Token.XSELECT)) {
+            if (isNext(query, Token.XSELECT)) {
                 throw new ParsingException(query, 'subquery');
             } else {
                 listOrQuery = new ValueListParser().parse(query);

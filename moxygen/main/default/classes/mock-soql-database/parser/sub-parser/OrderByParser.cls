@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,13 +23,12 @@
  *
  */
 
- /**
-  * @description This class is responsible for parsing the ORDER BY clause of a SOQL query. 
-  * @author Zackary Frazier
-  * @since 4/12/2024
-  */
+/**
+ * @description This class is responsible for parsing the ORDER BY clause of a SOQL query.
+ * @author Zackary Frazier
+ * @since 4/12/2024
+ */
 public inherited sharing class OrderByParser extends SubParser {
-
     /**
      * @description Parses the ORDER BY clause of a SOQL query.
      * @param query `String`
@@ -38,18 +37,18 @@ public inherited sharing class OrderByParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(query.length() < 5) {
+        if (query.length() < 5) {
             return null;
         }
-        if(lookahead(query, 5) != 'order') {
+        if (lookahead(query, 5) != 'order') {
             return null;
         }
-        
+
         query = consume(query, 'order');
         query = consume(query, ' ');
         query = skipWhitespace(query);
-        
-        if(lookahead(query, 2) != 'by') {
+
+        if (lookahead(query, 2) != 'by') {
             throw new ParsingException(query, 'BY');
         }
 
@@ -59,13 +58,13 @@ public inherited sharing class OrderByParser extends SubParser {
 
         Intermediary fieldList = parseOrderByFieldList(query);
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId('order by')
-            	.setNodeType('order by')
-            	.setLeft(fieldList.head)
-            	.build(),
+            new NodeBuilder()
+                .setId('order by')
+                .setNodeType('order by')
+                .setLeft(fieldList.head)
+                .build(),
             fieldList.subquery
-        );        
+        );
     }
 
     /**
@@ -77,26 +76,26 @@ public inherited sharing class OrderByParser extends SubParser {
         query = skipWhitespace(query);
         Intermediary nextItem;
 
-        if(isAggregateFunc(query)) {
+        if (isAggregateFunc(query)) {
             nextItem = new AggregateFuncParser().parse(query);
         } else {
             nextItem = new FieldParser().parse(query);
         }
         query = nextItem.subquery;
         Intermediary dir = parseDirection(query);
-        if(dir != null) {
+        if (dir != null) {
             Node curr = nextItem.head;
-            while(curr.right != null) {
+            while (curr.right != null) {
                 curr = curr.right;
             }
             curr.right = dir.head;
             nextItem.subquery = dir.subquery;
             query = skipWhitespace(dir.subquery);
         }
-        
+
         Intermediary nullsDir = parseNulls(query);
-        if(nullsDir != null) {
-            if(dir != null) {
+        if (nullsDir != null) {
+            if (dir != null) {
                 dir.head.right = nullsDir.head;
             } else {
                 nextItem.head.right = nullsDir.head;
@@ -106,20 +105,23 @@ public inherited sharing class OrderByParser extends SubParser {
         }
         query = skipWhitespace(nextItem.subquery);
 
-        if(query.length() == 0) {
+        if (query.length() == 0) {
             return nextItem;
         }
-        
+
         String nextChar = lookahead(query, 1);
-        String nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
-        
-        if(nextChar == Token.COMMA && nextCharAfterThat != Token.LPAREN) {
+        String nextCharAfterThat = lookahead(
+            skipWhitespace(query.subString(1)),
+            1
+        );
+
+        if (nextChar == Token.COMMA && nextCharAfterThat != Token.LPAREN) {
             query = consume(query, Token.COMMA);
             Intermediary restOfList = parseOrderByFieldList(query);
             nextItem.head.left = restOfList.head;
             nextItem.subquery = restOfList.subquery;
         }
-        return nextItem;       
+        return nextItem;
     }
 
     /**
@@ -129,15 +131,15 @@ public inherited sharing class OrderByParser extends SubParser {
      */
     private Intermediary parseDirection(String query) {
         // @TODO: Make AggregateFuncParser consistent with FieldParser, i.e. the subquery should retain the trailing whitespace
-        if(isNext(query, Token.WHITESPACE)) {
+        if (isNext(query, Token.WHITESPACE)) {
             query = consume(query, TOKEN.WHITESPACE);
         }
         query = skipWhitespace(query);
         String dir = '';
-        if(lookahead(query, 3) == 'asc') {
+        if (lookahead(query, 3) == 'asc') {
             dir = 'asc';
             query = consume(query, 'asc');
-        } else if(lookahead(query, 4) == 'desc') {
+        } else if (lookahead(query, 4) == 'desc') {
             dir = 'desc';
             query = consume(query, 'desc');
         } else {
@@ -145,10 +147,7 @@ public inherited sharing class OrderByParser extends SubParser {
             return null;
         }
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId(dir)
-            	.setNodeType('direction')
-            	.build(),
+            new NodeBuilder().setId(dir).setNodeType('direction').build(),
             query
         );
     }
@@ -157,20 +156,20 @@ public inherited sharing class OrderByParser extends SubParser {
      * @description Parses the NULLS direction of the ORDER BY clause of a SOQL query.
      * @param query `String`
      * @return  `Intermediary`
-     * @exception 
+     * @exception
      */
     private Intermediary parseNulls(String query) {
         query = skipWhitespace(query);
-        if(lookahead(query, 5) != 'nulls') {
+        if (lookahead(query, 5) != 'nulls') {
             return null;
         }
         query = consume(query, 'nulls');
         query = skipWhitespace(query);
         String dir;
-        if(lookahead(query, 5) == 'first') {
+        if (lookahead(query, 5) == 'first') {
             dir = 'nulls first';
             query = consume(query, 'first');
-        } else if(lookahead(query, 4) == 'last') {
+        } else if (lookahead(query, 4) == 'last') {
             dir = 'nulls last';
             query = consume(query, 'last');
         } else {
@@ -178,10 +177,7 @@ public inherited sharing class OrderByParser extends SubParser {
         }
 
         return new Intermediary(
-            new NodeBuilder()
-                .setId(dir)
-                .setNodeType('nulls direction')
-                .build(),
+            new NodeBuilder().setId(dir).setNodeType('nulls direction').build(),
             query
         );
     }

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description OffsetHandler for Count 
+ * @description OffsetHandler for Count
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -40,7 +40,7 @@ public with sharing class CountOffsetHandler implements IOffsetHandler {
     }
 
     /**
-     * @description Handles the offset for the Count 
+     * @description Handles the offset for the Count
      * @return  `Object`
      */
     public Object handleOffset() {
@@ -48,7 +48,7 @@ public with sharing class CountOffsetHandler implements IOffsetHandler {
         Object obj = options.obj;
 
         Integer value = (Integer) obj - offset;
-        if(value < 0) {
+        if (value < 0) {
             value = 0;
         }
         return value;

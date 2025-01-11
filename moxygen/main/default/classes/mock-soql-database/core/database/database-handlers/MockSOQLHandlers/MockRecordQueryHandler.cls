@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
-*/
+ */
 
 /**
- * @description This class is responsible for handling record SOQL queries to the mock database 
+ * @description This class is responsible for handling record SOQL queries to the mock database
  * @author Zackary Frazier
  * @since 4/12/2024
  */
@@ -55,7 +55,11 @@ public inherited sharing class MockRecordQueryHandler extends MockSOQLHandler {
      * @param accessLevel `System.AccessLevel`
      * @return  `List<SObject>`
      */
-    public List<SObject> queryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
+    public List<SObject> queryWithBinds(
+        String query,
+        Map<String, Object> binds,
+        System.AccessLevel accessLevel
+    ) {
         return doQuery(query, binds);
     }
 
@@ -100,43 +104,66 @@ public inherited sharing class MockRecordQueryHandler extends MockSOQLHandler {
         Boolean isCountQuery = NodeService.isSingularCount(topLevelNodes);
         Boolean isRecordQuery = (!isCountQuery && !isAggregateQuery);
 
-        if(!isRecordQuery) {
-            throw new QueryException('Only record queries are supported for calls to query()');
+        if (!isRecordQuery) {
+            throw new QueryException(
+                'Only record queries are supported for calls to query()'
+            );
         }
 
         List<SObject> records = new List<sObject>();
 
         // process the query, whether it's a count, aggregate, or regular query
-        for(sObject databaseRecord : mockObjects.values()) {
-
-            if(databaseRecord.get('IsDeleted') == true) {
+        for (sObject databaseRecord : mockObjects.values()) {
+            if (databaseRecord.get('IsDeleted') == true) {
                 continue;
             }
 
-            if(!checkWhereClause(databaseRecord, whereNode, params)) {
+            if (!checkWhereClause(databaseRecord, whereNode, params)) {
                 continue;
             }
 
-            if(!handleUsingScopeNode(databaseRecord, usingScopeNode, params)) {
+            if (!handleUsingScopeNode(databaseRecord, usingScopeNode, params)) {
                 continue;
             }
 
             // handle fields
-            SObject queriedRecord = handleSelectQuery(databaseRecord, selectNode, params);
+            SObject queriedRecord = handleSelectQuery(
+                databaseRecord,
+                selectNode,
+                params
+            );
             records.add(queriedRecord);
         }
 
-        records = (List<SObject>) handleOrderByNode(Types.SOQL.RECORD, records, selectNode);
-        records = (List<SObject>) handleOffsetNode(Types.SOQL.RECORD, offsetNode, records, params);
-        records = (List<SObject>) handleLimitNode(Types.SOQL.RECORD, limitNode, records, params);
+        records = (List<SObject>) handleOrderByNode(
+            Types.SOQL.RECORD,
+            records,
+            selectNode
+        );
+        records = (List<SObject>) handleOffsetNode(
+            Types.SOQL.RECORD,
+            offsetNode,
+            records,
+            params
+        );
+        records = (List<SObject>) handleLimitNode(
+            Types.SOQL.RECORD,
+            limitNode,
+            records,
+            params
+        );
 
         removeTopLevelNodesFor(selectNode);
         return records;
     }
 
-    private static SObject handleSelectQuery(sObject databaseRecord, Node selectNode, Map<String, Object> params) {
+    private static SObject handleSelectQuery(
+        sObject databaseRecord,
+        Node selectNode,
+        Map<String, Object> params
+    ) {
         Node fieldNode = selectNode.left;
-        
+
         String sObjApiName = SchemaService.getSObjectName(databaseRecord);
         SObject queriedRecord = SchemaService.blankSObjectFrom(sObjApiName);
         queriedRecord.put('Id', databaseRecord.Id);
@@ -154,7 +181,7 @@ public inherited sharing class MockRecordQueryHandler extends MockSOQLHandler {
         Node fieldNode = fSelector.fieldNode;
 
         SObject queriedRecord = fSelector.queriedRecord;
-        if(fieldNode == null) {
+        if (fieldNode == null) {
             return queriedrecord;
         }
 
@@ -162,11 +189,9 @@ public inherited sharing class MockRecordQueryHandler extends MockSOQLHandler {
             .createHandler();
         queriedRecord = selectHandler.handleSelect();
 
-        // to check the next field node in the list, 
+        // to check the next field node in the list,
         // the only changes are the queriedRecord and the fieldNode
-        fSelector
-            .setQueriedRecord(queriedRecord)
-            .setFieldNode(fieldNode.left);
+        fSelector.setQueriedRecord(queriedRecord).setFieldNode(fieldNode.left);
 
         // Recursion, baby!
         return handleSelectQuery(fSelector);

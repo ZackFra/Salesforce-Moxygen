@@ -1,5 +1,5 @@
 /**
- * @description NullParser is a parser for null values. 
+ * @description NullParser is a parser for null values.
  * @author Zackary Frazier
  * @since 11/28/2024
  */
@@ -12,10 +12,10 @@ public inherited sharing class NullParser extends SubParser {
     public override Intermediary parse(String query) {
         query = consume(query, Token.XNULL);
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId(Token.XNULL)
-            	.setNodeType(NodeType.XNULL)
-            	.build(),
+            new NodeBuilder()
+                .setId(Token.XNULL)
+                .setNodeType(NodeType.XNULL)
+                .build(),
             query
         );
     }

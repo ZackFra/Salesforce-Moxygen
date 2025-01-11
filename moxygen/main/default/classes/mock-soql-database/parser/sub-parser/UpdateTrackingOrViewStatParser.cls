@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description This class is responsible for parsing the UPDATE TRACKING or UPDATE VIEWSTAT query 
+ * @description This class is responsible for parsing the UPDATE TRACKING or UPDATE VIEWSTAT query
  * @author Zackary Frazier
  * @since 4/12/2024
  */
@@ -37,28 +37,35 @@ public inherited sharing class UpdateTrackingOrViewStatParser extends SubParser 
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(query.length() == 0) {
+        if (query.length() == 0) {
             return null;
         }
-        if(lookahead(query, 6) != 'update') {
+        if (lookahead(query, 6) != 'update') {
             return null;
         }
-        
+
         query = consume(query, 'update ');
         query = skipWhitespace(query);
 
-        if(lookahead(query, 8) != 'tracking' && lookahead(query, 4) != 'view') {
+        if (
+            lookahead(query, 8) != 'tracking' &&
+            lookahead(query, 4) != 'view'
+        ) {
             return null;
         }
 
         String updateType = 'tracking';
-        if(lookahead(query, 8) == 'viewstat') {
+        if (lookahead(query, 8) == 'viewstat') {
             updateType = 'viewstat';
         }
 
         query = consume(query, updateType);
 
         // so it is either UPDATE VIEW or UPDATE TRACKING
-        throw new ParsingException('UPDATE ' + updateType.toUpperCase() + ' is not supported by the mock SOQL parser');
+        throw new ParsingException(
+            'UPDATE ' +
+                updateType.toUpperCase() +
+                ' is not supported by the mock SOQL parser'
+        );
     }
 }

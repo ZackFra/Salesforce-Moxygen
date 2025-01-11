@@ -1,5 +1,5 @@
 /**
- * @description Comparable class for NEXT_90_DAYS 
+ * @description Comparable class for NEXT_90_DAYS
  * @author Zackary Frazier
  * @since 12/29/2024
  */

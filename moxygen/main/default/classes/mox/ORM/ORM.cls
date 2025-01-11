@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,22 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
-*/
+ */
 
 /**
- * @description ORM class is the state manager for the Moxygen library. 
+ * @description ORM class is the state manager for the Moxygen library.
  *              It is responsble for managing the state of the library's settings and context.
  *              It's named ORM because Salesforce is an ORM, and unfortunately, the Database namespace
  *              is already taken.
  * @group Moxygen
  */
 public inherited sharing class ORM {
-
     private static Boolean isUnitTest = Test.isRunningTest();
     private static Boolean isBacktickReplacementEnabled = true;
 
     /**
-     * @description Returns if the current context is a unit test 
+     * @description Returns if the current context is a unit test
      * @return  `Boolean`
      */
     public static Boolean isUnitTest() {
@@ -52,7 +51,7 @@ public inherited sharing class ORM {
     }
 
     /**
-     * @description Returns whether backtick replacement is enabled 
+     * @description Returns whether backtick replacement is enabled
      * @return  `Boolean`
      */
     public static Boolean isBacktickReplacementEnabled() {
@@ -72,16 +71,18 @@ public inherited sharing class ORM {
         ORM.isBacktickReplacementEnabled = true;
     }
 
-
-    private class NoAccessException extends Exception {}
+    private class NoAccessException extends Exception {
+    }
 
     /**
-     * @description Validates that the current context is a unit test 
+     * @description Validates that the current context is a unit test
      * @exception NoAccessException
      */
     public static void validateUnitTestContext() {
-        if(!ORM.isUnitTest) {
-            throw new NoAccessException('This method is only available in a unit test context.');
+        if (!ORM.isUnitTest) {
+            throw new NoAccessException(
+                'This method is only available in a unit test context.'
+            );
         }
     }
 }

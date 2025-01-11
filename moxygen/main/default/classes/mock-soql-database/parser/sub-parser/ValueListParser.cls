@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,12 +24,11 @@
  */
 
 /**
- * @description This class is responsible for parsing a list of values. 
+ * @description This class is responsible for parsing a list of values.
  * @author Zackary Frazier
  * @since 4/12/2024
  */
 public inherited sharing class ValueListParser extends SubParser {
-
     /**
      * @description Parses a list of values.
      * @param query `String`
@@ -37,12 +36,12 @@ public inherited sharing class ValueListParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        
+
         Intermediary value = new ValueParser().parse(query);
         query = value.subquery;
         query = skipWhitespace(query);
-        
-        if(isNext(query, Token.COMMA)) {
+
+        if (isNext(query, Token.COMMA)) {
             query = consume(query, Token.COMMA);
             Intermediary restOfList = parse(query);
             value.head.left = restOfList.head;
@@ -51,10 +50,10 @@ public inherited sharing class ValueListParser extends SubParser {
         query = value.subquery;
         return new Intermediary(
             new NodeBuilder()
-            .setId(NodeType.VALUE_LIST)
-            .setNodeType(NodeType.VALUE_LIST)
-            .setLeft(value.head)
-            .build(),
+                .setId(NodeType.VALUE_LIST)
+                .setNodeType(NodeType.VALUE_LIST)
+                .setLeft(value.head)
+                .build(),
             query
         );
     }

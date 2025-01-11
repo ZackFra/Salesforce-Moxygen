@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,14 +23,13 @@
  *
  */
 
- /**
-  * @description Parser for the SELECT clause
-  * @author Zackary Frazier
-  * @since 4/12/2024
-  */
+/**
+ * @description Parser for the SELECT clause
+ * @author Zackary Frazier
+ * @since 4/12/2024
+ */
 @SuppressWarnings('PMD.CognitiveComplexity')
 public inherited sharing class SelectParser extends SubParser {
-
     private FieldParser fieldParser = new FieldParser();
 
     public override Intermediary parse(String query) {
@@ -38,50 +37,50 @@ public inherited sharing class SelectParser extends SubParser {
         Intermediary leftIntermediary = parseSelectExpr(query);
         query = leftIntermediary.subquery;
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId(NodeType.XSELECT)
-            	.setNodeType(NodeType.XSELECT)
-            	.setLeft(leftIntermediary.head)
-            	.build(),
+            new NodeBuilder()
+                .setId(NodeType.XSELECT)
+                .setNodeType(NodeType.XSELECT)
+                .setLeft(leftIntermediary.head)
+                .build(),
             query
         );
     }
-    
+
     private Intermediary parseSelectExpr(String query) {
         query = skipWhitespace(query);
         Intermediary selectExpr;
 
-        if(isNext(query, Token.XTYPEOF)) {
+        if (isNext(query, Token.XTYPEOF)) {
             selectExpr = parseTypeOf(query);
             query = selectExpr.subquery;
-        } else if(isAggregateFunc(query)) {
+        } else if (isAggregateFunc(query)) {
             selectExpr = new AggregateFuncParser().parse(query);
             query = selectExpr.subquery;
-        } else if(isNext(query, Token.LPAREN)) {
+        } else if (isNext(query, Token.LPAREN)) {
             query = consume(query, Token.LPAREN);
             Intermediary soqlSubQuery = new QueryParser().parse(query);
             query = soqlSubQuery.subquery;
             query = skipWhitespace(query);
             query = consume(query, Token.RPAREN);
             selectExpr = new Intermediary(
-            	new NodeBuilder()
-                	.setId(NodeType.SUBQUERY)
-                	.setNodeType(NodeType.SUBQUERY)
-                	.setRight(soqlSubQuery.head)
-                	.build(),
+                new NodeBuilder()
+                    .setId(NodeType.SUBQUERY)
+                    .setNodeType(NodeType.SUBQUERY)
+                    .setRight(soqlSubQuery.head)
+                    .build(),
                 query
             );
         } else {
             selectExpr = parseFieldListWithAliases(query);
             query = selectExpr.subquery;
         }
-        
+
         query = skipWhitespace(query);
-        if(isNext(query, Token.COMMA)) {
+        if (isNext(query, Token.COMMA)) {
             query = consume(query, Token.COMMA);
             Intermediary restOfExpr = parseSelectExpr(query);
             Node curr = selectExpr.head;
-            while(curr.left != null) {
+            while (curr.left != null) {
                 curr = curr.left;
             }
             curr.left = restOfExpr.head;
@@ -91,31 +90,42 @@ public inherited sharing class SelectParser extends SubParser {
         return selectExpr;
     }
 
-    /** 
+    /**
      * @description : Parses a list of fields, with optional aliases
      * @param query `String`
      * @return : `Intermediary`
-    */
-    @SuppressWarnings('PMD.NcssMethodCount, PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
+     */
+    @SuppressWarnings(
+        'PMD.NcssMethodCount, PMD.CognitiveComplexity, PMD.CyclomaticComplexity'
+    )
     private Intermediary parseFieldListWithAliases(String query) {
         query = skipWhitespace(query);
         Intermediary nextItem;
-        if(isNext(query, Token.XTYPEOF)) {
+        if (isNext(query, Token.XTYPEOF)) {
             nextItem = parseTypeOf(query);
             query = nextItem.subquery;
-        } else if(isAggregateFunc(query)) {
+        } else if (isAggregateFunc(query)) {
             nextItem = new AggregateFuncParser().parse(query);
             query = nextItem.subquery;
         } else {
             nextItem = this.fieldParser.parse(query);
             query = skipWhitespace(nextItem.subquery);
         }
-        
+
         String nextChar = lookahead(query, 1);
-        String nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
-        Boolean isAggrFuncNext = isAggregateFunc(skipWhitespace(query.subString(1)));
-        
-        if(nextChar == Token.COMMA && nextCharAfterThat != Token.LPAREN && !isAggrFuncNext) {
+        String nextCharAfterThat = lookahead(
+            skipWhitespace(query.subString(1)),
+            1
+        );
+        Boolean isAggrFuncNext = isAggregateFunc(
+            skipWhitespace(query.subString(1))
+        );
+
+        if (
+            nextChar == Token.COMMA &&
+            nextCharAfterThat != Token.LPAREN &&
+            !isAggrFuncNext
+        ) {
             query = query.subString(1);
             Intermediary restOfList = parseFieldListWithAliases(query);
             nextItem.head.left = restOfList.head;
@@ -124,12 +134,15 @@ public inherited sharing class SelectParser extends SubParser {
 
         Intermediary alias = null;
         query = skipWhitespace(nextItem.subquery);
-        if(lookahead(query, 5) != (Token.XFROM + Token.WHITESPACE) && lookahead(query, 1) != Token.COMMA) {
+        if (
+            lookahead(query, 5) != (Token.XFROM + Token.WHITESPACE) &&
+            lookahead(query, 1) != Token.COMMA
+        ) {
             // NOTE: alias might still be null after parsing, that's ok
             alias = new AliasParser().parse(query);
         }
-        
-        if(alias != null) {
+
+        if (alias != null) {
             nextItem.head.right = alias.head;
             query = alias.subquery;
             nextItem.subquery = query;
@@ -139,21 +152,24 @@ public inherited sharing class SelectParser extends SubParser {
         nextChar = lookahead(query, 1);
         nextCharAfterThat = lookahead(skipWhitespace(query.subString(1)), 1);
         isAggrFuncNext = isAggregateFunc(skipWhitespace(query.subString(1)));
-        
-        if(nextChar == Token.COMMA && nextCharAfterThat != Token.LPAREN && !isAggrFuncNext) {
+
+        if (
+            nextChar == Token.COMMA &&
+            nextCharAfterThat != Token.LPAREN &&
+            !isAggrFuncNext
+        ) {
             query = query.subString(1);
             Intermediary restOfList = parseFieldListWithAliases(query);
             nextItem.head.left = restOfList.head;
             nextItem.subquery = restOfList.subquery;
         }
 
-
-        return nextItem;        
+        return nextItem;
     }
-    
+
     private Intermediary parseElse(String query) {
         query = skipWhitespace(query);
-        if(query.length() == 0 || !isNext(query, Token.XELSE)) {
+        if (query.length() == 0 || !isNext(query, Token.XELSE)) {
             return null;
         }
         query = consume(query, Token.XELSE);
@@ -161,42 +177,42 @@ public inherited sharing class SelectParser extends SubParser {
         query = skipWhitespace(query);
         Intermediary fieldList = new FieldListParser().parse(query);
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId(NodeType.XELSE)
-            	.setNodeType(NodeType.XELSE)
-            	.setRight(fieldList.head)
-            	.build(),
+            new NodeBuilder()
+                .setId(NodeType.XELSE)
+                .setNodeType(NodeType.XELSE)
+                .setRight(fieldList.head)
+                .build(),
             fieldList.subquery
         );
     }
 
     private Intermediary parseWhenList(String query) {
         query = skipWhitespace(query);
-        if(!isNext(query, Token.XWHEN)) {
+        if (!isNext(query, Token.XWHEN)) {
             return null;
         }
 
         Intermediary whenList;
-        while(isNext(query, Token.XWHEN)) {
+        while (isNext(query, Token.XWHEN)) {
             Intermediary whenExpr = parseWhen(query);
             query = whenExpr.subquery;
             query = skipWhitespace(query);
-            if(whenList == null) {
+            if (whenList == null) {
                 whenList = whenExpr;
             } else {
                 Node curr = whenList.head;
-                while(curr.right != null) {
+                while (curr.right != null) {
                     curr = curr.right;
                 }
                 curr.right = whenExpr.head;
             }
         }
 
-        if(isNext(query, Token.XELSE)) {
+        if (isNext(query, Token.XELSE)) {
             Intermediary elseExpr = parseElse(query);
             query = elseExpr.subquery;
             Node curr = whenList.head;
-            while(curr.right != null) {
+            while (curr.right != null) {
                 curr = curr.right;
             }
             curr.right = elseExpr.head;
@@ -208,7 +224,7 @@ public inherited sharing class SelectParser extends SubParser {
 
     private Intermediary parseWhen(String query) {
         query = skipWhitespace(query);
-        if(!isNext(query, Token.XWHEN)) {
+        if (!isNext(query, Token.XWHEN)) {
             return null;
         }
 
@@ -226,19 +242,19 @@ public inherited sharing class SelectParser extends SubParser {
         Intermediary thenExpr = new FieldListParser().parse(query);
         query = thenExpr.subquery;
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId(NodeType.XWHEN)
-            	.setNodeType(NodeType.XWHEN)
-            	.setLeft(obj.head)
-            	.setRight(thenExpr.head)
-            	.build(),
+            new NodeBuilder()
+                .setId(NodeType.XWHEN)
+                .setNodeType(NodeType.XWHEN)
+                .setLeft(obj.head)
+                .setRight(thenExpr.head)
+                .build(),
             query
         );
     }
 
     private Intermediary parseTypeOf(String query) {
         query = skipWhitespace(query);
-        if(!isNext(query, Token.XTYPEOF)) {
+        if (!isNext(query, Token.XTYPEOF)) {
             return null;
         }
 
@@ -258,11 +274,11 @@ public inherited sharing class SelectParser extends SubParser {
         query = consume(query, Token.WHITESPACE);
 
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId(fieldName)
-            	.setNodeType(NodeType.XTYPEOF)
-            	.setRight(whenExpr.head)
-            	.build(),
+            new NodeBuilder()
+                .setId(fieldName)
+                .setNodeType(NodeType.XTYPEOF)
+                .setRight(whenExpr.head)
+                .build(),
             query
         );
     }

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Calculates the average of a set of values. 
+ * @description Calculates the average of a set of values.
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -32,27 +32,23 @@ public inherited sharing class AverageCalculator implements IAggregateCalculator
     AggregateCalculatorOptions options;
     /**
      * @description Constructor for the AverageCalculator class
-     * @param options 
+     * @param options
      */
     public AverageCalculator(AggregateCalculatorOptions options) {
         this.options = options;
     }
 
     /**
-     * @description Calculates the average of a set of values. 
+     * @description Calculates the average of a set of values.
      * @return  `ProtoAggregate`
      */
     public ProtoAggregate calculate() {
-        return calculate(
-            options.aggregateResult,
-            options.alias,
-            options.value
-        );
+        return calculate(options.aggregateResult, options.alias, options.value);
     }
 
     /**
      * @description Calculate the average for the field specified in the `alias` field of options,
-     *              of the grouped records of the `aggregateResult` field of options 
+     *              of the grouped records of the `aggregateResult` field of options
      * @return  `Object`
      */
     public Object calculateForField() {
@@ -61,7 +57,7 @@ public inherited sharing class AverageCalculator implements IAggregateCalculator
         Decimal sum = 0;
         List<SObject> records = aggregateResult.getRecords();
         Integer size = records.size();
-        for(SObject record : records) {
+        for (SObject record : records) {
             Object value = record.get(fieldName);
             sum += (Decimal) value;
         }
@@ -70,13 +66,17 @@ public inherited sharing class AverageCalculator implements IAggregateCalculator
 
     /**
      * @description Calculates the average of a set of values with an alias.
-     * @param aggregateResult 
-     * @param alias 
-     * @param value 
+     * @param aggregateResult
+     * @param alias
+     * @param value
      * @return  `ProtoAggregate`
      */
-    private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
-        if(value == null) {
+    private ProtoAggregate calculate(
+        ProtoAggregate aggregateResult,
+        String alias,
+        Object value
+    ) {
+        if (value == null) {
             return setAliasToNull(aggregateResult, alias);
         }
         Decimal currValue = (Decimal) aggregateResult.get(alias);
@@ -93,22 +93,25 @@ public inherited sharing class AverageCalculator implements IAggregateCalculator
 
     Decimal getValueForN(ProtoAggregate aggregateResult, String alias) {
         Decimal n = (Decimal) aggregateResult.get(alias + '__n');
-        if(n == null) {
+        if (n == null) {
             n = 1;
         }
         return n;
     }
 
-    ProtoAggregate setAliasToNull(ProtoAggregate aggregateResult, String alias) {
+    ProtoAggregate setAliasToNull(
+        ProtoAggregate aggregateResult,
+        String alias
+    ) {
         // make sure it's explicitly set to null
-        if(!aggregateResult.containsKey(alias)) {
+        if (!aggregateResult.containsKey(alias)) {
             aggregateResult.put(alias, null);
         }
         return aggregateResult;
     }
 
     Decimal calcCurrValue(Decimal currValue, Decimal newValue, Decimal n) {
-        if(currValue == null) {
+        if (currValue == null) {
             currValue = newValue;
         } else {
             currValue = currValue + (newValue - currValue) / n;

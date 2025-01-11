@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -29,7 +29,6 @@
  * @since 4/12/2024
  */
 public inherited sharing class LimitParser extends SubParser {
-
     /**
      * @description Parses the limit clause of a query
      * @param query `String`
@@ -38,26 +37,29 @@ public inherited sharing class LimitParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(query.length() < 5 || lookahead(query, 5) != 'limit') { 
+        if (query.length() < 5 || lookahead(query, 5) != 'limit') {
             return null;
         }
-        
+
         query = consume(query, 'limit ');
         query = skipWhitespace(query);
         Intermediary limitSize = new ValueParser().parse(query);
-        if(limitSize.head.nodeType != 'bind variable' && limitSize.head.nodeType != 'number') {
+        if (
+            limitSize.head.nodeType != 'bind variable' &&
+            limitSize.head.nodeType != 'number'
+        ) {
             throw new ParsingException('Invalid offset value');
         }
         String subquery = limitSize.subquery;
-        if(subquery.length() != 0) {
+        if (subquery.length() != 0) {
             subquery = consume(subquery, Token.WHITESPACE);
         }
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId('limit')
-            	.setNodeType('limit')
-            	.setLeft(limitSize.head)
-            	.build(),
+            new NodeBuilder()
+                .setId('limit')
+                .setNodeType('limit')
+                .setLeft(limitSize.head)
+                .build(),
             limitSize.subquery
         );
     }

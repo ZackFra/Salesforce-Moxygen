@@ -1,5 +1,5 @@
 /**
- * @description Comparable class for YESTERDAY 
+ * @description Comparable class for YESTERDAY
  * @author Zackary Frazier
  * @since 12/29/2024
  */
@@ -11,7 +11,8 @@ public with sharing class YesterdayComparable extends DateLiteralComparable {
      */
     public override Boolean isEqual(DateTime fieldValue) {
         Date yesterday = GMT.today().addDays(-1);
-        return yesterday <= (DateTime) fieldValue && (DateTime) fieldValue < GMT.today();
+        return yesterday <= (DateTime) fieldValue &&
+            (DateTime) fieldValue < GMT.today();
     }
 
     /**

@@ -4,23 +4,17 @@
   "version": "1.0.0",
   "description": "Salesforce App",
   "scripts": {
-
     "sf:scratch:create": "sf org create scratch --definition-file config/moxygen-scratch-def.json --target-dev-hub Moxygen --set-default --alias Dev",
     "sf:scratch:delete": "sf org delete scratch",
-    
     "sf:deploy": "sf project deploy start --source-dir moxygen",
     "sf:validate": "sf project deploy validate --test-level RunLocalTests --source-dir moxygen",
     "sf:codescan": "sf scanner run --target .",
-
     "sf:apex:test": "sf apex run test --synchronous",
-    
     "sf:moxygen:scratch": "npm run sf:scratch:create && npm run sf:deploy",
     "sf:moxygen:install": "npm run sf:deploy",
     "sf:moxygen:install:package": "node ./scripts/js/install-moxygen.js",
     "sf:moxygen:version:create": "sf package version create --package Moxygen --installation-key-bypass --wait 10",
-
     "diagnostics": "./scripts/go/instance_upgrade/bin/main",
-
     "lint": "eslint **/{aura,lwc}/**/*.js",
     "test": "npm run test:unit",
     "test:unit": "sfdx-lwc-jest",
@@ -29,6 +23,7 @@
     "test:unit:coverage": "sfdx-lwc-jest --coverage",
     "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
     "prettier:verify": "prettier --check \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
+    "prettier:apex": "prettier --plugin=prettier-plugin-apex --write \"**/*.{cls,trigger,apex}\"",
     "postinstall": "husky install",
     "precommit": "lint-staged"
   },
@@ -44,21 +39,24 @@
     "eslint-plugin-jest": "^27.2.3",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "prettier": "^3.0.3",
-    "prettier-plugin-apex": "^2.0.1"
+    "prettier": "^3.4.2",
+    "prettier-plugin-apex": "^2.2.2"
   },
   "lint-staged": {
-    "**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}": [
-      "prettier --write"
+    "**/*.{**/*.{cls,trigger,apex}}": [
+      "prettier --plugin=prettier-plugin-apex --write"
     ],
     "**/{aura,lwc}/**/*.js": [
       "eslint"
     ]
   },
-  "apexdocs": { 
-    "sourceDir": "moxygen", 
+  "apexdocs": {
+    "sourceDir": "moxygen",
     "targetDir": "docs",
-    "scope": ["public", "global"],
+    "scope": [
+      "public",
+      "global"
+    ],
     "sortAlphabetically": true,
     "defaultGroupName": "Uncategorized"
   },

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,31 +24,26 @@
  */
 
 /**
- * @description Calculates the minimum value of a field 
+ * @description Calculates the minimum value of a field
  * @author Zackary Frazier
  * @since 3/23/2024
  */
 public with sharing class MinCalculator implements IAggregateCalculator {
-
     AggregateCalculatorOptions options;
     /**
      * @description Constructor
-     * @param options 
+     * @param options
      */
     public MinCalculator(AggregateCalculatorOptions options) {
         this.options = options;
     }
 
     /**
-     * @description Calculates the minimum value of a field 
+     * @description Calculates the minimum value of a field
      * @return  `ProtoAggregate`
      */
     public ProtoAggregate calculate() {
-        return calculate(
-            options.aggregateResult,
-            options.alias,
-            options.value
-        );
+        return calculate(options.aggregateResult, options.alias, options.value);
     }
 
     /**
@@ -64,21 +59,25 @@ public with sharing class MinCalculator implements IAggregateCalculator {
         String fieldName = options.alias;
         Decimal min = (Decimal) firstRecord.get(fieldName);
 
-        for(Integer i = 1; i < records.size(); i++) {
+        for (Integer i = 1; i < records.size(); i++) {
             SObject record = records[i];
             Object value = record.get(fieldName);
-            if(value != null) {
+            if (value != null) {
                 Decimal decimalValue = (Decimal) value;
                 min = Math.min(min, decimalValue);
             }
         }
-        return min;        
+        return min;
     }
-    
-    private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
-        if(value == null) {
+
+    private ProtoAggregate calculate(
+        ProtoAggregate aggregateResult,
+        String alias,
+        Object value
+    ) {
+        if (value == null) {
             // make sure it's explicitly set to null
-            if(!aggregateResult.containsKey(alias)) {
+            if (!aggregateResult.containsKey(alias)) {
                 aggregateResult.put(alias, null);
             }
             return aggregateResult;
@@ -86,7 +85,7 @@ public with sharing class MinCalculator implements IAggregateCalculator {
         Decimal currValue = (Decimal) aggregateResult.get(alias);
         Decimal newValue = (Decimal) value;
 
-        if(currValue == null) {
+        if (currValue == null) {
             currValue = newValue;
         } else {
             currValue = Math.min(currValue, newValue);

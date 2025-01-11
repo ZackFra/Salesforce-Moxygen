@@ -1,5 +1,5 @@
 /**
- * @description Comparable class for TODAY 
+ * @description Comparable class for TODAY
  * @author Zackary Frazier
  * @since 12/29/2024
  */

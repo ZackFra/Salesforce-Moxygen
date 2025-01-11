@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,11 +23,11 @@
  *
  */
 
- /**
-  * @description This class is used to parse the WITH DATA CATEGORY clause in a SOQL query 
-  * @author Zackary Frazier
-  * @since 4/12/2024
-  */
+/**
+ * @description This class is used to parse the WITH DATA CATEGORY clause in a SOQL query
+ * @author Zackary Frazier
+ * @since 4/12/2024
+ */
 public inherited sharing class WithDataCategoryParser extends SubParser {
     /**
      * @description Parses the WITH DATA CATEGORY clause in a SOQL query
@@ -37,8 +37,10 @@ public inherited sharing class WithDataCategoryParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(lookahead(query, 4) == 'with') {
-            throw new ParsingException('WITH [DATA CATEGORY] is not supported by the mock SOQL parser');
+        if (lookahead(query, 4) == 'with') {
+            throw new ParsingException(
+                'WITH [DATA CATEGORY] is not supported by the mock SOQL parser'
+            );
         }
         return null;
     }

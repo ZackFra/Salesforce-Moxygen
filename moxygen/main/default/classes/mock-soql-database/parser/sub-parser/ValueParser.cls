@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,13 +23,12 @@
  *
  */
 
- /**
-  * @description This class is responsible for parsing values in the query string 
-  * @author Zackary Frazier
-  * @since 4/12/2024
-  */
+/**
+ * @description This class is responsible for parsing values in the query string
+ * @author Zackary Frazier
+ * @since 4/12/2024
+ */
 public inherited sharing class ValueParser extends SubParser {
-
     /**
      * @description Parses the value in the query string
      * @param query `String`
@@ -39,10 +38,17 @@ public inherited sharing class ValueParser extends SubParser {
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
         try {
-            SubParser primitiveParser = PrimitiveParserFactory.getPrimitiveParser(query);
+            SubParser primitiveParser = PrimitiveParserFactory.getPrimitiveParser(
+                query
+            );
             return primitiveParser.parse(query);
-        } catch(Exception e) {
-            throw new ParsingException('Error parsing value: ' + query + ' Failed with exception: ' + e.getMessage());
+        } catch (Exception e) {
+            throw new ParsingException(
+                'Error parsing value: ' +
+                    query +
+                    ' Failed with exception: ' +
+                    e.getMessage()
+            );
         }
     }
 }

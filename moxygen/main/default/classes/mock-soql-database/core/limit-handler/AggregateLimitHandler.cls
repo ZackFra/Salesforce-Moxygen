@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Handles the limit for the aggregate query 
+ * @description Handles the limit for the aggregate query
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -47,9 +47,11 @@ public with sharing class AggregateLimitHandler implements ILimitHandler {
         Object obj = options.getObj();
         Integer limitSize = options.getLimitSize();
 
-        List<ProtoAggregate> resultsList = new List<ProtoAggregate>((List<ProtoAggregate>) obj);
-        while(resultsList.size() > limitSize) {
-            resultsList.remove(resultsList.size()-1);
+        List<ProtoAggregate> resultsList = new List<ProtoAggregate>(
+            (List<ProtoAggregate>) obj
+        );
+        while (resultsList.size() > limitSize) {
+            resultsList.remove(resultsList.size() - 1);
         }
         return resultsList;
     }

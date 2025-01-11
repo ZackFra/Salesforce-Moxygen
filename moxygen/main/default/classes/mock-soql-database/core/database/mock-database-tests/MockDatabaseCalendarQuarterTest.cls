@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,18 +23,19 @@
  *
  */
 @isTest
-@SuppressWarnings('PMD.ApexUnitTestClassShouldHaveAsserts,PMD.CyclomaticComplexity')
+@SuppressWarnings(
+    'PMD.ApexUnitTestClassShouldHaveAsserts,PMD.CyclomaticComplexity'
+)
 private class MockDatabaseCalendarQuarterTest {
-
     final static Integer YEAR = 2024;
     final static Integer DAY = 1;
 
-    static final Map<Integer, Integer> RECORDS_BY_QUARTER = new Map<Integer, Integer> {
+    static final Map<Integer, Integer> RECORDS_BY_QUARTER = new Map<Integer, Integer>{
         1 => 5,
         2 => 3,
         3 => 7,
         4 => 2
-    };    
+    };
 
     /**
      * @description Ensure this date function works with Date fields
@@ -49,14 +50,18 @@ private class MockDatabaseCalendarQuarterTest {
 
         Test.startTest();
         List<Opportunity> oppList = Selector.query(
-                'SELECT Id, Name' +
+            'SELECT Id, Name' +
                 ' FROM Opportunity' +
                 ' WHERE CALENDAR_QUARTER(CloseDate) = 1'
         );
         Test.stopTest();
 
         Assert.areEqual(1, oppList.size(), 'Incorrect number of opportunities');
-        Assert.areEqual('First Calendar Quarter', oppList[0].Name, 'Incorrect opportunity');
+        Assert.areEqual(
+            'First Calendar Quarter',
+            oppList[0].Name,
+            'Incorrect opportunity'
+        );
     }
 
     /**
@@ -70,19 +75,19 @@ private class MockDatabaseCalendarQuarterTest {
         opportunities.addAll(createOpportunitiesInCalendarQuarter(3, 3));
         opportunities.addAll(createOpportunitiesInCalendarQuarter(2, 4));
         DML.doMockInsert(opportunities);
-        
+
         Test.startTest();
         List<Opportunity> queriedOpportunities = Selector.query(
-                'SELECT Id, Name' +
+            'SELECT Id, Name' +
                 ' FROM Opportunity' +
                 ' WHERE CALENDAR_QUARTER(CloseDate) = 2'
         );
         Test.stopTest();
 
         Assert.areEqual(
-            	4,
-            	queriedOpportunities.size(),
-            	'Incorrect number of opportunities'
+            4,
+            queriedOpportunities.size(),
+            'Incorrect number of opportunities'
         );
     }
 
@@ -96,16 +101,12 @@ private class MockDatabaseCalendarQuarterTest {
         Test.startTest();
         List<Case> queriedCases = Selector.query(
             'SELECT CaseNumber ' +
-            ' FROM Case' +
-            ' WHERE CALENDAR_QUARTER(ClosedDate) = 1'
+                ' FROM Case' +
+                ' WHERE CALENDAR_QUARTER(ClosedDate) = 1'
         );
         Test.stopTest();
 
-        Assert.areEqual(
-            1,
-            queriedCases.size(),
-            'Expected case to be queried'
-        );
+        Assert.areEqual(1, queriedCases.size(), 'Expected case to be queried');
     }
 
     @IsTest
@@ -157,7 +158,7 @@ private class MockDatabaseCalendarQuarterTest {
         Test.stopTest();
         Assert.areEqual(
             0,
-            queriedOpps.size(), 
+            queriedOpps.size(),
             'Expected no opportunities to be returned when querying by invalid calendar quarter'
         );
     }
@@ -167,11 +168,13 @@ private class MockDatabaseCalendarQuarterTest {
         List<Opportunity> opps = buildTestOpportunities();
         DML.doMockInsert(opps);
         Test.startTest();
-        List<Opportunity> queriedOpps = queryOpportunitiesByCalendarQuarter(-50);
+        List<Opportunity> queriedOpps = queryOpportunitiesByCalendarQuarter(
+            -50
+        );
         Test.stopTest();
         Assert.areEqual(
             0,
-            queriedOpps.size(), 
+            queriedOpps.size(),
             'Expected no opportunities to be returned when querying by invalid calendar quarter'
         );
     }
@@ -185,9 +188,9 @@ private class MockDatabaseCalendarQuarterTest {
         Test.stopTest();
         Assert.areEqual(
             0,
-            queriedCases.size(), 
+            queriedCases.size(),
             'Expected no cases to be returned when querying by invalid calendar quarter'
-        );        
+        );
     }
 
     @IsTest
@@ -199,9 +202,9 @@ private class MockDatabaseCalendarQuarterTest {
         Test.stopTest();
         Assert.areEqual(
             0,
-            queriedCases.size(), 
+            queriedCases.size(),
             'Expected no cases to be returned when querying by invalid calendar quarter'
-        );        
+        );
     }
 
     @IsTest
@@ -248,7 +251,9 @@ private class MockDatabaseCalendarQuarterTest {
         List<Opportunity> opps = buildTestOpportunities();
         DML.doMockInsert(opps);
         Test.startTest();
-        List<Aggregate> queriedOpportunities = queryOpportunitiesHavingCalendarQuarterUnselected(targetCalendarQuarter);
+        List<Aggregate> queriedOpportunities = queryOpportunitiesHavingCalendarQuarterUnselected(
+            targetCalendarQuarter
+        );
         Test.stopTest();
         Integer targetRecords = RECORDS_BY_QUARTER.get(targetCalendarQuarter);
         Assert.areEqual(
@@ -262,7 +267,9 @@ private class MockDatabaseCalendarQuarterTest {
         List<Opportunity> opps = buildTestOpportunities();
         DML.doMockInsert(opps);
         Test.startTest();
-        List<Aggregate> queriedOpportunities = queryOpportunitiesHavingCalendarQuarter(targetCalendarQuarter);
+        List<Aggregate> queriedOpportunities = queryOpportunitiesHavingCalendarQuarter(
+            targetCalendarQuarter
+        );
         Test.stopTest();
         Integer targetRecords = RECORDS_BY_QUARTER.get(targetCalendarQuarter);
         Assert.areEqual(
@@ -276,7 +283,9 @@ private class MockDatabaseCalendarQuarterTest {
         List<Opportunity> opps = buildTestOpportunities();
         DML.doMockInsert(opps);
         Test.startTest();
-        List<Opportunity> queriedOpportunities = queryOpportunitiesByCalendarQuarter(targetCalendarQuarter);
+        List<Opportunity> queriedOpportunities = queryOpportunitiesByCalendarQuarter(
+            targetCalendarQuarter
+        );
         Test.stopTest();
 
         Integer targetRecords = RECORDS_BY_QUARTER.get(targetCalendarQuarter);
@@ -289,53 +298,67 @@ private class MockDatabaseCalendarQuarterTest {
 
     static List<Opportunity> buildTestOpportunities() {
         List<Opportunity> opps = new List<Opportunity>();
-        opps.addAll(createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(1), 1));
-        opps.addAll(createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(2), 2));
-        opps.addAll(createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(3), 3));
-        opps.addAll(createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(4), 4));
+        opps.addAll(
+            createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(1), 1)
+        );
+        opps.addAll(
+            createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(2), 2)
+        );
+        opps.addAll(
+            createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(3), 3)
+        );
+        opps.addAll(
+            createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(4), 4)
+        );
         return opps;
     }
 
-    static List<Aggregate> queryOpportunitiesHavingCalendarQuarter(Integer targetCalendarQuarter) {
-        Map<String, Object> binds = new Map<String, Object> {
+    static List<Aggregate> queryOpportunitiesHavingCalendarQuarter(
+        Integer targetCalendarQuarter
+    ) {
+        Map<String, Object> binds = new Map<String, Object>{
             'targetCalendarQuarter' => targetCalendarQuarter
         };
         return Selector.aggregateQueryWithBinds(
             'SELECT Name, CALENDAR_QUARTER(CloseDate)' +
-            ' FROM Opportunity' +
-            ' GROUP BY Name, CloseDate' +
-            ' HAVING CALENDAR_QUARTER(CloseDate) = :targetCalendarQuarter', 
-            binds, 
+                ' FROM Opportunity' +
+                ' GROUP BY Name, CloseDate' +
+                ' HAVING CALENDAR_QUARTER(CloseDate) = :targetCalendarQuarter',
+            binds,
             AccessLevel.SYSTEM_MODE
         );
     }
 
-    static List<Aggregate> queryOpportunitiesHavingCalendarQuarterUnselected(Integer targetCalendarQuarter) {
-        Map<String, Object> binds = new Map<String, Object> {
+    static List<Aggregate> queryOpportunitiesHavingCalendarQuarterUnselected(
+        Integer targetCalendarQuarter
+    ) {
+        Map<String, Object> binds = new Map<String, Object>{
             'targetCalendarQuarter' => targetCalendarQuarter
         };
         // the difference here is that CALENDAR_QUARTER(CloseDate) is not in the SELECT clause,
         // but this is a valid query that should return the same result, except with the CloseDate selected
         return Selector.aggregateQueryWithBinds(
             'SELECT Name, CloseDate' +
-            ' FROM Opportunity' +
-            ' GROUP BY Name, CloseDate' +
-            ' HAVING CALENDAR_QUARTER(CloseDate) = :targetCalendarQuarter', 
-            binds, 
+                ' FROM Opportunity' +
+                ' GROUP BY Name, CloseDate' +
+                ' HAVING CALENDAR_QUARTER(CloseDate) = :targetCalendarQuarter',
+            binds,
             AccessLevel.SYSTEM_MODE
         );
     }
 
-    static List<Opportunity> queryOpportunitiesByCalendarQuarter(Integer targetCalendarQuarter) {
-        Map<String, Object> binds = new Map<String, Object> {
+    static List<Opportunity> queryOpportunitiesByCalendarQuarter(
+        Integer targetCalendarQuarter
+    ) {
+        Map<String, Object> binds = new Map<String, Object>{
             'targetCalendarQuarter' => targetCalendarQuarter
         };
         return Selector.queryWithBinds(
             'SELECT Id ' +
-            ' FROM Opportunity' +
-            ' WHERE CALENDAR_QUARTER(CloseDate) = :targetCalendarQuarter',
+                ' FROM Opportunity' +
+                ' WHERE CALENDAR_QUARTER(CloseDate) = :targetCalendarQuarter',
             binds,
-            AccessLevel.SYSTEM_MODE 
+            AccessLevel.SYSTEM_MODE
         );
     }
 
@@ -343,7 +366,9 @@ private class MockDatabaseCalendarQuarterTest {
         List<Case> cases = buildTestCases();
         DML.doMockInsert(cases);
         Test.startTest();
-        List<Case> queriedCases = queryCasesByCalendarQuarter(targetCalendarQuarter);
+        List<Case> queriedCases = queryCasesByCalendarQuarter(
+            targetCalendarQuarter
+        );
         Test.stopTest();
 
         Integer targetRecords = RECORDS_BY_QUARTER.get(targetCalendarQuarter);
@@ -355,55 +380,70 @@ private class MockDatabaseCalendarQuarterTest {
     }
 
     static List<Case> buildTestCases() {
-        List<Case> cases = new List<Case>(); 
-        cases.addAll(createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(1), 1));
-        cases.addAll(createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(2), 2));
-        cases.addAll(createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(3), 3));
-        cases.addAll(createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(4), 4));
+        List<Case> cases = new List<Case>();
+        cases.addAll(
+            createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(1), 1)
+        );
+        cases.addAll(
+            createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(2), 2)
+        );
+        cases.addAll(
+            createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(3), 3)
+        );
+        cases.addAll(
+            createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(4), 4)
+        );
         return cases;
     }
 
     static List<Case> queryCasesByCalendarQuarter(Integer calendarQuarter) {
-        Map<String, Object> binds = new Map<String, Object> {
+        Map<String, Object> binds = new Map<String, Object>{
             'targetCalendarQuarter' => calendarQuarter
         };
         return Selector.queryWithBinds(
             'SELECT Id ' +
-            ' FROM Case' +
-            ' WHERE CALENDAR_QUARTER(ClosedDate) = :targetCalendarQuarter',
+                ' FROM Case' +
+                ' WHERE CALENDAR_QUARTER(ClosedDate) = :targetCalendarQuarter',
             binds,
-            AccessLevel.SYSTEM_MODE 
+            AccessLevel.SYSTEM_MODE
         );
     }
 
-    static List<Case> createCasesInCalendarQuarter(Integer numberOfCases, Integer calendarQuarter) {
-        List<Integer> calendarQuarters = new List<Integer> { 1, 2, 3, 4};
-        if(!calendarQuarters.contains(calendarQuarter)) {
+    static List<Case> createCasesInCalendarQuarter(
+        Integer numberOfCases,
+        Integer calendarQuarter
+    ) {
+        List<Integer> calendarQuarters = new List<Integer>{ 1, 2, 3, 4 };
+        if (!calendarQuarters.contains(calendarQuarter)) {
             throw new IllegalArgumentException('Invalid calendar quarter');
         }
         List<Case> cases = new List<Case>();
         Integer month = calendarQuarter * 3 - 1;
-        for(Integer i = 0; i < numberOfCases; i++) {
+        for (Integer i = 0; i < numberOfCases; i++) {
             Case newCase = (Case) Common.putReadOnlyField(
-                new Case(), 
-                'ClosedDate', 
+                new Case(),
+                'ClosedDate',
                 DateTime.newInstance(YEAR, month, DAY, 0, 0, 0)
             );
             cases.add(newCase);
         }
-        return cases;        
+        return cases;
     }
 
-    static List<Opportunity> createOpportunitiesInCalendarQuarter(Integer numberOfOpps, Integer calendarQuarter) {
-        List<Integer> calendarQuarters = new List<Integer> { 1, 2, 3, 4};
-        if(!calendarQuarters.contains(calendarQuarter)) {
+    static List<Opportunity> createOpportunitiesInCalendarQuarter(
+        Integer numberOfOpps,
+        Integer calendarQuarter
+    ) {
+        List<Integer> calendarQuarters = new List<Integer>{ 1, 2, 3, 4 };
+        if (!calendarQuarters.contains(calendarQuarter)) {
             throw new IllegalArgumentException('Invalid calendar quarter');
         }
         List<Opportunity> opportunities = new List<Opportunity>();
         Integer month = calendarQuarter * 3 - 1;
-        for(Integer i = 0; i < numberOfOpps; i++) {
+        for (Integer i = 0; i < numberOfOpps; i++) {
             Opportunity newOpp = new Opportunity(
-                Name = 'Test Opportunity ' + String.valueOf(Math.random()).left(8),
+                Name = 'Test Opportunity ' +
+                    String.valueOf(Math.random()).left(8),
                 CloseDate = Date.newInstance(YEAR, month, DAY)
             );
             opportunities.add(newOpp);

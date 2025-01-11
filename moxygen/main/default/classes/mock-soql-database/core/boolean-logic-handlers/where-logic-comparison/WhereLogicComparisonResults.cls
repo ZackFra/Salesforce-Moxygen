@@ -1,10 +1,9 @@
 /**
- * @description Contains the results of a where logic comparison 
+ * @description Contains the results of a where logic comparison
  * @author Zackary Frazier
  * @since 11/28/2024
  */
 public virtual class WhereLogicComparisonResults {
-    
     Object recordFieldValue;
     String finalField;
     Boolean isPolymorphicTypeField = false;
@@ -14,10 +13,11 @@ public virtual class WhereLogicComparisonResults {
      * @description protected constructor
      */
     @SuppressWarnings('PMD.EmptyStatementBlock')
-    protected WhereLogicComparisonResults() {}
+    protected WhereLogicComparisonResults() {
+    }
 
     /**
-     * @description Get the record field value 
+     * @description Get the record field value
      * @return  `Object`
      */
     public Object getRecordFieldValue() {
@@ -25,7 +25,7 @@ public virtual class WhereLogicComparisonResults {
     }
 
     /**
-     * @description Get the final field 
+     * @description Get the final field
      * @return  `String`
      */
     public String getFinalField() {
@@ -33,7 +33,7 @@ public virtual class WhereLogicComparisonResults {
     }
 
     /**
-     * @description Get if the field is "THE" polymorphic type field 
+     * @description Get if the field is "THE" polymorphic type field
      * @return  `Boolean`
      */
     public Boolean getIsPolymorphicTypeField() {
@@ -41,7 +41,7 @@ public virtual class WhereLogicComparisonResults {
     }
 
     /**
-     * @description Get the parent record 
+     * @description Get the parent record
      * @return  `SObject`
      */
     public SObject getParentRecord() {
@@ -55,7 +55,7 @@ public virtual class WhereLogicComparisonResults {
         WhereLogicComparisonResults results = new WhereLogicComparisonResults();
         /**
          * @description Set the final field
-         * @param finalField 
+         * @param finalField
          * @return  `Builder`
          */
         public Builder setFinalField(String finalField) {
@@ -65,7 +65,7 @@ public virtual class WhereLogicComparisonResults {
 
         /**
          * @description Set the record field value
-         * @param recordFieldValue 
+         * @param recordFieldValue
          * @return  `Builder`
          */
         public Builder setRecordFieldValue(Object recordFieldValue) {
@@ -75,17 +75,19 @@ public virtual class WhereLogicComparisonResults {
 
         /**
          * @description Set if the field is "THE" polymorphic type field
-         * @param isPolymorphicTypeField 
+         * @param isPolymorphicTypeField
          * @return  `Builder`
          */
-        public Builder setIsPolymorphicTypeField(Boolean isPolymorphicTypeField) {
+        public Builder setIsPolymorphicTypeField(
+            Boolean isPolymorphicTypeField
+        ) {
             results.isPolymorphicTypeField = isPolymorphicTypeField;
             return this;
         }
 
         /**
          * @description Set the parent record
-         * @param parentRecord 
+         * @param parentRecord
          * @return  `Builder`
          */
         public Builder setParentRecord(SObject parentRecord) {
@@ -94,7 +96,7 @@ public virtual class WhereLogicComparisonResults {
         }
 
         /**
-         * @description Build the `WhereLogicComparisonResults` 
+         * @description Build the `WhereLogicComparisonResults`
          * @return  `WhereLogicComparisonResults`
          */
         public WhereLogicComparisonResults build() {

@@ -1,5 +1,5 @@
 /**
- * @description Comparable class for N_DAYS_AGO 
+ * @description Comparable class for N_DAYS_AGO
  * @author Zackary Frazier
  * @since 12/29/2024
  */

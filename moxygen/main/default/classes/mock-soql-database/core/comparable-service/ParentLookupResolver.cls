@@ -1,10 +1,9 @@
 /**
- * @description A class to resolve a parent lookup chain 
+ * @description A class to resolve a parent lookup chain
  * @author Zackary Frazier
  * @since 11/28/2024
  */
 public with sharing class ParentLookupResolver {
-    
     /**
      * @description split a parent lookup chain into its parts
      * @param fieldLookupChain `String`
@@ -12,8 +11,8 @@ public with sharing class ParentLookupResolver {
      */
     public ParentLookupChain splitParentLookupChain(String fieldLookupChain) {
         List<String> fieldParts = fieldLookupChain.split('\\.');
-        String finalField = fieldParts[fieldParts.size()-1];
-        fieldParts.remove(fieldParts.size()-1);
+        String finalField = fieldParts[fieldParts.size() - 1];
+        fieldParts.remove(fieldParts.size() - 1);
         return new ParentLookupChain(finalField, fieldParts);
     }
 
@@ -33,9 +32,9 @@ public with sharing class ParentLookupResolver {
             this.finalField = finalField;
             this.fieldParts = fieldParts;
         }
-        
+
         /**
-         * @description Get the final field 
+         * @description Get the final field
          * @return  `String`
          */
         public String getFinalField() {
@@ -43,7 +42,7 @@ public with sharing class ParentLookupResolver {
         }
 
         /**
-         * @description Get the field parts 
+         * @description Get the field parts
          * @return  `List<String>`
          */
         public List<String> getFieldParts() {

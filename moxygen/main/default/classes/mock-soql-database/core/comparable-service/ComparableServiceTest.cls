@@ -1,24 +1,33 @@
 @isTest
 private class ComparableServiceTest {
-
     @isTest
     static void ensureIsParentFieldIdentifiesParentLookups() {
         String fieldLookupChain = 'Account.Parent.Name';
         Test.startTest();
-        Boolean isParentField = ComparableService.isParentRecordLookup(fieldLookupChain);
+        Boolean isParentField = ComparableService.isParentRecordLookup(
+            fieldLookupChain
+        );
         Test.stopTest();
 
-        Assert.isTrue(isParentField, 'Field lookup chain should be a parent field');
+        Assert.isTrue(
+            isParentField,
+            'Field lookup chain should be a parent field'
+        );
     }
 
     @isTest
     static void ensureIsParentRecordLookupIdentifiesLocalFields() {
         String fieldLookupChain = 'Name';
         Test.startTest();
-        Boolean isParentField = ComparableService.isParentRecordLookup(fieldLookupChain);
+        Boolean isParentField = ComparableService.isParentRecordLookup(
+            fieldLookupChain
+        );
         Test.stopTest();
 
-        Assert.isFalse(isParentField, 'Field lookup chain should not be a parent field');
+        Assert.isFalse(
+            isParentField,
+            'Field lookup chain should not be a parent field'
+        );
     }
 
     @isTest
@@ -30,10 +39,17 @@ private class ComparableServiceTest {
         MockDatabase.doInsert(con, true);
 
         Test.startTest();
-        ComparableRecordData comparableInfo = ComparableService.getComparables(con, fieldLookupChain);
+        ComparableRecordData comparableInfo = ComparableService.getComparables(
+            con,
+            fieldLookupChain
+        );
         Test.stopTest();
 
         SObject record = comparableInfo.getComparableRecord();
-        Assert.areEqual(acct.Name, record.get('Name'), 'Parent field should be returned');
+        Assert.areEqual(
+            acct.Name,
+            record.get('Name'),
+            'Parent field should be returned'
+        );
     }
 }

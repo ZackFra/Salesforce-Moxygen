@@ -4,7 +4,7 @@
  * @since 12/29/2024
  */
 public with sharing class DateLiteralComparableFactory {
-    static final Map<String, Type> COMPARABLE_BY_TOKEN = new Map<String, Type> {
+    static final Map<String, Type> COMPARABLE_BY_TOKEN = new Map<String, Type>{
         Token.TODAY_LITERAL => TodayComparable.class,
         Token.YESTERDAY_LITERAL => YesterdayComparable.class,
         Token.TOMORROW_LITERAL => TomorrowComparable.class,
@@ -47,10 +47,12 @@ public with sharing class DateLiteralComparableFactory {
     public static DateLiteralComparable create(DateLiteral dateLiteral) {
         String fieldValue = dateLiteral.fieldValue;
         String tokenValue = fieldValue.split(':')[0];
-        
+
         Type comparableType = COMPARABLE_BY_TOKEN.get(tokenValue);
-        if(comparableType == null) {
-            throw new ValidationException('Unexpected date literal ' + fieldValue);
+        if (comparableType == null) {
+            throw new ValidationException(
+                'Unexpected date literal ' + fieldValue
+            );
         }
         DateLiteralComparable comparable = (DateLiteralComparable) comparableType.newInstance();
         return comparable.withToken(fieldValue);

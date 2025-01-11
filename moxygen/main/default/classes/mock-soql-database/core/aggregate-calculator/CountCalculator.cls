@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description CountCalculator is a concrete implementation of IAggregateCalculator that calculates the count of records. 
+ * @description CountCalculator is a concrete implementation of IAggregateCalculator that calculates the count of records.
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -33,25 +33,22 @@ public with sharing class CountCalculator implements IAggregateCalculator {
 
     /**
      * @description Constructor for CountCalculator
-     * @param options 
+     * @param options
      */
     public CountCalculator(AggregateCalculatorOptions options) {
         this.options = options;
     }
 
     /**
-     * @description Calculates the count of records 
+     * @description Calculates the count of records
      * @return  `ProtoAggregate`
      */
     public ProtoAggregate calculate() {
-        return calculate(
-            options.aggregateResult, 
-            options.alias
-        );
+        return calculate(options.aggregateResult, options.alias);
     }
 
     /**
-     * @description Returns the count of records for the `aggregateResult` passed into options 
+     * @description Returns the count of records for the `aggregateResult` passed into options
      * @return  `Object`
      */
     public Object calculateForField() {
@@ -60,13 +57,16 @@ public with sharing class CountCalculator implements IAggregateCalculator {
 
     /**
      * @description Calculates the count of records
-     * @param aggregateResult 
-     * @param alias 
+     * @param aggregateResult
+     * @param alias
      * @return  `ProtoAggregate`
      */
-    private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias) {
+    private ProtoAggregate calculate(
+        ProtoAggregate aggregateResult,
+        String alias
+    ) {
         Integer currValue = (Integer) aggregateResult.get(alias);
-        if(currValue == null) {
+        if (currValue == null) {
             currValue = 0;
         }
         aggregateResult.put(alias, currValue + 1);

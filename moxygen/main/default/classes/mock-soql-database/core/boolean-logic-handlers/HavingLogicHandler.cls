@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -29,10 +29,9 @@
  * @since 3/23/2024
  */
 public with sharing class HavingLogicHandler extends BooleanLogicHandler {
-
     /**
      * @description Constructor
-     * @param options 
+     * @param options
      */
     public HavingLogicHandler(BooleanLogicOptions options) {
         super(options);
@@ -49,58 +48,66 @@ public with sharing class HavingLogicHandler extends BooleanLogicHandler {
         ProtoAggregate aggr = (ProtoAggregate) this.obj;
 
         Node aggrNode = operatorNode.left;
-        
+
         Object value = getGroupByFieldValue(aggr, aggrNode);
 
         Node valueNode = operatorNode.right;
         Object expectedValue = getExpectedValueFrom(valueNode);
-        
+
         OperatorHandlerFactory handlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = handlerFactory.getHandler(operatorNode.id);
         return handler.handle(value, expectedValue);
     }
 
-
     Object getGroupByFieldValue(ProtoAggregate aggr, Node aggrNode) {
-        if(aggrNode.nodeType == NodeType.AGGREGATE_FUNCTION) {
-           return getGroupByFieldValueWhenAggregateFunc(aggr, aggrNode);
+        if (aggrNode.nodeType == NodeType.AGGREGATE_FUNCTION) {
+            return getGroupByFieldValueWhenAggregateFunc(aggr, aggrNode);
         } else {
             return getGroupByFieldValueWhenField(aggr, aggrNode);
         }
     }
 
-    Object getGroupByFieldValueWhenAggregateFunc(ProtoAggregate aggr, Node aggrNode) {
+    Object getGroupByFieldValueWhenAggregateFunc(
+        ProtoAggregate aggr,
+        Node aggrNode
+    ) {
         SObject groupedRecord = aggr.getRecords()[0];
         String groupedFieldApiName = SchemaService.getFieldName(
-            groupedRecord.getSObjectType(), 
+            groupedRecord.getSObjectType(),
             aggrNode.right.id
         );
         AggregateCalculatorOptions options = new AggregateCalculatorOptions()
             .setAggregateResult(aggr)
             .setAlias(groupedFieldApiName);
-        IAggregateCalculator calculator = AggregateCalculatorFactory.getCalculator(aggrNode.id, options);
+        IAggregateCalculator calculator = AggregateCalculatorFactory.getCalculator(
+            aggrNode.id,
+            options
+        );
         Object value = calculator.calculateForField();
-        return value;        
+        return value;
     }
 
     Object getGroupByFieldValueWhenField(ProtoAggregate aggr, Node aggrNode) {
         SObject groupedRecord = aggr.getRecords()[0];
         String fieldName = aggrNode.id;
-        
-        ComparableRecordData comparableInfo = ComparableService.getComparables(groupedRecord, fieldName);
+
+        ComparableRecordData comparableInfo = ComparableService.getComparables(
+            groupedRecord,
+            fieldName
+        );
         String comparableField = comparableInfo.getComparableFieldName();
         SObject comparableRecord = comparableInfo.getComparableRecord();
         Boolean isPolymorphic = comparableInfo.getIsPolymorphic();
 
         Boolean isType = comparableField == 'Type';
-        if(isPolymorphic && isType) {
+        if (isPolymorphic && isType) {
             return SchemaService.getSObjectName(comparableRecord);
-        } 
-        return comparableRecord.get(comparableField);  
+        }
+        return comparableRecord.get(comparableField);
     }
 
     Object getExpectedValueFrom(Node valueNode) {
-        if(valueNode.nodeType == NodeType.BIND_VAR) {
+        if (valueNode.nodeType == NodeType.BIND_VAR) {
             return String.valueOf(params.get(valueNode.id));
         }
         return valueNode.id;

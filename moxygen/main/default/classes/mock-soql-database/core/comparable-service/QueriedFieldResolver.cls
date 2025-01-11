@@ -1,5 +1,5 @@
 /**
- * @description This class is used to resolve the field in a query 
+ * @description This class is used to resolve the field in a query
  * @author Zackary Frazier
  * @since 11/24/2024
  */
@@ -8,14 +8,15 @@ public inherited sharing virtual class QueriedFieldResolver {
     protected SObject comparableRecord;
 
     @SuppressWarnings('PMD.EmptyStatementBlock')
-    protected QueriedFieldResolver() {}
+    protected QueriedFieldResolver() {
+    }
 
     /**
-     * @description Resolves the comparable record data from a queried field lookup chain string 
+     * @description Resolves the comparable record data from a queried field lookup chain string
      * @return  `ComparableRecordData`
      */
     public ComparableRecordData resolve() {
-        if(isLookup()) {
+        if (isLookup()) {
             return resolveLookup();
         }
         return resolveStandard();
@@ -28,7 +29,10 @@ public inherited sharing virtual class QueriedFieldResolver {
     private ComparableRecordData resolveStandard() {
         Schema.SObjectType sot = SchemaService.getSObjectType(comparableRecord);
         String comparableField = this.fieldLookupChain;
-        Schema.SObjectField recordField = SchemaService.getField(sot, comparableField);
+        Schema.SObjectField recordField = SchemaService.getField(
+            sot,
+            comparableField
+        );
         comparableField = SchemaService.getFieldName(recordField);
         return new ComparableRecordData.Builder()
             .setComparableRecord(this.comparableRecord)
@@ -37,7 +41,9 @@ public inherited sharing virtual class QueriedFieldResolver {
     }
 
     private ComparableRecordData resolveLookup() {
-        ParentLookupChain lookupChain = new ParentLookupChain(this.fieldLookupChain);
+        ParentLookupChain lookupChain = new ParentLookupChain(
+            this.fieldLookupChain
+        );
         List<String> fieldParts = lookupChain.getFieldParts();
 
         List<String> relationshipMapping = new List<String>();
@@ -51,23 +57,26 @@ public inherited sharing virtual class QueriedFieldResolver {
         // relationshipName
         // parentRecord
         // isPolymorphic
-        while(!fieldParts.isEmpty()) {
-            if(parentInfo != null) {
+        while (!fieldParts.isEmpty()) {
+            if (parentInfo != null) {
                 priorRecord = parentInfo.getParentRecord();
             }
-            parentInfo = MockDatabase.findParentRecord(priorRecord, parentField);
+            parentInfo = MockDatabase.findParentRecord(
+                priorRecord,
+                parentField
+            );
             relationshipMapping.add(parentInfo.getFieldRelationshipName());
             parentRecord = getFullParentRecordWithAllFields(parentInfo);
             fieldParts.remove(0);
-            if(!fieldParts.isEmpty()) {
+            if (!fieldParts.isEmpty()) {
                 parentField = fieldParts[0];
             }
         }
         Boolean isPolymorphic = parentInfo.getIsPolymorphic();
 
         String comparableField = ComparableService.getComparableField(
-            parentRecord, 
-            lookupChain.getFinalField(), 
+            parentRecord,
+            lookupChain.getFinalField(),
             isPolymorphic
         );
         relationshipMapping.add(comparableField);
@@ -81,8 +90,13 @@ public inherited sharing virtual class QueriedFieldResolver {
             .build();
     }
 
-    private SObject getFullParentRecordWithAllFields(ParentRecordData recordData) {
-        SObject fullParentRecord = MockDatabase.get(recordData.getParentObjApiName()).get(recordData.getParentRecordId());
+    private SObject getFullParentRecordWithAllFields(
+        ParentRecordData recordData
+    ) {
+        SObject fullParentRecord = MockDatabase.get(
+                recordData.getParentObjApiName()
+            )
+            .get(recordData.getParentRecordId());
         return fullParentRecord;
     }
 
@@ -113,7 +127,7 @@ public inherited sharing virtual class QueriedFieldResolver {
         }
 
         /**
-         * @description Builds the `QueriedFieldResolver` 
+         * @description Builds the `QueriedFieldResolver`
          * @return  `QueriedFieldResolver`
          */
         public QueriedFieldResolver build() {

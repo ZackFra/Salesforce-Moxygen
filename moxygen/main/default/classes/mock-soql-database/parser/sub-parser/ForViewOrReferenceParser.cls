@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,11 +23,11 @@
  *
  */
 
- /**
-  * @description This class is responsible for parsing the FOR VIEW or FOR REFERENCE clause
-  * @author Zackary Frazier
-  * @since 4/12/2024
-  */
+/**
+ * @description This class is responsible for parsing the FOR VIEW or FOR REFERENCE clause
+ * @author Zackary Frazier
+ * @since 4/12/2024
+ */
 public inherited sharing class ForViewOrReferenceParser extends SubParser {
     /**
      * @description Parses the FOR VIEW or FOR REFERENCE clause
@@ -36,31 +36,34 @@ public inherited sharing class ForViewOrReferenceParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        if(query.length() == 0) {
+        if (query.length() == 0) {
             return null;
         }
-        if(lookahead(query, 3) != 'for') {
+        if (lookahead(query, 3) != 'for') {
             return null;
         }
         query = consume(query, 'for ');
         query = skipWhitespace(query);
 
         // could be FOR UPDATE, if its not view or reference, return null
-        if(lookahead(query, 4) != 'view' && lookahead(query, 9) != 'reference') {
+        if (
+            lookahead(query, 4) != 'view' &&
+            lookahead(query, 9) != 'reference'
+        ) {
             return null;
         }
 
         String forType = 'view';
-        if(lookahead(query, 9) == 'reference') {
+        if (lookahead(query, 9) == 'reference') {
             forType = 'reference';
         }
 
         query = consume(query, forType);
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId('for ' + forType)
-            	.setNodeType('for ' + forType)
-            	.build(),
+            new NodeBuilder()
+                .setId('for ' + forType)
+                .setNodeType('for ' + forType)
+                .build(),
             query
         );
     }

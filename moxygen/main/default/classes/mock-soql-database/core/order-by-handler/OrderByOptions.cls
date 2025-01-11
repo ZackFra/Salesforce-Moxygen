@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Options class for OrderBy 
+ * @description Options class for OrderBy
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -34,7 +34,7 @@ public inherited sharing class OrderByOptions {
     private Types.SOQL type;
 
     /**
-     * @description Getter for the type of query 
+     * @description Getter for the type of query
      * @return  `Types.SOQL`
      */
     public Types.SOQL getType() {
@@ -42,7 +42,7 @@ public inherited sharing class OrderByOptions {
     }
 
     /**
-     * @description Setter for the type of query 
+     * @description Setter for the type of query
      * @param type `Types.SOQL`
      * @return  `OrderByOptions`
      */
@@ -50,9 +50,9 @@ public inherited sharing class OrderByOptions {
         this.type = type;
         return this;
     }
-    
+
     /**
-     * @description Setter for the object to be queried 
+     * @description Setter for the object to be queried
      * @param obj `List<ProtoAggreate> | List<SObject>`
      * @return  `OrderByOptions`
      */
@@ -62,7 +62,7 @@ public inherited sharing class OrderByOptions {
     }
 
     /**
-     * @description Getter for the object to be ordered 
+     * @description Getter for the object to be ordered
      * @return  `Object`
      */
     public Object getObj() {

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
-*/
+ */
 
 /**
  * @description Aggregate class to represent the result of an aggregate query
@@ -29,9 +29,8 @@
  * @since 4/5/2024
  */
 public inherited sharing class Aggregate {
-    
     private Map<String, Object> data;
-    
+
     /**
      * @description Standard constructor, creates an Aggregate object from an AggregateResult
      * @param ar the AggregateResult to create the Aggregate from
@@ -49,8 +48,8 @@ public inherited sharing class Aggregate {
     }
 
     /**
-     * @description Constructor for testing purposes, creates an Aggregate object from a ProtoAggregate 
-     * @param ar 
+     * @description Constructor for testing purposes, creates an Aggregate object from a ProtoAggregate
+     * @param ar
      */
     public Aggregate(ProtoAggregate ar) {
         this.data = ar.getPrototype();

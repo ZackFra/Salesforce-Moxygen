@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -41,7 +41,7 @@ public inherited sharing class QueryValidator {
     public QueryValidator(TopLevelNodes topLevelNodes) {
         this.topLevelNodes = topLevelNodes;
     }
-   /**
+    /**
      * @description : given a select node, validate whether this query can be performed
      * @throws QueryException : if the query is invalid
      */
@@ -61,11 +61,11 @@ public inherited sharing class QueryValidator {
         Boolean isAggregateQuery = isAggregateQuery(selectNode);
         Boolean isCount = isSingularCount(selectNode);
 
-        if(isAggregateQuery && forUpdateNode != null) {
+        if (isAggregateQuery && forUpdateNode != null) {
             throw new QueryException('FOR UPDATE not allowed in this context');
         }
 
-        if(isCount && forUpdateNode != null) {
+        if (isCount && forUpdateNode != null) {
             throw new QueryException('FOR UPDATE not allowed in this context');
         }
     }
@@ -76,8 +76,10 @@ public inherited sharing class QueryValidator {
         Node offsetNode = topLevelNodes.offsetNode;
         Boolean isAggregateQuery = isAggregateQuery(selectNode);
 
-        if(isAggregateQuery && groupByNode == null && offsetNode != null) {
-            throw new QueryException('Non-grouped query that uses overall aggregate functions cannot also use OFFSET');
+        if (isAggregateQuery && groupByNode == null && offsetNode != null) {
+            throw new QueryException(
+                'Non-grouped query that uses overall aggregate functions cannot also use OFFSET'
+            );
         }
     }
 
@@ -87,8 +89,10 @@ public inherited sharing class QueryValidator {
         Node limitNode = topLevelNodes.limitNode;
         Boolean isAggregateQuery = isAggregateQuery(selectNode);
 
-        if(isAggregateQuery && groupByNode == null && limitNode != null) {
-            throw new QueryException('Non-grouped query that uses overall aggregate functions cannot also use LIMIT');
+        if (isAggregateQuery && groupByNode == null && limitNode != null) {
+            throw new QueryException(
+                'Non-grouped query that uses overall aggregate functions cannot also use LIMIT'
+            );
         }
     }
 
@@ -96,8 +100,10 @@ public inherited sharing class QueryValidator {
         Node selectNode = topLevelNodes.selectNode;
         Node orderByNode = topLevelNodes.orderByNode;
         Boolean isCount = isSingularCount(selectNode);
-        if(isCount && orderByNode != null) {
-            throw new QueryException('COUNT() and ORDER BY may not be used together');
+        if (isCount && orderByNode != null) {
+            throw new QueryException(
+                'COUNT() and ORDER BY may not be used together'
+            );
         }
     }
 
@@ -105,77 +111,99 @@ public inherited sharing class QueryValidator {
         Node selectNode = topLevelNodes.selectNode;
         Node groupByNode = topLevelNodes.groupByNode;
         Node whereNode = topLevelNodes.whereNode;
-        if(isTypeOfQuery(selectNode) && groupByNode != null) {
+        if (isTypeOfQuery(selectNode) && groupByNode != null) {
             throw new QueryException('TYPEOF not supported with GROUP BY');
         }
 
-        if(isTypeOfInWhereClause(whereNode)) {
+        if (isTypeOfInWhereClause(whereNode)) {
             throw new QueryException('TYPEOF not supported in outer join');
-        }        
+        }
     }
 
     private void validateDuplicates() {
         Node selectNode = topLevelNodes.selectNode;
-        if(hasDuplicateSubQueries(selectNode)) {
-            throw new QueryException('Cannot follow the same aggregate relationship twice');
+        if (hasDuplicateSubQueries(selectNode)) {
+            throw new QueryException(
+                'Cannot follow the same aggregate relationship twice'
+            );
         }
 
-        if(hasDuplicateFields(selectNode)) {
+        if (hasDuplicateFields(selectNode)) {
             throw new QueryException('Duplicate field selected');
         }
     }
 
     private void validateGroupableFields() {
         Node groupByNode = topLevelNodes.groupByNode;
-        if(groupByNode == null) {
+        if (groupByNode == null) {
             return;
         }
         Node selectNode = topLevelNodes.selectNode;
 
         Node currGroupByNode = groupByNode.left;
-        while(currGroupByNode != null) {
-            if(AggregateService.isDateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
+        while (currGroupByNode != null) {
+            if (
+                AggregateService.isDateFunc(
+                    currGroupByNode.nodeType,
+                    currGroupByNode.id
+                )
+            ) {
                 currGroupByNode = currGroupByNode.left;
                 continue;
             }
-            if(AggregateService.isAggregateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
-                throw new QueryException('Only date aggregate functions are allowed as grouping expressions: ' + currGroupByNode.id);
+            if (
+                AggregateService.isAggregateFunc(
+                    currGroupByNode.nodeType,
+                    currGroupByNode.id
+                )
+            ) {
+                throw new QueryException(
+                    'Only date aggregate functions are allowed as grouping expressions: ' +
+                    currGroupByNode.id
+                );
             }
 
             // we can't trust that this isn't something like GROUP BY Account.CreatedDate, so we need to get comparables
-            Map<String, Object> comparableData = ComparableService.getComparableDataFromNodes(currGroupByNode, selectNode);
+            Map<String, Object> comparableData = ComparableService.getComparableDataFromNodes(
+                currGroupByNode,
+                selectNode
+            );
             String fieldName = (String) comparableData.get('comparableField');
-            SObject comparableRecord = (SObject) comparableData.get('comparableRecord');
+            SObject comparableRecord = (SObject) comparableData.get(
+                'comparableRecord'
+            );
             String sObjectName = SchemaService.getSObjectName(comparableRecord);
 
-            if(!SchemaService.isFieldGroupable(sObjectName, fieldName)) {
-                throw new QueryException('Field is not groupable: ' + groupByNode.id);
+            if (!SchemaService.isFieldGroupable(sObjectName, fieldName)) {
+                throw new QueryException(
+                    'Field is not groupable: ' + groupByNode.id
+                );
             }
             currGroupByNode = currGroupByNode.left;
         }
     }
 
     /**
-        * @description Check if this is an aggregate query
-        * @param selectNode : the select node
-        * @return : true if this is an aggregate query
+     * @description Check if this is an aggregate query
+     * @param selectNode : the select node
+     * @return : true if this is an aggregate query
      */
     private Boolean isAggregateQuery(Node selectNode) {
         Node groupByNode = topLevelNodes.groupByNode;
 
-        if(isSingularCount(selectNode)) {
+        if (isSingularCount(selectNode)) {
             return false;
         }
 
         Node curr = selectNode;
-        while(curr != null) {
-            if(curr.nodeType == 'aggregate function') {
+        while (curr != null) {
+            if (curr.nodeType == 'aggregate function') {
                 return true;
             }
             curr = curr.left;
         }
 
-        if(groupByNode != null) {
+        if (groupByNode != null) {
             return true;
         }
 
@@ -189,8 +217,8 @@ public inherited sharing class QueryValidator {
      */
     private Boolean isTypeOfQuery(Node selectNode) {
         Node curr = selectNode;
-        while(curr != null) {
-            if(curr.nodeType == 'typeof') {
+        while (curr != null) {
+            if (curr.nodeType == 'typeof') {
                 return true;
             }
             curr = curr.left;
@@ -204,13 +232,14 @@ public inherited sharing class QueryValidator {
      * @return : true if TYPEOF is not in the where clause
      */
     private Boolean isTypeOfInWhereClause(Node whereNode) {
-        if(whereNode == null) {
+        if (whereNode == null) {
             return false;
         }
-        if(whereNode.nodeType == 'typeof') {
+        if (whereNode.nodeType == 'typeof') {
             return true;
         }
-        return isTypeOfInWhereClause(whereNode.left) || isTypeOfInWhereClause(whereNode.right);
+        return isTypeOfInWhereClause(whereNode.left) ||
+            isTypeOfInWhereClause(whereNode.right);
     }
 
     /**
@@ -221,10 +250,10 @@ public inherited sharing class QueryValidator {
     private Boolean hasDuplicateFields(Node selectNode) {
         Node curr = selectNode;
         Set<String> fieldNames = new Set<String>();
-        while(curr != null) {
-            if(curr.nodeType == 'field') {
+        while (curr != null) {
+            if (curr.nodeType == 'field') {
                 String fieldName = curr.id;
-                if(fieldNames.contains(fieldName)) {
+                if (fieldNames.contains(fieldName)) {
                     return true;
                 }
                 fieldNames.add(fieldName);
@@ -241,14 +270,16 @@ public inherited sharing class QueryValidator {
     private Boolean hasDuplicateSubQueries(Node selectNode) {
         Node curr = selectNode;
         Set<String> subQueryRelationshipNames = new Set<String>();
-        while(curr != null) {
-            if(curr.nodeType == 'subquery') {
+        while (curr != null) {
+            if (curr.nodeType == 'subquery') {
                 Node subQuerySelectNode = curr.right;
                 Node subQueryFromNode = subQuerySelectNode.right;
                 Node subQueryObjectNode = subQueryFromNode.left;
                 String subQueryRelationshipName = subQueryObjectNode.id;
 
-                if(subQueryRelationshipNames.contains(subQueryRelationshipName)) {
+                if (
+                    subQueryRelationshipNames.contains(subQueryRelationshipName)
+                ) {
                     return true;
                 }
                 subQueryRelationshipNames.add(subQueryRelationshipName);
@@ -264,7 +295,8 @@ public inherited sharing class QueryValidator {
      * @return true if this is a query with just COUNT
      */
     private Boolean isSingularCount(Node selectNode) {
-        return (selectNode.left.id == 'count' && selectNode.left.right == null && selectNode.left.left == null);
+        return (selectNode.left.id == 'count' &&
+        selectNode.left.right == null &&
+        selectNode.left.left == null);
     }
-
 }

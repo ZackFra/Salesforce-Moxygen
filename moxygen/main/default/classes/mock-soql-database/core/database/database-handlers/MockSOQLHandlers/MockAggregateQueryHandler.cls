@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
-*/
+ */
 
 /**
  * @description This class is responsible for handling aggregate SOQL queries to the mock database
@@ -29,7 +29,6 @@
  * @since 4/13/2024
  */
 public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler {
-
     /**
      * @description Perform an aggregate query
      * @param query `String`
@@ -45,7 +44,10 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
      * @param accessLevel `System.AccessLevel`
      * @return  `List<Aggregate>`
      */
-    public List<Aggregate> aggregateQuery(String query, System.AccessLevel accessLevel) {
+    public List<Aggregate> aggregateQuery(
+        String query,
+        System.AccessLevel accessLevel
+    ) {
         return doQuery(query, null);
     }
 
@@ -56,7 +58,11 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
      * @param accessLevel `System.AccessLevel`
      * @return  `List<Aggregate>`
      */
-    public List<Aggregate> aggregateQueryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
+    public List<Aggregate> aggregateQueryWithBinds(
+        String query,
+        Map<String, Object> binds,
+        System.AccessLevel accessLevel
+    ) {
         return doQuery(query, binds);
     }
 
@@ -74,7 +80,10 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
 
     @SuppressWarnings('PMD.NcssMethodCount')
     @TestVisible
-    private List<Aggregate> doQuery(Node selectNode, Map<String, Object> params) {
+    private List<Aggregate> doQuery(
+        Node selectNode,
+        Map<String, Object> params
+    ) {
         TopLevelNodes topLevelNodes = getTopLevelNodes(selectNode);
         Node fromNode = topLevelNodes.fromNode;
         Node limitNode = topLevelNodes.limitNode;
@@ -96,18 +105,42 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
 
         Boolean isAggregateQuery = NodeService.isAggregateQuery(topLevelNodes);
 
-        if(!isAggregateQuery) { 
-            throw new QueryException('Only aggregate queries are supported for calls to aggregateQuery()');
+        if (!isAggregateQuery) {
+            throw new QueryException(
+                'Only aggregate queries are supported for calls to aggregateQuery()'
+            );
         }
 
         List<Aggregate> results;
         List<SObject> databaseRecords = mockObjects.values();
-        List<ProtoAggregate> aggregateResults = handleFilterAndGroupByNodes(topLevelNodes, databaseRecords, params);
+        List<ProtoAggregate> aggregateResults = handleFilterAndGroupByNodes(
+            topLevelNodes,
+            databaseRecords,
+            params
+        );
 
-        aggregateResults = (List<ProtoAggregate>) handleHavingNode(aggregateResults, selectNode, params);
-        aggregateResults = (List<ProtoAggregate>) handleOrderByNode(Types.SOQL.AGGREGATE, aggregateResults, selectNode);
-        aggregateResults = (List<ProtoAggregate>) handleOffsetNode(Types.SOQL.AGGREGATE, offsetNode, aggregateResults, params);
-        aggregateResults = (List<ProtoAggregate>) handleLimitNode(Types.SOQL.AGGREGATE, limitNode, aggregateResults, params);
+        aggregateResults = (List<ProtoAggregate>) handleHavingNode(
+            aggregateResults,
+            selectNode,
+            params
+        );
+        aggregateResults = (List<ProtoAggregate>) handleOrderByNode(
+            Types.SOQL.AGGREGATE,
+            aggregateResults,
+            selectNode
+        );
+        aggregateResults = (List<ProtoAggregate>) handleOffsetNode(
+            Types.SOQL.AGGREGATE,
+            offsetNode,
+            aggregateResults,
+            params
+        );
+        aggregateResults = (List<ProtoAggregate>) handleLimitNode(
+            Types.SOQL.AGGREGATE,
+            limitNode,
+            aggregateResults,
+            params
+        );
 
         // Remove internal fields from the aggregate result proto-records and return the list of aggregates
         List<Aggregate> aggregateResultsList = new AggregateBuilder()
@@ -115,7 +148,7 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
             .setProtoAggregates(aggregateResults)
             .setTopLevelNodes(topLevelNodes)
             .build();
-        
+
         results = aggregateResultsList;
 
         removeTopLevelNodesFor(selectNode);
@@ -124,62 +157,77 @@ public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler
 
     @TestVisible
     private List<ProtoAggregate> handleFilterAndGroupByNodes(
-        TopLevelNodes topLevelNodes, 
-        List<SObject> databaseRecords, 
+        TopLevelNodes topLevelNodes,
+        List<SObject> databaseRecords,
         Map<String, Object> params
     ) {
-        AggregateQueryHandler aggrHandler = new AggregateQueryHandler(topLevelNodes);
+        AggregateQueryHandler aggrHandler = new AggregateQueryHandler(
+            topLevelNodes
+        );
 
         // process the query, whether it's a count, aggregate, or regular query
-        for(sObject databaseRecord : databaseRecords) {
-
-            if(databaseRecord.get('IsDeleted') == true) {
+        for (sObject databaseRecord : databaseRecords) {
+            if (databaseRecord.get('IsDeleted') == true) {
                 continue;
             }
 
-            if(!checkWhereClause(databaseRecord, topLevelNodes.whereNode, params)) {
+            if (
+                !checkWhereClause(
+                    databaseRecord,
+                    topLevelNodes.whereNode,
+                    params
+                )
+            ) {
                 continue;
             }
 
-            if(!handleUsingScopeNode(databaseRecord, topLevelNodes.usingScopeNode, params)) {
+            if (
+                !handleUsingScopeNode(
+                    databaseRecord,
+                    topLevelNodes.usingScopeNode,
+                    params
+                )
+            ) {
                 continue;
             }
 
             aggrHandler.processRecord(databaseRecord);
-
         }
         return aggrHandler.finish();
     }
 
     private List<ProtoAggregate> handleHavingNode(
-        List<ProtoAggregate> aggregateResults, 
-        Node selectNode, 
+        List<ProtoAggregate> aggregateResults,
+        Node selectNode,
         Map<String, Object> params
     ) {
         TopLevelNodes topLevelNodes = getTopLevelNodes(selectNode);
         Node havingNode = topLevelNodes.havingNode;
-        if(havingNode == null) {
+        if (havingNode == null) {
             return aggregateResults;
         }
 
         List<ProtoAggregate> results = new List<ProtoAggregate>();
-        for(ProtoAggregate ar : aggregateResults) {
-
+        for (ProtoAggregate ar : aggregateResults) {
             BooleanLogicOptions havingLogicOptions = new BooleanLogicOptions()
                 .setHead(havingNode)
                 .setSelectNode(selectNode)
                 .setObj(ar)
                 .setParams(params);
-            
-            if(checkHavingClause(havingLogicOptions)) {
+
+            if (checkHavingClause(havingLogicOptions)) {
                 results.add(ar);
             }
         }
         return results;
     }
 
-    private static Boolean checkHavingClause(BooleanLogicOptions havingLogicOptions) {
-        HavingLogicHandler havingLogicHandler = new HavingLogicHandler(havingLogicOptions);
+    private static Boolean checkHavingClause(
+        BooleanLogicOptions havingLogicOptions
+    ) {
+        HavingLogicHandler havingLogicHandler = new HavingLogicHandler(
+            havingLogicOptions
+        );
         return havingLogicHandler.evaluate();
     }
 

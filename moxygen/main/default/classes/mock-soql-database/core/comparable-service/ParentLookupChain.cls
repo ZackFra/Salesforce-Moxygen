@@ -1,5 +1,5 @@
 /**
- * @description Represents a chain of fields to look up on a parent object 
+ * @description Represents a chain of fields to look up on a parent object
  * @author Zackary Frazier
  * @since 11/25/2024
  */
@@ -13,8 +13,8 @@ public class ParentLookupChain {
      */
     public ParentLookupChain(String fieldLookupChain) {
         List<String> fieldParts = fieldLookupChain.split('\\.');
-        String finalField = fieldParts[fieldParts.size()-1];
-        fieldParts.remove(fieldParts.size()-1);
+        String finalField = fieldParts[fieldParts.size() - 1];
+        fieldParts.remove(fieldParts.size() - 1);
         this.finalField = finalField;
         this.fieldParts = fieldParts;
     }
@@ -30,7 +30,7 @@ public class ParentLookupChain {
     }
 
     /**
-     * @description Get the final field to look up 
+     * @description Get the final field to look up
      * @return  `String`
      */
     public String getFinalField() {
@@ -38,7 +38,7 @@ public class ParentLookupChain {
     }
 
     /**
-     * @description Get the field parts to look up 
+     * @description Get the field parts to look up
      * @return  `List<String>`
      */
     public List<String> getFieldParts() {

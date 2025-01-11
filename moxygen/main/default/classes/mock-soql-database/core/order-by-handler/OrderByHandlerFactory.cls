@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,17 +24,18 @@
  */
 
 /**
- * @description Factory class for creating OrderByHandler instances 
+ * @description Factory class for creating OrderByHandler instances
  * @author Zackary Frazier
  * @since 3/23/2024
  */
 public with sharing class OrderByHandlerFactory {
     OrderByOptions options = new OrderByOptions();
-    
-    private class OrderByException extends Exception {}
+
+    private class OrderByException extends Exception {
+    }
 
     /**
-     * @description Setter for the type of query to be executed 
+     * @description Setter for the type of query to be executed
      * @param type `Types.SOQL`
      * @return  `OrderByHandlerFactory`
      */
@@ -44,7 +45,7 @@ public with sharing class OrderByHandlerFactory {
     }
 
     /**
-     * @description Setter for the object to be queried 
+     * @description Setter for the object to be queried
      * @param obj `List<ProtoAggregate> | List<SObject>`
      * @return  `OrderByHandlerFactory`
      */
@@ -69,7 +70,7 @@ public with sharing class OrderByHandlerFactory {
      * @exception OrderByException
      */
     public OrderByHandler createHandler() {
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'type' => options.getType(),
             'obj' => options.getObj(),
             'topLevelNodes' => options.getTopLevelNodes()

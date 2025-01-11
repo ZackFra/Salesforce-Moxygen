@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,22 +24,26 @@
  */
 
 /**
- * @description Generates an instance of an aggregate calculator based on the type provided 
+ * @description Generates an instance of an aggregate calculator based on the type provided
  * @author Zackary Frazier
  * @since 3/23/2024
  */
 public inherited sharing class AggregateCalculatorFactory {
-    private class AggregateCalculatorException extends Exception {}
-    
+    private class AggregateCalculatorException extends Exception {
+    }
+
     /**
-     * @description Generates an instance of an aggregate calculator based on the type provided 
-     * @param type 
-     * @param options 
+     * @description Generates an instance of an aggregate calculator based on the type provided
+     * @param type
+     * @param options
      * @return  `IAggregateCalculator`
      * @exception AggregateCalculatorException
      */
-    public static IAggregateCalculator getCalculator(String type, AggregateCalculatorOptions options) {
-        Map<String, IAggregateCalculator> calculators = new Map<String, IAggregateCalculator> {
+    public static IAggregateCalculator getCalculator(
+        String type,
+        AggregateCalculatorOptions options
+    ) {
+        Map<String, IAggregateCalculator> calculators = new Map<String, IAggregateCalculator>{
             'sum' => new SumCalculator(options),
             'avg' => new AverageCalculator(options),
             'max' => new MaxCalculator(options),
@@ -51,7 +55,7 @@ public inherited sharing class AggregateCalculatorFactory {
             'calendar_quarter' => new CalendarQuarterCalculator(options)
         };
         IAggregateCalculator calculator = calculators.get(type);
-        if(calculator == null) {
+        if (calculator == null) {
             throw new AggregateCalculatorException('Invalid type');
         }
         return calculator;

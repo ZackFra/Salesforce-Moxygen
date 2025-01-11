@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Options for the AggregateCalculator class 
+ * @description Options for the AggregateCalculator class
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -35,17 +35,19 @@ public with sharing class AggregateCalculatorOptions {
 
     /**
      * @description Setter for the `aggregateResult` property
-     * @param aggregateResult 
+     * @param aggregateResult
      * @return  `AggregateCalculatorOptions`
      */
-    public AggregateCalculatorOptions setAggregateResult(ProtoAggregate aggregateResult) {
+    public AggregateCalculatorOptions setAggregateResult(
+        ProtoAggregate aggregateResult
+    ) {
         this.aggregateResult = aggregateResult;
         return this;
     }
 
     /**
      * @description Setter for the `alias` property
-     * @param alias 
+     * @param alias
      * @return  `AggregateCalculatorOptions`
      */
     public AggregateCalculatorOptions setAlias(String alias) {
@@ -55,7 +57,7 @@ public with sharing class AggregateCalculatorOptions {
 
     /**
      * @description Setter for the `value` property
-     * @param value 
+     * @param value
      * @return  `AggregateCalculatorOptions`
      */
     public AggregateCalculatorOptions setValue(Object value) {
