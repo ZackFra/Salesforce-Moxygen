@@ -24,7 +24,7 @@
 */
 
 /**
- * @description Wrapper class for Database class 
+ * @description Wrapper class for Database class's query methods. This class is used to allow for mocking of the Database class in unit tests. 
  * @author Zackary Frazier
  * @since 3/9/2024
  * @group Moxygen

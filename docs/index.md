@@ -31,9 +31,7 @@ Interface for a builder class
 ### [DML](moxygen/DML.md)
 
 DML class to handle DML operations, wrapper around Database methods 
-to allow for mocking and stubbing in unit tests 
-Note: There is no test class, because there is no consistent way to test this in 
-a way that would be meaningful. The methods are all wrappers around Database methods
+to allow for mocking and stubbing in unit tests.
 
 ### [ORM](moxygen/ORM.md)
 
@@ -42,7 +40,7 @@ ORM is short for Object Relationshal Mapping, i.e. Salesforce&#x27;s database
 
 ### [Selector](moxygen/Selector.md)
 
-Wrapper class for Database class
+Wrapper class for Database class&#x27;s query methods. This class is used to allow for mocking of the Database class in unit tests.
 
 ## Uncategorized
 
