@@ -6059,4 +6059,32 @@ private class MockDatabaseTest {
             'Incorrect number of opportunities'
         );
     }
+
+    @isTest
+    static void ensureNextNFiscalYearsWorksInWhereClause() {
+        List<Opportunity> oppList = new List<Opportunity>();
+        Date startOfYear = Gmt.startOfThisFiscalYear();
+        for (Integer i = 0; i < 36; i++) {
+            oppList.add(
+                new Opportunity(
+                    Name = 'Opp FORWARDS' + i,
+                    CloseDate = startOfYear.addMonths(i)
+                )
+            );
+        }
+
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Id FROM Opportunity WHERE CloseDate = NEXT_N_FISCAL_YEARS:2'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            24,
+            opportunities.size(),
+            'Incorrect number of opportunities'
+        );
+    }
 }

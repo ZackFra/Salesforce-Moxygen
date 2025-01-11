@@ -32,6 +32,7 @@ public with sharing class PrimitiveParserFactory {
         Token.NEXT_FISCAL_YEAR_LITERAL => DateLiteralParser.class,
         Token.THIS_YEAR_LITERAL => DateLiteralParser.class,
         Token.LAST_FISCAL_YEAR_LITERAL => DateLiteralParser.class,
+        Token.NEXT_N_FISCAL_YEARS => DateLiteralParser.class,
         Token.SINGLE_QUOTE => StringParser.class,
         Token.XTRUE => BooleanParser.class,
         Token.XFALSE => BooleanParser.class,
