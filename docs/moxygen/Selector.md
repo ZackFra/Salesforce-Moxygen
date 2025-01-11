@@ -157,12 +157,12 @@ public static List<SObject> query(String queryString)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| queryString | String | `String` |
+| queryString | String | SOQL Query to be executed |
 
 #### Return Type
 **List&lt;SObject&gt;**
 
-,[object Object]
+Returns a list of records that match the query. Will parse backticks out of the query string.
 
 ---
 
