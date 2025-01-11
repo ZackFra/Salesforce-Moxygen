@@ -120,17 +120,17 @@ public inherited sharing class Selector {
         String queryString,
         System.AccessLevel accessLevel
     ) {
-queryString = parseBackTicks(queryString);
+      queryString = parseBackTicks(queryString);
 
-if (ORM.isUnitTest()) {
-return onQueryAggregate(queryString);
-}
-List<AggregateResult> arList = Database.query(queryString, accessLevel);
-List<Aggregate> agList = new List<Aggregate>();
-for (AggregateResult ar : arList) {
-agList.add(new Aggregate(ar));
-}
-return agList;
+      if (ORM.isUnitTest()) {
+      return onQueryAggregate(queryString);
+      }
+      List<AggregateResult> arList = Database.query(queryString, accessLevel);
+      List<Aggregate> agList = new List<Aggregate>();
+      for (AggregateResult ar : arList) {
+      agList.add(new Aggregate(ar));
+      }
+      return agList;
     }
 
     /**
