@@ -14,18 +14,12 @@
     "sf:moxygen:install": "npm run sf:deploy",
     "sf:moxygen:install:package": "node ./scripts/js/install-moxygen.js",
     "sf:moxygen:version:create": "sf package version create --package Moxygen --installation-key-bypass --wait 10",
-    "diagnostics": "./scripts/go/instance_upgrade/bin/main",
-    "lint": "eslint **/{aura,lwc}/**/*.js",
-    "test": "npm run test:unit",
-    "test:unit": "sfdx-lwc-jest",
-    "test:unit:watch": "sfdx-lwc-jest --watch",
-    "test:unit:debug": "sfdx-lwc-jest --debug",
-    "test:unit:coverage": "sfdx-lwc-jest --coverage",
-    "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
+    "prettier": "prettier --plugin=prettier-plugin-apex --write \"**/*.{cls,trigger,apex}\"",
     "prettier:verify": "prettier --check \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
-    "prettier:apex": "prettier --plugin=prettier-plugin-apex --write \"**/*.{cls,trigger,apex}\"",
+    "test": "npm run sf:apex:test",
     "postinstall": "husky install",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@lwc/eslint-plugin-lwc": "^1.6.3",
@@ -37,7 +31,7 @@
     "eslint": "^8.49.0",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-jest": "^27.2.3",
-    "husky": "^8.0.3",
+    "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.4.2",
     "prettier-plugin-apex": "^2.2.2"
@@ -45,9 +39,6 @@
   "lint-staged": {
     "**/*.{cls,trigger,apex}": [
       "prettier --plugin=prettier-plugin-apex --write"
-    ],
-    "**/{aura,lwc}/**/*.js": [
-      "eslint"
     ]
   },
   "apexdocs": {
