@@ -1,6 +1,5 @@
 node_modules/
 .vscode/
-.husky/
 
 package-lock.json
 .sf/
