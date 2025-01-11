@@ -4,7 +4,6 @@ private class HavingParserTest {
     @isTest
     static void ensureTodayCanByParsedByHavingParser() {
         HavingParser parser = new HavingParser();
-        Exception ex;
         Intermediary intermediary;
         Test.startTest();
         intermediary = parser.parse('HAVING CreatedDate < TODAY');
