@@ -3,14 +3,25 @@
  * @author Zackary Frazier
  * @since 11/29/2024
  */
-public abstract class DateLiteralParser extends SubParser {
+public class DateLiteralParser extends SubParser {
+
+    // symbol that denotes this is a variable value, e.g. LAST_N_DAYS:5, LAST_N_WEEKS:3
+    static final String VARIABLE_SINGNIFIER = 'n_';
+
+    public override Intermediary parse(String query) {
+        if(this.tkn.contains(VARIABLE_SINGNIFIER)) {
+            return parseN(query, this.tkn);
+        }
+        return parse(query, this.tkn);
+    }
+
     /**
      * @description Parse a generic date literal
      * @param query `String`
      * @param token `String`
      * @return  `Intermediary`
      */
-    public Intermediary parse(String query, String token) {
+    private Intermediary parse(String query, String token) {
         query = consume(query, token);
         return new Intermediary(
             new NodeBuilder()
@@ -22,13 +33,13 @@ public abstract class DateLiteralParser extends SubParser {
     }
 
     /**
-     * @description For the N_DAYS dates literals, parse the query and return the token
+     * @description For the variable date literals (N_DAYS_AGO:5, etc.), parse the query and return the token
      * @param query `String`
      * @param nDaysTkn `String`
      * @return  `Intermediary`
      * @exception ValidationException
      */
-    public Intermediary parseNDays(String query, String nDaysTkn) {
+    private Intermediary parseN(String query, String nDaysTkn) {
         String tkn = nDaysTkn;
         String subquery = consume(query, tkn);
         subquery = skipWhitespace(subquery);

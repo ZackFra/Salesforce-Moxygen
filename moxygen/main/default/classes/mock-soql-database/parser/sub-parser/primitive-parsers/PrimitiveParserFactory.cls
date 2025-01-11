@@ -6,32 +6,35 @@
 public with sharing class PrimitiveParserFactory {
     @TestVisible
     static Map<String, Type> parserTypeByToken = new Map<String, Type> {
+        Token.TOMORROW_LITERAL => DateLiteralParser.class,
+        Token.TODAY_LITERAL => DateLiteralParser.class,
+        Token.YESTERDAY_LITERAL => DateLiteralParser.class,
+        Token.LAST_WEEK_LITERAL => DateLiteralParser.class,
+        Token.THIS_WEEK_LITERAL => DateLiteralParser.class,
+        Token.NEXT_WEEK_LITERAL => DateLiteralParser.class,
+        Token.LAST_MONTH_LITERAL => DateLiteralParser.class,
+        Token.THIS_MONTH_LITERAL => DateLiteralParser.class,
+        Token.NEXT_MONTH_LITERAL => DateLiteralParser.class,
+        Token.LAST_90_DAYS_LITERAL => DateLiteralParser.class,
+        Token.NEXT_90_DAYS_LITERAL => DateLiteralParser.class,
+        Token.LAST_N_DAYS_LITERAL => DateLiteralParser.class,
+        Token.NEXT_N_DAYS_LITERAL => DateLiteralParser.class,
+        Token.N_DAYS_AGO_LITERAL => DateLiteralParser.class,
+        Token.NEXT_N_WEEKS_LITERAL => DateLiteralParser.class,
+        Token.LAST_N_WEEKS_LITERAL => DateLiteralParser.class,
+        Token.N_MONTHS_AGO_LITERAL => DateLiteralParser.class,
+        Token.THIS_QUARTER_LITERAL => DateLiteralParser.class,
+        Token.LAST_QUARTER_LITERAL => DateLiteralParser.class,
+        Token.NEXT_QUARTER_LITERAL => DateLiteralParser.class,
+        Token.NEXT_N_QUARTERS_LITERAL => DateLiteralParser.class,
+        Token.THIS_FISCAL_YEAR_LITERAL => DateLiteralParser.class,
+        Token.LAST_N_FISCAL_YEARS_LITERAL => DateLiteralParser.class,
+        Token.NEXT_FISCAL_YEAR_LITERAL => DateLiteralParser.class,
+        Token.THIS_YEAR_LITERAL => DateLiteralParser.class,
+        Token.LAST_FISCAL_YEAR_LITERAL => DateLiteralParser.class,
+
+
         Token.SINGLE_QUOTE => StringParser.class,
-        Token.TOMORROW_LITERAL => TomorrowParser.class,
-        Token.TODAY_LITERAL => TodayParser.class,
-        Token.YESTERDAY_LITERAL => YesterdayParser.class,
-        Token.LAST_WEEK_LITERAL => LastWeekParser.class,
-        Token.THIS_WEEK_LITERAL => ThisWeekParser.class,
-        Token.NEXT_WEEK_LITERAL => NextWeekParser.class,
-        Token.LAST_MONTH_LITERAL => LastMonthParser.class,
-        Token.THIS_MONTH_LITERAL => ThisMonthParser.class,
-        Token.NEXT_MONTH_LITERAL => NextMonthParser.class,
-        Token.LAST_90_DAYS_LITERAL => Last90DaysParser.class,
-        Token.NEXT_90_DAYS_LITERAL => Next90DaysParser.class,
-        Token.LAST_N_DAYS_LITERAL => LastNDaysParser.class,
-        Token.NEXT_N_DAYS_LITERAL => NextNDaysParser.class,
-        Token.N_DAYS_AGO_LITERAL => NDaysAgoParser.class,
-        Token.NEXT_N_WEEKS_LITERAL => NextNWeeksParser.class,
-        Token.LAST_N_WEEKS_LITERAL => LastNWeeksParser.class,
-        Token.N_MONTHS_AGO_LITERAL => NMonthsAgoParser.class,
-        Token.THIS_QUARTER_LITERAL => ThisQuarterParser.class,
-        Token.LAST_QUARTER_LITERAL => LastQuarterParser.class,
-        Token.NEXT_QUARTER_LITERAL => NextQuarterParser.class,
-        Token.NEXT_N_QUARTERS_LITERAL => NextNQuartersParser.class,
-        Token.THIS_FISCAL_YEAR_LITERAL => ThisFiscalYearParser.class,
-        Token.LAST_N_FISCAL_YEARS_LITERAL => LastNFiscalYearsParser.class,
-        Token.NEXT_FISCAL_YEAR_LITERAL => NextFiscalYearParser.class,
-        Token.THIS_YEAR_LITERAL => ThisYearParser.class,
         Token.XTRUE => BooleanParser.class,
         Token.XFALSE => BooleanParser.class,
         Token.XNULL => NullParser.class,
@@ -58,6 +61,7 @@ public with sharing class PrimitiveParserFactory {
             if(ParserUtils.isNext(query, token)) {
                 Type parserType = parserTypeByToken.get(token);
                 SubParser primitiveParser = (SubParser) parserType.newInstance();
+                primitiveParser.setToken(token);
                 return primitiveParser;
             }
         }
