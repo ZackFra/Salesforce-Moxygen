@@ -44,8 +44,8 @@ public inherited sharing class Selector {
 
     /**
      * @description Query for a list of sObjects
-     * @param queryString `String`
-     * @return  `List<SObject>`
+     * @param queryString SOQL Query to be executed
+     * @return Returns a list of records that match the query. Will parse backticks out of the query string.
      */
     public static List<SObject> query(String queryString) {
         queryString = parseBackTicks(queryString);
