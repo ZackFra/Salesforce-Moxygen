@@ -123,12 +123,12 @@ public inherited sharing class Selector {
 queryString = parseBackTicks(queryString);
 
 if (ORM.isUnitTest()) {
-    return onQueryAggregate(queryString);
+return onQueryAggregate(queryString);
 }
 List<AggregateResult> arList = Database.query(queryString, accessLevel);
 List<Aggregate> agList = new List<Aggregate>();
 for (AggregateResult ar : arList) {
-    agList.add(new Aggregate(ar));
+agList.add(new Aggregate(ar));
 }
 return agList;
     }
