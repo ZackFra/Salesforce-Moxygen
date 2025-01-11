@@ -2,7 +2,7 @@
 
 `SUPPRESSWARNINGS`
 
-Wrapper class for Database class
+Wrapper class for Database class&#x27;s query methods. This class is used to allow for mocking of the Database class in unit tests.
 
 **Since** 
 
