@@ -7,7 +7,7 @@ Moxygen is unique from other unit testing frameworks in that it includes a funct
 ## Example
 
 Lets say you have an AccountService class like so:
-
+ 
 ```
 public class AccountService {
 
@@ -155,7 +155,7 @@ FROM objectType[,...]
 [WITH SECURITY_ENFORCED]
 ```
 
-# 🧰 Levels of Support
+## Levels of Support
 There are four categories of support for a SOQL query done via the mock SOQL database.
 * Fully Supported
 * Partially Supported
@@ -164,7 +164,7 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 * Not Supported
   * Throws a QueryException when read by the parser
 
-## Supported Clauses
+### Supported Clauses
 | Clause      | Level of Support    | Notes |
 |-------------|---------------------|-------|
 | SELECT      | Partially Supported | FORMAT(), convertCurrency(), convertTimezone(), GROUPING(), date functions, and toLabel() are not supported. |
