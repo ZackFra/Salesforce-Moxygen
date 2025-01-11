@@ -9,8 +9,8 @@ public class DateLiteralParser extends SubParser {
     static final String VARIABLE_SINGNIFIER = 'n_';
 
     public override Intermediary parse(String query) {
-        if(this.tkn.contains(DateLiteralParser.VARIABLE_SINGNIFIER)) {
-            return parseNDays(query, this.tkn);
+        if(this.tkn.contains(VARIABLE_SINGNIFIER)) {
+            return parseN(query, this.tkn);
         }
         return parse(query, this.tkn);
     }
