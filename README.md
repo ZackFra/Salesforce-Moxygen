@@ -133,7 +133,7 @@ public class AccountServiceTest {
 }
 ```
 
-# Mock SOQL Database
+# 🥇 Mock SOQL Database
 
 Under the hood, a mock SOQL parser is used to handle queries in the context of a unit test.
 
@@ -155,7 +155,7 @@ FROM objectType[,...]
 [WITH SECURITY_ENFORCED]
 ```
 
-# Levels of Support
+# 🧰 Levels of Support
 There are four categories of support for a SOQL query done via the mock SOQL database.
 * Fully Supported
 * Partially Supported
@@ -164,7 +164,7 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 * Not Supported
   * Throws a QueryException when read by the parser
 
-# Supported Clauses
+## Supported Clauses
 | Clause      | Level of Support    | Notes |
 |-------------|---------------------|-------|
 | SELECT      | Partially Supported | FORMAT(), convertCurrency(), convertTimezone(), GROUPING(), date functions, and toLabel() are not supported. |
@@ -183,17 +183,17 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 | FOR UPDATE | Ignored ||
 | WITH SECURITY_ENFORCED | Ignored | Syntax is enforced, will not allow this clause in sub-queries |
 
-## Classes
+# ⚓ Apex Classes
 
-### ORM
+## ORM
 
 The ORM class acts as a simple state manager for the Selector and DML classes. It determines whether to make calls to the Database class or the MockDatabase class based on
 the isUnitTest variable. This variable's value defaults to Test.isRunningTest(), but can be set to false via a call to ORM.doIntegrationTest().
 
-#### @TestVisible private static void doIntegrationTest()
+### @TestVisible private static void doIntegrationTest()
 Sets isUnitTest to false, causes DML and Selector class methods to use the Database class when doing DML statements or SOQL queries.
 
-### Selector
+## Selector
 
 The selector manages SOQL queries. It determines whether to use a call to the Database class or MockDatabase class
 based on the context set in the ORM class. In normal usage, it calls Database methods, in a test class it defaults to
@@ -213,21 +213,21 @@ MockDatabase but this can be changed by calling ORM.doIntegrationTest();
 
 There is also a suite of @TestVisible methods that are only available in the context of a unit test.
 
-#### @TestVisible private static SObject selectRecordById(Id recordId)
+### @TestVisible private static SObject selectRecordById(Id recordId)
 
 Retrieve a record from the mock database, by Id.
 
 NOTE: This will grab deleted records.
 
-#### @TestVisible private static Boolean calledAnyQuery()
+### @TestVisible private static Boolean calledAnyQuery()
 
 Returns whether any query was called.
 
-#### @TestVisible private static Boolean calledQuery(String queryString)
+### @TestVisible private static Boolean calledQuery(String queryString)
 
 Returns whether a specific query was called.
 
-#### @TestVisible private static void registerQuery(String queryString, List\<SObject\> records)
+### @TestVisible private static void registerQuery(String queryString, List\<SObject\> records)
 
 Register a query so that when it is called, it returns a specific set of SObjects.
 Because the SObjects are passed in a list, edits to these SObjects will be reflected
@@ -235,32 +235,32 @@ in the mock database (i.e. pointer logic).
 
 If a query is registered, the mock soql database will not be used.
 
-#### @TestVisible private static void registerFailedQuery(String queryString)
+### @TestVisible private static void registerFailedQuery(String queryString)
 
 Register a query such that when it is called, an exception is thrown.
 This throws a generic QueryException.
 
-#### @TestVisible private static void registerAggregateQuery(String queryString, List\<Aggregate\> records)
+### @TestVisible private static void registerAggregateQuery(String queryString, List\<Aggregate\> records)
 
 Register an aggregate query to return a list of Aggregate objects when its called.
 
 If a query is registered, the mock soql database will not be used.
 
-#### @TestVisible private static void registerFailedAggregateQuery(String queryString)
+### @TestVisible private static void registerFailedAggregateQuery(String queryString)
 
 Register a failed aggregate query. Will throw a QueryException when called (via the queryAggregate methods).
 
-#### @TestVisible private static void registerCountQuery(String queryString, Integer count)
+### @TestVisible private static void registerCountQuery(String queryString, Integer count)
 
 Register a count query (i.e. a call to queryCount).
 
 If a query is registered, the mock soql database will not be used.
 
-#### @TestVisible private static void registerFailedCountQuery(String queryString)
+### @TestVisible private static void registerFailedCountQuery(String queryString)
 
 Register a failed count query. Throws a QueryException.
 
-### DML
+## DML
 
 The DML class handles DML statements. Just like the Selector class, it determines whether to make calls to the Database or MockDatabase class
 based on the context set in the ORM class. In normal usage, it calls Database methods, in a test class it defaults to
@@ -294,19 +294,19 @@ MockDatabase but this can be changed by calling ORM.doIntegrationTest();
 
 This class also contains a suite of @TestVisible methods that can only be used in the context of a unit test.
 
-#### @TestVisible private static doMockInsert(SObject recordToInsert)
+### @TestVisible private static doMockInsert(SObject recordToInsert)
 
 Inserts a record into the mock database without registering an insert.
 
-#### @TestVisible private static doMockInsert(List\<SObject\> recordsToInsert)
+### @TestVisible private static doMockInsert(List\<SObject\> recordsToInsert)
 
 Inserts a list of records into the mock database without registering an insert.
 
-#### @TestVisible private static Boolean didAnyDML()
+### @TestVisible private static Boolean didAnyDML()
 
 Returns whether any DML, aside from calls to doMockInsert, were made.
 
-#### @TestVisible private static Boolean didDML(Types.DML type)
+### @TestVisible private static Boolean didDML(Types.DML type)
 
 Returns whether a specific DML operation was performed, excluding calls to doMockInsert.
 The options for type are:
@@ -317,28 +317,28 @@ Types.DML.UPDATED
 Types.DML.DELETED
 Types.DML.UNDELETED
 
-#### @TestVisible private Boolean isDeleted(Id recordId)
+### @TestVisible private Boolean isDeleted(Id recordId)
 
 Returns whether a record has been deleted, given the fake ID
 that was created for it when it was inserted
 
-### Aggregate
+## Aggregate
 
 This object is a wrapper around AggregateResult. The reason for its existence is that
 AggregateResult objects cannot be mocked. It takes the AggregateResult record, and perserves
 it as a read-only Map\<String, Object\>.
 
-#### public Object get(String field)
+### public Object get(String field)
 
 Returns the value on the aggregate keyed by "field"
 
-### RelationshipBuilder
+## RelationshipBuilder
 
 Utility for relating child and parent records for mock queries.
 
 This class has two methods
 
-#### public ChildRelationshipBuilder relateChildren()
+### public ChildRelationshipBuilder relateChildren()
 
 Returns a ChildRelationshipBuilder to relate one record (the parent)
 to many children.
@@ -355,7 +355,7 @@ build method which returns the connected SObject.
 Note: calling `build()` will throw an illegal argument exception if any of the
 fields are not set.
 
-#### public ParentRelationshipBuilder relateParent()
+### public ParentRelationshipBuilder relateParent()
 
 Returns a ParentRelationshipBuilder to relate one record (the child)
 to the parent.
@@ -394,26 +394,26 @@ Account acctWithOpps = (Account) new RelationshipBuilder()
         .build();
 ```
 
-### Common
+## Common
 
 Handles common operations handled throughout the codebase. Contains useful methods for mocking.
 
-#### public static void nullCheck(Map\<String, Object\> args)
+### public static void nullCheck(Map\<String, Object\> args)
 
 Takes a `Map<String, Object>` and checks if any of the values are null. Used to check that the arguments are methods aren't null.
 
-#### public static SObject putReadOnlyField(SObject record, String fieldName, Object value)
+### public static SObject putReadOnlyField(SObject record, String fieldName, Object value)
 
 Given a record, a field name, and a value, sets that value on a record.
 
-#### public static SObject putReadOnlyFields(SObject record, Map\<String, Object\> fieldValuePairs)
+### public static SObject putReadOnlyFields(SObject record, Map\<String, Object\> fieldValuePairs)
 
 Given a record and a `Map<String, Object>`, set all values in the map on the record.
 
-#### public static Map\<String, Object\> mapFromRecord(SObject record)
+### public static Map\<String, Object\> mapFromRecord(SObject record)
 
 Returns an editable `Map<String, Object>` from a record.
 
-#### public static SObject recordFromMap(Map\<String, Object\> recordMap, String sObjectType)
+### public static SObject recordFromMap(Map\<String, Object\> recordMap, String sObjectType)
 
 Returns a new record from a `Map<String, Object>` of the specified SObject type.
