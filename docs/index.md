@@ -36,10 +36,6 @@ a way that would be meaningful. The methods are all wrappers around Database met
 ORM class is responsible for creating and returning the Selector and DML objects 
 ORM is short for Object Relationshal Mapping, i.e. Salesforce&#x27;s database
 
-### [RelationshipBuilder](moxygen/RelationshipBuilder.md)
-
-RelationshipBuilder class to build parent and child relationships
-
 ### [Selector](moxygen/Selector.md)
 
 Wrapper class for Database class
