@@ -43,7 +43,7 @@
     "prettier-plugin-apex": "^2.2.2"
   },
   "lint-staged": {
-    "**/*.{**/*.{cls,trigger,apex}}": [
+    "**/*.{cls,trigger,apex}": [
       "prettier --plugin=prettier-plugin-apex --write"
     ],
     "**/{aura,lwc}/**/*.js": [
