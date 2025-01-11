@@ -15,10 +15,10 @@
     "sf:moxygen:install:package": "node ./scripts/js/install-moxygen.js",
     "sf:moxygen:version:create": "sf package version create --package Moxygen --installation-key-bypass --wait 10",
     "prettier": "prettier --plugin=prettier-plugin-apex --write \"**/*.{cls,trigger,apex}\"",
-    "prettier:verify": "prettier --check \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
-    "test": "npm run sf:apex:test",
+    "prettier:verify": "prettier --plugin=prettier-plugin-apex --check \"**/*.{cls,trigger,apex}\"",
+
     "postinstall": "husky install",
-    "precommit": "lint-staged",
+    "pre-commit": "lint-staged",
     "prepare": "husky install"
   },
   "devDependencies": {
