@@ -61,6 +61,8 @@ String
 ## Constructors
 ### `Node(nodeType, id, left, right)`
 
+`SUPPRESSWARNINGS`
+
 : Constructor for a Node, not to be used directly
 
 #### Signature
