@@ -67,7 +67,6 @@ public with sharing class Node {
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
     public Node(String nodeType, string id, Node left, Node right) {
-
         this.id = id;
         this.nodeType = nodeType;
         this.left = left;
