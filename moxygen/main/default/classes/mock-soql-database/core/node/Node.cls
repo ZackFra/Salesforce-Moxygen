@@ -65,8 +65,8 @@ public with sharing class Node {
      * @param left : Node, the left child of the node
      * @param right : Node, the right child of the node
      */
+    @SuppressWarnings('PMD.ExcessiveParameterList')
     public Node(String nodeType, string id, Node left, Node right) {
-        // NOPMD
 
         this.id = id;
         this.nodeType = nodeType;
