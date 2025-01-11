@@ -183,6 +183,9 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 | FOR UPDATE | Ignored ||
 | WITH SECURITY_ENFORCED | Ignored | Syntax is enforced, will not allow this clause in sub-queries |
 
+# 🧰 Documentation
+[Docs](./docs/index.md)
+
 # ⚓ Apex Classes
 
 ## ORM
