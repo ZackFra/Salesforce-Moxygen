@@ -55,6 +55,13 @@
       "eslint"
     ]
   },
+  "apexdocs": { 
+    "sourceDir": "moxygen", 
+    "targetDir": "docs",
+    "scope": ["public", "global"],
+    "sortAlphabetically": true,
+    "defaultGroupName": "Uncategorized"
+  },
   "dependencies": {
     "@salesforce/cli": "^2.49.7"
   }

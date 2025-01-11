@@ -1,9 +1,7 @@
-/**
+/*
  * 
  * MIT License
-
  * Copyright (c) 2024 Zackary Frazier
-
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,8 +19,9 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- * @description this class is intended to handle interactions with the Schema class
+ */
+
+/** @description this class is intended to handle interactions with the Schema class
  *              and provide a layer of abstraction for the Schema class, non-mutating
  *              string arguments to these methods are understood to be case-insensitive
  *              anything named "getName" are understood to return proper API names

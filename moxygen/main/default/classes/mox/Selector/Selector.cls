@@ -27,6 +27,7 @@
  * @description Wrapper class for Database class 
  * @author Zackary Frazier
  * @since 3/9/2024
+ * @group Moxygen
  */
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
 public inherited sharing class Selector {
