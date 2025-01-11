@@ -33,7 +33,7 @@ public class DateLiteralParser extends SubParser {
     }
 
     /**
-     * @description For the N_DAYS dates literals, parse the query and return the token
+     * @description For the variable date literals (N_DAYS_AGO:5, etc.), parse the query and return the token
      * @param query `String`
      * @param nDaysTkn `String`
      * @return  `Intermediary`
