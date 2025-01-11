@@ -334,27 +334,3 @@ it as a read-only Map\<String, Object\>.
 ### public Object get(String field)
 
 Returns the value on the aggregate keyed by "field"
-
-## Common
-
-Handles common operations handled throughout the codebase. Contains useful methods for mocking.
-
-### public static void nullCheck(Map\<String, Object\> args)
-
-Takes a `Map<String, Object>` and checks if any of the values are null. Used to check that the arguments are methods aren't null.
-
-### public static SObject putReadOnlyField(SObject record, String fieldName, Object value)
-
-Given a record, a field name, and a value, sets that value on a record.
-
-### public static SObject putReadOnlyFields(SObject record, Map\<String, Object\> fieldValuePairs)
-
-Given a record and a `Map<String, Object>`, set all values in the map on the record.
-
-### public static Map\<String, Object\> mapFromRecord(SObject record)
-
-Returns an editable `Map<String, Object>` from a record.
-
-### public static SObject recordFromMap(Map\<String, Object\> recordMap, String sObjectType)
-
-Returns a new record from a `Map<String, Object>` of the specified SObject type.
