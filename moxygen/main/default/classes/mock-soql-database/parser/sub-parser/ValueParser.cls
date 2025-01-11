@@ -42,8 +42,7 @@ public inherited sharing class ValueParser extends SubParser {
             SubParser primitiveParser = PrimitiveParserFactory.getPrimitiveParser(query);
             return primitiveParser.parse(query);
         } catch(Exception e) {
-            
-            throw e;
+            throw new ParsingException('Error parsing value: ' + query + ' Failed with exception: ' + e.getMessage());
         }
     }
 }
