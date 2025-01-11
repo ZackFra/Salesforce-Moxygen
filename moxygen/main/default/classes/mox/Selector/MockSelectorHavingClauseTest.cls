@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,11 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
-*/
+ */
 
 @IsTest
 private class MockSelectorHavingClauseTest {
-
     @IsTest
     static void testCalendarMonthInHavingClause() {
         Opportunity opp = new Opportunity(
@@ -39,17 +38,13 @@ private class MockSelectorHavingClauseTest {
         Test.startTest();
         List<Aggregate> arList = Selector.aggregateQuery(
             'SELECT CALENDAR_MONTH(CloseDate) month, SUM(Amount) total' +
-            ' FROM Opportunity' +
-            ' GROUP BY CALENDAR_MONTH(CloseDate)' +
-            ' HAVING CALENDAR_MONTH(CloseDate) = 1'
+                ' FROM Opportunity' +
+                ' GROUP BY CALENDAR_MONTH(CloseDate)' +
+                ' HAVING CALENDAR_MONTH(CloseDate) = 1'
         );
         Aggregate ar = arList[0];
         Test.stopTest();
-        Assert.areEqual(
-            1,
-            ar.get('month'),
-            'Should have 1 result'
-        );
+        Assert.areEqual(1, ar.get('month'), 'Should have 1 result');
     }
 
     @IsTest
@@ -73,26 +68,18 @@ private class MockSelectorHavingClauseTest {
             StageName = 'Closed Won',
             Amount = 1000
         );
-        List<Opportunity> oppList = new List<Opportunity> {
-            opp1,
-            opp2,
-            opp3
-        };
+        List<Opportunity> oppList = new List<Opportunity>{ opp1, opp2, opp3 };
         DML.doInsert(oppList, true);
 
         Test.startTest();
         List<Aggregate> arList = Selector.aggregateQuery(
             'SELECT CALENDAR_MONTH(CloseDate) month, SUM(Amount) total' +
-            ' FROM Opportunity' +
-            ' GROUP BY CALENDAR_MONTH(CloseDate)' +
-            ' HAVING CALENDAR_MONTH(CloseDate) < 12'
+                ' FROM Opportunity' +
+                ' GROUP BY CALENDAR_MONTH(CloseDate)' +
+                ' HAVING CALENDAR_MONTH(CloseDate) < 12'
         );
         Test.stopTest();
-        Assert.areEqual(
-            3,
-            arList.size(),
-            'Should have 1 result'
-        );        
+        Assert.areEqual(3, arList.size(), 'Should have 1 result');
     }
 
     @IsTest
@@ -116,25 +103,17 @@ private class MockSelectorHavingClauseTest {
             StageName = 'Closed Won',
             Amount = 1000
         );
-        List<Opportunity> oppList = new List<Opportunity> {
-            opp1,
-            opp2,
-            opp3
-        };
+        List<Opportunity> oppList = new List<Opportunity>{ opp1, opp2, opp3 };
         DML.doInsert(oppList, true);
 
         Test.startTest();
         List<Aggregate> arList = Selector.aggregateQuery(
             'SELECT CALENDAR_MONTH(CloseDate) month, SUM(Amount) total' +
-            ' FROM Opportunity' +
-            ' GROUP BY CALENDAR_MONTH(CloseDate)' +
-            ' HAVING CALENDAR_MONTH(CloseDate) >= 2'
+                ' FROM Opportunity' +
+                ' GROUP BY CALENDAR_MONTH(CloseDate)' +
+                ' HAVING CALENDAR_MONTH(CloseDate) >= 2'
         );
         Test.stopTest();
-        Assert.areEqual(
-            2,
-            arList.size(),
-            'Should have 1 result'
-        );        
+        Assert.areEqual(2, arList.size(), 'Should have 1 result');
     }
 }

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,13 +23,12 @@
  *
  */
 
- /**
-  * @description This class is responsible for parsing a list of fields.
-  * @author Zackary Frazier
-  * @since 4/12/2024
-  */
+/**
+ * @description This class is responsible for parsing a list of fields.
+ * @author Zackary Frazier
+ * @since 4/12/2024
+ */
 public inherited sharing class FieldListParser extends SubParser {
-
     /**
      * @description Parses a list of fields
      * @param query `String`
@@ -40,29 +39,27 @@ public inherited sharing class FieldListParser extends SubParser {
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
         Intermediary nextItem;
-        if(isAggregateFunc(query)) {
+        if (isAggregateFunc(query)) {
             nextItem = new AggregateFuncParser().parse(query);
             query = nextItem.subquery;
         } else {
             nextItem = new FieldParser().parse(query);
             query = skipWhitespace(nextItem.subquery);
-            if(query.length() == 0) {
+            if (query.length() == 0) {
                 return nextItem;
             }
         }
-        
+
         String nextChar = lookahead(query, 1);
         String nextCharAfterThat = null;
-        if(query.length() > 1) {
+        if (query.length() > 1) {
             nextCharAfterThat = lookahead(
-                skipWhitespace(
-                    query.subString(1)
-                ), 
+                skipWhitespace(query.subString(1)),
                 1
             );
         }
-        
-        if(nextChar == Token.COMMA && nextCharAfterThat != Token.LPAREN) {
+
+        if (nextChar == Token.COMMA && nextCharAfterThat != Token.LPAREN) {
             query = query.subString(1);
             Intermediary restOfList = parse(query);
             nextItem.head.left = restOfList.head;

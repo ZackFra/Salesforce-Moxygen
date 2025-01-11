@@ -1,6 +1,5 @@
 @isTest
 private class GmtTest {
-
     /**
      * @description Short of, "do these 1-line functions return the 1 line I exepect", not much to test,
      *              so lets just make sure no exceptions are thrown for now.
@@ -16,7 +15,7 @@ private class GmtTest {
             Gmt.today();
             Gmt.date(dt);
             Gmt.dateTime(d);
-        } catch(Exception e) {
+        } catch (Exception e) {
             isExceptionThrown = true;
         }
         Test.stopTest();
@@ -27,7 +26,7 @@ private class GmtTest {
     @isTest
     static void ensureValidCalendarDateIsReturned() {
         Datetime startOfThisCalendarQuarter = Gmt.startOfThisCalendarQuarter();
-        List<Datetime> validQuarterDates = new List<Datetime> {
+        List<Datetime> validQuarterDates = new List<Datetime>{
             Datetime.newInstanceGmt(startOfThisCalendarQuarter.year(), 1, 1),
             Datetime.newInstanceGmt(startOfThisCalendarQuarter.year(), 4, 1),
             Datetime.newInstanceGmt(startOfThisCalendarQuarter.year(), 7, 1),
@@ -35,13 +34,18 @@ private class GmtTest {
         };
 
         Boolean foundDate = false;
-        for(Datetime validQuarterDate : validQuarterDates) {
-            if(validQuarterDate.month() == startOfThisCalendarQuarter.month()) {
+        for (Datetime validQuarterDate : validQuarterDates) {
+            if (
+                validQuarterDate.month() == startOfThisCalendarQuarter.month()
+            ) {
                 foundDate = true;
                 break;
             }
         }
-        Assert.isTrue(foundDate, 'Start of this calendar quarter is not a valid quarter date');
+        Assert.isTrue(
+            foundDate,
+            'Start of this calendar quarter is not a valid quarter date'
+        );
     }
 
     @IsTest
@@ -52,12 +56,26 @@ private class GmtTest {
 
         Organization org = OrganizationSingleton.getInstance();
         Integer orgFiscalMonth = org.FiscalYearStartMonth;
-        Date possibleStartOfThisFiscalYear = Date.newInstance(Gmt.today().year(), orgFiscalMonth, 1);
-        if(possibleStartOfThisFiscalYear > Gmt.today()) {
-            Date expectedStartOfThisFiscalYear = possibleStartOfThisFiscalYear.addYears(-1);
-            Assert.areEqual(expectedStartOfThisFiscalYear, startOfThisFiscalYear, 'Start of this fiscal year is not correct');
+        Date possibleStartOfThisFiscalYear = Date.newInstance(
+            Gmt.today().year(),
+            orgFiscalMonth,
+            1
+        );
+        if (possibleStartOfThisFiscalYear > Gmt.today()) {
+            Date expectedStartOfThisFiscalYear = possibleStartOfThisFiscalYear.addYears(
+                -1
+            );
+            Assert.areEqual(
+                expectedStartOfThisFiscalYear,
+                startOfThisFiscalYear,
+                'Start of this fiscal year is not correct'
+            );
         } else {
-            Assert.areEqual(possibleStartOfThisFiscalYear, startOfThisFiscalYear, 'Start of this fiscal year is not correct');
+            Assert.areEqual(
+                possibleStartOfThisFiscalYear,
+                startOfThisFiscalYear,
+                'Start of this fiscal year is not correct'
+            );
         }
     }
 }

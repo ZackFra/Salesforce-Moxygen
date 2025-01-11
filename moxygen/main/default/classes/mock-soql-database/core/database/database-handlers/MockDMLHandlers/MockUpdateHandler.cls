@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description MockUpdateHandler is used to mock the update operation in the database 
+ * @description MockUpdateHandler is used to mock the update operation in the database
  * @author Zackary Frazier
  * @since 3/9/2021
  */
@@ -38,9 +38,12 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
      * @exception DMLException
      */
     @SuppressWarnings('PMD.CyclomaticComplexity')
-    public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone) {
+    public Database.SaveResult doUpdate(
+        SObject recordToUpdate,
+        Boolean allOrNone
+    ) {
         wasCalled = true;
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'recordToUpdate' => recordToUpdate,
             'allOrNone' => allOrNone
         };
@@ -53,7 +56,10 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
             throw new DmlException('Record does not exist');
         } else if (mockRecords.get(recordToUpdate.Id) == null && allOrNone) {
             throw new DmlException('Record does not exist');
-        } else if(mockRecords == null || mockRecords.get(recordToUpdate.Id) == null) {
+        } else if (
+            mockRecords == null ||
+            mockRecords.get(recordToUpdate.Id) == null
+        ) {
             return (Database.SaveResult) srService.createFailure(
                 'Record does not exist',
                 Database.SaveResult.class
@@ -61,16 +67,19 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
         }
 
         Schema.SObjectType sot = SchemaService.getSObjectType(recordToUpdate);
-        
-        for(String field : recordToUpdate.getPopulatedFieldsAsMap().keySet()) {
-            Schema.SObjectField sObjField = SchemaService.getField(sot, field);
-            Schema.DescribeFieldResult sObjFieldDescribe = SchemaService.describeField(sObjField);
 
-            if(!sObjFieldDescribe.isUpdateable()) {
+        for (String field : recordToUpdate.getPopulatedFieldsAsMap().keySet()) {
+            Schema.SObjectField sObjField = SchemaService.getField(sot, field);
+            Schema.DescribeFieldResult sObjFieldDescribe = SchemaService.describeField(
+                sObjField
+            );
+
+            if (!sObjFieldDescribe.isUpdateable()) {
                 continue;
             }
 
-            mockRecords.get(recordToUpdate.Id).put(field, recordToUpdate.get(field));
+            mockRecords.get(recordToUpdate.Id)
+                .put(field, recordToUpdate.get(field));
         }
 
         Map<String, Object> mockRecord = (Map<String, Object>) JSON.deserializeUntyped(
@@ -80,7 +89,7 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
         mockRecord.put('LastModifiedById', UserInfo.getUserId());
 
         recordToUpdate = (SObject) JSON.deserialize(
-            JSON.serialize(mockRecord), 
+            JSON.serialize(mockRecord),
             Type.forName(objName)
         );
         mockRecords.put(recordToUpdate.Id, recordToUpdate);
@@ -96,10 +105,13 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
      * @param allOrNone - Whether to throw an exception if any of the records do not exist
      * @return List<Database.SaveResult> - The results of the update operations
      */
-    public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone) {
+    public List<Database.SaveResult> doUpdate(
+        List<SObject> recordsToUpdate,
+        Boolean allOrNone
+    ) {
         wasCalled = true;
         List<Database.SaveResult> results = new List<Database.SaveResult>();
-        for(SObject record : recordsToUpdate) {
+        for (SObject record : recordsToUpdate) {
             results.add(doUpdate(record, allOrNone));
         }
         return results;
@@ -112,7 +124,11 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
      * @param accessLevel Access level of the user
      * @return  `Database.SaveResult`
      */
-    public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public Database.SaveResult doUpdate(
+        SObject recordToUpdate,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
         wasCalled = true;
         return doUpdate(recordToUpdate, allOrNone);
     }
@@ -124,7 +140,11 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
      * @param accessLevel Access level of the user
      * @return  `List<Database.SaveResult>`
      */
-    public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public List<Database.SaveResult> doUpdate(
+        List<SObject> recordsToUpdate,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
         wasCalled = true;
         return doUpdate(recordsToUpdate, allOrNone);
     }

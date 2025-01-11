@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -31,18 +31,24 @@
 public class ReferenceFieldComparator implements Comparator<Schema.SObjectField> {
     /**
      * @description Compares two reference fields to see if they reference the same object
-     * @param field1 
-     * @param field2 
+     * @param field1
+     * @param field2
      * @return  `Integer`
      */
-    public Integer compare(Schema.SObjectField field1, Schema.SObjectField field2) {
+    public Integer compare(
+        Schema.SObjectField field1,
+        Schema.SObjectField field2
+    ) {
+        List<Schema.sObjectType> sObj1FieldRefs = SchemaService.getReferenceTo(
+            field1
+        );
+        List<Schema.sObjectType> sObj2FieldRefs = SchemaService.getReferenceTo(
+            field2
+        );
 
-        List<Schema.sObjectType> sObj1FieldRefs = SchemaService.getReferenceTo(field1);
-        List<Schema.sObjectType> sObj2FieldRefs = SchemaService.getReferenceTo(field2);
-
-        for(Schema.SObjectType ref1 : sObj1FieldRefs) {
-            for(Schema.SObjectType ref2 : sObj2FieldRefs) {
-                if(ref1 == ref2) {
+        for (Schema.SObjectType ref1 : sObj1FieldRefs) {
+            for (Schema.SObjectType ref2 : sObj2FieldRefs) {
+                if (ref1 == ref2) {
                     return 0;
                 }
             }

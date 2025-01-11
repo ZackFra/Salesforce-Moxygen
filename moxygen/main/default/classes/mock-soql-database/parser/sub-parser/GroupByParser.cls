@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -37,14 +37,14 @@ public inherited sharing class GroupByParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
-        
-        if(query.length() == 0) {
+
+        if (query.length() == 0) {
             return null;
         }
-        if(!isNext(query, Token.XGROUP)) { 
+        if (!isNext(query, Token.XGROUP)) {
             return null;
         }
-        
+
         query = consume(query, Token.XGROUP);
         query = consume(query, Token.WHITESPACE);
         query = skipWhitespace(query);
@@ -53,20 +53,24 @@ public inherited sharing class GroupByParser extends SubParser {
         query = skipWhitespace(query);
 
         Intermediary fieldList;
-        if(isNext(query, Token.ROLLUP)) {
-            throw new ParsingException('GROUP BY ROLLUP is not supported by the mock SOQL parser');
+        if (isNext(query, Token.ROLLUP)) {
+            throw new ParsingException(
+                'GROUP BY ROLLUP is not supported by the mock SOQL parser'
+            );
         } else if (isNext(query, Token.CUBE)) {
-            throw new ParsingException('GROUP BY CUBE is not supported by the mock SOQL parser');
+            throw new ParsingException(
+                'GROUP BY CUBE is not supported by the mock SOQL parser'
+            );
         } else {
             fieldList = new FieldListParser().parse(query);
         }
-        
+
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId(NodeType.XGROUP_BY)
-            	.setNodeType(NodeType.XGROUP_BY)
-            	.setLeft(fieldList.head)
-            	.build(),
+            new NodeBuilder()
+                .setId(NodeType.XGROUP_BY)
+                .setNodeType(NodeType.XGROUP_BY)
+                .setLeft(fieldList.head)
+                .build(),
             fieldList.subquery
         );
     }

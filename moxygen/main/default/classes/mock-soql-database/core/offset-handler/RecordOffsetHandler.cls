@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -29,7 +29,6 @@
  * @since 3/23/2024
  */
 public with sharing class RecordOffsetHandler implements IOffsetHandler {
-
     private OffsetOptions options;
     /**
      * @description Constructor
@@ -40,7 +39,7 @@ public with sharing class RecordOffsetHandler implements IOffsetHandler {
     }
 
     /**
-     * @description Handles the offset for the records 
+     * @description Handles the offset for the records
      * @return  `Object`
      */
     public Object handleOffset() {
@@ -48,7 +47,7 @@ public with sharing class RecordOffsetHandler implements IOffsetHandler {
         Object obj = options.obj;
 
         List<SObject> sObjResults = new List<SObject>((List<SObject>) obj);
-        while(offset > 0) {
+        while (offset > 0) {
             sObjResults.remove(0);
             offset--;
         }

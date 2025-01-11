@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
-*/
+ */
 
 /**
- * @description This class is responsible for handling count SOQL queries to the mock database 
+ * @description This class is responsible for handling count SOQL queries to the mock database
  * @author Zackary Frazier
  * @since 4/13/2024
  */
@@ -55,7 +55,11 @@ public inherited sharing class MockCountQueryHandler extends MockSOQLHandler {
      * @param accessLevel `System.AccessLevel`
      * @return  `Integer`
      */
-    public Integer countQueryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
+    public Integer countQueryWithBinds(
+        String query,
+        Map<String, Object> binds,
+        System.AccessLevel accessLevel
+    ) {
         return doQuery(query, binds);
     }
 
@@ -97,33 +101,43 @@ public inherited sharing class MockCountQueryHandler extends MockSOQLHandler {
         }
 
         Boolean isCountQuery = NodeService.isSingularCount(topLevelNodes);
-        if(!isCountQuery) {
-            throw new QueryException('Only count queries are supported for calls to countQuery()');
+        if (!isCountQuery) {
+            throw new QueryException(
+                'Only count queries are supported for calls to countQuery()'
+            );
         }
 
         // results will either be a count, a list of sObjects, or a list of aggregates
         Integer count = 0;
 
         // process the query, whether it's a count, aggregate, or regular query
-        for(sObject databaseRecord : mockObjects.values()) {
-
-            if(databaseRecord.get('IsDeleted') == true) {
+        for (sObject databaseRecord : mockObjects.values()) {
+            if (databaseRecord.get('IsDeleted') == true) {
                 continue;
             }
 
-            if(!checkWhereClause(databaseRecord, whereNode, params)) {
+            if (!checkWhereClause(databaseRecord, whereNode, params)) {
                 continue;
             }
 
-            if(!handleUsingScopeNode(databaseRecord, usingScopeNode, params)) {
+            if (!handleUsingScopeNode(databaseRecord, usingScopeNode, params)) {
                 continue;
             }
             count++;
         }
 
-
-        count = (Integer) handleOffsetNode(Types.SOQL.COUNT, offsetNode, count, params);
-        count = (Integer) handleLimitNode(Types.SOQL.COUNT, limitNode, count, params);
+        count = (Integer) handleOffsetNode(
+            Types.SOQL.COUNT,
+            offsetNode,
+            count,
+            params
+        );
+        count = (Integer) handleLimitNode(
+            Types.SOQL.COUNT,
+            limitNode,
+            count,
+            params
+        );
 
         removeTopLevelNodesFor(selectNode);
         return count;

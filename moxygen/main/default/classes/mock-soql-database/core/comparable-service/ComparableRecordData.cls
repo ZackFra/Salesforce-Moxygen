@@ -1,5 +1,5 @@
 /**
- * @description Encapsulates the data needed to compare records 
+ * @description Encapsulates the data needed to compare records
  * @author Zackary Frazier
  * @since 11/24/2024
  */
@@ -13,10 +13,11 @@ public inherited sharing virtual class ComparableRecordData {
      * @description Protected constructor, this object is not intended to be created directly
      */
     @SuppressWarnings('PMD.EmptyStatementBlock')
-    protected ComparableRecordData() {}
+    protected ComparableRecordData() {
+    }
 
     /**
-     * @description Get the comparable record 
+     * @description Get the comparable record
      * @return  `SObject`
      */
     public SObject getComparableRecord() {
@@ -24,7 +25,7 @@ public inherited sharing virtual class ComparableRecordData {
     }
 
     /**
-     * @description Get the comparable field name 
+     * @description Get the comparable field name
      * @return  `String`
      */
     public String getComparableFieldName() {
@@ -32,7 +33,7 @@ public inherited sharing virtual class ComparableRecordData {
     }
 
     /**
-     * @description Get the relationship name 
+     * @description Get the relationship name
      * @return  `String`
      */
     public String getRelationshipName() {
@@ -40,7 +41,7 @@ public inherited sharing virtual class ComparableRecordData {
     }
 
     /**
-     * @description Get whether the relationship is polymorphic 
+     * @description Get whether the relationship is polymorphic
      * @return  `Boolean`
      */
     public Boolean getIsPolymorphic() {
@@ -48,7 +49,7 @@ public inherited sharing virtual class ComparableRecordData {
     }
 
     /**
-     * @description Builder class for ComparableRecordData 
+     * @description Builder class for ComparableRecordData
      */
     public class Builder implements IBuilder {
         private ComparableRecordData comparableData = new ComparableRecordData();
@@ -94,12 +95,11 @@ public inherited sharing virtual class ComparableRecordData {
         }
 
         /**
-         * @description Returns the built object 
+         * @description Returns the built object
          * @return  `ComparableRecordData`
          */
         public ComparableRecordData build() {
             return this.comparableData;
         }
-
     }
 }

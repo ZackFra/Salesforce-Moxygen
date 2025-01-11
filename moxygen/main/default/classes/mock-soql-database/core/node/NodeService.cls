@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -30,7 +30,6 @@
  * @since 3/23/2024
  */
 public with sharing class NodeService {
-    
     /**
      * @description Returns whether or not the query is an aggregate query
      * @param topLevelNodes `TopLevelNodes`
@@ -40,19 +39,19 @@ public with sharing class NodeService {
         Node selectNode = topLevelNodes.selectNode;
         Node groupByNode = topLevelNodes.groupByNode;
 
-        if(isSingularCount(topLevelNodes)) {
+        if (isSingularCount(topLevelNodes)) {
             return false;
         }
 
         Node curr = selectNode;
-        while(curr != null) {
-            if(curr.nodeType == 'aggregate function') {
+        while (curr != null) {
+            if (curr.nodeType == 'aggregate function') {
                 return true;
             }
             curr = curr.left;
         }
 
-        if(groupByNode != null) {
+        if (groupByNode != null) {
             return true;
         }
 
@@ -66,7 +65,8 @@ public with sharing class NodeService {
      */
     public static Boolean isSingularCount(TopLevelNodes topLevelNodes) {
         Node selectNode = topLevelNodes.selectNode;
-        return (selectNode.left.id == 'count' && selectNode.left.right == null && selectNode.left.left == null);
+        return (selectNode.left.id == 'count' &&
+        selectNode.left.right == null &&
+        selectNode.left.left == null);
     }
-
 }

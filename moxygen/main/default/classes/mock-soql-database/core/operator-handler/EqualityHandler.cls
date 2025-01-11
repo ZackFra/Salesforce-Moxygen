@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Handles the equality operator 
+ * @description Handles the equality operator
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -39,28 +39,31 @@ public class EqualityHandler implements IOperatorHandler {
         Boolean isSObjNull = (sObjectFieldValue == null);
         Boolean isFieldNull = (fieldValue == null);
 
-        if(isSObjNull && isFieldNull) {
+        if (isSObjNull && isFieldNull) {
             return true;
-        } else if(isSObjNull || isFieldNull) {
+        } else if (isSObjNull || isFieldNull) {
             return false;
         }
 
-        if(fieldValue instanceof DateLiteral) {
-            DateLiteralComparable dateLiteralComparable = DateLiteralComparableFactory.create((DateLiteral)fieldValue);
+        if (fieldValue instanceof DateLiteral) {
+            DateLiteralComparable dateLiteralComparable = DateLiteralComparableFactory.create(
+                (DateLiteral) fieldValue
+            );
             return dateLiteralComparable.isEqual((DateTime) sObjectFieldValue);
         }
 
-        if(sObjectFieldValue instanceof Date) {
+        if (sObjectFieldValue instanceof Date) {
             fieldValue = Common.parseDate((String) fieldValue);
             return fieldValue == (Date) sObjectFieldValue;
-        } else if(SObjectFieldValue instanceof DateTime) {
+        } else if (SObjectFieldValue instanceof DateTime) {
             fieldValue = Common.parseDateTime((String) fieldValue);
             return fieldValue == (DateTime) sObjectFieldValue;
-        } else if(SObjectFieldValue instanceof Time) {
+        } else if (SObjectFieldValue instanceof Time) {
             fieldValue = Common.parseTime((String) fieldValue);
             return fieldValue == (Time) sObjectFieldValue;
         }
 
-        return (String.valueOf(sObjectFieldValue).toLowerCase() == ((String)fieldValue).toLowerCase());
+        return (String.valueOf(sObjectFieldValue).toLowerCase() ==
+        ((String) fieldValue).toLowerCase());
     }
 }

@@ -11,12 +11,12 @@ public with sharing virtual class ParentRecordData {
     private SObject parentRecord;
     private Boolean isPolymorphic;
 
-
     @SuppressWarnings('PMD.EmptyStatementBlock')
-    protected ParentRecordData() {}
+    protected ParentRecordData() {
+    }
 
     /**
-     * @description Get the field API name 
+     * @description Get the field API name
      * @return  `String`
      */
     public String getFieldApiName() {
@@ -24,7 +24,7 @@ public with sharing virtual class ParentRecordData {
     }
 
     /**
-     * @description Get the field relationship name 
+     * @description Get the field relationship name
      * @return  `String`
      */
     public String getFieldRelationshipName() {
@@ -32,7 +32,7 @@ public with sharing virtual class ParentRecordData {
     }
 
     /**
-     * @description Get the parent object API name 
+     * @description Get the parent object API name
      * @return  `String`
      */
     public String getParentObjApiName() {
@@ -40,7 +40,7 @@ public with sharing virtual class ParentRecordData {
     }
 
     /**
-     * @description Get the object API name 
+     * @description Get the object API name
      * @return  `String`
      */
     public String getObjApiName() {
@@ -48,7 +48,7 @@ public with sharing virtual class ParentRecordData {
     }
 
     /**
-     * @description Get the parent record 
+     * @description Get the parent record
      * @return  `SObject`
      */
     public SObject getParentRecord() {
@@ -56,7 +56,7 @@ public with sharing virtual class ParentRecordData {
     }
 
     /**
-     * @description Get if the relationship is polymorphic 
+     * @description Get if the relationship is polymorphic
      * @return  `Boolean`
      */
     public Boolean getIsPolymorphic() {
@@ -64,7 +64,7 @@ public with sharing virtual class ParentRecordData {
     }
 
     /**
-     * @description Get the parent record Id 
+     * @description Get the parent record Id
      * @return  `Id`
      */
     public Id getParentRecordId() {
@@ -79,7 +79,7 @@ public with sharing virtual class ParentRecordData {
 
         /**
          * @description Set the field API name
-         * @param fieldApiName 
+         * @param fieldApiName
          * @return  `Builder`
          */
         public Builder setFieldApiName(String fieldApiName) {
@@ -89,7 +89,7 @@ public with sharing virtual class ParentRecordData {
 
         /**
          * @description Set the field relationship name
-         * @param fieldRelationshipName 
+         * @param fieldRelationshipName
          * @return  `Builder`
          */
         public Builder setFieldRelationshipName(String fieldRelationshipName) {
@@ -99,7 +99,7 @@ public with sharing virtual class ParentRecordData {
 
         /**
          * @description Set the parent object API name
-         * @param parentObjApiName 
+         * @param parentObjApiName
          * @return  `Builder`
          */
         public Builder setParentObjApiName(String parentObjApiName) {
@@ -109,7 +109,7 @@ public with sharing virtual class ParentRecordData {
 
         /**
          * @description Set the object API name
-         * @param objApiName 
+         * @param objApiName
          * @return  `Builder`
          */
         public Builder setObjApiName(String objApiName) {
@@ -119,7 +119,7 @@ public with sharing virtual class ParentRecordData {
 
         /**
          * @description Set the parent record
-         * @param parentRecord 
+         * @param parentRecord
          * @return  `Builder`
          */
         public Builder setParentRecord(SObject parentRecord) {
@@ -129,7 +129,7 @@ public with sharing virtual class ParentRecordData {
 
         /**
          * @description Set if the relationship is polymorphic
-         * @param isPolymorphic 
+         * @param isPolymorphic
          * @return  `Builder`
          */
         public Builder setIsPolymorphic(Boolean isPolymorphic) {

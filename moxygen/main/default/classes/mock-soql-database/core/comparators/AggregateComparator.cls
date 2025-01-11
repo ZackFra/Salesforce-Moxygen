@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -27,7 +27,7 @@
  * @description A class to compare two pre-Aggregate based on a set of fields
  *              (a pre-Aggregate is a ProtoAggregate where the keys are the field names and the values are the field values)
  */
-public with sharing class AggregateComparator implements Comparator<ProtoAggregate>{
+public with sharing class AggregateComparator implements Comparator<ProtoAggregate> {
     private Map<String, Map<String, String>> fields;
 
     /**
@@ -38,14 +38,17 @@ public with sharing class AggregateComparator implements Comparator<ProtoAggrega
         this.fields = fields;
     }
 
-    private Object getFieldValue(ProtoAggregate sObj, Map<String, String> fieldData) {
+    private Object getFieldValue(
+        ProtoAggregate sObj,
+        Map<String, String> fieldData
+    ) {
         String relationshipName = fieldData.get('relationshipName');
         String fieldApiName = fieldData.get('fieldApiName');
 
         Object fieldValue;
-        if(relationshipName != null) {
+        if (relationshipName != null) {
             List<String> fieldParts = fieldApiName.split('\\.');
-            for(String part : fieldParts) {
+            for (String part : fieldParts) {
                 fieldValue = sObj.get(part);
             }
         } else {
@@ -56,7 +59,7 @@ public with sharing class AggregateComparator implements Comparator<ProtoAggrega
     }
 
     /**
-     * @description Check for null values and return the appropriate result, 
+     * @description Check for null values and return the appropriate result,
      *              returns null if both are not null
      * @param a The first value
      * @param b The second value
@@ -67,17 +70,17 @@ public with sharing class AggregateComparator implements Comparator<ProtoAggrega
         Boolean isANull = (a == null);
         Boolean isBNull = (b == null);
         Boolean isNullDirFirst = (nullDir == 'first');
-        
+
         Integer nullFirstAdjustment = 1;
-        if(!isNullDirFirst) {
+        if (!isNullDirFirst) {
             nullFirstAdjustment = -1;
         }
 
-        if(isANull && isBNull) {
+        if (isANull && isBNull) {
             return 0;
-        } else if(isANull && !isBNull) {
+        } else if (isANull && !isBNull) {
             return -1 * nullFirstAdjustment;
-        } else if(!isANull && isBNull) {
+        } else if (!isANull && isBNull) {
             return 1 * nullFirstAdjustment;
         }
 
@@ -85,7 +88,7 @@ public with sharing class AggregateComparator implements Comparator<ProtoAggrega
     }
 
     private Integer adjustForOrder(Integer result, String order) {
-        if(order == 'desc') {
+        if (order == 'desc') {
             return result * -1;
         } else {
             return result;
@@ -101,9 +104,8 @@ public with sharing class AggregateComparator implements Comparator<ProtoAggrega
     @SuppressWarnings('PMD.CognitiveComplexity')
     public Integer compare(ProtoAggregate a, ProtoAggregate b) {
         for (String field : this.fields.keySet()) {
-
             Map<String, String> fieldData = this.fields.get(field);
-            
+
             String order = (String) fieldData.get('order');
             String nullDir = (String) fieldData.get('nullDir');
 
@@ -112,16 +114,21 @@ public with sharing class AggregateComparator implements Comparator<ProtoAggrega
 
             if (aFieldValue != bFieldValue) {
                 ObjectComparator comparator = new ObjectComparator();
-                
-                Integer result = checkForNull(aFieldValue, bFieldValue, nullDir);
-                if(result != null && result != 0) {
+
+                Integer result = checkForNull(
+                    aFieldValue,
+                    bFieldValue,
+                    nullDir
+                );
+                if (result != null && result != 0) {
                     return result;
-                } else if(result == 0) { // If both are null,
+                } else if (result == 0) {
+                    // If both are null,
                     continue;
                 }
-                
+
                 result = comparator.compare(aFieldValue, bFieldValue);
-                if(result == 0) {
+                if (result == 0) {
                     continue;
                 }
                 result = adjustForOrder(result, order);

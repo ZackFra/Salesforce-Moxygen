@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -29,14 +29,13 @@
  * @since 3/23/2024
  */
 public with sharing class LimitHandlerFactory {
-
     private LimitOptions options = new LimitOptions();
 
     Node limitNode;
     Map<String, Object> params;
 
     /**
-     * @description Sets the type of the query 
+     * @description Sets the type of the query
      * @param type `Types.SOQL`
      * @return  `LimitHandlerFactory`
      */
@@ -78,34 +77,38 @@ public with sharing class LimitHandlerFactory {
     private Integer calculateLimitSize() {
         Node limitSizeNode = limitNode.left;
 
-        if(limitSizeNode.nodeType == 'bind variable' && (params == null || !params.containsKey(limitSizeNode.id))) {
-            throw new QueryException('Missing bind variable: ' + limitSizeNode.id);
+        if (
+            limitSizeNode.nodeType == 'bind variable' &&
+            (params == null || !params.containsKey(limitSizeNode.id))
+        ) {
+            throw new QueryException(
+                'Missing bind variable: ' + limitSizeNode.id
+            );
         }
 
-        if(limitSizeNode.nodeType == 'bind variable') {
+        if (limitSizeNode.nodeType == 'bind variable') {
             return (Integer) params.get(limitSizeNode.id);
         }
-        return Integer.valueOf(limitSizeNode.id);      
+        return Integer.valueOf(limitSizeNode.id);
     }
 
-    private class LimitHandlerException extends Exception {}
+    private class LimitHandlerException extends Exception {
+    }
 
     /**
-     * @description Creates the appropriate limit handler based on the query type 
+     * @description Creates the appropriate limit handler based on the query type
      * @return  `ILimitHandler`
      * @exception LimitHandlerException
      */
     public ILimitHandler createHandler() {
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'type' => options.getType(),
             'limitNode' => limitNode,
             'obj' => options.getObj()
         };
         Common.nullCheck(args);
 
-        options.setLimitSize(
-            calculateLimitSize()
-        );
+        options.setLimitSize(calculateLimitSize());
 
         switch on options.type {
             when RECORD {

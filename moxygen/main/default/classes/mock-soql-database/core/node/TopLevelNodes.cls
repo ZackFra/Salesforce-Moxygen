@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -30,7 +30,6 @@
  * @since 3/23/2024
  */
 public inherited sharing class TopLevelNodes {
-
     /**
      * @description The main node of the SOQL query, the SELECT node.
      */
@@ -78,7 +77,7 @@ public inherited sharing class TopLevelNodes {
      */
     public TopLevelNodes(Node selectNode) {
         Node curr = selectNode;
-        while(curr != null) {
+        while (curr != null) {
             curr = put(curr);
         }
     }
@@ -91,35 +90,35 @@ public inherited sharing class TopLevelNodes {
      */
     private Node put(Node node) {
         switch on node.nodeType {
-            when 'select' { 
-                this.selectNode = node; 
+            when 'select' {
+                this.selectNode = node;
             }
-            when 'from' { 
-                this.fromNode = node; 
+            when 'from' {
+                this.fromNode = node;
             }
-            when 'where' { 
-                this.whereNode = node; 
+            when 'where' {
+                this.whereNode = node;
             }
-            when 'group by' { 
-                this.groupByNode = node; 
+            when 'group by' {
+                this.groupByNode = node;
             }
-            when 'having' { 
-                this.havingNode = node; 
+            when 'having' {
+                this.havingNode = node;
             }
-            when 'order by' { 
-                this.orderByNode = node; 
+            when 'order by' {
+                this.orderByNode = node;
             }
-            when 'limit' { 
-                this.limitNode = node; 
+            when 'limit' {
+                this.limitNode = node;
             }
-            when 'offset' { 
-                this.offsetNode = node; 
+            when 'offset' {
+                this.offsetNode = node;
             }
-            when 'for update' { 
-                this.forUpdateNode = node; 
+            when 'for update' {
+                this.forUpdateNode = node;
             }
-            when 'using scope' { 
-                this.usingScopeNode = node; 
+            when 'using scope' {
+                this.usingScopeNode = node;
             }
             when else {
                 return node;

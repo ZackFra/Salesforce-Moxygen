@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,11 +23,11 @@
  *
  */
 
- /**
-  * @description Parses an SObject name in a query
-  * @author Zackary Frazier
-  * @since 4/12/2024
-  */
+/**
+ * @description Parses an SObject name in a query
+ * @author Zackary Frazier
+ * @since 4/12/2024
+ */
 public inherited sharing class SObjectParser extends SubParser {
     /**
      * @description Parses the object from the 'from' clause
@@ -37,15 +37,15 @@ public inherited sharing class SObjectParser extends SubParser {
     public override Intermediary parse(String query) {
         query = skipWhitespace(query);
         String objectName = '';
-        while(query.length() != 0 && (ParserUtils.validCharForFieldOrObject(query.subString(0, 1)))) {
+        while (
+            query.length() != 0 &&
+            (ParserUtils.validCharForFieldOrObject(query.subString(0, 1)))
+        ) {
             objectName += query.subString(0, 1);
             query = query.subString(1);
         }
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId(objectName)
-            	.setNodeType('object')
-            	.build(),
+            new NodeBuilder().setId(objectName).setNodeType('object').build(),
             query
         );
     }

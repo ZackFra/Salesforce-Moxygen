@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,13 +24,12 @@
  */
 
 /**
- * @description This class is used to store the options for the BooleanLogic class 
+ * @description This class is used to store the options for the BooleanLogic class
  * @author Zackary Frazier
  * @since 3/23/2024
  */
 public with sharing class BooleanLogicOptions {
-
-    /** 
+    /**
      * @description Parameters for bind variables in the query
      */
     public Map<String, Object> params;
@@ -52,7 +51,7 @@ public with sharing class BooleanLogicOptions {
 
     /**
      * @description Setter for `params`
-     * @param params 
+     * @param params
      * @return  `BooleanLogicOptions`
      */
     public BooleanLogicOptions setParams(Map<String, Object> params) {
@@ -61,8 +60,8 @@ public with sharing class BooleanLogicOptions {
     }
 
     /**
-     * @description Setter for `obj` 
-     * @param obj 
+     * @description Setter for `obj`
+     * @param obj
      * @return  `BooleanLogicOptions`
      */
     public BooleanLogicOptions setObj(Object obj) {
@@ -71,8 +70,8 @@ public with sharing class BooleanLogicOptions {
     }
 
     /**
-     * @description Setter for `head` node 
-     * @param head 
+     * @description Setter for `head` node
+     * @param head
      * @return  `BooleanLogicOptions`
      */
     public BooleanLogicOptions setHead(Node head) {
@@ -82,12 +81,11 @@ public with sharing class BooleanLogicOptions {
 
     /**
      * @description Setter for `selectNode`
-     * @param selectNode 
+     * @param selectNode
      * @return  `BooleanLogicOptions`
      */
     public BooleanLogicOptions setSelectNode(Node selectNode) {
         this.selectNode = selectNode;
         return this;
     }
-
 }

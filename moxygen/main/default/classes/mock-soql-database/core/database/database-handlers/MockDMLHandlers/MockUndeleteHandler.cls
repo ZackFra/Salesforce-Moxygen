@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,16 +24,15 @@
  */
 
 /**
- * @description MockUndeleteHandler is used to mock the Database.UndeleteResult class and the Database.undelete method 
+ * @description MockUndeleteHandler is used to mock the Database.UndeleteResult class and the Database.undelete method
  * @author Zackary Frazier
  * @since 3/9/2024
  */
 @IsTest
 public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
-    
     private SObject selectDeletedRecordById(Id recordId) {
         String sObjName = SchemaService.getSObjectName(recordId);
-        if(!MockDatabase.deletedRecords.contains(recordId)) {
+        if (!MockDatabase.deletedRecords.contains(recordId)) {
             return null;
         }
         return MockDatabase.mockRecords.get(sObjName).get(recordId);
@@ -46,9 +45,12 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
      * @return Database.UndeleteResult - The result of the undelete operation
      * @throws DmlException - If the record does not exists and allOrNone is true
      */
-    public Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone) {
-        if(!MockDatabase.deletedRecords.contains(recordToUndelete.Id)) {
-            if(allOrNone) {
+    public Database.UndeleteResult doUndelete(
+        sObject recordToUndelete,
+        Boolean allOrNone
+    ) {
+        if (!MockDatabase.deletedRecords.contains(recordToUndelete.Id)) {
+            if (allOrNone) {
                 throw new DmlException('Record does not exist');
             }
             return (Database.UndeleteResult) srService.createFailure(
@@ -61,7 +63,11 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
         String sObjName = SchemaService.getSObjectName(recordToUndelete);
         Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(sObjName);
         SObject mockRecord = mockRecords.get(recordToUndelete.Id);
-        SObject updatedRecord = Common.putReadOnlyField(mockRecord, 'IsDeleted', false);
+        SObject updatedRecord = Common.putReadOnlyField(
+            mockRecord,
+            'IsDeleted',
+            false
+        );
         mockRecords.put(updatedRecord.Id, updatedRecord);
 
         return (Database.UndeleteResult) srService.createSuccess(
@@ -77,9 +83,12 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
      * @return List<Database.UndeleteResult> - The results of the undelete operations
      * @throws DmlException - If any of the records do not exists and allOrNone is true
      */
-    public List<Database.UndeleteResult> doUndelete(List<sObject> recordsToUndelete, Boolean allOrNone) {
+    public List<Database.UndeleteResult> doUndelete(
+        List<sObject> recordsToUndelete,
+        Boolean allOrNone
+    ) {
         List<Database.UndeleteResult> results = new List<Database.UndeleteResult>();
-        for(SObject record : recordsToUndelete) {
+        for (SObject record : recordsToUndelete) {
             results.add(doUndelete(record, allOrNone));
         }
         return results;
@@ -93,8 +102,8 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
      */
     public Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone) {
         SObject recordToUndelete = selectDeletedRecordById(recordID);
-        if(recordToUndelete == null) {
-            if(allOrNone) {
+        if (recordToUndelete == null) {
+            if (allOrNone) {
                 throw new DmlException('Record does not exist');
             }
             return (Database.UndeleteResult) srService.createFailure(
@@ -112,9 +121,12 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
      * @return List<Database.UndeleteResult> - The results of the undelete operations
      * @throws DmlException - If any of the records do not exists and allOrNone is true
      */
-    public List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone) {
+    public List<Database.UndeleteResult> doUndelete(
+        List<Id> recordIDs,
+        Boolean allOrNone
+    ) {
         List<Database.UndeleteResult> results = new List<Database.UndeleteResult>();
-        for(Id recordId : recordIDs) {
+        for (Id recordId : recordIDs) {
             results.add(doUndelete(recordId, allOrNone));
         }
         return results;
@@ -127,7 +139,11 @@ public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
      * @param accessLevel - The access level of the user performing the operation
      * @return Database.UndeleteResult - The result of the undelete operation
      */
-    public Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public Database.UndeleteResult doUndelete(
+        SObject recordToUndelete,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
         return doUndelete(recordToUndelete, allOrNone);
     }
 }

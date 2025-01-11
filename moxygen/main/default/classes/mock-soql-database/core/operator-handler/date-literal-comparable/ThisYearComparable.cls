@@ -1,5 +1,5 @@
 /**
- * @description Comparable for THIS_YEAR 
+ * @description Comparable for THIS_YEAR
  * @author Zackary Frazier
  * @since 1/4/2025
  */

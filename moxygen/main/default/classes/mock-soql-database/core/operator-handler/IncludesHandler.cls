@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Handles the includes operator 
+ * @description Handles the includes operator
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -37,24 +37,22 @@ public class IncludesHandler implements IOperatorHandler {
      * @exception QueryException
      */
     public Boolean handle(Object sObjectFieldValue, Object fieldValue) {
-        if(fieldValue == null) {
+        if (fieldValue == null) {
             throw new QueryException('invalid operator');
         }
-        
+
         List<String> values = new List<String>();
         try {
             List<Object> objList = (List<Object>) fieldValue;
-            for(Object obj : objList) {
-                values.add(
-                    ((String) obj).toLowerCase() + ';'
-                );
+            for (Object obj : objList) {
+                values.add(((String) obj).toLowerCase() + ';');
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             throw new QueryException('Includes expects a list of strings');
         }
         String fieldString = ((String) sObjectFieldValue).toLowerCase();
-        for(String value : values) {
-            if(fieldString.contains(value)) {
+        for (String value : values) {
+            if (fieldString.contains(value)) {
                 return true;
             }
         }

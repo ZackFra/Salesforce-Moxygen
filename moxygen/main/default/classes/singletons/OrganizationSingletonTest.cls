@@ -1,6 +1,5 @@
 @isTest
 private class OrganizationSingletonTest {
-
     @isTest
     static void ensureGetInstanceReturnsOurOrganization() {
         Test.startTest();
@@ -21,6 +20,10 @@ private class OrganizationSingletonTest {
 
         Assert.areEqual(org1, org2, 'Organization should be the same instance');
 
-        Assert.areEqual(1, numberOfSoqlQueries, 'Should only have queried for Organization once');
+        Assert.areEqual(
+            1,
+            numberOfSoqlQueries,
+            'Should only have queried for Organization once'
+        );
     }
 }

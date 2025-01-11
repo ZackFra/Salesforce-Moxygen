@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -30,7 +30,6 @@
  */
 @IsTest
 public inherited sharing class MockInsertHandler extends MockDMLHandler {
-
     /**
      * @description doInsert is used to insert a record into the database
      * @param recordToInsert - The record to insert
@@ -38,11 +37,17 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
      * @param accessLevel - The access level of the user performing the operation
      * @return Database.SaveResult - The result of the insert operation
      */
-    public Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public Database.SaveResult doInsert(
+        SObject recordToInsert,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
         wasCalled = true;
-        if(recordToInsert.Id != null) {
-            if(allOrNone) {
-                throw new DmlException('INVALID_FIELD_FOR_INSERT_UPDATE, cannot specify Id in an insert call: [Id]');
+        if (recordToInsert.Id != null) {
+            if (allOrNone) {
+                throw new DmlException(
+                    'INVALID_FIELD_FOR_INSERT_UPDATE, cannot specify Id in an insert call: [Id]'
+                );
             }
             return (Database.SaveResult) srService.createFailure(
                 'Record already exists',
@@ -52,7 +57,7 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
         SObject insertedRecord = setSystemFields(recordToInsert);
         String objName = SchemaService.getSObjectName(insertedRecord);
         Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(objName);
-        if(mockRecords == null) {
+        if (mockRecords == null) {
             mockRecords = new Map<Id, SObject>();
             MockDatabase.mockRecords.put(objName, mockRecords);
         }
@@ -60,7 +65,7 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
         return (Database.SaveResult) srService.createSuccess(
             insertedRecord.Id,
             Database.SaveResult.class
-        ); 
+        );
     }
 
     /**
@@ -70,7 +75,10 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
      * @return  `Database.SaveResult`
      * @exception DmlException
      */
-    public Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone) {
+    public Database.SaveResult doInsert(
+        SObject recordToInsert,
+        Boolean allOrNone
+    ) {
         wasCalled = true;
         return doInsert(recordToInsert, allOrNone, AccessLevel.USER_MODE);
     }
@@ -81,10 +89,13 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
      * @param allOrNone - Whether to throw an exception if any of the records already exist
      * @return List<Database.SaveResult> - The results of the insert operations
      */
-    public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone) {
+    public List<Database.SaveResult> doInsert(
+        List<SObject> recordsToInsert,
+        Boolean allOrNone
+    ) {
         wasCalled = true;
         List<Database.SaveResult> results = new List<Database.SaveResult>();
-        for(SObject record : recordsToInsert) {
+        for (SObject record : recordsToInsert) {
             results.add(doInsert(record, allOrNone));
         }
         return results;
@@ -97,10 +108,14 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
      * @param accessLevel Access level of the user performing the operation
      * @return  `List<Database.SaveResult>`
      */
-    public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public List<Database.SaveResult> doInsert(
+        List<SObject> recordsToInsert,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
         wasCalled = true;
         List<Database.SaveResult> results = new List<Database.SaveResult>();
-        for(SObject record : recordsToInsert) {
+        for (SObject record : recordsToInsert) {
             results.add(doInsert(record, allOrNone, accessLevel));
         }
         return results;
@@ -111,7 +126,7 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
      * @param recordsToInsert List of records to insert
      */
     public void doMockInsert(List<SObject> recordsToInsert) {
-        for(SObject record : recordsToInsert) {
+        for (SObject record : recordsToInsert) {
             doMockInsert(record);
         }
     }
@@ -127,7 +142,7 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
         SObject insertedRecord = setSystemFields(recordToInsert);
         String objName = SchemaService.getSObjectName(insertedRecord);
         Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(objName);
-        if(mockRecords == null) {
+        if (mockRecords == null) {
             mockRecords = new Map<Id, SObject>();
             MockDatabase.mockRecords.put(objName, mockRecords);
         }
@@ -145,15 +160,12 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
         recordToInsert.put('Id', fakeId);
 
         Map<String, Object> readOnlyFields = getReadOnlyFields(recordToInsert);
-        return Common.putReadOnlyFields(
-            recordToInsert,
-            readOnlyFields
-        );
+        return Common.putReadOnlyFields(recordToInsert, readOnlyFields);
     }
 
     private Map<String, Object> getReadOnlyFields(SObject recordToInsert) {
         Schema.SObjectType sot = SchemaService.getSObjectType(recordToInsert);
-        Map<String, Object> readOnlyFields = new Map<String, Object> {
+        Map<String, Object> readOnlyFields = new Map<String, Object>{
             'CreatedDate' => DateTime.now(),
             'CreatedById' => UserInfo.getUserId(),
             'LastModifiedDate' => DateTime.now(),
@@ -163,7 +175,10 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
             'IsDeleted' => false
         };
 
-        if(SchemaService.hasField(sot, 'OwnerId') && recordToInsert.get('OwnerId') == null) {
+        if (
+            SchemaService.hasField(sot, 'OwnerId') &&
+            recordToInsert.get('OwnerId') == null
+        ) {
             readOnlyFields.put('OwnerId', UserInfo.getUserId());
         }
 

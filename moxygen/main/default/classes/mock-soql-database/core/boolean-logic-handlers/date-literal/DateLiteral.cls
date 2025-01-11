@@ -7,7 +7,7 @@ public inherited sharing virtual class DateLiteral {
     /**
      * @description The field value to the date literal token
      */
-    public String fieldValue {get; protected set;}
+    public String fieldValue { get; protected set; }
 
     /**
      * @description Builder for the DateLiteral class
@@ -26,7 +26,7 @@ public inherited sharing virtual class DateLiteral {
         }
 
         /**
-         * @description Build the DateLiteral 
+         * @description Build the DateLiteral
          * @return  `DateLiteral`
          */
         public DateLiteral build() {

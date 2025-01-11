@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Class is responsible for parsing the 'from' clause of a query 
+ * @description Class is responsible for parsing the 'from' clause of a query
  * @author Zackary Frazier
  * @since 4/12/2024
  */
@@ -38,18 +38,16 @@ public inherited sharing class FromParser extends SubParser {
         query = skipWhitespace(query);
         query = consume(query, 'from');
         query = consume(query, ' ');
-        
-        
+
         Intermediary leftIntermediary = new SObjectParser().parse(query);
-		
+
         return new Intermediary(
-        	new NodeBuilder()
-            	.setId('from')
-            	.setNodeType('from')
-            	.setLeft(leftIntermediary.head)
-            	.build(),
+            new NodeBuilder()
+                .setId('from')
+                .setNodeType('from')
+                .setLeft(leftIntermediary.head)
+                .build(),
             leftIntermediary.subquery
         );
     }
-
 }

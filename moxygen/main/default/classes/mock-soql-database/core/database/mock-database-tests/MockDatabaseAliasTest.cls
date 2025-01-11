@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -31,8 +31,8 @@ private class MockDatabaseAliasTest {
         Account b = new Account(Name = 'Test 2');
         Account c = new Account(Name = 'Test 3');
         Account d = new Account(Name = 'Test 4');
-        
-        List<Account> acctList = new List<Account>{a, b, c, d};
+
+        List<Account> acctList = new List<Account>{ a, b, c, d };
         MockDatabase.doInsert(acctList, true);
 
         Contact con = new Contact(
@@ -43,10 +43,16 @@ private class MockDatabaseAliasTest {
         MockDatabase.doInsert(con, true);
 
         Test.startTest();
-        List<Aggregate> queriedAccts = MockDatabase.aggregateQuery('SELECT Account.Name acctName, Name, COUNT(Id) FROM Contact GROUP BY Name, Account.Name');
+        List<Aggregate> queriedAccts = MockDatabase.aggregateQuery(
+            'SELECT Account.Name acctName, Name, COUNT(Id) FROM Contact GROUP BY Name, Account.Name'
+        );
         Test.stopTest();
 
-        Assert.areEqual(1, queriedAccts.size(), 'Incorrect number of accounts queried');
+        Assert.areEqual(
+            1,
+            queriedAccts.size(),
+            'Incorrect number of accounts queried'
+        );
     }
 
     @IsTest
@@ -55,8 +61,8 @@ private class MockDatabaseAliasTest {
         Account b = new Account(Name = 'Test 2');
         Account c = new Account(Name = 'Test 3');
         Account d = new Account(Name = 'Test 4');
-        
-        List<Account> acctList = new List<Account>{a, b, c, d};
+
+        List<Account> acctList = new List<Account>{ a, b, c, d };
         MockDatabase.doInsert(acctList, true);
 
         Contact con = new Contact(
@@ -69,8 +75,10 @@ private class MockDatabaseAliasTest {
         String exMessage;
         Test.startTest();
         try {
-            MockDatabase.aggregateQuery('SELECT Account.Name acctName, Name acctName, COUNT(Id) FROM Contact GROUP BY Name, Account.Name');
-        } catch(QueryException e) {
+            MockDatabase.aggregateQuery(
+                'SELECT Account.Name acctName, Name acctName, COUNT(Id) FROM Contact GROUP BY Name, Account.Name'
+            );
+        } catch (QueryException e) {
             exMessage = e.getMessage();
         }
         Test.stopTest();

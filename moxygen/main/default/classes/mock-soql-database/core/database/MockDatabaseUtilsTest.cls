@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -48,10 +48,7 @@ private class MockDatabaseUtilsTest {
         Boolean isEqual = handler.handle(1, '1');
         Test.stopTest();
 
-        Assert.isTrue(
-            isEqual,
-            'Expected values to be equal'
-        );
+        Assert.isTrue(isEqual, 'Expected values to be equal');
     }
 
     @IsTest
@@ -62,10 +59,7 @@ private class MockDatabaseUtilsTest {
         Boolean isEqual = handler.handle('test', 'test');
         Test.stopTest();
 
-        Assert.isTrue(
-            isEqual,
-            'Expected values to be equal'
-        );
+        Assert.isTrue(isEqual, 'Expected values to be equal');
     }
 
     @IsTest
@@ -76,10 +70,7 @@ private class MockDatabaseUtilsTest {
         Boolean isEqual = handler.handle(true, 'true');
         Test.stopTest();
 
-        Assert.isTrue(
-            isEqual,
-            'Expected values to be equal'
-        );
+        Assert.isTrue(isEqual, 'Expected values to be equal');
     }
 
     @IsTest
@@ -90,10 +81,7 @@ private class MockDatabaseUtilsTest {
         Boolean isEqual = handler.handle(null, null);
         Test.stopTest();
 
-        Assert.isTrue(
-            isEqual,
-            'Expected values to be equal'
-        );
+        Assert.isTrue(isEqual, 'Expected values to be equal');
     }
 
     @IsTest
@@ -101,13 +89,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('=');
         Test.startTest();
-        Boolean isEqual = handler.handle(Date.newInstance(2020, 1, 1), '2020-01-01');
+        Boolean isEqual = handler.handle(
+            Date.newInstance(2020, 1, 1),
+            '2020-01-01'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isEqual,
-            'Expected values to be equal'
-        );
+        Assert.isTrue(isEqual, 'Expected values to be equal');
     }
 
     @IsTest
@@ -115,13 +103,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('=');
         Test.startTest();
-        Boolean isEqual = handler.handle(DateTime.newInstanceGmt(2020, 1, 1, 1, 1, 1), '2020-01-01T01:01:01+00:00');
+        Boolean isEqual = handler.handle(
+            DateTime.newInstanceGmt(2020, 1, 1, 1, 1, 1),
+            '2020-01-01T01:01:01+00:00'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isEqual,
-            'Expected values to be equal'
-        );
+        Assert.isTrue(isEqual, 'Expected values to be equal');
     }
 
     @IsTest
@@ -129,13 +117,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('=');
         Test.startTest();
-        Boolean isEqual = handler.handle(DateTime.newInstanceGmt(2020, 1, 1, 1, 1, 1), '2020-01-01T01:01:01-00:00');
+        Boolean isEqual = handler.handle(
+            DateTime.newInstanceGmt(2020, 1, 1, 1, 1, 1),
+            '2020-01-01T01:01:01-00:00'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isEqual,
-            'Expected values to be equal'
-        );
+        Assert.isTrue(isEqual, 'Expected values to be equal');
     }
 
     @IsTest
@@ -143,13 +131,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('=');
         Test.startTest();
-        Boolean isEqual = handler.handle(DateTime.newInstanceGmt(2020, 1, 1, 1, 1, 1), '2020-01-01T01:01:01Z');
+        Boolean isEqual = handler.handle(
+            DateTime.newInstanceGmt(2020, 1, 1, 1, 1, 1),
+            '2020-01-01T01:01:01Z'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isEqual,
-            'Expected values to be equal'
-        );
+        Assert.isTrue(isEqual, 'Expected values to be equal');
     }
 
     @IsTest
@@ -157,13 +145,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('=');
         Test.startTest();
-        Boolean isEqual = handler.handle(Time.newInstance(1, 1, 1, 1), '01:01:01.001Z');
+        Boolean isEqual = handler.handle(
+            Time.newInstance(1, 1, 1, 1),
+            '01:01:01.001Z'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isEqual,
-            'Expected values to be equal'
-        );
+        Assert.isTrue(isEqual, 'Expected values to be equal');
     }
 
     @IsTest
@@ -171,13 +159,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle(Date.newInstance(2019, 1, 1), '2020-01-01');
+        Boolean isNotEqual = handler.handle(
+            Date.newInstance(2019, 1, 1),
+            '2020-01-01'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -185,13 +173,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01+01:00');
+        Boolean isNotEqual = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01+01:00'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -199,13 +187,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01-08:00');
+        Boolean isNotEqual = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01-08:00'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -213,13 +201,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01Z');
+        Boolean isNotEqual = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01Z'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -227,13 +215,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle(Time.newInstance(0, 0, 0, 0), '01:01:01.000Z');
+        Boolean isNotEqual = handler.handle(
+            Time.newInstance(0, 0, 0, 0),
+            '01:01:01.000Z'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -244,10 +232,7 @@ private class MockDatabaseUtilsTest {
         Boolean isNotEqual = handler.handle('test1', 'test');
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );        
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -258,10 +243,7 @@ private class MockDatabaseUtilsTest {
         Boolean isNotEqual = handler.handle('test1', 'test');
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );        
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -272,10 +254,7 @@ private class MockDatabaseUtilsTest {
         Boolean isLike = handler.handle('test', '%tes_');
         Test.stopTest();
 
-        Assert.isTrue(
-            isLike,
-            'Expected values to be like'
-        );
+        Assert.isTrue(isLike, 'Expected values to be like');
     }
 
     @IsTest
@@ -283,13 +262,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('in');
         Test.startTest();
-        Boolean isIn = handler.handle('test', new List<String>{'test', 'test1'});
+        Boolean isIn = handler.handle(
+            'test',
+            new List<String>{ 'test', 'test1' }
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isIn,
-            'Expected value to be in list'
-        );
+        Assert.isTrue(isIn, 'Expected value to be in list');
     }
 
     @IsTest
@@ -297,13 +276,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('not in');
         Test.startTest();
-        Boolean isNotIn = handler.handle('test', new List<String>{'test1', 'test2'});
+        Boolean isNotIn = handler.handle(
+            'test',
+            new List<String>{ 'test1', 'test2' }
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotIn,
-            'Expected value to not be in list'
-        );
+        Assert.isTrue(isNotIn, 'Expected value to not be in list');
     }
 
     @IsTest
@@ -317,7 +296,7 @@ private class MockDatabaseUtilsTest {
         Assert.isTrue(
             isGreaterThan,
             'Expected value a to be greater than value b'
-        );        
+        );
     }
 
     @IsTest
@@ -328,10 +307,7 @@ private class MockDatabaseUtilsTest {
         Boolean isLessThan = handler.handle('test', 'test1');
         Test.stopTest();
 
-        Assert.isTrue(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );        
+        Assert.isTrue(isLessThan, 'Expected value a to be less than value b');
     }
 
     @IsTest
@@ -370,10 +346,7 @@ private class MockDatabaseUtilsTest {
         Boolean isNull = handler.handle(null, null);
         Test.stopTest();
 
-        Assert.isTrue(
-            isNull,
-            'Expected value to be true'
-        );
+        Assert.isTrue(isNull, 'Expected value to be true');
     }
 
     @IsTest
@@ -418,7 +391,7 @@ private class MockDatabaseUtilsTest {
         );
     }
 
-    @IsTest 
+    @IsTest
     static void testGreaterThanHandlerInteger() {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>');
@@ -432,12 +405,12 @@ private class MockDatabaseUtilsTest {
         );
     }
 
-    @IsTest 
+    @IsTest
     static void testGreaterThanHandlerDecimal() {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>');
         Test.startTest();
-        Boolean isGreaterThan = handler.handle( (Decimal) 2.0, '1.0');
+        Boolean isGreaterThan = handler.handle((Decimal) 2.0, '1.0');
         Test.stopTest();
 
         Assert.isTrue(
@@ -451,7 +424,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>');
         Test.startTest();
-        Boolean isGreaterThan = handler.handle(Date.newInstance(2020, 1, 1), '2019-01-01');
+        Boolean isGreaterThan = handler.handle(
+            Date.newInstance(2020, 1, 1),
+            '2019-01-01'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -465,7 +441,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>');
         Test.startTest();
-        Boolean isGreaterThan = handler.handle(DateTime.newInstance(2020, 1, 1, 1, 1, 1), '1999-01-01T23:01:01+01:00');
+        Boolean isGreaterThan = handler.handle(
+            DateTime.newInstance(2020, 1, 1, 1, 1, 1),
+            '1999-01-01T23:01:01+01:00'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -479,7 +458,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>');
         Test.startTest();
-        Boolean isGreaterThan = handler.handle(DateTime.newInstance(2020, 1, 1, 1, 1, 1), '1999-01-01T23:01:01-08:00');
+        Boolean isGreaterThan = handler.handle(
+            DateTime.newInstance(2020, 1, 1, 1, 1, 1),
+            '1999-01-01T23:01:01-08:00'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -493,7 +475,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>');
         Test.startTest();
-        Boolean isGreaterThan = handler.handle(DateTime.newInstance(2020, 1, 1, 1, 1, 1), '1999-01-01T23:01:01Z');
+        Boolean isGreaterThan = handler.handle(
+            DateTime.newInstance(2020, 1, 1, 1, 1, 1),
+            '1999-01-01T23:01:01Z'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -507,7 +492,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>');
         Test.startTest();
-        Boolean isGreaterThan = handler.handle(Time.newInstance(1, 1, 1, 1), '00:00:00.000Z');
+        Boolean isGreaterThan = handler.handle(
+            Time.newInstance(1, 1, 1, 1),
+            '00:00:00.000Z'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -521,7 +509,7 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>');
         Test.startTest();
-        Boolean isGreaterThan = handler.handle( (Long) 2L, '1');
+        Boolean isGreaterThan = handler.handle((Long) 2L, '1');
         Test.stopTest();
 
         Assert.isTrue(
@@ -538,10 +526,7 @@ private class MockDatabaseUtilsTest {
         Boolean isLessThan = handler.handle('test', 'test1');
         Test.stopTest();
 
-        Assert.isTrue(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );
+        Assert.isTrue(isLessThan, 'Expected value a to be less than value b');
     }
 
     @IsTest
@@ -552,10 +537,7 @@ private class MockDatabaseUtilsTest {
         Boolean isLessThan = handler.handle(null, 'test');
         Test.stopTest();
 
-        Assert.isFalse(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );
+        Assert.isFalse(isLessThan, 'Expected value a to be less than value b');
     }
 
     @IsTest
@@ -566,10 +548,7 @@ private class MockDatabaseUtilsTest {
         Boolean isLessThan = handler.handle((Double) 1.0, '2.0');
         Test.stopTest();
 
-        Assert.isTrue(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );
+        Assert.isTrue(isLessThan, 'Expected value a to be less than value b');
     }
 
     @IsTest
@@ -580,10 +559,7 @@ private class MockDatabaseUtilsTest {
         Boolean isLessThan = handler.handle(1, '2');
         Test.stopTest();
 
-        Assert.isTrue(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );
+        Assert.isTrue(isLessThan, 'Expected value a to be less than value b');
     }
 
     @IsTest
@@ -591,13 +567,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<');
         Test.startTest();
-        Boolean isLessThan = handler.handle( (Decimal) 1.0, '2.0');
+        Boolean isLessThan = handler.handle((Decimal) 1.0, '2.0');
         Test.stopTest();
 
-        Assert.isTrue(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );
+        Assert.isTrue(isLessThan, 'Expected value a to be less than value b');
     }
 
     @IsTest
@@ -605,13 +578,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<');
         Test.startTest();
-        Boolean isLessThan = handler.handle(Date.newInstance(2019, 1, 1), '2020-01-01');
+        Boolean isLessThan = handler.handle(
+            Date.newInstance(2019, 1, 1),
+            '2020-01-01'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );
+        Assert.isTrue(isLessThan, 'Expected value a to be less than value b');
     }
 
     @IsTest
@@ -619,27 +592,27 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<');
         Test.startTest();
-        Boolean isLessThan = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01+01:00');
+        Boolean isLessThan = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01+01:00'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );
+        Assert.isTrue(isLessThan, 'Expected value a to be less than value b');
     }
-    
+
     @IsTest
     static void testLessThanHandlerDateTime2() {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<');
         Test.startTest();
-        Boolean isLessThan = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01-08:00');
+        Boolean isLessThan = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01-08:00'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );
+        Assert.isTrue(isLessThan, 'Expected value a to be less than value b');
     }
 
     @IsTest
@@ -647,13 +620,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<');
         Test.startTest();
-        Boolean isLessThan = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01Z');
+        Boolean isLessThan = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01Z'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );
+        Assert.isTrue(isLessThan, 'Expected value a to be less than value b');
     }
 
     @IsTest
@@ -661,13 +634,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<');
         Test.startTest();
-        Boolean isLessThan = handler.handle(Time.newInstance(0, 0, 0, 0), '01:01:01.000Z');
+        Boolean isLessThan = handler.handle(
+            Time.newInstance(0, 0, 0, 0),
+            '01:01:01.000Z'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );
+        Assert.isTrue(isLessThan, 'Expected value a to be less than value b');
     }
 
     @IsTest
@@ -675,13 +648,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<');
         Test.startTest();
-        Boolean isLessThan = handler.handle( (Long) 1L, '2');
+        Boolean isLessThan = handler.handle((Long) 1L, '2');
         Test.stopTest();
 
-        Assert.isTrue(
-            isLessThan,
-            'Expected value a to be less than value b'
-        );
+        Assert.isTrue(isLessThan, 'Expected value a to be less than value b');
     }
 
     @IsTest
@@ -745,7 +715,7 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>=');
         Test.startTest();
-        Boolean isGreaterThanOrEqual = handler.handle( (Decimal) 2.0, '1.0');
+        Boolean isGreaterThanOrEqual = handler.handle((Decimal) 2.0, '1.0');
         Test.stopTest();
 
         Assert.isTrue(
@@ -759,7 +729,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>=');
         Test.startTest();
-        Boolean isGreaterThanOrEqual = handler.handle(Date.newInstance(2020, 1, 1), '2020-01-01');
+        Boolean isGreaterThanOrEqual = handler.handle(
+            Date.newInstance(2020, 1, 1),
+            '2020-01-01'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -773,7 +746,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>=');
         Test.startTest();
-        Boolean isGreaterThanOrEqual = handler.handle(DateTime.newInstance(2020, 1, 1, 1, 1, 1), '2020-01-01T01:01:01+01:00');
+        Boolean isGreaterThanOrEqual = handler.handle(
+            DateTime.newInstance(2020, 1, 1, 1, 1, 1),
+            '2020-01-01T01:01:01+01:00'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -787,7 +763,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>=');
         Test.startTest();
-        Boolean isGreaterThanOrEqual = handler.handle(DateTime.newInstance(2020, 1, 1, 1, 1, 1), '2020-01-01T01:01:01+08:00');
+        Boolean isGreaterThanOrEqual = handler.handle(
+            DateTime.newInstance(2020, 1, 1, 1, 1, 1),
+            '2020-01-01T01:01:01+08:00'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -801,7 +780,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>=');
         Test.startTest();
-        Boolean isGreaterThanOrEqual = handler.handle(DateTime.newInstance(2020, 1, 1, 1, 1, 1), '2020-01-01T01:01:01Z');
+        Boolean isGreaterThanOrEqual = handler.handle(
+            DateTime.newInstance(2020, 1, 1, 1, 1, 1),
+            '2020-01-01T01:01:01Z'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -815,7 +797,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>=');
         Test.startTest();
-        Boolean isGreaterThanOrEqual = handler.handle(Time.newInstance(1, 1, 1, 1), '01:01:01.000Z');
+        Boolean isGreaterThanOrEqual = handler.handle(
+            Time.newInstance(1, 1, 1, 1),
+            '01:01:01.000Z'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -829,7 +814,7 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('>=');
         Test.startTest();
-        Boolean isGreaterThanOrEqual = handler.handle( (Long) 2L, '1');
+        Boolean isGreaterThanOrEqual = handler.handle((Long) 2L, '1');
         Test.stopTest();
 
         Assert.isTrue(
@@ -899,7 +884,7 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<=');
         Test.startTest();
-        Boolean isLessThanOrEqual = handler.handle( (Decimal) 1.0, '2.0');
+        Boolean isLessThanOrEqual = handler.handle((Decimal) 1.0, '2.0');
         Test.stopTest();
 
         Assert.isTrue(
@@ -913,7 +898,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<=');
         Test.startTest();
-        Boolean isLessThanOrEqual = handler.handle(Date.newInstance(2019, 1, 1), '2020-01-01');
+        Boolean isLessThanOrEqual = handler.handle(
+            Date.newInstance(2019, 1, 1),
+            '2020-01-01'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -927,7 +915,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<=');
         Test.startTest();
-        Boolean isLessThanOrEqual = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01+01:00');
+        Boolean isLessThanOrEqual = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01+01:00'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -941,7 +932,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<=');
         Test.startTest();
-        Boolean isLessThanOrEqual = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01-08:00');
+        Boolean isLessThanOrEqual = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01-08:00'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -955,7 +949,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<=');
         Test.startTest();
-        Boolean isLessThanOrEqual = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01Z');
+        Boolean isLessThanOrEqual = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01Z'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -969,7 +966,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<=');
         Test.startTest();
-        Boolean isLessThanOrEqual = handler.handle(Time.newInstance(0, 0, 0, 0), '01:01:01.000Z');
+        Boolean isLessThanOrEqual = handler.handle(
+            Time.newInstance(0, 0, 0, 0),
+            '01:01:01.000Z'
+        );
         Test.stopTest();
 
         Assert.isTrue(
@@ -983,7 +983,7 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('<=');
         Test.startTest();
-        Boolean isLessThanOrEqual = handler.handle( (Long) 1L, '2');
+        Boolean isLessThanOrEqual = handler.handle((Long) 1L, '2');
         Test.stopTest();
 
         Assert.isTrue(
@@ -1000,10 +1000,7 @@ private class MockDatabaseUtilsTest {
         Boolean isNotEqual = handler.handle('test1', 'test');
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -1014,10 +1011,7 @@ private class MockDatabaseUtilsTest {
         Boolean isNotEqual = handler.handle(null, 'test');
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -1028,10 +1022,7 @@ private class MockDatabaseUtilsTest {
         Boolean isNotEqual = handler.handle((Double) 1.0, '2.0');
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -1042,10 +1033,7 @@ private class MockDatabaseUtilsTest {
         Boolean isNotEqual = handler.handle(1, '2');
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -1053,13 +1041,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle( (Decimal) 1.0, '2.0');
+        Boolean isNotEqual = handler.handle((Decimal) 1.0, '2.0');
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -1067,13 +1052,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle(Date.newInstance(2019, 1, 1), '2020-01-01');
+        Boolean isNotEqual = handler.handle(
+            Date.newInstance(2019, 1, 1),
+            '2020-01-01'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -1081,13 +1066,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01+01:00');
+        Boolean isNotEqual = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01+01:00'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -1095,13 +1080,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01-08:00');
+        Boolean isNotEqual = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01-08:00'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -1109,13 +1094,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle(DateTime.newInstance(1999, 1, 1, 23, 1, 1), '2020-01-01T01:01:01Z');
+        Boolean isNotEqual = handler.handle(
+            DateTime.newInstance(1999, 1, 1, 23, 1, 1),
+            '2020-01-01T01:01:01Z'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -1123,13 +1108,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle(Time.newInstance(0, 0, 0, 0), '01:01:01.000Z');
+        Boolean isNotEqual = handler.handle(
+            Time.newInstance(0, 0, 0, 0),
+            '01:01:01.000Z'
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -1137,13 +1122,10 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('!=');
         Test.startTest();
-        Boolean isNotEqual = handler.handle( (Long) 1L, '2');
+        Boolean isNotEqual = handler.handle((Long) 1L, '2');
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotEqual,
-            'Expected values to not be equal'
-        );
+        Assert.isTrue(isNotEqual, 'Expected values to not be equal');
     }
 
     @IsTest
@@ -1154,10 +1136,7 @@ private class MockDatabaseUtilsTest {
         Boolean isLike = handler.handle('test', '%tes_');
         Test.stopTest();
 
-        Assert.isTrue(
-            isLike,
-            'Expected values to be like'
-        );
+        Assert.isTrue(isLike, 'Expected values to be like');
     }
 
     @IsTest
@@ -1165,13 +1144,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('in');
         Test.startTest();
-        Boolean isIn = handler.handle('test', new List<String>{'test', 'test1'});
+        Boolean isIn = handler.handle(
+            'test',
+            new List<String>{ 'test', 'test1' }
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isIn,
-            'Expected value to be in list'
-        );
+        Assert.isTrue(isIn, 'Expected value to be in list');
     }
 
     @IsTest
@@ -1179,13 +1158,13 @@ private class MockDatabaseUtilsTest {
         OperatorHandlerFactory opHandlerFactory = new OperatorHandlerFactory();
         IOperatorHandler handler = opHandlerFactory.getHandler('not in');
         Test.startTest();
-        Boolean isNotIn = handler.handle('test', new List<String>{'test1', 'test2'});
+        Boolean isNotIn = handler.handle(
+            'test',
+            new List<String>{ 'test1', 'test2' }
+        );
         Test.stopTest();
 
-        Assert.isTrue(
-            isNotIn,
-            'Expected value to not be in list'
-        );
+        Assert.isTrue(isNotIn, 'Expected value to not be in list');
     }
 
     @IsTest

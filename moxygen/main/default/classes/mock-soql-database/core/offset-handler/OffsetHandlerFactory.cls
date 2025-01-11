@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -30,7 +30,7 @@
  */
 public with sharing class OffsetHandlerFactory {
     OffsetOptions options = new OffsetOptions();
-    
+
     Node offsetNode;
     Map<String, Object> params;
 
@@ -55,7 +55,7 @@ public with sharing class OffsetHandlerFactory {
     }
 
     /**
-     * @description Setter for the query type 
+     * @description Setter for the query type
      * @param type `Types.SOQL`
      * @return  `OffsetHandlerFactory`
      */
@@ -74,37 +74,40 @@ public with sharing class OffsetHandlerFactory {
         return this;
     }
 
-    private class OffsetHandlerException extends Exception {}
-
+    private class OffsetHandlerException extends Exception {
+    }
 
     private Integer calculateOffset() {
         Node offsetSizeNode = offsetNode.left;
-    
-        if(offsetNode.nodeType == 'bind variable' && (params == null || !params.containsKey(offsetSizeNode.id))) {
-            throw new QueryException('Missing bind variable: ' + offsetSizeNode.id);
+
+        if (
+            offsetNode.nodeType == 'bind variable' &&
+            (params == null || !params.containsKey(offsetSizeNode.id))
+        ) {
+            throw new QueryException(
+                'Missing bind variable: ' + offsetSizeNode.id
+            );
         }
-        if(offsetSizeNode.nodeType == 'bind variable') {
+        if (offsetSizeNode.nodeType == 'bind variable') {
             return (Integer) params.get(offsetSizeNode.id);
         }
         return Integer.valueOf(offsetSizeNode.id);
     }
 
     /**
-     * @description Creates an offset handler 
+     * @description Creates an offset handler
      * @return  `IOffsetHandler`
      * @exception OffsetHandlerException
      */
     public IOffsetHandler createHandler() {
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'obj' => options.getObj(),
             'type' => options.getType(),
             'offsetNode' => offsetNode
         };
         Common.nullCheck(args);
 
-        options.setOffset(
-            calculateOffset()
-        );
+        options.setOffset(calculateOffset());
 
         switch on options.type {
             when RECORD {
@@ -119,7 +122,6 @@ public with sharing class OffsetHandlerFactory {
             when else {
                 throw new OffsetHandlerException('Invalid type of query');
             }
-
         }
     }
 }

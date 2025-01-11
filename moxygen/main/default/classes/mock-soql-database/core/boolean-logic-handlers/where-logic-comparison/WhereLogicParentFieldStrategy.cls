@@ -1,5 +1,5 @@
 /**
- * @description Strategy for getting the field value of a parent field 
+ * @description Strategy for getting the field value of a parent field
  * @author Zackary Frazier
  * @since 11/28/2024
  */
@@ -10,13 +10,16 @@ public with sharing class WhereLogicParentFieldStrategy implements IWhereLogicCo
      * @param fieldNode `Node`
      * @return  `WhereLogicComparisonResults`
      */
-    public WhereLogicComparisonResults getFieldValue(SObject record, Node fieldNode) {
+    public WhereLogicComparisonResults getFieldValue(
+        SObject record,
+        Node fieldNode
+    ) {
         SObject parentRecord = record;
         String fieldName = fieldNode.id;
         List<String> fieldParts = fieldName.split('\\.');
-        String finalField = fieldParts[fieldParts.size()-1];
-        fieldParts.remove(fieldParts.size()-1);
-        
+        String finalField = fieldParts[fieldParts.size() - 1];
+        fieldParts.remove(fieldParts.size() - 1);
+
         Map<String, Object> parentInfo;
         String parentObjApiName;
         SObject childRecord;
@@ -27,37 +30,50 @@ public with sharing class WhereLogicParentFieldStrategy implements IWhereLogicCo
             parentRecord = (sObject) parentInfo.get('parentRecord');
             parentObjApiName = (String) parentInfo.get('parentObjApiName');
             fieldParts.remove(0);
-        } while(!fieldParts.isEmpty());
-        
-        String finalFieldApiName;
-        String fieldRelationshipName = (String) parentInfo.get('fieldRelationshipName');
+        } while (!fieldParts.isEmpty());
 
-        Schema.SObjectType childRecordSObjType = SchemaService.getSObjectType(childRecord);
-        Boolean isPolymorphic = SchemaService.isRelationshipPolymorphic(childRecordSObjType, fieldRelationshipName);
+        String finalFieldApiName;
+        String fieldRelationshipName = (String) parentInfo.get(
+            'fieldRelationshipName'
+        );
+
+        Schema.SObjectType childRecordSObjType = SchemaService.getSObjectType(
+            childRecord
+        );
+        Boolean isPolymorphic = SchemaService.isRelationshipPolymorphic(
+            childRecordSObjType,
+            fieldRelationshipName
+        );
         Map<String, String> polymorphicFieldMap = SchemaService.getPolymorphicFieldMap();
         Boolean isPolyField = polymorphicFieldMap.containsKey(finalField);
-        
-        if(isPolymorphic && isPolyField) {
+
+        if (isPolymorphic && isPolyField) {
             finalFieldApiName = polymorphicFieldMap.get(finalField);
         } else {
-            Schema.SObjectType parentSot = SchemaService.getSObjectType(parentRecord);
-            Schema.SObjectField parentField = SchemaService.getField(parentSot, finalField);
+            Schema.SObjectType parentSot = SchemaService.getSObjectType(
+                parentRecord
+            );
+            Schema.SObjectField parentField = SchemaService.getField(
+                parentSot,
+                finalField
+            );
             finalFieldApiName = SchemaService.getFieldName(parentField);
         }
 
         Boolean isPolyType = false;
         Object recordFieldValue;
-        if(finalFieldApiName == 'Type') {
+        if (finalFieldApiName == 'Type') {
             isPolyType = true;
             recordFieldValue = SchemaService.getSObjectName(parentRecord);
-        } else if(isPolymorphic && isPolyField) {
+        } else if (isPolymorphic && isPolyField) {
             try {
                 recordFieldValue = parentRecord.get(finalField);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 recordFieldValue = null;
             }
         } else {
-            parentRecord = MockDatabase.get(parentObjApiName).get(parentRecord.Id);
+            parentRecord = MockDatabase.get(parentObjApiName)
+                .get(parentRecord.Id);
             recordFieldValue = parentRecord.get(finalFieldApiName);
         }
 

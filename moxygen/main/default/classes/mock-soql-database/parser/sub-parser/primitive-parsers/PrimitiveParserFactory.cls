@@ -1,11 +1,11 @@
 /**
- * @description Factory class for primitive parsers 
+ * @description Factory class for primitive parsers
  * @author Zackary Frazier
  * @since 11/30/2024
  */
 public with sharing class PrimitiveParserFactory {
     @TestVisible
-    static Map<String, Type> parserTypeByToken = new Map<String, Type> {
+    static Map<String, Type> parserTypeByToken = new Map<String, Type>{
         Token.TOMORROW_LITERAL => DateLiteralParser.class,
         Token.TODAY_LITERAL => DateLiteralParser.class,
         Token.YESTERDAY_LITERAL => DateLiteralParser.class,
@@ -32,8 +32,6 @@ public with sharing class PrimitiveParserFactory {
         Token.NEXT_FISCAL_YEAR_LITERAL => DateLiteralParser.class,
         Token.THIS_YEAR_LITERAL => DateLiteralParser.class,
         Token.LAST_FISCAL_YEAR_LITERAL => DateLiteralParser.class,
-
-
         Token.SINGLE_QUOTE => StringParser.class,
         Token.XTRUE => BooleanParser.class,
         Token.XFALSE => BooleanParser.class,
@@ -52,13 +50,13 @@ public with sharing class PrimitiveParserFactory {
      * @return  `SubParser`
      */
     public static SubParser getPrimitiveParser(String query) {
-        if(isSoqlDateOrDateTime(query)) {
+        if (isSoqlDateOrDateTime(query)) {
             return new DateParser();
         }
 
         Set<String> expectedTokens = getPrimitiveParserTokens();
-        for(String token : expectedTokens) {
-            if(ParserUtils.isNext(query, token)) {
+        for (String token : expectedTokens) {
+            if (ParserUtils.isNext(query, token)) {
                 Type parserType = parserTypeByToken.get(token);
                 SubParser primitiveParser = (SubParser) parserType.newInstance();
                 primitiveParser.setToken(token);
@@ -79,7 +77,9 @@ public with sharing class PrimitiveParserFactory {
         String dateTimeRegex2 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\-([0-9]{2}):([0-9]{2})';
         String dateTimeRegex3 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})Z';
         Regex reg = new Regex();
-        return reg.matches(query, dateTimeRegex1) || reg.matches(query, dateTimeRegex2) || reg.matches(query, dateTimeRegex3);
+        return reg.matches(query, dateTimeRegex1) ||
+            reg.matches(query, dateTimeRegex2) ||
+            reg.matches(query, dateTimeRegex3);
     }
 
     private static Boolean isSoqlDate(String query) {

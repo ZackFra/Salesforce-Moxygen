@@ -4,33 +4,23 @@
   "version": "1.0.0",
   "description": "Salesforce App",
   "scripts": {
-
     "sf:scratch:create": "sf org create scratch --definition-file config/moxygen-scratch-def.json --target-dev-hub Moxygen --set-default --alias Dev",
     "sf:scratch:delete": "sf org delete scratch",
-    
     "sf:deploy": "sf project deploy start --source-dir moxygen",
     "sf:validate": "sf project deploy validate --test-level RunLocalTests --source-dir moxygen",
-    "sf:codescan": "sf scanner run --target .",
-
+    "sf:codescan": "sf scanner run --target . --engine pmd -s 3",
     "sf:apex:test": "sf apex run test --synchronous",
-    
     "sf:moxygen:scratch": "npm run sf:scratch:create && npm run sf:deploy",
     "sf:moxygen:install": "npm run sf:deploy",
     "sf:moxygen:install:package": "node ./scripts/js/install-moxygen.js",
     "sf:moxygen:version:create": "sf package version create --package Moxygen --installation-key-bypass --wait 10",
+    "prettier": "prettier --plugin=prettier-plugin-apex --write \"**/*.{cls,trigger,apex}\"",
+    "prettier:verify": "prettier --plugin=prettier-plugin-apex --check \"**/*.{cls,trigger,apex}\"",
 
-    "diagnostics": "./scripts/go/instance_upgrade/bin/main",
-
-    "lint": "eslint **/{aura,lwc}/**/*.js",
-    "test": "npm run test:unit",
-    "test:unit": "sfdx-lwc-jest",
-    "test:unit:watch": "sfdx-lwc-jest --watch",
-    "test:unit:debug": "sfdx-lwc-jest --debug",
-    "test:unit:coverage": "sfdx-lwc-jest --coverage",
-    "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
-    "prettier:verify": "prettier --check \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
+    "test": "npm run sf:validate",
     "postinstall": "husky install",
-    "precommit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@lwc/eslint-plugin-lwc": "^1.6.3",
@@ -42,27 +32,25 @@
     "eslint": "^8.49.0",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-jest": "^27.2.3",
-    "husky": "^8.0.3",
+    "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
-    "prettier": "^3.0.3",
-    "prettier-plugin-apex": "^2.0.1"
+    "prettier": "^3.4.2",
+    "prettier-plugin-apex": "^2.2.2",
+    "@salesforce/cli": "^2.71.6"
   },
   "lint-staged": {
-    "**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}": [
-      "prettier --write"
-    ],
-    "**/{aura,lwc}/**/*.js": [
-      "eslint"
+    "**/*.{cls,trigger,apex}": [
+      "prettier --plugin=prettier-plugin-apex --write"
     ]
   },
-  "apexdocs": { 
-    "sourceDir": "moxygen", 
+  "apexdocs": {
+    "sourceDir": "moxygen",
     "targetDir": "docs",
-    "scope": ["public", "global"],
+    "scope": [
+      "public",
+      "global"
+    ],
     "sortAlphabetically": true,
     "defaultGroupName": "Uncategorized"
-  },
-  "dependencies": {
-    "@salesforce/cli": "^2.49.7"
   }
 }

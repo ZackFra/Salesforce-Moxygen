@@ -1,5 +1,5 @@
 /**
- * @description Comparable class for NEXT_N_DAYS 
+ * @description Comparable class for NEXT_N_DAYS
  * @author Zackary Frazier
  * @since 12/29/2024
  */
@@ -13,7 +13,8 @@ public with sharing class NextNDaysComparable extends DateLiteralComparable {
         String dayValue = this.token.split(':')[1];
         Integer days = Integer.valueOf(dayValue);
         DateTime nextNDays = Gmt.today().addDays(days);
-        return Gmt.today().addDays(1) <= fieldValue && fieldValue < nextNDays.addDays(1);
+        return Gmt.today().addDays(1) <= fieldValue &&
+            fieldValue < nextNDays.addDays(1);
     }
 
     /**
@@ -27,7 +28,7 @@ public with sharing class NextNDaysComparable extends DateLiteralComparable {
 
     /**
      * @description Returns whether fieldValue is greater than NEXT_N_DAYS
-     * @param fieldValue 
+     * @param fieldValue
      * @return  `Boolean`
      */
     public override Boolean isGreaterThan(DateTime fieldValue) {

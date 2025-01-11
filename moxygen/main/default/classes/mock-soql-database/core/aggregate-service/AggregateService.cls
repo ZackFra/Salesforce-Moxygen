@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -30,26 +30,25 @@
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity')
 public inherited sharing class AggregateService {
-
-    public final static List<String> SUPPORTED_COUNT_FUNCS = new List<String> {
+    public final static List<String> SUPPORTED_COUNT_FUNCS = new List<String>{
         'count',
         'count_distinct'
     };
 
-    public final static List<String> SUPPORTED_NUMERIC_FUNCS = new List<String> {
+    public final static List<String> SUPPORTED_NUMERIC_FUNCS = new List<String>{
         'avg',
         'min',
         'max',
         'sum'
     };
 
-    public final static List<String> SUPPORTED_DATE_FUNCS = new List<String> {
+    public final static List<String> SUPPORTED_DATE_FUNCS = new List<String>{
         'calendar_month',
         'calendar_year',
         'calendar_quarter'
     };
 
-    public final static List<String> SUPPORTED_AGGREGATE_FUNCS; 
+    public final static List<String> SUPPORTED_AGGREGATE_FUNCS;
     static {
         SUPPORTED_AGGREGATE_FUNCS = new List<String>();
         SUPPORTED_AGGREGATE_FUNCS.addAll(SUPPORTED_NUMERIC_FUNCS);
@@ -64,10 +63,10 @@ public inherited sharing class AggregateService {
      * @return  `Boolean`
      */
     public static Boolean isCountFunc(String type, String nodeId) {
-        if(type != NodeType.AGGREGATE_FUNCTION) {
+        if (type != NodeType.AGGREGATE_FUNCTION) {
             return false;
         }
-        return SUPPORTED_DATE_FUNCS.contains(nodeId);        
+        return SUPPORTED_DATE_FUNCS.contains(nodeId);
     }
 
     /**
@@ -77,7 +76,7 @@ public inherited sharing class AggregateService {
      * @return  `Boolean`
      */
     public static Boolean isDateFunc(String type, String nodeId) {
-        if(type != NodeType.AGGREGATE_FUNCTION) {
+        if (type != NodeType.AGGREGATE_FUNCTION) {
             return false;
         }
         return SUPPORTED_DATE_FUNCS.contains(nodeId);
@@ -90,24 +89,22 @@ public inherited sharing class AggregateService {
      * @return  `Boolean`
      */
     public static Boolean isNumericFunc(String type, String nodeId) {
-        if(type != NodeType.AGGREGATE_FUNCTION) {
+        if (type != NodeType.AGGREGATE_FUNCTION) {
             return false;
         }
         return SUPPORTED_NUMERIC_FUNCS.contains(nodeId);
     }
 
     /**
-     * @description Returns whether the node is an aggregate function 
+     * @description Returns whether the node is an aggregate function
      * @param nodeType `String`
      * @param nodeId `String`
      * @return  `Boolean`
      */
     public static Boolean isAggregateFunc(String nodeType, String nodeId) {
-        return (
-            isNumericFunc(nodeType, nodeId) || 
-            isDateFunc(nodeType, nodeId) || 
-            isCountFunc(nodeType, nodeId)
-        );
+        return (isNumericFunc(nodeType, nodeId) ||
+        isDateFunc(nodeType, nodeId) ||
+        isCountFunc(nodeType, nodeId));
     }
 
     /**
@@ -115,13 +112,17 @@ public inherited sharing class AggregateService {
      * @param topLevelNodes : the top level nodes of the query
      * @return : a map with the fields to group by and the fields to select
      */
-    @SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity, PMD.NcssMethodCount')
-    public static Map<String, List<String>> getAggregateFields(TopLevelNodes topLevelNodes) {
+    @SuppressWarnings(
+        'PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity, PMD.NcssMethodCount'
+    )
+    public static Map<String, List<String>> getAggregateFields(
+        TopLevelNodes topLevelNodes
+    ) {
         Node selectNode = topLevelNodes.selectNode;
         Node groupByNode = topLevelNodes.groupByNode;
 
-        if(groupByNode == null) {
-            return new Map<String, List<String>> {
+        if (groupByNode == null) {
+            return new Map<String, List<String>>{
                 'groupByFields' => new List<String>(),
                 'selectFields' => new List<String>()
             };
@@ -129,15 +130,24 @@ public inherited sharing class AggregateService {
         List<String> groupByFields = new List<String>();
         List<String> selectFields = new List<String>();
 
-        if(groupByNode != null) {
+        if (groupByNode != null) {
             Node currGroupByNode = groupByNode.left;
-            while(currGroupByNode != null) {
-                if(isDateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
+            while (currGroupByNode != null) {
+                if (isDateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
                     groupByFields.add(currGroupByNode.right.id);
-                } else if(isAggregateFunc(currGroupByNode.nodeType, currGroupByNode.id) && !isDateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
-                    throw new QueryException('Only date aggregate functions are allowed as grouping expressions: ' + currGroupByNode.id);
+                } else if (
+                    isAggregateFunc(
+                        currGroupByNode.nodeType,
+                        currGroupByNode.id
+                    ) &&
+                    !isDateFunc(currGroupByNode.nodeType, currGroupByNode.id)
+                ) {
+                    throw new QueryException(
+                        'Only date aggregate functions are allowed as grouping expressions: ' +
+                        currGroupByNode.id
+                    );
                 } else {
-                    groupByFields.add(currGroupByNode.id); 
+                    groupByFields.add(currGroupByNode.id);
                 }
                 currGroupByNode = currGroupByNode.left;
             }
@@ -145,46 +155,55 @@ public inherited sharing class AggregateService {
 
         Node currSelectNode = selectNode.left;
         Set<String> aliases = new Set<String>();
-        while(currSelectNode != null) {
+        while (currSelectNode != null) {
             // begin with error-handling for the aggregate query
 
-            if(currSelectNode.nodeType == 'field') {
+            if (currSelectNode.nodeType == 'field') {
                 // check that selected fields are grouped or aggregated
-                if(!groupByFields.contains(currSelectNode.id)) {
-                    throw new QueryException('Field must be grouped or aggregated: ' + currSelectNode.id);
+                if (!groupByFields.contains(currSelectNode.id)) {
+                    throw new QueryException(
+                        'Field must be grouped or aggregated: ' +
+                        currSelectNode.id
+                    );
                 }
 
                 // check for duplicate aliases
                 Node aliasNode = currSelectNode.right;
                 String alias;
-                if(aliasNode != null) {
+                if (aliasNode != null) {
                     alias = aliasNode.id;
-                } else if(currSelectNode.id.contains('.')){
+                } else if (currSelectNode.id.contains('.')) {
                     List<String> aliasParts = currSelectNode.id.split('\\.');
-                    alias = aliasParts[aliasParts.size()-1];
+                    alias = aliasParts[aliasParts.size() - 1];
                 } else {
                     alias = currSelectNode.id;
                 }
 
                 Integer initAliasSize = aliases.size();
                 aliases.add(alias);
-                
-                if(initAliasSize == aliases.size()) {
+
+                if (initAliasSize == aliases.size()) {
                     throw new QueryException('Duplicate alias: ' + alias);
                 }
 
                 selectFields.add(currSelectNode.id);
-            } else if(currSelectNode.nodeType == 'aggregate function') {
+            } else if (currSelectNode.nodeType == 'aggregate function') {
                 // check that aggregated fields are not grouped
                 Node fieldNode = currSelectNode.right;
-                if(groupByFields.contains(fieldNode.id) && !isDateFunc(currSelectNode.nodeType, currSelectNode.id)) {
-                    throw new QueryException('Grouped field should not be aggregated: ' + fieldNode.id);
+                if (
+                    groupByFields.contains(fieldNode.id) &&
+                    !isDateFunc(currSelectNode.nodeType, currSelectNode.id)
+                ) {
+                    throw new QueryException(
+                        'Grouped field should not be aggregated: ' +
+                        fieldNode.id
+                    );
                 }
             }
             currSelectNode = currSelectNode.left;
         }
-        
-        Map<String, List<String>> aggregateFields = new Map<String, List<String>> {
+
+        Map<String, List<String>> aggregateFields = new Map<String, List<String>>{
             'groupByFields' => groupByFields,
             'selectFields' => selectFields
         };

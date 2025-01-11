@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,7 +22,6 @@
  * SOFTWARE.
  *
  */
-
 
 @IsTest
 @SuppressWarnings('PMD')
@@ -51,12 +50,16 @@ private class ParserDateFuncTest {
 
     @IsTest
     static void testCalendarMonthInSelectClause() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name, CALENDAR_MONTH(CreatedDate) FROM Account GROUP BY Name, CALENDAR_MONTH(CreatedDate)');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name, CALENDAR_MONTH(CreatedDate) FROM Account GROUP BY Name, CALENDAR_MONTH(CreatedDate)'
+        );
     }
 
     @IsTest
     static void testCalendarMonthInWhereClause() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE CALENDAR_MONTH(CreatedDate) = 1');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE CALENDAR_MONTH(CreatedDate) = 1'
+        );
     }
 
     /** CALENDAR YEAR **/

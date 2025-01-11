@@ -1,5 +1,5 @@
 /**
- * @description Strategy inreferace for WHERE logic comparison 
+ * @description Strategy inreferace for WHERE logic comparison
  * @author Zackary Frazier
  * @since 11/28/2024
  */

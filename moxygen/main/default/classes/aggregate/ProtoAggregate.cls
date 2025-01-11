@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -31,12 +31,12 @@
  */
 public with sharing class ProtoAggregate {
     public Map<String, Object> prototype = new Map<String, Object>();
-    
+
     List<SObject> records = new List<SObject>();
 
     /**
      * @description Constructor
-     * @param prototype 
+     * @param prototype
      */
     public ProtoAggregate(Map<String, Object> prototype) {
         this.prototype = prototype;
@@ -50,17 +50,17 @@ public with sharing class ProtoAggregate {
     }
 
     /**
-     * @description put a key-value pair in the proto-aggregate 
-     * @param key 
-     * @param value 
+     * @description put a key-value pair in the proto-aggregate
+     * @param key
+     * @param value
      */
     public void put(String key, Object value) {
         this.prototype.put(key, value);
     }
 
     /**
-     * @description get a value from the proto-aggregate 
-     * @param key 
+     * @description get a value from the proto-aggregate
+     * @param key
      * @return  `Object`
      */
     public Object get(String key) {
@@ -68,8 +68,8 @@ public with sharing class ProtoAggregate {
     }
 
     /**
-     * @description remove a key-value pair from the proto-aggregate 
-     * @param key 
+     * @description remove a key-value pair from the proto-aggregate
+     * @param key
      */
     public void remove(String key) {
         this.prototype.remove(key);
@@ -83,7 +83,7 @@ public with sharing class ProtoAggregate {
     }
 
     /**
-     * @description get the size of the proto-aggregate 
+     * @description get the size of the proto-aggregate
      * @return  `Integer`
      */
     public Integer size() {
@@ -91,7 +91,7 @@ public with sharing class ProtoAggregate {
     }
 
     /**
-     * @description check if the proto-aggregate is empty 
+     * @description check if the proto-aggregate is empty
      * @return  `Boolean`
      */
     public Boolean isEmpty() {
@@ -99,8 +99,8 @@ public with sharing class ProtoAggregate {
     }
 
     /**
-     * @description check if the proto-aggregate contains a key 
-     * @param key 
+     * @description check if the proto-aggregate contains a key
+     * @param key
      * @return  `Boolean`
      */
     public Boolean containsKey(String key) {
@@ -108,7 +108,7 @@ public with sharing class ProtoAggregate {
     }
 
     /**
-     * @description check if the proto-aggregate contains a value 
+     * @description check if the proto-aggregate contains a value
      * @return  `Set<String>`
      */
     public Set<String> keySet() {
@@ -116,7 +116,7 @@ public with sharing class ProtoAggregate {
     }
 
     /**
-     * @description get the values of the proto-aggregate 
+     * @description get the values of the proto-aggregate
      * @return  `List<Object>`
      */
     public List<Object> values() {
@@ -124,7 +124,7 @@ public with sharing class ProtoAggregate {
     }
 
     /**
-     * @description Returns the proto-aggregate as a `Map<String, Object>` 
+     * @description Returns the proto-aggregate as a `Map<String, Object>`
      * @return  `Map<String, Object>`
      */
     public Map<String, Object> getPrototype() {
@@ -146,5 +146,4 @@ public with sharing class ProtoAggregate {
     public void addRecord(SObject record) {
         this.records.add(record);
     }
-
 }

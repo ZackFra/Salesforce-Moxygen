@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Calculates the calendar month from a date value 
+ * @description Calculates the calendar month from a date value
  * @author Zackary Frazier
  * @since 4/28/2024
  */
@@ -33,27 +33,23 @@ public inherited sharing class CalendarMonthCalculator implements IAggregateCalc
 
     /**
      * @description Constructor for the CalendarMonthCalculator class
-     * @param options 
+     * @param options
      */
     public CalendarMonthCalculator(AggregateCalculatorOptions options) {
         this.options = options;
     }
 
     /**
-     * @description Calculates the average of a set of values. 
+     * @description Calculates the average of a set of values.
      * @return  `ProtoAggregate`
      */
     public ProtoAggregate calculate() {
-        return calculate(
-            options.aggregateResult,
-            options.alias,
-            options.value
-        );
+        return calculate(options.aggregateResult, options.alias, options.value);
     }
 
     /**
      * @description Calculate the calendar month of field passed in as `alias` in options,
-     *              for the grouped records of the `aggregateResult` passed into options 
+     *              for the grouped records of the `aggregateResult` passed into options
      * @return  `Object`
      */
     public Object calculateForField() {
@@ -66,15 +62,19 @@ public inherited sharing class CalendarMonthCalculator implements IAggregateCalc
 
     /**
      * @description Calculates the average of a set of values with an alias.
-     * @param aggregateResult 
-     * @param alias 
-     * @param value 
+     * @param aggregateResult
+     * @param alias
+     * @param value
      * @return  `ProtoAggregate`
      */
-    private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
-        if(value == null) {
+    private ProtoAggregate calculate(
+        ProtoAggregate aggregateResult,
+        String alias,
+        Object value
+    ) {
+        if (value == null) {
             // make sure it's explicitly set to null
-            if(!aggregateResult.containsKey(alias)) {
+            if (!aggregateResult.containsKey(alias)) {
                 aggregateResult.put(alias, null);
             }
             return aggregateResult;

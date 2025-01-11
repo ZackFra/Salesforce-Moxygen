@@ -1,5 +1,5 @@
 /**
- * @description Types defined for this package 
+ * @description Types defined for this package
  * @author Zackary Frazier
  * @since 3/9/2024
  */

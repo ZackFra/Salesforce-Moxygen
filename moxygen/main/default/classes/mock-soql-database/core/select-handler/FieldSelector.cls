@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,12 +24,11 @@
  */
 
 /**
- * @description FieldSelector is a class that is used to select fields from a queried record based on a field node. 
+ * @description FieldSelector is a class that is used to select fields from a queried record based on a field node.
  * @author Zackary Frazier
  * @since 3/23/2024
  */
 public with sharing class FieldSelector {
-    
     public SObject databaseRecord;
     public SObject queriedRecord;
     public Node fieldNode;
@@ -37,7 +36,7 @@ public with sharing class FieldSelector {
 
     /**
      * @description Setter for the `databaseRecord` property
-     * @param databaseRecord 
+     * @param databaseRecord
      * @return  `FieldSelector`
      */
     public FieldSelector setDatabaseRecord(SObject databaseRecord) {
@@ -47,7 +46,7 @@ public with sharing class FieldSelector {
 
     /**
      * @description Setter for the `queriedRecord` property
-     * @param queriedRecord 
+     * @param queriedRecord
      * @return  `FieldSelector`
      */
     public FieldSelector setQueriedRecord(SObject queriedRecord) {
@@ -57,7 +56,7 @@ public with sharing class FieldSelector {
 
     /**
      * @description Setter for the `fieldNode` property
-     * @param fieldNode 
+     * @param fieldNode
      * @return  `FieldSelector`
      */
     public FieldSelector setFieldNode(Node fieldNode) {
@@ -67,7 +66,7 @@ public with sharing class FieldSelector {
 
     /**
      * @description Setter for the `params` property
-     * @param params 
+     * @param params
      * @return  `FieldSelector`
      */
     public FieldSelector setParams(Map<String, Object> params) {

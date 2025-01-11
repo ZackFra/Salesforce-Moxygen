@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,16 +24,25 @@
  */
 
 @IsTest
-@SuppressWarnings('PMD.NcssTypeCount, PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.ApexUnitTestClassShouldHaveAsserts')
+@SuppressWarnings(
+    'PMD.NcssTypeCount, PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.ApexUnitTestClassShouldHaveAsserts'
+)
 private class ParserTest {
-
     @IsTest
     static void canParseTodayLiteralInDate() {
         Parser p = new Parser();
         Node head = p.parse('SELECT Id FROM Account WHERE CreatedDate = TODAY');
         Node todayNode = head.right.right.left.right;
-        Assert.areEqual(todayNode.nodeType, NodeType.DATE_LITERAL, 'Should be a date literal');
-        Assert.areEqual(todayNode.id, Token.TODAY_LITERAL, 'Should be a today literal');
+        Assert.areEqual(
+            todayNode.nodeType,
+            NodeType.DATE_LITERAL,
+            'Should be a date literal'
+        );
+        Assert.areEqual(
+            todayNode.id,
+            Token.TODAY_LITERAL,
+            'Should be a today literal'
+        );
         Assert.isNull(todayNode.left, 'Should not have a left node');
         Assert.isNull(todayNode.right, 'Should not have a right node');
     }
@@ -41,25 +50,43 @@ private class ParserTest {
     @IsTest
     static void canParseYesterdayLiteralInDate() {
         Parser p = new Parser();
-        Node head = p.parse('SELECT Id FROM Account WHERE CreatedDate = YESTERDAY');
+        Node head = p.parse(
+            'SELECT Id FROM Account WHERE CreatedDate = YESTERDAY'
+        );
         Node yesterdayNode = head.right.right.left.right;
-        Assert.areEqual(NodeType.DATE_LITERAL, yesterdayNode.nodeType, 'Should be a date literal');
-        Assert.areEqual(yesterdayNode.id, Token.YESTERDAY_LITERAL, 'Should be a today literal');
+        Assert.areEqual(
+            NodeType.DATE_LITERAL,
+            yesterdayNode.nodeType,
+            'Should be a date literal'
+        );
+        Assert.areEqual(
+            yesterdayNode.id,
+            Token.YESTERDAY_LITERAL,
+            'Should be a today literal'
+        );
         Assert.isNull(yesterdayNode.left, 'Should not have a left node');
         Assert.isNull(yesterdayNode.right, 'Should not have a right node');
-        
     }
 
     @IsTest
     static void canParseTomorrowLiteralInDate() {
         Parser p = new Parser();
-        Node head = p.parse('SELECT Id FROM Account WHERE CreatedDate = TOMORROW');
+        Node head = p.parse(
+            'SELECT Id FROM Account WHERE CreatedDate = TOMORROW'
+        );
         Node tomorrowNode = head.right.right.left.right;
-        Assert.areEqual(NodeType.DATE_LITERAL, tomorrowNode.nodeType, 'Should be a date literal');
-        Assert.areEqual(Token.TOMORROW_LITERAL, tomorrowNode.id, 'Should be a today literal');
+        Assert.areEqual(
+            NodeType.DATE_LITERAL,
+            tomorrowNode.nodeType,
+            'Should be a date literal'
+        );
+        Assert.areEqual(
+            Token.TOMORROW_LITERAL,
+            tomorrowNode.id,
+            'Should be a today literal'
+        );
         Assert.isNull(tomorrowNode.left, 'Should not have a left node');
         Assert.isNull(tomorrowNode.right, 'Should not have a right node');
-        
     }
 
     @IsTest
@@ -81,7 +108,7 @@ private class ParserTest {
     @IsTest
     static void testWithDataCategoryExpectError() {
         ParserTestUtil.assertExceptionIsThrownWithMessage(
-            'SELECT Title FROM KnowledgeArticleVersion WHERE PublishStatus=\'online\' WITH DATA CATEGORY Geography__c ABOVE usa__c', 
+            'SELECT Title FROM KnowledgeArticleVersion WHERE PublishStatus=\'online\' WITH DATA CATEGORY Geography__c ABOVE usa__c',
             'WITH [DATA CATEGORY] is not supported by the mock SOQL parser'
         );
     }
@@ -109,232 +136,324 @@ private class ParserTest {
 
     @IsTest
     static void testSpacing5() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHEREName = \'test\'');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHEREName = \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing6() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name= \'test\'');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name= \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing7() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name =\'test\'');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name =\'test\''
+        );
     }
 
     @IsTest
     static void testSpacing8() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\'AND Id = \'test\'');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\'AND Id = \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing9() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHERE Name = \'test\' ANDId = \'test\'');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' ANDId = \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing10() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id= \'test\'');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id= \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing11() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id =\'test\'');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id =\'test\''
+        );
     }
 
     @IsTest
     static void testSpacing12() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\'GROUP BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\'GROUP BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing13() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUPBY Name');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUPBY Name'
+        );
     }
 
     @IsTest
     static void testSpacing14() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BYName');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BYName'
+        );
     }
 
     @IsTest
     static void testSpacing15() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing16() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY NameORDER BY Name');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY NameORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing17() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDERBY Name');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDERBY Name'
+        );
     }
 
     @IsTest
     static void testSpacing18() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BYName');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BYName'
+        );
     }
 
     @IsTest
     static void testSpacing19() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing20() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY NameLIMIT 10');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY NameLIMIT 10'
+        );
     }
 
     @IsTest
     static void testSpacing21() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT10');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT10'
+        );
     }
 
     @IsTest
     static void testSpacing22() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10'
+        );
     }
 
     @IsTest
     static void testSpacing23() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10OFFSET 5');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10OFFSET 5'
+        );
     }
 
     @IsTest
     static void testSpacing24() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET5');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET5'
+        );
     }
 
     @IsTest
     static void testSpacing25() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5'
+        );
     }
 
     @IsTest
     static void testSpacing26() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5FOR VIEW');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5FOR VIEW'
+        );
     }
 
     @IsTest
     static void testSpacing27() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FORVIEW');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FORVIEW'
+        );
     }
 
     @IsTest
     static void testSpacing28() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW'
+        );
     }
 
     @IsTest
     static void testSpacing29() {
-        ParserTestUtil.assertExceptionIsThrown('SELECTName FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECTName FROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW'
+        );
     }
 
     @IsTest
     static void testSpacing30() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT NameFROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT NameFROM Account WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW'
+        );
     }
 
     @IsTest
     static void testSpacing31() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROMAccount WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROMAccount WHERE Name = \'test\' AND Id = \'test\' GROUP BY Name ORDER BY Name LIMIT 10 OFFSET 5 FOR VIEW'
+        );
     }
 
     @IsTest
     static void testSpacing32() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND(Name = \'test\' OR Id !=null)GROUP BY Name ORDER BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND(Name = \'test\' OR Id !=null)GROUP BY Name ORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing33() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing34() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing35() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing36() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing37() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing38() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing39() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing40() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing41() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account WHERE Name = \'test\' AND (Name = \'test\' OR Id != null) GROUP BY Name ORDER BY Name'
+        );
     }
 
     @IsTest
     static void testSpacing42() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\'');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing43() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account GROUP BY NameHAVING Name = \'test\'');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account GROUP BY NameHAVING Name = \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing44() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account GROUP BY Name HAVINGName = \'test\'');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account GROUP BY Name HAVINGName = \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing45() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account GROUP BY Name HAVING Name= \'test\'');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account GROUP BY Name HAVING Name= \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing46() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account GROUP BY Name HAVING Name =\'test\'');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account GROUP BY Name HAVING Name =\'test\''
+        );
     }
 
     @IsTest
     static void testSpacing47() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\'AND Id = \'test\'');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\'AND Id = \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing48() {
-        ParserTestUtil.assertExceptionIsThrown('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' ANDId = \'test\'');
+        ParserTestUtil.assertExceptionIsThrown(
+            'SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' ANDId = \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing49() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' AND Id= \'test\'');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' AND Id= \'test\''
+        );
     }
 
     @IsTest
     static void testSpacing50() {
-        ParserTestUtil.assertExceptionIsNotThrown('SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' AND Id =\'test\'');
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account GROUP BY Name HAVING Name = \'test\' AND Id =\'test\''
+        );
     }
 
     @IsTest
@@ -343,13 +462,23 @@ private class ParserTest {
         DateTime now = GMT.now();
         String nowAsSoqlString = Common.dateTimeToSoqlString(now);
 
-        String soqlQuery = 'SELECT Id FROM Opportunity WHERE CreatedDate = ' + nowAsSoqlString;
+        String soqlQuery =
+            'SELECT Id FROM Opportunity WHERE CreatedDate = ' + nowAsSoqlString;
 
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + now + ' and ' + nowAsSoqlString + ' and ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    now +
+                    ' and ' +
+                    nowAsSoqlString +
+                    ' and ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }
@@ -361,8 +490,13 @@ private class ParserTest {
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }
@@ -374,8 +508,13 @@ private class ParserTest {
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }
@@ -387,8 +526,13 @@ private class ParserTest {
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }
@@ -400,8 +544,13 @@ private class ParserTest {
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }
@@ -413,8 +562,13 @@ private class ParserTest {
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }
@@ -426,8 +580,13 @@ private class ParserTest {
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }
@@ -439,8 +598,13 @@ private class ParserTest {
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }
@@ -452,8 +616,13 @@ private class ParserTest {
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }
@@ -465,8 +634,13 @@ private class ParserTest {
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }
@@ -478,8 +652,13 @@ private class ParserTest {
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }
@@ -491,8 +670,13 @@ private class ParserTest {
         Test.startTest();
         try {
             p.parse(soqlQuery);
-        } catch(Exception e) {
-            Assert.fail('Expected no exception but got ' + e.getMessage() + ' for ' + soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
         }
         Test.stopTest();
     }

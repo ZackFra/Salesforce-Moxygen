@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -29,7 +29,6 @@
  * @since 4/28/2024
  */
 public inherited sharing class WithSecurityEnforcedParser extends SubParser {
-    
     /**
      * @description Parses the WITH SECURITY_ENFORCED clause in a SOQL query
      * @param query `String`
@@ -37,7 +36,7 @@ public inherited sharing class WithSecurityEnforcedParser extends SubParser {
      */
     public override Intermediary parse(String query) {
         query = skipWhiteSpace(query);
-        if(lookahead(query, 4) != 'with') {
+        if (lookahead(query, 4) != 'with') {
             return null;
         }
 

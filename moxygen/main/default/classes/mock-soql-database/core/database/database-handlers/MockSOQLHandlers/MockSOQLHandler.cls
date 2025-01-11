@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
-*/
+ */
 
 /**
- * @description Base class for handling SOQL queries to the mock database 
+ * @description Base class for handling SOQL queries to the mock database
  * @author Zackary Frazier
  * @since 4/13/2024
  */
@@ -38,7 +38,7 @@ public virtual class MockSOQLHandler {
      */
     protected TopLeveLNodes getTopLevelNodes(Node selectNode) {
         TopLevelNodes topLevelNodes = TOP_LEVEL_NODES.get(selectNode);
-        if(topLevelNodes == null) {
+        if (topLevelNodes == null) {
             topLevelNodes = new TopLevelNodes(selectNode);
             TOP_LEVEL_NODES.put(selectNode, topLevelNodes);
         }
@@ -54,11 +54,11 @@ public virtual class MockSOQLHandler {
      */
     @TestVisible
     protected Object handleOrderByNode(
-        Types.SOQL typeOfQuery, 
-        Object results, 
+        Types.SOQL typeOfQuery,
+        Object results,
         Node selectNode
     ) {
-        if(results == null) {
+        if (results == null) {
             return results;
         }
 
@@ -82,22 +82,22 @@ public virtual class MockSOQLHandler {
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
     protected Object handleOffsetNode(
-        Types.SOQL typeOfQuery, 
-        Node offsetNode, 
-        Object results, 
+        Types.SOQL typeOfQuery,
+        Node offsetNode,
+        Object results,
         Map<String, Object> params
     ) {
-        if(offsetNode == null) {
+        if (offsetNode == null) {
             return results;
         }
-        
+
         IOffsetHandler offsetHandler = new OffsetHandlerFactory()
             .setType(typeOfQuery)
             .setObj(results)
             .setOffsetNode(offsetNode)
             .setParams(params)
             .createHandler();
-        
+
         return offsetHandler.handleOffset();
     }
 
@@ -108,12 +108,18 @@ public virtual class MockSOQLHandler {
      * @param params `Map<String, Object>`
      * @return  `Boolean`
      */
-    protected Boolean checkWhereClause(SObject databaseRecord, node whereNode, Map<String, Object> params) {
+    protected Boolean checkWhereClause(
+        SObject databaseRecord,
+        node whereNode,
+        Map<String, Object> params
+    ) {
         BooleanLogicOptions whereLogicOptions = new BooleanLogicOptions()
             .setHead(whereNode)
             .setObj(databaseRecord)
             .setParams(params);
-        WhereLogicHandler whereLogicHandler = new WhereLogicHandler(whereLogicOptions);
+        WhereLogicHandler whereLogicHandler = new WhereLogicHandler(
+            whereLogicOptions
+        );
         return whereLogicHandler.evaluate();
     }
 
@@ -124,42 +130,51 @@ public virtual class MockSOQLHandler {
      * @param params The query parameters
      * @return Whether the SObject passes the filter
      */
-    protected Boolean handleUsingScopeNode(SObject sObj, Node usingScopeNode, Map<String, Object> params) {
+    protected Boolean handleUsingScopeNode(
+        SObject sObj,
+        Node usingScopeNode,
+        Map<String, Object> params
+    ) {
         // Salesforce at some point will support evaluating formulas in Apex
         // that day is not today, so until then we're just assuming the scope is good
         // https://help.salesforce.com/s/articleView?id=release-notes.rn_apex_formulaeval.htm&release=248&type=5
         return true;
-     }
+    }
 
-     /**
-      * @description Handle the "LIMIT" node
-      * @param typeOfQuery `Types.SOQL`
-      * @param limitNode `Node`
-      * @param results `Object`
-      * @param params `Map<String, Object>`
-      * @return  `Object`
-      */
-     @SuppressWarnings('PMD.ExcessiveParameterList')
-     protected Object handleLimitNode(Types.SOQL typeOfQuery, Node limitNode, Object results, Map<String, Object> params) {
-         if(limitNode == null) {
-             return results;
-         }
- 
-         ILimitHandler limitHandler = new LimitHandlerFactory()
-             .setLimitNode(limitNode)
-             .setParams(params)
-             .setType(typeOfQuery)
-             .setObj(results)
-             .createHandler();
-         
-         return limitHandler.handleLimit();
-     }
+    /**
+     * @description Handle the "LIMIT" node
+     * @param typeOfQuery `Types.SOQL`
+     * @param limitNode `Node`
+     * @param results `Object`
+     * @param params `Map<String, Object>`
+     * @return  `Object`
+     */
+    @SuppressWarnings('PMD.ExcessiveParameterList')
+    protected Object handleLimitNode(
+        Types.SOQL typeOfQuery,
+        Node limitNode,
+        Object results,
+        Map<String, Object> params
+    ) {
+        if (limitNode == null) {
+            return results;
+        }
 
-     /**
-      * @description For a given select node, remove the top level nodes
-      * @param selectNode `Node`
-      */
-     protected void removeTopLevelNodesFor(Node selectNode) {
-         TOP_LEVEL_NODES.remove(selectNode);
-     }
+        ILimitHandler limitHandler = new LimitHandlerFactory()
+            .setLimitNode(limitNode)
+            .setParams(params)
+            .setType(typeOfQuery)
+            .setObj(results)
+            .createHandler();
+
+        return limitHandler.handleLimit();
+    }
+
+    /**
+     * @description For a given select node, remove the top level nodes
+     * @param selectNode `Node`
+     */
+    protected void removeTopLevelNodesFor(Node selectNode) {
+        TOP_LEVEL_NODES.remove(selectNode);
+    }
 }

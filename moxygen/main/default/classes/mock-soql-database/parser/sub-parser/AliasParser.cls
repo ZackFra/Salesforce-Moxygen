@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,14 +23,12 @@
  *
  */
 
-
- /**
-  * @description This class is responsible for parsing aliases in the query 
-  * @author Zackary Frazier
-  * @since 4/12/2024
-  */
+/**
+ * @description This class is responsible for parsing aliases in the query
+ * @author Zackary Frazier
+ * @since 4/12/2024
+ */
 public inherited sharing class AliasParser extends SubParser {
-
     /**
      * @description Parses the alias in the query
      * @param query `String`
@@ -38,32 +36,31 @@ public inherited sharing class AliasParser extends SubParser {
      * @exception ParsingException
      */
     public override Intermediary parse(String query) {
-        
         query = skipWhitespace(query);
         // if the next character is not a letter, it's not an alias
-        if(!lookahead(query, 1).isAlpha()) {
+        if (!lookahead(query, 1).isAlpha()) {
             return null;
         }
 
-        if(isProtectedKeyword(query)) {
+        if (isProtectedKeyword(query)) {
             return null;
         }
 
         String aliasName = '';
-        while(query.length() > 0 && ParserUtils.validCharForFieldOrObject(lookahead(query, 1))) {
+        while (
+            query.length() > 0 &&
+            ParserUtils.validCharForFieldOrObject(lookahead(query, 1))
+        ) {
             aliasName += lookahead(query, 1, true);
             query = query.subString(1);
         }
 
-        if(aliasName.isNumeric()) {
+        if (aliasName.isNumeric()) {
             throw new ParsingException(aliasName, 'alias name');
         }
 
         return new Intermediary(
-            new NodeBuilder()
-                .setId(aliasName)
-                .setNodeType('alias')
-                .build(),
+            new NodeBuilder().setId(aliasName).setNodeType('alias').build(),
             query
         );
     }

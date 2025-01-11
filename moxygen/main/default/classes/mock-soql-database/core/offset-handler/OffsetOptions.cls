@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Options class for the Offset class 
+ * @description Options class for the Offset class
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -44,7 +44,7 @@ public inherited sharing class OffsetOptions {
     }
 
     /**
-     * @description Getter for the offset value 
+     * @description Getter for the offset value
      * @return  `Integer`
      */
     public Integer getOffset() {
@@ -52,7 +52,7 @@ public inherited sharing class OffsetOptions {
     }
 
     /**
-     * @description Setter for the type of query 
+     * @description Setter for the type of query
      * @param type `Types.SOQL`
      * @return  `OffsetOptions`
      */
@@ -62,7 +62,7 @@ public inherited sharing class OffsetOptions {
     }
 
     /**
-     * @description Getter for the type of query 
+     * @description Getter for the type of query
      * @return  `Types.SOQL`
      */
     public Types.SOQL getType() {
@@ -70,7 +70,7 @@ public inherited sharing class OffsetOptions {
     }
 
     /**
-     * @description Setter for the object to be used in the query 
+     * @description Setter for the object to be used in the query
      * @param obj `List<ProtoAggregate> | List<SObject> | Integer`
      * @return  `OffsetOptions`
      */
@@ -80,7 +80,7 @@ public inherited sharing class OffsetOptions {
     }
 
     /**
-     * @description Getter for the object to be used in the query 
+     * @description Getter for the object to be used in the query
      * @return  `Object`
      */
     public Object getObj() {

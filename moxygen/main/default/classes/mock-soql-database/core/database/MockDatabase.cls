@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,13 +24,14 @@
  */
 
 /**
- * @description The MockDatabase class is used to simulate the Salesforce database in Apex unit tests 
+ * @description The MockDatabase class is used to simulate the Salesforce database in Apex unit tests
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-@SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.ExcessivePublicCount')
+@SuppressWarnings(
+    'PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.ExcessivePublicCount'
+)
 public inherited sharing class MockDatabase {
-
     public static MockDatabaseDMLHandler dmlHandler = new MockDatabaseDMLHandler();
     public static MockDatabaseSOQLHandler soqlHandler = new MockDatabaseSOQLHandler();
 
@@ -48,12 +49,12 @@ public inherited sharing class MockDatabase {
     }
 
     /**
-     * @description Count the number of records in the mock database 
+     * @description Count the number of records in the mock database
      * @return  `Integer`
      */
     public static Integer count() {
         Integer count = 0;
-        for(String objApiName : mockRecords.keySet()) {
+        for (String objApiName : mockRecords.keySet()) {
             count += mockRecords.get(objApiName).size();
         }
         return count;
@@ -66,14 +67,12 @@ public inherited sharing class MockDatabase {
      */
     public static Boolean isDeleted(Id recordId) {
         SObject record = utils.findRecord(recordId);
-        return (
-            record.get('IsDeleted') == true
-        );
+        return (record.get('IsDeleted') == true);
     }
 
     /**
      * @description Returns the deleted record by Id
-     * @param recordId 
+     * @param recordId
      * @return  `SObject`
      */
     public static SObject selectRecordById(Id recordId) {
@@ -104,7 +103,10 @@ public inherited sharing class MockDatabase {
      * @param allOrNone - Whether to throw an exception if the record does not exist
      * @return Database.DeleteResult - The result of the delete operation
      */
-    public static Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone) {
+    public static Database.DeleteResult doDelete(
+        SObject recordToDelete,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doDelete(recordToDelete, allOrNone);
     }
 
@@ -114,7 +116,10 @@ public inherited sharing class MockDatabase {
      * @param allOrNone - Whether to throw an exception if any of the records do not exist
      * @return List<Database.DeleteResult> - The results of the delete operations
      */
-    public static List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boolean allOrNone) {
+    public static List<Database.DeleteResult> doDelete(
+        List<SObject> recordsToDelete,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doDelete(recordsToDelete, allOrNone);
     }
 
@@ -124,7 +129,10 @@ public inherited sharing class MockDatabase {
      * @param allOrNone - Whether to throw an exception if the record does not exist
      * @return Database.DeleteResult - The result of the delete operation
      */
-    public static Database.DeleteResult doDelete(Id recordID, Boolean allOrNone) {
+    public static Database.DeleteResult doDelete(
+        Id recordID,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doDelete(recordID, allOrNone);
     }
 
@@ -134,7 +142,10 @@ public inherited sharing class MockDatabase {
      * @param allOrNone - Whether to throw an exception if any of the records do not exist
      * @return List<Database.DeleteResult> - The results of the delete operations
      */
-    public static List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNone) {
+    public static List<Database.DeleteResult> doDelete(
+        List<Id> recordIDs,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doDelete(recordIDs, allOrNone);
     }
 
@@ -145,7 +156,11 @@ public inherited sharing class MockDatabase {
      * @param accessLevel - The access level of the user performing the operation
      * @return Database.SaveResult - The result of the insert operation
      */
-    public static Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static Database.SaveResult doInsert(
+        SObject recordToInsert,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
         return dmlHandler.doInsert(recordToInsert, allOrNone, accessLevel);
     }
 
@@ -155,7 +170,10 @@ public inherited sharing class MockDatabase {
      * @param allOrNone - Whether to throw an exception if any of the records already exist
      * @return List<Database.SaveResult> - The results of the insert operations
      */
-    public static Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone) {
+    public static Database.SaveResult doInsert(
+        SObject recordToInsert,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doInsert(recordToInsert, allOrNone);
     }
 
@@ -165,7 +183,10 @@ public inherited sharing class MockDatabase {
      * @param allOrNone - Whether to throw an exception if any of the records already exist
      * @return List<Database.SaveResult> - The results of the insert operations
      */
-    public static List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone) {
+    public static List<Database.SaveResult> doInsert(
+        List<SObject> recordsToInsert,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doInsert(recordsToInsert, allOrNone);
     }
 
@@ -176,7 +197,11 @@ public inherited sharing class MockDatabase {
      * @param accessLevel - The access level of the user performing the operation
      * @return List<Database.SaveResult> - The results of the insert operations
      */
-    public static List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static List<Database.SaveResult> doInsert(
+        List<SObject> recordsToInsert,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
         return dmlHandler.doInsert(recordsToInsert, allOrNone, accessLevel);
     }
 
@@ -187,7 +212,10 @@ public inherited sharing class MockDatabase {
      * @return Database.SaveResult - The result of the update operation
      * @throws DmlException - If the record does not exists and allOrNone is true
      */
-    public static Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone) {
+    public static Database.SaveResult doUpdate(
+        SObject recordToUpdate,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doUpdate(recordToUpdate, allOrNone);
     }
 
@@ -197,7 +225,10 @@ public inherited sharing class MockDatabase {
      * @param allOrNone - Whether to throw an exception if any of the records do not exist
      * @return `List<Database.SaveResult>` - The results of the update operations
      */
-    public static List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone) {
+    public static List<Database.SaveResult> doUpdate(
+        List<SObject> recordsToUpdate,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doUpdate(recordsToUpdate, allOrNone);
     }
 
@@ -208,7 +239,11 @@ public inherited sharing class MockDatabase {
      * @param accessLevel AccessLevel of the user performing the operation
      * @return  `Database.SaveResult`
      */
-    public static Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static Database.SaveResult doUpdate(
+        SObject recordToUpdate,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
         return dmlHandler.doUpdate(recordToUpdate, allOrNone, accessLevel);
     }
 
@@ -219,7 +254,11 @@ public inherited sharing class MockDatabase {
      * @param accessLevel Access Level of the user performing the operation
      * @return  `List<Database.SaveResult>`
      */
-    public static List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static List<Database.SaveResult> doUpdate(
+        List<SObject> recordsToUpdate,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
         return dmlHandler.doUpdate(recordsToUpdate, allOrNone, accessLevel);
     }
 
@@ -230,7 +269,11 @@ public inherited sharing class MockDatabase {
      * @param allOrNone Boolean to throw an exception if the record does not exist
      * @return  `Database.UpsertResult`
      */
-    public static Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone) {
+    public static Database.UpsertResult doUpsert(
+        SObject recordToUpsert,
+        SObjectField externalIdField,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doUpsert(recordToUpsert, externalIdField, allOrNone);
     }
 
@@ -241,7 +284,11 @@ public inherited sharing class MockDatabase {
      * @param allOrNone Boolean to throw an exception if the record does not exist
      * @return  `List<Database.UpsertResult>`
      */
-    public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone) {
+    public static List<Database.UpsertResult> doUpsert(
+        List<SObject> recordsToUpsert,
+        SObjectField externalIdField,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doUpsert(recordsToUpsert, externalIdField, allOrNone);
     }
 
@@ -254,8 +301,18 @@ public inherited sharing class MockDatabase {
      * @return  `Database.UpsertResult`
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
-    public static Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
-        return dmlHandler.doUpsert(recordToUpsert, externalIdField, allOrNone, accessLevel);
+    public static Database.UpsertResult doUpsert(
+        SObject recordToUpsert,
+        SObjectField externalIdField,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
+        return dmlHandler.doUpsert(
+            recordToUpsert,
+            externalIdField,
+            allOrNone,
+            accessLevel
+        );
     }
 
     /**
@@ -267,8 +324,18 @@ public inherited sharing class MockDatabase {
      * @return  `List<Database.UpsertResult>`
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
-    public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObjectField externalIdField, Boolean allOrNone, System.AccessLevel accessLevel) {
-        return dmlHandler.doUpsert(recordsToUpsert, externalIdField, allOrNone, accessLevel);
+    public static List<Database.UpsertResult> doUpsert(
+        List<SObject> recordsToUpsert,
+        SObjectField externalIdField,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
+        return dmlHandler.doUpsert(
+            recordsToUpsert,
+            externalIdField,
+            allOrNone,
+            accessLevel
+        );
     }
 
     /**
@@ -278,7 +345,10 @@ public inherited sharing class MockDatabase {
      * @return Database.UndeleteResult - The result of the undelete operation
      * @throws DmlException - If the record does not exists and allOrNone is true
      */
-    public static Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone) {
+    public static Database.UndeleteResult doUndelete(
+        sObject recordToUndelete,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doUndelete(recordToUndelete, allOrNone);
     }
 
@@ -289,7 +359,10 @@ public inherited sharing class MockDatabase {
      * @return List<Database.UndeleteResult> - The results of the undelete operations
      * @throws DmlException - If any of the records do not exists and allOrNone is true
      */
-    public static List<Database.UndeleteResult> doUndelete(List<sObject> recordsToUndelete, Boolean allOrNone) {
+    public static List<Database.UndeleteResult> doUndelete(
+        List<sObject> recordsToUndelete,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doUndelete(recordsToUndelete, allOrNone);
     }
 
@@ -299,7 +372,10 @@ public inherited sharing class MockDatabase {
      * @param allOrNone - Whether to throw an exception if the record does not exist
      * @return Database.UndeleteResult - The result of the undelete operation
      */
-    public static Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone) {
+    public static Database.UndeleteResult doUndelete(
+        Id recordID,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doUndelete(recordID, allOrNone);
     }
 
@@ -310,7 +386,10 @@ public inherited sharing class MockDatabase {
      * @return List<Database.UndeleteResult> - The results of the undelete operations
      * @throws DmlException - If any of the records do not exists and allOrNone is true
      */
-    public static List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone) {
+    public static List<Database.UndeleteResult> doUndelete(
+        List<Id> recordIDs,
+        Boolean allOrNone
+    ) {
         return dmlHandler.doUndelete(recordIDs, allOrNone);
     }
 
@@ -321,20 +400,26 @@ public inherited sharing class MockDatabase {
      * @param accessLevel - The access level of the user performing the operation
      * @return Database.UndeleteResult - The result of the undelete operation
      */
-    public static Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel) {
+    public static Database.UndeleteResult doUndelete(
+        SObject recordToUndelete,
+        Boolean allOrNone,
+        System.AccessLevel accessLevel
+    ) {
         return dmlHandler.doUndelete(recordToUndelete, allOrNone, accessLevel);
     }
-
 
     /** SOQL methods **/
 
     /**
-     * @description Internal method to handle the select query 
+     * @description Internal method to handle the select query
      * @param head `Node`
      * @param params `Map<String, Object>`
      * @return  `List<SObject>`
      */
-    public static List<SObject> doSelectQueryInternal(Node head, Map<String, Object> params) {
+    public static List<SObject> doSelectQueryInternal(
+        Node head,
+        Map<String, Object> params
+    ) {
         return soqlHandler.doSelectQueryInternal(head, params);
     }
 
@@ -353,7 +438,10 @@ public inherited sharing class MockDatabase {
      * @param accessLevel `System.AccessLevel`
      * @return  `List<SObject>`
      */
-    public static List<SObject> query(String query, System.AccessLevel accessLevel) {
+    public static List<SObject> query(
+        String query,
+        System.AccessLevel accessLevel
+    ) {
         return soqlHandler.query(query, accessLevel);
     }
 
@@ -364,8 +452,16 @@ public inherited sharing class MockDatabase {
      * @param accessLevel `System.AccessLevel`
      * @return  `List<SObject>`
      */
-    public static List<SObject> queryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
-        return soqlHandler.queryWithBinds(query, lowercaseParams(binds), accessLevel);
+    public static List<SObject> queryWithBinds(
+        String query,
+        Map<String, Object> binds,
+        System.AccessLevel accessLevel
+    ) {
+        return soqlHandler.queryWithBinds(
+            query,
+            lowercaseParams(binds),
+            accessLevel
+        );
     }
 
     /**
@@ -383,7 +479,10 @@ public inherited sharing class MockDatabase {
      * @param accessLevel `System.AccessLevel`
      * @return  `Integer`
      */
-    public static Integer countQuery(String query, System.AccessLevel accessLevel) {
+    public static Integer countQuery(
+        String query,
+        System.AccessLevel accessLevel
+    ) {
         return soqlHandler.countQuery(query, accessLevel);
     }
 
@@ -394,8 +493,16 @@ public inherited sharing class MockDatabase {
      * @param accessLevel `System.AccessLevel`
      * @return  `Integer`
      */
-    public static Integer countQueryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
-        return soqlHandler.countQueryWithBinds(query, lowercaseParams(binds), accessLevel);
+    public static Integer countQueryWithBinds(
+        String query,
+        Map<String, Object> binds,
+        System.AccessLevel accessLevel
+    ) {
+        return soqlHandler.countQueryWithBinds(
+            query,
+            lowercaseParams(binds),
+            accessLevel
+        );
     }
 
     /**
@@ -413,7 +520,10 @@ public inherited sharing class MockDatabase {
      * @param accessLevel `System.AccessLevel`
      * @return  `List<Aggregate>`
      */
-    public static List<Aggregate> aggregateQuery(String query, System.AccessLevel accessLevel) {
+    public static List<Aggregate> aggregateQuery(
+        String query,
+        System.AccessLevel accessLevel
+    ) {
         return soqlHandler.aggregateQuery(query, accessLevel);
     }
 
@@ -424,13 +534,23 @@ public inherited sharing class MockDatabase {
      * @param accessLevel `System.AccessLevel`
      * @return  `List<Aggregate>`
      */
-    public static List<Aggregate> aggregateQueryWithBinds(String query, Map<String, Object> binds, System.AccessLevel accessLevel) {
-        return soqlHandler.aggregateQueryWithBinds(query, lowercaseParams(binds), accessLevel);
+    public static List<Aggregate> aggregateQueryWithBinds(
+        String query,
+        Map<String, Object> binds,
+        System.AccessLevel accessLevel
+    ) {
+        return soqlHandler.aggregateQueryWithBinds(
+            query,
+            lowercaseParams(binds),
+            accessLevel
+        );
     }
 
-    private static Map<String, Object> lowercaseParams(Map<String, Object> params) {
+    private static Map<String, Object> lowercaseParams(
+        Map<String, Object> params
+    ) {
         Map<String, Object> lowerCaseParams = new Map<String, Object>();
-        for(String key : params.keySet()) {
+        for (String key : params.keySet()) {
             lowerCaseParams.put(key.toLowerCase(), params.get(key));
         }
         return lowerCaseParams;
@@ -452,7 +572,10 @@ public inherited sharing class MockDatabase {
      * @return : the parent record
      * @throws QueryException : if the parent record does not exist
      */
-    public static ParentRecordData findParentRecord(sObject sObj, String fieldName) {
+    public static ParentRecordData findParentRecord(
+        sObject sObj,
+        String fieldName
+    ) {
         return utils.findParentRecord(sObj, fieldName);
     }
 }

@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -30,69 +30,84 @@
  */
 public inherited sharing class AliasService {
     /**
-     * @description Get the field alias 
-     * @param curr 
-     * @param fieldNode 
-     * @param selectNode 
+     * @description Get the field alias
+     * @param curr
+     * @param fieldNode
+     * @param selectNode
      * @return  `Map<String, String>`
      */
-    public static Map<String, String> getFieldAlias(Node curr, Node fieldNode, Node selectNode) {
+    public static Map<String, String> getFieldAlias(
+        Node curr,
+        Node fieldNode,
+        Node selectNode
+    ) {
         Node aliasNode = curr.right;
         String fieldApiName;
         String relationshipName;
-        if(aliasNode != null) {
+        if (aliasNode != null) {
             fieldApiName = aliasNode.id;
             relationshipName = null;
         } else {
-            Map<String, Object> comparables = ComparableService.getComparableDataFromNodes(fieldNode, selectNode);
+            Map<String, Object> comparables = ComparableService.getComparableDataFromNodes(
+                fieldNode,
+                selectNode
+            );
             relationshipName = (String) comparables.get('relationshipName');
             fieldApiName = (String) comparables.get('comparableField');
         }
 
-        return new Map<String, String> {
+        return new Map<String, String>{
             'fieldApiName' => fieldApiName,
             'relationshipName' => relationshipName
-        };       
+        };
     }
 
-    private static Map<String, String> getAggrFuncAlias(Node curr, Integer exprNumber) {
+    private static Map<String, String> getAggrFuncAlias(
+        Node curr,
+        Integer exprNumber
+    ) {
         Node aggrFieldNode = curr.right;
         Node aliasNode = aggrFieldNode.left;
         String fieldApiName;
-        if(aliasNode != null) {
+        if (aliasNode != null) {
             fieldApiName = aliasNode.id;
         } else {
             fieldApiName = 'expr' + exprNumber;
         }
 
-        return new Map<String, String> {
+        return new Map<String, String>{
             'fieldApiName' => fieldApiName,
             'relationshipName' => null
         };
     }
     /**
      * @description Get the alias for a field node
-     * @param selectNode 
-     * @param fieldNode 
+     * @param selectNode
+     * @param fieldNode
      * @return  `Map<String, String>`
-     * @exception 
+     * @exception
      */
-    public static Map<String, String> getAlias(Node selectNode, Node fieldNode) {
+    public static Map<String, String> getAlias(
+        Node selectNode,
+        Node fieldNode
+    ) {
         Integer exprNumber = 0;
 
         Node curr = selectNode.left;
-        while(curr != null) {
+        while (curr != null) {
             Boolean isField = (curr.nodeType == NodeType.FIELD);
             Boolean isSameId = (curr.id == fieldNode.id);
-            
-            Boolean isAggregateFunc = (curr.nodeType == NodeType.AGGREGATE_FUNCTION);
-            Boolean isSameAggrField = (isAggregateFunc && curr.right.id == fieldNode?.right?.id);
 
-            if(isField && isSameId) {
+            Boolean isAggregateFunc = (curr.nodeType ==
+            NodeType.AGGREGATE_FUNCTION);
+            Boolean isSameAggrField = (isAggregateFunc &&
+            curr.right.id == fieldNode?.right?.id);
+
+            if (isField && isSameId) {
                 return getFieldAlias(curr, fieldNode, selectNode);
-            } else if(isAggregateFunc && isSameAggrField && isSameId) {
+            } else if (isAggregateFunc && isSameAggrField && isSameId) {
                 return getAggrFuncAlias(curr, exprNumber);
-            } else if(isAggregateFunc) {
+            } else if (isAggregateFunc) {
                 exprNumber++;
             }
             curr = curr.left;

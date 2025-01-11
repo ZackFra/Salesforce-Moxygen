@@ -4,4 +4,5 @@
  * @since 11/28/2024
  * @group Exceptions
  */
-public with sharing class ValidationException extends Exception {}
+public with sharing class ValidationException extends Exception {
+}

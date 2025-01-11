@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Limit handler for record limit 
+ * @description Limit handler for record limit
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -39,7 +39,7 @@ public with sharing class RecordLimitHandler implements ILimitHandler {
     }
 
     /**
-     * @description Handles the limit for the object 
+     * @description Handles the limit for the object
      * @return  `Object`
      */
     public Object handleLimit() {
@@ -47,8 +47,8 @@ public with sharing class RecordLimitHandler implements ILimitHandler {
         Integer limitSize = options.getLimitSize();
 
         List<SObject> resultsList = new List<SObject>((List<SObject>) obj);
-        while(resultsList.size() > limitSize) {
-            resultsList.remove(resultsList.size()-1);
+        while (resultsList.size() > limitSize) {
+            resultsList.remove(resultsList.size() - 1);
         }
         return resultsList;
     }

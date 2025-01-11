@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
-*/
+ */
 
 /**
  * @description Common utility class for basic operations, should not contain complex code
@@ -42,9 +42,9 @@ public inherited sharing class Common {
      */
     public static void nullCheck(Map<String, Object> args) {
         Set<String> argNames = args.keySet();
-        for(String argName : argNames) {
+        for (String argName : argNames) {
             Object argValue = args.get(argName);
-            if(argValue == null) {
+            if (argValue == null) {
                 throw ExceptionFactory.createIllegalNullException(argName);
             }
         }
@@ -57,8 +57,12 @@ public inherited sharing class Common {
      * @param value `Object`
      * @return  `SObject`
      */
-    public static SObject putReadOnlyField(SObject record, String fieldName, Object value) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static SObject putReadOnlyField(
+        SObject record,
+        String fieldName,
+        Object value
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'record' => record,
             'fieldName' => fieldName
         };
@@ -74,8 +78,11 @@ public inherited sharing class Common {
      * @param fieldValuePairs `Map<String, Object>`
      * @return  `SObject`
      */
-    public static SObject putReadOnlyFields(SObject record, Map<String, Object> fieldValuePairs) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static SObject putReadOnlyFields(
+        SObject record,
+        Map<String, Object> fieldValuePairs
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'record' => record,
             'fieldValuePairs' => fieldValuePairs
         };
@@ -91,7 +98,9 @@ public inherited sharing class Common {
      * @return  `Map<String, Object>`
      */
     public static Map<String, Object> mapFromRecord(SObject record) {
-        return (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(record));
+        return (Map<String, Object>) JSON.deserializeUntyped(
+            JSON.serialize(record)
+        );
     }
 
     /**
@@ -100,8 +109,14 @@ public inherited sharing class Common {
      * @param sObjectType `String`
      * @return `SObject`
      */
-    public static SObject recordFromMap(Map<String, Object> recordMap, String sObjectType) {
-        return (SObject) JSON.deserialize(JSON.serialize(recordMap), Type.forName(sObjectType));
+    public static SObject recordFromMap(
+        Map<String, Object> recordMap,
+        String sObjectType
+    ) {
+        return (SObject) JSON.deserialize(
+            JSON.serialize(recordMap),
+            Type.forName(sObjectType)
+        );
     }
 
     /**
@@ -113,7 +128,7 @@ public inherited sharing class Common {
     public static Date parseDate(String dateString) {
         Pattern datePattern = Pattern.compile(DATE_PATTERN);
         Matcher dateMatcher = datePattern.matcher(dateString);
-        if(!dateMatcher.matches()) {
+        if (!dateMatcher.matches()) {
             throw ExceptionFactory.createIllegalDateFormatException(dateString);
         }
         return Date.newInstance(
@@ -134,7 +149,7 @@ public inherited sharing class Common {
         // YYYY-MM-DDThh:mm:ss+hh:mm
         Pattern datePattern1 = Pattern.compile(DATE_TIME_PATTERN1);
         Matcher dateMatcher1 = datePattern1.matcher(dateTimeString);
-        if(dateMatcher1.matches()) {
+        if (dateMatcher1.matches()) {
             Integer year = Integer.valueOf(dateMatcher1.group(1));
             Integer month = Integer.valueOf(dateMatcher1.group(2));
             Integer day = Integer.valueOf(dateMatcher1.group(3));
@@ -150,7 +165,7 @@ public inherited sharing class Common {
         // YYYY-MM-DDThh:mm:ss-hh:mm
         Pattern datePattern2 = Pattern.compile(DATE_TIME_PATTERN2);
         Matcher dateMatcher2 = datePattern2.matcher(dateTimeString);
-        if(dateMatcher2.matches()) {
+        if (dateMatcher2.matches()) {
             Integer year = Integer.valueOf(dateMatcher2.group(1));
             Integer month = Integer.valueOf(dateMatcher2.group(2));
             Integer day = Integer.valueOf(dateMatcher2.group(3));
@@ -166,7 +181,7 @@ public inherited sharing class Common {
         // YYYY-MM-DDThh:mm:ssZ
         Pattern datePattern3 = Pattern.compile(DATE_TIME_PATTERN3);
         Matcher dateMatcher3 = datePattern3.matcher(dateTimeString);
-        if(dateMatcher3.matches()) {
+        if (dateMatcher3.matches()) {
             Integer year = Integer.valueOf(dateMatcher3.group(1));
             Integer month = Integer.valueOf(dateMatcher3.group(2));
             Integer day = Integer.valueOf(dateMatcher3.group(3));
@@ -176,7 +191,9 @@ public inherited sharing class Common {
             return DateTime.newInstanceGmt(year, month, day, hour, min, sec);
         }
 
-        throw ExceptionFactory.createIllegalDateTimeFormatException(dateTimeString);
+        throw ExceptionFactory.createIllegalDateTimeFormatException(
+            dateTimeString
+        );
     }
 
     /**
@@ -188,10 +205,10 @@ public inherited sharing class Common {
     public static Time parseTime(String timeString) {
         Pattern timePattern = Pattern.compile(TIME_PATTERN);
         Matcher timeMatcher = timePattern.matcher(timeString);
-        if(!timeMatcher.matches()) {
+        if (!timeMatcher.matches()) {
             throw ExceptionFactory.createIllegalTimeFormatException(timeString);
         }
-        return Time.newInstance( 
+        return Time.newInstance(
             Integer.valueOf(timeMatcher.group(1)),
             Integer.valueOf(timeMatcher.group(2)),
             Integer.valueOf(timeMatcher.group(3)),
@@ -205,12 +222,14 @@ public inherited sharing class Common {
      * @return String - SOQL date string
      */
     public static String dateToSoqlString(Date d) {
-        return String.format('{0}-{1}-{2}', 
-        new List<Object> {
-            d.year(), 
-            leftPadWithTwoZeroes(d.month()),
-            leftPadWithTwoZeroes(d.day())
-        });
+        return String.format(
+            '{0}-{1}-{2}',
+            new List<Object>{
+                d.year(),
+                leftPadWithTwoZeroes(d.month()),
+                leftPadWithTwoZeroes(d.day())
+            }
+        );
     }
 
     /**
@@ -219,33 +238,36 @@ public inherited sharing class Common {
      * @return String - SOQL date time string
      */
     public static String dateTimeToSoqlString(DateTime dt) {
-        return String.format('{0}-{1}-{2}T{3}:{4}:{5}Z',
-            new List<Object> {
-                dt.yearGmt(), 
-                leftPadWithTwoZeroes(dt.monthGmt()), 
-                leftPadWithTwoZeroes(dt.dayGmt()), 
-                leftPadWithTwoZeroes(dt.hourGmt()), 
-                leftPadWithTwoZeroes(dt.minuteGmt()), 
+        return String.format(
+            '{0}-{1}-{2}T{3}:{4}:{5}Z',
+            new List<Object>{
+                dt.yearGmt(),
+                leftPadWithTwoZeroes(dt.monthGmt()),
+                leftPadWithTwoZeroes(dt.dayGmt()),
+                leftPadWithTwoZeroes(dt.hourGmt()),
+                leftPadWithTwoZeroes(dt.minuteGmt()),
                 leftPadWithTwoZeroes(dt.secondGmt())
             }
         );
     }
-    
+
     /**
      * @description Converts a date time to an Apex string
      * @param dt - DateTime
      * @return String - Apex date time string
      */
     public static String dateTimeToApexString(DateTime dt) {
-        return String.format('{0}-{1}-{2} {3}:{4}:{5}',
-        new List<Object> {
-            dt.yearGmt(), 
-            leftPadWithTwoZeroes(dt.monthGmt()), 
-            leftPadWithTwoZeroes(dt.dayGmt()), 
-            leftPadWithTwoZeroes(dt.hourGmt()), 
-            leftPadWithTwoZeroes(dt.minuteGmt()), 
-            leftPadWithTwoZeroes(dt.secondGmt())
-        });
+        return String.format(
+            '{0}-{1}-{2} {3}:{4}:{5}',
+            new List<Object>{
+                dt.yearGmt(),
+                leftPadWithTwoZeroes(dt.monthGmt()),
+                leftPadWithTwoZeroes(dt.dayGmt()),
+                leftPadWithTwoZeroes(dt.hourGmt()),
+                leftPadWithTwoZeroes(dt.minuteGmt()),
+                leftPadWithTwoZeroes(dt.secondGmt())
+            }
+        );
     }
 
     private static String leftPadWithTwoZeroes(Integer i) {

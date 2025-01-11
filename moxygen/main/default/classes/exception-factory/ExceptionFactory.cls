@@ -1,5 +1,5 @@
 /**
- * @description Factory class for creating exceptions 
+ * @description Factory class for creating exceptions
  * @author Zackary Frazier
  * @since 11/24/2024
  */
@@ -9,7 +9,9 @@ public inherited sharing class ExceptionFactory {
      * @param fieldName `String`
      * @return  `IllegalArgumentException`
      */
-    public static IllegalArgumentException createIllegalFieldNameException(String fieldName) {
+    public static IllegalArgumentException createIllegalFieldNameException(
+        String fieldName
+    ) {
         return new IllegalArgumentException('Invalid field name: ' + fieldName);
     }
 
@@ -18,8 +20,12 @@ public inherited sharing class ExceptionFactory {
      * @param argName `String`
      * @return  `IllegalArgumentException`
      */
-    public static IllegalArgumentException createIllegalNullException(String argName) {
-        return new IllegalArgumentException('Argument ' + argName + ' cannot be null');
+    public static IllegalArgumentException createIllegalNullException(
+        String argName
+    ) {
+        return new IllegalArgumentException(
+            'Argument ' + argName + ' cannot be null'
+        );
     }
 
     /**
@@ -27,8 +33,12 @@ public inherited sharing class ExceptionFactory {
      * @param dateFormat `String`
      * @return  `IllegalArgumentException`
      */
-    public static IllegalArgumentException createIllegalDateFormatException(String dateFormat) {
-        return new IllegalArgumentException('Invalid date format: ' + dateFormat);
+    public static IllegalArgumentException createIllegalDateFormatException(
+        String dateFormat
+    ) {
+        return new IllegalArgumentException(
+            'Invalid date format: ' + dateFormat
+        );
     }
 
     /**
@@ -36,8 +46,12 @@ public inherited sharing class ExceptionFactory {
      * @param dateTimeFormat `String`
      * @return  `IllegalArgumentException`
      */
-    public static IllegalArgumentException createIllegalDateTimeFormatException(String dateTimeFormat) {
-        return new IllegalArgumentException('Invalid date time format: ' + dateTimeFormat);
+    public static IllegalArgumentException createIllegalDateTimeFormatException(
+        String dateTimeFormat
+    ) {
+        return new IllegalArgumentException(
+            'Invalid date time format: ' + dateTimeFormat
+        );
     }
 
     /**
@@ -45,7 +59,11 @@ public inherited sharing class ExceptionFactory {
      * @param timeFormat `String`
      * @return  `IllegalArgumentException`
      */
-    public static IllegalArgumentException createIllegalTimeFormatException(String timeFormat) {
-        return new IllegalArgumentException('Invalid time format: ' + timeFormat);
+    public static IllegalArgumentException createIllegalTimeFormatException(
+        String timeFormat
+    ) {
+        return new IllegalArgumentException(
+            'Invalid time format: ' + timeFormat
+        );
     }
 }

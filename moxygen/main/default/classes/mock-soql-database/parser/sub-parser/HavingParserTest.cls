@@ -1,6 +1,5 @@
 @isTest
 private class HavingParserTest {
-
     @isTest
     static void ensureTodayCanByParsedByHavingParser() {
         HavingParser parser = new HavingParser();
@@ -10,7 +9,6 @@ private class HavingParserTest {
         Test.stopTest();
 
         Assert.isNotNull(intermediary, 'Should be able to parse date literals');
-
     }
 
     @isTest
@@ -21,13 +19,12 @@ private class HavingParserTest {
         Test.startTest();
         try {
             intermediary = parser.parse('HAVING CreatedDate < TOMORROW');
-        } catch(Exception e) {
+        } catch (Exception e) {
             ex = e;
         }
         Test.stopTest();
 
         Assert.isNull(ex, 'Should be able to parse date literals');
-
     }
 
     @isTest
@@ -38,13 +35,12 @@ private class HavingParserTest {
         Test.startTest();
         try {
             intermediary = parser.parse('HAVING CreatedDate < YESTERDAY');
-        } catch(Exception e) {
+        } catch (Exception e) {
             ex = e;
         }
         Test.stopTest();
 
         Assert.isNull(ex, 'Should be able to parse date literals');
-
     }
 
     @IsTest

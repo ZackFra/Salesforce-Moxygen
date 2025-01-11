@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -32,27 +32,23 @@ public with sharing class MaxCalculator implements IAggregateCalculator {
     AggregateCalculatorOptions options;
     /**
      * @description Constructor
-     * @param options 
+     * @param options
      */
     public MaxCalculator(AggregateCalculatorOptions options) {
         this.options = options;
     }
-    
+
     /**
      * @description calculates the MAX value of a field for an aggregate result
      * @return `ProtoAggregate`
      */
     public ProtoAggregate calculate() {
-        return calculate(
-            options.aggregateResult,
-            options.alias,
-            options.value
-        );
+        return calculate(options.aggregateResult, options.alias, options.value);
     }
 
     /**
      * @description Return the max of the field passed in as `alias` in options,
-     *              for the records passed in as `aggregateResult` of options 
+     *              for the records passed in as `aggregateResult` of options
      * @return  `Object`
      */
     public Object calculateForField() {
@@ -63,10 +59,10 @@ public with sharing class MaxCalculator implements IAggregateCalculator {
         String fieldName = options.alias;
         Decimal max = (Decimal) firstRecord.get(fieldName);
 
-        for(Integer i = 1; i < records.size(); i++) {
+        for (Integer i = 1; i < records.size(); i++) {
             SObject record = records[i];
             Object value = record.get(fieldName);
-            if(value != null) {
+            if (value != null) {
                 Decimal decimalValue = (Decimal) value;
                 max = Math.max(max, decimalValue);
             }
@@ -74,10 +70,14 @@ public with sharing class MaxCalculator implements IAggregateCalculator {
         return max;
     }
 
-    private ProtoAggregate calculate(ProtoAggregate aggregateResult, String alias, Object value) {
-        if(value == null) {
+    private ProtoAggregate calculate(
+        ProtoAggregate aggregateResult,
+        String alias,
+        Object value
+    ) {
+        if (value == null) {
             // make sure it's explicitly set to null
-            if(!aggregateResult.containsKey(alias)) {
+            if (!aggregateResult.containsKey(alias)) {
                 aggregateResult.put(alias, null);
             }
             return aggregateResult;
@@ -85,7 +85,7 @@ public with sharing class MaxCalculator implements IAggregateCalculator {
         Decimal currValue = (Decimal) aggregateResult.get(alias);
         Decimal newValue = (Decimal) value;
 
-        if(currValue == null) {
+        if (currValue == null) {
             currValue = newValue;
         } else {
             currValue = Math.max(currValue, newValue);

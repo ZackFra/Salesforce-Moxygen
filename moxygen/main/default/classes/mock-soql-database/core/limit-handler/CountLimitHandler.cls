@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Handles the limit for the count of records 
+ * @description Handles the limit for the count of records
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -48,7 +48,7 @@ public inherited sharing class CountLimitHandler implements ILimitHandler {
         Integer limitSize = options.getLimitSize();
 
         Integer count = (Integer) obj;
-        if(count > limitSize) {
+        if (count > limitSize) {
             return limitSize;
         }
         return count;

@@ -1,5 +1,5 @@
 /**
- * @description Comparable for the NEXT_FISCAL_YEAR date literal 
+ * @description Comparable for the NEXT_FISCAL_YEAR date literal
  * @author Zackary Frazier
  * @since 1/9/2025
  */

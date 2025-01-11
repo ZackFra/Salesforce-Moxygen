@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -36,9 +36,9 @@ public with sharing class Node {
      * @description The id of the node, cannot be null
      */
     public String id {
-        get; 
+        get;
         set {
-            if(value == null) {
+            if (value == null) {
                 throw new IllegalArgumentException('id cannot be null');
             }
             id = value;
@@ -51,7 +51,7 @@ public with sharing class Node {
     public String nodeType {
         get;
         set {
-            if(value == null) {
+            if (value == null) {
                 throw new IllegalArgumentException('nodeType cannot be null');
             }
             nodeType = value;
@@ -65,24 +65,29 @@ public with sharing class Node {
      * @param left : Node, the left child of the node
      * @param right : Node, the right child of the node
      */
-    public Node(String nodeType, string id, Node left, Node right) { // NOPMD
-        
+    @SuppressWarnings('PMD.ExcessiveParameterList')
+    public Node(String nodeType, string id, Node left, Node right) {
         this.id = id;
         this.nodeType = nodeType;
         this.left = left;
         this.right = right;
     }
-    
+
     /**
      * @description : Returns a string representation of the node by traversing the tree in pre-order
      * @return : String, the string representation of the node
      */
     public override String toString() {
-        String strVal = '{ id: ' + this.id + ', nodeType: ' + this.nodeType + ' }';
-        if(this.left != null) {
+        String strVal =
+            '{ id: ' +
+            this.id +
+            ', nodeType: ' +
+            this.nodeType +
+            ' }';
+        if (this.left != null) {
             strVal = this.left.toString() + ', ' + strVal;
         }
-        if(this.right != null) {
+        if (this.right != null) {
             strVal += ', ' + this.right.toString();
         }
         return strVal;
@@ -96,10 +101,10 @@ public with sharing class Node {
         NodeBuilder nb = new NodeBuilder()
             .setId(this.id)
             .setNodeType(this.nodeType);
-        if(this.left != null) {
+        if (this.left != null) {
             nb.setLeft(this.left.deepClone());
         }
-        if(this.right != null) {
+        if (this.right != null) {
             nb.setRight(this.right.deepClone());
         }
         return nb.build();

@@ -1,5 +1,5 @@
 /*
- * 
+ *
  * MIT License
  * Copyright (c) 2024 Zackary Frazier
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,9 +27,11 @@
  *              anything named "getName" are understood to return proper API names
  *              every argument is understood to be non-null
  */
-@SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.ExcessivePublicCount')
+@SuppressWarnings(
+    'PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.ExcessivePublicCount'
+)
 public inherited sharing class SchemaService {
-    final private static List<Schema.DisplayType> NUMERIC_FIELD_TYPES = new List<Schema.DisplayType> {
+    final private static List<Schema.DisplayType> NUMERIC_FIELD_TYPES = new List<Schema.DisplayType>{
         Schema.DisplayType.CURRENCY,
         Schema.DisplayType.DOUBLE,
         Schema.DisplayType.INTEGER,
@@ -38,30 +40,34 @@ public inherited sharing class SchemaService {
 
     final private static String POLYMORPHIC_OBJECT = 'Name';
 
-    private class SchemaServiceException extends Exception {}
+    private class SchemaServiceException extends Exception {
+    }
 
     /**
      * @description Return the `Schema.DescribeFieldResult` for a given field
      * @param field `Schema.SObjectField` the field
      * @return  `Schema.DescribeFieldResult`
      */
-    public static Schema.DescribeFieldResult describeField(Schema.SObjectField field) {
-        Map<String, Object> args = new Map<String, Object> {
-            'field' => field
-        };
+    public static Schema.DescribeFieldResult describeField(
+        Schema.SObjectField field
+    ) {
+        Map<String, Object> args = new Map<String, Object>{ 'field' => field };
         Common.nullCheck(args);
 
         return field.getDescribe();
     }
 
     /**
-     * @description This method is used primarily to discover if a field is polymorphic, 
+     * @description This method is used primarily to discover if a field is polymorphic,
      * @param sObjApiName : the api name of the sObject
      * @param fieldApiName : the api name of the field
      * @return the describe field result
      */
-    public static Schema.DescribeFieldResult describeField(String sObjApiName, String fieldApiName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static Schema.DescribeFieldResult describeField(
+        String sObjApiName,
+        String fieldApiName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sObjApiName' => sObjApiName,
             'fieldApiName' => fieldApiName
         };
@@ -80,15 +86,21 @@ public inherited sharing class SchemaService {
      * @param fieldApiName the field api name
      * @return the field type
      */
-    public static Schema.DisplayType getFieldType(Schema.SObjectType sot, String fieldApiName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static Schema.DisplayType getFieldType(
+        Schema.SObjectType sot,
+        String fieldApiName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sot' => sot,
             'fieldApiName' => fieldApiName
         };
         Common.nullCheck(args);
 
         fieldApiName = fieldApiName.toLowerCase();
-        Schema.DescribeFieldResult field = sot.getDescribe().fields.getMap().get(fieldApiName).getDescribe();
+        Schema.DescribeFieldResult field = sot.getDescribe()
+            .fields.getMap()
+            .get(fieldApiName)
+            .getDescribe();
         return field.getType();
     }
 
@@ -98,9 +110,7 @@ public inherited sharing class SchemaService {
      * @return the field type
      */
     public static Schema.DisplayType getFieldType(Schema.SObjectField field) {
-        Map<String, Object> args = new Map<String, Object> {
-            'field' => field
-        };
+        Map<String, Object> args = new Map<String, Object>{ 'field' => field };
         Common.nullCheck(args);
 
         return field.getDescribe().getType();
@@ -112,9 +122,7 @@ public inherited sharing class SchemaService {
      * @return the field name
      */
     public static String getFieldName(Schema.SObjectField field) {
-        Map<String, Object> args = new Map<String, Object> {
-            'field' => field
-        };
+        Map<String, Object> args = new Map<String, Object>{ 'field' => field };
         Common.nullCheck(args);
 
         return field.getDescribe().getName();
@@ -126,15 +134,20 @@ public inherited sharing class SchemaService {
      * @param fieldApiName the field api name
      * @return the field name
      */
-    public static String getFieldName(Schema.SObjectType sot, String fieldApiName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static String getFieldName(
+        Schema.SObjectType sot,
+        String fieldApiName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sot' => sot,
             'fieldApiName' => fieldApiName
         };
         Common.nullCheck(args);
 
         fieldApiName = fieldApiName.toLowerCase();
-        Schema.SObjectField field = sot.getDescribe().fields.getMap().get(fieldApiName);
+        Schema.SObjectField field = sot.getDescribe()
+            .fields.getMap()
+            .get(fieldApiName);
         return field.getDescribe().getName();
     }
 
@@ -145,7 +158,7 @@ public inherited sharing class SchemaService {
      * @return the field name
      */
     public static String getFieldName(SObject sObj, String fieldApiName) {
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'sObj' => sObj,
             'fieldApiName' => fieldApiName
         };
@@ -161,9 +174,7 @@ public inherited sharing class SchemaService {
      * @return the sobject type
      */
     public static Schema.SObjectType getSObjectType(SObject sObj) {
-        Map<String, Object> args = new Map<String, Object> {
-            'sObj' => sObj
-        };
+        Map<String, Object> args = new Map<String, Object>{ 'sObj' => sObj };
         Common.nullCheck(args);
 
         return sObj.getSObjectType();
@@ -175,7 +186,7 @@ public inherited sharing class SchemaService {
      * @return the sobject type
      */
     public static Schema.SObjectType getSObjectType(Id recordId) {
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'recordId' => recordId
         };
         Common.nullCheck(args);
@@ -190,7 +201,7 @@ public inherited sharing class SchemaService {
      * @throws TypeException if the type is not found
      */
     public static Schema.SObjectType getSObjectType(String sObjApiName) {
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'sObjApiName' => sObjApiName
         };
         Common.nullCheck(args);
@@ -205,9 +216,7 @@ public inherited sharing class SchemaService {
      * @return the sobject api name
      */
     public static String getSObjectName(Schema.SObjectType sot) {
-        Map<String, Object> args = new Map<String, Object> {
-            'sot' => sot
-        };
+        Map<String, Object> args = new Map<String, Object>{ 'sot' => sot };
         Common.nullCheck(args);
 
         return sot.getDescribe().getName();
@@ -219,7 +228,7 @@ public inherited sharing class SchemaService {
      * @return the sobject api name
      */
     public static String getSObjectName(Id recordId) {
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'recordId' => recordId
         };
         Common.nullCheck(args);
@@ -234,7 +243,7 @@ public inherited sharing class SchemaService {
      * @exception TypeException if the type is not found
      */
     public static String getSObjectName(String sObjName) {
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'sObjName' => sObjName
         };
         Common.nullCheck(args);
@@ -250,9 +259,7 @@ public inherited sharing class SchemaService {
      * @return the sobject api name
      */
     public static String getSObjectName(SObject sObj) {
-        Map<String, Object> args = new Map<String, Object> {
-            'sObj' => sObj
-        };
+        Map<String, Object> args = new Map<String, Object>{ 'sObj' => sObj };
         Common.nullCheck(args);
         Schema.SObjectType sot = getSObjectType(sObj);
         String sObjName = sot.getDescribe().getName();
@@ -266,9 +273,7 @@ public inherited sharing class SchemaService {
      * @throws TypeException if the type is not found
      */
     public static SObject blankSObjectFrom(Schema.SObjectType sot) {
-        Map<String, Object> args = new Map<String, Object> {
-            'sot' => sot
-        };
+        Map<String, Object> args = new Map<String, Object>{ 'sot' => sot };
         Common.nullCheck(args);
 
         return sot.newSObject();
@@ -281,7 +286,7 @@ public inherited sharing class SchemaService {
      * @throws TypeException if the type is not found
      */
     public static SObject blankSObjectFrom(String sObjApiName) {
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'sObjApiName' => sObjApiName
         };
         Common.nullCheck(args);
@@ -290,16 +295,16 @@ public inherited sharing class SchemaService {
 
         return blankSObjectFrom(getSObjectType(sObjApiName));
     }
-    
+
     /**
      * @description this method returns the child relationships of a given SObject type
      * @param sot the sobject type
      * @return the child relationships
      */
-    public static List<Schema.ChildRelationship> getChildRelationships(Schema.SObjectType sot) {
-        Map<String, Object> args = new Map<String, Object> {
-            'sot' => sot
-        };
+    public static List<Schema.ChildRelationship> getChildRelationships(
+        Schema.SObjectType sot
+    ) {
+        Map<String, Object> args = new Map<String, Object>{ 'sot' => sot };
         Common.nullCheck(args);
 
         return sot.getDescribe().getChildRelationships();
@@ -310,8 +315,10 @@ public inherited sharing class SchemaService {
      * @param childRelationship the child relationship
      * @return the child relationship name
      */
-    public static String getChildRelationshipName(Schema.ChildRelationship childRelationship) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static String getChildRelationshipName(
+        Schema.ChildRelationship childRelationship
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'childRelationship' => childRelationship
         };
         Common.nullCheck(args);
@@ -326,8 +333,11 @@ public inherited sharing class SchemaService {
      * @return : the field api name
      * @throws QueryException : if the relationship name is invalid
      */
-    public static String getRelationshipName(Schema.SObjectType sot, String relationshipName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static String getRelationshipName(
+        Schema.SObjectType sot,
+        String relationshipName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sot' => sot,
             'relationshipName' => relationshipName
         };
@@ -335,24 +345,26 @@ public inherited sharing class SchemaService {
         relationshipName = relationshipName.toLowerCase();
 
         List<Schema.SObjectField> sObjFields = getFields(sot);
-        for(Schema.SObjectField field : sObjFields) {
+        for (Schema.SObjectField field : sObjFields) {
             Schema.DescribeFieldResult dfr = field.getDescribe();
             List<Schema.sObjectType> relatedSObjs = dfr.getReferenceTo();
-            if(relatedSObjs.isEmpty()) {
+            if (relatedSObjs.isEmpty()) {
                 continue;
             }
 
             String fieldRelationshipApiName = dfr.getRelationshipName();
-            if(fieldRelationshipApiName == null) {
+            if (fieldRelationshipApiName == null) {
                 continue;
             }
 
-            if(fieldRelationshipApiName.toLowerCase() != relationshipName) {
+            if (fieldRelationshipApiName.toLowerCase() != relationshipName) {
                 continue;
             }
             return fieldRelationshipApiName;
         }
-        throw new SchemaServiceException('Invalid relationship name: ' + relationshipName);
+        throw new SchemaServiceException(
+            'Invalid relationship name: ' + relationshipName
+        );
     }
 
     /**
@@ -361,9 +373,7 @@ public inherited sharing class SchemaService {
      * @return the field relationship name
      */
     public static String getFieldRelationshipName(Schema.SObjectField field) {
-        Map<String, Object> args = new Map<String, Object> {
-            'field' => field
-        };
+        Map<String, Object> args = new Map<String, Object>{ 'field' => field };
         Common.nullCheck(args);
 
         return field.getDescribe().getRelationshipName();
@@ -374,8 +384,10 @@ public inherited sharing class SchemaService {
      * @param childRelationship the child relationship
      * @return the child relationship name
      */
-    public static String getChildRelationshipChildSObjectName(Schema.ChildRelationship childRelationship) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static String getChildRelationshipChildSObjectName(
+        Schema.ChildRelationship childRelationship
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'childRelationship' => childRelationship
         };
         Common.nullCheck(args);
@@ -388,22 +400,24 @@ public inherited sharing class SchemaService {
      * @param childRelationship the child relationship
      * @return the child relationship name
      */
-    public static String getChildRelationshipFieldName(Schema.ChildRelationship childRelationship) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static String getChildRelationshipFieldName(
+        Schema.ChildRelationship childRelationship
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'childRelationship' => childRelationship
         };
         Common.nullCheck(args);
 
         return childRelationship.getField().getDescribe().getName();
     }
-    
+
     /**
      * @description given a field type, this method returns whether the field is numeric or not
      * @param fieldType : the field type
      * @return : whether the field is numeric or not
      */
     public static Boolean isFieldNumeric(Schema.DisplayType fieldType) {
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'fieldType' => fieldType
         };
         Common.nullCheck(args);
@@ -417,9 +431,7 @@ public inherited sharing class SchemaService {
      * @return the fields
      */
     public static List<Schema.SObjectField> getFields(Schema.SObjectType sot) {
-        Map<String, Object> args = new Map<String, Object> {
-            'sot' => sot
-        };
+        Map<String, Object> args = new Map<String, Object>{ 'sot' => sot };
         Common.nullCheck(args);
         return sot.getDescribe().fields.getMap().values();
     }
@@ -430,8 +442,11 @@ public inherited sharing class SchemaService {
      * @param fieldApiName : the field api name
      * @return : the field
      */
-    public static Schema.SObjectField getField(Schema.SObjectType sot, String fieldApiName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static Schema.SObjectField getField(
+        Schema.SObjectType sot,
+        String fieldApiName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sot' => sot,
             'fieldApiName' => fieldApiName
         };
@@ -447,8 +462,11 @@ public inherited sharing class SchemaService {
      * @param fieldApiName : the field api name
      * @return : the field
      */
-    public static Schema.SObjectField getField(SObject sObj, String fieldApiName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static Schema.SObjectField getField(
+        SObject sObj,
+        String fieldApiName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sObj' => sObj,
             'fieldApiName' => fieldApiName
         };
@@ -465,8 +483,11 @@ public inherited sharing class SchemaService {
      * @param fieldApiName `String`
      * @return  `Schema.SObjectField`
      */
-    public static Schema.SObjectField getField(String sObjApiName, String fieldApiName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static Schema.SObjectField getField(
+        String sObjApiName,
+        String fieldApiName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sObjApiName' => sObjApiName,
             'fieldApiName' => fieldApiName
         };
@@ -484,9 +505,7 @@ public inherited sharing class SchemaService {
      * @return : the list of objects that the field references
      */
     public static List<SObjectType> getReferenceTo(Schema.SObjectField field) {
-        Map<String, Object> args = new Map<String, Object> {
-            'field' => field
-        };
+        Map<String, Object> args = new Map<String, Object>{ 'field' => field };
         Common.nullCheck(args);
 
         return field.getDescribe().getReferenceTo();
@@ -499,8 +518,11 @@ public inherited sharing class SchemaService {
      * @return : the field api name
      * @throws QueryException : if the relationship name is invalid
      */
-    public static String getFieldNameForRelationship(Schema.SObjectType sot, String relationshipName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static String getFieldNameForRelationship(
+        Schema.SObjectType sot,
+        String relationshipName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sot' => sot,
             'relationshipName' => relationshipName
         };
@@ -510,19 +532,22 @@ public inherited sharing class SchemaService {
         List<Schema.SObjectField> fields = getFields(sot);
         for (Schema.SObjectField field : fields) {
             Schema.DisplayType fieldType = getFieldType(field);
-            
+
             String relationshipApiName = getFieldRelationshipName(field);
-            if(relationshipApiName == null) {
+            if (relationshipApiName == null) {
                 continue;
             }
 
             String lowerCaseRelationshipApiName = relationshipApiName.toLowerCase();
-            Boolean isRelationshipEqual = (lowerCaseRelationshipApiName == relationshipName);
+            Boolean isRelationshipEqual = (lowerCaseRelationshipApiName ==
+            relationshipName);
             if (fieldType == DisplayType.Reference && isRelationshipEqual) {
                 return getFieldName(field);
             }
         }
-        throw new QueryException('Invalid relationship name: ' + relationshipName);
+        throw new QueryException(
+            'Invalid relationship name: ' + relationshipName
+        );
     }
 
     /**
@@ -531,16 +556,25 @@ public inherited sharing class SchemaService {
      * @param relationshipName `String` the relationship name
      * @return `Boolean` whether the field is polymorphic or not
      */
-    public static Boolean isRelationshipPolymorphic(Schema.SObjectType sot, String relationshipName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static Boolean isRelationshipPolymorphic(
+        Schema.SObjectType sot,
+        String relationshipName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sot' => sot,
             'relationshipName' => relationshipName
         };
         Common.nullCheck(args);
         relationshipName = relationshipName.toLowerCase();
 
-        String relationshipFieldApiName = getFieldNameForRelationship(sot, relationshipName);
-        Schema.SObjectField relationshipField = getField(sot, relationshipFieldApiName);
+        String relationshipFieldApiName = getFieldNameForRelationship(
+            sot,
+            relationshipName
+        );
+        Schema.SObjectField relationshipField = getField(
+            sot,
+            relationshipFieldApiName
+        );
         return isFieldPolymorphic(relationshipField);
     }
 
@@ -550,9 +584,7 @@ public inherited sharing class SchemaService {
      * @return : whether the field is polymorphic or not
      */
     public static Boolean isFieldPolymorphic(Schema.SObjectField field) {
-        Map<String, Object> args = new Map<String, Object> {
-            'field' => field
-        };
+        Map<String, Object> args = new Map<String, Object>{ 'field' => field };
         Common.nullCheck(args);
 
         List<Schema.SObjectType> relatedSObjs = getReferenceTo(field);
@@ -575,7 +607,7 @@ public inherited sharing class SchemaService {
     public static Map<String, String> getPolymorphicFieldMap() {
         List<Schema.SObjectField> fields = getPolymorphicFields();
         Map<String, String> fieldMap = new Map<String, String>();
-        for(Schema.SObjectField field : fields) {
+        for (Schema.SObjectField field : fields) {
             String fieldName = getFieldName(field);
             fieldMap.put(fieldName.toLowerCase(), fieldName);
         }
@@ -589,13 +621,13 @@ public inherited sharing class SchemaService {
      * @throws QueryException : if the sObject or field names are invalid
      */
     public static List<String> getFieldNames(List<Schema.SObjectField> fields) {
-        Map<String, Object> args = new Map<String, Object> {
+        Map<String, Object> args = new Map<String, Object>{
             'fields' => fields
         };
         Common.nullCheck(args);
 
         List<String> fieldNames = new List<String>();
-        for(Schema.SObjectField field : fields) {
+        for (Schema.SObjectField field : fields) {
             fieldNames.add(getFieldName(field));
         }
         return fieldNames;
@@ -615,34 +647,37 @@ public inherited sharing class SchemaService {
      * @param field : the field
      * @return : the SObjectType of the SObject the field is from
      */
-    public static Schema.SObjectType getFieldSObjectType(Schema.SObjectField field) {
-        Map<String, Object> args = new Map<String, Object> {
-            'field' => field
-        };
+    public static Schema.SObjectType getFieldSObjectType(
+        Schema.SObjectField field
+    ) {
+        Map<String, Object> args = new Map<String, Object>{ 'field' => field };
         Common.nullCheck(args);
 
         return field.getDescribe().getSObjectType();
     }
 
-    /** 
+    /**
      * @description Given a child relationship and a child relationship name, return whether the child relationship is the same as the child relationship name
      * @param childRelationship : the child relationship
      * @param childRelationshipName : the child relationship name
      * @return : whether the child relationship is the same as the child relationship name
      */
-    public static Boolean isChildRelationship(Schema.ChildRelationship childRelationship, String childRelationshipName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static Boolean isChildRelationship(
+        Schema.ChildRelationship childRelationship,
+        String childRelationshipName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'childRelationship' => childRelationship,
             'childRelationshipName' => childRelationshipName
         };
         Common.nullCheck(args);
         childRelationshipName = childRelationshipName.toLowerCase();
 
-        String foundChildRelationshipName = getChildRelationshipName(childRelationship);
-        return (
-            foundChildRelationshipName != null && 
-            foundChildRelationshipName.toLowerCase() == childRelationshipName
+        String foundChildRelationshipName = getChildRelationshipName(
+            childRelationship
         );
+        return (foundChildRelationshipName != null &&
+        foundChildRelationshipName.toLowerCase() == childRelationshipName);
     }
 
     /**
@@ -651,8 +686,11 @@ public inherited sharing class SchemaService {
      * @param fieldApiName `String`
      * @return  `Boolean`
      */
-    public static Boolean hasField(Schema.SObjectType sot, String fieldApiName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static Boolean hasField(
+        Schema.SObjectType sot,
+        String fieldApiName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sot' => sot,
             'fieldApiName' => fieldApiName
         };
@@ -663,26 +701,32 @@ public inherited sharing class SchemaService {
     }
 
     /**
-     * @description Returns the specified record type's id for a given sObject type 
+     * @description Returns the specified record type's id for a given sObject type
      * @param sot `Schema.SObjectType`
      * @param recordTypeName `String`
      * @return  `Id`
      */
-    public static Id getRecordTypeId(Schema.SObjectType sot, String recordTypeName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static Id getRecordTypeId(
+        Schema.SObjectType sot,
+        String recordTypeName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sot' => sot,
             'recordTypeName' => recordTypeName
         };
         Common.nullCheck(args);
         recordTypeName = recordTypeName.toLowerCase();
 
-        Map<String, Schema.RecordTypeInfo> recordTypes = sot.getDescribe().getRecordTypeInfosByDeveloperName();
-        for(String key : recordTypes.keySet()) {
-            if(key.toLowerCase() == recordTypeName) {
+        Map<String, Schema.RecordTypeInfo> recordTypes = sot.getDescribe()
+            .getRecordTypeInfosByDeveloperName();
+        for (String key : recordTypes.keySet()) {
+            if (key.toLowerCase() == recordTypeName) {
                 return recordTypes.get(key).getRecordTypeId();
             }
         }
-        throw new SchemaServiceException('Invalid record type name: ' + recordTypeName);
+        throw new SchemaServiceException(
+            'Invalid record type name: ' + recordTypeName
+        );
     }
 
     /**
@@ -692,9 +736,14 @@ public inherited sharing class SchemaService {
      * @return : whether the fields reference the same SObject
      * @throws QueryException : if the sObject or field names are invalid
      */
-    public static Boolean idsReferenceSameSObject(Schema.SObjectField field1, Schema.SObjectField field2) {
-
-        Comparator<Schema.SObjectField> comparator = IdFieldComparatorFactory.create(field1, field2);
+    public static Boolean idsReferenceSameSObject(
+        Schema.SObjectField field1,
+        Schema.SObjectField field2
+    ) {
+        Comparator<Schema.SObjectField> comparator = IdFieldComparatorFactory.create(
+            field1,
+            field2
+        );
         return comparator.compare(field1, field2) == 0;
     }
 
@@ -704,17 +753,13 @@ public inherited sharing class SchemaService {
      * @return : whether the field is required or not
      */
     public static Boolean isRequiredField(Schema.SObjectField field) {
-        Map<String, Object> args = new Map<String, Object> {
-            'field' => field
-        };
+        Map<String, Object> args = new Map<String, Object>{ 'field' => field };
         Common.nullCheck(args);
 
         Schema.DescribeFieldResult describeFieldResult = field.getDescribe();
-        return (
-            describeFieldResult.isCreateable() && 
-            !describeFieldResult.isNillable() && 
-            describeFieldResult.getType() != DisplayType.BOOLEAN
-        );
+        return (describeFieldResult.isCreateable() &&
+        !describeFieldResult.isNillable() &&
+        describeFieldResult.getType() != DisplayType.BOOLEAN);
     }
 
     /**
@@ -723,8 +768,11 @@ public inherited sharing class SchemaService {
      * @param fieldName  `String`
      * @return `Boolean`
      */
-    public static Boolean isFieldGroupable(String sObjectName, String fieldName) {
-        Map<String, Object> args = new Map<String, Object> {
+    public static Boolean isFieldGroupable(
+        String sObjectName,
+        String fieldName
+    ) {
+        Map<String, Object> args = new Map<String, Object>{
             'sObjectName' => sObjectName,
             'fieldName' => fieldName
         };

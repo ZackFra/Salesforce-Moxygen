@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,13 +23,12 @@
  *
  */
 
- /**
-  * @description Repository of aggregate date functions 
-  * @author Zackary Frazier
-  * @since 4/28/2024
-  */
+/**
+ * @description Repository of aggregate date functions
+ * @author Zackary Frazier
+ * @since 4/28/2024
+ */
 public inherited sharing class DateFuncs {
-
     /**
      * @description Determins which date function to execute and executes it
      * @param dateFunc `String`
@@ -41,11 +40,14 @@ public inherited sharing class DateFuncs {
         switch on dateFunc {
             when 'calendar_month' {
                 return calendarMonth(dateOrDateTimeValue);
-            } when 'calendar_year' {
+            }
+            when 'calendar_year' {
                 return calendarYear(dateOrDateTimeValue);
-            } when 'calendar_quarter' {
+            }
+            when 'calendar_quarter' {
                 return calendarQuarter(dateOrDateTimeValue);
-            } when else {
+            }
+            when else {
                 throw new IllegalArgumentException('Invalid date function');
             }
         }
@@ -59,14 +61,16 @@ public inherited sharing class DateFuncs {
      */
     public static Integer calendarMonth(Object value) {
         Integer calendarMonth;
-        if(value instanceof Date) {
+        if (value instanceof Date) {
             Date dateValue = (Date) value;
             calendarMonth = dateValue.month();
-        } else if(value instanceof DateTime) {
+        } else if (value instanceof DateTime) {
             DateTime dateTimeValue = (DateTime) value;
             calendarMonth = dateTimeValue.monthGmt();
         } else {
-            throw new QueryException('Invalid value type for calendar month calculation');
+            throw new QueryException(
+                'Invalid value type for calendar month calculation'
+            );
         }
         return calendarMonth;
     }
@@ -79,14 +83,16 @@ public inherited sharing class DateFuncs {
      */
     public static Integer calendarYear(Object value) {
         Integer calendarYear;
-        if(value instanceof Date) {
+        if (value instanceof Date) {
             Date dateValue = (Date) value;
             calendarYear = dateValue.year();
-        } else if(value instanceof DateTime) {
+        } else if (value instanceof DateTime) {
             DateTime dateTimeValue = (DateTime) value;
             calendarYear = dateTimeValue.yearGmt();
         } else {
-            throw new QueryException('Invalid value type for calendar year calculation');
+            throw new QueryException(
+                'Invalid value type for calendar year calculation'
+            );
         }
         return calendarYear;
     }
@@ -99,14 +105,16 @@ public inherited sharing class DateFuncs {
      */
     public static Integer calendarQuarter(Object value) {
         Integer calendarQuarter;
-        if(value instanceof Date) {
+        if (value instanceof Date) {
             Date dateValue = (Date) value;
             calendarQuarter = 1 + (dateValue.month() / 3);
-        } else if(value instanceof DateTime) {
+        } else if (value instanceof DateTime) {
             DateTime dateTimeValue = (DateTime) value;
             calendarQuarter = 1 + (dateTimeValue.monthGmt() / 3);
         } else {
-            throw new QueryException('Invalid value type for calendar quarter calculation');
+            throw new QueryException(
+                'Invalid value type for calendar quarter calculation'
+            );
         }
         return calendarQuarter;
     }

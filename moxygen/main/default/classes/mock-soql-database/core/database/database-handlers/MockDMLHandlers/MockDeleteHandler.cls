@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (ttabasehe "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -30,11 +30,11 @@
  */
 @IsTest
 public inherited sharing class MockDeleteHandler extends MockDMLHandler {
-
     private SObject selectRecordById(Id recordId) {
         String sObjName = SchemaService.getSObjectName(recordId);
-        SObject mockRecord = MockDatabase.mockRecords.get(sObjName).get(recordId);
-        if(MockDatabase.deletedRecords.contains(recordId)) {
+        SObject mockRecord = MockDatabase.mockRecords.get(sObjName)
+            .get(recordId);
+        if (MockDatabase.deletedRecords.contains(recordId)) {
             return null;
         }
         return mockRecord;
@@ -49,13 +49,16 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
      * @return  `Database.DeleteResult`
      * @exception DmlException
      */
-    public Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone) {
+    public Database.DeleteResult doDelete(
+        SObject recordToDelete,
+        Boolean allOrNone
+    ) {
         wasCalled = true;
         String sObjName = SchemaService.getSObjectName(recordToDelete);
         Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(sObjName);
-        if(mockRecords == null && allOrNone) {
+        if (mockRecords == null && allOrNone) {
             throw new DmlException('Record does not exist');
-        } else if(mockRecords == null) {
+        } else if (mockRecords == null) {
             return (Database.DeleteResult) srService.createFailure(
                 'Record does not exist',
                 Database.DeleteResult.class
@@ -63,9 +66,9 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
         }
 
         SObject mockRecord = mockRecords.get(recordToDelete.Id);
-        if(mockRecord == null && allOrNone) {
+        if (mockRecord == null && allOrNone) {
             throw new DmlException('Record does not exist');
-        } else if(mockRecord == null) {
+        } else if (mockRecord == null) {
             return (Database.DeleteResult) srService.createFailure(
                 'Record does not exist',
                 Database.DeleteResult.class
@@ -73,8 +76,12 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
         }
 
         MockDatabase.deletedRecords.add(recordToDelete.Id);
-        
-        SObject updatedRecord = Common.putReadOnlyField(mockRecord, 'IsDeleted', true);
+
+        SObject updatedRecord = Common.putReadOnlyField(
+            mockRecord,
+            'IsDeleted',
+            true
+        );
         mockRecords.put(updatedRecord.Id, updatedRecord);
 
         return (Database.DeleteResult) srService.createSuccess(
@@ -89,10 +96,13 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
      * @return  `List<Database.DeleteResult>`
      * @exception DmlException
      */
-    public List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boolean allOrNone) {
+    public List<Database.DeleteResult> doDelete(
+        List<SObject> recordsToDelete,
+        Boolean allOrNone
+    ) {
         wasCalled = true;
         List<Database.DeleteResult> results = new List<Database.DeleteResult>();
-        for(SObject recordToDelete : recordsToDelete) {
+        for (SObject recordToDelete : recordsToDelete) {
             results.add(doDelete(recordToDelete, allOrNone));
         }
         return results;
@@ -108,9 +118,9 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
     public Database.DeleteResult doDelete(Id recordID, Boolean allOrNone) {
         wasCalled = true;
         SObject record = selectRecordById(recordID);
-        if(record == null && allOrNone) {
+        if (record == null && allOrNone) {
             throw new DmlException('Record does not exist');
-        } else if(record == null) {
+        } else if (record == null) {
             return (Database.DeleteResult) srService.createFailure(
                 'Record does not exist',
                 Database.DeleteResult.class
@@ -125,10 +135,13 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
      * @return  `List<Database.DeleteResult>`
      * @exception DMLException
      */
-    public List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNone) {
+    public List<Database.DeleteResult> doDelete(
+        List<Id> recordIDs,
+        Boolean allOrNone
+    ) {
         wasCalled = true;
         List<Database.DeleteResult> results = new List<Database.DeleteResult>();
-        for(Id recordId : recordIDs) {
+        for (Id recordId : recordIDs) {
             results.add(doDelete(recordId, allOrNone));
         }
         return results;

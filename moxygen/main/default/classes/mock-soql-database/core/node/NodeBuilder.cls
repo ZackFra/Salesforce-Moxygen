@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -32,20 +32,20 @@ public class NodeBuilder {
     /**
      * @description The id of the node
      */
-    public String id {get; private set;}
+    public String id { get; private set; }
     /**
      * @description The type of the node
      */
-    public String nodeType {get; private set;}
+    public String nodeType { get; private set; }
     /**
      * @description The left child of the node
      */
-    public Node left {get; private set;}
+    public Node left { get; private set; }
     /**
      * @description The right child of the node
      */
-    public Node right {get; private set;}
-    
+    public Node right { get; private set; }
+
     /**
      * @description : Sets the id of the node
      * @param id : String, the id of the node

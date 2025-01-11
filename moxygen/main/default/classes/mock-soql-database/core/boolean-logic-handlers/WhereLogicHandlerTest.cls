@@ -3,7 +3,9 @@ private class WhereLogicHandlerTest {
     @IsTest
     static void ensureWhereLogicHandlerWorksWithDateEqualsToday() {
         Parser p = new Parser();
-        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CloseDate = TODAY');
+        Node selectNode = p.parse(
+            'SELECT Id FROM Opportunity WHERE CloseDate = TODAY'
+        );
         Node operatorNode = selectNode.right.right.left;
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
@@ -27,7 +29,9 @@ private class WhereLogicHandlerTest {
     @IsTest
     static void ensureWhereLogicHandlerWorksWithDateTimeEqualsToday() {
         Parser p = new Parser();
-        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CreatedDate = TODAY');
+        Node selectNode = p.parse(
+            'SELECT Id FROM Opportunity WHERE CreatedDate = TODAY'
+        );
         Node operatorNode = selectNode.right.right.left;
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType())
@@ -46,14 +50,25 @@ private class WhereLogicHandlerTest {
         Boolean result = handler.isCompareConditionMet(operatorNode);
         Test.stopTest();
 
-        Assert.isTrue(result, 'Expected true but got ' + result + ' with ' + opp.CreatedDate + ' and ' + now);
+        Assert.isTrue(
+            result,
+            'Expected true but got ' +
+                result +
+                ' with ' +
+                opp.CreatedDate +
+                ' and ' +
+                now
+        );
     }
 
     @IsTest
     static void ensureWhereLogicHandlerWorksWithDateTimeEqualsTodayAsDateGmt() {
         Parser p = new Parser();
         DateTime now = GMT.now();
-        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CreatedDate = ' + Common.dateTimeToSoqlString(now));
+        Node selectNode = p.parse(
+            'SELECT Id FROM Opportunity WHERE CreatedDate = ' +
+            Common.dateTimeToSoqlString(now)
+        );
         Node operatorNode = selectNode.right.right.left;
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType())
@@ -71,19 +86,33 @@ private class WhereLogicHandlerTest {
         Boolean result = handler.isCompareConditionMet(operatorNode);
         Test.stopTest();
 
-        Assert.isTrue(result, 'Expected true but got ' + result + ' with ' + opp.CreatedDate + ' and ' + now);
+        Assert.isTrue(
+            result,
+            'Expected true but got ' +
+                result +
+                ' with ' +
+                opp.CreatedDate +
+                ' and ' +
+                now
+        );
     }
 
     @IsTest
     static void ensureWhereLogicHandlerWorksWithDateTimeEqualsYesterday() {
         Parser p = new Parser();
-        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CreatedDate = YESTERDAY');
+        Node selectNode = p.parse(
+            'SELECT Id FROM Opportunity WHERE CreatedDate = YESTERDAY'
+        );
         Node operatorNode = selectNode.right.right.left;
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType())
         );
         DateTime yesterday = GMT.now().addDays(-1);
-        opp = (Opportunity) Common.putReadOnlyField(opp, 'CreatedDate', yesterday);
+        opp = (Opportunity) Common.putReadOnlyField(
+            opp,
+            'CreatedDate',
+            yesterday
+        );
 
         BooleanLogicOptions options = new BooleanLogicOptions()
             .setParams(null)
@@ -96,20 +125,30 @@ private class WhereLogicHandlerTest {
         Boolean result = handler.isCompareConditionMet(operatorNode);
         Test.stopTest();
 
-        Assert.isTrue(result, 'Expected true but got ' + result + ' with ' + opp.CreatedDate + ' and ' + yesterday);
+        Assert.isTrue(
+            result,
+            'Expected true but got ' +
+                result +
+                ' with ' +
+                opp.CreatedDate +
+                ' and ' +
+                yesterday
+        );
     }
 
     @IsTest
     static void ensureWhereLogicHandlerWorksWithDateEqualsYesterday() {
         Parser p = new Parser();
-        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CloseDate = YESTERDAY');
+        Node selectNode = p.parse(
+            'SELECT Id FROM Opportunity WHERE CloseDate = YESTERDAY'
+        );
         Node operatorNode = selectNode.right.right.left;
         Date yesterday = GMT.today().addDays(-1);
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
             CloseDate = yesterday
         );
-        
+
         BooleanLogicOptions options = new BooleanLogicOptions()
             .setParams(null)
             .setHead(selectNode)
@@ -121,18 +160,28 @@ private class WhereLogicHandlerTest {
         Boolean result = handler.isCompareConditionMet(operatorNode);
         Test.stopTest();
 
-        Assert.isTrue(result, 'Expected true but got ' + result + ' with ' + opp.CreatedDate + ' and ' + yesterday);
+        Assert.isTrue(
+            result,
+            'Expected true but got ' +
+                result +
+                ' with ' +
+                opp.CreatedDate +
+                ' and ' +
+                yesterday
+        );
     }
 
     @IsTest
     static void ensureWhereLogicHandlerWorksWithDateEqualsYesterdayAndFieldIsNull() {
         Parser p = new Parser();
-        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CloseDate = YESTERDAY');
+        Node selectNode = p.parse(
+            'SELECT Id FROM Opportunity WHERE CloseDate = YESTERDAY'
+        );
         Node operatorNode = selectNode.right.right.left;
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType())
         );
-        
+
         BooleanLogicOptions options = new BooleanLogicOptions()
             .setParams(null)
             .setHead(selectNode)
@@ -150,12 +199,14 @@ private class WhereLogicHandlerTest {
     @IsTest
     static void ensureWhereLogicHandlerWorksWithDateTimeEqualsYesterdayAndFieldIsNull() {
         Parser p = new Parser();
-        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CreatedDate = YESTERDAY');
+        Node selectNode = p.parse(
+            'SELECT Id FROM Opportunity WHERE CreatedDate = YESTERDAY'
+        );
         Node operatorNode = selectNode.right.right.left;
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType())
         );
-        
+
         BooleanLogicOptions options = new BooleanLogicOptions()
             .setParams(null)
             .setHead(selectNode)
@@ -173,7 +224,9 @@ private class WhereLogicHandlerTest {
     @IsTest
     static void ensureWhereLogicHandlerWorksWithDateEqualsTomorrow() {
         Parser p = new Parser();
-        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CloseDate = TOMORROW');
+        Node selectNode = p.parse(
+            'SELECT Id FROM Opportunity WHERE CloseDate = TOMORROW'
+        );
         Node operatorNode = selectNode.right.right.left;
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
@@ -187,7 +240,6 @@ private class WhereLogicHandlerTest {
             .setSelectNode(selectNode);
         BooleanLogicHandler handler = new WhereLogicHandler(options);
 
-        
         Test.startTest();
         Boolean result = handler.isCompareConditionMet(operatorNode);
         Test.stopTest();
@@ -198,13 +250,19 @@ private class WhereLogicHandlerTest {
     @IsTest
     static void ensureWhereLogicHandlerWorksWithDateTimeIsLessThanTomorrow() {
         Parser p = new Parser();
-        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CreatedDate < TOMORROW');
+        Node selectNode = p.parse(
+            'SELECT Id FROM Opportunity WHERE CreatedDate < TOMORROW'
+        );
         Node operatorNode = selectNode.right.right.left;
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
             CloseDate = GMT.today().addDays(1)
         );
-        opp = (Opportunity) Common.putReadOnlyField(opp, 'CreatedDate', GMT.now());
+        opp = (Opportunity) Common.putReadOnlyField(
+            opp,
+            'CreatedDate',
+            GMT.now()
+        );
 
         BooleanLogicOptions options = new BooleanLogicOptions()
             .setParams(null)
@@ -213,7 +271,6 @@ private class WhereLogicHandlerTest {
             .setSelectNode(selectNode);
         BooleanLogicHandler handler = new WhereLogicHandler(options);
 
-        
         Test.startTest();
         Boolean result = handler.isCompareConditionMet(operatorNode);
         Test.stopTest();
@@ -224,7 +281,9 @@ private class WhereLogicHandlerTest {
     @isTest
     static void ensureWhereLogicWorksWithThisWeek() {
         Parser p = new Parser();
-        Node selectNode = p.parse('SELECT Id FROM Opportunity WHERE CloseDate = THIS_WEEK');
+        Node selectNode = p.parse(
+            'SELECT Id FROM Opportunity WHERE CloseDate = THIS_WEEK'
+        );
         Node operatorNode = selectNode.right.right.left;
 
         Opportunity opp = new Opportunity(

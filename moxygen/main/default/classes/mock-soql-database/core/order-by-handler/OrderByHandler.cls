@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Abstract class for OrderByHandler 
+ * @description Abstract class for OrderByHandler
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -39,7 +39,7 @@ public abstract class OrderByHandler {
     }
 
     /**
-     * @description Handles the OrderBy 
+     * @description Handles the OrderBy
      * @return  `Object`
      */
     public abstract Object handleOrderBy();

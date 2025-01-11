@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Handles the inequality operator 
+ * @description Handles the inequality operator
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -41,25 +41,31 @@ public class InequalityHandler implements IOperatorHandler {
 
         // if their both null, return false, they're equal
         // if they're not both null, return true, they're not equal
-        if(isSObjNull && isFieldNull) {
+        if (isSObjNull && isFieldNull) {
             return false;
-        } else if(isSObjNull || isFieldNull) {
+        } else if (isSObjNull || isFieldNull) {
             return true;
         }
 
-        if(fieldValue instanceof DateLiteral) {
-            DateLiteralComparable dateLiteral = (DateLiteralComparable) DateLiteralComparableFactory.create((DateLiteral)fieldValue);
+        if (fieldValue instanceof DateLiteral) {
+            DateLiteralComparable dateLiteral = (DateLiteralComparable) DateLiteralComparableFactory.create(
+                (DateLiteral) fieldValue
+            );
             return dateLiteral.isNotEqual((DateTime) sObjectFieldValue);
         }
 
-        if(sObjectFieldValue instanceof Date) {
-            fieldValue = (Object) Common.parseDate((String) fieldValue).toString();
-        } else if(SObjectFieldValue instanceof DateTime) {
-            fieldValue = (Object) Common.parseDateTime((String) fieldValue).toString();
-        } else if(SObjectFieldValue instanceof Time) {
-            fieldValue = (Object) Common.parseTime((String) fieldValue).toString();
+        if (sObjectFieldValue instanceof Date) {
+            fieldValue = (Object) Common.parseDate((String) fieldValue)
+                .toString();
+        } else if (SObjectFieldValue instanceof DateTime) {
+            fieldValue = (Object) Common.parseDateTime((String) fieldValue)
+                .toString();
+        } else if (SObjectFieldValue instanceof Time) {
+            fieldValue = (Object) Common.parseTime((String) fieldValue)
+                .toString();
         }
 
-        return (String.valueOf(sObjectFieldValue).toLowerCase() != ((String)fieldValue).toLowerCase());
+        return (String.valueOf(sObjectFieldValue).toLowerCase() !=
+        ((String) fieldValue).toLowerCase());
     }
 }

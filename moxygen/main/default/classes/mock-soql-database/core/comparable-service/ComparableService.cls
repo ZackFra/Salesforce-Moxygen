@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -29,10 +29,9 @@
  * @since 3/23/2024
  */
 public inherited sharing class ComparableService {
-
     /**
      * @description : given an sObject and a field name (which may be a relationon i.e. Account.Name),
-     *              : return a map with the comparable sObject (i.e. the parent), the field api name of that object, 
+     *              : return a map with the comparable sObject (i.e. the parent), the field api name of that object,
      *              : and the relationship name
      * @param record : the sObject
      * @param fieldLookupChain : the field name
@@ -40,7 +39,10 @@ public inherited sharing class ComparableService {
      * @throws QueryException : if the field name is invalid
      */
     @SuppressWarnings('PMD.NcssMethodCount')
-    public static ComparableRecordData getComparables(SObject record, String fieldLookupChain) {
+    public static ComparableRecordData getComparables(
+        SObject record,
+        String fieldLookupChain
+    ) {
         QueriedFieldResolver resolver = new QueriedFieldResolver.Builder()
             .setFieldLookupChain(fieldLookupChain)
             .setComparableRecord(record)
@@ -61,20 +63,38 @@ public inherited sharing class ComparableService {
      * @param isPolymorphic `Boolean`
      * @return  `String`
      */
-    public static String getComparableField(SObject comparableRecord, String finalField, Boolean isPolymorphic) {
+    public static String getComparableField(
+        SObject comparableRecord,
+        String finalField,
+        Boolean isPolymorphic
+    ) {
         String comparableField;
-        if(isPolymorphic) {
+        if (isPolymorphic) {
             Map<String, String> polymorphicFieldMap = SchemaService.getPolymorphicFieldMap();
-            Boolean isPolyField = (polymorphicFieldMap.containsKey(finalField.toLowerCase()));
-            if(isPolyField) {
-                comparableField = polymorphicFieldMap.get(finalField.toLowerCase());
+            Boolean isPolyField = (polymorphicFieldMap.containsKey(
+                finalField.toLowerCase()
+            ));
+            if (isPolyField) {
+                comparableField = polymorphicFieldMap.get(
+                    finalField.toLowerCase()
+                );
             } else {
-                Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
-                comparableField = SchemaService.getFieldName(comparableSot, finalField);
+                Schema.SObjectType comparableSot = SchemaService.getSObjectType(
+                    comparableRecord
+                );
+                comparableField = SchemaService.getFieldName(
+                    comparableSot,
+                    finalField
+                );
             }
         } else {
-            Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
-            comparableField = SchemaService.getFieldName(comparableSot, finalField);
+            Schema.SObjectType comparableSot = SchemaService.getSObjectType(
+                comparableRecord
+            );
+            comparableField = SchemaService.getFieldName(
+                comparableSot,
+                finalField
+            );
         }
         return comparableField;
     }
@@ -86,13 +106,21 @@ public inherited sharing class ComparableService {
      * @return : a map with the comparable sObject, the field api name, and the relationship name
      * @throws QueryException : if the field name is invalid
      */
-    public static Map<String, Object> getComparableData(sObject obj, String field) {
+    public static Map<String, Object> getComparableData(
+        sObject obj,
+        String field
+    ) {
         sObject comparableRecord = obj;
         String comparableField = field;
-        if(!isParentRecordLookup(comparableField)) {
-            Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
-            comparableField = SchemaService.getFieldName(comparableSot, comparableField);
-            return new Map<String, Object> {
+        if (!isParentRecordLookup(comparableField)) {
+            Schema.SObjectType comparableSot = SchemaService.getSObjectType(
+                comparableRecord
+            );
+            comparableField = SchemaService.getFieldName(
+                comparableSot,
+                comparableField
+            );
+            return new Map<String, Object>{
                 'comparableRecord' => comparableRecord,
                 'comparableField' => comparableField,
                 'relationshipName' => comparableField
@@ -100,37 +128,42 @@ public inherited sharing class ComparableService {
         }
 
         List<String> fieldParts = comparableField.split('\\.');
-        String finalField = fieldParts[fieldParts.size()-1];
-        fieldParts.remove(fieldParts.size()-1);
+        String finalField = fieldParts[fieldParts.size() - 1];
+        fieldParts.remove(fieldParts.size() - 1);
         String parentField = fieldParts[0];
         sObject parentRecord;
         String relationshipName = '';
-        while(!fieldParts.isEmpty()) {
-            Map<String, Object> parentInfo = ComparableService.getParentObjectData(obj, parentField);
+        while (!fieldParts.isEmpty()) {
+            Map<String, Object> parentInfo = ComparableService.getParentObjectData(
+                obj,
+                parentField
+            );
 
             parentRecord = (sObject) parentInfo.get('parentRecord');
-            relationshipName += (String) parentInfo.get('fieldRelationshipName') + '.';
-            
+            relationshipName +=
+                (String) parentInfo.get('fieldRelationshipName') + '.';
 
             fieldParts.remove(0);
-            if(!fieldParts.isEmpty()) {
+            if (!fieldParts.isEmpty()) {
                 parentField = fieldParts[0];
             }
         }
         comparableRecord = parentRecord;
-        Schema.SObjectType comparableSot = SchemaService.getSObjectType(comparableRecord);
+        Schema.SObjectType comparableSot = SchemaService.getSObjectType(
+            comparableRecord
+        );
         comparableField = SchemaService.getFieldName(comparableSot, finalField);
         relationshipName += comparableField;
 
-        return new Map<String, Object> {
+        return new Map<String, Object>{
             'comparableRecord' => comparableRecord,
             'comparableField' => comparableField,
             'relationshipName' => relationshipName
         };
     }
 
-    /** 
-     * @description : given a field node and a select node, return a map with the comparable sObject data, 
+    /**
+     * @description : given a field node and a select node, return a map with the comparable sObject data,
      *                the field api name, and the relationship name, builds on getComparables
      * @param fieldNode : the field node
      * @param selectNode : the select node
@@ -138,7 +171,10 @@ public inherited sharing class ComparableService {
      * @throws QueryException : if the field name is invalid
      * @see getComparables
      */
-    public static Map<String, Object> getComparableDataFromNodes(Node fieldNode, Node selectNode) {
+    public static Map<String, Object> getComparableDataFromNodes(
+        Node fieldNode,
+        Node selectNode
+    ) {
         String fieldName = fieldNode.id;
         Node fromNode = selectNode.right;
         Node objNode = fromNode.left;
@@ -146,7 +182,7 @@ public inherited sharing class ComparableService {
 
         String objApiName = SchemaService.getSObjectName(objName);
         Type t = type.forName(objApiName);
-        if(t == null) {
+        if (t == null) {
             throw new QueryException('Invalid object name: ' + objName);
         }
         sObject sObj = (sObject) t.newInstance();
@@ -159,7 +195,10 @@ public inherited sharing class ComparableService {
      *                  : ex. OpportunityLineItem, the field is Opportunity
      * @return : a map with the parent sObject, the field api name, and the relationship name
      */
-    public static Map<String, Object> getParentObjectData(SObject sObj, String fieldName) {
+    public static Map<String, Object> getParentObjectData(
+        SObject sObj,
+        String fieldName
+    ) {
         // api name of the child sObject
         String objApiName = sObj.getSObjectType().getDescribe().getName();
         // api name of the id object on the child (i.e. OpportunityId)
@@ -171,20 +210,30 @@ public inherited sharing class ComparableService {
         // whether this field is a polymorphic relationship
         Boolean isPolymorphic = false;
 
-
         Schema.SObjectType sot = SchemaService.getSObjectType(sObj);
         List<Schema.SObjectField> fields = SchemaService.getFields(sot);
         for (Schema.SObjectField field : fields) {
             Schema.DisplayType fieldType = SchemaService.getFieldType(field);
-            String relationshipName = SchemaService.getFieldRelationshipName(field);
+            String relationshipName = SchemaService.getFieldRelationshipName(
+                field
+            );
 
-            if (fieldType == DisplayType.Reference && relationshipName.toLowerCase() == fieldName) {
-                List<Schema.sObjectType> objTypeList = SchemaService.getReferenceTo(field);
-            
-                if(objTypeList.size() == 1) {
-                    parentObjApiName = SchemaService.getSObjectName(objTypeList[0]);
+            if (
+                fieldType == DisplayType.Reference &&
+                relationshipName.toLowerCase() == fieldName
+            ) {
+                List<Schema.sObjectType> objTypeList = SchemaService.getReferenceTo(
+                    field
+                );
+
+                if (objTypeList.size() == 1) {
+                    parentObjApiName = SchemaService.getSObjectName(
+                        objTypeList[0]
+                    );
                 } else {
-                    Schema.SObjectType parentSot = SchemaService.getFieldSObjectType(field);
+                    Schema.SObjectType parentSot = SchemaService.getFieldSObjectType(
+                        field
+                    );
                     parentObjApiName = SchemaService.getSObjectName(parentSot);
                 }
 
@@ -192,9 +241,12 @@ public inherited sharing class ComparableService {
                 fieldRelationshipName = relationshipName;
                 isPolymorphic = (objTypeList.size() > 1);
 
-                sObject parentRecord = SchemaService.getSObjectType(parentObjApiName).newSObject();
-                
-                Map<String, Object> objInfo = new Map<String, Object> {
+                sObject parentRecord = SchemaService.getSObjectType(
+                        parentObjApiName
+                    )
+                    .newSObject();
+
+                Map<String, Object> objInfo = new Map<String, Object>{
                     'fieldApiName' => fieldApiName,
                     'fieldRelationshipName' => fieldRelationshipName,
                     'parentObjApiName' => parentObjApiName,
@@ -210,12 +262,15 @@ public inherited sharing class ComparableService {
     }
 
     /** @description : return a parent sObject from a field name and a child sObject
-      * @param sObj : the child sObject
-      * @param fieldName : the field name of the parent sObject from the child
-      *                  : ex. OpportunityLineItem, the field is Opportunity
-      * @return A map with the parent sObject, the field api name, and the relationship name
-      */
-      public static Map<String, Object> getParentObject(sObject sObj, String fieldName) {
+     * @param sObj : the child sObject
+     * @param fieldName : the field name of the parent sObject from the child
+     *                  : ex. OpportunityLineItem, the field is Opportunity
+     * @return A map with the parent sObject, the field api name, and the relationship name
+     */
+    public static Map<String, Object> getParentObject(
+        sObject sObj,
+        String fieldName
+    ) {
         // api name of the child sObject
         String objApiName = sObj.getSObjectType().getDescribe().getName();
         // api name of the id object on the child (i.e. OpportunityId)
@@ -227,46 +282,59 @@ public inherited sharing class ComparableService {
         // whether this field is a polymorphic relationship
         Boolean isPolymorphic = false;
 
-
         String sObjApiName = sObj.getSObjectType().getDescribe().getName();
-        SObjectType t = ((SObject)Type.forName(sObjApiName).newInstance()).getSObjectType();
-        
+        SObjectType t = ((SObject) Type.forName(sObjApiName).newInstance())
+            .getSObjectType();
+
         List<Schema.SObjectField> fields = SchemaService.getFields(t);
         for (SObjectField f : t.getDescribe().fields.getMap().values()) {
             Schema.DescribeFieldResult dfr = f.getDescribe();
             Schema.DisplayType dfrFieldType = dfr.getType();
             String dfrRelationshipName = dfr.getRelationshipName();
             String lowercaseDfrRelationshipName = null;
-            if(dfrRelationshipName != null) {
+            if (dfrRelationshipName != null) {
                 lowercaseDfrRelationshipName = dfrRelationshipName.toLowerCase();
             }
 
-            if (dfrFieldType == Schema.DisplayType.REFERENCE && lowerCaseDfrRelationshipName == fieldName) {
+            if (
+                dfrFieldType == Schema.DisplayType.REFERENCE &&
+                lowerCaseDfrRelationshipName == fieldName
+            ) {
                 List<Schema.sObjectType> objTypeList = dfr.getReferenceTo();
 
-                if(objTypeList.size() == 1) {
+                if (objTypeList.size() == 1) {
                     parentObjApiName = objTypeList[0].getDescribe().getName();
                 } else {
                     String parentFieldApiName = SchemaService.getFieldName(f);
                     Id parentRecordId = (Id) sObj.get(parentFieldApiName);
-                    parentObjApiName = SchemaService.getSObjectName(parentRecordId);
+                    parentObjApiName = SchemaService.getSObjectName(
+                        parentRecordId
+                    );
                     isPolymorphic = true;
                 }
-                
-                if(parentObjApiName == null) {
-                    throw new QueryException('Invalid relationship name: ' + fieldName);
+
+                if (parentObjApiName == null) {
+                    throw new QueryException(
+                        'Invalid relationship name: ' + fieldName
+                    );
                 }
 
                 fieldApiName = dfr.getName();
                 fieldRelationshipName = dfr.getRelationshipName();
 
-                sObject parentRecord = ((sObject) Type.forName(parentObjApiName).newInstance()).getSObjectType().newSObject();
-                
-                Map<Id, sObject> mockRecordsChild = MockDatabase.get(objApiName);
-                Id parentId = (Id) mockRecordsChild.get(sObj.Id).get(fieldApiName);
+                sObject parentRecord = ((sObject) Type.forName(parentObjApiName)
+                        .newInstance())
+                    .getSObjectType()
+                    .newSObject();
+
+                Map<Id, sObject> mockRecordsChild = MockDatabase.get(
+                    objApiName
+                );
+                Id parentId = (Id) mockRecordsChild.get(sObj.Id)
+                    .get(fieldApiName);
 
                 parentRecord.put('Id', parentId);
-                Map<String, Object> objInfo = new Map<String, Object> {
+                Map<String, Object> objInfo = new Map<String, Object>{
                     'fieldApiName' => fieldApiName,
                     'fieldRelationshipName' => fieldRelationshipName,
                     'parentObjApiName' => parentObjApiName,

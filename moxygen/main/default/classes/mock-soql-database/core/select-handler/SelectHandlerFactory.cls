@@ -1,8 +1,8 @@
-/* 
+/*
  * MIT License
  *
  * Copyright (c) 2024 Zackary Frazier
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,7 +24,7 @@
  */
 
 /**
- * @description Factory class to create appropriate select handler based on the field node type 
+ * @description Factory class to create appropriate select handler based on the field node type
  * @author Zackary Frazier
  * @since 3/23/2024
  */
@@ -33,14 +33,14 @@ public with sharing class SelectHandlerFactory {
 
     /**
      * @description Constructor
-     * @param fSelector 
+     * @param fSelector
      */
     public SelectHandlerFactory(FieldSelector fSelector) {
         this.fSelector = fSelector;
     }
 
     /**
-     * @description Creates appropriate select handler based on the field node type 
+     * @description Creates appropriate select handler based on the field node type
      * @return  `ISelectHandler`
      */
     public ISelectHandler createHandler() {
@@ -49,12 +49,12 @@ public with sharing class SelectHandlerFactory {
         Boolean isTypeOf = (fieldNode.nodeType == 'typeof');
         Boolean isChildSubQuery = (fieldNode.nodeType == 'subquery');
         Boolean isParentSubQuery = (fieldNode.id.contains('.'));
-        
-        if(isTypeOf) {
+
+        if (isTypeOf) {
             return new PolymorphicSelectHandler(fSelector);
-        } else if(isChildSubQuery) {
+        } else if (isChildSubQuery) {
             return new ChildSubQuerySelectHandler(fSelector);
-        } else if(isParentSubQuery) {
+        } else if (isParentSubQuery) {
             return new ParentSubQuerySelectHandler(fSelector);
         } else {
             return new FieldSelectHandler(fSelector);

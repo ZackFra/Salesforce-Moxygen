@@ -1,9 +1,9 @@
 /**
- * @description Compares a date field to the last quarter 
+ * @description Compares a date field to the last quarter
  * @author Zackary Frazier
  * @since 1/1/2024
  */
-public with sharing class LastQuarterComparable extends DateLiteralComparable{
+public with sharing class LastQuarterComparable extends DateLiteralComparable {
     /**
      * @description Returns true if the fieldValue is equal to the last quarter
      * @param fieldValue `Datetime`
@@ -12,7 +12,8 @@ public with sharing class LastQuarterComparable extends DateLiteralComparable{
     public override Boolean isEqual(Datetime fieldValue) {
         Datetime endOfLastQuarter = Gmt.startOfThisCalendarQuarter();
         Datetime startOfLastQuarter = endOfLastQuarter.addMonths(-3);
-        return startOfLastQuarter <= fieldValue && fieldValue < endOfLastQuarter;
+        return startOfLastQuarter <= fieldValue &&
+            fieldValue < endOfLastQuarter;
     }
 
     /**
@@ -35,4 +36,4 @@ public with sharing class LastQuarterComparable extends DateLiteralComparable{
         Datetime endOfLastQuarter = Gmt.startOfThisCalendarQuarter();
         return fieldValue >= endOfLastQuarter;
     }
- }
+}
