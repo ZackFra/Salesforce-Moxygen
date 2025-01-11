@@ -120,17 +120,17 @@ public inherited sharing class Selector {
         String queryString,
         System.AccessLevel accessLevel
     ) {
-                queryString = parseBackTicks(queryString);
+        queryString = parseBackTicks(queryString);
 
-                if (ORM.isUnitTest()) {
-                    return onQueryAggregate(queryString);
-                }
-                List<AggregateResult> arList = Database.query(queryString, accessLevel);
-                List<Aggregate> agList = new List<Aggregate>();
-                for (AggregateResult ar : arList) {
-                    agList.add(new Aggregate(ar));
-                }
-                return agList;
+        if (ORM.isUnitTest()) {
+            return onQueryAggregate(queryString);
+        }
+        List<AggregateResult> arList = Database.query(queryString, accessLevel);
+        List<Aggregate> agList = new List<Aggregate>();
+        for (AggregateResult ar : arList) {
+            agList.add(new Aggregate(ar));
+        }
+        return agList;
     }
 
     /**
@@ -444,20 +444,20 @@ public inherited sharing class Selector {
         Map<String, Object> bindMap,
         System.AccessLevel accessLevel
     ) {
-wasCalled = true;
-callMap.put(queryString, true);
+        wasCalled = true;
+        callMap.put(queryString, true);
 
-if (isFailedAggregateQuery(queryString)) {
-throw new QueryException('Query failed');
-} else if (aggregateQueries.containsKey(queryString)) {
-return aggregateQueries.get(queryString);
-} else {
-return MockDatabase.aggregateQueryWithBinds(
-queryString,
-bindMap,
-accessLevel
-);
-}
+        if (isFailedAggregateQuery(queryString)) {
+            throw new QueryException('Query failed');
+        } else if (aggregateQueries.containsKey(queryString)) {
+            return aggregateQueries.get(queryString);
+        } else {
+            return MockDatabase.aggregateQueryWithBinds(
+                queryString,
+                bindMap,
+                accessLevel
+            );
+        }
     }
 
     private static Boolean isFailedAggregateQuery(String queryString) {
