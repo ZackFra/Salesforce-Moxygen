@@ -39,7 +39,7 @@
   },
   "lint-staged": {
     "**/*.{cls,trigger,apex}": [
-      "prettier --plugin=prettier-plugin-apex --write $(git diff --name-only --diff-filter d | grep \".js$\" | xargs)"
+      "prettier --plugin=prettier-plugin-apex --write"
     ]
   },
   "apexdocs": {
