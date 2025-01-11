@@ -4029,11 +4029,14 @@ private class MockDatabaseTest {
 
         List<Opportunity> oppList = new List<Opportunity>();
         Date startOfYear = Gmt.startOfThisFiscalYear();
-        for(Integer i = 0; i < 12; i++) {
+        for(Integer i = 0; i < 13; i++) {
+            
             oppList.add(new Opportunity(
                 Name = 'Opp BACKWARDS' + i,
                 CloseDate = startOfYear.addMonths(-i)
             ));
+
+
             oppList.add(new Opportunity(
                 Name = 'Opp FORWARDS' + i,
                 CloseDate = startOfYear.addMonths(i)
