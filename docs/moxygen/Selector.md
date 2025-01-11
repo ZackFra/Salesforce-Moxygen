@@ -13,72 +13,6 @@ Wrapper class for Database class
 **Author** Zackary Frazier
 
 ## Methods
-### `query(queryString)`
-
-Query for a list of sObjects
-
-#### Signature
-```apex
-public static List<SObject> query(String queryString)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| queryString | String | `String` |
-
-#### Return Type
-**List&lt;SObject&gt;**
-
-,[object Object]
-
----
-
-### `query(queryString, accessLevel)`
-
-Query for a list of sObjects
-
-#### Signature
-```apex
-public static List<SObject> query(String queryString, System.AccessLevel accessLevel)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| queryString | String | `String` |
-| accessLevel | System.AccessLevel | `System.AccessLevel` |
-
-#### Return Type
-**List&lt;SObject&gt;**
-
-,[object Object]
-
----
-
-### `queryWithBinds(queryString, bindMap, accessLevel)`
-
-Query for a list of sObjects with bind variables
-
-#### Signature
-```apex
-public static List<SObject> queryWithBinds(String queryString, Map<String,Object> bindMap, System.AccessLevel accessLevel)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| queryString | String | `String` |
-| bindMap | Map&lt;String,Object&gt; | `Map<String, Object>` |
-| accessLevel | System.AccessLevel | `System.AccessLevel` |
-
-#### Return Type
-**List&lt;SObject&gt;**
-
-,[object Object]
-
----
-
 ### `aggregateQuery(queryString)`
 
 perform an aggregate query
@@ -206,5 +140,71 @@ public static Integer countQueryWithBinds(String queryString, Map<String,Object>
 
 #### Return Type
 **Integer**
+
+,[object Object]
+
+---
+
+### `query(queryString)`
+
+Query for a list of sObjects
+
+#### Signature
+```apex
+public static List<SObject> query(String queryString)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| queryString | String | `String` |
+
+#### Return Type
+**List&lt;SObject&gt;**
+
+,[object Object]
+
+---
+
+### `query(queryString, accessLevel)`
+
+Query for a list of sObjects
+
+#### Signature
+```apex
+public static List<SObject> query(String queryString, System.AccessLevel accessLevel)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| queryString | String | `String` |
+| accessLevel | System.AccessLevel | `System.AccessLevel` |
+
+#### Return Type
+**List&lt;SObject&gt;**
+
+,[object Object]
+
+---
+
+### `queryWithBinds(queryString, bindMap, accessLevel)`
+
+Query for a list of sObjects with bind variables
+
+#### Signature
+```apex
+public static List<SObject> queryWithBinds(String queryString, Map<String,Object> bindMap, System.AccessLevel accessLevel)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| queryString | String | `String` |
+| bindMap | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| accessLevel | System.AccessLevel | `System.AccessLevel` |
+
+#### Return Type
+**List&lt;SObject&gt;**
 
 ,[object Object]

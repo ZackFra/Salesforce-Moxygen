@@ -188,6 +188,117 @@ List&lt;Database.SaveResult&gt; - The result of the update operation
 
 ---
 
+### `doUndelete(recordToUndelete, allOrNone)`
+
+Wrapper around Database methods to allow for mocking and stubbing in unit tests
+
+#### Signature
+```apex
+public static Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| recordToUndelete | sObject | - The record to undelete |
+| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+
+#### Return Type
+**Database.UndeleteResult**
+
+Database.UndeleteResult - The result of the undelete operation
+
+---
+
+### `doUndelete(recordsToUndelete, allOrNone)`
+
+Wrapper around Database methods to allow for mocking and stubbing in unit tests
+
+#### Signature
+```apex
+public static List<Database.UndeleteResult> doUndelete(List<SObject> recordsToUndelete, Boolean allOrNone)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| recordsToUndelete | List&lt;SObject&gt; | - The records to undelete |
+| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+
+#### Return Type
+**List&lt;Database.UndeleteResult&gt;**
+
+List&lt;Database.UndeleteResult&gt; - The result of the undelete operation
+
+---
+
+### `doUndelete(recordID, allOrNone)`
+
+Wrapper around Database methods to allow for mocking and stubbing in unit tests
+
+#### Signature
+```apex
+public static Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| recordID | Id | - The ID of the record to undelete |
+| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+
+#### Return Type
+**Database.UndeleteResult**
+
+Database.UndeleteResult - The result of the undelete operation
+
+---
+
+### `doUndelete(recordIDs, allOrNone)`
+
+Wrapper around Database methods to allow for mocking and stubbing in unit tests
+
+#### Signature
+```apex
+public static List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| recordIDs | List&lt;Id&gt; | - The IDs of the records to undelete |
+| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+
+#### Return Type
+**List&lt;Database.UndeleteResult&gt;**
+
+List&lt;Database.UndeleteResult&gt; - The result of the undelete operation
+
+---
+
+### `doUndelete(recordToUndelete, allOrNone, accessLevel)`
+
+Wrapper around Database methods to allow for mocking and stubbing in unit tests
+
+#### Signature
+```apex
+public static Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| recordToUndelete | SObject | - The record to undelete |
+| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| accessLevel | System.AccessLevel | - The access level for the operation |
+
+#### Return Type
+**Database.UndeleteResult**
+
+Database.UndeleteResult - The result of the undelete operation
+
+---
+
 ### `doUpdate(recordToUpdate, allOrNone)`
 
 Wrapper around Database methods to allow for mocking and stubbing in unit tests
@@ -373,114 +484,3 @@ public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert
 **List&lt;Database.UpsertResult&gt;**
 
 List&lt;Database.UpsertResult&gt; - The result of the upsert operation
-
----
-
-### `doUndelete(recordToUndelete, allOrNone)`
-
-Wrapper around Database methods to allow for mocking and stubbing in unit tests
-
-#### Signature
-```apex
-public static Database.UndeleteResult doUndelete(sObject recordToUndelete, Boolean allOrNone)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| recordToUndelete | sObject | - The record to undelete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-
-#### Return Type
-**Database.UndeleteResult**
-
-Database.UndeleteResult - The result of the undelete operation
-
----
-
-### `doUndelete(recordsToUndelete, allOrNone)`
-
-Wrapper around Database methods to allow for mocking and stubbing in unit tests
-
-#### Signature
-```apex
-public static List<Database.UndeleteResult> doUndelete(List<SObject> recordsToUndelete, Boolean allOrNone)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| recordsToUndelete | List&lt;SObject&gt; | - The records to undelete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-
-#### Return Type
-**List&lt;Database.UndeleteResult&gt;**
-
-List&lt;Database.UndeleteResult&gt; - The result of the undelete operation
-
----
-
-### `doUndelete(recordID, allOrNone)`
-
-Wrapper around Database methods to allow for mocking and stubbing in unit tests
-
-#### Signature
-```apex
-public static Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| recordID | Id | - The ID of the record to undelete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-
-#### Return Type
-**Database.UndeleteResult**
-
-Database.UndeleteResult - The result of the undelete operation
-
----
-
-### `doUndelete(recordIDs, allOrNone)`
-
-Wrapper around Database methods to allow for mocking and stubbing in unit tests
-
-#### Signature
-```apex
-public static List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allOrNone)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| recordIDs | List&lt;Id&gt; | - The IDs of the records to undelete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-
-#### Return Type
-**List&lt;Database.UndeleteResult&gt;**
-
-List&lt;Database.UndeleteResult&gt; - The result of the undelete operation
-
----
-
-### `doUndelete(recordToUndelete, allOrNone, accessLevel)`
-
-Wrapper around Database methods to allow for mocking and stubbing in unit tests
-
-#### Signature
-```apex
-public static Database.UndeleteResult doUndelete(SObject recordToUndelete, Boolean allOrNone, System.AccessLevel accessLevel)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| recordToUndelete | SObject | - The record to undelete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-| accessLevel | System.AccessLevel | - The access level for the operation |
-
-#### Return Type
-**Database.UndeleteResult**
-
-Database.UndeleteResult - The result of the undelete operation

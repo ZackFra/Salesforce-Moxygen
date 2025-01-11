@@ -36,112 +36,6 @@ public ParentRelationshipBuilder relateParent()
 ParentRelationshipBuilder
 
 ## Classes
-### ParentRelationshipBuilder Class
-
-ParentRelationshipBuilder class to build parent relationships
-
-#### Methods
-##### `setParent(parent)`
-
-Set the parent SObject to be related
-
-###### Signature
-```apex
-public ParentRelationshipBuilder setParent(SObject parent)
-```
-
-###### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| parent | SObject | SObject to be related |
-
-###### Return Type
-**ParentRelationshipBuilder**
-
-ParentRelationshipBuilder
-
----
-
-##### `setChild(child)`
-
-Set the child SObject to be related
-
-###### Signature
-```apex
-public ParentRelationshipBuilder setChild(SObject child)
-```
-
-###### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| child | SObject | SObject to be related |
-
-###### Return Type
-**ParentRelationshipBuilder**
-
-ParentRelationshipBuilder
-
----
-
-##### `setRelationshipName(relationshipName)`
-
-Set the relationship name
-
-###### Signature
-```apex
-public ParentRelationshipBuilder setRelationshipName(String relationshipName)
-```
-
-###### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| relationshipName | String | Relationship name |
-
-###### Return Type
-**ParentRelationshipBuilder**
-
-ParentRelationshipBuilder
-
----
-
-##### `setRelationshipField(relationshipField)`
-
-Set the relationship field
-
-###### Signature
-```apex
-public ParentRelationshipBuilder setRelationshipField(String relationshipField)
-```
-
-###### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| relationshipField | String | Relationship field |
-
-###### Return Type
-**ParentRelationshipBuilder**
-
-ParentRelationshipBuilder
-
----
-
-##### `build()`
-
-Build the parent relationship
-
-###### Signature
-```apex
-public SObject build()
-```
-
-###### Return Type
-**SObject**
-
-SObject
-
-###### Throws
-IllegalArgumentException: 
-
 ### ChildRelationshipBuilder Class
 
 ChildRelationshipBuilder class to build child relationships
@@ -234,6 +128,112 @@ ChildRelationshipBuilder
 ##### `build()`
 
 Build the child relationship
+
+###### Signature
+```apex
+public SObject build()
+```
+
+###### Return Type
+**SObject**
+
+SObject
+
+###### Throws
+IllegalArgumentException: 
+
+### ParentRelationshipBuilder Class
+
+ParentRelationshipBuilder class to build parent relationships
+
+#### Methods
+##### `setParent(parent)`
+
+Set the parent SObject to be related
+
+###### Signature
+```apex
+public ParentRelationshipBuilder setParent(SObject parent)
+```
+
+###### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| parent | SObject | SObject to be related |
+
+###### Return Type
+**ParentRelationshipBuilder**
+
+ParentRelationshipBuilder
+
+---
+
+##### `setChild(child)`
+
+Set the child SObject to be related
+
+###### Signature
+```apex
+public ParentRelationshipBuilder setChild(SObject child)
+```
+
+###### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| child | SObject | SObject to be related |
+
+###### Return Type
+**ParentRelationshipBuilder**
+
+ParentRelationshipBuilder
+
+---
+
+##### `setRelationshipName(relationshipName)`
+
+Set the relationship name
+
+###### Signature
+```apex
+public ParentRelationshipBuilder setRelationshipName(String relationshipName)
+```
+
+###### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| relationshipName | String | Relationship name |
+
+###### Return Type
+**ParentRelationshipBuilder**
+
+ParentRelationshipBuilder
+
+---
+
+##### `setRelationshipField(relationshipField)`
+
+Set the relationship field
+
+###### Signature
+```apex
+public ParentRelationshipBuilder setRelationshipField(String relationshipField)
+```
+
+###### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| relationshipField | String | Relationship field |
+
+###### Return Type
+**ParentRelationshipBuilder**
+
+ParentRelationshipBuilder
+
+---
+
+##### `build()`
+
+Build the parent relationship
 
 ###### Signature
 ```apex
