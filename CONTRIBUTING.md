@@ -15,7 +15,7 @@ Active work items are listed under the [projects](https://github.com/users/ZackF
 4. Install and set up Java Version 21 so the Salesforce Code Analyzer can run locally.
 5. On commit, the pre-commit hook will
 * Run prettier against your changes to ensure uniformity of the codebase.
-*. Scan all changed Apex files with PMD to ensure your changes align with this project's code standards.
+* Scan all changed Apex files with PMD to ensure your changes align with this project's code standards.
 6. Please run all unit tests to verify this will build prior to submitting your pull request.
 * This can be done with the following command `npm run sf:apex:test`.
 
