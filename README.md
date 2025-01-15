@@ -136,6 +136,9 @@ public class AccountServiceTest {
 # 🧰 Documentation
 [Reference Guide](./docs/index.md)
 
+# ❤️ Contribute
+[Contributing](./CONTRIBUTING.md)
+
 # 🥇 Mock SOQL Database
 
 Under the hood, a mock SOQL parser is used to handle queries in the context of a unit test.
