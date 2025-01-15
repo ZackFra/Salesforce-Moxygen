@@ -1,6 +1,6 @@
 # ❤️ Contributing
 
-Contributions to Moxygen are welcome. Before contributing, please familiarize yourself with the codebase, [Apex Docs](https://github.com/cesarParra/apexdocs/wiki/2.-%F0%9F%93%96-Documenting-Apex-code), and the [Salesforce Code Analyzer](https://developer.salesforce.com/docs/platform/salesforce-code-analyzer/overview). For the codebase, there is a [reference guide](./docs/index.md) (still a bit of a work in progress).
+Contributions to Moxygen are welcome. Before contributing, please familiarize yourself with the codebase, [Apex Docs](https://github.com/cesarParra/apexdocs/wiki/2.-%F0%9F%93%96-Documenting-Apex-code), the [Salesforce CLI](https://www.npmjs.com/package/@salesforce/cli), and the [Salesforce Code Analyzer](https://developer.salesforce.com/docs/platform/salesforce-code-analyzer/overview). It likely wouldn't hurt to also learn the basics of npm. For the codebase, there is a [reference guide](./docs/index.md) (still a bit of a work in progress). Otherwise, the top-level code is contained in the `mox` folder. Then the in-memory database is in the `mock-soql-database` folder, divided between the core (e.g. interpreter) and the parser folders.
 
 Prior to contributing, please open up or comment on an issue so we can keep track of who is actively working on an item.
 
@@ -8,7 +8,7 @@ Active work items are listed under the [Moxygen](https://github.com/users/ZackFr
 
 # 🚀 Development
 
-1. Set up a development environment
+1. Set up a development environment.
 * This can be either a Trailhead org, a scratch org, or a Developer Edition org.
 2. Clone or fork this repository.
 3. Run `npm i` to install the latest version of our npm dependencies and to install our git hooks.
