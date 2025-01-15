@@ -1,6 +1,6 @@
 # ❤️ Contributing
 
-Contributions to Moxygen are welcome. Before contributing, please familiarize yourself with the codebase, [Apex Docs](https://github.com/cesarParra/apexdocs/wiki/2.-%F0%9F%93%96-Documenting-Apex-code), and the [Salesforce Code Analyzer](https://developer.salesforce.com/docs/platform/salesforce-code-analyzer/overview).
+Contributions to Moxygen are welcome. Before contributing, please familiarize yourself with the codebase, [Apex Docs](https://github.com/cesarParra/apexdocs/wiki/2.-%F0%9F%93%96-Documenting-Apex-code), and the [Salesforce Code Analyzer](https://developer.salesforce.com/docs/platform/salesforce-code-analyzer/overview). For the codebase, there is a [reference guide](./docs/index.md) (still a bit of a work in progress).
 
 Prior to contributing, please open up or comment on an issue so we can keep track of who is actively working on an item.
 
