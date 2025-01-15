@@ -13,7 +13,7 @@ Active work items are listed under the [Moxygen](https://github.com/users/ZackFr
 1. Set up a development environment.
 * This can be either a Trailhead org, a scratch org, or a Developer Edition org.
 2. Clone or fork this repository.
-3. Run `npm i` to install the latest version of our npm dependencies and to install our git hooks.
+3. Run `npm i` from the root of the cloned repository to install the latest version of our npm dependencies and to install our git hooks.
 4. Install and set up Java Version 21 so the Salesforce Code Analyzer can run locally.
 5. On commit, the pre-commit hook will
 * Run prettier against your changes to ensure uniformity of the codebase.
