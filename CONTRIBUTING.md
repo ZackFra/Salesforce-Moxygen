@@ -21,6 +21,9 @@ Active work items are listed under the [Moxygen](https://github.com/users/ZackFr
 6. Please run all unit tests to verify this will build prior to submitting your pull request.
 * This can be done with the following command `npm run sf:apex:test`.
 
+## Notes
+* Any time you need to interact with dates, times, and date times, use the GMT class defined in the `gmt` folder. It returns all values in GMT. If you need a method to create a new GMT date, time, or date time, define it there.
+
 # 💡 Tips
 
 * This is a large codebase. You will not figure it out in a day.
