@@ -26,6 +26,7 @@ Active work items are listed under the [Moxygen](https://github.com/users/ZackFr
 * The SchemaService exists to simplify interactions with the Salesforce Schema object.
 * If needed, fake ids can be generated via the fflib__IdGenerator class.
 * The DynamicCast and TypeOf classes support dynamically casting primitives and checking the types of variables at runtime.
+* The Common class is the general utility class.
 
 # 💡 Tips
 
