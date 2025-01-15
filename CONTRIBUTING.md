@@ -24,6 +24,8 @@ Active work items are listed under the [Moxygen](https://github.com/users/ZackFr
 ## Notes
 * Any time you need to interact with dates, times, and date times, use the GMT class defined in the `gmt` folder. It returns all values in GMT. If you need a method to create a new GMT date, time, or date time, define it there.
 * The SchemaService exists to simplify interactions with the Salesforce Schema object.
+* If needed, fake ids can be generated via the fflib__IdGenerator class.
+* The DynamicCast and TypeOf classes support dynamically casting primitives and checking the types of variables at runtime.
 
 # 💡 Tips
 
