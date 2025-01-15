@@ -2,7 +2,7 @@
 
 Contributions to Moxygen are welcome.
 
-Before contributing, please familiarize yourself with the codebase, [recursive descent parsers](https://www.youtube.com/watch?v=iddRD8tJi44), [Apex Docs](https://github.com/cesarParra/apexdocs/wiki/2.-%F0%9F%93%96-Documenting-Apex-code), the [Salesforce CLI](https://www.npmjs.com/package/@salesforce/cli), and the [Salesforce Code Analyzer](https://developer.salesforce.com/docs/platform/salesforce-code-analyzer/overview). It likely wouldn't hurt to also learn the basics of npm. For the codebase, there is a [reference guide](./docs/index.md). The top-level code is contained in the `mox` folder. Then the in-memory database is in the `mock-soql-database` folder, divided between the `core` (e.g. interpreter) and the `parser` folders.
+Before contributing, please familiarize yourself with the codebase, [recursive descent parsers](https://www.youtube.com/watch?v=iddRD8tJi44), [Apex Docs](https://github.com/cesarParra/apexdocs/wiki/2.-%F0%9F%93%96-Documenting-Apex-code), the [Salesforce CLI](https://www.npmjs.com/package/@salesforce/cli), and the [Salesforce Code Analyzer](https://developer.salesforce.com/docs/platform/salesforce-code-analyzer/overview). It likely wouldn't hurt to also learn the basics of npm. For this codebase, there is a [reference guide](./docs/index.md). The top-level code is contained in the `mox` folder. Then the in-memory database is in the `mock-soql-database` folder, divided between the `core` (e.g. interpreter) and the `parser` folders.
 
 Prior to contributing, please open up or comment on an issue so we can keep track of who is actively working on an item.
 
