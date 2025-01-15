@@ -4,7 +4,7 @@ Contributions to Moxygen are welcome. Before contributing, please familiarize yo
 
 Prior to contributing, please open up or comment on an issue so we can keep track of who is actively working on an item.
 
-Active work items are listed under the [projects](https://github.com/users/ZackFra/projects/1) tab. The Moxygen project is organized into two backlogs. The Product Backlog contains features to be implemented. The Optimization Backlog is for process improvement items and administrative work around and in the git repository. As a contributor, you'd likely want to drill down on the Product Backlog.
+Active work items are listed under the [Moxygen](https://github.com/users/ZackFra/projects/1) project under the projects tab. The Moxygen project is organized into two backlogs. The Product Backlog contains features to be implemented. The Optimization Backlog is for process improvement items and administrative work around and in the git repository. As a contributor, you'd likely want to drill down on the Product Backlog.
 
 # 🚀 Development
 
