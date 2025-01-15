@@ -24,4 +24,4 @@ Active work items are listed under the [Moxygen](https://github.com/users/ZackFr
 # 💡 Tips
 
 * This is a large codebase. You will not figure it out in a day.
-* From my experience working on open source in large codebases, it's best to drill down on specific features I want to implement or specific issues I want to resolve rather than trying to understand the entire codebase from front to back. For example, lets say there was a bug I was trying to fix, I might create a failing unit test then trace the stack trace down to figure out where the code went awry.
+* From my experience working on open source in large codebases it's best to drill down on specific features you want to implement or specific issues you want to resolve rather than trying to understand the entire codebase from front to back. [Test-driven development](https://en.wikipedia.org/wiki/Test-driven_development) is useful for this approach. For example, lets say there was a feature I wanted to implement. I might create a failing unit test, then follow the stack trace down to find where changes are needed to create the behavior I want to see. Refactor, rinse, repeat.
