@@ -1,10 +1,10 @@
-# Contributing
+# ❤️ Contributing
 
 Contributions to Moxygen are welcome. Before contributing, please familiarize yourself with the codebase, [Apex Docs](https://github.com/cesarParra/apexdocs/wiki/2.-%F0%9F%93%96-Documenting-Apex-code), and the [Salesforce Code Analyzer](https://developer.salesforce.com/docs/platform/salesforce-code-analyzer/overview).
 
 Prior to contributing, please open up or comment on an issue so we can keep track of who is actively working on an item.
 
-Active work items are listed under the [projects]() tab. 
+Active work items are listed under the [projects](https://github.com/users/ZackFra/projects/1) tab. The Moxygen project is organized into two backlogs. The Product Backlog contains features to be implemented. The Optimization Backlog is for process improvement items and administrative work around and in the git repository. As a contributor, you'd likely want to drill down on the Product Backlog.
 
 # 🚀 Development
 
