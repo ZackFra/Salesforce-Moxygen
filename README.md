@@ -137,7 +137,7 @@ public class AccountServiceTest {
 [Reference Guide](./docs/index.md)
 
 # ❤️ Contribute
-[Contributing[(./CONTRIBUTING.md)
+[Contributing](./CONTRIBUTING.md)
 
 # 🥇 Mock SOQL Database
 
