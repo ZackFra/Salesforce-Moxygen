@@ -1,0 +1,31 @@
+name: Generate Apex Docs
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_SECRET: ${{ secrets.AWS_SECRET }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_GET_DEPLOYMENT_FUNC: ${{ secrets.AWS_GET_DEPLOYMENT_FUNC }}
+  SF_AUTH_URL: ${{ secrets.SF_AUTH_URL }}
+  REPOSITORY: ${{ github.repository }}
+  PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+
+jobs:
+    generate-apex-docs:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v4
+            with:
+              fetch-depth: 0
+              token: ${{ github.token }}
+          - name: Generate Apexdocs
+            run: |
+              npm i -g apexdocs
+              rm ./docs -rf
+              apexdocs markdown
+              git add ./docs
+              git commit -m "[Automated] Generate Apex Docs"
+              git push
