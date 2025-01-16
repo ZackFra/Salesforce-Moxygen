@@ -16,6 +16,9 @@ jobs:
     generate-apex-docs:
         runs-on: ubuntu-latest
         steps:
+          - uses: actions/setup-node@v4
+            with:
+              node-version: '20'
           - name: Checkout
             uses: actions/checkout@v4
             with:
@@ -23,9 +26,10 @@ jobs:
               token: ${{ github.token }}
           - name: Generate Apexdocs
             run: |
-              npm i -g apexdocs
+              npm i -g @cparra/apexdocs
               rm ./docs -rf
               apexdocs markdown
               git add ./docs
               git commit -m "[Automated] Generate Apex Docs"
               git push
+              
