@@ -3,9 +3,6 @@ name: Generate Apex Docs
 on:
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
     generate-apex-docs:
         runs-on: ubuntu-latest
