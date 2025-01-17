@@ -19,14 +19,14 @@ jobs:
               fetch-depth: 0
           - name: Generate Apexdocs
             run: |
-              git config --global user.name 'GitHub Bot [Moxygen]'
-              git config --global user.email 'zack11frazier22@gmail.com'
+              git config --global user.name 'GitHub Action Bot'
+              git config --global user.email 'action@github.com
               npm i -g @cparra/apexdocs
               rm ./docs -rf
               apexdocs markdown
               git add ./docs
               git commit -m "[Automated] Generate Apex Docs"
-              git push -u origin automated-apex-docs
-              gh pr create --title "Automated Apex Docs" --body "Automated Apex Docs" --base main --head automated-apex-docs
+              git remote set-url --push origin https://zackfra:${{github.token}}@github.com/zackfra/salesforce-moxygen
+              git push
               
               
