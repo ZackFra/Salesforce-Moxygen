@@ -26,7 +26,7 @@ jobs:
               apexdocs markdown
               git add ./docs
               git commit -m "[Automated] Generate Apex Docs"
-              git push origin/automated-apex-docs
+              git push -u origin automated-apex-docs
               gh pr create --title "Automated Apex Docs" --body "Automated Apex Docs" --base main --head automated-apex-docs
-              gh pr merge --squash --auto
+              
               
