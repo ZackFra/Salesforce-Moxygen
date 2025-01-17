@@ -29,10 +29,12 @@ jobs:
               git config --global user.name 'GitHub Action Bot'
               git config --global user.email 'action@github.com'
               npm i -g @cparra/apexdocs
+              git checkout -b apexdocs-${{ github.run_id }}
               rm ./docs -rf
               apexdocs markdown
               git add ./docs
               git commit -m "[Automated] Generate Apex Docs"
               git push
+              gh pr create --title "Generate Apex Docs" --body "Automated PR to update Apex Docs" --base main
               
               
