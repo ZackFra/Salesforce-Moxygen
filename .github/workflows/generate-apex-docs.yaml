@@ -26,7 +26,6 @@ jobs:
               apexdocs markdown
               git add ./docs
               git commit -m "[Automated] Generate Apex Docs"
-              git remote set-url --push origin https://zackfra:${{github.token}}@github.com/zackfra/salesforce-moxygen
               git push
               
               
