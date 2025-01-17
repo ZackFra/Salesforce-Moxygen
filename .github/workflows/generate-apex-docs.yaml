@@ -34,7 +34,7 @@ jobs:
               apexdocs markdown
               git add ./docs
               git commit -m "[Automated] Generate Apex Docs"
-              git push
+              git push --set-upstream origin apexdocs-${{ github.run_id }}
               gh pr create --title "Generate Apex Docs" --body "Automated PR to update Apex Docs" --base main
               
               
