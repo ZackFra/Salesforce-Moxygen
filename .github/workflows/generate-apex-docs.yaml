@@ -3,9 +3,6 @@ name: Generate Apex Docs
 on:
   workflow_dispatch:
 
-env:
-  GH_TOKEN: ${{ github.token }}
-
 
 ## Genaerate Apex Docs
 jobs:
@@ -17,10 +14,16 @@ jobs:
           - uses: actions/setup-node@v4
             with:
               node-version: '20'
+          - uses: actions/create-github-app-token@v1
+            id: app-token
+            with:
+              app-id: ${{ secrets.APP_ID }}
+              private-key: ${{ secrets.APP_SECRET }}
           - name: Checkout
             uses: actions/checkout@v4
             with:
               fetch-depth: 0
+              token: ${{ steps.app-token.outputs.token }}
           - name: Generate Apexdocs
             run: |
               git config --global user.name 'GitHub Action Bot'
@@ -32,6 +35,7 @@ jobs:
               git add ./docs
               git commit -m "[Automated] Generate Apex Docs"
               git push --set-upstream origin apexdocs-${{ github.run_id }}
+              gh auth token ${{ secrets.GITHUB_TOKEN }}
               gh pr create --title "Generate Apex Docs" --body "Automated PR to update Apex Docs" --base main
               
               
