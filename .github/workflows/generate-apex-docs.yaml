@@ -5,6 +5,8 @@ on:
 
 jobs:
     generate-apex-docs:
+        permissions:
+          contents: write
         runs-on: ubuntu-latest
         steps:
           - uses: actions/setup-node@v4
