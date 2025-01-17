@@ -37,3 +37,4 @@ jobs:
               git push --set-upstream origin apexdocs-${{ github.run_id }}
               echo ${{ steps.app-token.outputs.token }} | gh auth login --with-token
               gh pr create --title "Generate Apex Docs" --body "Automated PR to update Apex Docs" --base main
+              gh pr merge --squash --auto
