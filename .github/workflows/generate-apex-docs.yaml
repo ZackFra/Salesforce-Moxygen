@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: write
+
 jobs:
     generate-apex-docs:
         runs-on: ubuntu-latest
@@ -18,12 +19,14 @@ jobs:
               fetch-depth: 0
           - name: Generate Apexdocs
             run: |
-              git config --global user.name 'Zackary Frazier'
+              git config --global user.name 'GitHub Bot [Moxygen]'
               git config --global user.email 'zack11frazier22@gmail.com'
               npm i -g @cparra/apexdocs
               rm ./docs -rf
               apexdocs markdown
               git add ./docs
               git commit -m "[Automated] Generate Apex Docs"
-              git push
+              git push origin/automated-apex-docs
+              gh pr create --title "Automated Apex Docs" --body "Automated Apex Docs" --base main --head automated-apex-docs
+              gh pr merge --squash --auto
               
