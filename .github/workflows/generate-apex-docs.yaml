@@ -35,7 +35,7 @@ jobs:
               git add ./docs
               git commit -m "[Automated] Generate Apex Docs"
               git push --set-upstream origin apexdocs-${{ github.run_id }}
-              gh auth token ${{ secrets.GITHUB_TOKEN }}
+              gh auth token ${{ steps.app-token.outputs.token }}
               gh pr create --title "Generate Apex Docs" --body "Automated PR to update Apex Docs" --base main
               
               
