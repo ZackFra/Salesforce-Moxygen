@@ -471,6 +471,10 @@ Comparable class for NEXT_MONTH
 
 Comparable class for NEXT_N_DAYS
 
+### [NextNFiscalYearsComparable](uncategorized/NextNFiscalYearsComparable.md)
+
+Compare the date field value with the NEXT_N_FISCAL_YEARS:N token
+
 ### [NextNQuartersComparable](uncategorized/NextNQuartersComparable.md)
 
 Comparable for the NEXT_N_QUARTERS token
