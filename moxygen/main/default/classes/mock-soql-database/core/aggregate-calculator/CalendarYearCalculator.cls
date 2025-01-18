@@ -57,7 +57,7 @@ public inherited sharing class CalendarYearCalculator implements IAggregateCalcu
         ProtoAggregate aggregateResult = options.aggregateResult;
         SObject firstRecord = aggregateResult.getRecords()[0];
         Object value = firstRecord.get(fieldName);
-        return DateFuncs.calendarYear(value);
+        return calendarYear(value);
     }
 
     /**
@@ -80,9 +80,14 @@ public inherited sharing class CalendarYearCalculator implements IAggregateCalcu
             return aggregateResult;
         }
 
-        Integer calendarMonth = DateFuncs.calendarYear(value);
+        Integer calendarMonth = calendarYear(value);
 
         aggregateResult.put(alias, calendarMonth);
         return aggregateResult;
+    }
+
+    private Integer calendarYear(Object value) {
+        IDateFunc calendarYearFunc = new CalendarYearFunc();
+        return calendarYearFunc.calculate(value);
     }
 }

@@ -57,7 +57,7 @@ public inherited sharing class CalendarQuarterCalculator implements IAggregateCa
         ProtoAggregate aggregateResult = options.aggregateResult;
         SObject firstRecord = aggregateResult.getRecords()[0];
         Object value = firstRecord.get(fieldName);
-        return DateFuncs.calendarQuarter(value);
+        return calendarQuarter(value);
     }
 
     /**
@@ -80,8 +80,13 @@ public inherited sharing class CalendarQuarterCalculator implements IAggregateCa
             return aggregateResult;
         }
 
-        Integer calendarQuarter = DateFuncs.calendarQuarter(value);
+        Integer calendarQuarter = calendarQuarter(value);
         aggregateResult.put(alias, calendarQuarter);
         return aggregateResult;
+    }
+
+    private Integer calendarQuarter(Object value) {
+        IDateFunc calendarQuarterFunc = new CalendarQuarterFunc();
+        return calendarQuarterFunc.calculate(value);
     }
 }
