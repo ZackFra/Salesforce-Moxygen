@@ -1,6 +1,7 @@
 name: Generate Apex Docs
 
 on:
+  workflow_call:
   workflow_dispatch:
 
 
