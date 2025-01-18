@@ -34,5 +34,3 @@ jobs:
         with:
           branch: origin/main
           quick-deploy-id: ${{ steps.get_deployment.outputs.quick-deploy-id }}
-      - name: Generate Apex Docs
-        uses: ./.github/workflows/generate-apex-docs.yaml
