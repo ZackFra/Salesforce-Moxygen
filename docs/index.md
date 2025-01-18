@@ -1,5 +1,27 @@
 # Reference Guide
 
+## Date Functions
+
+### [CalendarMonthFunc](date-functions/CalendarMonthFunc.md)
+
+Function to calculate the calendar month of a date or datetime value
+
+### [CalendarQuarterFunc](date-functions/CalendarQuarterFunc.md)
+
+Function to calculate the calendar quarter of a date or datetime value
+
+### [CalendarYearFunc](date-functions/CalendarYearFunc.md)
+
+Function to calculate the calendar year of a date or datetime value
+
+### [DateFuncFactory](date-functions/DateFuncFactory.md)
+
+Factory class to create date functions by name
+
+### [IDateFunc](date-functions/IDateFunc.md)
+
+Interface for date functions
+
 ## Exceptions
 
 ### [NotFoundException](exceptions/NotFoundException.md)
