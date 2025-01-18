@@ -27,6 +27,7 @@
  * @description Repository of aggregate date functions
  * @author Zackary Frazier
  * @since 4/28/2024
+ * @group Date Functions
  */
 public inherited sharing class DateFuncs {
     /**
