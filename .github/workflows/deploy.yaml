@@ -36,6 +36,5 @@ jobs:
           quick-deploy-id: ${{ steps.get_deployment.outputs.quick-deploy-id }}
   generate-apex-docs:
     needs: deploy-pull-request
-    if: ${{ always() && needs.deploy-pull-request.result == 'success' }}
     uses: ./.github/workflows/generate-apex-docs.yaml
     secrets: inherit
