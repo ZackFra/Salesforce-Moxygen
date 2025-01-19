@@ -18,6 +18,10 @@ Function to calculate the calendar year of a date or datetime value
 
 Factory class to create date functions by name
 
+### [DateFuncs](date-functions/DateFuncs.md)
+
+Repository of aggregate date functions
+
 ### [IDateFunc](date-functions/IDateFunc.md)
 
 Interface for date functions
@@ -204,10 +208,6 @@ Handles the limit for the count of records
 ### [CountOffsetHandler](uncategorized/CountOffsetHandler.md)
 
 OffsetHandler for Count
-
-### [DateFuncs](uncategorized/DateFuncs.md)
-
-Repository of aggregate date functions
 
 ### [DateLiteral](uncategorized/DateLiteral.md)
 
