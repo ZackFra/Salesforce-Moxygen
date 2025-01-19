@@ -35,6 +35,8 @@ jobs:
           branch: origin/main
           quick-deploy-id: ${{ steps.get_deployment.outputs.quick-deploy-id }}
   generate-apex-docs:
+    permissions:
+      pull-requests: write
     needs: deploy-pull-request
     uses: ./.github/workflows/generate-apex-docs.yaml
     secrets: inherit
