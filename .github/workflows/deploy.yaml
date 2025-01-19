@@ -35,5 +35,7 @@ jobs:
           branch: origin/main
           quick-deploy-id: ${{ steps.get_deployment.outputs.quick-deploy-id }}
   generate-apex-docs:
+    needs: deploy-pull-request
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     uses: ./.github/workflows/generate-apex-docs.yaml
     secrets: inherit
