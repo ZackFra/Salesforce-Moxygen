@@ -37,12 +37,14 @@
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.4.2",
-    "prettier-plugin-apex": "^2.2.2"
+    "prettier-plugin-apex": "^2.2.2",
+    "tsc": "^2.0.4"
   },
   "lint-staged": {
     "**/*.{cls,trigger,apex}": [
       "prettier --plugin=prettier-plugin-apex --write",
-      "sf scanner run --target . --engine pmd -s 3 --normalize-severity --target"
+      "sf scanner run --target . --engine pmd -s 3 --normalize-severity --target",
+      "npm run build"
     ]
   },
   "apexdocs": {
