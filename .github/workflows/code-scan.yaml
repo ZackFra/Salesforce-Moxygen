@@ -1,12 +1,7 @@
 name: CodeScan Pull Request On Main
 
 on:
-  pull_request:
-    branches:
-      - main
-      - release
-    paths:
-      - "**/main/default/**"
+  workflow_call:
     
     
 jobs:
