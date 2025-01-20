@@ -19,7 +19,7 @@ if(numberOfDuplicates === 0) {
 
 for(const duplicate of Object.keys(duplicates)) {
     const duplicateFiles: string[] = duplicates[duplicate]
-    core.error(`Duplicates found for ${duplicate}:}`)
+    core.error(`Duplicates found for ${duplicate}:`)
     for(const duplicateFile of duplicateFiles) {
         core.error(`- ${duplicateFile}`)
     }
