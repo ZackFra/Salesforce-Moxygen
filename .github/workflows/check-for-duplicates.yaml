@@ -20,4 +20,5 @@ jobs:
                 npm i -g @salesforce/cli
                 npm ci
                 sf plugins install sfdx-hardis
-                sf hardis:project:audit:duplicatefiles -p moxygen --json | node scripts/typescript/build/log-duplicates.js
+                sf hardis:project:audit:duplicatefiles -p moxygen --json > duplicates.json
+                node scripts/typescript/build/log-duplicates.js duplicates.json

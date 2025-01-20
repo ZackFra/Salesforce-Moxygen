@@ -1,6 +1,9 @@
 import core from '@actions/core'
+import fs from 'fs'
+import path from 'path'
 
-const hardisDuplicateResponse: HardisDuplicateResponse = JSON.parse(process.argv[2])
+const potentialDuplicates = fs.readFileSync(path.resolve(process.cwd(), process.argv[2]), 'utf-8')
+const hardisDuplicateResponse: HardisDuplicateResponse = JSON.parse(potentialDuplicates)
 if(!('result' in hardisDuplicateResponse)) {
     core.error('No response from Hardis')
     process.exit(core.ExitCode.Failure)
