@@ -23,12 +23,7 @@
 name: Validate Deployment
 
 on:
-  pull_request:
-    branches:
-      - main
-      - release
-    paths:
-      - "**/main/default/**"
+  workflow_call:
 
 env:
   AWS_SECRET: ${{ secrets.AWS_SECRET }}

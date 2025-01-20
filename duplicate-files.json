@@ -1,0 +1,16 @@
+{
+  "status": 0,
+  "result": {
+    "duplicates": {
+      "Aggregate.cls": [
+        "main/default/classes/common/Aggregate.cls",
+        "main/default/classes/aggregate/Aggregate.cls"
+      ],
+      "Aggregate.cls-meta.xml": [
+        "main/default/classes/common/Aggregate.cls-meta.xml",
+        "main/default/classes/aggregate/Aggregate.cls-meta.xml"
+      ]
+    }
+  },
+  "warnings": []
+}

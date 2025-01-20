@@ -16,15 +16,17 @@
     "sf:moxygen:version:create": "sf package version create --package Moxygen --installation-key-bypass --wait 10",
     "prettier": "prettier --plugin=prettier-plugin-apex --write \"**/*.{cls,trigger,apex}\"",
     "prettier:verify": "prettier --plugin=prettier-plugin-apex --check \"**/*.{cls,trigger,apex}\"",
-
     "test": "npm run sf:validate",
     "postinstall": "husky install",
     "pre-commit": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "tsc"
   },
   "devDependencies": {
+    "@actions/core": "^1.11.1",
     "@lwc/eslint-plugin-lwc": "^1.6.3",
     "@prettier/plugin-xml": "^3.2.1",
+    "@salesforce/cli": "^2.71.6",
     "@salesforce/eslint-config-lwc": "^3.5.2",
     "@salesforce/eslint-plugin-aura": "^2.1.0",
     "@salesforce/eslint-plugin-lightning": "^1.0.0",
@@ -35,8 +37,7 @@
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.4.2",
-    "prettier-plugin-apex": "^2.2.2",
-    "@salesforce/cli": "^2.71.6"
+    "prettier-plugin-apex": "^2.2.2"
   },
   "lint-staged": {
     "**/*.{cls,trigger,apex}": [
