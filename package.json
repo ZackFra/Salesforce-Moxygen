@@ -37,8 +37,7 @@
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.4.2",
-    "prettier-plugin-apex": "^2.2.2",
-    "tsc": "^2.0.4"
+    "prettier-plugin-apex": "^2.2.2"
   },
   "lint-staged": {
     "**/*.{cls,trigger,apex}": [

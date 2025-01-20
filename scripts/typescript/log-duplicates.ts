@@ -25,4 +25,6 @@ for(const duplicate of Object.keys(duplicates)) {
     }
 }
 
+core.error('Please remove all duplicates before continuing')
+
 process.exit(core.ExitCode.Failure)
