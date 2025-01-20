@@ -43,8 +43,7 @@
   "lint-staged": {
     "**/*.{cls,trigger,apex}": [
       "prettier --plugin=prettier-plugin-apex --write",
-      "sf scanner run --target . --engine pmd -s 3 --normalize-severity --target",
-      "npm run build"
+      "sf scanner run --target . --engine pmd -s 3 --normalize-severity --target"
     ]
   },
   "apexdocs": {
