@@ -1,0 +1,19 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "display": "Node 20",
+    "_version": "20.1.0",
+    "include": ["scripts/**/*.ts"],
+  
+    "compilerOptions": {
+      "outDir": "scripts/typescript/build",
+      "lib": ["es2023"],
+      "module": "node16",
+      "target": "es2022",
+      "types": ["node"],
+  
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "moduleResolution": "node16"
+    }
+}

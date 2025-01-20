@@ -1,0 +1,22 @@
+name: Check for Duplicate Metadata
+
+on:
+    workflow_dispatch:
+    workflow_call:
+
+jobs:
+    check-for-duplicates:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '20'
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - name: Check for Duplicates
+              run: |
+                npm i -g @salesforce/cli
+                sf plugins install sfdx-hardis
+                sf hardis:project:audit:duplicatefiles -p moxygen --json > duplicate-files.json
