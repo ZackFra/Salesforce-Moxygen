@@ -19,4 +19,4 @@ jobs:
               run: |
                 npm i -g @salesforce/cli
                 sf plugins install sfdx-hardis
-                sf hardis:project:audit:duplicatefiles -p moxygen --json > duplicate-files.json
+                sf hardis:project:audit:duplicatefiles -p moxygen --json | node scripts/typescript/build/check-for-duplicates.js
