@@ -19,13 +19,17 @@ env:
 
 jobs:
     code-scan:
-        uses: ./.github/workflows/code-scan.yaml
-        secrets: inherit
+      permissions:
+        contents: write
+      uses: ./.github/workflows/code-scan.yaml
+      secrets: inherit
     check-for-duplicates:
-        uses: ./.github/workflows/check-for-duplicates.yaml
-        secrets: inherit
+      permissions:
+        contents: write
+      uses: ./.github/workflows/check-for-duplicates.yaml
+      secrets: inherit
     validate-changes:
-        needs: [code-scan, check-for-duplicates]
-        uses: ./.github/workflows/validate.yaml
-        secrets: inherit
+      needs: [code-scan, check-for-duplicates]
+      uses: ./.github/workflows/validate.yaml
+      secrets: inherit
     
