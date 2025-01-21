@@ -149,4 +149,5 @@ public inherited sharing class Token {
     public final static String NEXT_FISCAL_YEAR_LITERAL = 'next_fiscal_year';
     public final static String LAST_FISCAL_YEAR_LITERAL = 'last_fiscal_year';
     public final static String NEXT_N_FISCAL_YEARS = 'next_n_fiscal_years';
+    public final static String N_FISCAL_YEARS_AGO = 'n_fiscal_years_ago';
 }
