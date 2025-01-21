@@ -24,6 +24,6 @@ jobs:
             - name: Create Auth File
               run: scripts/bash/create-sfdx-auth-file.sh
             - name: Authenticate DevHub
-              run: scripts/bash/config-sf.sh
+              run: scripts/bash/config-sf.sh authFile.json
             - name: Publish Package
               run: scripts/bash/publish-unlocked-package.sh ${{ github.run_id }} ${{ steps.app-token.outputs.token }} ${{ github.token }}
