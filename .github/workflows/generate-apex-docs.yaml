@@ -26,18 +26,4 @@ jobs:
               fetch-depth: 0
               token: ${{ steps.app-token.outputs.token }}
           - name: Generate Apexdocs
-            run: |
-              scripts/bash/config-github-bot.sh
-              npm i -g @cparra/apexdocs
-              git checkout -b apexdocs-${{ github.run_id }}
-              rm ./docs -rf
-              apexdocs markdown
-              git add ./docs
-              git commit -m "[Automated] Generate Apex Docs"
-              git push --set-upstream origin apexdocs-${{ github.run_id }}
-              echo ${{ steps.app-token.outputs.token }} | gh auth login --with-token
-              gh pr create --title "Generate Apex Docs" --body "Automated PR to update Apex Docs" --base main
-              echo ${{ github.token }} | gh auth login --with-token
-              gh pr review apexdocs-${{ github.run_id }} -a
-              echo ${{ steps.app-token.outputs.token }} | gh auth login --with-token
-              gh pr merge --squash --admin
+            run: scripts/bash/generate-apex-docs.sh ${{ github.run_id }} ${{ steps.app-token.outputs.token }} ${{ github.token }}
