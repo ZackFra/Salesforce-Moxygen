@@ -22,7 +22,7 @@ jobs:
                 app-id: ${{ secrets.APP_ID }}
                 private-key: ${{ secrets.APP_SECRET }}
             - name: Create Auth File
-              run: scripts/bash/create-sfdx-auth-file.sh
+              run: scripts/bash/create-sfdx-auth-file.sh ${{ secrets.SF_AUTH_URL }}
             - name: Authenticate DevHub
               run: scripts/bash/config-sf.sh authFile.json
             - name: Publish Package

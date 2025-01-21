@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-echo "{\"sfdxAuthUrl\": \"$SF_AUTH_URL\"}" > authFile.json
+sfdx_auth_url=$1
+echo "{\"sfdxAuthUrl\": \"$sfdx_auth_url\"}" > authFile.json

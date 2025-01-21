@@ -20,7 +20,7 @@ jobs:
             - name: Compile Go
               run: make github
             - name: Create Auth File
-              run: scripts/bash/create-sfdx-auth-file.sh
+              run: scripts/bash/create-sfdx-auth-file.sh ${{ secrets.SF_AUTH_URL }}
             - name: Authenticate DevHub
               run: scripts/bash/config-sf.sh authFile.json
             - name: Get Instance Upgrade Information

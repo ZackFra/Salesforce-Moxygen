@@ -45,7 +45,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Create Auth File
-        run: scripts/bash/create-sfdx-auth-file.sh
+        run: scripts/bash/create-sfdx-auth-file.sh ${{ secrets.SF_AUTH_URL }}
       - uses: ZackFra/sf-delta-validate@master
         with:
           branch: origin/main
