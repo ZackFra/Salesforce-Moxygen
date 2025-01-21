@@ -2,6 +2,7 @@ name: Publish Unlocked Package
 
 on:
     workflow_call:
+    workflow_dispatch:
 
 jobs:
     publish-unlocked-package:
