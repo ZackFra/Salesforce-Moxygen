@@ -11,14 +11,12 @@ runner_bot_token="$3"
 scripts/bash/config-github-bot.sh
 
 sf package version create --package Moxygen --installation-key-bypass --wait 10
-echo $app_bot_token | gh auth login --with-token
 git checkout -b $branch_name
 git add sfdx-project.json
 git commit -m "[Automated] Created Package Version"
 git push --set-upstream origin $branch_name
-gh pr create --title "Publish Moxygen" --body "Automated PR to publish Moxygen" --base main
 
-echo $runner_bot_token | gh auth login --with-token
-gh pr review $branch_name -a
 echo $app_bot_token | gh auth login --with-token
+gh pr create --title "Publish Moxygen" --body "Automated PR to publish Moxygen" --base main
+gh pr review $branch_name -a
 gh pr merge --squash --admin
