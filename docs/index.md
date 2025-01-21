@@ -513,6 +513,10 @@ Compares the NEXT_QUARTER token
 
 Comparable class for NEXT_WEEK
 
+### [NFiscalYearsAgoComparable](uncategorized/NFiscalYearsAgoComparable.md)
+
+Compares a date to N fiscal years ago
+
 ### [NMonthsAgoComparable](uncategorized/NMonthsAgoComparable.md)
 
 Comparable class for N_MONTHS_AGO

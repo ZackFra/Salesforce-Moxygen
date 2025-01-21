@@ -297,6 +297,18 @@ String
 
 ---
 
+### `N_FISCAL_YEARS_AGO`
+
+#### Signature
+```apex
+public final static N_FISCAL_YEARS_AGO
+```
+
+#### Type
+String
+
+---
+
 ### `N_MONTHS_AGO_LITERAL`
 
 #### Signature
