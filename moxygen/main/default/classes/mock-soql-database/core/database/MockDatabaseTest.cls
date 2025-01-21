@@ -6087,4 +6087,41 @@ private class MockDatabaseTest {
             'Incorrect number of opportunities'
         );
     }
+
+    @isTest
+    static void ensureNFiscalYearsAgoWorksInWhereClause() {
+        List<Opportunity> oppList = new List<Opportunity>();
+        Date startOfYear = Gmt.startOfThisFiscalYear();
+        for (Integer i = 0; i < 36; i++) {
+            oppList.add(
+                new Opportunity(
+                    Name = 'Opp' + i,
+                    CloseDate = startOfYear.addMonths(-i)
+                )
+            );
+        }
+
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Id, CloseDate FROM Opportunity WHERE CloseDate = N_FISCAL_YEARS_AGO:2'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            12,
+            opportunities.size(),
+            'Incorrect number of opportunities'
+        );
+
+        Datetime twoFiscalYearsAgo = Gmt.startOfThisFiscalYear().addYears(-2);
+        for (Opportunity opp : opportunities) {
+            Assert.isTrue(
+                opp.CloseDate >= twoFiscalYearsAgo,
+                'Opportunity is not from the correct fiscal year ' +
+                opp.CloseDate
+            );
+        }
+    }
 }
