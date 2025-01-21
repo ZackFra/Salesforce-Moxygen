@@ -1,0 +1,26 @@
+name: On Merge (Apex Changes)
+
+on:
+    pull_request_target:
+      types: [closed]
+      branches:
+        - main
+      paths:
+        - "**/main/default/**"
+
+jobs: 
+    deploy-to-production:
+        uses: ./.github/workflows/deploy.yaml
+        secrets: inherit
+    generate-apex-docs:
+        permissions:
+            pull-requests: write
+        needs: [deploy-to-production]
+        uses: ./.github/workflows/generate-apex-docs.yaml
+        secrets: inherit
+    publish-unlocked-package:
+        permissions:
+            pull-requests: write
+        needs: [deploy-to-production]
+        uses: ./.github/workflows/publish-unlocked-package.yaml
+        secrets: inherit
