@@ -27,8 +27,7 @@ jobs:
               token: ${{ steps.app-token.outputs.token }}
           - name: Generate Apexdocs
             run: |
-              git config --global user.name 'GitHub Action Bot'
-              git config --global user.email 'action@github.com'
+              scripts/bash/config-github-bot.sh
               npm i -g @cparra/apexdocs
               git checkout -b apexdocs-${{ github.run_id }}
               rm ./docs -rf

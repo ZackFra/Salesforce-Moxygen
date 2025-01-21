@@ -5,8 +5,8 @@
 # $3 is the github token of the runner bot
 
 branch_name="moxygen-$1"
-app_bot_token=$2
-runner_bot_token=$3
+app_bot_token="$2"
+runner_bot_token="$3"
 
 scripts/bash/config-github-bot.sh
 
