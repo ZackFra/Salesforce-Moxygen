@@ -25,17 +25,4 @@ jobs:
             - name: Authenticate DevHub
               run: scripts/bash/config-sf.sh
             - name: Publish Package
-              run: |
-                npm run sf:moxygen:version:create
-                git config --global user.name 'GitHub Action Bot'
-                git config --global user.email 'action@github.com'
-                git checkout -b moxygen-${{ github.run_id }}
-                git add sfdx-project.json
-                git commit -m "[Automated] Created Package Version"
-                git push --set-upstream origin moxygen-${{ github.run_id }}
-                echo ${{ steps.app-token.outputs.token }} | gh auth login --with-token
-                gh pr create --title "Publish Moxygen" --body "Automated PR to publish Moxygen" --base main
-                echo ${{ github.token }} | gh auth login --with-token
-                gh pr review moxygen-${{ github.run_id }} -a
-                echo ${{ steps.app-token.outputs.token }} | gh auth login --with-token
-                gh pr merge --squash --admin
+              run: scripts/bash/publish-unlocked-package.sh ${{ github.run_id }} ${{ steps.app-token.outputs.token }} ${{ github.token }}
