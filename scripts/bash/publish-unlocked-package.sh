@@ -18,5 +18,9 @@ git push --set-upstream origin $branch_name
 
 echo $app_bot_token | gh auth login --with-token
 gh pr create --title "Publish Moxygen" --body "Automated PR to publish Moxygen" --base main
+
+echo $runner_bot_token | gh auth login --with-token
 gh pr review $branch_name -a
+
+echo $app_bot_token | gh auth login --with-token
 gh pr merge --squash --admin
