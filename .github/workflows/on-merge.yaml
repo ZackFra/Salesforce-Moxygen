@@ -10,15 +10,18 @@ on:
 
 jobs: 
     deploy-to-production:
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') && github.event.pull_request.merged == true }}
         uses: ./.github/workflows/deploy.yaml
         secrets: inherit
     generate-apex-docs:
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') && github.event.pull_request.merged == true }}
         permissions:
             pull-requests: write
         needs: [deploy-to-production]
         uses: ./.github/workflows/generate-apex-docs.yaml
         secrets: inherit
     publish-unlocked-package:
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') && github.event.pull_request.merged == true }}
         permissions:
             pull-requests: write
         needs: [deploy-to-production]
