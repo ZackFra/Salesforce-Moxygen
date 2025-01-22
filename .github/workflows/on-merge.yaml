@@ -22,6 +22,6 @@ jobs:
     publish-unlocked-package:
         permissions:
             pull-requests: write
-        needs: [deploy-to-production]
+        needs: [generate-apex-docs]
         uses: ./.github/workflows/publish-unlocked-package.yaml
         secrets: inherit
