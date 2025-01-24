@@ -45,7 +45,9 @@ public inherited sharing class Common {
         for (String argName : argNames) {
             Object argValue = args.get(argName);
             if (argValue == null) {
-                throw ExceptionFactory.createIllegalNullException(argName);
+                throw new IllegalArgumentException(
+                    'Argument ' + argName + ' cannot be null'
+                );
             }
         }
     }
@@ -129,7 +131,9 @@ public inherited sharing class Common {
         Pattern datePattern = Pattern.compile(DATE_PATTERN);
         Matcher dateMatcher = datePattern.matcher(dateString);
         if (!dateMatcher.matches()) {
-            throw ExceptionFactory.createIllegalDateFormatException(dateString);
+            throw new IllegalArgumentException(
+                'Invalid date format: ' + dateString
+            );
         }
         return Date.newInstance(
             Integer.valueOf(dateMatcher.group(1)),
@@ -191,8 +195,8 @@ public inherited sharing class Common {
             return DateTime.newInstanceGmt(year, month, day, hour, min, sec);
         }
 
-        throw ExceptionFactory.createIllegalDateTimeFormatException(
-            dateTimeString
+        throw new IllegalArgumentException(
+            'Invalid date time format: ' + dateTimeString
         );
     }
 
@@ -206,7 +210,9 @@ public inherited sharing class Common {
         Pattern timePattern = Pattern.compile(TIME_PATTERN);
         Matcher timeMatcher = timePattern.matcher(timeString);
         if (!timeMatcher.matches()) {
-            throw ExceptionFactory.createIllegalTimeFormatException(timeString);
+            throw new IllegalArgumentException(
+                'Invalid time format: ' + timeString
+            );
         }
         return Time.newInstance(
             Integer.valueOf(timeMatcher.group(1)),
