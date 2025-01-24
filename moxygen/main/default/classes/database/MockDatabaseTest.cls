@@ -25,9 +25,20 @@
 
 @IsTest
 @SuppressWarnings(
-    'PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.NcssTypeCount'
+    'PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.NcssTypeCount, PMD.ApexUnitTestClassShouldHaveAsserts'
 )
 private class MockDatabaseTest {
+    // REFACTOR THESE OUT LATER
+    final static Integer YEAR = 2024;
+    final static Integer DAY = 1;
+
+    static final Map<Integer, Integer> RECORDS_BY_QUARTER = new Map<Integer, Integer>{
+        1 => 5,
+        2 => 3,
+        3 => 7,
+        4 => 2
+    };
+
     @IsTest
     static void testDelete() {
         Account a = new Account(Name = 'Test 1');
@@ -6123,5 +6134,1033 @@ private class MockDatabaseTest {
                 opp.CloseDate
             );
         }
+    }
+
+    @IsTest
+    static void testAliases() {
+        Account a = new Account(Name = 'Test 1');
+        Account b = new Account(Name = 'Test 2');
+        Account c = new Account(Name = 'Test 3');
+        Account d = new Account(Name = 'Test 4');
+
+        List<Account> acctList = new List<Account>{ a, b, c, d };
+        MockDatabase.doInsert(acctList, true);
+
+        Contact con = new Contact(
+            FirstName = 'Steve',
+            LastName = 'Banner',
+            AccountId = a.Id
+        );
+        MockDatabase.doInsert(con, true);
+
+        Test.startTest();
+        List<Aggregate> queriedAccts = MockDatabase.aggregateQuery(
+            'SELECT Account.Name acctName, Name, COUNT(Id) FROM Contact GROUP BY Name, Account.Name'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            1,
+            queriedAccts.size(),
+            'Incorrect number of accounts queried'
+        );
+    }
+
+    @IsTest
+    static void testDuplicateAliases() {
+        Account a = new Account(Name = 'Test 1');
+        Account b = new Account(Name = 'Test 2');
+        Account c = new Account(Name = 'Test 3');
+        Account d = new Account(Name = 'Test 4');
+
+        List<Account> acctList = new List<Account>{ a, b, c, d };
+        MockDatabase.doInsert(acctList, true);
+
+        Contact con = new Contact(
+            FirstName = 'Steve',
+            LastName = 'Banner',
+            AccountId = a.Id
+        );
+        MockDatabase.doInsert(con, true);
+
+        String exMessage;
+        Test.startTest();
+        try {
+            MockDatabase.aggregateQuery(
+                'SELECT Account.Name acctName, Name acctName, COUNT(Id) FROM Contact GROUP BY Name, Account.Name'
+            );
+        } catch (QueryException e) {
+            exMessage = e.getMessage();
+        }
+        Test.stopTest();
+
+        Assert.isTrue(
+            exMessage.contains('Duplicate alias'),
+            'Expected exception message to contain \'Duplicate alias\''
+        );
+    }
+
+    @IsTest
+    static void testCalendarMonthIsCorrect() {
+        Account acct1 = new Account(Name = 'Test');
+
+        Account acct2 = new Account(Name = 'Test2');
+
+        List<Account> acctList = new List<Account>{ acct1, acct2 };
+        MockDatabase.doInsert(acctList, true);
+
+        Test.startTest();
+        List<Aggregate> queriedAccountAggregates = (List<Aggregate>) MockDatabase.aggregateQuery(
+            'SELECT Name, CALENDAR_MONTH(CreatedDate) FROM Account GROUP BY Name, CALENDAR_MONTH(CreatedDate)'
+        );
+        Test.stopTest();
+        Integer calendarMonth = GMT.today().month();
+        Assert.areEqual(
+            calendarMonth,
+            queriedAccountAggregates[0].get('expr0'),
+            'Incorrect Month'
+        );
+        Assert.areEqual(
+            calendarMonth,
+            queriedAccountAggregates[1].get('expr0'),
+            'Incorrect Month'
+        );
+    }
+
+    @IsTest
+    static void testCalendarMonthIsCorrectWithAlias() {
+        Account acct1 = new Account(Name = 'Test');
+
+        Account acct2 = new Account(Name = 'Test2');
+
+        List<Account> acctList = new List<Account>{ acct1, acct2 };
+        MockDatabase.doInsert(acctList, true);
+
+        Test.startTest();
+        List<Aggregate> queriedAccountAggregates = (List<Aggregate>) MockDatabase.aggregateQuery(
+            'SELECT Name, CALENDAR_MONTH(CreatedDate) month FROM Account GROUP BY Name, CALENDAR_MONTH(CreatedDate)'
+        );
+        Test.stopTest();
+        Integer calendarMonth = GMT.today().month();
+        Assert.areEqual(
+            calendarMonth,
+            queriedAccountAggregates[0].get('month'),
+            'Incorrect Month'
+        );
+        Assert.areEqual(
+            calendarMonth,
+            queriedAccountAggregates[1].get('month'),
+            'Incorrect Month'
+        );
+    }
+
+    @IsTest
+    static void testCalendarMonthIsCorrectWithAliasFail() {
+        Account acct1 = new Account(Name = 'Test');
+
+        Account acct2 = new Account(Name = 'Test2');
+
+        List<Account> acctList = new List<Account>{ acct1, acct2 };
+        MockDatabase.doInsert(acctList, true);
+
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            MockDatabase.aggregateQuery(
+                'SELECT Name, CALENDAR_MONTH(CreatedDate) month FROM Account GROUP BY Name, month'
+            );
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isTrue(isExceptionThrown, 'Exception should have been thrown');
+    }
+
+    @IsTest
+    static void testCalendarMonthInWhereClause() {
+        Account acct1 = new Account(Name = 'Test');
+
+        Account acct2 = new Account(Name = 'Test2');
+
+        List<Account> acctList = new List<Account>{ acct1, acct2 };
+        MockDatabase.doInsert(acctList, true);
+        Integer month = GMT.today().month();
+        Map<String, Object> binds = new Map<String, Object>{ 'month' => month };
+        Test.startTest();
+        List<Account> queriedAccountAggregates = (List<Account>) MockDatabase.queryWithBinds(
+            'SELECT Name FROM Account WHERE CALENDAR_MONTH(CreatedDate) = :month',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Assert.areEqual(
+            2,
+            queriedAccountAggregates.size(),
+            'Incorrect number of records returned'
+        );
+    }
+
+    @IsTest
+    static void testCalendarMonthInWhereClauseWithOpportunityCloseDate() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Gmt.today()
+        );
+
+        Opportunity opp2 = new Opportunity(
+            Name = 'Test2',
+            CloseDate = Gmt.today() - 60
+        );
+
+        List<Opportunity> oppList = new List<Opportunity>{ opp1, opp2 };
+        MockDatabase.doInsert(oppList, true);
+
+        Integer month = GMT.today().month();
+        Map<String, Object> binds = new Map<String, Object>{ 'month' => month };
+        Test.startTest();
+        List<Account> queriedOpportunities = (List<Account>) MockDatabase.queryWithBinds(
+            'SELECT Name FROM Opportunity WHERE CALENDAR_MONTH(CloseDate) = :month',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Assert.areEqual(
+            1,
+            queriedOpportunities.size(),
+            'Incorrect number of records returned'
+        );
+    }
+
+    @IsTest
+    static void testCalendarMonthInWhereClauseWithOpportunityCloseDateLessThan() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Gmt.today()
+        );
+
+        Opportunity opp2 = new Opportunity(
+            Name = 'Test2',
+            CloseDate = Gmt.today().addMonths(-2)
+        );
+
+        List<Opportunity> oppList = new List<Opportunity>{ opp1, opp2 };
+        MockDatabase.doInsert(oppList, true);
+
+        Integer month = GMT.today().month();
+        Map<String, Object> binds = new Map<String, Object>{ 'month' => month };
+        Test.startTest();
+        List<Opportunity> queriedOpportunities = (List<Opportunity>) MockDatabase.queryWithBinds(
+            'SELECT Name FROM Opportunity WHERE CALENDAR_MONTH(CloseDate) < :month',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        // When we're about to approach a new year, the month will be 1 and opp2's month will be 11,
+        // so we need to check if the month is less than the current month to work out the correct assertion here
+        if (opp2.CloseDate.month() < month) {
+            Assert.areEqual(
+                1,
+                queriedOpportunities.size(),
+                'Incorrect number of records returned'
+            );
+            Assert.areEqual(
+                'Test2',
+                queriedOpportunities[0].Name,
+                'Incorrect record returned'
+            );
+        } else {
+            Assert.areEqual(
+                0,
+                queriedOpportunities.size(),
+                'Incorrect number of records returned'
+            );
+        }
+    }
+
+    @IsTest
+    static void testCalendarMonthWeirdDateTimeException() {
+        Account acct1 = new Account(Name = 'Test');
+
+        Account acct2 = new Account(Name = 'Test2');
+
+        List<Account> acctList = new List<Account>{ acct1, acct2 };
+        MockDatabase.doInsert(acctList, true);
+
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            MockDatabase.aggregateQuery(
+                'SELECT Name, CALENDAR_MONTH(CreatedDate) month FROM Account GROUP BY Name, CreatedDate'
+            );
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isTrue(isExceptionThrown, 'Exception should have been thrown');
+    }
+
+    @IsTest
+    static void testCalendarMonthWeirdDateException() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Gmt.today()
+        );
+
+        Opportunity opp2 = new Opportunity(
+            Name = 'Test2',
+            CloseDate = Gmt.today()
+        );
+
+        List<Opportunity> oppList = new List<Opportunity>{ opp1, opp2 };
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Aggregate> queriedOpportunityAggregates = (List<Aggregate>) MockDatabase.aggregateQuery(
+            'SELECT Name, CALENDAR_MONTH(CloseDate) FROM Opportunity GROUP BY Name, CloseDate'
+        );
+        Test.stopTest();
+        Integer calendarMonth = GMT.today().month();
+        Assert.areEqual(
+            calendarMonth,
+            queriedOpportunityAggregates[0].get('expr0'),
+            'Incorrect Month'
+        );
+        Assert.areEqual(
+            calendarMonth,
+            queriedOpportunityAggregates[1].get('expr0'),
+            'Incorrect Month'
+        );
+    }
+
+    /**
+     * @description Ensure this date function works with Date fields
+     */
+    @IsTest
+    static void useDateForOneRecord() {
+        Opportunity opp = new Opportunity(
+            Name = 'First Calendar Quarter',
+            CloseDate = Date.newInstance(2024, 1, 1)
+        );
+        DML.doMockInsert(opp);
+
+        Test.startTest();
+        List<Opportunity> oppList = Selector.query(
+            'SELECT Id, Name' +
+                ' FROM Opportunity' +
+                ' WHERE CALENDAR_QUARTER(CloseDate) = 1'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(1, oppList.size(), 'Incorrect number of opportunities');
+        Assert.areEqual(
+            'First Calendar Quarter',
+            oppList[0].Name,
+            'Incorrect opportunity'
+        );
+    }
+
+    /**
+     * @description Ensure this works when returning multiple opportunities
+     */
+    @IsTest
+    static void returnMultipleUsingDates() {
+        List<Opportunity> opportunities = new List<Opportunity>();
+        opportunities.addAll(createOpportunitiesInCalendarQuarter(3, 1));
+        opportunities.addAll(createOpportunitiesInCalendarQuarter(4, 2));
+        opportunities.addAll(createOpportunitiesInCalendarQuarter(3, 3));
+        opportunities.addAll(createOpportunitiesInCalendarQuarter(2, 4));
+        DML.doMockInsert(opportunities);
+
+        Test.startTest();
+        List<Opportunity> queriedOpportunities = Selector.query(
+            'SELECT Id, Name' +
+                ' FROM Opportunity' +
+                ' WHERE CALENDAR_QUARTER(CloseDate) = 2'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            4,
+            queriedOpportunities.size(),
+            'Incorrect number of opportunities'
+        );
+    }
+
+    /**
+     * @description Ensure this date function works with DateTime fields
+     */
+    @IsTest
+    static void useDateTimeForOneRecord() {
+        List<Case> cases = createCasesInCalendarQuarter(1, 1);
+        DML.doMockInsert(cases);
+        Test.startTest();
+        List<Case> queriedCases = Selector.query(
+            'SELECT CaseNumber ' +
+                ' FROM Case' +
+                ' WHERE CALENDAR_QUARTER(ClosedDate) = 1'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(1, queriedCases.size(), 'Expected case to be queried');
+    }
+
+    @IsTest
+    static void useMultipleDateTimesQuarterOne() {
+        testUsingDateTimes(1);
+    }
+
+    @IsTest
+    static void useMultipleDateTimesQuarterTwo() {
+        testUsingDateTimes(2);
+    }
+
+    @IsTest
+    static void useMultipleDateTimesQuarterThree() {
+        testUsingDateTimes(3);
+    }
+
+    @IsTest
+    static void useMultipleDateTimesQuarterFour() {
+        testUsingDateTimes(4);
+    }
+
+    @IsTest
+    static void useMultipleDatesQuarterOne() {
+        testUsingDates(1);
+    }
+
+    @IsTest
+    static void useMultipleDatesQuarterTwo() {
+        testUsingDates(2);
+    }
+
+    @IsTest
+    static void useMultipleDatesQuarterThree() {
+        testUsingDates(3);
+    }
+
+    @IsTest
+    static void useMultipleDatesQuarterFour() {
+        testUsingDates(4);
+    }
+
+    @IsTest
+    static void useInvalidCalendarQuarterWithDates() {
+        List<Opportunity> opps = buildTestOpportunities();
+        DML.doMockInsert(opps);
+        Test.startTest();
+        List<Opportunity> queriedOpps = queryOpportunitiesByCalendarQuarter(5);
+        Test.stopTest();
+        Assert.areEqual(
+            0,
+            queriedOpps.size(),
+            'Expected no opportunities to be returned when querying by invalid calendar quarter'
+        );
+    }
+
+    @IsTest
+    static void useNegativeCalendarQuarterWithDates() {
+        List<Opportunity> opps = buildTestOpportunities();
+        DML.doMockInsert(opps);
+        Test.startTest();
+        List<Opportunity> queriedOpps = queryOpportunitiesByCalendarQuarter(
+            -50
+        );
+        Test.stopTest();
+        Assert.areEqual(
+            0,
+            queriedOpps.size(),
+            'Expected no opportunities to be returned when querying by invalid calendar quarter'
+        );
+    }
+
+    @IsTest
+    static void useInvalidCalendarQuarterWithDatetimes() {
+        List<Case> cases = buildTestCases();
+        DML.doMockInsert(cases);
+        Test.startTest();
+        List<Case> queriedCases = queryCasesByCalendarQuarter(5);
+        Test.stopTest();
+        Assert.areEqual(
+            0,
+            queriedCases.size(),
+            'Expected no cases to be returned when querying by invalid calendar quarter'
+        );
+    }
+
+    @IsTest
+    static void useNegativeCalendarQuarterWithDatetimes() {
+        List<Case> cases = buildTestCases();
+        DML.doMockInsert(cases);
+        Test.startTest();
+        List<Case> queriedCases = queryCasesByCalendarQuarter(-50);
+        Test.stopTest();
+        Assert.areEqual(
+            0,
+            queriedCases.size(),
+            'Expected no cases to be returned when querying by invalid calendar quarter'
+        );
+    }
+
+    @IsTest
+    static void useCalendarQuarterDateWithHavingClauseQuarterOne() {
+        testHavingUsingDates(1);
+    }
+
+    @IsTest
+    static void useCalendarQuarterDateWithHavingClauseQuarterTwo() {
+        testHavingUsingDates(2);
+    }
+
+    @IsTest
+    static void useCalendarQuarterDateWithHavingClauseQuarterThree() {
+        testHavingUsingDates(3);
+    }
+
+    @IsTest
+    static void useCalendarQuarterDateWithHavingClauseQuarterFour() {
+        testHavingUsingDates(4);
+    }
+
+    @IsTest
+    static void userCalendarQuarterDateWithHavingUnselectedOne() {
+        testHavingUsingDatesUnselected(1);
+    }
+
+    @IsTest
+    static void userCalendarQuarterDateWithHavingUnselectedTwo() {
+        testHavingUsingDatesUnselected(2);
+    }
+
+    @IsTest
+    static void userCalendarQuarterDateWithHavingUnselectedThree() {
+        testHavingUsingDatesUnselected(3);
+    }
+
+    @IsTest
+    static void userCalendarQuarterDateWithHavingUnselectedFour() {
+        testHavingUsingDatesUnselected(4);
+    }
+
+    static void testHavingUsingDatesUnselected(Integer targetCalendarQuarter) {
+        List<Opportunity> opps = buildTestOpportunities();
+        DML.doMockInsert(opps);
+        Test.startTest();
+        List<Aggregate> queriedOpportunities = queryOpportunitiesHavingCalendarQuarterUnselected(
+            targetCalendarQuarter
+        );
+        Test.stopTest();
+        Integer targetRecords = RECORDS_BY_QUARTER.get(targetCalendarQuarter);
+        Assert.areEqual(
+            targetRecords,
+            queriedOpportunities.size(),
+            'Expected ' + targetRecords + ' Aggregates to be returned'
+        );
+    }
+
+    static void testHavingUsingDates(Integer targetCalendarQuarter) {
+        List<Opportunity> opps = buildTestOpportunities();
+        DML.doMockInsert(opps);
+        Test.startTest();
+        List<Aggregate> queriedOpportunities = queryOpportunitiesHavingCalendarQuarter(
+            targetCalendarQuarter
+        );
+        Test.stopTest();
+        Integer targetRecords = RECORDS_BY_QUARTER.get(targetCalendarQuarter);
+        Assert.areEqual(
+            targetRecords,
+            queriedOpportunities.size(),
+            'Expected ' + targetRecords + ' Aggregates to be returned'
+        );
+    }
+
+    static void testUsingDates(Integer targetCalendarQuarter) {
+        List<Opportunity> opps = buildTestOpportunities();
+        DML.doMockInsert(opps);
+        Test.startTest();
+        List<Opportunity> queriedOpportunities = queryOpportunitiesByCalendarQuarter(
+            targetCalendarQuarter
+        );
+        Test.stopTest();
+
+        Integer targetRecords = RECORDS_BY_QUARTER.get(targetCalendarQuarter);
+        Assert.areEqual(
+            targetRecords,
+            queriedOpportunities.size(),
+            'Expected case to be queried'
+        );
+    }
+
+    static List<Opportunity> buildTestOpportunities() {
+        List<Opportunity> opps = new List<Opportunity>();
+        opps.addAll(
+            createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(1), 1)
+        );
+        opps.addAll(
+            createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(2), 2)
+        );
+        opps.addAll(
+            createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(3), 3)
+        );
+        opps.addAll(
+            createOpportunitiesInCalendarQuarter(RECORDS_BY_QUARTER.get(4), 4)
+        );
+        return opps;
+    }
+
+    static List<Aggregate> queryOpportunitiesHavingCalendarQuarter(
+        Integer targetCalendarQuarter
+    ) {
+        Map<String, Object> binds = new Map<String, Object>{
+            'targetCalendarQuarter' => targetCalendarQuarter
+        };
+        return Selector.aggregateQueryWithBinds(
+            'SELECT Name, CALENDAR_QUARTER(CloseDate)' +
+                ' FROM Opportunity' +
+                ' GROUP BY Name, CloseDate' +
+                ' HAVING CALENDAR_QUARTER(CloseDate) = :targetCalendarQuarter',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+    }
+
+    static List<Aggregate> queryOpportunitiesHavingCalendarQuarterUnselected(
+        Integer targetCalendarQuarter
+    ) {
+        Map<String, Object> binds = new Map<String, Object>{
+            'targetCalendarQuarter' => targetCalendarQuarter
+        };
+        // the difference here is that CALENDAR_QUARTER(CloseDate) is not in the SELECT clause,
+        // but this is a valid query that should return the same result, except with the CloseDate selected
+        return Selector.aggregateQueryWithBinds(
+            'SELECT Name, CloseDate' +
+                ' FROM Opportunity' +
+                ' GROUP BY Name, CloseDate' +
+                ' HAVING CALENDAR_QUARTER(CloseDate) = :targetCalendarQuarter',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+    }
+
+    static List<Opportunity> queryOpportunitiesByCalendarQuarter(
+        Integer targetCalendarQuarter
+    ) {
+        Map<String, Object> binds = new Map<String, Object>{
+            'targetCalendarQuarter' => targetCalendarQuarter
+        };
+        return Selector.queryWithBinds(
+            'SELECT Id ' +
+                ' FROM Opportunity' +
+                ' WHERE CALENDAR_QUARTER(CloseDate) = :targetCalendarQuarter',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+    }
+
+    static void testUsingDateTimes(Integer targetCalendarQuarter) {
+        List<Case> cases = buildTestCases();
+        DML.doMockInsert(cases);
+        Test.startTest();
+        List<Case> queriedCases = queryCasesByCalendarQuarter(
+            targetCalendarQuarter
+        );
+        Test.stopTest();
+
+        Integer targetRecords = RECORDS_BY_QUARTER.get(targetCalendarQuarter);
+        Assert.areEqual(
+            targetRecords,
+            queriedCases.size(),
+            'Expected case to be queried'
+        );
+    }
+
+    static List<Case> buildTestCases() {
+        List<Case> cases = new List<Case>();
+        cases.addAll(
+            createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(1), 1)
+        );
+        cases.addAll(
+            createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(2), 2)
+        );
+        cases.addAll(
+            createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(3), 3)
+        );
+        cases.addAll(
+            createCasesInCalendarQuarter(RECORDS_BY_QUARTER.get(4), 4)
+        );
+        return cases;
+    }
+
+    static List<Case> queryCasesByCalendarQuarter(Integer calendarQuarter) {
+        Map<String, Object> binds = new Map<String, Object>{
+            'targetCalendarQuarter' => calendarQuarter
+        };
+        return Selector.queryWithBinds(
+            'SELECT Id ' +
+                ' FROM Case' +
+                ' WHERE CALENDAR_QUARTER(ClosedDate) = :targetCalendarQuarter',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+    }
+
+    static List<Case> createCasesInCalendarQuarter(
+        Integer numberOfCases,
+        Integer calendarQuarter
+    ) {
+        List<Integer> calendarQuarters = new List<Integer>{ 1, 2, 3, 4 };
+        if (!calendarQuarters.contains(calendarQuarter)) {
+            throw new IllegalArgumentException('Invalid calendar quarter');
+        }
+        List<Case> cases = new List<Case>();
+        Integer month = calendarQuarter * 3 - 1;
+        for (Integer i = 0; i < numberOfCases; i++) {
+            Case newCase = (Case) Common.putReadOnlyField(
+                new Case(),
+                'ClosedDate',
+                DateTime.newInstance(YEAR, month, DAY, 0, 0, 0)
+            );
+            cases.add(newCase);
+        }
+        return cases;
+    }
+
+    static List<Opportunity> createOpportunitiesInCalendarQuarter(
+        Integer numberOfOpps,
+        Integer calendarQuarter
+    ) {
+        List<Integer> calendarQuarters = new List<Integer>{ 1, 2, 3, 4 };
+        if (!calendarQuarters.contains(calendarQuarter)) {
+            throw new IllegalArgumentException('Invalid calendar quarter');
+        }
+        List<Opportunity> opportunities = new List<Opportunity>();
+        Integer month = calendarQuarter * 3 - 1;
+        for (Integer i = 0; i < numberOfOpps; i++) {
+            Opportunity newOpp = new Opportunity(
+                Name = 'Test Opportunity ' +
+                    String.valueOf(Math.random()).left(8),
+                CloseDate = Date.newInstance(YEAR, month, DAY)
+            );
+            opportunities.add(newOpp);
+        }
+        return opportunities;
+    }
+
+    @IsTest
+    static void testCalendarYearIsCorrect() {
+        Account acct1 = new Account(Name = 'Test');
+
+        Account acct2 = new Account(Name = 'Test2');
+
+        List<Account> acctList = new List<Account>{ acct1, acct2 };
+        MockDatabase.doInsert(acctList, true);
+
+        Test.startTest();
+        List<Aggregate> queriedAccountAggregates = (List<Aggregate>) MockDatabase.aggregateQuery(
+            'SELECT Name, CALENDAR_YEAR(CreatedDate) FROM Account GROUP BY Name, CALENDAR_YEAR(CreatedDate)'
+        );
+        Test.stopTest();
+        Integer calendarYear = GMT.today().year();
+        Assert.areEqual(
+            calendarYear,
+            queriedAccountAggregates[0].get('expr0'),
+            'Incorrect Year'
+        );
+        Assert.areEqual(
+            calendarYear,
+            queriedAccountAggregates[1].get('expr0'),
+            'Incorrect Year'
+        );
+    }
+
+    @IsTest
+    static void testCalendarYearIsCorrectWithAlias() {
+        Account acct1 = new Account(Name = 'Test');
+
+        Account acct2 = new Account(Name = 'Test2');
+
+        List<Account> acctList = new List<Account>{ acct1, acct2 };
+        MockDatabase.doInsert(acctList, true);
+
+        Test.startTest();
+        List<Aggregate> queriedAccountAggregates = (List<Aggregate>) MockDatabase.aggregateQuery(
+            'SELECT Name, CALENDAR_YEAR(CreatedDate) year FROM Account GROUP BY Name, CALENDAR_YEAR(CreatedDate)'
+        );
+        Test.stopTest();
+        Integer calendarYear = GMT.today().year();
+        Assert.areEqual(
+            calendarYear,
+            queriedAccountAggregates[0].get('year'),
+            'Incorrect Year'
+        );
+        Assert.areEqual(
+            calendarYear,
+            queriedAccountAggregates[1].get('year'),
+            'Incorrect Year'
+        );
+    }
+
+    @IsTest
+    static void testCalendarYearIsCorrectWithAliasFail() {
+        Account acct1 = new Account(Name = 'Test');
+
+        Account acct2 = new Account(Name = 'Test2');
+
+        List<Account> acctList = new List<Account>{ acct1, acct2 };
+        MockDatabase.doInsert(acctList, true);
+
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            MockDatabase.aggregateQuery(
+                'SELECT Name, CALENDAR_YEAR(CreatedDate) year FROM Account GROUP BY Name, year'
+            );
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isTrue(isExceptionThrown, 'Exception should have been thrown');
+    }
+
+    @IsTest
+    static void testCalendarYearInWhereClause() {
+        Account acct1 = new Account(Name = 'Test');
+
+        Account acct2 = new Account(Name = 'Test2');
+
+        List<Account> acctList = new List<Account>{ acct1, acct2 };
+        MockDatabase.doInsert(acctList, true);
+        Integer year = GMT.today().year();
+        Map<String, Object> binds = new Map<String, Object>{ 'year' => year };
+        Test.startTest();
+        List<Account> queriedAccountAggregates = (List<Account>) MockDatabase.queryWithBinds(
+            'SELECT Name FROM Account WHERE CALENDAR_YEAR(CreatedDate) = :year',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Assert.areEqual(
+            2,
+            queriedAccountAggregates.size(),
+            'Incorrect number of records returned'
+        );
+    }
+
+    @IsTest
+    static void testCalendarYearInWhereClauseWithOpportunityCloseDate() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Gmt.today()
+        );
+
+        Opportunity opp2 = new Opportunity(
+            Name = 'Test2',
+            CloseDate = Gmt.today() - 366
+        );
+
+        List<Opportunity> oppList = new List<Opportunity>{ opp1, opp2 };
+        MockDatabase.doInsert(oppList, true);
+
+        Integer year = GMT.today().year();
+        Map<String, Object> binds = new Map<String, Object>{ 'year' => year };
+        Test.startTest();
+        List<Account> queriedOpportunities = (List<Account>) MockDatabase.queryWithBinds(
+            'SELECT Name FROM Opportunity WHERE CALENDAR_YEAR(CloseDate) = :year',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Assert.areEqual(
+            1,
+            queriedOpportunities.size(),
+            'Incorrect number of records returned'
+        );
+    }
+
+    @IsTest
+    static void testCalendarYearInWhereClauseWithOpportunityCloseDateLessThan() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Gmt.today()
+        );
+
+        Opportunity opp2 = new Opportunity(
+            Name = 'Test2',
+            CloseDate = Gmt.today() - 366
+        );
+
+        List<Opportunity> oppList = new List<Opportunity>{ opp1, opp2 };
+        MockDatabase.doInsert(oppList, true);
+
+        Integer year = GMT.today().year();
+        Map<String, Object> binds = new Map<String, Object>{ 'year' => year };
+        Test.startTest();
+        List<Opportunity> queriedOpportunities = (List<Opportunity>) MockDatabase.queryWithBinds(
+            'SELECT Name FROM Opportunity WHERE CALENDAR_YEAR(CloseDate) < :year',
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Assert.areEqual(
+            1,
+            queriedOpportunities.size(),
+            'Incorrect number of records returned'
+        );
+        Assert.areEqual(
+            'Test2',
+            queriedOpportunities[0].Name,
+            'Incorrect record returned'
+        );
+    }
+
+    @IsTest
+    static void testCalendarYearWeirdDateTimeException() {
+        Account acct1 = new Account(Name = 'Test');
+
+        Account acct2 = new Account(Name = 'Test2');
+
+        List<Account> acctList = new List<Account>{ acct1, acct2 };
+        MockDatabase.doInsert(acctList, true);
+
+        Test.startTest();
+        Boolean isExceptionThrown = false;
+        try {
+            MockDatabase.aggregateQuery(
+                'SELECT Name, CALENDAR_YEAR(CreatedDate) year FROM Account GROUP BY Name, CreatedDate'
+            );
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+
+        Assert.isTrue(isExceptionThrown, 'Exception should have been thrown');
+    }
+
+    @IsTest
+    static void testCalendarYearWeirdDateException() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Gmt.today()
+        );
+
+        Opportunity opp2 = new Opportunity(
+            Name = 'Test2',
+            CloseDate = Gmt.today()
+        );
+
+        List<Opportunity> oppList = new List<Opportunity>{ opp1, opp2 };
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Aggregate> queriedOpportunityAggregates = (List<Aggregate>) MockDatabase.aggregateQuery(
+            'SELECT Name, CALENDAR_YEAR(CloseDate) FROM Opportunity GROUP BY Name, CloseDate'
+        );
+        Test.stopTest();
+        Integer calendarMonth = GMT.today().year();
+        Assert.areEqual(
+            calendarMonth,
+            queriedOpportunityAggregates[0].get('expr0'),
+            'Incorrect Year'
+        );
+        Assert.areEqual(
+            calendarMonth,
+            queriedOpportunityAggregates[1].get('expr0'),
+            'Incorrect Year'
+        );
+    }
+
+    /**
+     * @description This is to test using the CALENDAR_YEAR method in the HAVING clause of a query
+     */
+    @IsTest
+    static void testCalendarYearInHavingClause() {
+        Opportunity testOpp = new Opportunity(
+            Name = 'Test',
+            CloseDate = Gmt.today()
+        );
+        DML.doMockInsert(testOpp);
+
+        Test.startTest();
+        List<Aggregate> ar = Selector.aggregateQuery(
+            String.join(
+                new List<String>{
+                    'SELECT Name, CALENDAR_YEAR(CloseDate)',
+                    'FROM Opportunity GROUP BY Name, CALENDAR_YEAR(CloseDate)',
+                    'HAVING CALENDAR_YEAR(CloseDate) > 2010'
+                },
+                ' '
+            )
+        );
+        Test.stopTest();
+
+        Assert.areEqual(1, ar.size(), 'Incorrect number of records returned');
+    }
+
+    /**
+     * @description Should still select the opportunity via the HAVING clause
+     */
+    @IsTest
+    static void testCalendarYearInHavingClauseUnselected() {
+        Opportunity testOpp = new Opportunity(
+            Name = 'Test',
+            CloseDate = Gmt.today()
+        );
+        DML.doMockInsert(testOpp);
+
+        Test.startTest();
+        List<Aggregate> ar = Selector.aggregateQuery(
+            'SELECT Name, CloseDate' +
+                ' FROM Opportunity GROUP BY Name, CloseDate' +
+                ' HAVING CALENDAR_YEAR(CloseDate) > 2010'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(1, ar.size(), 'Incorrect number of records returned');
+    }
+
+    /**
+     * @description Bulkified test of calendar year logic
+     */
+    @IsTest
+    static void testCalendarYearInHacingClauseMultipleOpps() {
+        List<Opportunity> oppList = new List<Opportunity>();
+
+        // 50 opportunities, each with a close date of a year prior
+        for (Integer i = 0; i < 50; i++) {
+            Date closeDate = Gmt.today().addYears(-i);
+            Opportunity newOpp = new Opportunity(
+                Name = 'Test Opp' + i,
+                CloseDate = closeDate
+            );
+            oppList.add(newOpp);
+        }
+        DML.doMockInsert(oppList);
+
+        Test.startTest();
+        Map<String, Object> binds = new Map<String, Object>{
+            'year' => Gmt.today().addYears(-10).year()
+        };
+        List<Aggregate> ar = Selector.aggregateQueryWithBinds(
+            String.join(
+                new List<String>{
+                    'SELECT Name, CALENDAR_YEAR(CloseDate)',
+                    'FROM Opportunity GROUP BY Name, CALENDAR_YEAR(CloseDate)',
+                    'HAVING CALENDAR_YEAR(CloseDate) > :year'
+                },
+                ' '
+            ),
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            10,
+            ar.size(),
+            'Expected 10 opportunities, but got ' + ar.size() + ' instead.'
+        );
     }
 }

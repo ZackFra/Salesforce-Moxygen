@@ -14,13 +14,19 @@ sf package version create --package Moxygen --installation-key-bypass --wait 10
 git checkout -b $branch_name
 git add sfdx-project.json
 git commit -m "[Automated] Created Package Version"
-git push --set-upstream origin $branch_name
 
+echo "Pushing upstream..."
+git push --set-upstream origin $branch_name
+echo "Successfully pushed upstream"
+
+echo "Creating PR..."
 echo $app_bot_token | gh auth login --with-token
 gh pr create --title "Publish Moxygen" --body "Automated PR to publish Moxygen" --base main
 
+echo "Reviewing PR..."
 echo $runner_bot_token | gh auth login --with-token
 gh pr review $branch_name -a
 
+echo "Squash merging PR..."
 echo $app_bot_token | gh auth login --with-token
 gh pr merge --squash --admin
