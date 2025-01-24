@@ -27,6 +27,7 @@
  * @description The MockDatabase class is used to simulate the Salesforce database in Apex unit tests
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Mock Database
  */
 @SuppressWarnings(
     'PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.ExcessivePublicCount'
