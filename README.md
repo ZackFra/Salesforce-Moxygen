@@ -134,7 +134,13 @@ public class AccountServiceTest {
 ```
 
 # 🧰 Documentation
-[Reference Guide](./docs/index.md)
+
+[Reference Guide](./docs/apexdocs/index.md)
+
+## UML Diagram
+Still a rough-sketch for now, but this is the general organization of the codebase.
+
+![UML Diagram](./docs/MoxygenUML.jpg)
 
 # ❤️ Contribute
 [Contributing](./CONTRIBUTING.md)

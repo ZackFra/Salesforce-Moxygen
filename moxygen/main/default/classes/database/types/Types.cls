@@ -2,6 +2,7 @@
  * @description Types defined for this package
  * @author Zackary Frazier
  * @since 3/9/2024
+ * @group Mock Database
  */
 public inherited sharing class Types {
     /**
