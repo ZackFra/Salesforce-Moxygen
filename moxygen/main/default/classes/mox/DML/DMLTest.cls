@@ -24,7 +24,7 @@
  */
 
 @IsTest
-private class MockDMLTest {
+private class DMLTest {
     @IsTest
     static void testDoInsert1() {
         Account account = new Account(Name = 'Test Account');
