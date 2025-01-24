@@ -757,7 +757,7 @@ private class SelectorTest {
     }
 
     @IsTest
-    static void testCountQueryWithAccessLevel() {
+    static void testCountQueryWithAccessLevelAndBacktickReplacement() {
         Account acct = new Account(Name = 'Test');
         DML.doInsert(acct, true);
         String query = 'SELECT COUNT() FROM Account WHERE Name = `Test`';
