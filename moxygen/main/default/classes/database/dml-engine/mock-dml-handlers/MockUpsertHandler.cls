@@ -303,12 +303,12 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
     ) {
         Schema.SObjectType sot = SchemaService.getSObjectType(recordToInsert);
         Map<String, Object> readOnlyFields = new Map<String, Object>{
-            'CreatedDate' => DateTime.now(),
+            'CreatedDate' => Gmt.now(),
             'CreatedById' => UserInfo.getUserId(),
-            'LastModifiedDate' => DateTime.now(),
+            'LastModifiedDate' => Gmt.now(),
             'LastModifiedById' => UserInfo.getUserId(),
-            'SystemModstamp' => DateTime.now(),
-            'LastActivityDate' => Date.today(),
+            'SystemModstamp' => Gmt.now(),
+            'LastActivityDate' => Gmt.today(),
             'IsDeleted' => false
         };
 

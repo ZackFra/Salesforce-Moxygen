@@ -85,7 +85,7 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
         Map<String, Object> mockRecord = (Map<String, Object>) JSON.deserializeUntyped(
             JSON.serialize(mockRecords.get(recordToUpdate.Id))
         );
-        mockRecord.put('LastModifiedDate', DateTime.now());
+        mockRecord.put('LastModifiedDate', Gmt.now());
         mockRecord.put('LastModifiedById', UserInfo.getUserId());
 
         recordToUpdate = (SObject) JSON.deserialize(
