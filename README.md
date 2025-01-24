@@ -140,7 +140,7 @@ public class AccountServiceTest {
 ## UML Diagram
 Still a rough-sketch for now, but this is the general organization of the codebase.
 
-![UML Diagram](./docs/Moxygen UML.jpg)
+![UML Diagram](./docs/MoxygenUML.jpg)
 
 # ❤️ Contribute
 [Contributing](./CONTRIBUTING.md)
