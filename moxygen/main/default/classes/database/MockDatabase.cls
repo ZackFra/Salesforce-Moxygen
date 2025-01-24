@@ -32,8 +32,8 @@
     'PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.ExcessivePublicCount'
 )
 public inherited sharing class MockDatabase {
-    public static MockDatabaseDMLHandler dmlHandler = new MockDatabaseDMLHandler();
-    public static MockDatabaseSOQLHandler soqlHandler = new MockDatabaseSOQLHandler();
+    public static DmlEngine dmlHandler = new DmlEngine();
+    public static SoqlEngine soqlHandler = new SoqlEngine();
 
     public static Map<String, Map<Id, SObject>> mockRecords = new Map<String, Map<Id, SObject>>();
     public static MockDatabaseUtils utils = new MockDatabaseUtils();
