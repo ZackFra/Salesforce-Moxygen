@@ -8,9 +8,9 @@ scripts/bash/config-github-bot.sh
 
 npm i -g @cparra/apexdocs
 git checkout -b $branch_name
-rm ./docs -rf
+rm ./docs/apexdocs -rf
 apexdocs markdown
-git add ./docs
+git add ./docs/apexdocs
 # if there are any changes in the docs folder, commit and push
 if [[ `git status --porcelain` ]]; then
     git commit -m "[Automated] Generate Apex Docs"
