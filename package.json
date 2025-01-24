@@ -47,7 +47,7 @@
   },
   "apexdocs": {
     "sourceDir": "moxygen",
-    "targetDir": "docs",
+    "targetDir": "docs/apexdocs",
     "scope": [
       "public",
       "global"
