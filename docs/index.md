@@ -239,10 +239,6 @@ DynamicCast is a class that provides a method to cast a value to a specified typ
 
 Handles the equality operator
 
-### [ExceptionFactory](uncategorized/ExceptionFactory.md)
-
-Factory class for creating exceptions
-
 ### [ExcludesHandler](uncategorized/ExcludesHandler.md)
 
 Handles the excludes operator
