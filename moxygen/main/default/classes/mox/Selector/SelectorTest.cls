@@ -655,7 +655,7 @@ private class SelectorTest {
     }
 
     @IsTest
-    static void testQueryWithAccessLevel() {
+    static void testQueryWithAccessLevelWithBacktickReplacement() {
         Account acct = new Account(Name = 'Test');
         DML.doInsert(acct, true);
         String query = 'SELECT Name FROM Account WHERE Name = `Test`';
