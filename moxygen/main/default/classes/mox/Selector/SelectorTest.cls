@@ -25,7 +25,7 @@
 
 @IsTest
 @SuppressWarnings('PMD.CyclomaticComplexity')
-private class MockSelectorTest {
+private class SelectorTest {
     @IsTest
     private static void testSelectQueryWithMockDatabase() {
         List<Account> accounts = new List<Account>();
@@ -544,5 +544,244 @@ private class MockSelectorTest {
         }
         Test.stopTest();
         Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
+
+    @IsTest
+    static void testCalendarMonthInHavingClause() {
+        Opportunity opp = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.newInstance(2024, 1, 1), // January 1, 2024
+            StageName = 'Closed Won',
+            Amount = 1000
+        );
+        DML.doInsert(opp, true);
+
+        Test.startTest();
+        List<Aggregate> arList = Selector.aggregateQuery(
+            'SELECT CALENDAR_MONTH(CloseDate) month, SUM(Amount) total' +
+                ' FROM Opportunity' +
+                ' GROUP BY CALENDAR_MONTH(CloseDate)' +
+                ' HAVING CALENDAR_MONTH(CloseDate) = 1'
+        );
+        Aggregate ar = arList[0];
+        Test.stopTest();
+        Assert.areEqual(1, ar.get('month'), 'Should have 1 result');
+    }
+
+    @IsTest
+    static void testCalendarMonthLessThan() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.newInstance(2024, 1, 1), // January 1, 2024
+            StageName = 'Closed Won',
+            Amount = 1000
+        );
+        Opportunity opp2 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.newInstance(2024, 2, 1), // February 1, 2024
+            StageName = 'Closed Won',
+            Amount = 1000
+        );
+
+        Opportunity opp3 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.newInstance(2024, 3, 1), // March 1, 2024
+            StageName = 'Closed Won',
+            Amount = 1000
+        );
+        List<Opportunity> oppList = new List<Opportunity>{ opp1, opp2, opp3 };
+        DML.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Aggregate> arList = Selector.aggregateQuery(
+            'SELECT CALENDAR_MONTH(CloseDate) month, SUM(Amount) total' +
+                ' FROM Opportunity' +
+                ' GROUP BY CALENDAR_MONTH(CloseDate)' +
+                ' HAVING CALENDAR_MONTH(CloseDate) < 12'
+        );
+        Test.stopTest();
+        Assert.areEqual(3, arList.size(), 'Should have 1 result');
+    }
+
+    @IsTest
+    static void testCalendarMonthGreaterThanOrEqual() {
+        Opportunity opp1 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.newInstance(2024, 1, 1), // January 1, 2024
+            StageName = 'Closed Won',
+            Amount = 1000
+        );
+        Opportunity opp2 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.newInstance(2024, 2, 1), // February 1, 2024
+            StageName = 'Closed Won',
+            Amount = 1000
+        );
+
+        Opportunity opp3 = new Opportunity(
+            Name = 'Test',
+            CloseDate = Date.newInstance(2024, 3, 1), // March 1, 2024
+            StageName = 'Closed Won',
+            Amount = 1000
+        );
+        List<Opportunity> oppList = new List<Opportunity>{ opp1, opp2, opp3 };
+        DML.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Aggregate> arList = Selector.aggregateQuery(
+            'SELECT CALENDAR_MONTH(CloseDate) month, SUM(Amount) total' +
+                ' FROM Opportunity' +
+                ' GROUP BY CALENDAR_MONTH(CloseDate)' +
+                ' HAVING CALENDAR_MONTH(CloseDate) >= 2'
+        );
+        Test.stopTest();
+        Assert.areEqual(2, arList.size(), 'Should have 1 result');
+    }
+
+    @IsTest
+    static void testQuery() {
+        Account acct = new Account(Name = 'Test');
+        DML.doInsert(acct, true);
+        String query = 'SELECT Name FROM Account WHERE Name = `Test`';
+        Test.startTest();
+        List<Account> acctList = Selector.query(query);
+        Test.stopTest();
+        Account queriedAcct = acctList[0];
+        Assert.areEqual(
+            'Test',
+            queriedAcct.Name,
+            'Account Name should be Test'
+        );
+    }
+
+    @IsTest
+    static void testQueryWithAccessLevel() {
+        Account acct = new Account(Name = 'Test');
+        DML.doInsert(acct, true);
+        String query = 'SELECT Name FROM Account WHERE Name = `Test`';
+        Test.startTest();
+        List<Account> acctList = Selector.query(query, AccessLevel.SYSTEM_MODE);
+        Test.stopTest();
+        Account queriedAcct = acctList[0];
+        Assert.areEqual(
+            'Test',
+            queriedAcct.Name,
+            'Account Name should be Test'
+        );
+    }
+
+    @IsTest
+    static void testQueryWithBinds() {
+        Account acct = new Account(Name = 'Test');
+        DML.doInsert(acct, true);
+
+        // worthless bind, not what we're testing here, but needed for queryWithBinds
+        Map<String, Object> binds = new Map<String, Object>{
+            'name' => 'Test12342132'
+        };
+        String query = 'SELECT Name FROM Account WHERE Name = `Test` OR Name = :name';
+        Test.startTest();
+        List<Account> acctList = Selector.queryWithBinds(
+            query,
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Account queriedAcct = acctList[0];
+        Assert.areEqual(
+            'Test',
+            queriedAcct.Name,
+            'Account Name should be Test'
+        );
+    }
+
+    @IsTest
+    static void testAggregateQuery() {
+        Account acct = new Account(Name = 'Test');
+        DML.doInsert(acct, true);
+        String query = 'SELECT COUNT(Id) FROM Account WHERE Name = `Test` GROUP BY Name';
+        Test.startTest();
+        List<Aggregate> aggregates = Selector.aggregateQuery(query);
+        Test.stopTest();
+        Aggregate aggregate = aggregates[0];
+        Integer count = (Integer) aggregate.get('expr0');
+        Assert.areEqual(1, count, 'Count should be 1');
+    }
+
+    @IsTest
+    static void testAggregateQueryWithAccessLevel() {
+        Account acct = new Account(Name = 'Test');
+        DML.doInsert(acct, true);
+        String query = 'SELECT COUNT(Id) FROM Account WHERE Name = `Test` GROUP BY Name';
+        Test.startTest();
+        List<Aggregate> aggregates = Selector.aggregateQuery(
+            query,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Aggregate aggregate = aggregates[0];
+        Integer count = (Integer) aggregate.get('expr0');
+        Assert.areEqual(1, count, 'Count should be 1');
+    }
+
+    @IsTest
+    static void testAggregateQueryWithBinds() {
+        Account acct = new Account(Name = 'Test');
+        DML.doInsert(acct, true);
+        Map<String, Object> binds = new Map<String, Object>{
+            'name' => 'Test12312321'
+        };
+        String query = 'SELECT COUNT(Id) FROM Account WHERE Name = `Test` or Name = :name GROUP BY Name';
+        Test.startTest();
+        List<Aggregate> aggregates = Selector.aggregateQueryWithBinds(
+            query,
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Aggregate aggregate = aggregates[0];
+        Integer count = (Integer) aggregate.get('expr0');
+        Assert.areEqual(1, count, 'Count should be 1');
+    }
+
+    @IsTest
+    static void testCountQuery() {
+        Account acct = new Account(Name = 'Test');
+        DML.doInsert(acct, true);
+        String query = 'SELECT COUNT() FROM Account WHERE Name = `Test`';
+        Test.startTest();
+        Integer cnt = Selector.countQuery(query);
+        Test.stopTest();
+
+        Assert.areEqual(1, cnt, 'Count should be 1');
+    }
+
+    @IsTest
+    static void testCountQueryWithAccessLevel() {
+        Account acct = new Account(Name = 'Test');
+        DML.doInsert(acct, true);
+        String query = 'SELECT COUNT() FROM Account WHERE Name = `Test`';
+        Test.startTest();
+        Integer cnt = Selector.countQuery(query, AccessLevel.SYSTEM_MODE);
+        Test.stopTest();
+        Assert.areEqual(1, cnt, 'Count should be 1');
+    }
+
+    @IsTest
+    static void testCountQueryWithBinds() {
+        Account acct = new Account(Name = 'Test');
+        DML.doInsert(acct, true);
+        String query = 'SELECT COUNT() FROM Account WHERE Name = `Test`';
+        Map<String, Object> binds = new Map<String, Object>{
+            'name' => 'Test12312321'
+        };
+        Test.startTest();
+        Integer cnt = Selector.countQueryWithBinds(
+            query,
+            binds,
+            AccessLevel.SYSTEM_MODE
+        );
+        Test.stopTest();
+        Assert.areEqual(1, cnt, 'Count should be 1');
     }
 }
