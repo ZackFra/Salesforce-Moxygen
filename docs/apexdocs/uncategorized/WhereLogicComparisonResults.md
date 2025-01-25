@@ -77,10 +77,6 @@ public Object getRecordFieldValue()
 
 Builder class for WhereLogicComparisonResults
 
-**Implements**
-
-[IBuilder](../interfaces/IBuilder.md)
-
 #### Methods
 ##### `setFinalField(finalField)`
 

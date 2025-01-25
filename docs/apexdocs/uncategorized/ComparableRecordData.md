@@ -77,10 +77,6 @@ public String getRelationshipName()
 
 Builder class for ComparableRecordData
 
-**Implements**
-
-[IBuilder](../interfaces/IBuilder.md)
-
 #### Methods
 ##### `setComparableRecord(comparableRecord)`
 

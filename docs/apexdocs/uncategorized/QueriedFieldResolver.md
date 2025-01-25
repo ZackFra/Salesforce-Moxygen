@@ -29,10 +29,6 @@ public ComparableRecordData resolve()
 
 This class is used to build a `QueriedFieldResolver`
 
-**Implements**
-
-[IBuilder](../interfaces/IBuilder.md)
-
 #### Methods
 ##### `setFieldLookupChain(fieldLookupChain)`
 

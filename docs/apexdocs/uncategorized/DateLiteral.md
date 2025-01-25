@@ -27,10 +27,6 @@ String
 
 Builder for the DateLiteral class
 
-**Implements**
-
-[IBuilder](../interfaces/IBuilder.md)
-
 #### Methods
 ##### `setFieldValue(fieldValue)`
 

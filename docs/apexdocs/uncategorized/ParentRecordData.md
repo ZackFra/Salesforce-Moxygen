@@ -125,10 +125,6 @@ public Id getParentRecordId()
 
 Builder for ParentRecordData
 
-**Implements**
-
-[IBuilder](../interfaces/IBuilder.md)
-
 #### Methods
 ##### `setFieldApiName(fieldApiName)`
 
