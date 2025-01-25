@@ -103,7 +103,7 @@ public inherited sharing virtual class QueriedFieldResolver {
     /**
      * @description This class is used to build a `QueriedFieldResolver`
      */
-    public class Builder implements IBuilder {
+    public class Builder {
         QueriedFieldResolver resolver = new QueriedFieldResolver();
 
         /**

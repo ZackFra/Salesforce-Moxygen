@@ -12,7 +12,7 @@ public inherited sharing virtual class DateLiteral {
     /**
      * @description Builder for the DateLiteral class
      */
-    public class Builder implements IBuilder {
+    public class Builder {
         DateLiteral literal = new DateLiteral();
 
         /**

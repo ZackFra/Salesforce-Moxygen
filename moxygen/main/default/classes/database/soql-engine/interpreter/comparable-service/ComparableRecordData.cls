@@ -51,7 +51,7 @@ public inherited sharing virtual class ComparableRecordData {
     /**
      * @description Builder class for ComparableRecordData
      */
-    public class Builder implements IBuilder {
+    public class Builder {
         private ComparableRecordData comparableData = new ComparableRecordData();
 
         /**
