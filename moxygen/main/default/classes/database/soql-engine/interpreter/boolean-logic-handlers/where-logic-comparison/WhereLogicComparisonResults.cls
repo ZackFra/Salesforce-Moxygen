@@ -51,7 +51,7 @@ public virtual class WhereLogicComparisonResults {
     /**
      * @description Builder class for WhereLogicComparisonResults
      */
-    public class Builder implements IBuilder {
+    public class Builder {
         WhereLogicComparisonResults results = new WhereLogicComparisonResults();
         /**
          * @description Set the final field

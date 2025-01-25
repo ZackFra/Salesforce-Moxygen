@@ -74,7 +74,7 @@ public with sharing virtual class ParentRecordData {
     /**
      * @description Builder for ParentRecordData
      */
-    public class Builder implements IBuilder {
+    public class Builder {
         private ParentRecordData parentRecordData = new ParentRecordData();
 
         /**
