@@ -46,12 +46,6 @@ This class is responsible for handling validation exceptions
 
 Generates fake Salesforce Ids for testing purposes
 
-## Interfaces
-
-### [IBuilder](interfaces/IBuilder.md)
-
-Interface for a builder class
-
 ## Mock Database
 
 ### [MockDatabase](mock-database/MockDatabase.md)
