@@ -63,12 +63,12 @@ public class AccountServiceTest {
         Test.stopTest();
 
         Account updatedAcct = (Account) Selector.queryWithBinds(
-		'SELECT Name FROM Account WHERE Id = :accountId'
-		new Map<String, Object> {
-			'accountId' => newAcct.Id'
-		},
-		ACCESS_LEVEL.USER_MODE
-	);
+            'SELECT Name FROM Account WHERE Id = :accountId'
+            new Map<String, Object> {
+                'accountId' => newAcct.Id'
+            },
+            ACCESS_LEVEL.USER_MODE
+        );
 
         // Did we actually update the record?
         Assert.areEqual(
