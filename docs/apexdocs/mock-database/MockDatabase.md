@@ -33,7 +33,7 @@ public static soqlHandler
 ```
 
 #### Type
-[SoqlEngine](../uncategorized/SoqlEngine.md)
+[SoqlEngine](../soql-engine/SoqlEngine.md)
 
 ## Methods
 ### `aggregateQuery(query)`
@@ -396,7 +396,7 @@ public static List<SObject> doSelectQueryInternal(Node head, Map<String,Object> 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| head | [Node](../uncategorized/Node.md) |  |
+| head | [Node](../soql-engine/Node.md) |  |
 | params | Map&lt;String,Object&gt; |  |
 
 #### Return Type

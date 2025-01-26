@@ -10,7 +10,7 @@ Calculates the calendar month from a date value
 
 **Implements**
 
-[IAggregateCalculator](IAggregateCalculator.md)
+[IAggregateCalculator](../soql-engine/IAggregateCalculator.md)
 
 ## Constructors
 ### `CalendarMonthCalculator(options)`
@@ -25,7 +25,7 @@ public CalendarMonthCalculator(AggregateCalculatorOptions options)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [AggregateCalculatorOptions](AggregateCalculatorOptions.md) |  |
+| options | [AggregateCalculatorOptions](../soql-engine/AggregateCalculatorOptions.md) |  |
 
 ## Methods
 ### `calculate()`

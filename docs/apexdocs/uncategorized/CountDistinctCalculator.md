@@ -10,7 +10,7 @@ CountDistinctCalculator is a class that implements the IAggregateCalculator inte
 
 **Implements**
 
-[IAggregateCalculator](IAggregateCalculator.md)
+[IAggregateCalculator](../soql-engine/IAggregateCalculator.md)
 
 ## Constructors
 ### `CountDistinctCalculator(options)`
@@ -25,7 +25,7 @@ public CountDistinctCalculator(AggregateCalculatorOptions options)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [AggregateCalculatorOptions](AggregateCalculatorOptions.md) |  |
+| options | [AggregateCalculatorOptions](../soql-engine/AggregateCalculatorOptions.md) |  |
 
 ## Methods
 ### `calculate()`

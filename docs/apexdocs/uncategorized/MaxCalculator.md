@@ -10,7 +10,7 @@ calculates the MAX value of a field for an aggregate result
 
 **Implements**
 
-[IAggregateCalculator](IAggregateCalculator.md)
+[IAggregateCalculator](../soql-engine/IAggregateCalculator.md)
 
 ## Constructors
 ### `MaxCalculator(options)`
@@ -25,7 +25,7 @@ public MaxCalculator(AggregateCalculatorOptions options)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [AggregateCalculatorOptions](AggregateCalculatorOptions.md) |  |
+| options | [AggregateCalculatorOptions](../soql-engine/AggregateCalculatorOptions.md) |  |
 
 ## Methods
 ### `calculate()`

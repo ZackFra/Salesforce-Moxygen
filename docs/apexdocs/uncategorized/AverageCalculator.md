@@ -10,7 +10,7 @@ Calculates the average of a set of values.
 
 **Implements**
 
-[IAggregateCalculator](IAggregateCalculator.md)
+[IAggregateCalculator](../soql-engine/IAggregateCalculator.md)
 
 ## Constructors
 ### `AverageCalculator(options)`
@@ -25,7 +25,7 @@ public AverageCalculator(AggregateCalculatorOptions options)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [AggregateCalculatorOptions](AggregateCalculatorOptions.md) |  |
+| options | [AggregateCalculatorOptions](../soql-engine/AggregateCalculatorOptions.md) |  |
 
 ## Methods
 ### `calculate()`
