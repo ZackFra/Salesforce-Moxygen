@@ -27,6 +27,7 @@
  * @description Handler for offsetting aggregate results
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class AggregateOffsetHandler implements IOffsetHandler {
     OffsetOptions options;

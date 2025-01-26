@@ -2,6 +2,7 @@
  * @description Contains the results of a where logic comparison
  * @author Zackary Frazier
  * @since 11/28/2024
+ * @group Soql Engine
  */
 public virtual class WhereLogicComparisonResults {
     Object recordFieldValue;

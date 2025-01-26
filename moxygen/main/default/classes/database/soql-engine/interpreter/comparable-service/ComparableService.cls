@@ -27,6 +27,7 @@
  * @description This class provides the ability to compare fields on SObjects with the mock database
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class ComparableService {
     /**

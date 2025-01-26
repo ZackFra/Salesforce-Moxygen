@@ -2,6 +2,7 @@
  * @description NumberParser is a parser for numeric values.
  * @author Zackary Frazier
  * @since 11/28/2024
+ * @group Soql Engine
  */
 public with sharing class NumberParser extends SubParser {
     /**

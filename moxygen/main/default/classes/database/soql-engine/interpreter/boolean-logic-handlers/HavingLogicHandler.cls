@@ -27,6 +27,7 @@
  * @description This class is used to handle the having clause logic
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class HavingLogicHandler extends BooleanLogicHandler {
     /**

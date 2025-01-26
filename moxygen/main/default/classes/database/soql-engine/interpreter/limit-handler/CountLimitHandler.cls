@@ -27,6 +27,7 @@
  * @description Handles the limit for the count of records
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class CountLimitHandler implements ILimitHandler {
     LimitOptions options;

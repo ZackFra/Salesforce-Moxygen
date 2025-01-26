@@ -2,6 +2,7 @@
  * @description Strategy inreferace for WHERE logic comparison
  * @author Zackary Frazier
  * @since 11/28/2024
+ * @group Soql Engine
  */
 public interface IWhereLogicComparisonStrategy {
     /**

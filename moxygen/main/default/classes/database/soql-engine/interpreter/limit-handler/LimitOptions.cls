@@ -27,6 +27,7 @@
  * @description The options to be passed into an ILimitHandler
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class LimitOptions {
     public Integer limitSize;

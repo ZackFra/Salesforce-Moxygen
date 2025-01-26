@@ -28,6 +28,7 @@
  *              Designed to refresh the instance if the head node changes, i.e. if a new SOQL query is made.
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class TopLevelNodes {
     /**

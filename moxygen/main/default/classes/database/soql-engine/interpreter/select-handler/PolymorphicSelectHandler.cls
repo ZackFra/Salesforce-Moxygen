@@ -27,6 +27,7 @@
  * @description Select handler for TYPEOF operator
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
 public with sharing class PolymorphicSelectHandler implements ISelectHandler {

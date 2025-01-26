@@ -25,6 +25,7 @@
 
 /**
  * @description : Class to hold the head of a parsed query and the remaining subquery
+ * @group Soql Engine
  */
 public class Intermediary {
     public Node head;

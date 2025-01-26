@@ -2,6 +2,7 @@
  * @description This class is responsible for handling record fields in the WHERE clause
  * @author Zackary Frazier
  * @since 11/28/2024
+ * @group Soql Engine
  */
 public with sharing class WhereLogicRecordFieldStrategy implements IWhereLogicComparisonStrategy {
     /**

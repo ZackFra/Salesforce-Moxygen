@@ -27,6 +27,7 @@
  * @description This class is responsible for handling the aggregate queries
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class AggregateQueryHandler {
     TopLevelNodes topLevelNodes;

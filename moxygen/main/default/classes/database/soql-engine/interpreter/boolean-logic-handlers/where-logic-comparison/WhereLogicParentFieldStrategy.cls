@@ -2,6 +2,7 @@
  * @description Strategy for getting the field value of a parent field
  * @author Zackary Frazier
  * @since 11/28/2024
+ * @group Soql Engine
  */
 public with sharing class WhereLogicParentFieldStrategy implements IWhereLogicComparisonStrategy {
     /**

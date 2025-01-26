@@ -27,6 +27,7 @@
  * @description Child subquery select handler
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class ChildSubQuerySelectHandler implements ISelectHandler {
     FieldSelector fSelector;

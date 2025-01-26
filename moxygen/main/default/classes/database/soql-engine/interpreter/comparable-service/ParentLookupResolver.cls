@@ -2,6 +2,7 @@
  * @description A class to resolve a parent lookup chain
  * @author Zackary Frazier
  * @since 11/28/2024
+ * @group Soql Engine
  */
 public with sharing class ParentLookupResolver {
     /**

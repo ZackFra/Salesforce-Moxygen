@@ -2,6 +2,7 @@
  * @description Attributes for SObject
  * @author Zackary Frazier
  * @since 11/26/2024
+ * @group Soql Engine
  */
 public with sharing virtual class Attributes {
     public String url;

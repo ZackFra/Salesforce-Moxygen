@@ -27,6 +27,7 @@
  * @description This class is responsible for parsing the WITH SECURITY_ENFORCED clause in a SOQL query.
  * @author Zackary Frazier
  * @since 4/28/2024
+ * @group Soql Engine
  */
 public with sharing class WithSecurityEnforcedParser extends SubParser {
     /**

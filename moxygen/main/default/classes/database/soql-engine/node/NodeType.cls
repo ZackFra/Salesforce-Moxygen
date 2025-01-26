@@ -27,6 +27,7 @@
  * @description This class is responsible for handling the NodeType constants
  * @author Zackary Frazier
  * @since 5/5/2024
+ * @group Soql Engine
  */
 public with sharing class NodeType {
     public final static String AGGREGATE_FUNCTION = 'aggregate function';

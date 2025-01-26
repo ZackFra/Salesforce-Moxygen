@@ -27,6 +27,7 @@
  * @description Handles the includes operator
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public class IncludesHandler implements IOperatorHandler {
     /**

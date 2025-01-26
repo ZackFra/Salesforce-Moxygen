@@ -27,6 +27,7 @@
  * @description This class is used to compare two generic objects of the same type.
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 @SuppressWarnings(
     'PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity, PMD.CyclomaticComplexity'

@@ -27,6 +27,7 @@
  * @description This class is used to compare two SObjects based on the fields provided in the constructor.
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class SObjectComparator implements Comparator<SObject> {
     private Map<String, Map<String, String>> fields;

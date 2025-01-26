@@ -27,6 +27,7 @@
  * @description This class is used to compare two fields to determine if one is a reference to the other
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public class IdAndReferenceFieldComparator implements Comparator<Schema.SObjectField> {
     /**

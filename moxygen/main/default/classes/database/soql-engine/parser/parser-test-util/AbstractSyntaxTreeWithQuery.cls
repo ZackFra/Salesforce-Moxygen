@@ -2,6 +2,7 @@
  * @description Represents and AST as stored in the parser static resources
  * @author Zackary Frazier
  * @since 7/18/2024
+ * @group Soql Engine
  */
 public with sharing class AbstractSyntaxTreeWithQuery {
     public String query;

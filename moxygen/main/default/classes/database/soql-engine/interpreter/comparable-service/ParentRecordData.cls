@@ -2,6 +2,7 @@
  * @description A class to store data about a parent record
  * @author Zackary Frazier
  * @since 11/28/2024
+ * @group Soql Engine
  */
 public with sharing virtual class ParentRecordData {
     private String fieldApiName;

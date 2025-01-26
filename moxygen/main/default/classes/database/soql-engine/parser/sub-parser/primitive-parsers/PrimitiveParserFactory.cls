@@ -2,6 +2,7 @@
  * @description Factory class for primitive parsers
  * @author Zackary Frazier
  * @since 11/30/2024
+ * @group Soql Engine
  */
 public with sharing class PrimitiveParserFactory {
     @TestVisible

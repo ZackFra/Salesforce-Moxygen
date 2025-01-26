@@ -27,6 +27,7 @@
  * @description Handles the LessThanOrEqual operator
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
 public class LessThanOrEqualHandler implements IOperatorHandler {

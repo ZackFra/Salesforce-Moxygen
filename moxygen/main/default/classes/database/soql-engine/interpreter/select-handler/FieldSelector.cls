@@ -27,6 +27,7 @@
  * @description FieldSelector is a class that is used to select fields from a queried record based on a field node.
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class FieldSelector {
     public SObject databaseRecord;

@@ -27,6 +27,7 @@
  * @description Factory class to create appropriate select handler based on the field node type
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class SelectHandlerFactory {
     private FieldSelector fSelector;

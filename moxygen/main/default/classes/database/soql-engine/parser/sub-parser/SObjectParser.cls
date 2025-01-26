@@ -27,6 +27,7 @@
  * @description Parses an SObject name in a query
  * @author Zackary Frazier
  * @since 4/12/2024
+ * @group Soql Engine
  */
 public with sharing class SObjectParser extends SubParser {
     /**

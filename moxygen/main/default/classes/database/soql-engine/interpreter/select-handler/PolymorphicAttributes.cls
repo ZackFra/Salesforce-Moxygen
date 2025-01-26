@@ -2,6 +2,7 @@
  * @description Attributes for polymorphic SObject
  * @author Zackary Frazier
  * @since 11/26/2024
+ * @group Soql Engine
  */
 public with sharing class PolymorphicAttributes extends Attributes {
     /**

@@ -2,6 +2,7 @@
  * @description A parser for boolean values
  * @author Zackary Frazier
  * @since 11/25/2024
+ * @group Soql Engine
  */
 public with sharing class BooleanParser extends SubParser {
     /**

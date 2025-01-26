@@ -27,6 +27,7 @@
  * @description Contains static methods for working with aggregates and proto-aggregates
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity')
 public with sharing class AggregateService {

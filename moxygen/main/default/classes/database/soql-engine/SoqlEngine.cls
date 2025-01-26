@@ -27,6 +27,7 @@
  * @description This class is response for handling SOQL queries to the mock database
  * @author Zackary Frazier
  * @since 4/13/2024
+ * @group Soql Engine
  */
 public with sharing class SoqlEngine {
     MockRecordQueryHandler recordQueryHandler = new MockRecordQueryHandler();

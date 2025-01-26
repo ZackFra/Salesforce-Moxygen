@@ -27,6 +27,7 @@
  * @description Options for the AggregateCalculator class
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class AggregateCalculatorOptions {
     public ProtoAggregate aggregateResult;

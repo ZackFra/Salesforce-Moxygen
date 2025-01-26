@@ -2,6 +2,7 @@
  * @description Generic date literal parser
  * @author Zackary Frazier
  * @since 11/29/2024
+ * @group Soql Engine
  */
 public class DateLiteralParser extends SubParser {
     // symbol that denotes this is a variable value, e.g. LAST_N_DAYS:5, LAST_N_WEEKS:3
