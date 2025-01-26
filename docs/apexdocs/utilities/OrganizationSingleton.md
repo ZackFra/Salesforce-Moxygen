@@ -26,4 +26,4 @@ public static Organization getInstance()
 ,[object Object]
 
 #### Throws
-[ValidationException](../exceptions/ValidationException.md):
+[ValidationException](ValidationException.md):

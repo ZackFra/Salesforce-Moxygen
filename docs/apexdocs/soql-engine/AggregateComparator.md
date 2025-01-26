@@ -39,8 +39,8 @@ public Integer compare(ProtoAggregate a, ProtoAggregate b)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| a | [ProtoAggregate](../uncategorized/ProtoAggregate.md) | The first proto-Aggregate |
-| b | [ProtoAggregate](../uncategorized/ProtoAggregate.md) | The second proto-Aggregate |
+| a | [ProtoAggregate](../utilities/ProtoAggregate.md) | The first proto-Aggregate |
+| b | [ProtoAggregate](../utilities/ProtoAggregate.md) | The second proto-Aggregate |
 
 #### Return Type
 **Integer**

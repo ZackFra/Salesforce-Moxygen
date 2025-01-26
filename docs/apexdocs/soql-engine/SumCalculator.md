@@ -6,11 +6,13 @@ Calculates the sum of a field
 
 3/23/2024
 
+**Group** Soql Engine
+
 **Author** Zackary Frazier
 
 **Implements**
 
-[IAggregateCalculator](../soql-engine/IAggregateCalculator.md)
+[IAggregateCalculator](IAggregateCalculator.md)
 
 ## Constructors
 ### `SumCalculator(options)`
@@ -25,7 +27,7 @@ public SumCalculator(AggregateCalculatorOptions options)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [AggregateCalculatorOptions](../soql-engine/AggregateCalculatorOptions.md) |  |
+| options | [AggregateCalculatorOptions](AggregateCalculatorOptions.md) |  |
 
 ## Methods
 ### `calculate()`
@@ -38,7 +40,7 @@ public ProtoAggregate calculate()
 ```
 
 #### Return Type
-**[ProtoAggregate](ProtoAggregate.md)**
+**[ProtoAggregate](../utilities/ProtoAggregate.md)**
 
 ,[object Object]
 

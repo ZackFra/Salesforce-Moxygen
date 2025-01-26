@@ -29,4 +29,4 @@ public static DateLiteralComparable create(DateLiteral dateLiteral)
 ,[object Object]
 
 #### Throws
-[ValidationException](../exceptions/ValidationException.md):
+[ValidationException](../utilities/ValidationException.md):

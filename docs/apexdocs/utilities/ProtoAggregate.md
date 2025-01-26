@@ -7,6 +7,8 @@ i.e. a Map&lt;String, Object&gt; that will be used to store the aggregate
 
 3/23/2024
 
+**Group** Utilities
+
 **Author** Zackary Frazier
 
 ## Fields

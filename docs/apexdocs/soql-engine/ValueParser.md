@@ -35,7 +35,7 @@ public override Intermediary parse(String query)
 ,[object Object]
 
 #### Throws
-[ParsingException](../exceptions/ParsingException.md): 
+[ParsingException](../utilities/ParsingException.md): 
 
 ---
 

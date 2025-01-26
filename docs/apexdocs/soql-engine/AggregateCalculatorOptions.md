@@ -19,7 +19,7 @@ public aggregateResult
 ```
 
 #### Type
-[ProtoAggregate](../uncategorized/ProtoAggregate.md)
+[ProtoAggregate](../utilities/ProtoAggregate.md)
 
 ---
 
@@ -58,7 +58,7 @@ public AggregateCalculatorOptions setAggregateResult(ProtoAggregate aggregateRes
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| aggregateResult | [ProtoAggregate](../uncategorized/ProtoAggregate.md) |  |
+| aggregateResult | [ProtoAggregate](../utilities/ProtoAggregate.md) |  |
 
 #### Return Type
 **[AggregateCalculatorOptions](AggregateCalculatorOptions.md)**

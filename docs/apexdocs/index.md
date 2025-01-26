@@ -6,20 +6,6 @@
 
 Static data store for records
 
-## Exceptions
-
-### [NotFoundException](exceptions/NotFoundException.md)
-
-Generic exception for when something is not found
-
-### [ParsingException](exceptions/ParsingException.md)
-
-Custom exception for parsing errors
-
-### [ValidationException](exceptions/ValidationException.md)
-
-This class is responsible for handling validation exceptions
-
 ## Mock Database
 
 ### [MockDatabase](mock-database/MockDatabase.md)
@@ -119,6 +105,10 @@ Tool for finding the aliases on nodes
 
 Attributes for SObject
 
+### [AverageCalculator](soql-engine/AverageCalculator.md)
+
+Calculates the average of a set of values.
+
 ### [BindVariableParser](soql-engine/BindVariableParser.md)
 
 A class to parse a bind variable
@@ -135,13 +125,25 @@ This class is used to store the options for the BooleanLogic class
 
 A parser for boolean values
 
+### [CalendarMonthCalculator](soql-engine/CalendarMonthCalculator.md)
+
+Calculates the calendar month from a date value
+
 ### [CalendarMonthFunc](soql-engine/CalendarMonthFunc.md)
 
 Function to calculate the calendar month of a date or datetime value
 
+### [CalendarQuarterCalculator](soql-engine/CalendarQuarterCalculator.md)
+
+Calculates the calendar month from a date value
+
 ### [CalendarQuarterFunc](soql-engine/CalendarQuarterFunc.md)
 
 Function to calculate the calendar quarter of a date or datetime value
+
+### [CalendarYearCalculator](soql-engine/CalendarYearCalculator.md)
+
+Calculates the calendar month from a date value
 
 ### [CalendarYearFunc](soql-engine/CalendarYearFunc.md)
 
@@ -158,6 +160,14 @@ Encapsulates the data needed to compare records
 ### [ComparableService](soql-engine/ComparableService.md)
 
 This class provides the ability to compare fields on SObjects with the mock database
+
+### [CountCalculator](soql-engine/CountCalculator.md)
+
+CountCalculator is a concrete implementation of IAggregateCalculator that calculates the count of records.
+
+### [CountDistinctCalculator](soql-engine/CountDistinctCalculator.md)
+
+CountDistinctCalculator is a class that implements the IAggregateCalculator interface. It calculates the distinct count of a field.
 
 ### [CountLimitHandler](soql-engine/CountLimitHandler.md)
 
@@ -322,6 +332,14 @@ The options to be passed into an ILimitHandler
 ### [LimitParser](soql-engine/LimitParser.md)
 
 This class is responsible for parsing the limit clause of a query
+
+### [MaxCalculator](soql-engine/MaxCalculator.md)
+
+calculates the MAX value of a field for an aggregate result
+
+### [MinCalculator](soql-engine/MinCalculator.md)
+
+Calculates the minimum value of a field
 
 ### [MockAggregateQueryHandler](soql-engine/MockAggregateQueryHandler.md)
 
@@ -505,6 +523,10 @@ A class to parse a generic string
 
 SubParser is an abstract class that provides helper methods for parsing subqueries.
 
+### [SumCalculator](soql-engine/SumCalculator.md)
+
+Calculates the sum of a field
+
 ### [TopLevelNodes](soql-engine/TopLevelNodes.md)
 
 This class is used to parse the top level nodes of a SOQL query. 
@@ -556,34 +578,6 @@ This class is responsible for parsing the WITH SECURITY_ENFORCED clause in a SOQ
 
 ## Uncategorized
 
-### [AggregateBuilder](uncategorized/AggregateBuilder.md)
-
-Creates Aggregate objects from ProtoAggregates
-
-### [AverageCalculator](uncategorized/AverageCalculator.md)
-
-Calculates the average of a set of values.
-
-### [CalendarMonthCalculator](uncategorized/CalendarMonthCalculator.md)
-
-Calculates the calendar month from a date value
-
-### [CalendarQuarterCalculator](uncategorized/CalendarQuarterCalculator.md)
-
-Calculates the calendar month from a date value
-
-### [CalendarYearCalculator](uncategorized/CalendarYearCalculator.md)
-
-Calculates the calendar month from a date value
-
-### [CountCalculator](uncategorized/CountCalculator.md)
-
-CountCalculator is a concrete implementation of IAggregateCalculator that calculates the count of records.
-
-### [CountDistinctCalculator](uncategorized/CountDistinctCalculator.md)
-
-CountDistinctCalculator is a class that implements the IAggregateCalculator interface. It calculates the distinct count of a field.
-
 ### [DateLiteralComparable](uncategorized/DateLiteralComparable.md)
 
 Abstract class for date literal comparison
@@ -629,14 +623,6 @@ Compares a date field to the last quarter
 ### [LastWeekComparable](uncategorized/LastWeekComparable.md)
 
 Comparable class for LAST_WEEK
-
-### [MaxCalculator](uncategorized/MaxCalculator.md)
-
-calculates the MAX value of a field for an aggregate result
-
-### [MinCalculator](uncategorized/MinCalculator.md)
-
-Calculates the minimum value of a field
 
 ### [MockDeleteHandler](uncategorized/MockDeleteHandler.md)
 
@@ -712,18 +698,9 @@ Comparable class for N_MONTHS_AGO
 
 ### [ParserTestUtil](uncategorized/ParserTestUtil.md)
 
-### [ProtoAggregate](uncategorized/ProtoAggregate.md)
-
-before we create an aggregate, wean a proto-aggregate, 
-i.e. a Map&lt;String, Object&gt; that will be used to store the aggregate
-
 ### [SaveResultService](uncategorized/SaveResultService.md)
 
 This class is used to create success and failure results for DML operations.
-
-### [SumCalculator](uncategorized/SumCalculator.md)
-
-Calculates the sum of a field
 
 ### [ThisFiscalYearComparable](uncategorized/ThisFiscalYearComparable.md)
 
@@ -759,6 +736,10 @@ Comparable class for YESTERDAY
 
 ## Utilities
 
+### [AggregateBuilder](utilities/AggregateBuilder.md)
+
+Creates Aggregate objects from ProtoAggregates
+
 ### [ApexTypes](utilities/ApexTypes.md)
 
 A class that contains the names of the Apex types.
@@ -779,9 +760,22 @@ Generates fake Salesforce Ids for testing purposes
 
 Salesforce is insanely inconsistent about dates and date times, this class returns values in GMT
 
+### [NotFoundException](utilities/NotFoundException.md)
+
+Generic exception for when something is not found
+
 ### [OrganizationSingleton](utilities/OrganizationSingleton.md)
 
 Singleton for the Organization object
+
+### [ParsingException](utilities/ParsingException.md)
+
+Custom exception for parsing errors
+
+### [ProtoAggregate](utilities/ProtoAggregate.md)
+
+before we create an aggregate, wean a proto-aggregate, 
+i.e. a Map&lt;String, Object&gt; that will be used to store the aggregate
 
 ### [Regex](utilities/Regex.md)
 
@@ -798,3 +792,7 @@ every argument is understood to be non-null
 ### [TypeOf](utilities/TypeOf.md)
 
 TypeOf is a class that provides a method to determine the type of an object.
+
+### [ValidationException](utilities/ValidationException.md)
+
+This class is responsible for handling validation exceptions
