@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class FieldParser extends SubParser {
+public with sharing class FieldParser extends SubParser {
     /**
      * @description Parses a field from a query string.
      * @param query `String`

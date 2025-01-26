@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public inherited sharing class LimitOptions {
+public with sharing class LimitOptions {
     public Integer limitSize;
     public Types.SOQL type;
     public Object obj;

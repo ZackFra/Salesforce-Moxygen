@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class LimitParser extends SubParser {
+public with sharing class LimitParser extends SubParser {
     /**
      * @description Parses the limit clause of a query
      * @param query `String`

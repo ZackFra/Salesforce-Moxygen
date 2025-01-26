@@ -29,7 +29,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public inherited sharing class TopLevelNodes {
+public with sharing class TopLevelNodes {
     /**
      * @description The main node of the SOQL query, the SELECT node.
      */

@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public inherited sharing class AggregateCalculatorFactory {
+public with sharing class AggregateCalculatorFactory {
     private class AggregateCalculatorException extends Exception {
     }
 

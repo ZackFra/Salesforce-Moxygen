@@ -31,7 +31,7 @@
 @SuppressWarnings(
     'PMD.ExcessiveClassLength, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.NcssTypeCount'
 )
-public inherited sharing class Parser {
+public with sharing class Parser {
     /**
      * @description : Parses a trimmed SOQL query into an AST
      * @param query : String, the query to parse

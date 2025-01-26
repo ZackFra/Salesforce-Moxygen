@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public inherited sharing class AggregateQueryHandler {
+public with sharing class AggregateQueryHandler {
     TopLevelNodes topLevelNodes;
 
     AggregateProcessor standardProcessor;

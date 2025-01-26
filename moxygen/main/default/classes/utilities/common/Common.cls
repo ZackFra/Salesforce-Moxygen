@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/22/2024
  */
-public inherited sharing class Common {
+public with sharing class Common {
     static final String DATE_PATTERN = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})$';
     static final String DATE_TIME_PATTERN1 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\+([0-9]{2}):([0-9]{2})$';
     static final String DATE_TIME_PATTERN2 = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\-([0-9]{2}):([0-9]{2})$';

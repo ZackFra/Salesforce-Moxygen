@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class ValueParser extends SubParser {
+public with sharing class ValueParser extends SubParser {
     /**
      * @description Parses the value in the query string
      * @param query `String`

@@ -29,7 +29,7 @@
  * @since 4/28/2024
  * @group Date Functions
  */
-public inherited sharing class DateFuncs {
+public with sharing class DateFuncs {
     /**
      * @description Determins which date function to execute and executes it
      * @param dateFunc `String`

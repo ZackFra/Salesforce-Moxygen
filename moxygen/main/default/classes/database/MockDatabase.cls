@@ -32,20 +32,11 @@
 @SuppressWarnings(
     'PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.ExcessivePublicCount'
 )
-public inherited sharing class MockDatabase {
+public with sharing class MockDatabase {
     public static DmlEngine dmlHandler = new DmlEngine();
     public static SoqlEngine soqlHandler = new SoqlEngine();
 
     public static MockDatabaseUtils utils = new MockDatabaseUtils();
-
-    /** Utility methods (For Testing) */
-
-    /**
-     * @description Reset the DML handlers call state
-     */
-    public static void resetHandlers() {
-        dmlHandler.resetHandlers();
-    }
 
     /** DML methods **/
 

@@ -29,7 +29,7 @@
  * @since 3/23/2024
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity')
-public inherited sharing class AggregateService {
+public with sharing class AggregateService {
     public final static List<String> SUPPORTED_COUNT_FUNCS = new List<String>{
         'count',
         'count_distinct'

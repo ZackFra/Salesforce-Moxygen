@@ -30,7 +30,7 @@
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity')
 @IsTest
-public inherited sharing class MockUpsertHandler extends MockDMLHandler {
+public with sharing class MockUpsertHandler extends MockDMLHandler {
     /**
      * @description Upsert a record into the database
      * @param recordToUpsert Record to upsert

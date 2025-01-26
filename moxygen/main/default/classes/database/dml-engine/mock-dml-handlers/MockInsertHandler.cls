@@ -29,7 +29,7 @@
  * @since 3/9/2024
  */
 @IsTest
-public inherited sharing class MockInsertHandler extends MockDMLHandler {
+public with sharing class MockInsertHandler extends MockDMLHandler {
     /**
      * @description doInsert is used to insert a record into the database
      * @param recordToInsert - The record to insert

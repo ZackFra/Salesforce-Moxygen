@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class SObjectParser extends SubParser {
+public with sharing class SObjectParser extends SubParser {
     /**
      * @description Parses the object from the 'from' clause
      * @param query `String`

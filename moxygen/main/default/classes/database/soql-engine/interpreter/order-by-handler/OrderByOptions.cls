@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public inherited sharing class OrderByOptions {
+public with sharing class OrderByOptions {
     private Object obj;
     private TopLevelNodes topLevelNodes;
     private Types.SOQL type;

@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/13/2024
  */
-public inherited sharing class MockAggregateQueryHandler extends MockSOQLHandler {
+public with sharing class MockAggregateQueryHandler extends MockSOQLHandler {
     /**
      * @description Perform an aggregate query
      * @param query `String`

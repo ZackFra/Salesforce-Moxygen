@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class GroupByParser extends SubParser {
+public with sharing class GroupByParser extends SubParser {
     /**
      * @description Parses the GROUP BY clause of a SOQL query
      * @param query `String`

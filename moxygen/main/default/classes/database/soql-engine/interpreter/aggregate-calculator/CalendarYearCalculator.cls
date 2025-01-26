@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 5/5/2024
  */
-public inherited sharing class CalendarYearCalculator implements IAggregateCalculator {
+public with sharing class CalendarYearCalculator implements IAggregateCalculator {
     AggregateCalculatorOptions options;
 
     /**

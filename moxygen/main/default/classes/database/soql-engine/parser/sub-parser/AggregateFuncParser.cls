@@ -29,7 +29,7 @@
  * @since 4/12/2024
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
-public inherited sharing class AggregateFuncParser extends SubParser {
+public with sharing class AggregateFuncParser extends SubParser {
     /**
      * @description Parses an aggregate function
      * @param query `String`

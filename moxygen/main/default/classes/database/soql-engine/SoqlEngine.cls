@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/13/2024
  */
-public inherited sharing class SoqlEngine {
+public with sharing class SoqlEngine {
     MockRecordQueryHandler recordQueryHandler = new MockRecordQueryHandler();
     MockCountQueryHandler countQueryHandler = new MockCountQueryHandler();
     MockAggregateQueryHandler aggregateQueryHandler = new MockAggregateQueryHandler();

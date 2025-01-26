@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public inherited sharing class AliasService {
+public with sharing class AliasService {
     /**
      * @description Get the field alias
      * @param curr

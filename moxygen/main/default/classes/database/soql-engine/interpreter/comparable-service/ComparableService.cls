@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public inherited sharing class ComparableService {
+public with sharing class ComparableService {
     /**
      * @description : given an sObject and a field name (which may be a relationon i.e. Account.Name),
      *              : return a map with the comparable sObject (i.e. the parent), the field api name of that object,

@@ -30,7 +30,7 @@
 @SuppressWarnings(
     'PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.ExcessivePublicCount'
 )
-public inherited sharing class SchemaService {
+public with sharing class SchemaService {
     final private static List<Schema.DisplayType> NUMERIC_FIELD_TYPES = new List<Schema.DisplayType>{
         Schema.DisplayType.CURRENCY,
         Schema.DisplayType.DOUBLE,

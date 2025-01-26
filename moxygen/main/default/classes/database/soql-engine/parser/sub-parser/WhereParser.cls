@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class WhereParser extends SubParser {
+public with sharing class WhereParser extends SubParser {
     /**
      * @description Parses the WHERE clause of a SOQL query.
      * @param query `String`

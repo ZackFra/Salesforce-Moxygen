@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class OffsetParser extends SubParser {
+public with sharing class OffsetParser extends SubParser {
     /**
      * @description Parses the offset clause of a query
      * @param query `String`

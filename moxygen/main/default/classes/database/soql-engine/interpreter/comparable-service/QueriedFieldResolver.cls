@@ -3,7 +3,7 @@
  * @author Zackary Frazier
  * @since 11/24/2024
  */
-public inherited sharing virtual class QueriedFieldResolver {
+public with sharing virtual class QueriedFieldResolver {
     protected String fieldLookupChain;
     protected SObject comparableRecord;
 

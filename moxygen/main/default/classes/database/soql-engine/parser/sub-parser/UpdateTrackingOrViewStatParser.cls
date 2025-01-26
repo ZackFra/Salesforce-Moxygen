@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class UpdateTrackingOrViewStatParser extends SubParser {
+public with sharing class UpdateTrackingOrViewStatParser extends SubParser {
     /**
      * @description Parses the UPDATE TRACKING or UPDATE VIEWSTAT query
      * @param query `String`

@@ -29,7 +29,7 @@
  * @since 4/12/2024
  */
 @SuppressWarnings('PMD.CognitiveComplexity')
-public inherited sharing class SelectParser extends SubParser {
+public with sharing class SelectParser extends SubParser {
     private FieldParser fieldParser = new FieldParser();
 
     public override Intermediary parse(String query) {
