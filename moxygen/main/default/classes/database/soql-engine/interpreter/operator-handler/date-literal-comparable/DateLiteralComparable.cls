@@ -2,6 +2,7 @@
  * @description Abstract class for date literal comparison
  * @author Zackary Frazier
  * @since 12/28/2024
+ * @group Soql Engine
  */
 public abstract class DateLiteralComparable {
     /**

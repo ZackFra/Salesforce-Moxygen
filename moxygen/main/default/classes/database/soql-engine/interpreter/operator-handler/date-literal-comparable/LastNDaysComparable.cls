@@ -2,6 +2,7 @@
  * @description Comparable class for LAST_N_DAYS
  * @author Zackary Frazier
  * @since 12/9/2024
+ * @group Soql Engine
  */
 public with sharing class LastNDaysComparable extends DateLiteralComparable {
     /**

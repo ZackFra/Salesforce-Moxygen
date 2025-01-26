@@ -2,6 +2,7 @@
  * @description Comparable class for THIS_MONTH
  * @author Zackary Frazier
  * @since 12/29/2024
+ * @group Soql Engine
  */
 public with sharing class ThisMonthComparable extends DateLiteralComparable {
     /**

@@ -2,6 +2,7 @@
  * @description Comparable for the LAST_FISCAL_YEAR date literal
  * @author Zackary Frazier
  * @since 1/10/2025
+ * @group Soql Engine
  */
 public with sharing class LastFiscalYearComparable extends DateLiteralComparable {
     /**

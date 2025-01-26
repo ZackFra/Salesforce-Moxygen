@@ -2,6 +2,7 @@
  * @description Comparable class for LAST_90_DAYS
  * @author Zackary Frazier
  * @since 12/28/2024
+ * @group Soql Engine
  */
 public with sharing class Last90DaysComparable extends DateLiteralComparable {
     /**

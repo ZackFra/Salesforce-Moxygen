@@ -2,6 +2,7 @@
  * @description Comparable class for LAST_WEEK
  * @author Zackary Frazier
  * @since 12/29/2024
+ * @group Soql Engine
  */
 public with sharing class LastWeekComparable extends DateLiteralComparable {
     /**

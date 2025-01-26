@@ -2,6 +2,7 @@
  * @description Compares the NEXT_QUARTER token
  * @author Zackary Frazier
  * @since 1/2/2024
+ * @group Soql Engine
  */
 public with sharing class NextQuarterComparable extends DateLiteralComparable {
     /**
