@@ -27,6 +27,7 @@
  * @description : Builder class for the Node class, used to create a Node
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public class NodeBuilder {
     /**

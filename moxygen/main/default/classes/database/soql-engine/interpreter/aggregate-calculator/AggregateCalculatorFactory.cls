@@ -27,6 +27,7 @@
  * @description Generates an instance of an aggregate calculator based on the type provided
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class AggregateCalculatorFactory {
     private class AggregateCalculatorException extends Exception {

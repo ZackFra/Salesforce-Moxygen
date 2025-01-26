@@ -27,6 +27,7 @@
  * @description Class is responsible for parsing the 'from' clause of a query
  * @author Zackary Frazier
  * @since 4/12/2024
+ * @group Soql Engine
  */
 public with sharing class FromParser extends SubParser {
     /**

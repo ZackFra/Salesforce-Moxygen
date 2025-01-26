@@ -2,6 +2,7 @@
  * @description A class to parse a bind variable
  * @author Zackary Frazier
  * @since 11/28/2024
+ * @group Soql Engine
  */
 public with sharing class BindVariableParser extends SubParser {
     /**

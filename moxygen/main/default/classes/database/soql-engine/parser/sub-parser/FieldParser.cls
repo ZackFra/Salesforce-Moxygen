@@ -27,6 +27,7 @@
  * @description This class is responsible for parsing a field from a query string.
  * @author Zackary Frazier
  * @since 4/12/2024
+ * @group Soql Engine
  */
 public with sharing class FieldParser extends SubParser {
     /**

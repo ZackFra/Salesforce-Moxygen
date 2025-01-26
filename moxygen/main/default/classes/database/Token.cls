@@ -27,6 +27,7 @@
  * @description This class is responsible for handling the Token constants
  * @author Zackary Frazier
  * @since 5/5/2024
+ * @group Mock Database
  */
 public with sharing class Token {
     public final static String LPAREN = '(';

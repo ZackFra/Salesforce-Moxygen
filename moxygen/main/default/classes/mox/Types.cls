@@ -2,7 +2,7 @@
  * @description Types defined for this package
  * @author Zackary Frazier
  * @since 3/9/2024
- * @group Mock Database
+ * @group Moxygen
  */
 public with sharing class Types {
     /**
@@ -16,6 +16,9 @@ public with sharing class Types {
         UNDELETED
     }
 
+    /**
+     * @description The type of SOQL query that was performed
+     */
     public enum SOQL {
         RECORD,
         AGGREGATE,

@@ -2,6 +2,7 @@
  * @description NullParser is a parser for null values.
  * @author Zackary Frazier
  * @since 11/28/2024
+ * @group Soql Engine
  */
 public with sharing class NullParser extends SubParser {
     /**

@@ -27,6 +27,7 @@
  * @description Base class for handling SOQL queries to the mock database
  * @author Zackary Frazier
  * @since 4/13/2024
+ * @group Soql Engine
  */
 public virtual class MockSOQLHandler {
     final private static Map<Node, TopLevelNodes> TOP_LEVEL_NODES = new Map<Node, TopLevelNodes>();

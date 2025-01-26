@@ -27,6 +27,7 @@
  * @description The parser breaks down a SOQL query into an AST, to be fed into the parser (MockDatabase)
  * @author Zackary Frazier
  * @since 4/6/2024
+ * @group Soql Engine
  */
 @SuppressWarnings(
     'PMD.ExcessiveClassLength, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.StdCyclomaticComplexity, PMD.NcssTypeCount'

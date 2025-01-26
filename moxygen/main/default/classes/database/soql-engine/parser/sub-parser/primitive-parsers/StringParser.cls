@@ -2,6 +2,7 @@
  * @description A class to parse a generic string
  * @author Zackary Frazier
  * @since 11/27/2024
+ * @group Soql Engine
  */
 public with sharing class StringParser extends SubParser {
     /**

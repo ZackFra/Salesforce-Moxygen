@@ -27,6 +27,7 @@
  * @description This class is responsible for parsing the limit clause of a query
  * @author Zackary Frazier
  * @since 4/12/2024
+ * @group Soql Engine
  */
 public with sharing class LimitParser extends SubParser {
     /**

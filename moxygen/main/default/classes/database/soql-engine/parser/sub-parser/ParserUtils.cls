@@ -27,6 +27,7 @@
  * @description Contains utility methods for the parser, could probably be refactored out of existance though
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class ParserUtils {
     /**

@@ -27,6 +27,7 @@
  * @description This class is responsible for handling aggregate SOQL queries to the mock database
  * @author Zackary Frazier
  * @since 4/13/2024
+ * @group Soql Engine
  */
 public with sharing class MockAggregateQueryHandler extends MockSOQLHandler {
     /**

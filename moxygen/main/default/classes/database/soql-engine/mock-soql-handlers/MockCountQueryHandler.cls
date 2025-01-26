@@ -27,6 +27,7 @@
  * @description This class is responsible for handling count SOQL queries to the mock database
  * @author Zackary Frazier
  * @since 4/13/2024
+ * @group Soql Engine
  */
 public with sharing class MockCountQueryHandler extends MockSOQLHandler {
     /**

@@ -27,6 +27,7 @@
  * @description This class is responsible for parsing aggregate functions
  * @author Zackary Frazier
  * @since 4/12/2024
+ * @group Soql Engine
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
 public with sharing class AggregateFuncParser extends SubParser {

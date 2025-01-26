@@ -27,6 +27,7 @@
  * @description This class is used to parse the WITH DATA CATEGORY clause in a SOQL query
  * @author Zackary Frazier
  * @since 4/12/2024
+ * @group Soql Engine
  */
 public with sharing class WithDataCategoryParser extends SubParser {
     /**

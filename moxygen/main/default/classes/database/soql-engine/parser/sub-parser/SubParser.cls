@@ -27,6 +27,7 @@
  * @description SubParser is an abstract class that provides helper methods for parsing subqueries.
  * @author Zackary Frazier
  * @since 4/12/2024
+ * @group Soql Engine
  */
 @SuppressWarnings('PMD.CognitiveComplexity')
 public abstract class SubParser {

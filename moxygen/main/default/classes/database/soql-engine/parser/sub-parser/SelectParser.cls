@@ -27,6 +27,7 @@
  * @description Parser for the SELECT clause
  * @author Zackary Frazier
  * @since 4/12/2024
+ * @group Soql Engine
  */
 @SuppressWarnings('PMD.CognitiveComplexity')
 public with sharing class SelectParser extends SubParser {
