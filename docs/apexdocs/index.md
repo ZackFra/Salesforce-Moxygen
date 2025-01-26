@@ -6,6 +6,40 @@
 
 Static data store for records
 
+## DML Engine
+
+### [DmlEngine](dml-engine/DmlEngine.md)
+
+MockDatabaseDMLHandler is used to handle DML operations on the mock database
+
+### [MockDeleteHandler](dml-engine/MockDeleteHandler.md)
+
+MockDeleteHandler is a class that extends MockDMLHandler and overrides the delete methods to simulate the delete operation
+
+### [MockDMLHandler](dml-engine/MockDMLHandler.md)
+
+MockDMLHandler is an abstract class that provides a base class for mocking DML operations.
+
+### [MockInsertHandler](dml-engine/MockInsertHandler.md)
+
+MockInsertHandler is used to mock the insert operation
+
+### [MockUndeleteHandler](dml-engine/MockUndeleteHandler.md)
+
+MockUndeleteHandler is used to mock the Database.UndeleteResult class and the Database.undelete method
+
+### [MockUpdateHandler](dml-engine/MockUpdateHandler.md)
+
+MockUpdateHandler is used to mock the update operation in the database
+
+### [MockUpsertHandler](dml-engine/MockUpsertHandler.md)
+
+MockUpsertHandler is used to mock the upsert operation in the database
+
+### [SaveResultService](dml-engine/SaveResultService.md)
+
+This class is used to create success and failure results for DML operations.
+
 ## Mock Database
 
 ### [MockDatabase](mock-database/MockDatabase.md)
@@ -698,41 +732,9 @@ Comparable class for YESTERDAY
 
 ## Uncategorized
 
-### [DmlEngine](uncategorized/DmlEngine.md)
-
-MockDatabaseDMLHandler is used to handle DML operations on the mock database
-
 ### [DynamicCastTest](uncategorized/DynamicCastTest.md)
 
-### [MockDeleteHandler](uncategorized/MockDeleteHandler.md)
-
-MockDeleteHandler is a class that extends MockDMLHandler and overrides the delete methods to simulate the delete operation
-
-### [MockDMLHandler](uncategorized/MockDMLHandler.md)
-
-MockDMLHandler is an abstract class that provides a base class for mocking DML operations.
-
-### [MockInsertHandler](uncategorized/MockInsertHandler.md)
-
-MockInsertHandler is used to mock the insert operation
-
-### [MockUndeleteHandler](uncategorized/MockUndeleteHandler.md)
-
-MockUndeleteHandler is used to mock the Database.UndeleteResult class and the Database.undelete method
-
-### [MockUpdateHandler](uncategorized/MockUpdateHandler.md)
-
-MockUpdateHandler is used to mock the update operation in the database
-
-### [MockUpsertHandler](uncategorized/MockUpsertHandler.md)
-
-MockUpsertHandler is used to mock the upsert operation in the database
-
 ### [ParserTestUtil](uncategorized/ParserTestUtil.md)
-
-### [SaveResultService](uncategorized/SaveResultService.md)
-
-This class is used to create success and failure results for DML operations.
 
 ## Utilities
 
