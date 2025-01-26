@@ -15,6 +15,13 @@ jobs:
   deploy-pull-request:
     runs-on: ubuntu-latest
     steps:
+      - name: start deployment
+        uses: bobheadxi/deployments@v1
+        id: deployment
+        with:
+          step: start
+          token: ${{ github.token }}
+          env: production
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -28,3 +35,12 @@ jobs:
         with:
           branch: origin/main
           quick-deploy-id: ${{ steps.get_deployment.outputs.quick-deploy-id }}
+      - name: update deployment status
+        uses: bobheadxi/deployments@v1
+        if: always()
+        with:
+          step: finish
+          token: ${{ github.token }}
+          status: ${{ job.status }}
+          env: ${{ steps.deployment.outputs.env }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
