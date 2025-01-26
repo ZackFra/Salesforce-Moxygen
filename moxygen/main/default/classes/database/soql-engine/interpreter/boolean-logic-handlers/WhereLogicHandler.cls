@@ -28,7 +28,9 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-@SuppressWarnings('PMD.StdCyclomaticComplexity')
+@SuppressWarnings(
+    'PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.CyclomaticComplexity'
+)
 public with sharing class WhereLogicHandler extends BooleanLogicHandler {
     SObject record;
 
@@ -119,7 +121,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
     }
 
     private Object getFieldValueFromValueNode(Node valueNode) {
-        Object fieldValue = MockDatabase.utils.getFieldNodeValue(
+        Object fieldValue = getFieldNodeValue(
             valueNode,
             this.record,
             this.params
@@ -128,6 +130,136 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             fieldValue = String.valueOf(fieldValue);
         }
         return fieldValue;
+    }
+
+    @SuppressWarnings(
+        'PMD.CognitiveComplexity,PMD.NcssMethodCount,PMD.CyclomaticComplexity'
+    )
+    private Object getFieldNodeValue(
+        Node valueNode,
+        sObject sObj,
+        Map<String, Object> params
+    ) {
+        Boolean isBindVar = (valueNode.nodeType == 'bind variable');
+        Boolean isParamsNull = (params == null);
+        Boolean isValueInParams = (!isParamsNull &&
+        params.containsKey(valueNode.id));
+
+        if (isBindVar && isParamsNull || isBindVar && !isValueInParams) {
+            throw new QueryException('Missing bind variable: ' + valueNode.id);
+        }
+
+        if (isBindVar) {
+            return params.get(valueNode.id);
+        }
+
+        if (valueNode.nodeType == 'value list') {
+            List<Object> values = new List<Object>();
+            Node valueListNode = valueNode.left;
+            while (valueListNode != null) {
+                values.add(getFieldNodeValue(valueListNode, sObj, params));
+                valueListNode = valueListNode.left;
+            }
+            return values;
+        }
+
+        if (valueNode.nodeType == 'null') {
+            return null;
+        }
+
+        if (valueNode.nodeType == 'subquery') {
+            Node subquerySelectNode = valueNode.right;
+            Node subqueryFieldNode = subquerySelectNode.left;
+            Integer fieldsList = 0;
+
+            Node curr = subqueryFieldNode;
+            while (curr != null) {
+                fieldsList++;
+                curr = curr.left;
+            }
+            if (fieldsList > 1) {
+                throw new QueryException('Subquery must select only one field');
+            }
+
+            Node subqueryFromNode = subquerySelectNode.right;
+            Node subqueryObjNode = subqueryFromNode.left;
+
+            String fieldName = subqueryFieldNode.id;
+            String objName = subqueryObjNode.id;
+
+            String objApiName = SchemaService.getSObjectName(objName);
+            sObject childObj = SchemaService.blankSObjectFrom(objApiName);
+            if (childObj == null) {
+                throw new QueryException('Invalid object name: ' + objName);
+            }
+            String fieldApiName = null;
+            Schema.SObjectType childObjSot = SchemaService.getSObjectType(
+                childObj
+            );
+            List<Schema.SObjectField> childObjFields = SchemaService.getFields(
+                childObjSot
+            );
+            for (Schema.SObjectField field : childObjFields) {
+                fieldApiName = SchemaService.getFieldName(field);
+                if (fieldApiName == fieldName) {
+                    fieldApiName = fieldApiName;
+                    break;
+                }
+            }
+            if (fieldApiName == null) {
+                throw new QueryException('Invalid field name: ' + fieldName);
+            }
+
+            Schema.SObjectField childObjField = SchemaService.getField(
+                childObjSot,
+                fieldApiName
+            );
+            if (childObjField == null) {
+                throw new QueryException('Invalid field name: ' + fieldName);
+            }
+
+            Schema.DisplayType childObjFieldType = SchemaService.getFieldType(
+                childObjField
+            );
+
+            if (
+                childObjFieldType != Schema.DisplayType.REFERENCE &&
+                childObjFieldType != Schema.DisplayType.ID
+            ) {
+                throw new QueryException('Subquery must select an ID field');
+            }
+            String parentFieldApiName = SchemaService.getFieldName(
+                childObj,
+                fieldName
+            );
+            Schema.SObjectField parentField = SchemaService.getField(
+                childObj,
+                parentFieldApiName
+            );
+
+            Boolean isSameType = SchemaService.idsReferenceSameSObject(
+                parentField,
+                childObjField
+            );
+
+            if (!isSameType) {
+                throw new QueryException(
+                    'Subquery must select a field of the same type as the parent object'
+                );
+            }
+
+            List<SObject> subQueryObjects = (List<SObject>) MockDatabase.doSelectQueryInternal(
+                subquerySelectNode,
+                params
+            );
+            List<Id> subQueryIds = new List<Id>();
+            for (sObject subQueryObj : subQueryObjects) {
+                subQueryIds.add((Id) subQueryObj.get(fieldApiName));
+            }
+            return subQueryIds;
+        }
+
+        return valueNode.Id;
     }
 
     private Object adjustForSoqlDateString(

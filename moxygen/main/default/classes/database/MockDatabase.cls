@@ -36,8 +36,6 @@ public with sharing class MockDatabase {
     public static DmlEngine dmlHandler = new DmlEngine();
     public static SoqlEngine soqlHandler = new SoqlEngine();
 
-    public static MockDatabaseUtils utils = new MockDatabaseUtils();
-
     /** DML methods **/
 
     /**
