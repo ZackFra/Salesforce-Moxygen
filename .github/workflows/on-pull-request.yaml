@@ -18,12 +18,15 @@ env:
 
 jobs:
     code-scan:
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
       uses: ./.github/workflows/code-scan.yaml
       secrets: inherit
     check-for-duplicates:
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
       uses: ./.github/workflows/check-for-duplicates.yaml
       secrets: inherit
     validate-changes:
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
       needs: [code-scan, check-for-duplicates]
       uses: ./.github/workflows/validate.yaml
       secrets: inherit
