@@ -91,7 +91,7 @@ private class DMLTest {
         Test.stopTest();
 
         Assert.isTrue(
-            MockDatabase.isDeleted(account.Id),
+            DataStore.isSoftDeleted(account.Id),
             'Record should have been deleted'
         );
     }
@@ -110,8 +110,8 @@ private class DMLTest {
         Test.stopTest();
 
         Assert.isTrue(
-            MockDatabase.isDeleted(account1.Id) &&
-            MockDatabase.isDeleted(account2.Id),
+            DataStore.isSoftDeleted(account1.Id) &&
+            DataStore.isSoftDeleted(account2.Id),
             'Records should have been deleted'
         );
     }
@@ -126,7 +126,7 @@ private class DMLTest {
         Test.stopTest();
 
         Assert.isTrue(
-            MockDatabase.isDeleted(account.Id),
+            DataStore.isSoftDeleted(account.Id),
             'Record should have been deleted'
         );
     }
@@ -144,8 +144,8 @@ private class DMLTest {
         Test.startTest();
         DML.doDelete(acctIds, false);
         Test.stopTest();
-        Boolean isAllDeleted = (MockDatabase.isDeleted(account1.Id) &&
-        MockDatabase.isDeleted(account2.Id));
+        Boolean isAllDeleted = (DataStore.isSoftDeleted(account1.Id) &&
+        DataStore.isSoftDeleted(account2.Id));
         Assert.isTrue(isAllDeleted, 'Records should have been deleted');
     }
 
@@ -157,7 +157,7 @@ private class DMLTest {
         DML.doDelete(account, true);
         Test.stopTest();
 
-        Boolean isDeleted = MockDatabase.isDeleted(account.Id);
+        Boolean isDeleted = DataStore.isSoftDeleted(account.Id);
         Assert.isTrue(isDeleted, 'Account should have been deleted');
     }
 
@@ -166,9 +166,7 @@ private class DMLTest {
         Account account = new Account(Name = 'Test Account');
         DML.doInsert(account, true);
         Test.startTest();
-        Account selectedAccount = (Account) MockDatabase.selectRecordById(
-            account.Id
-        );
+        Account selectedAccount = (Account) DataStore.getById(account.Id);
         Test.stopTest();
 
         Assert.areEqual(
@@ -215,9 +213,7 @@ private class DMLTest {
         DML.doUpdate(account, true);
         Test.stopTest();
 
-        Account updatedAccount = (Account) MockDatabase.selectRecordById(
-            account.Id
-        );
+        Account updatedAccount = (Account) DataStore.getById(account.Id);
         Assert.areEqual(
             'Updated Account',
             updatedAccount.Name,
@@ -242,12 +238,8 @@ private class DMLTest {
         DML.doUpdate(acctList, false);
         Test.stopTest();
 
-        Account updatedAccount1 = (Account) MockDatabase.selectRecordById(
-            account1.Id
-        );
-        Account updatedAccount2 = (Account) MockDatabase.selectRecordById(
-            account2.Id
-        );
+        Account updatedAccount1 = (Account) DataStore.getById(account1.Id);
+        Account updatedAccount2 = (Account) DataStore.getById(account2.Id);
 
         Assert.areEqual(
             'Updated Account',
@@ -272,9 +264,7 @@ private class DMLTest {
         DML.doUpdate(account, false, AccessLevel.USER_MODE);
         Test.stopTest();
 
-        Account updatedAccount = (Account) MockDatabase.selectRecordById(
-            account.Id
-        );
+        Account updatedAccount = (Account) DataStore.getById(account.Id);
         Assert.areEqual(
             'Updated Account',
             updatedAccount.Name,
@@ -299,12 +289,8 @@ private class DMLTest {
         DML.doUpdate(acctList, false, AccessLevel.USER_MODE);
         Test.stopTest();
 
-        Account updatedAccount1 = (Account) MockDatabase.selectRecordById(
-            account1.Id
-        );
-        Account updatedAccount2 = (Account) MockDatabase.selectRecordById(
-            account2.Id
-        );
+        Account updatedAccount1 = (Account) DataStore.getById(account1.Id);
+        Account updatedAccount2 = (Account) DataStore.getById(account2.Id);
 
         Assert.areEqual(
             'Updated Account',
@@ -383,7 +369,7 @@ private class DMLTest {
         Test.stopTest();
 
         Assert.isFalse(
-            MockDatabase.isDeleted(account.Id),
+            DataStore.isSoftDeleted(account.Id),
             'Record should not be deleted'
         );
     }
@@ -403,8 +389,8 @@ private class DMLTest {
         Test.stopTest();
 
         Assert.isFalse(
-            MockDatabase.isDeleted(account1.Id) ||
-            MockDatabase.isDeleted(account2.Id),
+            DataStore.isSoftDeleted(account1.Id) ||
+            DataStore.isSoftDeleted(account2.Id),
             'Records should not be deleted'
         );
     }
@@ -419,7 +405,7 @@ private class DMLTest {
         Test.stopTest();
 
         Assert.isFalse(
-            MockDatabase.isDeleted(account.Id),
+            DataStore.isSoftDeleted(account.Id),
             'Record should not be deleted'
         );
     }
@@ -439,8 +425,8 @@ private class DMLTest {
         DML.doUndelete(acctIds, false);
         Test.stopTest();
 
-        Boolean isEitherDeleted = (MockDatabase.isDeleted(account1.Id) ||
-        MockDatabase.isDeleted(account2.Id));
+        Boolean isEitherDeleted = (DataStore.isSoftDeleted(account1.Id) ||
+        DataStore.isSoftDeleted(account2.Id));
         Assert.isFalse(isEitherDeleted, 'Records should not be deleted');
     }
 
@@ -455,7 +441,7 @@ private class DMLTest {
         Test.stopTest();
 
         Assert.isFalse(
-            MockDatabase.isDeleted(account.Id),
+            DataStore.isSoftDeleted(account.Id),
             'Record should not be deleted'
         );
     }

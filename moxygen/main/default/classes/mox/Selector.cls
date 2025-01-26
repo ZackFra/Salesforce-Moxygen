@@ -331,7 +331,7 @@ public inherited sharing class Selector {
     @TestVisible
     private static SObject selectRecordById(Id recordId) {
         ORM.validateUnitTestContext();
-        return MockDatabase.selectRecordById(recordId);
+        return DataStore.getById(recordId);
     }
 
     private static Integer onQueryCountWithBinds(

@@ -98,10 +98,7 @@ private class MockDatabaseTest {
         MockDatabase.doInsert(a, true);
         Test.stopTest();
 
-        Assert.isNotNull(
-            MockDatabase.selectRecordById(a.Id),
-            'Account was not inserted'
-        );
+        Assert.isNotNull(DataStore.getById(a.Id), 'Account was not inserted');
     }
 
     @IsTest
@@ -113,8 +110,8 @@ private class MockDatabaseTest {
         MockDatabase.doInsert(new List<SObject>{ a, b }, true);
         Test.stopTest();
 
-        Account insertedAcctA = (Account) MockDatabase.selectRecordById(a.Id);
-        Account insertedAcctB = (Account) MockDatabase.selectRecordById(b.Id);
+        Account insertedAcctA = (Account) DataStore.getById(a.Id);
+        Account insertedAcctB = (Account) DataStore.getById(b.Id);
 
         Assert.isNotNull(insertedAcctA, 'Account A was not inserted');
         Assert.isNotNull(insertedAcctB, 'Account B was not inserted');
@@ -131,7 +128,7 @@ private class MockDatabaseTest {
         MockDatabase.doUpdate(a, true);
         Test.stopTest();
 
-        Account updatedAcct = (Account) MockDatabase.selectRecordById(a.Id);
+        Account updatedAcct = (Account) DataStore.getById(a.Id);
 
         Assert.areEqual('Test2', updatedAcct.Name, 'Account was not updated');
     }
@@ -189,8 +186,8 @@ private class MockDatabaseTest {
         MockDatabase.doInsert(new List<SObject>{ a, b }, true);
         Test.stopTest();
 
-        Account insertedAcctA = (Account) MockDatabase.selectRecordById(a.Id);
-        Account insertedAcctB = (Account) MockDatabase.selectRecordById(b.Id);
+        Account insertedAcctA = (Account) DataStore.getById(a.Id);
+        Account insertedAcctB = (Account) DataStore.getById(b.Id);
 
         Assert.isNotNull(insertedAcctA, 'Account A was not inserted');
         Assert.isNotNull(insertedAcctB, 'Account B was not inserted');

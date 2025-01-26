@@ -47,25 +47,6 @@ public inherited sharing class MockDatabase {
         dmlHandler.resetHandlers();
     }
 
-    /**
-     * @description wasDeleted is used to check if a record was deleted from the database
-     * @param recordId - The Id of the record to check
-     * @return Boolean - Whether the record was deleted
-     */
-    public static Boolean isDeleted(Id recordId) {
-        SObject record = utils.findRecord(recordId);
-        return (record.get('IsDeleted') == true);
-    }
-
-    /**
-     * @description Returns the deleted record by Id
-     * @param recordId
-     * @return  `SObject`
-     */
-    public static SObject selectRecordById(Id recordId) {
-        return utils.findRecord(recordId);
-    }
-
     /** DML methods **/
 
     /**
