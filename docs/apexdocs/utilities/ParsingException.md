@@ -6,7 +6,7 @@ Custom exception for parsing errors
 
 4/9/2024
 
-**Group** Exceptions
+**Group** Utilities
 
 **Author** Zackary Frazier
 

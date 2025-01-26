@@ -21,7 +21,7 @@ public ProtoAggregate calculate()
 ```
 
 #### Return Type
-**[ProtoAggregate](../uncategorized/ProtoAggregate.md)**
+**[ProtoAggregate](../utilities/ProtoAggregate.md)**
 
 ,[object Object]
 

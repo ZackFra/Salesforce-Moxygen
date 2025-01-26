@@ -1,31 +1,33 @@
-# CalendarMonthCalculator Class
+# CalendarYearCalculator Class
 
 Calculates the calendar month from a date value
 
 **Since** 
 
-4/28/2024
+5/5/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
 **Implements**
 
-[IAggregateCalculator](../soql-engine/IAggregateCalculator.md)
+[IAggregateCalculator](IAggregateCalculator.md)
 
 ## Constructors
-### `CalendarMonthCalculator(options)`
+### `CalendarYearCalculator(options)`
 
 Constructor for the CalendarMonthCalculator class
 
 #### Signature
 ```apex
-public CalendarMonthCalculator(AggregateCalculatorOptions options)
+public CalendarYearCalculator(AggregateCalculatorOptions options)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [AggregateCalculatorOptions](../soql-engine/AggregateCalculatorOptions.md) |  |
+| options | [AggregateCalculatorOptions](AggregateCalculatorOptions.md) |  |
 
 ## Methods
 ### `calculate()`
@@ -38,7 +40,7 @@ public ProtoAggregate calculate()
 ```
 
 #### Return Type
-**[ProtoAggregate](ProtoAggregate.md)**
+**[ProtoAggregate](../utilities/ProtoAggregate.md)**
 
 ,[object Object]
 
@@ -46,8 +48,8 @@ public ProtoAggregate calculate()
 
 ### `calculateForField()`
 
-Calculate the calendar month of field passed in as `alias` in options, 
-for the grouped records of the `aggregateResult` passed into options
+Calculate the calendar year of the field passed in as the `alias` in options, 
+for the record associated with the `aggregateResult` passed into options
 
 #### Signature
 ```apex

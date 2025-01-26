@@ -6,11 +6,13 @@ Calculates the calendar month from a date value
 
 4/28/2024
 
+**Group** Soql Engine
+
 **Author** Zackary Frazier
 
 **Implements**
 
-[IAggregateCalculator](../soql-engine/IAggregateCalculator.md)
+[IAggregateCalculator](IAggregateCalculator.md)
 
 ## Constructors
 ### `CalendarQuarterCalculator(options)`
@@ -25,7 +27,7 @@ public CalendarQuarterCalculator(AggregateCalculatorOptions options)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [AggregateCalculatorOptions](../soql-engine/AggregateCalculatorOptions.md) |  |
+| options | [AggregateCalculatorOptions](AggregateCalculatorOptions.md) |  |
 
 ## Methods
 ### `calculate()`
@@ -38,7 +40,7 @@ public ProtoAggregate calculate()
 ```
 
 #### Return Type
-**[ProtoAggregate](ProtoAggregate.md)**
+**[ProtoAggregate](../utilities/ProtoAggregate.md)**
 
 ,[object Object]
 

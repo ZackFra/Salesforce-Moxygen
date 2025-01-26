@@ -36,4 +36,4 @@ public WhereLogicComparisonResults getFieldValue(SObject record, Node fieldNode)
 ,[object Object]
 
 #### Throws
-[ValidationException](../exceptions/ValidationException.md):
+[ValidationException](../utilities/ValidationException.md):

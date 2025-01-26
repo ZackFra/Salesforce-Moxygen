@@ -6,7 +6,7 @@ Generic exception for when something is not found
 
 7/12/2024
 
-**Group** Exceptions
+**Group** Utilities
 
 **Author** Zackary Frazier
 

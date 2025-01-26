@@ -6,6 +6,8 @@ Creates Aggregate objects from ProtoAggregates
 
 3/23/2024
 
+**Group** Utilities
+
 **Author** Zackary Frazier
 
 ## Methods

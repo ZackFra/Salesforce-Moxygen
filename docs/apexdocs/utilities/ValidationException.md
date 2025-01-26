@@ -6,7 +6,7 @@ This class is responsible for handling validation exceptions
 
 11/28/2024
 
-**Group** Exceptions
+**Group** Utilities
 
 **Author** Zackary Frazier
 
