@@ -27,6 +27,7 @@
  * @description CountCalculator is a concrete implementation of IAggregateCalculator that calculates the count of records.
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class CountCalculator implements IAggregateCalculator {
     AggregateCalculatorOptions options;

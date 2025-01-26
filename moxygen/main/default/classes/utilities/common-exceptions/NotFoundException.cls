@@ -27,7 +27,7 @@
  * @description Generic exception for when something is not found
  * @author Zackary Frazier
  * @since 7/12/2024
- * @group Exceptions
+ * @group Utilities
  */
 public with sharing class NotFoundException extends Exception {
 }

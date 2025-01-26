@@ -27,6 +27,7 @@
  * @description Creates Aggregate objects from ProtoAggregates
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Utilities
  */
 public with sharing class AggregateBuilder {
     List<ProtoAggregate> protoAggregates;
