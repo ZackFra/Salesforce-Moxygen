@@ -63,9 +63,9 @@ public class AccountServiceTest {
         Test.stopTest();
 
         Account updatedAcct = (Account) Selector.queryWithBinds(
-            'SELECT Name FROM Account WHERE Id = :accountId',
+            'SELECT Name FROM Account WHERE Id = :newAccountId',
             new Map<String, Object> {
-                'accountId' => newAcct.Id'
+                'newAccountId' => newAcct.Id
             },
             ACCESS_LEVEL.USER_MODE
         );
