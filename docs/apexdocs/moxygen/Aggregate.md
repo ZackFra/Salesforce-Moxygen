@@ -6,6 +6,8 @@ Aggregate class to represent the result of an aggregate query
 
 4/5/2024
 
+**Group** Moxygen
+
 **Author** Zackary Frazier
 
 ## Constructors
@@ -38,22 +40,6 @@ public Aggregate(Map<String,Object> data)
 | Name | Type | Description |
 |------|------|-------------|
 | data | Map&lt;String,Object&gt; | the data to create the Aggregate from |
-
----
-
-### `Aggregate(ar)`
-
-Constructor for testing purposes, creates an Aggregate object from a ProtoAggregate
-
-#### Signature
-```apex
-public Aggregate(ProtoAggregate ar)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| ar | [ProtoAggregate](ProtoAggregate.md) |  |
 
 ## Methods
 ### `get(field)`
