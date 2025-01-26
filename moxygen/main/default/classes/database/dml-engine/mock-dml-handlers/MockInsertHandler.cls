@@ -27,6 +27,7 @@
  * @description MockInsertHandler is used to mock the insert operation
  * @author Zackary Frazier
  * @since 3/9/2024
+ * @group DML Engine
  */
 @IsTest
 public with sharing class MockInsertHandler extends MockDMLHandler {

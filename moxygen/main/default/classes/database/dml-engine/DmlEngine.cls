@@ -27,6 +27,7 @@
  * @description MockDatabaseDMLHandler is used to handle DML operations on the mock database
  * @author Zackary Frazier
  * @since 4/8/2024
+ * @group DML Engine
  */
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.ExcessivePublicCount')
 public with sharing class DmlEngine {

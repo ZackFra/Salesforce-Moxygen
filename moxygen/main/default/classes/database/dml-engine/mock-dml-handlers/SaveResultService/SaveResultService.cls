@@ -25,6 +25,7 @@
 
 /**
  * @description This class is used to create success and failure results for DML operations.
+ * @group DML Engine
  */
 @IsTest
 public with sharing class SaveResultService {
