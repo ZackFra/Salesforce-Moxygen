@@ -27,6 +27,7 @@
  * @description MockUpdateHandler is used to mock the update operation in the database
  * @author Zackary Frazier
  * @since 3/9/2021
+ * @group DML Engine
  */
 @IsTest
 public with sharing class MockUpdateHandler extends MockDMLHandler {

@@ -27,6 +27,7 @@
  * @description MockUpsertHandler is used to mock the upsert operation in the database
  * @author Zackary Frazier
  * @since 3/9/2024
+ * @group DML Engine
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity')
 @IsTest
