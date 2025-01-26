@@ -1,4 +1,4 @@
-name: On Merge (Apex Changes)
+name: Deploy
 
 on:
     pull_request_target:
