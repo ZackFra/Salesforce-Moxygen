@@ -11,29 +11,32 @@ public abstract class DateLiteralComparable {
     public String token { get; private set; }
 
     /**
-     * @description Whether the date literal is equal to the field value
-     * @param fieldValue `DateTime`
-     * @return  `Boolean`
-     */
-    public virtual Boolean isEqual(DateTime fieldValue) {
-        return !isGreaterThan(fieldValue) && !isLessThan(fieldValue);
-    }
-    /**
      * @description Whether the date literal is greater than the field value
-     * @param fieldValue `DateTime`
-     * @return  `Boolean`
+     * @param fieldValue Date or Datetime value
+     * @return  Whether fieldValue is greater than the date literal
      */
     public abstract Boolean isGreaterThan(DateTime fieldValue);
+
     /**
      * @description Whether the date literal is less than the field value
-     * @param fieldValue `DateTime`
-     * @return  `Boolean`
+     * @param fieldValue Date or Datetime value
+     * @return Whether fieldValue is less than the date literal
      */
     public abstract Boolean isLessThan(DateTime fieldValue);
+
+    /**
+     * @description Whether the date literal is equal to the field value
+     * @param fieldValue Date or Datetime value
+     * @return Whether fieldValue is equal to the date literal
+     */
+    public Boolean isEqual(DateTime fieldValue) {
+        return !isGreaterThan(fieldValue) && !isLessThan(fieldValue);
+    }
+
     /**
      * @description Whether the date literal is greater than or equal to the field value
-     * @param fieldValue `DateTime`
-     * @return  `Boolean`
+     * @param fieldValue Date or Datetime value
+     * @return Whether fieldValue is greater than or equal to the date literal
      */
     public Boolean isGreaterThanOrEqual(DateTime fieldValue) {
         return isGreaterThan(fieldValue) || isEqual(fieldValue);
@@ -41,8 +44,8 @@ public abstract class DateLiteralComparable {
 
     /**
      * @description Whether the date literal is less than or equal to the field value
-     * @param fieldValue `DateTime`
-     * @return  `Boolean`
+     * @param fieldValue Date or Datetime value
+     * @return Whether fieldValue is less than or equal to the date literal
      */
     public Boolean isLessThanOrEqual(DateTime fieldValue) {
         return isLessThan(fieldValue) || isEqual(fieldValue);
@@ -50,8 +53,8 @@ public abstract class DateLiteralComparable {
 
     /**
      * @description Whether the date literal is not equal to the field value
-     * @param fieldValue `DateTime`
-     * @return  `Boolean`
+     * @param fieldValue Date or Datetime value
+     * @return  Whether fieldValue is not equal to the date literal
      */
     public Boolean isNotEqual(DateTime fieldValue) {
         return !isEqual(fieldValue);
@@ -59,8 +62,8 @@ public abstract class DateLiteralComparable {
 
     /**
      * @description Sets the token for the date literal
-     * @param token `String`
-     * @return  `DateLiteralComparable`
+     * @param token Parsed token
+     * @return  This instance of DateLiteralComparable
      */
     public DateLiteralComparable withToken(String token) {
         this.token = token;

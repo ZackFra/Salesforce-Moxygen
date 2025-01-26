@@ -6,16 +6,6 @@
  */
 public with sharing class Last90DaysComparable extends DateLiteralComparable {
     /**
-     * @description Returns whether fieldValue is equal to LAST_90_DAYS
-     * @param fieldValue `Datetime`
-     * @return  `Boolean`
-     */
-    public override Boolean isEqual(DateTime fieldValue) {
-        DateTime startOf90Days = Gmt.today().addDays(-90);
-        return startOf90Days <= fieldValue && fieldValue <= Gmt.now();
-    }
-
-    /**
      * @description Returns whether fieldValue is greater than LAST_90_DAYS
      * @param fieldValue `Datetime`
      * @return  `Boolean`
