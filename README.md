@@ -1,5 +1,3 @@
-[![Deploy](https://github.com/ZackFra/Salesforce-Moxygen/actions/workflows/on-merge.yaml/badge.svg)](https://github.com/ZackFra/Salesforce-Moxygen/actions/workflows/on-merge.yaml)
-
 # 🚀 Jump Start Your Deployments!
 
 Salesforce Moxygen is an intuitive Salesforce mocking library for Apex unit testing that can reduce deployment times from two hours to two minutes!
