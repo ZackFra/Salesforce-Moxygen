@@ -1,3 +1,0 @@
-# DynamicCastTest Class
-
-`ISTEST`

@@ -2,6 +2,16 @@
 
 `ISTEST`
 
+Test utilites for the parser
+
+**Since** 
+
+1/26/2025
+
+**Group** Soql Engine
+
+**Author** Zackary Frazier
+
 ## Methods
 ### `assertExceptionIsNotThrown(query)`
 
