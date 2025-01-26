@@ -1,5 +1,11 @@
+/**
+ * @description Test utilites for the parser
+ * @author Zackary Frazier
+ * @since 1/26/2025
+ * @group Soql Engine
+ */
 @IsTest
-private class ParserTestUtil {
+public with sharing class ParserTestUtil {
     /**
      * @description Assert muliple static resources align with their queries
      * @param srNames
