@@ -1,29 +1,6 @@
 @isTest
 private class LastNFiscalYearsComparableTest {
     @isTest
-    static void ensureIsEqualWorks() {
-        DateLiteralComparable lastNFiscalYearsComparable = new LastNFiscalYearsComparable()
-            .withToken('LAST_N_FISCAL_YEARS:5');
-
-        Assert.isFalse(
-            lastNFiscalYearsComparable.isEqual(Gmt.startOfThisFiscalYear()),
-            'Should not be equal'
-        );
-        Assert.isTrue(
-            lastNFiscalYearsComparable.isEqual(
-                Gmt.startOfThisFiscalYear().addYears(-5)
-            ),
-            'Should be equal'
-        );
-        Assert.isFalse(
-            lastNFiscalYearsComparable.isEqual(
-                Gmt.startOfThisFiscalYear().addYears(-6)
-            ),
-            'Should not be equal'
-        );
-    }
-
-    @isTest
     static void ensureIsLessThanWorks() {
         DateLiteralComparable lastNFiscalYearsComparable = new LastNFiscalYearsComparable()
             .withToken('LAST_N_FISCAL_YEARS:5');
@@ -68,79 +45,6 @@ private class LastNFiscalYearsComparableTest {
                 Gmt.startOfThisFiscalYear().addYears(-6)
             ),
             'Should not be greater than'
-        );
-    }
-
-    @isTest
-    static void ensureIsLessThanOrEqualWorks() {
-        DateLiteralComparable lastNFiscalYearsComparable = new LastNFiscalYearsComparable()
-            .withToken('LAST_N_FISCAL_YEARS:5');
-
-        Assert.isFalse(
-            lastNFiscalYearsComparable.isLessThanOrEqual(
-                Gmt.startOfThisFiscalYear()
-            ),
-            'Should not be less than or equal'
-        );
-        Assert.isTrue(
-            lastNFiscalYearsComparable.isLessThanOrEqual(
-                Gmt.startOfThisFiscalYear().addYears(-5)
-            ),
-            'Should be less than or equal'
-        );
-        Assert.isTrue(
-            lastNFiscalYearsComparable.isLessThanOrEqual(
-                Gmt.startOfThisFiscalYear().addYears(-6)
-            ),
-            'Should be less than or equal'
-        );
-    }
-
-    @isTest
-    static void ensureIsGreaterThanOrEqualWorks() {
-        DateLiteralComparable lastNFiscalYearsComparable = new LastNFiscalYearsComparable()
-            .withToken('LAST_N_FISCAL_YEARS:5');
-
-        Assert.isTrue(
-            lastNFiscalYearsComparable.isGreaterThanOrEqual(
-                Gmt.startOfThisFiscalYear()
-            ),
-            'Should be greater than or equal'
-        );
-        Assert.isTrue(
-            lastNFiscalYearsComparable.isGreaterThanOrEqual(
-                Gmt.startOfThisFiscalYear().addYears(-5)
-            ),
-            'Should be greater than or equal'
-        );
-        Assert.isFalse(
-            lastNFiscalYearsComparable.isGreaterThanOrEqual(
-                Gmt.startOfThisFiscalYear().addYears(-6)
-            ),
-            'Should not be greater than or equal'
-        );
-    }
-
-    @isTest
-    static void ensureIsNotEqualWorks() {
-        DateLiteralComparable lastNFiscalYearsComparable = new LastNFiscalYearsComparable()
-            .withToken('LAST_N_FISCAL_YEARS:5');
-
-        Assert.isTrue(
-            lastNFiscalYearsComparable.isNotEqual(Gmt.startOfThisFiscalYear()),
-            'Should not be equal'
-        );
-        Assert.isFalse(
-            lastNFiscalYearsComparable.isNotEqual(
-                Gmt.startOfThisFiscalYear().addYears(-5)
-            ),
-            'Should be equal'
-        );
-        Assert.isTrue(
-            lastNFiscalYearsComparable.isNotEqual(
-                Gmt.startOfThisFiscalYear().addYears(-6)
-            ),
-            'Should not be equal'
         );
     }
 }

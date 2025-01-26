@@ -5,24 +5,6 @@
  * @group Soql Engine
  */
 public with sharing class NextQuarterComparable extends DateLiteralComparable {
-    /**
-     * @description Returns true if the fieldValue is equal to the NEXT_QUARTER token
-     * @param fieldValue `Datetime`
-     * @return  `Boolean`
-     */
-    public override Boolean isEqual(Datetime fieldValue) {
-        Datetime startOfNextQuarter = Gmt.startOfThisCalendarQuarter()
-            .addMonths(3);
-        Datetime endOfNextQuarter = startOfNextQuarter.addMonths(3);
-        return startOfNextQuarter <= fieldValue &&
-            fieldValue < endOfNextQuarter;
-    }
-
-    /**
-     * @description Returns true if the fieldValue is greater than the NEXT_QUARTER token
-     * @param fieldValue `Datetime`
-     * @return  `Boolean`
-     */
     public override Boolean isGreaterThan(Datetime fieldValue) {
         Datetime startOfNextQuarter = Gmt.startOfThisCalendarQuarter()
             .addMonths(3);
@@ -30,11 +12,6 @@ public with sharing class NextQuarterComparable extends DateLiteralComparable {
         return fieldValue >= endOfNextQuarter;
     }
 
-    /**
-     * @description Returns true if the fieldValue is less than the NEXT_QUARTER token
-     * @param fieldValue `Datetime`
-     * @return  `Boolean`
-     */
     public override Boolean isLessThan(Datetime fieldValue) {
         Datetime startOfNextQuarter = Gmt.startOfThisCalendarQuarter()
             .addMonths(3);
