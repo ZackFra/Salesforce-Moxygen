@@ -33,7 +33,7 @@ private class AggregateTest {
         protoAggregate.put('expr2', 3);
 
         Test.startTest();
-        Aggregate aggr = new Aggregate(protoAggregate);
+        Aggregate aggr = new Aggregate(protoAggregate.getPrototype());
         Test.stopTest();
 
         Assert.areEqual(1, aggr.get('expr0'), 'expr0 should be 1');
