@@ -31,7 +31,7 @@
 @SuppressWarnings(
     'PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity, PMD.CyclomaticComplexity'
 )
-public inherited sharing class MockDatabaseUtils {
+public with sharing class MockDatabaseUtils {
     /**
      * @description : get the sObject from the database
      * @param recordId : the record id

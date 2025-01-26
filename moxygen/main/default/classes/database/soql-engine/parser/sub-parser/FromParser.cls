@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class FromParser extends SubParser {
+public with sharing class FromParser extends SubParser {
     /**
      * @description Parses the 'from' clause of a query
      * @param query `String`

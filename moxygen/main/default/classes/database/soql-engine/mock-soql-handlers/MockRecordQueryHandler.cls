@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class MockRecordQueryHandler extends MockSOQLHandler {
+public with sharing class MockRecordQueryHandler extends MockSOQLHandler {
     /**
      * @description Query the database for records
      * @param query `String`

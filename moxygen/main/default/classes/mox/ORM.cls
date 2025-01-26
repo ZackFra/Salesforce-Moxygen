@@ -30,7 +30,7 @@
  *              is already taken.
  * @group Moxygen
  */
-public inherited sharing class ORM {
+public with sharing class ORM {
     private static Boolean isUnitTest = Test.isRunningTest();
     private static Boolean isBacktickReplacementEnabled = true;
 

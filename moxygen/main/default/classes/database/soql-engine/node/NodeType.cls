@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 5/5/2024
  */
-public inherited sharing class NodeType {
+public with sharing class NodeType {
     public final static String AGGREGATE_FUNCTION = 'aggregate function';
 
     public final static String XFROM = 'from';

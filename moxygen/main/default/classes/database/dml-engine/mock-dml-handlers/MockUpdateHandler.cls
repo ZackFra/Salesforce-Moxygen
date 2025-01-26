@@ -29,7 +29,7 @@
  * @since 3/9/2021
  */
 @IsTest
-public inherited sharing class MockUpdateHandler extends MockDMLHandler {
+public with sharing class MockUpdateHandler extends MockDMLHandler {
     /**
      * @description Updates a record in the database
      * @param recordToUpdate Record to update

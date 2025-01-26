@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public inherited sharing class CountLimitHandler implements ILimitHandler {
+public with sharing class CountLimitHandler implements ILimitHandler {
     LimitOptions options;
 
     /**

@@ -29,7 +29,7 @@
  * @since 4/12/2024
  */
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity')
-public inherited sharing class QueryParser extends SubParser {
+public with sharing class QueryParser extends SubParser {
     /**
      * @description Parses a SOQL query
      * @param query

@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class HavingParser extends SubParser {
+public with sharing class HavingParser extends SubParser {
     /**
      * @description Parses the HAVING clause of a SOQL query.
      * @param query `String`

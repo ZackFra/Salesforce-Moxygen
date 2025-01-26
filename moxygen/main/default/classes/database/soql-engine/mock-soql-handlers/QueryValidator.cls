@@ -28,7 +28,7 @@
  * but rather checks for invalid queries that are not supported by the SOQL parser
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity')
-public inherited sharing class QueryValidator {
+public with sharing class QueryValidator {
     /**
      * @description : The top level nodes of the query
      */

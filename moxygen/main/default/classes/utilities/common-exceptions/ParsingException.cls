@@ -29,7 +29,7 @@
  * @since 4/9/2024
  * @group Exceptions
  */
-public inherited sharing class ParsingException extends Exception {
+public with sharing class ParsingException extends Exception {
     /**
      * @description Constructor for a ParsingException
      * @param message `String` the message to display

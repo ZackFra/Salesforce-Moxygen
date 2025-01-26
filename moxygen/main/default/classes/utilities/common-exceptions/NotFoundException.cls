@@ -29,5 +29,5 @@
  * @since 7/12/2024
  * @group Exceptions
  */
-public inherited sharing class NotFoundException extends Exception {
+public with sharing class NotFoundException extends Exception {
 }

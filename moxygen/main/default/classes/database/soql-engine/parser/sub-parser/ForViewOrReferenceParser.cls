@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class ForViewOrReferenceParser extends SubParser {
+public with sharing class ForViewOrReferenceParser extends SubParser {
     /**
      * @description Parses the FOR VIEW or FOR REFERENCE clause
      * @param query `String`

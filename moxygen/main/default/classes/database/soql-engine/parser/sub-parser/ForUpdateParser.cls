@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class ForUpdateParser extends SubParser {
+public with sharing class ForUpdateParser extends SubParser {
     /**
      * @description Parses the FOR UPDATE clause in a SOQL query
      * @param query `String`

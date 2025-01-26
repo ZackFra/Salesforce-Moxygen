@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class OrderByParser extends SubParser {
+public with sharing class OrderByParser extends SubParser {
     /**
      * @description Parses the ORDER BY clause of a SOQL query.
      * @param query `String`

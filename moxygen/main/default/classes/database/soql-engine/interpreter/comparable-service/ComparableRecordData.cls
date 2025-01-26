@@ -3,7 +3,7 @@
  * @author Zackary Frazier
  * @since 11/24/2024
  */
-public inherited sharing virtual class ComparableRecordData {
+public with sharing virtual class ComparableRecordData {
     protected SObject comparableRecord;
     protected String comparableFieldName;
     protected String relationshipName;

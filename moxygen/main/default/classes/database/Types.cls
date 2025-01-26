@@ -4,7 +4,7 @@
  * @since 3/9/2024
  * @group Mock Database
  */
-public inherited sharing class Types {
+public with sharing class Types {
     /**
      * @description The type of DML operation that was performed
      */

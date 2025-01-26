@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/28/2024
  */
-public inherited sharing class WithSecurityEnforcedParser extends SubParser {
+public with sharing class WithSecurityEnforcedParser extends SubParser {
     /**
      * @description Parses the WITH SECURITY_ENFORCED clause in a SOQL query
      * @param query `String`

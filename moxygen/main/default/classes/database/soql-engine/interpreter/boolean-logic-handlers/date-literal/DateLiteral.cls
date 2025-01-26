@@ -3,7 +3,7 @@
  * @author Zackary Frazier
  * @since 11/27/2024
  */
-public inherited sharing virtual class DateLiteral {
+public with sharing virtual class DateLiteral {
     /**
      * @description The field value to the date literal token
      */

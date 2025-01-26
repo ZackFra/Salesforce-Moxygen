@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public inherited sharing class OffsetOptions {
+public with sharing class OffsetOptions {
     public Integer offset;
     public Types.SOQL type;
     public Object obj;

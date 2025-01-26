@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 3/23/2024
  */
-public inherited sharing class AggregateStandardProcessor extends AggregateProcessor {
+public with sharing class AggregateStandardProcessor extends AggregateProcessor {
     private List<ProtoAggregate> aggregateResults = new List<ProtoAggregate>();
 
     public override void processRecord(SObject databaseRecord) {

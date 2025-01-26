@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 5/5/2024
  */
-public inherited sharing class Token {
+public with sharing class Token {
     public final static String LPAREN = '(';
     public final static String RPAREN = ')';
     public final static String WHITESPACE = ' ';

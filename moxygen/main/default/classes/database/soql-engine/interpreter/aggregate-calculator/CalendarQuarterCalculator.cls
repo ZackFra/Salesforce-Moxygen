@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/28/2024
  */
-public inherited sharing class CalendarQuarterCalculator implements IAggregateCalculator {
+public with sharing class CalendarQuarterCalculator implements IAggregateCalculator {
     AggregateCalculatorOptions options;
 
     /**

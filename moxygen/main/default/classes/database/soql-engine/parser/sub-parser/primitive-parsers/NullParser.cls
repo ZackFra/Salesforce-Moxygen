@@ -3,7 +3,7 @@
  * @author Zackary Frazier
  * @since 11/28/2024
  */
-public inherited sharing class NullParser extends SubParser {
+public with sharing class NullParser extends SubParser {
     /**
      * @description Parses a null value from a query string.
      * @param query `String`

@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/5/2024
  */
-public inherited sharing class Aggregate {
+public with sharing class Aggregate {
     private Map<String, Object> data;
 
     /**

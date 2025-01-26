@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/13/2024
  */
-public inherited sharing class MockCountQueryHandler extends MockSOQLHandler {
+public with sharing class MockCountQueryHandler extends MockSOQLHandler {
     /**
      * @description Perform a count query
      * @param query `String`

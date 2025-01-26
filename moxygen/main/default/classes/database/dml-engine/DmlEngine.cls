@@ -29,7 +29,7 @@
  * @since 4/8/2024
  */
 @SuppressWarnings('PMD.CognitiveComplexity, PMD.ExcessivePublicCount')
-public inherited sharing class DmlEngine {
+public with sharing class DmlEngine {
     Set<Id> deletedRecords = new Set<Id>();
     MockDeleteHandler deleteHandler;
     MockInsertHandler insertHandler;

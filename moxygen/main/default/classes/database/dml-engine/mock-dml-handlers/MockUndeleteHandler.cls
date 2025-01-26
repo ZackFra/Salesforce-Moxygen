@@ -29,7 +29,7 @@
  * @since 3/9/2024
  */
 @IsTest
-public inherited sharing class MockUndeleteHandler extends MockDMLHandler {
+public with sharing class MockUndeleteHandler extends MockDMLHandler {
     private SObject selectDeletedRecordById(Id recordId) {
         if (!DataStore.isSoftDeleted(recordId)) {
             return null;

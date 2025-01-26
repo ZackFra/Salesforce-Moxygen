@@ -28,7 +28,7 @@
  * @author Zackary Frazier
  * @since 4/12/2024
  */
-public inherited sharing class WithDataCategoryParser extends SubParser {
+public with sharing class WithDataCategoryParser extends SubParser {
     /**
      * @description Parses the WITH DATA CATEGORY clause in a SOQL query
      * @param query `String`

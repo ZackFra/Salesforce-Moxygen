@@ -29,7 +29,7 @@
  * @since 3/23/2024
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
-public inherited sharing class PolymorphicSelectHandler implements ISelectHandler {
+public with sharing class PolymorphicSelectHandler implements ISelectHandler {
     private FieldSelector fSelector;
 
     /**

@@ -28,7 +28,7 @@
  * @author Zackary Fraizer
  * @since 4/12/2024
  */
-public inherited sharing class ScopeParser extends SubParser {
+public with sharing class ScopeParser extends SubParser {
     /**
      * @description Parses the scope clause of a SOQL query
      * @param query `String`
