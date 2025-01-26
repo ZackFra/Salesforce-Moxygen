@@ -523,18 +523,4 @@ public inherited sharing class MockDatabase {
         }
         return lowerCaseParams;
     }
-
-    /**
-     * @description Given a record and a field, return the parent record (i.e. the record that field looks up to)
-     * @param sObj : the record
-     * @param fieldName : the field name
-     * @return : the parent record
-     * @throws QueryException : if the parent record does not exist
-     */
-    public static ParentRecordData findParentRecord(
-        sObject sObj,
-        String fieldName
-    ) {
-        return utils.findParentRecord(sObj, fieldName);
-    }
 }
