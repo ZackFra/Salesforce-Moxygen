@@ -1,4 +1,4 @@
-[![Deploy](https://github.com/ZackFra/Salesforce-Moxygen/actions/workflows/on-merge.yaml/badge.svg?branch=main)](https://github.com/ZackFra/Salesforce-Moxygen/actions/workflows/on-merge.yaml) [![Validate](https://github.com/ZackFra/Salesforce-Moxygen/actions/workflows/on-pull-request.yaml/badge.svg)](https://github.com/ZackFra/Salesforce-Moxygen/actions/workflows/on-pull-request.yaml)
+[![Deploy](https://github.com/ZackFra/Salesforce-Moxygen/actions/workflows/on-merge.yaml/badge.svg)](https://github.com/ZackFra/Salesforce-Moxygen/actions/workflows/on-merge.yaml) [![Validate](https://github.com/ZackFra/Salesforce-Moxygen/actions/workflows/on-pull-request.yaml/badge.svg)](https://github.com/ZackFra/Salesforce-Moxygen/actions/workflows/on-pull-request.yaml)
 
 # 🚀 Jump Start Your Deployments!
 
