@@ -4,7 +4,7 @@
 
 Generates fake Salesforce Ids for testing purposes
 
-**Group** fflib
+**Group** Utilities
 
 **Author** FinancialForce.com, inc
 

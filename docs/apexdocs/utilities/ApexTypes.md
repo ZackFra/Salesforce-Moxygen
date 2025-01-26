@@ -6,6 +6,8 @@ A class that contains the names of the Apex types.
 
 11/16/2024
 
+**Group** Utilities
+
 **Author** Zackary Frazier
 
 ## Fields

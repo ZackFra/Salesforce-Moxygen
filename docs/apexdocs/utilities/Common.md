@@ -6,6 +6,8 @@ Common utility class for basic operations, should not contain complex code
 
 3/22/2024
 
+**Group** Utilities
+
 **Author** Zackary Frazier
 
 ## Methods

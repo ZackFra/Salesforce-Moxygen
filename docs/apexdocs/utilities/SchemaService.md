@@ -8,6 +8,8 @@ string arguments to these methods are understood to be case-insensitive
 anything named &quot;getName&quot; are understood to return proper API names 
 every argument is understood to be non-null
 
+**Group** Utilities
+
 ## Methods
 ### `blankSObjectFrom(sot)`
 

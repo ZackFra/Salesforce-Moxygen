@@ -6,6 +6,8 @@ Singleton for the Organization object
 
 1/7/2025
 
+**Group** Utilities
+
 **Author** Zackary Frazier
 
 ## Methods

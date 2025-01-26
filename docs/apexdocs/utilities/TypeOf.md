@@ -8,6 +8,8 @@ TypeOf is a class that provides a method to determine the type of an object.
 
 11/16/2024
 
+**Group** Utilities
+
 **Author** Zackary Frazier
 
 ## Methods

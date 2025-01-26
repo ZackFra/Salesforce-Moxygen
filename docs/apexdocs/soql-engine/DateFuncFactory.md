@@ -6,7 +6,7 @@ Factory class to create date functions by name
 
 1/17/2025
 
-**Group** Date Functions
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 

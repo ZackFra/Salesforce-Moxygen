@@ -6,7 +6,7 @@ Repository of aggregate date functions
 
 4/28/2024
 
-**Group** Date Functions
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
