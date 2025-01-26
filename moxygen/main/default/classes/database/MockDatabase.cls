@@ -36,9 +36,7 @@ public inherited sharing class MockDatabase {
     public static DmlEngine dmlHandler = new DmlEngine();
     public static SoqlEngine soqlHandler = new SoqlEngine();
 
-    public static Map<String, Map<Id, SObject>> mockRecords = new Map<String, Map<Id, SObject>>();
     public static MockDatabaseUtils utils = new MockDatabaseUtils();
-    public static Set<Id> deletedRecords = new Set<Id>();
 
     /** Utility methods (For Testing) */
 
@@ -47,37 +45,6 @@ public inherited sharing class MockDatabase {
      */
     public static void resetHandlers() {
         dmlHandler.resetHandlers();
-    }
-
-    /**
-     * @description Count the number of records in the mock database
-     * @return  `Integer`
-     */
-    public static Integer count() {
-        Integer count = 0;
-        for (String objApiName : mockRecords.keySet()) {
-            count += mockRecords.get(objApiName).size();
-        }
-        return count;
-    }
-
-    /**
-     * @description wasDeleted is used to check if a record was deleted from the database
-     * @param recordId - The Id of the record to check
-     * @return Boolean - Whether the record was deleted
-     */
-    public static Boolean isDeleted(Id recordId) {
-        SObject record = utils.findRecord(recordId);
-        return (record.get('IsDeleted') == true);
-    }
-
-    /**
-     * @description Returns the deleted record by Id
-     * @param recordId
-     * @return  `SObject`
-     */
-    public static SObject selectRecordById(Id recordId) {
-        return utils.findRecord(recordId);
     }
 
     /** DML methods **/
@@ -555,28 +522,5 @@ public inherited sharing class MockDatabase {
             lowerCaseParams.put(key.toLowerCase(), params.get(key));
         }
         return lowerCaseParams;
-    }
-
-    /**
-     * @description return all SObjects of a given type
-     * @param objApiName : the object API name
-     * @return : the map of SObjects
-     */
-    public static Map<Id, sObject> get(String objApiName) {
-        return mockRecords.get(objApiName);
-    }
-
-    /**
-     * @description Given a record and a field, return the parent record (i.e. the record that field looks up to)
-     * @param sObj : the record
-     * @param fieldName : the field name
-     * @return : the parent record
-     * @throws QueryException : if the parent record does not exist
-     */
-    public static ParentRecordData findParentRecord(
-        sObject sObj,
-        String fieldName
-    ) {
-        return utils.findParentRecord(sObj, fieldName);
     }
 }

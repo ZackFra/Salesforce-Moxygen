@@ -31,12 +31,10 @@
 @IsTest
 public inherited sharing class MockDeleteHandler extends MockDMLHandler {
     private SObject selectRecordById(Id recordId) {
-        String sObjName = SchemaService.getSObjectName(recordId);
-        SObject mockRecord = MockDatabase.mockRecords.get(sObjName)
-            .get(recordId);
-        if (MockDatabase.deletedRecords.contains(recordId)) {
+        if (DataStore.isSoftDeleted(recordId)) {
             return null;
         }
+        SObject mockRecord = DataStore.getById(recordId);
         return mockRecord;
     }
 
@@ -54,8 +52,8 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
         Boolean allOrNone
     ) {
         wasCalled = true;
-        String sObjName = SchemaService.getSObjectName(recordToDelete);
-        Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(sObjName);
+        SObjectType sot = SchemaService.getSObjectType(recordToDelete);
+        Map<Id, SObject> mockRecords = DataStore.getAllBySot(sot);
         if (mockRecords == null && allOrNone) {
             throw new DmlException('Record does not exist');
         } else if (mockRecords == null) {
@@ -75,14 +73,14 @@ public inherited sharing class MockDeleteHandler extends MockDMLHandler {
             );
         }
 
-        MockDatabase.deletedRecords.add(recordToDelete.Id);
+        DataStore.softDelete(recordToDelete.Id);
 
         SObject updatedRecord = Common.putReadOnlyField(
             mockRecord,
             'IsDeleted',
             true
         );
-        mockRecords.put(updatedRecord.Id, updatedRecord);
+        DataStore.put(updatedRecord);
 
         return (Database.DeleteResult) srService.createSuccess(
             recordToDelete.Id,

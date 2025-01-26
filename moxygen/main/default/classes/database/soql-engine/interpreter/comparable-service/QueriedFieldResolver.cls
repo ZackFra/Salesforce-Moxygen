@@ -61,10 +61,7 @@ public inherited sharing virtual class QueriedFieldResolver {
             if (parentInfo != null) {
                 priorRecord = parentInfo.getParentRecord();
             }
-            parentInfo = MockDatabase.findParentRecord(
-                priorRecord,
-                parentField
-            );
+            parentInfo = findParentRecord(priorRecord, parentField);
             relationshipMapping.add(parentInfo.getFieldRelationshipName());
             parentRecord = getFullParentRecordWithAllFields(parentInfo);
             fieldParts.remove(0);
@@ -90,13 +87,88 @@ public inherited sharing virtual class QueriedFieldResolver {
             .build();
     }
 
+    /**
+     * @description Return a parent sObject from a field name and a child sObject
+     * @param sObj The child SObject
+     * @param fieldName the field name of the parent sObject from the child
+     *                  ex. OpportunityLineItem, the field is Opportunity
+     * @return The parent sObject
+     */
+    private ParentRecordData findParentRecord(SObject sObj, String fieldName) {
+        String sObjApiName = sObj.getSObjectType().getDescribe().getName();
+        SObjectType t = SchemaService.getSObjectType(sObjApiName);
+
+        List<Schema.SObjectField> fields = SchemaService.getFields(t);
+        for (SObjectField field : t.getDescribe().fields.getMap().values()) {
+            Schema.DescribeFieldResult dfr = field.getDescribe();
+            Schema.DisplayType dfrFieldType = dfr.getType();
+            String dfrRelationshipName = dfr.getRelationshipName();
+            String lowercaseDfrRelationshipName = null;
+            if (dfrRelationshipName != null) {
+                lowercaseDfrRelationshipName = dfrRelationshipName.toLowerCase();
+            }
+
+            if (
+                dfrFieldType == Schema.DisplayType.REFERENCE &&
+                lowerCaseDfrRelationshipName == fieldName
+            ) {
+                return buildParentRecordData(field, sObj);
+            }
+        }
+
+        throw new QueryException('Invalid relationship name: ' + fieldName);
+    }
+
+    private ParentRecordData buildParentRecordData(
+        SObjectField field,
+        SObject childRecord
+    ) {
+        DescribeFieldResult dfr = field.getDescribe();
+        String fieldName = dfr.getName();
+        List<Schema.sObjectType> objTypeList = dfr.getReferenceTo();
+
+        String parentObjApiName;
+        Boolean isPolymorphic = false;
+        if (objTypeList.size() == 1) {
+            parentObjApiName = SchemaService.getSObjectName(objTypeList[0]);
+        } else {
+            String parentFieldApiName = SchemaService.getFieldName(field);
+            Id parentRecordId = (Id) childRecord.get(parentFieldApiName);
+            parentObjApiName = SchemaService.getSObjectName(parentRecordId);
+            isPolymorphic = true;
+        }
+
+        if (parentObjApiName == null) {
+            throw new QueryException('Invalid relationship name: ' + fieldName);
+        }
+        String fieldRelationshipName = dfr.getRelationshipName();
+
+        sObject parentRecord = ((sObject) Type.forName(parentObjApiName)
+                .newInstance())
+            .getSObjectType()
+            .newSObject();
+
+        SObjectType sot = SchemaService.getSObjectType(childRecord);
+        Map<Id, sObject> mockRecordsChild = DataStore.getAllBySot(sot);
+        Id parentId = (Id) mockRecordsChild.get(childRecord.Id).get(fieldName);
+
+        parentRecord.put('Id', parentId);
+        return new ParentRecordData.Builder()
+            .setFieldApiName(fieldName)
+            .setFieldRelationshipName(fieldRelationshipName)
+            .setParentObjApiName(parentObjApiName)
+            .setObjApiName(SchemaService.getSObjectName(childRecord))
+            .setParentRecord(parentRecord)
+            .setIsPolymorphic(isPolymorphic)
+            .build();
+    }
+
     private SObject getFullParentRecordWithAllFields(
         ParentRecordData recordData
     ) {
-        SObject fullParentRecord = MockDatabase.get(
-                recordData.getParentObjApiName()
-            )
-            .get(recordData.getParentRecordId());
+        SObject fullParentRecord = DataStore.getById(
+            recordData.getParentRecordId()
+        );
         return fullParentRecord;
     }
 

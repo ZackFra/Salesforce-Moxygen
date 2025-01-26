@@ -70,7 +70,7 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
         String fieldPart = fieldParts[0];
 
         Map<String, Object> parentInfo = ComparableService.getParentObject(
-            MockDatabase.selectRecordById(sObj.Id),
+            DataStore.getById(sObj.Id),
             fieldPart
         );
         sObject parentRecord = (sObject) parentInfo.get('parentRecord');
@@ -100,13 +100,14 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
             sObjClone.put(fieldApiName, nextParent.Id);
             sObjClone.put(fieldRelationshipName, nextParent);
         } else {
-            Map<Id, sObject> mockRecords = MockDatabase.get(
-                parentRecordApiName
-            );
-
-            Schema.SObjectType parentRecordSObjType = SchemaService.getSObjectType(
+            Schema.SObjectType parentRecordSot = SchemaService.getSObjectType(
                 parentRecord
             );
+
+            Map<Id, sObject> mockRecords = DataStore.getAllBySot(
+                parentRecordSot
+            );
+
             Boolean isRelationshipPolymorphic = (Boolean) parentInfo.get(
                 'isPolymorphic'
             );
@@ -117,7 +118,7 @@ public with sharing class ParentSubQuerySelectHandler implements ISelectHandler 
                 finalFieldApiName = polymorphicFieldMap.get(finalField);
             } else {
                 finalFieldApiName = SchemaService.getFieldName(
-                    parentRecordSObjType,
+                    parentRecordSot,
                     finalField
                 );
             }

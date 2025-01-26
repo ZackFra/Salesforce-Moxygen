@@ -49,8 +49,8 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
         };
         Common.nullCheck(args);
 
-        String objName = SchemaService.getSObjectName(recordToUpdate);
-        Map<Id, sObject> mockRecords = MockDatabase.mockRecords.get(objName);
+        SObjectType sot = SchemaService.getSObjectType(recordToUpdate);
+        Map<Id, SObject> mockRecords = DataStore.getAllBySot(sot);
 
         if (mockRecords == null && allOrNone) {
             throw new DmlException('Record does not exist');
@@ -65,8 +65,6 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
                 Database.SaveResult.class
             );
         }
-
-        Schema.SObjectType sot = SchemaService.getSObjectType(recordToUpdate);
 
         for (String field : recordToUpdate.getPopulatedFieldsAsMap().keySet()) {
             Schema.SObjectField sObjField = SchemaService.getField(sot, field);
@@ -88,6 +86,7 @@ public inherited sharing class MockUpdateHandler extends MockDMLHandler {
         mockRecord.put('LastModifiedDate', Gmt.now());
         mockRecord.put('LastModifiedById', UserInfo.getUserId());
 
+        String objName = SchemaService.getSObjectName(recordToUpdate);
         recordToUpdate = (SObject) JSON.deserialize(
             JSON.serialize(mockRecord),
             Type.forName(objName)
