@@ -1,5 +1,5 @@
 @IsTest
-public with sharing class ParserTestUtil {
+private class ParserTestUtil {
     /**
      * @description Assert muliple static resources align with their queries
      * @param srNames
