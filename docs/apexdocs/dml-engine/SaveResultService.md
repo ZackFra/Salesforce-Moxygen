@@ -4,6 +4,8 @@
 
 This class is used to create success and failure results for DML operations.
 
+**Group** DML Engine
+
 ## Methods
 ### `createFailure(message, resultType)`
 

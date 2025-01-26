@@ -21,7 +21,7 @@ public static dmlHandler
 ```
 
 #### Type
-[DmlEngine](../uncategorized/DmlEngine.md)
+[DmlEngine](../dml-engine/DmlEngine.md)
 
 ---
 
