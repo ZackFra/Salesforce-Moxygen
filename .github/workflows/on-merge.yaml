@@ -20,6 +20,7 @@ jobs:
         uses: ./.github/workflows/generate-apex-docs.yaml
         secrets: inherit
     publish-unlocked-package:
+        if: always()
         permissions:
             pull-requests: write
         needs: [generate-apex-docs]
