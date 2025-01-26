@@ -33,15 +33,6 @@
 )
 public inherited sharing class MockDatabaseUtils {
     /**
-     * @description Given a record id, verify it exists in the database
-     * @param recordId : the record id
-     * @return : whether the record exists in the database
-     */
-    public Boolean isRecordInDatabase(Id recordId) {
-        return DataStore.isRecordInDataStore(recordId);
-    }
-
-    /**
      * @description : get the sObject from the database
      * @param recordId : the record id
      * @return : the sObject
