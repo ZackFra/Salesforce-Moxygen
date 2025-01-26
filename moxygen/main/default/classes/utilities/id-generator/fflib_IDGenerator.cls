@@ -27,7 +27,7 @@
 /**
  * @description Generates fake Salesforce Ids for testing purposes
  * @author FinancialForce.com, inc
- * @group fflib
+ * @group Utilities
  */
 @SuppressWarnings('PMD')
 public with sharing class fflib_IDGenerator {

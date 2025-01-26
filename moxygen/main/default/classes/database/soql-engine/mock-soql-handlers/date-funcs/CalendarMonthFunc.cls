@@ -2,7 +2,7 @@
  * @description Function to calculate the calendar month of a date or datetime value
  * @author Zackary Frazier
  * @since 1/17/2025
- * @group Date Functions
+ * @group Soql Engine
  */
 public with sharing class CalendarMonthFunc implements IDateFunc {
     /**

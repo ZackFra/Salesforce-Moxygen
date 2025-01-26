@@ -2,6 +2,7 @@
  * @description DynamicCast is a class that provides a method to cast a value to a specified type.
  * @author Zackary Frazier
  * @since 11/16/2024
+ * @group Utilities
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
 public with sharing class DynamicCast {

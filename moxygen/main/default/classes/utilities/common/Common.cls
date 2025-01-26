@@ -27,6 +27,7 @@
  * @description Common utility class for basic operations, should not contain complex code
  * @author Zackary Frazier
  * @since 3/22/2024
+ * @group Utilities
  */
 public with sharing class Common {
     static final String DATE_PATTERN = '^([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})$';
