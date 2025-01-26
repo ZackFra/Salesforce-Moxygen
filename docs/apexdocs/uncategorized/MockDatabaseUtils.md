@@ -72,29 +72,6 @@ public Object emptyResponse(TopLevelNodes topLevelNodes)
 
 ---
 
-### `findParentRecord(sObj, fieldName)`
-
-: return a parent sObject from a field name and a child sObject
-
-#### Signature
-```apex
-public ParentRecordData findParentRecord(sObject sObj, String fieldName)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| sObj | sObject | : the child sObject |
-| fieldName | String | : the field name of the parent sObject from the child 
-: ex. OpportunityLineItem, the field is Opportunity |
-
-#### Return Type
-**[ParentRecordData](ParentRecordData.md)**
-
-: the parent sObject
-
----
-
 ### `findRecord(recordId)`
 
 : get the sObject from the database
@@ -180,24 +157,3 @@ public String getUnfulfilledField(SObject record)
 **String**
 
 : first required field that is not set
-
----
-
-### `isRecordInDatabase(recordId)`
-
-Given a record id, verify it exists in the database
-
-#### Signature
-```apex
-public Boolean isRecordInDatabase(Id recordId)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| recordId | Id | : the record id |
-
-#### Return Type
-**Boolean**
-
-: whether the record exists in the database
