@@ -10,7 +10,7 @@ Calculates the sum of a field
 
 **Implements**
 
-[IAggregateCalculator](IAggregateCalculator.md)
+[IAggregateCalculator](../soql-engine/IAggregateCalculator.md)
 
 ## Constructors
 ### `SumCalculator(options)`
@@ -25,7 +25,7 @@ public SumCalculator(AggregateCalculatorOptions options)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [AggregateCalculatorOptions](AggregateCalculatorOptions.md) |  |
+| options | [AggregateCalculatorOptions](../soql-engine/AggregateCalculatorOptions.md) |  |
 
 ## Methods
 ### `calculate()`

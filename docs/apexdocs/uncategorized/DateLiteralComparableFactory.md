@@ -21,7 +21,7 @@ public static DateLiteralComparable create(DateLiteral dateLiteral)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| dateLiteral | [DateLiteral](DateLiteral.md) | `DateLiteral` |
+| dateLiteral | [DateLiteral](../soql-engine/DateLiteral.md) | `DateLiteral` |
 
 #### Return Type
 **[DateLiteralComparable](DateLiteralComparable.md)**

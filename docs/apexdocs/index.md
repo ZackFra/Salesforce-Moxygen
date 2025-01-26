@@ -58,9 +58,9 @@ Generates fake Salesforce Ids for testing purposes
 
 The MockDatabase class is used to simulate the Salesforce database in Apex unit tests
 
-### [Types](mock-database/Types.md)
+### [Token](mock-database/Token.md)
 
-Types defined for this package
+This class is responsible for handling the Token constants
 
 ## Moxygen
 
@@ -84,96 +84,497 @@ is already taken.
 
 Wrapper class for Database class&#x27;s query methods. This class is used to allow for mocking of the Database class in unit tests.
 
-## Uncategorized
+### [Types](moxygen/Types.md)
 
-### [AbstractSyntaxTreeWithQuery](uncategorized/AbstractSyntaxTreeWithQuery.md)
+Types defined for this package
+
+## Soql Engine
+
+### [AbstractSyntaxTreeWithQuery](soql-engine/AbstractSyntaxTreeWithQuery.md)
 
 Represents and AST as stored in the parser static resources
+
+### [AggregateCalculatorFactory](soql-engine/AggregateCalculatorFactory.md)
+
+Generates an instance of an aggregate calculator based on the type provided
+
+### [AggregateCalculatorOptions](soql-engine/AggregateCalculatorOptions.md)
+
+Options for the AggregateCalculator class
+
+### [AggregateComparator](soql-engine/AggregateComparator.md)
+
+A class to compare two pre-Aggregate based on a set of fields 
+(a pre-Aggregate is a ProtoAggregate where the keys are the field names and the values are the field values)
+
+### [AggregateFuncParser](soql-engine/AggregateFuncParser.md)
+
+This class is responsible for parsing aggregate functions
+
+### [AggregateLimitHandler](soql-engine/AggregateLimitHandler.md)
+
+Handles the limit for the aggregate query
+
+### [AggregateOffsetHandler](soql-engine/AggregateOffsetHandler.md)
+
+Handler for offsetting aggregate results
+
+### [AggregateOrderByHandler](soql-engine/AggregateOrderByHandler.md)
+
+Handles the ORDER BY clause for aggregate queries
+
+### [AggregateProcessor](soql-engine/AggregateProcessor.md)
+
+Processor for aggregate functions
+
+### [AggregateQueryHandler](soql-engine/AggregateQueryHandler.md)
+
+This class is responsible for handling the aggregate queries
+
+### [AggregateService](soql-engine/AggregateService.md)
+
+Contains static methods for working with aggregates and proto-aggregates
+
+### [AggregateStandardProcessor](soql-engine/AggregateStandardProcessor.md)
+
+Standard processor for aggregate queries
+
+### [AliasParser](soql-engine/AliasParser.md)
+
+This class is responsible for parsing aliases in the query
+
+### [AliasService](soql-engine/AliasService.md)
+
+Tool for finding the aliases on nodes
+
+### [Attributes](soql-engine/Attributes.md)
+
+Attributes for SObject
+
+### [BindVariableParser](soql-engine/BindVariableParser.md)
+
+A class to parse a bind variable
+
+### [BooleanLogicHandler](soql-engine/BooleanLogicHandler.md)
+
+A class to handle boolean logic, when it comes to HAVING and WHERE clauses, it&#x27;s all the same except for the comparison
+
+### [BooleanLogicOptions](soql-engine/BooleanLogicOptions.md)
+
+This class is used to store the options for the BooleanLogic class
+
+### [BooleanParser](soql-engine/BooleanParser.md)
+
+A parser for boolean values
+
+### [ChildSubQuerySelectHandler](soql-engine/ChildSubQuerySelectHandler.md)
+
+Child subquery select handler
+
+### [ComparableRecordData](soql-engine/ComparableRecordData.md)
+
+Encapsulates the data needed to compare records
+
+### [ComparableService](soql-engine/ComparableService.md)
+
+This class provides the ability to compare fields on SObjects with the mock database
+
+### [CountLimitHandler](soql-engine/CountLimitHandler.md)
+
+Handles the limit for the count of records
+
+### [CountOffsetHandler](soql-engine/CountOffsetHandler.md)
+
+OffsetHandler for Count
+
+### [DateLiteral](soql-engine/DateLiteral.md)
+
+Represents the value and new record field value for a date literal
+
+### [DateLiteralParser](soql-engine/DateLiteralParser.md)
+
+Generic date literal parser
+
+### [DateParser](soql-engine/DateParser.md)
+
+DateParser is a parser for date values.
+
+### [EqualityHandler](soql-engine/EqualityHandler.md)
+
+Handles the equality operator
+
+### [ExcludesHandler](soql-engine/ExcludesHandler.md)
+
+Handles the excludes operator
+
+### [FieldListParser](soql-engine/FieldListParser.md)
+
+This class is responsible for parsing a list of fields.
+
+### [FieldParser](soql-engine/FieldParser.md)
+
+This class is responsible for parsing a field from a query string.
+
+### [FieldSelectHandler](soql-engine/FieldSelectHandler.md)
+
+FieldSelectHandler is a class that implements ISelectHandler. It is used to handle the selection of a field.
+
+### [FieldSelector](soql-engine/FieldSelector.md)
+
+FieldSelector is a class that is used to select fields from a queried record based on a field node.
+
+### [ForUpdateParser](soql-engine/ForUpdateParser.md)
+
+This class is responsible for parsing the FOR UPDATE clause in a SOQL query
+
+### [ForViewOrReferenceParser](soql-engine/ForViewOrReferenceParser.md)
+
+This class is responsible for parsing the FOR VIEW or FOR REFERENCE clause
+
+### [FromParser](soql-engine/FromParser.md)
+
+Class is responsible for parsing the &#x27;from&#x27; clause of a query
+
+### [GreaterThanHandler](soql-engine/GreaterThanHandler.md)
+
+Handles the greater than operator
+
+### [GreaterThanOrEqualHandler](soql-engine/GreaterThanOrEqualHandler.md)
+
+Handles the greater than or equal operator
+
+### [GroupByParser](soql-engine/GroupByParser.md)
+
+This class is responsible for parsing the GROUP BY clause of a SOQL query
+
+### [HavingLogicHandler](soql-engine/HavingLogicHandler.md)
+
+This class is used to handle the having clause logic
+
+### [HavingParser](soql-engine/HavingParser.md)
+
+This class is responsible for parsing the HAVING clause of a SOQL query.
+
+### [IAggregateCalculator](soql-engine/IAggregateCalculator.md)
+
+Interface for aggregate calculator
+
+### [IdAndReferenceFieldComparator](soql-engine/IdAndReferenceFieldComparator.md)
+
+This class is used to compare two fields to determine if one is a reference to the other
+
+### [IdFieldComparator](soql-engine/IdFieldComparator.md)
+
+Id Field Comparator
+
+### [IdFieldComparatorFactory](soql-engine/IdFieldComparatorFactory.md)
+
+Returns a comparator for the given field types, compares ID fields (i.e. ID, Reference)
+
+### [ILimitHandler](soql-engine/ILimitHandler.md)
+
+Interface for limit handler
+
+### [IncludesHandler](soql-engine/IncludesHandler.md)
+
+Handles the includes operator
+
+### [InequalityHandler](soql-engine/InequalityHandler.md)
+
+Handles the inequality operator
+
+### [InHandler](soql-engine/InHandler.md)
+
+Handler for IN operator
+
+### [Intermediary](soql-engine/Intermediary.md)
+
+: Class to hold the head of a parsed query and the remaining subquery
+
+### [IOffsetHandler](soql-engine/IOffsetHandler.md)
+
+Interface for offset handler
+
+### [IOperatorHandler](soql-engine/IOperatorHandler.md)
+
+comparison handlers for WHERE and HAVING clauses
+
+### [ISelectHandler](soql-engine/ISelectHandler.md)
+
+Interface for handling select operations
+
+### [IWhereLogicComparisonStrategy](soql-engine/IWhereLogicComparisonStrategy.md)
+
+Strategy inreferace for WHERE logic comparison
+
+### [LessThanHandler](soql-engine/LessThanHandler.md)
+
+Handles the less than operator
+
+### [LessThanOrEqualHandler](soql-engine/LessThanOrEqualHandler.md)
+
+Handles the LessThanOrEqual operator
+
+### [LikeHandler](soql-engine/LikeHandler.md)
+
+Handles the LIKE operator
+
+### [LimitHandlerFactory](soql-engine/LimitHandlerFactory.md)
+
+Used to create a limit handler based on the query type
+
+### [LimitOptions](soql-engine/LimitOptions.md)
+
+The options to be passed into an ILimitHandler
+
+### [LimitParser](soql-engine/LimitParser.md)
+
+This class is responsible for parsing the limit clause of a query
+
+### [MockAggregateQueryHandler](soql-engine/MockAggregateQueryHandler.md)
+
+This class is responsible for handling aggregate SOQL queries to the mock database
+
+### [MockCountQueryHandler](soql-engine/MockCountQueryHandler.md)
+
+This class is responsible for handling count SOQL queries to the mock database
+
+### [MockRecordQueryHandler](soql-engine/MockRecordQueryHandler.md)
+
+This class is responsible for handling record SOQL queries to the mock database
+
+### [MockSOQLHandler](soql-engine/MockSOQLHandler.md)
+
+Base class for handling SOQL queries to the mock database
+
+### [Node](soql-engine/Node.md)
+
+: Returns a string representation of the AST
+
+### [NodeBuilder](soql-engine/NodeBuilder.md)
+
+: Builder class for the Node class, used to create a Node
+
+### [NodeService](soql-engine/NodeService.md)
+
+Service class for manipulating and describing the nodes of the AST created by the parser 
+each method is a static method that takes in a TopLevelNodes
+
+### [NodeType](soql-engine/NodeType.md)
+
+This class is responsible for handling the NodeType constants
+
+### [NotInHandler](soql-engine/NotInHandler.md)
+
+Handles the NotIn operator
+
+### [NullParser](soql-engine/NullParser.md)
+
+NullParser is a parser for null values.
+
+### [NumberParser](soql-engine/NumberParser.md)
+
+NumberParser is a parser for numeric values.
+
+### [ObjectComparator](soql-engine/ObjectComparator.md)
+
+This class is used to compare two generic objects of the same type.
+
+### [OffsetHandlerFactory](soql-engine/OffsetHandlerFactory.md)
+
+This class is responsible for creating the appropriate offset handler based on the query type.
+
+### [OffsetOptions](soql-engine/OffsetOptions.md)
+
+Options class for the Offset class
+
+### [OffsetParser](soql-engine/OffsetParser.md)
+
+This class is responsible for parsing the offset clause of a query
+
+### [OperatorHandlerFactory](soql-engine/OperatorHandlerFactory.md)
+
+Provides a factory for creating operator handlers.
+
+### [OperatorParser](soql-engine/OperatorParser.md)
+
+This class is responsible for parsing operators in the query string.
+
+### [OrderByHandler](soql-engine/OrderByHandler.md)
+
+Abstract class for OrderByHandler
+
+### [OrderByHandlerFactory](soql-engine/OrderByHandlerFactory.md)
+
+Factory class for creating OrderByHandler instances
+
+### [OrderByOptions](soql-engine/OrderByOptions.md)
+
+Options class for OrderBy
+
+### [OrderByParser](soql-engine/OrderByParser.md)
+
+This class is responsible for parsing the ORDER BY clause of a SOQL query.
+
+### [ParentLookupChain](soql-engine/ParentLookupChain.md)
+
+Represents a chain of fields to look up on a parent object
+
+### [ParentLookupResolver](soql-engine/ParentLookupResolver.md)
+
+A class to resolve a parent lookup chain
+
+### [ParentRecordData](soql-engine/ParentRecordData.md)
+
+A class to store data about a parent record
+
+### [ParentSubQuerySelectHandler](soql-engine/ParentSubQuerySelectHandler.md)
+
+Handles the selection of a field that is a parent relationship in a subquery
+
+### [Parser](soql-engine/Parser.md)
+
+The parser breaks down a SOQL query into an AST, to be fed into the parser (MockDatabase)
+
+### [ParserUtils](soql-engine/ParserUtils.md)
+
+Contains utility methods for the parser, could probably be refactored out of existance though
+
+### [PolymorphicAttributes](soql-engine/PolymorphicAttributes.md)
+
+Attributes for polymorphic SObject
+
+### [PolymorphicSelectHandler](soql-engine/PolymorphicSelectHandler.md)
+
+Select handler for TYPEOF operator
+
+### [PrimitiveParserFactory](soql-engine/PrimitiveParserFactory.md)
+
+Factory class for primitive parsers
+
+### [QueriedFieldResolver](soql-engine/QueriedFieldResolver.md)
+
+This class is used to resolve the field in a query
+
+### [QueryParser](soql-engine/QueryParser.md)
+
+This class is responsible for parsing a SOQL query
+
+### [QueryValidator](soql-engine/QueryValidator.md)
+
+Validate the AST of a query, this does not validate the query against the schema, 
+but rather checks for invalid queries that are not supported by the SOQL parser
+
+### [RecordLimitHandler](soql-engine/RecordLimitHandler.md)
+
+Limit handler for record limit
+
+### [RecordOffsetHandler](soql-engine/RecordOffsetHandler.md)
+
+Offset handler for records
+
+### [RecordOrderByHandler](soql-engine/RecordOrderByHandler.md)
+
+Order by handler for record data
+
+### [ReferenceFieldComparator](soql-engine/ReferenceFieldComparator.md)
+
+Comparator for two reference fields, checks if they reference the same object
+
+### [ScopeParser](soql-engine/ScopeParser.md)
+
+This class is responsible for parsing the scope clause of a SOQL query
+
+### [SelectHandlerFactory](soql-engine/SelectHandlerFactory.md)
+
+Factory class to create appropriate select handler based on the field node type
+
+### [SelectParser](soql-engine/SelectParser.md)
+
+Parser for the SELECT clause
+
+### [SObjectComparator](soql-engine/SObjectComparator.md)
+
+This class is used to compare two SObjects based on the fields provided in the constructor.
+
+### [SObjectParser](soql-engine/SObjectParser.md)
+
+Parses an SObject name in a query
+
+### [SoqlEngine](soql-engine/SoqlEngine.md)
+
+This class is response for handling SOQL queries to the mock database
+
+### [StringParser](soql-engine/StringParser.md)
+
+A class to parse a generic string
+
+### [SubParser](soql-engine/SubParser.md)
+
+SubParser is an abstract class that provides helper methods for parsing subqueries.
+
+### [TopLevelNodes](soql-engine/TopLevelNodes.md)
+
+This class is used to parse the top level nodes of a SOQL query. 
+Designed to refresh the instance if the head node changes, i.e. if a new SOQL query is made.
+
+### [UpdateTrackingOrViewStatParser](soql-engine/UpdateTrackingOrViewStatParser.md)
+
+This class is responsible for parsing the UPDATE TRACKING or UPDATE VIEWSTAT query
+
+### [ValueListParser](soql-engine/ValueListParser.md)
+
+This class is responsible for parsing a list of values.
+
+### [ValueParser](soql-engine/ValueParser.md)
+
+This class is responsible for parsing values in the query string
+
+### [WhereLogicComparisonResults](soql-engine/WhereLogicComparisonResults.md)
+
+Contains the results of a where logic comparison
+
+### [WhereLogicDateFuncStrategy](soql-engine/WhereLogicDateFuncStrategy.md)
+
+This class is responsible for handling date functions in the WHERE clause
+
+### [WhereLogicHandler](soql-engine/WhereLogicHandler.md)
+
+This class is responsible for handling the WHERE clause logic
+
+### [WhereLogicParentFieldStrategy](soql-engine/WhereLogicParentFieldStrategy.md)
+
+Strategy for getting the field value of a parent field
+
+### [WhereLogicRecordFieldStrategy](soql-engine/WhereLogicRecordFieldStrategy.md)
+
+This class is responsible for handling record fields in the WHERE clause
+
+### [WhereParser](soql-engine/WhereParser.md)
+
+This class is responsible for parsing the WHERE clause of a SOQL query.
+
+### [WithDataCategoryParser](soql-engine/WithDataCategoryParser.md)
+
+This class is used to parse the WITH DATA CATEGORY clause in a SOQL query
+
+### [WithSecurityEnforcedParser](soql-engine/WithSecurityEnforcedParser.md)
+
+This class is responsible for parsing the WITH SECURITY_ENFORCED clause in a SOQL query.
+
+## Uncategorized
 
 ### [AggregateBuilder](uncategorized/AggregateBuilder.md)
 
 Creates Aggregate objects from ProtoAggregates
 
-### [AggregateCalculatorFactory](uncategorized/AggregateCalculatorFactory.md)
-
-Generates an instance of an aggregate calculator based on the type provided
-
-### [AggregateCalculatorOptions](uncategorized/AggregateCalculatorOptions.md)
-
-Options for the AggregateCalculator class
-
-### [AggregateComparator](uncategorized/AggregateComparator.md)
-
-A class to compare two pre-Aggregate based on a set of fields 
-(a pre-Aggregate is a ProtoAggregate where the keys are the field names and the values are the field values)
-
-### [AggregateFuncParser](uncategorized/AggregateFuncParser.md)
-
-This class is responsible for parsing aggregate functions
-
-### [AggregateLimitHandler](uncategorized/AggregateLimitHandler.md)
-
-Handles the limit for the aggregate query
-
-### [AggregateOffsetHandler](uncategorized/AggregateOffsetHandler.md)
-
-Handler for offsetting aggregate results
-
-### [AggregateOrderByHandler](uncategorized/AggregateOrderByHandler.md)
-
-Handles the ORDER BY clause for aggregate queries
-
-### [AggregateProcessor](uncategorized/AggregateProcessor.md)
-
-Processor for aggregate functions
-
-### [AggregateQueryHandler](uncategorized/AggregateQueryHandler.md)
-
-This class is responsible for handling the aggregate queries
-
-### [AggregateService](uncategorized/AggregateService.md)
-
-Contains static methods for working with aggregates and proto-aggregates
-
-### [AggregateStandardProcessor](uncategorized/AggregateStandardProcessor.md)
-
-Standard processor for aggregate queries
-
-### [AliasParser](uncategorized/AliasParser.md)
-
-This class is responsible for parsing aliases in the query
-
-### [AliasService](uncategorized/AliasService.md)
-
-Tool for finding the aliases on nodes
-
 ### [ApexTypes](uncategorized/ApexTypes.md)
 
 A class that contains the names of the Apex types.
 
-### [Attributes](uncategorized/Attributes.md)
-
-Attributes for SObject
-
 ### [AverageCalculator](uncategorized/AverageCalculator.md)
 
 Calculates the average of a set of values.
-
-### [BindVariableParser](uncategorized/BindVariableParser.md)
-
-A class to parse a bind variable
-
-### [BooleanLogicHandler](uncategorized/BooleanLogicHandler.md)
-
-A class to handle boolean logic, when it comes to HAVING and WHERE clauses, it&#x27;s all the same except for the comparison
-
-### [BooleanLogicOptions](uncategorized/BooleanLogicOptions.md)
-
-This class is used to store the options for the BooleanLogic class
-
-### [BooleanParser](uncategorized/BooleanParser.md)
-
-A parser for boolean values
 
 ### [CalendarMonthCalculator](uncategorized/CalendarMonthCalculator.md)
 
@@ -187,21 +588,9 @@ Calculates the calendar month from a date value
 
 Calculates the calendar month from a date value
 
-### [ChildSubQuerySelectHandler](uncategorized/ChildSubQuerySelectHandler.md)
-
-Child subquery select handler
-
 ### [Common](uncategorized/Common.md)
 
 Common utility class for basic operations, should not contain complex code
-
-### [ComparableRecordData](uncategorized/ComparableRecordData.md)
-
-Encapsulates the data needed to compare records
-
-### [ComparableService](uncategorized/ComparableService.md)
-
-This class provides the ability to compare fields on SObjects with the mock database
 
 ### [CountCalculator](uncategorized/CountCalculator.md)
 
@@ -211,18 +600,6 @@ CountCalculator is a concrete implementation of IAggregateCalculator that calcul
 
 CountDistinctCalculator is a class that implements the IAggregateCalculator interface. It calculates the distinct count of a field.
 
-### [CountLimitHandler](uncategorized/CountLimitHandler.md)
-
-Handles the limit for the count of records
-
-### [CountOffsetHandler](uncategorized/CountOffsetHandler.md)
-
-OffsetHandler for Count
-
-### [DateLiteral](uncategorized/DateLiteral.md)
-
-Represents the value and new record field value for a date literal
-
 ### [DateLiteralComparable](uncategorized/DateLiteralComparable.md)
 
 Abstract class for date literal comparison
@@ -230,14 +607,6 @@ Abstract class for date literal comparison
 ### [DateLiteralComparableFactory](uncategorized/DateLiteralComparableFactory.md)
 
 Factory class for creating DateLiteralComparable instances
-
-### [DateLiteralParser](uncategorized/DateLiteralParser.md)
-
-Generic date literal parser
-
-### [DateParser](uncategorized/DateParser.md)
-
-DateParser is a parser for date values.
 
 ### [DmlEngine](uncategorized/DmlEngine.md)
 
@@ -249,117 +618,9 @@ DynamicCast is a class that provides a method to cast a value to a specified typ
 
 ### [DynamicCastTest](uncategorized/DynamicCastTest.md)
 
-### [EqualityHandler](uncategorized/EqualityHandler.md)
-
-Handles the equality operator
-
-### [ExcludesHandler](uncategorized/ExcludesHandler.md)
-
-Handles the excludes operator
-
-### [FieldListParser](uncategorized/FieldListParser.md)
-
-This class is responsible for parsing a list of fields.
-
-### [FieldParser](uncategorized/FieldParser.md)
-
-This class is responsible for parsing a field from a query string.
-
-### [FieldSelectHandler](uncategorized/FieldSelectHandler.md)
-
-FieldSelectHandler is a class that implements ISelectHandler. It is used to handle the selection of a field.
-
-### [FieldSelector](uncategorized/FieldSelector.md)
-
-FieldSelector is a class that is used to select fields from a queried record based on a field node.
-
-### [ForUpdateParser](uncategorized/ForUpdateParser.md)
-
-This class is responsible for parsing the FOR UPDATE clause in a SOQL query
-
-### [ForViewOrReferenceParser](uncategorized/ForViewOrReferenceParser.md)
-
-This class is responsible for parsing the FOR VIEW or FOR REFERENCE clause
-
-### [FromParser](uncategorized/FromParser.md)
-
-Class is responsible for parsing the &#x27;from&#x27; clause of a query
-
 ### [GMT](uncategorized/GMT.md)
 
 Salesforce is insanely inconsistent about dates and date times, this class returns values in GMT
-
-### [GreaterThanHandler](uncategorized/GreaterThanHandler.md)
-
-Handles the greater than operator
-
-### [GreaterThanOrEqualHandler](uncategorized/GreaterThanOrEqualHandler.md)
-
-Handles the greater than or equal operator
-
-### [GroupByParser](uncategorized/GroupByParser.md)
-
-This class is responsible for parsing the GROUP BY clause of a SOQL query
-
-### [HavingLogicHandler](uncategorized/HavingLogicHandler.md)
-
-This class is used to handle the having clause logic
-
-### [HavingParser](uncategorized/HavingParser.md)
-
-This class is responsible for parsing the HAVING clause of a SOQL query.
-
-### [IAggregateCalculator](uncategorized/IAggregateCalculator.md)
-
-Interface for aggregate calculator
-
-### [IdAndReferenceFieldComparator](uncategorized/IdAndReferenceFieldComparator.md)
-
-This class is used to compare two fields to determine if one is a reference to the other
-
-### [IdFieldComparator](uncategorized/IdFieldComparator.md)
-
-Id Field Comparator
-
-### [IdFieldComparatorFactory](uncategorized/IdFieldComparatorFactory.md)
-
-Returns a comparator for the given field types, compares ID fields (i.e. ID, Reference)
-
-### [ILimitHandler](uncategorized/ILimitHandler.md)
-
-Interface for limit handler
-
-### [IncludesHandler](uncategorized/IncludesHandler.md)
-
-Handles the includes operator
-
-### [InequalityHandler](uncategorized/InequalityHandler.md)
-
-Handles the inequality operator
-
-### [InHandler](uncategorized/InHandler.md)
-
-Handler for IN operator
-
-### [Intermediary](uncategorized/Intermediary.md)
-
-: Class to hold the head of a parsed query and the remaining subquery
-
-### [IOffsetHandler](uncategorized/IOffsetHandler.md)
-
-Interface for offset handler
-
-### [IOperatorHandler](uncategorized/IOperatorHandler.md)
-
-comparison handlers for WHERE and HAVING clauses
-
-### [ISelectHandler](uncategorized/ISelectHandler.md)
-
-Interface for handling select operations
-
-### [IWhereLogicComparisonStrategy](uncategorized/IWhereLogicComparisonStrategy.md)
-
-Strategy inreferace for WHERE logic comparison
 
 ### [Last90DaysComparable](uncategorized/Last90DaysComparable.md)
 
@@ -393,30 +654,6 @@ Compares a date field to the last quarter
 
 Comparable class for LAST_WEEK
 
-### [LessThanHandler](uncategorized/LessThanHandler.md)
-
-Handles the less than operator
-
-### [LessThanOrEqualHandler](uncategorized/LessThanOrEqualHandler.md)
-
-Handles the LessThanOrEqual operator
-
-### [LikeHandler](uncategorized/LikeHandler.md)
-
-Handles the LIKE operator
-
-### [LimitHandlerFactory](uncategorized/LimitHandlerFactory.md)
-
-Used to create a limit handler based on the query type
-
-### [LimitOptions](uncategorized/LimitOptions.md)
-
-The options to be passed into an ILimitHandler
-
-### [LimitParser](uncategorized/LimitParser.md)
-
-This class is responsible for parsing the limit clause of a query
-
 ### [MaxCalculator](uncategorized/MaxCalculator.md)
 
 calculates the MAX value of a field for an aggregate result
@@ -424,14 +661,6 @@ calculates the MAX value of a field for an aggregate result
 ### [MinCalculator](uncategorized/MinCalculator.md)
 
 Calculates the minimum value of a field
-
-### [MockAggregateQueryHandler](uncategorized/MockAggregateQueryHandler.md)
-
-This class is responsible for handling aggregate SOQL queries to the mock database
-
-### [MockCountQueryHandler](uncategorized/MockCountQueryHandler.md)
-
-This class is responsible for handling count SOQL queries to the mock database
 
 ### [MockDeleteHandler](uncategorized/MockDeleteHandler.md)
 
@@ -444,14 +673,6 @@ MockDMLHandler is an abstract class that provides a base class for mocking DML o
 ### [MockInsertHandler](uncategorized/MockInsertHandler.md)
 
 MockInsertHandler is used to mock the insert operation
-
-### [MockRecordQueryHandler](uncategorized/MockRecordQueryHandler.md)
-
-This class is responsible for handling record SOQL queries to the mock database
-
-### [MockSOQLHandler](uncategorized/MockSOQLHandler.md)
-
-Base class for handling SOQL queries to the mock database
 
 ### [MockUndeleteHandler](uncategorized/MockUndeleteHandler.md)
 
@@ -513,150 +734,16 @@ Compares a date to N fiscal years ago
 
 Comparable class for N_MONTHS_AGO
 
-### [Node](uncategorized/Node.md)
-
-: Returns a string representation of the AST
-
-### [NodeBuilder](uncategorized/NodeBuilder.md)
-
-: Builder class for the Node class, used to create a Node
-
-### [NodeService](uncategorized/NodeService.md)
-
-Service class for manipulating and describing the nodes of the AST created by the parser 
-each method is a static method that takes in a TopLevelNodes
-
-### [NodeType](uncategorized/NodeType.md)
-
-This class is responsible for handling the NodeType constants
-
-### [NotInHandler](uncategorized/NotInHandler.md)
-
-Handles the NotIn operator
-
-### [NullParser](uncategorized/NullParser.md)
-
-NullParser is a parser for null values.
-
-### [NumberParser](uncategorized/NumberParser.md)
-
-NumberParser is a parser for numeric values.
-
-### [ObjectComparator](uncategorized/ObjectComparator.md)
-
-This class is used to compare two generic objects of the same type.
-
-### [OffsetHandlerFactory](uncategorized/OffsetHandlerFactory.md)
-
-This class is responsible for creating the appropriate offset handler based on the query type.
-
-### [OffsetOptions](uncategorized/OffsetOptions.md)
-
-Options class for the Offset class
-
-### [OffsetParser](uncategorized/OffsetParser.md)
-
-This class is responsible for parsing the offset clause of a query
-
-### [OperatorHandlerFactory](uncategorized/OperatorHandlerFactory.md)
-
-Provides a factory for creating operator handlers.
-
-### [OperatorParser](uncategorized/OperatorParser.md)
-
-This class is responsible for parsing operators in the query string.
-
-### [OrderByHandler](uncategorized/OrderByHandler.md)
-
-Abstract class for OrderByHandler
-
-### [OrderByHandlerFactory](uncategorized/OrderByHandlerFactory.md)
-
-Factory class for creating OrderByHandler instances
-
-### [OrderByOptions](uncategorized/OrderByOptions.md)
-
-Options class for OrderBy
-
-### [OrderByParser](uncategorized/OrderByParser.md)
-
-This class is responsible for parsing the ORDER BY clause of a SOQL query.
-
 ### [OrganizationSingleton](uncategorized/OrganizationSingleton.md)
 
 Singleton for the Organization object
 
-### [ParentLookupChain](uncategorized/ParentLookupChain.md)
-
-Represents a chain of fields to look up on a parent object
-
-### [ParentLookupResolver](uncategorized/ParentLookupResolver.md)
-
-A class to resolve a parent lookup chain
-
-### [ParentRecordData](uncategorized/ParentRecordData.md)
-
-A class to store data about a parent record
-
-### [ParentSubQuerySelectHandler](uncategorized/ParentSubQuerySelectHandler.md)
-
-Handles the selection of a field that is a parent relationship in a subquery
-
-### [Parser](uncategorized/Parser.md)
-
-The parser breaks down a SOQL query into an AST, to be fed into the parser (MockDatabase)
-
 ### [ParserTestUtil](uncategorized/ParserTestUtil.md)
-
-### [ParserUtils](uncategorized/ParserUtils.md)
-
-Contains utility methods for the parser, could probably be refactored out of existance though
-
-### [PolymorphicAttributes](uncategorized/PolymorphicAttributes.md)
-
-Attributes for polymorphic SObject
-
-### [PolymorphicSelectHandler](uncategorized/PolymorphicSelectHandler.md)
-
-Select handler for TYPEOF operator
-
-### [PrimitiveParserFactory](uncategorized/PrimitiveParserFactory.md)
-
-Factory class for primitive parsers
 
 ### [ProtoAggregate](uncategorized/ProtoAggregate.md)
 
 before we create an aggregate, wean a proto-aggregate, 
 i.e. a Map&lt;String, Object&gt; that will be used to store the aggregate
-
-### [QueriedFieldResolver](uncategorized/QueriedFieldResolver.md)
-
-This class is used to resolve the field in a query
-
-### [QueryParser](uncategorized/QueryParser.md)
-
-This class is responsible for parsing a SOQL query
-
-### [QueryValidator](uncategorized/QueryValidator.md)
-
-Validate the AST of a query, this does not validate the query against the schema, 
-but rather checks for invalid queries that are not supported by the SOQL parser
-
-### [RecordLimitHandler](uncategorized/RecordLimitHandler.md)
-
-Limit handler for record limit
-
-### [RecordOffsetHandler](uncategorized/RecordOffsetHandler.md)
-
-Offset handler for records
-
-### [RecordOrderByHandler](uncategorized/RecordOrderByHandler.md)
-
-Order by handler for record data
-
-### [ReferenceFieldComparator](uncategorized/ReferenceFieldComparator.md)
-
-Comparator for two reference fields, checks if they reference the same object
 
 ### [Regex](uncategorized/Regex.md)
 
@@ -673,38 +760,6 @@ and provide a layer of abstraction for the Schema class, non-mutating
 string arguments to these methods are understood to be case-insensitive 
 anything named &quot;getName&quot; are understood to return proper API names 
 every argument is understood to be non-null
-
-### [ScopeParser](uncategorized/ScopeParser.md)
-
-This class is responsible for parsing the scope clause of a SOQL query
-
-### [SelectHandlerFactory](uncategorized/SelectHandlerFactory.md)
-
-Factory class to create appropriate select handler based on the field node type
-
-### [SelectParser](uncategorized/SelectParser.md)
-
-Parser for the SELECT clause
-
-### [SObjectComparator](uncategorized/SObjectComparator.md)
-
-This class is used to compare two SObjects based on the fields provided in the constructor.
-
-### [SObjectParser](uncategorized/SObjectParser.md)
-
-Parses an SObject name in a query
-
-### [SoqlEngine](uncategorized/SoqlEngine.md)
-
-This class is response for handling SOQL queries to the mock database
-
-### [StringParser](uncategorized/StringParser.md)
-
-A class to parse a generic string
-
-### [SubParser](uncategorized/SubParser.md)
-
-SubParser is an abstract class that provides helper methods for parsing subqueries.
 
 ### [SumCalculator](uncategorized/SumCalculator.md)
 
@@ -734,66 +789,13 @@ Comparable for THIS_YEAR
 
 Comparable class for TODAY
 
-### [Token](uncategorized/Token.md)
-
-This class is responsible for handling the Token constants
-
 ### [TomorrowComparable](uncategorized/TomorrowComparable.md)
 
 Comparable class for TOMORROW
 
-### [TopLevelNodes](uncategorized/TopLevelNodes.md)
-
-This class is used to parse the top level nodes of a SOQL query. 
-Designed to refresh the instance if the head node changes, i.e. if a new SOQL query is made.
-
 ### [TypeOf](uncategorized/TypeOf.md)
 
 TypeOf is a class that provides a method to determine the type of an object.
-
-### [UpdateTrackingOrViewStatParser](uncategorized/UpdateTrackingOrViewStatParser.md)
-
-This class is responsible for parsing the UPDATE TRACKING or UPDATE VIEWSTAT query
-
-### [ValueListParser](uncategorized/ValueListParser.md)
-
-This class is responsible for parsing a list of values.
-
-### [ValueParser](uncategorized/ValueParser.md)
-
-This class is responsible for parsing values in the query string
-
-### [WhereLogicComparisonResults](uncategorized/WhereLogicComparisonResults.md)
-
-Contains the results of a where logic comparison
-
-### [WhereLogicDateFuncStrategy](uncategorized/WhereLogicDateFuncStrategy.md)
-
-This class is responsible for handling date functions in the WHERE clause
-
-### [WhereLogicHandler](uncategorized/WhereLogicHandler.md)
-
-This class is responsible for handling the WHERE clause logic
-
-### [WhereLogicParentFieldStrategy](uncategorized/WhereLogicParentFieldStrategy.md)
-
-Strategy for getting the field value of a parent field
-
-### [WhereLogicRecordFieldStrategy](uncategorized/WhereLogicRecordFieldStrategy.md)
-
-This class is responsible for handling record fields in the WHERE clause
-
-### [WhereParser](uncategorized/WhereParser.md)
-
-This class is responsible for parsing the WHERE clause of a SOQL query.
-
-### [WithDataCategoryParser](uncategorized/WithDataCategoryParser.md)
-
-This class is used to parse the WITH DATA CATEGORY clause in a SOQL query
-
-### [WithSecurityEnforcedParser](uncategorized/WithSecurityEnforcedParser.md)
-
-This class is responsible for parsing the WITH SECURITY_ENFORCED clause in a SOQL query.
 
 ### [YesterdayComparable](uncategorized/YesterdayComparable.md)
 

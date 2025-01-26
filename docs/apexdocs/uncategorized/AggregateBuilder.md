@@ -79,7 +79,7 @@ public AggregateBuilder setTopLevelNodes(TopLevelNodes topLevelNodes)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| topLevelNodes | [TopLevelNodes](TopLevelNodes.md) | the top level nodes |
+| topLevelNodes | [TopLevelNodes](../soql-engine/TopLevelNodes.md) | the top level nodes |
 
 #### Return Type
 **[AggregateBuilder](AggregateBuilder.md)**
