@@ -27,6 +27,7 @@
  * @description Aggregate class to represent the result of an aggregate query
  * @author Zackary Frazier
  * @since 4/5/2024
+ * @group Moxygen
  */
 public with sharing class Aggregate {
     private Map<String, Object> data;
@@ -45,14 +46,6 @@ public with sharing class Aggregate {
      */
     public Aggregate(Map<String, Object> data) {
         this.data = data;
-    }
-
-    /**
-     * @description Constructor for testing purposes, creates an Aggregate object from a ProtoAggregate
-     * @param ar
-     */
-    public Aggregate(ProtoAggregate ar) {
-        this.data = ar.getPrototype();
     }
 
     /**
