@@ -1,10 +1,12 @@
-# NextNWeeksComparable Class
+# NextNQuartersComparable Class
 
-Comparable class for NEXT_N_WEEKS
+Comparable for the NEXT_N_QUARTERS token
 
 **Since** 
 
-12/29/2024
+1/4/2025
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,17 +32,17 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to NEXT_N_WEEKS
+Returns whether fieldValue is in the NEXT_N_QUARTERS
 
 #### Signature
 ```apex
-public override Boolean isEqual(DateTime fieldValue)
+public override Boolean isEqual(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -51,17 +53,17 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns whether fieldValue is greater than NEXT_N_WEEKS
+Return whether fieldValue is greater than NEXT_N_QUARTERS
 
 #### Signature
 ```apex
-public override Boolean isGreaterThan(DateTime fieldValue)
+public override Boolean isGreaterThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -95,17 +97,17 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than NEXT_N_WEEKS
+Returns whether fieldValue is less than NEXT_N_QUARTERS
 
 #### Signature
 ```apex
-public override Boolean isLessThan(DateTime fieldValue)
+public override Boolean isLessThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**

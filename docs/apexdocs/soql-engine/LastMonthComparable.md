@@ -1,10 +1,12 @@
-# NextNQuartersComparable Class
+# LastMonthComparable Class
 
-Comparable for the NEXT_N_QUARTERS token
+Comparable class for LAST_MONTH
 
 **Since** 
 
-1/4/2025
+12/29/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,17 +32,17 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is in the NEXT_N_QUARTERS
+Returns whether fieldValue is equal to LAST_MONTH
 
 #### Signature
 ```apex
-public override Boolean isEqual(Datetime fieldValue)
+public override Boolean isEqual(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | DateTime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -51,17 +53,17 @@ public override Boolean isEqual(Datetime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Return whether fieldValue is greater than NEXT_N_QUARTERS
+Returns whether fieldValue is greater than LAST_MONTH
 
 #### Signature
 ```apex
-public override Boolean isGreaterThan(Datetime fieldValue)
+public override Boolean isGreaterThan(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | DateTime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -95,17 +97,17 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than NEXT_N_QUARTERS
+Returns whether fieldValue is less than LAST_MONTH
 
 #### Signature
 ```apex
-public override Boolean isLessThan(Datetime fieldValue)
+public override Boolean isLessThan(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | DateTime | `Datetime` |
 
 #### Return Type
 **Boolean**

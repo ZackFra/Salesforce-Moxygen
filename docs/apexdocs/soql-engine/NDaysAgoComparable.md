@@ -1,10 +1,12 @@
-# Last90DaysComparable Class
+# NDaysAgoComparable Class
 
-Comparable class for LAST_90_DAYS
+Comparable class for N_DAYS_AGO
 
 **Since** 
 
-12/28/2024
+12/29/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,7 +32,7 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to LAST_90_DAYS
+Returns whether fieldValue is equal to N_DAYS_AGO
 
 #### Signature
 ```apex
@@ -51,7 +53,7 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns whether fieldValue is greater than LAST_90_DAYS
+Returns whether fieldValue is greater than N_DAYS_AGO
 
 #### Signature
 ```apex
@@ -95,7 +97,7 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than LAST_90_DAYS
+Returns whether fieldValue is less than N_DAYS_AGO
 
 #### Signature
 ```apex

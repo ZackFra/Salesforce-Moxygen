@@ -1,10 +1,12 @@
-# LastWeekComparable Class
+# LastQuarterComparable Class
 
-Comparable class for LAST_WEEK
+Compares a date field to the last quarter
 
 **Since** 
 
-12/29/2024
+1/1/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,17 +32,17 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to LAST_WEEK
+Returns true if the fieldValue is equal to the last quarter
 
 #### Signature
 ```apex
-public override Boolean isEqual(DateTime fieldValue)
+public override Boolean isEqual(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -51,17 +53,17 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns whether fieldValue is greater than LAST_WEEK
+Returns true if the fieldValue is greater than the last quarter
 
 #### Signature
 ```apex
-public override Boolean isGreaterThan(DateTime fieldValue)
+public override Boolean isGreaterThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -95,17 +97,17 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than LAST_WEEK
+Returns true if the fieldValue is less than the last quarter
 
 #### Signature
 ```apex
-public override Boolean isLessThan(DateTime fieldValue)
+public override Boolean isLessThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**

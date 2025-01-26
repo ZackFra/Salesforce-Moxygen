@@ -1,10 +1,12 @@
-# NDaysAgoComparable Class
+# YesterdayComparable Class
 
-Comparable class for N_DAYS_AGO
+Comparable class for YESTERDAY
 
 **Since** 
 
 12/29/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,7 +32,7 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to N_DAYS_AGO
+Returns whether fieldValue is equal to YESTERDAY
 
 #### Signature
 ```apex
@@ -40,7 +42,7 @@ public override Boolean isEqual(DateTime fieldValue)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | DateTime | `DateTime` |
 
 #### Return Type
 **Boolean**
@@ -51,7 +53,7 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns whether fieldValue is greater than N_DAYS_AGO
+Returs whether fieldValue is greater than YESTERDAY
 
 #### Signature
 ```apex
@@ -95,7 +97,7 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than N_DAYS_AGO
+Returns whether fieldValue is less than YESTERDAY
 
 #### Signature
 ```apex

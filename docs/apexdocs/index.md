@@ -189,6 +189,14 @@ Repository of aggregate date functions
 
 Represents the value and new record field value for a date literal
 
+### [DateLiteralComparable](soql-engine/DateLiteralComparable.md)
+
+Abstract class for date literal comparison
+
+### [DateLiteralComparableFactory](soql-engine/DateLiteralComparableFactory.md)
+
+Factory class for creating DateLiteralComparable instances
+
 ### [DateLiteralParser](soql-engine/DateLiteralParser.md)
 
 Generic date literal parser
@@ -309,6 +317,38 @@ Interface for handling select operations
 
 Strategy inreferace for WHERE logic comparison
 
+### [Last90DaysComparable](soql-engine/Last90DaysComparable.md)
+
+Comparable class for LAST_90_DAYS
+
+### [LastFiscalYearComparable](soql-engine/LastFiscalYearComparable.md)
+
+Comparable for the LAST_FISCAL_YEAR date literal
+
+### [LastMonthComparable](soql-engine/LastMonthComparable.md)
+
+Comparable class for LAST_MONTH
+
+### [LastNDaysComparable](soql-engine/LastNDaysComparable.md)
+
+Comparable class for LAST_N_DAYS
+
+### [LastNFiscalYearsComparable](soql-engine/LastNFiscalYearsComparable.md)
+
+Comparable class for LAST_N_FISCAL_YEARS
+
+### [LastNWeeksComparable](soql-engine/LastNWeeksComparable.md)
+
+Comparable class for LAST_N_WEEKS
+
+### [LastQuarterComparable](soql-engine/LastQuarterComparable.md)
+
+Compares a date field to the last quarter
+
+### [LastWeekComparable](soql-engine/LastWeekComparable.md)
+
+Comparable class for LAST_WEEK
+
 ### [LessThanHandler](soql-engine/LessThanHandler.md)
 
 Handles the less than operator
@@ -356,6 +396,54 @@ This class is responsible for handling record SOQL queries to the mock database
 ### [MockSOQLHandler](soql-engine/MockSOQLHandler.md)
 
 Base class for handling SOQL queries to the mock database
+
+### [NDaysAgoComparable](soql-engine/NDaysAgoComparable.md)
+
+Comparable class for N_DAYS_AGO
+
+### [Next90DaysComparable](soql-engine/Next90DaysComparable.md)
+
+Comparable class for NEXT_90_DAYS
+
+### [NextFiscalYearComparable](soql-engine/NextFiscalYearComparable.md)
+
+Comparable for the NEXT_FISCAL_YEAR date literal
+
+### [NextMonthComparable](soql-engine/NextMonthComparable.md)
+
+Comparable class for NEXT_MONTH
+
+### [NextNDaysComparable](soql-engine/NextNDaysComparable.md)
+
+Comparable class for NEXT_N_DAYS
+
+### [NextNFiscalYearsComparable](soql-engine/NextNFiscalYearsComparable.md)
+
+Compare the date field value with the NEXT_N_FISCAL_YEARS:N token
+
+### [NextNQuartersComparable](soql-engine/NextNQuartersComparable.md)
+
+Comparable for the NEXT_N_QUARTERS token
+
+### [NextNWeeksComparable](soql-engine/NextNWeeksComparable.md)
+
+Comparable class for NEXT_N_WEEKS
+
+### [NextQuarterComparable](soql-engine/NextQuarterComparable.md)
+
+Compares the NEXT_QUARTER token
+
+### [NextWeekComparable](soql-engine/NextWeekComparable.md)
+
+Comparable class for NEXT_WEEK
+
+### [NFiscalYearsAgoComparable](soql-engine/NFiscalYearsAgoComparable.md)
+
+Compares a date to N fiscal years ago
+
+### [NMonthsAgoComparable](soql-engine/NMonthsAgoComparable.md)
+
+Comparable class for N_MONTHS_AGO
 
 ### [Node](soql-engine/Node.md)
 
@@ -527,6 +615,34 @@ SubParser is an abstract class that provides helper methods for parsing subqueri
 
 Calculates the sum of a field
 
+### [ThisFiscalYearComparable](soql-engine/ThisFiscalYearComparable.md)
+
+Comparable for the THIS_FISCAL_YEAR token
+
+### [ThisMonthComparable](soql-engine/ThisMonthComparable.md)
+
+Comparable class for THIS_MONTH
+
+### [ThisQuarterComparable](soql-engine/ThisQuarterComparable.md)
+
+Comparable class for THIS_QUARTER
+
+### [ThisWeekComparable](soql-engine/ThisWeekComparable.md)
+
+Comparable class for THIS_WEEK
+
+### [ThisYearComparable](soql-engine/ThisYearComparable.md)
+
+Comparable for THIS_YEAR
+
+### [TodayComparable](soql-engine/TodayComparable.md)
+
+Comparable class for TODAY
+
+### [TomorrowComparable](soql-engine/TomorrowComparable.md)
+
+Comparable class for TOMORROW
+
 ### [TopLevelNodes](soql-engine/TopLevelNodes.md)
 
 This class is used to parse the top level nodes of a SOQL query. 
@@ -576,53 +692,17 @@ This class is used to parse the WITH DATA CATEGORY clause in a SOQL query
 
 This class is responsible for parsing the WITH SECURITY_ENFORCED clause in a SOQL query.
 
+### [YesterdayComparable](soql-engine/YesterdayComparable.md)
+
+Comparable class for YESTERDAY
+
 ## Uncategorized
-
-### [DateLiteralComparable](uncategorized/DateLiteralComparable.md)
-
-Abstract class for date literal comparison
-
-### [DateLiteralComparableFactory](uncategorized/DateLiteralComparableFactory.md)
-
-Factory class for creating DateLiteralComparable instances
 
 ### [DmlEngine](uncategorized/DmlEngine.md)
 
 MockDatabaseDMLHandler is used to handle DML operations on the mock database
 
 ### [DynamicCastTest](uncategorized/DynamicCastTest.md)
-
-### [Last90DaysComparable](uncategorized/Last90DaysComparable.md)
-
-Comparable class for LAST_90_DAYS
-
-### [LastFiscalYearComparable](uncategorized/LastFiscalYearComparable.md)
-
-Comparable for the LAST_FISCAL_YEAR date literal
-
-### [LastMonthComparable](uncategorized/LastMonthComparable.md)
-
-Comparable class for LAST_MONTH
-
-### [LastNDaysComparable](uncategorized/LastNDaysComparable.md)
-
-Comparable class for LAST_N_DAYS
-
-### [LastNFiscalYearsComparable](uncategorized/LastNFiscalYearsComparable.md)
-
-Comparable class for LAST_N_FISCAL_YEARS
-
-### [LastNWeeksComparable](uncategorized/LastNWeeksComparable.md)
-
-Comparable class for LAST_N_WEEKS
-
-### [LastQuarterComparable](uncategorized/LastQuarterComparable.md)
-
-Compares a date field to the last quarter
-
-### [LastWeekComparable](uncategorized/LastWeekComparable.md)
-
-Comparable class for LAST_WEEK
 
 ### [MockDeleteHandler](uncategorized/MockDeleteHandler.md)
 
@@ -648,91 +728,11 @@ MockUpdateHandler is used to mock the update operation in the database
 
 MockUpsertHandler is used to mock the upsert operation in the database
 
-### [NDaysAgoComparable](uncategorized/NDaysAgoComparable.md)
-
-Comparable class for N_DAYS_AGO
-
-### [Next90DaysComparable](uncategorized/Next90DaysComparable.md)
-
-Comparable class for NEXT_90_DAYS
-
-### [NextFiscalYearComparable](uncategorized/NextFiscalYearComparable.md)
-
-Comparable for the NEXT_FISCAL_YEAR date literal
-
-### [NextMonthComparable](uncategorized/NextMonthComparable.md)
-
-Comparable class for NEXT_MONTH
-
-### [NextNDaysComparable](uncategorized/NextNDaysComparable.md)
-
-Comparable class for NEXT_N_DAYS
-
-### [NextNFiscalYearsComparable](uncategorized/NextNFiscalYearsComparable.md)
-
-Compare the date field value with the NEXT_N_FISCAL_YEARS:N token
-
-### [NextNQuartersComparable](uncategorized/NextNQuartersComparable.md)
-
-Comparable for the NEXT_N_QUARTERS token
-
-### [NextNWeeksComparable](uncategorized/NextNWeeksComparable.md)
-
-Comparable class for NEXT_N_WEEKS
-
-### [NextQuarterComparable](uncategorized/NextQuarterComparable.md)
-
-Compares the NEXT_QUARTER token
-
-### [NextWeekComparable](uncategorized/NextWeekComparable.md)
-
-Comparable class for NEXT_WEEK
-
-### [NFiscalYearsAgoComparable](uncategorized/NFiscalYearsAgoComparable.md)
-
-Compares a date to N fiscal years ago
-
-### [NMonthsAgoComparable](uncategorized/NMonthsAgoComparable.md)
-
-Comparable class for N_MONTHS_AGO
-
 ### [ParserTestUtil](uncategorized/ParserTestUtil.md)
 
 ### [SaveResultService](uncategorized/SaveResultService.md)
 
 This class is used to create success and failure results for DML operations.
-
-### [ThisFiscalYearComparable](uncategorized/ThisFiscalYearComparable.md)
-
-Comparable for the THIS_FISCAL_YEAR token
-
-### [ThisMonthComparable](uncategorized/ThisMonthComparable.md)
-
-Comparable class for THIS_MONTH
-
-### [ThisQuarterComparable](uncategorized/ThisQuarterComparable.md)
-
-Comparable class for THIS_QUARTER
-
-### [ThisWeekComparable](uncategorized/ThisWeekComparable.md)
-
-Comparable class for THIS_WEEK
-
-### [ThisYearComparable](uncategorized/ThisYearComparable.md)
-
-Comparable for THIS_YEAR
-
-### [TodayComparable](uncategorized/TodayComparable.md)
-
-Comparable class for TODAY
-
-### [TomorrowComparable](uncategorized/TomorrowComparable.md)
-
-Comparable class for TOMORROW
-
-### [YesterdayComparable](uncategorized/YesterdayComparable.md)
-
-Comparable class for YESTERDAY
 
 ## Utilities
 

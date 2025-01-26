@@ -1,21 +1,18 @@
-# ThisQuarterComparable Class
+# DateLiteralComparable Class
+`abstract`
 
-Comparable class for THIS_QUARTER
+Abstract class for date literal comparison
 
 **Since** 
 
-12/30/2024
+12/28/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
-**Inheritance**
-
-[DateLiteralComparable](DateLiteralComparable.md)
-
 ## Properties
 ### `token`
-
-*Inherited*
 
 The token for the date literal
 
@@ -30,17 +27,17 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to THIS_QUARTER
+Whether the date literal is equal to the field value
 
 #### Signature
 ```apex
-public override Boolean isEqual(Datetime fieldValue)
+public virtual Boolean isEqual(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | DateTime | `DateTime` |
 
 #### Return Type
 **Boolean**
@@ -51,17 +48,17 @@ public override Boolean isEqual(Datetime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Return whether fieldValue is less than THIS_QUARTER
+Whether the date literal is greater than the field value
 
 #### Signature
 ```apex
-public override Boolean isGreaterThan(Datetime fieldValue)
+public abstract Boolean isGreaterThan(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | DateTime | `DateTime` |
 
 #### Return Type
 **Boolean**
@@ -71,8 +68,6 @@ public override Boolean isGreaterThan(Datetime fieldValue)
 ---
 
 ### `isGreaterThanOrEqual(fieldValue)`
-
-*Inherited*
 
 Whether the date literal is greater than or equal to the field value
 
@@ -95,17 +90,17 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is greater than THIS_QUARTER
+Whether the date literal is less than the field value
 
 #### Signature
 ```apex
-public override Boolean isLessThan(Datetime fieldValue)
+public abstract Boolean isLessThan(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | DateTime | `DateTime` |
 
 #### Return Type
 **Boolean**
@@ -115,8 +110,6 @@ public override Boolean isLessThan(Datetime fieldValue)
 ---
 
 ### `isLessThanOrEqual(fieldValue)`
-
-*Inherited*
 
 Whether the date literal is less than or equal to the field value
 
@@ -139,8 +132,6 @@ public Boolean isLessThanOrEqual(DateTime fieldValue)
 
 ### `isNotEqual(fieldValue)`
 
-*Inherited*
-
 Whether the date literal is not equal to the field value
 
 #### Signature
@@ -161,8 +152,6 @@ public Boolean isNotEqual(DateTime fieldValue)
 ---
 
 ### `withToken(token)`
-
-*Inherited*
 
 Sets the token for the date literal
 

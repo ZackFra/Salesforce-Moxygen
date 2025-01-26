@@ -1,10 +1,12 @@
-# ThisYearComparable Class
+# LastFiscalYearComparable Class
 
-Comparable for THIS_YEAR
+Comparable for the LAST_FISCAL_YEAR date literal
 
 **Since** 
 
-1/4/2025
+1/10/2025
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,17 +32,19 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Return whether the year equals THIS_YEAR
+*Inherited*
+
+Whether the date literal is equal to the field value
 
 #### Signature
 ```apex
-public override Boolean isEqual(DateTime fieldValue)
+public virtual Boolean isEqual(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | DateTime | `DateTime` |
 
 #### Return Type
 **Boolean**
@@ -51,17 +55,17 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Return whether the year is greater than THIS_YEAR
+Returns true if the fieldValue is greater than the start of the last fiscal year
 
 #### Signature
 ```apex
-public override Boolean isGreaterThan(DateTime fieldValue)
+public override Boolean isGreaterThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -95,17 +99,17 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Return whether the year is less than THIS_YEAR
+Returns true if the fieldValue is less than the start of the last fiscal year
 
 #### Signature
 ```apex
-public override Boolean isLessThan(DateTime fieldValue)
+public override Boolean isLessThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**

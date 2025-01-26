@@ -1,10 +1,12 @@
-# NextFiscalYearComparable Class
+# ThisMonthComparable Class
 
-Comparable for the NEXT_FISCAL_YEAR date literal
+Comparable class for THIS_MONTH
 
 **Since** 
 
-1/9/2025
+12/29/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,19 +32,17 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-*Inherited*
-
-Whether the date literal is equal to the field value
+Returns whether fieldValue is equal to THIS_MONTH
 
 #### Signature
 ```apex
-public virtual Boolean isEqual(DateTime fieldValue)
+public override Boolean isEqual(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `DateTime` |
+| fieldValue | DateTime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -53,17 +53,17 @@ public virtual Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Return whether fieldValue is greater than the start of the next fiscal year
+Returns whether fieldValue is greater than THIS_MONTH
 
 #### Signature
 ```apex
-public override Boolean isGreaterThan(Datetime fieldValue)
+public override Boolean isGreaterThan(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | DateTime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -97,17 +97,17 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Return whether fieldValue is less than the start of the next fiscal year
+Returns whether fieldValue is less than THIS_MONTH
 
 #### Signature
 ```apex
-public override Boolean isLessThan(Datetime fieldValue)
+public override Boolean isLessThan(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | DateTime | `Datetime` |
 
 #### Return Type
 **Boolean**
