@@ -25,9 +25,13 @@ jobs:
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
       uses: ./.github/workflows/check-for-duplicates.yaml
       secrets: inherit
+    verify-prettier:
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
+      uses: ./.github/workflows/prettier-check.yaml
+      secrets: inherit
     validate-changes:
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
-      needs: [code-scan, check-for-duplicates]
+      needs: [code-scan, check-for-duplicates, verify-prettier]
       uses: ./.github/workflows/validate.yaml
       secrets: inherit
     
