@@ -2,6 +2,7 @@
  * @description Comparable for the THIS_FISCAL_YEAR token
  * @author Zackary Frazier
  * @since 1/7/2025
+ * @group Soql Engine
  */
 public with sharing class ThisFiscalYearComparable extends DateLiteralComparable {
     /**

@@ -2,6 +2,7 @@
  * @description Compares a date field to the last quarter
  * @author Zackary Frazier
  * @since 1/1/2024
+ * @group Soql Engine
  */
 public with sharing class LastQuarterComparable extends DateLiteralComparable {
     /**

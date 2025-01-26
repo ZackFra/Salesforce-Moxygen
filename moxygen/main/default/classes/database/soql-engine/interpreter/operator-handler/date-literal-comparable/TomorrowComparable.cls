@@ -2,6 +2,7 @@
  * @description Comparable class for TOMORROW
  * @author Zackary Frazier
  * @since 12/29/2024
+ * @group Soql Engine
  */
 public with sharing class TomorrowComparable extends DateLiteralComparable {
     /**

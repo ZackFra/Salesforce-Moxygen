@@ -2,6 +2,7 @@
  * @description Comparable class for THIS_QUARTER
  * @author Zackary Frazier
  * @since 12/30/2024
+ * @group Soql Engine
  */
 public with sharing class ThisQuarterComparable extends DateLiteralComparable {
     /**

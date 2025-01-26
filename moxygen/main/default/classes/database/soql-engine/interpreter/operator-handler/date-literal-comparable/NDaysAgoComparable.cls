@@ -2,6 +2,7 @@
  * @description Comparable class for N_DAYS_AGO
  * @author Zackary Frazier
  * @since 12/29/2024
+ * @group Soql Engine
  */
 public with sharing class NDaysAgoComparable extends DateLiteralComparable {
     /**

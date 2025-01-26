@@ -2,6 +2,7 @@
  * @description Compares a date to N fiscal years ago
  * @author Zackary Frazier
  * @since 1/21/2025
+ * @group Soql Engine
  */
 public with sharing class NFiscalYearsAgoComparable extends DateLiteralComparable {
     /**

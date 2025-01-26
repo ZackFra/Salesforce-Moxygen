@@ -2,6 +2,7 @@
  * @description Factory class for creating DateLiteralComparable instances
  * @author Zackary Frazier
  * @since 12/29/2024
+ * @group Soql Engine
  */
 public with sharing class DateLiteralComparableFactory {
     static final Map<String, Type> COMPARABLE_BY_TOKEN = new Map<String, Type>{
