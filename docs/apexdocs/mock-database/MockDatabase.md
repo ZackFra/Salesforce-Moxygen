@@ -13,18 +13,6 @@ The MockDatabase class is used to simulate the Salesforce database in Apex unit 
 **Author** Zackary Frazier
 
 ## Fields
-### `deletedRecords`
-
-#### Signature
-```apex
-public static deletedRecords
-```
-
-#### Type
-Set&lt;Id&gt;
-
----
-
 ### `dmlHandler`
 
 #### Signature
@@ -34,18 +22,6 @@ public static dmlHandler
 
 #### Type
 [DmlEngine](../uncategorized/DmlEngine.md)
-
----
-
-### `mockRecords`
-
-#### Signature
-```apex
-public static mockRecords
-```
-
-#### Type
-Map&lt;String,Map&lt;Id,SObject&gt;&gt;
 
 ---
 
@@ -133,22 +109,6 @@ public static List<Aggregate> aggregateQueryWithBinds(String query, Map<String,O
 
 #### Return Type
 **List&lt;Aggregate&gt;**
-
-,[object Object]
-
----
-
-### `count()`
-
-Count the number of records in the mock database
-
-#### Signature
-```apex
-public static Integer count()
-```
-
-#### Return Type
-**Integer**
 
 ,[object Object]
 
@@ -767,73 +727,6 @@ public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert
 
 ---
 
-### `findParentRecord(sObj, fieldName)`
-
-Given a record and a field, return the parent record (i.e. the record that field looks up to)
-
-#### Signature
-```apex
-public static ParentRecordData findParentRecord(sObject sObj, String fieldName)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| sObj | sObject | : the record |
-| fieldName | String | : the field name |
-
-#### Return Type
-**[ParentRecordData](../uncategorized/ParentRecordData.md)**
-
-: the parent record
-
-#### Throws
-QueryException: : if the parent record does not exist
-
----
-
-### `get(objApiName)`
-
-return all SObjects of a given type
-
-#### Signature
-```apex
-public static Map<Id,sObject> get(String objApiName)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| objApiName | String | : the object API name |
-
-#### Return Type
-**Map&lt;Id,sObject&gt;**
-
-: the map of SObjects
-
----
-
-### `isDeleted(recordId)`
-
-wasDeleted is used to check if a record was deleted from the database
-
-#### Signature
-```apex
-public static Boolean isDeleted(Id recordId)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| recordId | Id | - The Id of the record to check |
-
-#### Return Type
-**Boolean**
-
-Boolean - Whether the record was deleted
-
----
-
 ### `query(query)`
 
 This method is used to query the mock database by traversing the AST
@@ -911,24 +804,3 @@ public static void resetHandlers()
 
 #### Return Type
 **void**
-
----
-
-### `selectRecordById(recordId)`
-
-Returns the deleted record by Id
-
-#### Signature
-```apex
-public static SObject selectRecordById(Id recordId)
-```
-
-#### Parameters
-| Name | Type | Description |
-|------|------|-------------|
-| recordId | Id |  |
-
-#### Return Type
-**SObject**
-
-,[object Object]

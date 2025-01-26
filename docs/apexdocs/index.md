@@ -1,5 +1,11 @@
 # Reference Guide
 
+## Data Store
+
+### [DataStore](data-store/DataStore.md)
+
+Static data store for records
+
 ## Date Functions
 
 ### [CalendarMonthFunc](date-functions/CalendarMonthFunc.md)
