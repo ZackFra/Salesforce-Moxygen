@@ -153,6 +153,6 @@ public with sharing class SoqlEngine {
         Node head,
         Map<String, Object> params
     ) {
-                   return recordQueryHandler.doQuery(head, params);
+        return recordQueryHandler.doQuery(head, params);
     }
 }
