@@ -1,10 +1,12 @@
-# LastNDaysComparable Class
+# ThisWeekComparable Class
 
-Comparable class for LAST_N_DAYS
+Comparable class for THIS_WEEK
 
 **Since** 
 
-12/9/2024
+12/29/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,7 +32,7 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to LAST_N_DAYS
+Returns whether fieldValue is equal to THIS_WEEK
 
 #### Signature
 ```apex
@@ -51,7 +53,7 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns whether fieldValue is greater than LAST_N_DAYS
+Returns whether fieldValue is greater than THIS_WEEK
 
 #### Signature
 ```apex
@@ -95,7 +97,7 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than LAST_N_DAYS
+Returns whether fieldValue is less than THIS_WEEK
 
 #### Signature
 ```apex

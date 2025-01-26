@@ -1,10 +1,12 @@
-# TomorrowComparable Class
+# NFiscalYearsAgoComparable Class
 
-Comparable class for TOMORROW
+Compares a date to N fiscal years ago
 
 **Since** 
 
-12/29/2024
+1/21/2025
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,17 +32,19 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to TOMORROW
+*Inherited*
+
+Whether the date literal is equal to the field value
 
 #### Signature
 ```apex
-public override Boolean isEqual(DateTime fieldValue)
+public virtual Boolean isEqual(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | DateTime | `DateTime` |
 
 #### Return Type
 **Boolean**
@@ -51,22 +55,22 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns whether fieldValue is greater than TOMORROW
+Returns true if the fieldValue is greater than N fiscal years ago
 
 #### Signature
 ```apex
-public override Boolean isGreaterThan(DateTime fieldValue)
+public override Boolean isGreaterThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | The date or datetime to compare |
 
 #### Return Type
 **Boolean**
 
-,[object Object]
+Whether the fieldValue is greater than N fiscal years ago
 
 ---
 
@@ -95,22 +99,22 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than TOMORROW
+Returns true if the fieldValue is less than N fiscal years ago
 
 #### Signature
 ```apex
-public override Boolean isLessThan(DateTime fieldValue)
+public override Boolean isLessThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | The date or datetime to compare |
 
 #### Return Type
 **Boolean**
 
-,[object Object]
+Whether the fieldValue is less than N fiscal years ago
 
 ---
 

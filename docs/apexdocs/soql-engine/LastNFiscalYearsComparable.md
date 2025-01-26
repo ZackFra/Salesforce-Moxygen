@@ -1,10 +1,12 @@
-# ThisFiscalYearComparable Class
+# LastNFiscalYearsComparable Class
 
-Comparable for the THIS_FISCAL_YEAR token
+Comparable class for LAST_N_FISCAL_YEARS
 
 **Since** 
 
-1/7/2025
+1/8/2025
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,7 +32,7 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns if the field value is equal to the current fiscal year
+Returns if the field value is equal to LAST_N_FISCAL_YEARS
 
 #### Signature
 ```apex
@@ -51,7 +53,7 @@ public override Boolean isEqual(Datetime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns if the field value is greater than the current fiscal year
+Returns if the field value is greater than LAST_N_FISCAL_YEARS
 
 #### Signature
 ```apex
@@ -61,7 +63,7 @@ public override Boolean isGreaterThan(Datetime fieldValue)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | Datetime |  |
 
 #### Return Type
 **Boolean**
@@ -95,7 +97,7 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns if the field value is less than the current fiscal year
+Returns if the field value is less than LAST_N_FISCAL_YEARS
 
 #### Signature
 ```apex

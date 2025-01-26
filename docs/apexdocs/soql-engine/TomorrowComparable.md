@@ -1,10 +1,12 @@
-# ThisWeekComparable Class
+# TomorrowComparable Class
 
-Comparable class for THIS_WEEK
+Comparable class for TOMORROW
 
 **Since** 
 
 12/29/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,7 +32,7 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to THIS_WEEK
+Returns whether fieldValue is equal to TOMORROW
 
 #### Signature
 ```apex
@@ -51,7 +53,7 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns whether fieldValue is greater than THIS_WEEK
+Returns whether fieldValue is greater than TOMORROW
 
 #### Signature
 ```apex
@@ -95,7 +97,7 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than THIS_WEEK
+Returns whether fieldValue is less than TOMORROW
 
 #### Signature
 ```apex

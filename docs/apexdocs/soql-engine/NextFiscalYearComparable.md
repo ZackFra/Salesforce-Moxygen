@@ -1,16 +1,23 @@
-# DateLiteralComparable Class
-`abstract`
+# NextFiscalYearComparable Class
 
-Abstract class for date literal comparison
+Comparable for the NEXT_FISCAL_YEAR date literal
 
 **Since** 
 
-12/28/2024
+1/9/2025
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
+**Inheritance**
+
+[DateLiteralComparable](DateLiteralComparable.md)
+
 ## Properties
 ### `token`
+
+*Inherited*
 
 The token for the date literal
 
@@ -24,6 +31,8 @@ String
 
 ## Methods
 ### `isEqual(fieldValue)`
+
+*Inherited*
 
 Whether the date literal is equal to the field value
 
@@ -46,17 +55,17 @@ public virtual Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Whether the date literal is greater than the field value
+Return whether fieldValue is greater than the start of the next fiscal year
 
 #### Signature
 ```apex
-public abstract Boolean isGreaterThan(DateTime fieldValue)
+public override Boolean isGreaterThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `DateTime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -66,6 +75,8 @@ public abstract Boolean isGreaterThan(DateTime fieldValue)
 ---
 
 ### `isGreaterThanOrEqual(fieldValue)`
+
+*Inherited*
 
 Whether the date literal is greater than or equal to the field value
 
@@ -88,17 +99,17 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Whether the date literal is less than the field value
+Return whether fieldValue is less than the start of the next fiscal year
 
 #### Signature
 ```apex
-public abstract Boolean isLessThan(DateTime fieldValue)
+public override Boolean isLessThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `DateTime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -108,6 +119,8 @@ public abstract Boolean isLessThan(DateTime fieldValue)
 ---
 
 ### `isLessThanOrEqual(fieldValue)`
+
+*Inherited*
 
 Whether the date literal is less than or equal to the field value
 
@@ -130,6 +143,8 @@ public Boolean isLessThanOrEqual(DateTime fieldValue)
 
 ### `isNotEqual(fieldValue)`
 
+*Inherited*
+
 Whether the date literal is not equal to the field value
 
 #### Signature
@@ -150,6 +165,8 @@ public Boolean isNotEqual(DateTime fieldValue)
 ---
 
 ### `withToken(token)`
+
+*Inherited*
 
 Sets the token for the date literal
 

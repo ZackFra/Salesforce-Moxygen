@@ -1,10 +1,12 @@
-# NFiscalYearsAgoComparable Class
+# NMonthsAgoComparable Class
 
-Compares a date to N fiscal years ago
+Comparable class for N_MONTHS_AGO
 
 **Since** 
 
-1/21/2025
+12/29/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,19 +32,17 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-*Inherited*
-
-Whether the date literal is equal to the field value
+Returns whether fieldValue is equal to N_MONTHS_AGO
 
 #### Signature
 ```apex
-public virtual Boolean isEqual(DateTime fieldValue)
+public override Boolean isEqual(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `DateTime` |
+| fieldValue | DateTime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -53,22 +53,22 @@ public virtual Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns true if the fieldValue is greater than N fiscal years ago
+Returns whether fieldValue is greater than N_MONTHS_AGO
 
 #### Signature
 ```apex
-public override Boolean isGreaterThan(Datetime fieldValue)
+public override Boolean isGreaterThan(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | The date or datetime to compare |
+| fieldValue | DateTime | `Datetime` |
 
 #### Return Type
 **Boolean**
 
-Whether the fieldValue is greater than N fiscal years ago
+,[object Object]
 
 ---
 
@@ -97,22 +97,22 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns true if the fieldValue is less than N fiscal years ago
+Returns whether fieldValue is less than N_MONTHS_AGO
 
 #### Signature
 ```apex
-public override Boolean isLessThan(Datetime fieldValue)
+public override Boolean isLessThan(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | The date or datetime to compare |
+| fieldValue | DateTime | `Datetime` |
 
 #### Return Type
 **Boolean**
 
-Whether the fieldValue is less than N fiscal years ago
+,[object Object]
 
 ---
 

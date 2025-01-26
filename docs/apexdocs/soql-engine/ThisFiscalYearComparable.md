@@ -1,10 +1,12 @@
-# YesterdayComparable Class
+# ThisFiscalYearComparable Class
 
-Comparable class for YESTERDAY
+Comparable for the THIS_FISCAL_YEAR token
 
 **Since** 
 
-12/29/2024
+1/7/2025
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,17 +32,17 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to YESTERDAY
+Returns if the field value is equal to the current fiscal year
 
 #### Signature
 ```apex
-public override Boolean isEqual(DateTime fieldValue)
+public override Boolean isEqual(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `DateTime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -51,17 +53,17 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returs whether fieldValue is greater than YESTERDAY
+Returns if the field value is greater than the current fiscal year
 
 #### Signature
 ```apex
-public override Boolean isGreaterThan(DateTime fieldValue)
+public override Boolean isGreaterThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**
@@ -95,17 +97,17 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than YESTERDAY
+Returns if the field value is less than the current fiscal year
 
 #### Signature
 ```apex
-public override Boolean isLessThan(DateTime fieldValue)
+public override Boolean isLessThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | Datetime | `Datetime` |
 
 #### Return Type
 **Boolean**

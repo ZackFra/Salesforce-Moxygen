@@ -6,6 +6,8 @@ Factory class for creating DateLiteralComparable instances
 
 12/29/2024
 
+**Group** Soql Engine
+
 **Author** Zackary Frazier
 
 ## Methods
@@ -21,7 +23,7 @@ public static DateLiteralComparable create(DateLiteral dateLiteral)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| dateLiteral | [DateLiteral](../soql-engine/DateLiteral.md) | `DateLiteral` |
+| dateLiteral | [DateLiteral](DateLiteral.md) | `DateLiteral` |
 
 #### Return Type
 **[DateLiteralComparable](DateLiteralComparable.md)**

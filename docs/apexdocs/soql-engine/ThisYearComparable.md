@@ -1,10 +1,12 @@
-# NMonthsAgoComparable Class
+# ThisYearComparable Class
 
-Comparable class for N_MONTHS_AGO
+Comparable for THIS_YEAR
 
 **Since** 
 
-12/29/2024
+1/4/2025
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,7 +32,7 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to N_MONTHS_AGO
+Return whether the year equals THIS_YEAR
 
 #### Signature
 ```apex
@@ -51,7 +53,7 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns whether fieldValue is greater than N_MONTHS_AGO
+Return whether the year is greater than THIS_YEAR
 
 #### Signature
 ```apex
@@ -95,7 +97,7 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than N_MONTHS_AGO
+Return whether the year is less than THIS_YEAR
 
 #### Signature
 ```apex

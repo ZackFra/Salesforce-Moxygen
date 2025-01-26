@@ -1,10 +1,12 @@
-# NextMonthComparable Class
+# NextWeekComparable Class
 
-Comparable class for NEXT_MONTH
+Comparable class for NEXT_WEEK
 
 **Since** 
 
 12/29/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,7 +32,7 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to NEXT_MONTH
+Returns whether fieldValue is equal to NEXT_WEEK
 
 #### Signature
 ```apex
@@ -51,7 +53,7 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns whether fieldValue is greater than NEXT_MONTH
+Returns whether fieldValue is greater than NEXT_WEEK
 
 #### Signature
 ```apex
@@ -95,7 +97,7 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than NEXT_MONTH
+Returns whether fieldValue is less than NEXT_WEEK
 
 #### Signature
 ```apex

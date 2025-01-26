@@ -1,10 +1,12 @@
-# NextQuarterComparable Class
+# NextNFiscalYearsComparable Class
 
-Compares the NEXT_QUARTER token
+Compare the date field value with the NEXT_N_FISCAL_YEARS:N token
 
 **Since** 
 
-1/2/2024
+1/11/2025
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,17 +32,19 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns true if the fieldValue is equal to the NEXT_QUARTER token
+*Inherited*
+
+Whether the date literal is equal to the field value
 
 #### Signature
 ```apex
-public override Boolean isEqual(Datetime fieldValue)
+public virtual Boolean isEqual(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | DateTime | `DateTime` |
 
 #### Return Type
 **Boolean**
@@ -51,7 +55,7 @@ public override Boolean isEqual(Datetime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns true if the fieldValue is greater than the NEXT_QUARTER token
+Check if the fieldValue is greater than the NEXT_N_FISCAL_YEARS:N token
 
 #### Signature
 ```apex
@@ -61,12 +65,12 @@ public override Boolean isGreaterThan(Datetime fieldValue)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | Datetime | Datetime or Date to be compared |
 
 #### Return Type
 **Boolean**
 
-,[object Object]
+Whether fieldValue is greater than the NEXT_N_FISCAL_YEARS:N token
 
 ---
 
@@ -95,7 +99,7 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns true if the fieldValue is less than the NEXT_QUARTER token
+Check if the fieldValue is less than the NEXT_N_FISCAL_YEARS:N token
 
 #### Signature
 ```apex
@@ -105,12 +109,12 @@ public override Boolean isLessThan(Datetime fieldValue)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | Datetime | Datetime or Date to be compared |
 
 #### Return Type
 **Boolean**
 
-,[object Object]
+Whether fieldValue is less than the NEXT_N_FISCAL_YEARS:N token
 
 ---
 

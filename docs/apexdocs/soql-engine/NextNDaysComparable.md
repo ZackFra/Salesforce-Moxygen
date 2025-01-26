@@ -1,10 +1,12 @@
-# Next90DaysComparable Class
+# NextNDaysComparable Class
 
-Comparable class for NEXT_90_DAYS
+Comparable class for NEXT_N_DAYS
 
 **Since** 
 
 12/29/2024
+
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -30,7 +32,7 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns whether fieldValue is equal to NEXT_90_DAYS
+Returns whether fieldValue is equal to NEXT_N_DAYS
 
 #### Signature
 ```apex
@@ -51,7 +53,7 @@ public override Boolean isEqual(DateTime fieldValue)
 
 ### `isGreaterThan(fieldValue)`
 
-Returns whether fieldValue is greater than NEXT_90_DAYS
+Returns whether fieldValue is greater than NEXT_N_DAYS
 
 #### Signature
 ```apex
@@ -61,7 +63,7 @@ public override Boolean isGreaterThan(DateTime fieldValue)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `Datetime` |
+| fieldValue | DateTime |  |
 
 #### Return Type
 **Boolean**
@@ -95,7 +97,7 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 
 ### `isLessThan(fieldValue)`
 
-Returns whether fieldValue is less than NEXT_90_DAYS
+Returns whether fieldValue is less than NEXT_N_DAYS
 
 #### Signature
 ```apex
