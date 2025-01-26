@@ -568,6 +568,10 @@ Handles the selection of a field that is a parent relationship in a subquery
 
 The parser breaks down a SOQL query into an AST, to be fed into the parser (MockDatabase)
 
+### [ParserTestUtil](soql-engine/ParserTestUtil.md)
+
+Test utilites for the parser
+
 ### [ParserUtils](soql-engine/ParserUtils.md)
 
 Contains utility methods for the parser, could probably be refactored out of existance though
@@ -729,12 +733,6 @@ This class is responsible for parsing the WITH SECURITY_ENFORCED clause in a SOQ
 ### [YesterdayComparable](soql-engine/YesterdayComparable.md)
 
 Comparable class for YESTERDAY
-
-## Uncategorized
-
-### [DynamicCastTest](uncategorized/DynamicCastTest.md)
-
-### [ParserTestUtil](uncategorized/ParserTestUtil.md)
 
 ## Utilities
 
