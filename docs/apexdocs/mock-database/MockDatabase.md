@@ -790,17 +790,3 @@ public static List<SObject> queryWithBinds(String query, Map<String,Object> bind
 **List&lt;SObject&gt;**
 
 ,[object Object]
-
----
-
-### `resetHandlers()`
-
-Utility methods (For Testing)
-
-#### Signature
-```apex
-public static void resetHandlers()
-```
-
-#### Return Type
-**void**
