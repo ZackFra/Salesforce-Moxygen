@@ -6,7 +6,7 @@ Function to calculate the calendar quarter of a date or datetime value
 
 1/17/2025
 
-**Group** Date Functions
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 

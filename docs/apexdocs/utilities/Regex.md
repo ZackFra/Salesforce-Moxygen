@@ -6,6 +6,8 @@ A class to handle regex operations
 
 11/27/2024
 
+**Group** Utilities
+
 **Author** Zackary Frazier
 
 ## Methods

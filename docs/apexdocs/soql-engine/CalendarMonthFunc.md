@@ -1,12 +1,12 @@
-# CalendarYearFunc Class
+# CalendarMonthFunc Class
 
-Function to calculate the calendar year of a date or datetime value
+Function to calculate the calendar month of a date or datetime value
 
 **Since** 
 
 1/17/2025
 
-**Group** Date Functions
+**Group** Soql Engine
 
 **Author** Zackary Frazier
 
@@ -17,7 +17,7 @@ Function to calculate the calendar year of a date or datetime value
 ## Methods
 ### `calculate(value)`
 
-Returns the calendar year of a date or datetime value
+Returns the calendar month of a date or datetime value
 
 #### Signature
 ```apex
@@ -27,12 +27,12 @@ public Integer calculate(Object value)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| value | Object | Date or Datetime value to calculate the calendar year of |
+| value | Object | Date or Datetime value to calculate the calendar month of |
 
 #### Return Type
 **Integer**
 
-The calendar year of the date or datetime value
+The calendar month of the date or datetime value
 
 #### Throws
 QueryException: if the value is not a Date or DateTime

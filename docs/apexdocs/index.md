@@ -6,32 +6,6 @@
 
 Static data store for records
 
-## Date Functions
-
-### [CalendarMonthFunc](date-functions/CalendarMonthFunc.md)
-
-Function to calculate the calendar month of a date or datetime value
-
-### [CalendarQuarterFunc](date-functions/CalendarQuarterFunc.md)
-
-Function to calculate the calendar quarter of a date or datetime value
-
-### [CalendarYearFunc](date-functions/CalendarYearFunc.md)
-
-Function to calculate the calendar year of a date or datetime value
-
-### [DateFuncFactory](date-functions/DateFuncFactory.md)
-
-Factory class to create date functions by name
-
-### [DateFuncs](date-functions/DateFuncs.md)
-
-Repository of aggregate date functions
-
-### [IDateFunc](date-functions/IDateFunc.md)
-
-Interface for date functions
-
 ## Exceptions
 
 ### [NotFoundException](exceptions/NotFoundException.md)
@@ -45,12 +19,6 @@ Custom exception for parsing errors
 ### [ValidationException](exceptions/ValidationException.md)
 
 This class is responsible for handling validation exceptions
-
-## fflib
-
-### [fflib_IDGenerator](fflib/fflib_IDGenerator.md)
-
-Generates fake Salesforce Ids for testing purposes
 
 ## Mock Database
 
@@ -167,6 +135,18 @@ This class is used to store the options for the BooleanLogic class
 
 A parser for boolean values
 
+### [CalendarMonthFunc](soql-engine/CalendarMonthFunc.md)
+
+Function to calculate the calendar month of a date or datetime value
+
+### [CalendarQuarterFunc](soql-engine/CalendarQuarterFunc.md)
+
+Function to calculate the calendar quarter of a date or datetime value
+
+### [CalendarYearFunc](soql-engine/CalendarYearFunc.md)
+
+Function to calculate the calendar year of a date or datetime value
+
 ### [ChildSubQuerySelectHandler](soql-engine/ChildSubQuerySelectHandler.md)
 
 Child subquery select handler
@@ -186,6 +166,14 @@ Handles the limit for the count of records
 ### [CountOffsetHandler](soql-engine/CountOffsetHandler.md)
 
 OffsetHandler for Count
+
+### [DateFuncFactory](soql-engine/DateFuncFactory.md)
+
+Factory class to create date functions by name
+
+### [DateFuncs](soql-engine/DateFuncs.md)
+
+Repository of aggregate date functions
 
 ### [DateLiteral](soql-engine/DateLiteral.md)
 
@@ -262,6 +250,10 @@ Interface for aggregate calculator
 ### [IdAndReferenceFieldComparator](soql-engine/IdAndReferenceFieldComparator.md)
 
 This class is used to compare two fields to determine if one is a reference to the other
+
+### [IDateFunc](soql-engine/IDateFunc.md)
+
+Interface for date functions
 
 ### [IdFieldComparator](soql-engine/IdFieldComparator.md)
 
@@ -568,10 +560,6 @@ This class is responsible for parsing the WITH SECURITY_ENFORCED clause in a SOQ
 
 Creates Aggregate objects from ProtoAggregates
 
-### [ApexTypes](uncategorized/ApexTypes.md)
-
-A class that contains the names of the Apex types.
-
 ### [AverageCalculator](uncategorized/AverageCalculator.md)
 
 Calculates the average of a set of values.
@@ -587,10 +575,6 @@ Calculates the calendar month from a date value
 ### [CalendarYearCalculator](uncategorized/CalendarYearCalculator.md)
 
 Calculates the calendar month from a date value
-
-### [Common](uncategorized/Common.md)
-
-Common utility class for basic operations, should not contain complex code
 
 ### [CountCalculator](uncategorized/CountCalculator.md)
 
@@ -612,15 +596,7 @@ Factory class for creating DateLiteralComparable instances
 
 MockDatabaseDMLHandler is used to handle DML operations on the mock database
 
-### [DynamicCast](uncategorized/DynamicCast.md)
-
-DynamicCast is a class that provides a method to cast a value to a specified type.
-
 ### [DynamicCastTest](uncategorized/DynamicCastTest.md)
-
-### [GMT](uncategorized/GMT.md)
-
-Salesforce is insanely inconsistent about dates and date times, this class returns values in GMT
 
 ### [Last90DaysComparable](uncategorized/Last90DaysComparable.md)
 
@@ -734,10 +710,6 @@ Compares a date to N fiscal years ago
 
 Comparable class for N_MONTHS_AGO
 
-### [OrganizationSingleton](uncategorized/OrganizationSingleton.md)
-
-Singleton for the Organization object
-
 ### [ParserTestUtil](uncategorized/ParserTestUtil.md)
 
 ### [ProtoAggregate](uncategorized/ProtoAggregate.md)
@@ -745,21 +717,9 @@ Singleton for the Organization object
 before we create an aggregate, wean a proto-aggregate, 
 i.e. a Map&lt;String, Object&gt; that will be used to store the aggregate
 
-### [Regex](uncategorized/Regex.md)
-
-A class to handle regex operations
-
 ### [SaveResultService](uncategorized/SaveResultService.md)
 
 This class is used to create success and failure results for DML operations.
-
-### [SchemaService](uncategorized/SchemaService.md)
-
-this class is intended to handle interactions with the Schema class 
-and provide a layer of abstraction for the Schema class, non-mutating 
-string arguments to these methods are understood to be case-insensitive 
-anything named &quot;getName&quot; are understood to return proper API names 
-every argument is understood to be non-null
 
 ### [SumCalculator](uncategorized/SumCalculator.md)
 
@@ -793,10 +753,48 @@ Comparable class for TODAY
 
 Comparable class for TOMORROW
 
-### [TypeOf](uncategorized/TypeOf.md)
-
-TypeOf is a class that provides a method to determine the type of an object.
-
 ### [YesterdayComparable](uncategorized/YesterdayComparable.md)
 
 Comparable class for YESTERDAY
+
+## Utilities
+
+### [ApexTypes](utilities/ApexTypes.md)
+
+A class that contains the names of the Apex types.
+
+### [Common](utilities/Common.md)
+
+Common utility class for basic operations, should not contain complex code
+
+### [DynamicCast](utilities/DynamicCast.md)
+
+DynamicCast is a class that provides a method to cast a value to a specified type.
+
+### [fflib_IDGenerator](utilities/fflib_IDGenerator.md)
+
+Generates fake Salesforce Ids for testing purposes
+
+### [GMT](utilities/GMT.md)
+
+Salesforce is insanely inconsistent about dates and date times, this class returns values in GMT
+
+### [OrganizationSingleton](utilities/OrganizationSingleton.md)
+
+Singleton for the Organization object
+
+### [Regex](utilities/Regex.md)
+
+A class to handle regex operations
+
+### [SchemaService](utilities/SchemaService.md)
+
+this class is intended to handle interactions with the Schema class 
+and provide a layer of abstraction for the Schema class, non-mutating 
+string arguments to these methods are understood to be case-insensitive 
+anything named &quot;getName&quot; are understood to return proper API names 
+every argument is understood to be non-null
+
+### [TypeOf](utilities/TypeOf.md)
+
+TypeOf is a class that provides a method to determine the type of an object.

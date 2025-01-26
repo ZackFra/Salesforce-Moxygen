@@ -6,6 +6,8 @@ Salesforce is insanely inconsistent about dates and date times, this class retur
 
 11/16/2024
 
+**Group** Utilities
+
 **Author** Zackary Frazier
 
 ## Methods
