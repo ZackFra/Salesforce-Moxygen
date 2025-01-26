@@ -26,6 +26,7 @@
  *              string arguments to these methods are understood to be case-insensitive
  *              anything named "getName" are understood to return proper API names
  *              every argument is understood to be non-null
+ * @group Utilities
  */
 @SuppressWarnings(
     'PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.ExcessivePublicCount'

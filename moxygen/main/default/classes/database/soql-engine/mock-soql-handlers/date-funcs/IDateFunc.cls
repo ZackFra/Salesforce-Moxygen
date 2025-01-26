@@ -2,7 +2,7 @@
  * @description Interface for date functions
  * @author Zackary Frazier
  * @since 1/17/2025
- * @group Date Functions
+ * @group Soql Engine
  */
 public interface IDateFunc {
     /**

@@ -2,6 +2,7 @@
  * @description Singleton for the Organization object
  * @author Zackary Frazier
  * @since 1/7/2025
+ * @group Utilities
  */
 public with sharing class OrganizationSingleton {
     static Organization org;

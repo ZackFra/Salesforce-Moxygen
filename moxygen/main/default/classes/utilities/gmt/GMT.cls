@@ -2,6 +2,7 @@
  * @description Salesforce is insanely inconsistent about dates and date times, this class returns values in GMT
  * @author Zackary Frazier
  * @since 11/16/2024
+ * @group Utilities
  */
 public with sharing class GMT {
     /**

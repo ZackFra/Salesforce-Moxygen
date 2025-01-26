@@ -27,7 +27,7 @@
  * @description Repository of aggregate date functions
  * @author Zackary Frazier
  * @since 4/28/2024
- * @group Date Functions
+ * @group Soql Engine
  */
 public with sharing class DateFuncs {
     /**

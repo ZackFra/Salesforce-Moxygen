@@ -2,6 +2,7 @@
  * @description A class to handle regex operations
  * @author Zackary Frazier
  * @since 11/27/2024
+ * @group Utilities
  */
 public with sharing class Regex {
     static Map<String, Matcher> matcherCache = new Map<String, Matcher>();

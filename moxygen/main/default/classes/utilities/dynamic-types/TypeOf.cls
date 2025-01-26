@@ -2,6 +2,7 @@
  * @description TypeOf is a class that provides a method to determine the type of an object.
  * @author Zackary Frazier
  * @since 11/16/2024
+ * @group Utilities
  */
 @SuppressWarnings('PMD.StdCyclomaticComplexity')
 public with sharing class TypeOf {

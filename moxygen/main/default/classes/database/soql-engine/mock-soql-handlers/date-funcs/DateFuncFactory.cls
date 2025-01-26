@@ -2,7 +2,7 @@
  * @description Factory class to create date functions by name
  * @author Zackary Frazier
  * @since 1/17/2025
- * @group Date Functions
+ * @group Soql Engine
  */
 public with sharing class DateFuncFactory {
     static Map<String, Type> dateFuncByName = new Map<String, Type>{
