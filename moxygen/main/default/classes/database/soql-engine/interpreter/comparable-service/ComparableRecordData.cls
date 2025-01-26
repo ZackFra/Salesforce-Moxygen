@@ -2,6 +2,7 @@
  * @description Encapsulates the data needed to compare records
  * @author Zackary Frazier
  * @since 11/24/2024
+ * @group Soql Engine
  */
 public with sharing virtual class ComparableRecordData {
     protected SObject comparableRecord;

@@ -27,6 +27,7 @@
  * @description Standard processor for aggregate queries
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class AggregateStandardProcessor extends AggregateProcessor {
     private List<ProtoAggregate> aggregateResults = new List<ProtoAggregate>();

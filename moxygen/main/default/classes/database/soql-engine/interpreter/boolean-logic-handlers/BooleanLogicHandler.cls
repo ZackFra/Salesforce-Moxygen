@@ -27,6 +27,7 @@
  * @description A class to handle boolean logic, when it comes to HAVING and WHERE clauses, it's all the same except for the comparison
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public virtual with sharing class BooleanLogicHandler {
     /**

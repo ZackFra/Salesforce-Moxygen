@@ -27,6 +27,7 @@
  * @description Order by handler for record data
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class RecordOrderByHandler extends OrderByHandler {
     /**

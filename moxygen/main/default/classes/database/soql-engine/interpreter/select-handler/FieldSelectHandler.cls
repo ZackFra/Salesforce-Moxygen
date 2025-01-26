@@ -27,6 +27,7 @@
  * @description FieldSelectHandler is a class that implements ISelectHandler. It is used to handle the selection of a field.
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class FieldSelectHandler implements ISelectHandler {
     FieldSelector fSelector;

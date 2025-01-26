@@ -27,6 +27,7 @@
  * @description Tool for finding the aliases on nodes
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class AliasService {
     /**

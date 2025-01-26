@@ -26,6 +26,7 @@
 /**
  * @description A class to compare two pre-Aggregate based on a set of fields
  *              (a pre-Aggregate is a ProtoAggregate where the keys are the field names and the values are the field values)
+ * @group Soql Engine
  */
 public with sharing class AggregateComparator implements Comparator<ProtoAggregate> {
     private Map<String, Map<String, String>> fields;

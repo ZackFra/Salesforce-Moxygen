@@ -27,6 +27,7 @@
  * @description Offset handler for records
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class RecordOffsetHandler implements IOffsetHandler {
     private OffsetOptions options;

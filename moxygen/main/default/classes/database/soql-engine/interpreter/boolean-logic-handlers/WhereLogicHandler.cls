@@ -27,6 +27,7 @@
  * @description This class is responsible for handling the WHERE clause logic
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 @SuppressWarnings(
     'PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.CyclomaticComplexity'

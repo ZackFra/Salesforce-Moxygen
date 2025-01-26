@@ -2,6 +2,7 @@
  * @description Represents a chain of fields to look up on a parent object
  * @author Zackary Frazier
  * @since 11/25/2024
+ * @group Soql Engine
  */
 public class ParentLookupChain {
     private String finalField;

@@ -2,6 +2,7 @@
  * @description This class is used to resolve the field in a query
  * @author Zackary Frazier
  * @since 11/24/2024
+ * @group Soql Engine
  */
 public with sharing virtual class QueriedFieldResolver {
     protected String fieldLookupChain;

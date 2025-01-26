@@ -27,6 +27,7 @@
  * @description Handles the limit for the aggregate query
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class AggregateLimitHandler implements ILimitHandler {
     LimitOptions options;

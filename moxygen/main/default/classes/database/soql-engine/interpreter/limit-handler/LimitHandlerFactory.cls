@@ -27,6 +27,7 @@
  * @description Used to create a limit handler based on the query type
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class LimitHandlerFactory {
     private LimitOptions options = new LimitOptions();

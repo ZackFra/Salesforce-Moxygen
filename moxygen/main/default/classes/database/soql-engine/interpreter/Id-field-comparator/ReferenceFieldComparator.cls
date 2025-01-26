@@ -27,6 +27,7 @@
  * @description Comparator for two reference fields, checks if they reference the same object
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public class ReferenceFieldComparator implements Comparator<Schema.SObjectField> {
     /**

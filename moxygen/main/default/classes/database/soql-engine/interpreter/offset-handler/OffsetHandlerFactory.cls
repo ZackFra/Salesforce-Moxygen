@@ -27,6 +27,7 @@
  * @description This class is responsible for creating the appropriate offset handler based on the query type.
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class OffsetHandlerFactory {
     OffsetOptions options = new OffsetOptions();
