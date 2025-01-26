@@ -32,28 +32,28 @@ String
 ## Methods
 ### `isEqual(fieldValue)`
 
-Returns true if the fieldValue is equal to the last quarter
+*Inherited*
+
+Whether the date literal is equal to the field value
 
 #### Signature
 ```apex
-public override Boolean isEqual(Datetime fieldValue)
+public Boolean isEqual(DateTime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | DateTime | Date or Datetime value |
 
 #### Return Type
 **Boolean**
 
-,[object Object]
+Whether fieldValue is equal to the date literal
 
 ---
 
 ### `isGreaterThan(fieldValue)`
-
-Returns true if the fieldValue is greater than the last quarter
 
 #### Signature
 ```apex
@@ -63,12 +63,10 @@ public override Boolean isGreaterThan(Datetime fieldValue)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | Datetime |  |
 
 #### Return Type
 **Boolean**
-
-,[object Object]
 
 ---
 
@@ -86,18 +84,16 @@ public Boolean isGreaterThanOrEqual(DateTime fieldValue)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `DateTime` |
+| fieldValue | DateTime | Date or Datetime value |
 
 #### Return Type
 **Boolean**
 
-,[object Object]
+Whether fieldValue is greater than or equal to the date literal
 
 ---
 
 ### `isLessThan(fieldValue)`
-
-Returns true if the fieldValue is less than the last quarter
 
 #### Signature
 ```apex
@@ -107,12 +103,10 @@ public override Boolean isLessThan(Datetime fieldValue)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | Datetime | `Datetime` |
+| fieldValue | Datetime |  |
 
 #### Return Type
 **Boolean**
-
-,[object Object]
 
 ---
 
@@ -130,12 +124,12 @@ public Boolean isLessThanOrEqual(DateTime fieldValue)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `DateTime` |
+| fieldValue | DateTime | Date or Datetime value |
 
 #### Return Type
 **Boolean**
 
-,[object Object]
+Whether fieldValue is less than or equal to the date literal
 
 ---
 
@@ -153,12 +147,12 @@ public Boolean isNotEqual(DateTime fieldValue)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | `DateTime` |
+| fieldValue | DateTime | Date or Datetime value |
 
 #### Return Type
 **Boolean**
 
-,[object Object]
+Whether fieldValue is not equal to the date literal
 
 ---
 
@@ -176,9 +170,9 @@ public DateLiteralComparable withToken(String token)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| token | String | `String` |
+| token | String | Parsed token |
 
 #### Return Type
 **[DateLiteralComparable](DateLiteralComparable.md)**
 
-,[object Object]
+This instance of DateLiteralComparable
