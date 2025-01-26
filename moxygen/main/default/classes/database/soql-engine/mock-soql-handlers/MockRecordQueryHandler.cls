@@ -92,10 +92,10 @@ public inherited sharing class MockRecordQueryHandler extends MockSOQLHandler {
 
         Node objNode = fromNode.left;
         String objName = objNode.id;
-        String objApiName = SchemaService.getSObjectName(objName);
+        SObjectType sot = SchemaService.getSObjectType(objName);
 
         // otherwise valid query, but there's no data in the database
-        Map<Id, SObject> mockObjects = MockDatabase.mockRecords.get(objApiName);
+        Map<Id, SObject> mockObjects = DataStore.getAllBySot(sot);
         if (mockObjects == null) {
             return emptyResponse();
         }

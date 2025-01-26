@@ -38,9 +38,7 @@ public inherited sharing class MockDatabaseUtils {
      * @return : whether the record exists in the database
      */
     public Boolean isRecordInDatabase(Id recordId) {
-        String recordApiName = SchemaService.getSObjectName(recordId);
-        Map<Id, sObject> mockObjects = MockDatabase.get(recordApiName);
-        return mockObjects.containsKey(recordId);
+        return DataStore.isRecordInDataStore(recordId);
     }
 
     /**
@@ -49,39 +47,27 @@ public inherited sharing class MockDatabaseUtils {
      * @return : the sObject
      */
     public SObject findRecord(Id recordId) {
-        String objApiName = SchemaService.getSObjectName(recordId);
         try {
-            return MockDatabase.mockRecords.get(objApiName).get(recordId);
+            return DataStore.getById(recordId);
         } catch (Exception e) {
             throw new QueryException('No record found for ' + recordId);
         }
     }
 
-    /** @description : return a parent sObject from a field name and a child sObject
-     * @param sObj : the child sObject
-     * @param fieldName : the field name of the parent sObject from the child
-     *                  : ex. OpportunityLineItem, the field is Opportunity
-     * @return : the parent sObject
+    /**
+     * @description Return a parent sObject from a field name and a child sObject
+     * @param sObj The child SObject
+     * @param fieldName the field name of the parent sObject from the child
+     *                  ex. OpportunityLineItem, the field is Opportunity
+     * @return The parent sObject
      */
-    public ParentRecordData findParentRecord(sObject sObj, String fieldName) {
-        // api name of the child sObject
-        String objApiName = sObj.getSObjectType().getDescribe().getName();
-        // api name of the id object on the child (i.e. OpportunityId)
-        String fieldApiName;
-        // api name of the relationship field on the child (i.e. Opportunity)
-        String fieldRelationshipName;
-        // api name of the parent sObject
-        String parentObjApiName;
-        // whether this field is a polymorphic relationship
-        Boolean isPolymorphic = false;
-
+    public ParentRecordData findParentRecord(SObject sObj, String fieldName) {
         String sObjApiName = sObj.getSObjectType().getDescribe().getName();
-        SObjectType t = ((SObject) Type.forName(sObjApiName).newInstance())
-            .getSObjectType();
+        SObjectType t = SchemaService.getSObjectType(sObjApiName);
 
         List<Schema.SObjectField> fields = SchemaService.getFields(t);
-        for (SObjectField f : t.getDescribe().fields.getMap().values()) {
-            Schema.DescribeFieldResult dfr = f.getDescribe();
+        for (SObjectField field : t.getDescribe().fields.getMap().values()) {
+            Schema.DescribeFieldResult dfr = field.getDescribe();
             Schema.DisplayType dfrFieldType = dfr.getType();
             String dfrRelationshipName = dfr.getRelationshipName();
             String lowercaseDfrRelationshipName = null;
@@ -93,52 +79,55 @@ public inherited sharing class MockDatabaseUtils {
                 dfrFieldType == Schema.DisplayType.REFERENCE &&
                 lowerCaseDfrRelationshipName == fieldName
             ) {
-                List<Schema.sObjectType> objTypeList = dfr.getReferenceTo();
-
-                if (objTypeList.size() == 1) {
-                    parentObjApiName = objTypeList[0].getDescribe().getName();
-                } else {
-                    String parentFieldApiName = SchemaService.getFieldName(f);
-                    Id parentRecordId = (Id) sObj.get(parentFieldApiName);
-                    parentObjApiName = SchemaService.getSObjectName(
-                        parentRecordId
-                    );
-                    isPolymorphic = true;
-                }
-
-                if (parentObjApiName == null) {
-                    throw new QueryException(
-                        'Invalid relationship name: ' + fieldName
-                    );
-                }
-
-                fieldApiName = dfr.getName();
-                fieldRelationshipName = dfr.getRelationshipName();
-
-                sObject parentRecord = ((sObject) Type.forName(parentObjApiName)
-                        .newInstance())
-                    .getSObjectType()
-                    .newSObject();
-
-                Map<Id, sObject> mockRecordsChild = MockDatabase.get(
-                    objApiName
-                );
-                Id parentId = (Id) mockRecordsChild.get(sObj.Id)
-                    .get(fieldApiName);
-
-                parentRecord.put('Id', parentId);
-                return new ParentRecordData.Builder()
-                    .setFieldApiName(fieldApiName)
-                    .setFieldRelationshipName(fieldRelationshipName)
-                    .setParentObjApiName(parentObjApiName)
-                    .setObjApiName(objApiName)
-                    .setParentRecord(parentRecord)
-                    .setIsPolymorphic(isPolymorphic)
-                    .build();
+                return buildParentRecordData(field, sObj);
             }
         }
 
         throw new QueryException('Invalid relationship name: ' + fieldName);
+    }
+
+    private ParentRecordData buildParentRecordData(
+        SObjectField field,
+        SObject childRecord
+    ) {
+        DescribeFieldResult dfr = field.getDescribe();
+        String fieldName = dfr.getName();
+        List<Schema.sObjectType> objTypeList = dfr.getReferenceTo();
+
+        String parentObjApiName;
+        Boolean isPolymorphic = false;
+        if (objTypeList.size() == 1) {
+            parentObjApiName = SchemaService.getSObjectName(objTypeList[0]);
+        } else {
+            String parentFieldApiName = SchemaService.getFieldName(field);
+            Id parentRecordId = (Id) childRecord.get(parentFieldApiName);
+            parentObjApiName = SchemaService.getSObjectName(parentRecordId);
+            isPolymorphic = true;
+        }
+
+        if (parentObjApiName == null) {
+            throw new QueryException('Invalid relationship name: ' + fieldName);
+        }
+        String fieldRelationshipName = dfr.getRelationshipName();
+
+        sObject parentRecord = ((sObject) Type.forName(parentObjApiName)
+                .newInstance())
+            .getSObjectType()
+            .newSObject();
+
+        SObjectType sot = SchemaService.getSObjectType(childRecord);
+        Map<Id, sObject> mockRecordsChild = DataStore.getAllBySot(sot);
+        Id parentId = (Id) mockRecordsChild.get(childRecord.Id).get(fieldName);
+
+        parentRecord.put('Id', parentId);
+        return new ParentRecordData.Builder()
+            .setFieldApiName(fieldName)
+            .setFieldRelationshipName(fieldRelationshipName)
+            .setParentObjApiName(parentObjApiName)
+            .setObjApiName(SchemaService.getSObjectName(childRecord))
+            .setParentRecord(parentRecord)
+            .setIsPolymorphic(isPolymorphic)
+            .build();
     }
 
     /**

@@ -55,13 +55,7 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
             );
         }
         SObject insertedRecord = setSystemFields(recordToInsert);
-        String objName = SchemaService.getSObjectName(insertedRecord);
-        Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(objName);
-        if (mockRecords == null) {
-            mockRecords = new Map<Id, SObject>();
-            MockDatabase.mockRecords.put(objName, mockRecords);
-        }
-        mockRecords.put(insertedRecord.Id, insertedRecord);
+        DataStore.put(insertedRecord);
         return (Database.SaveResult) srService.createSuccess(
             insertedRecord.Id,
             Database.SaveResult.class
@@ -140,13 +134,7 @@ public inherited sharing class MockInsertHandler extends MockDMLHandler {
         recordToInsert.put('Id', fflib_IDGenerator.generate(sot));
 
         SObject insertedRecord = setSystemFields(recordToInsert);
-        String objName = SchemaService.getSObjectName(insertedRecord);
-        Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(objName);
-        if (mockRecords == null) {
-            mockRecords = new Map<Id, SObject>();
-            MockDatabase.mockRecords.put(objName, mockRecords);
-        }
-        mockRecords.put(insertedRecord.Id, insertedRecord);
+        DataStore.put(insertedRecord);
     }
 
     /**

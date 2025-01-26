@@ -327,11 +327,7 @@ public inherited sharing class ComparableService {
                     .getSObjectType()
                     .newSObject();
 
-                Map<Id, sObject> mockRecordsChild = MockDatabase.get(
-                    objApiName
-                );
-                Id parentId = (Id) mockRecordsChild.get(sObj.Id)
-                    .get(fieldApiName);
+                Id parentId = (Id) DataStore.getById(sObj.Id).get(fieldApiName);
 
                 parentRecord.put('Id', parentId);
                 Map<String, Object> objInfo = new Map<String, Object>{

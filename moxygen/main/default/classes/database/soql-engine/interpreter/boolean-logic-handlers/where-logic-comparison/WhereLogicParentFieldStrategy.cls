@@ -72,8 +72,7 @@ public with sharing class WhereLogicParentFieldStrategy implements IWhereLogicCo
                 recordFieldValue = null;
             }
         } else {
-            parentRecord = MockDatabase.get(parentObjApiName)
-                .get(parentRecord.Id);
+            parentRecord = DataStore.getById(parentRecord.Id);
             recordFieldValue = parentRecord.get(finalFieldApiName);
         }
 

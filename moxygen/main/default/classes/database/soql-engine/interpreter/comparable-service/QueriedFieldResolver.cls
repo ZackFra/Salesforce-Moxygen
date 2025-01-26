@@ -93,10 +93,9 @@ public inherited sharing virtual class QueriedFieldResolver {
     private SObject getFullParentRecordWithAllFields(
         ParentRecordData recordData
     ) {
-        SObject fullParentRecord = MockDatabase.get(
-                recordData.getParentObjApiName()
-            )
-            .get(recordData.getParentRecordId());
+        SObject fullParentRecord = DataStore.getById(
+            recordData.getParentRecordId()
+        );
         return fullParentRecord;
     }
 

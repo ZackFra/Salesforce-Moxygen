@@ -36,9 +36,7 @@ public inherited sharing class MockDatabase {
     public static DmlEngine dmlHandler = new DmlEngine();
     public static SoqlEngine soqlHandler = new SoqlEngine();
 
-    public static Map<String, Map<Id, SObject>> mockRecords = new Map<String, Map<Id, SObject>>();
     public static MockDatabaseUtils utils = new MockDatabaseUtils();
-    public static Set<Id> deletedRecords = new Set<Id>();
 
     /** Utility methods (For Testing) */
 
@@ -47,18 +45,6 @@ public inherited sharing class MockDatabase {
      */
     public static void resetHandlers() {
         dmlHandler.resetHandlers();
-    }
-
-    /**
-     * @description Count the number of records in the mock database
-     * @return  `Integer`
-     */
-    public static Integer count() {
-        Integer count = 0;
-        for (String objApiName : mockRecords.keySet()) {
-            count += mockRecords.get(objApiName).size();
-        }
-        return count;
     }
 
     /**
@@ -555,15 +541,6 @@ public inherited sharing class MockDatabase {
             lowerCaseParams.put(key.toLowerCase(), params.get(key));
         }
         return lowerCaseParams;
-    }
-
-    /**
-     * @description return all SObjects of a given type
-     * @param objApiName : the object API name
-     * @return : the map of SObjects
-     */
-    public static Map<Id, sObject> get(String objApiName) {
-        return mockRecords.get(objApiName);
     }
 
     /**

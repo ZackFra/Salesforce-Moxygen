@@ -178,19 +178,13 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
             );
         }
 
-        String objName = SchemaService.getSObjectName(recordToInsert);
         Schema.SObjectType sot = SchemaService.getSObjectType(recordToInsert);
 
         String fakeId = fflib_IDGenerator.generate(sot);
         recordToInsert.put('Id', fakeId);
         recordToInsert = setSystemFieldsOnInsert(recordToInsert);
 
-        Map<Id, SObject> mockRecords = MockDatabase.mockRecords.get(objName);
-        if (mockRecords == null) {
-            mockRecords = new Map<Id, SObject>();
-            MockDatabase.mockRecords.put(objName, mockRecords);
-        }
-        mockRecords.put(recordToInsert.Id, recordToInsert);
+        DataStore.put(recordToInsert);
         return (Database.SaveResult) srService.createSuccess(
             recordToInsert.Id,
             Database.SaveResult.class
@@ -227,8 +221,8 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
         };
         Common.nullCheck(args);
 
-        String objName = SchemaService.getSObjectName(recordToUpdate);
-        Map<Id, sObject> mockRecords = MockDatabase.mockRecords.get(objName);
+        SObjectType sot = SchemaService.getSObjectType(recordToUpdate);
+        Map<Id, sObject> mockRecords = DataStore.getAllBySot(sot);
 
         if (mockRecords == null && allOrNone) {
             throw new DmlException('Record does not exist');
@@ -243,8 +237,6 @@ public inherited sharing class MockUpsertHandler extends MockDMLHandler {
                 Database.SaveResult.class
             );
         }
-
-        Schema.SObjectType sot = SchemaService.getSObjectType(recordToUpdate);
 
         for (String field : recordToUpdate.getPopulatedFieldsAsMap().keySet()) {
             Schema.SObjectField sObjField = SchemaService.getField(sot, field);
