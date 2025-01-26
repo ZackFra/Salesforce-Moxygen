@@ -27,6 +27,7 @@
  * @description Calculates the sum of a field
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class SumCalculator implements IAggregateCalculator {
     AggregateCalculatorOptions options;

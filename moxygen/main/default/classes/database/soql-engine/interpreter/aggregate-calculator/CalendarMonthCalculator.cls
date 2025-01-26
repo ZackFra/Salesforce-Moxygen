@@ -27,6 +27,7 @@
  * @description Calculates the calendar month from a date value
  * @author Zackary Frazier
  * @since 4/28/2024
+ * @group Soql Engine
  */
 public with sharing class CalendarMonthCalculator implements IAggregateCalculator {
     AggregateCalculatorOptions options;

@@ -27,6 +27,7 @@
  * @description Calculates the average of a set of values.
  * @author Zackary Frazier
  * @since 3/23/2024
+ * @group Soql Engine
  */
 public with sharing class AverageCalculator implements IAggregateCalculator {
     AggregateCalculatorOptions options;
