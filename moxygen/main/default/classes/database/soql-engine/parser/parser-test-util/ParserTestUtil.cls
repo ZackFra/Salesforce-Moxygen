@@ -1,3 +1,9 @@
+/**
+ * @description Test utilites for the parser
+ * @author Zackary Frazier
+ * @since 1/26/2025
+ * @group Soql Engine
+ */
 @IsTest
 public with sharing class ParserTestUtil {
     /**

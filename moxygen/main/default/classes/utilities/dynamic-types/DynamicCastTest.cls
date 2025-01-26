@@ -1,5 +1,5 @@
 @IsTest
-public with sharing class DynamicCastTest {
+private class DynamicCastTest {
     @IsTest
     static void testCastTo() {
         Assert.areEqual(
