@@ -3,6 +3,7 @@
  * @author Zackary Frazier
  * @since 11/16/2024
  * @group Utilities
+ * @group-content Dynamic Types
  */
 public with sharing class ApexTypes {
     public static final String XDECIMAL = 'Decimal';
