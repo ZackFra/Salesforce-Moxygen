@@ -64,6 +64,10 @@ Types defined for this package
 
 ## Moxygen
 
+### [Aggregate](moxygen/Aggregate.md)
+
+Aggregate class to represent the result of an aggregate query
+
 ### [DML](moxygen/DML.md)
 
 DML class to handle DML operations, wrapper around Database methods 
@@ -85,10 +89,6 @@ Wrapper class for Database class&#x27;s query methods. This class is used to all
 ### [AbstractSyntaxTreeWithQuery](uncategorized/AbstractSyntaxTreeWithQuery.md)
 
 Represents and AST as stored in the parser static resources
-
-### [Aggregate](uncategorized/Aggregate.md)
-
-Aggregate class to represent the result of an aggregate query
 
 ### [AggregateBuilder](uncategorized/AggregateBuilder.md)
 
