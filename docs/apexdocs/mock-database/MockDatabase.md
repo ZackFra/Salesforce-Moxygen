@@ -35,18 +35,6 @@ public static soqlHandler
 #### Type
 [SoqlEngine](../uncategorized/SoqlEngine.md)
 
----
-
-### `utils`
-
-#### Signature
-```apex
-public static utils
-```
-
-#### Type
-[MockDatabaseUtils](../uncategorized/MockDatabaseUtils.md)
-
 ## Methods
 ### `aggregateQuery(query)`
 

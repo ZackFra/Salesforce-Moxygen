@@ -433,12 +433,6 @@ This class is responsible for handling aggregate SOQL queries to the mock databa
 
 This class is responsible for handling count SOQL queries to the mock database
 
-### [MockDatabaseUtils](uncategorized/MockDatabaseUtils.md)
-
-: utilities for a MockDatabase, contains methods that DO NOT mutate the database 
-: a method in here must be dependent on the database, but not necessary to understand 
-: the database
-
 ### [MockDeleteHandler](uncategorized/MockDeleteHandler.md)
 
 MockDeleteHandler is a class that extends MockDMLHandler and overrides the delete methods to simulate the delete operation
