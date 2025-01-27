@@ -31,7 +31,7 @@ const path_1 = __importDefault(require("path"));
 const child_process_1 = require("child_process");
 const core = __importStar(require("@actions/core"));
 (0, child_process_1.execSync)("sf org display --json > orgDisplay.json");
-const orgDisplay = fs_1.default.readFileSync(path_1.default.resolve(process.cwd(), 'query.json'), 'utf-8');
+const orgDisplay = fs_1.default.readFileSync(path_1.default.resolve(process.cwd(), 'orgDisplay.json'), 'utf-8');
 const orgDisplayJson = JSON.parse(orgDisplay);
 const apiVersion = parseInt(orgDisplayJson.result.apiVersion, 10);
 (0, child_process_1.execSync)(`sf data query --query "SELECT Name, ApiVersion FROM ApexClass WHERE ApiVersion != ${apiVersion} --json > query.json`);
