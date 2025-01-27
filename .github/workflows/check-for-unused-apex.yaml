@@ -19,4 +19,4 @@ jobs:
             - name: Authenticate
               run: sf org login sfdx-url --sfdx-url-file "authFile.json" --set-default-dev-hub --alias DevHub
             - name: Check for Unused Apex
-              run: sf hardis:org:diagnose:unused-apex-classes --days 30
+              run: sf hardis:org:diagnose:unused-apex-classes --days 7
