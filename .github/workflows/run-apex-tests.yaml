@@ -24,4 +24,4 @@ jobs:
                 sf org login sfdx-url --sfdx-url-file "authFile.json" --set-default-dev-hub --alias DevHub
             - name: Run Apex Tests
               run: |
-                sf apex run test --target-org DevHub --synchronous
+                sf apex run test --target-org DevHub --synchronous --code-coverage --output-format human
