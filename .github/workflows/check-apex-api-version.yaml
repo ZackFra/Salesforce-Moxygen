@@ -19,8 +19,7 @@ jobs:
                 npm ci
                 echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
                 npm i -g @salesforce/cli
-                sf org login sfdx-url --sfdx-url-file "authFile.json" --set-default-dev-hub --alias DevHub
-                sf org display > orgDisplay.json
+                sf org login sfdx-url --sfdx-url-file "authFile.json" --set-default-dev-hub --alias DevHub --set-default
             - name: Check API Version
               run: |
                 node scripts/typescript/build/check-apex-api-version.js
