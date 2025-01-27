@@ -13,10 +13,15 @@ jobs:
               with:
                 node-version: '20'
             - name: Install SFDX
-              run: npm i -g @salesforce/cli
+              run: |
+                npm i -g @salesforce/cli
+                sf --version
             - name: Create Auth File
-              run: scripts/bash/create-sfdx-auth-file.sh ${{ secrets.SF_AUTH_URL }}
+              run: | 
+                echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
             - name: Authenticate
-              run: scripts/bash/config-sf.sh authFile.json
+              run: | 
+                sf org login sfdx-url --sfdx-url-file "authFile.json" --set-default-dev-hub --alias DevHub
             - name: Run Apex Tests
-              run: sf apex run test --target-org DevHub --synchronous --code-coverage -r human
+              run: |
+                sf apex run test --target-org DevHub --synchronous --code-coverage -r human
