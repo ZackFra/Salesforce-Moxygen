@@ -1,4 +1,4 @@
-name: Unused Apex
+name: Check for Unused Apex
 on:
     workflow_dispatch:
 
