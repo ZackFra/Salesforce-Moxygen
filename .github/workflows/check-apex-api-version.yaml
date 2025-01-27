@@ -1,4 +1,4 @@
-name: Check API Version
+name: Check Apex API Version
 
 on:
     workflow_dispatch:
