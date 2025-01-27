@@ -1,0 +1,22 @@
+name: Check API Version
+
+on:
+    workflow_dispatch:
+
+jobs:
+    check-api-version:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: '20'
+            - name: Authenticate Salesforce
+              run: |
+                echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
+                npm i -g @salesforce/cli
+                sf org login sfdx-url --sfdx-url-file "authFile.json" --set-default-dev-hub --alias DevHub
+            - name: Check API Version
+              run: |
+                sf org display --json > orgDisplay.json
+                sf data query --query "SELECT Name, ApiVersion FROM ApexClass WHERE ApiVersion != "
+                node scripts/typescript/build/check-api-version.js orgDisplay.json
