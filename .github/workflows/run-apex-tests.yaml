@@ -21,5 +21,4 @@ jobs:
             - name: Authenticate
               run: scripts/bash/config-sf.sh authFile.json
             - name: Run Apex Tests
-              run: |
-                sf apex run test --target-org DevHub --synchronous
+              run: sf apex run test --target-org DevHub --synchronous
