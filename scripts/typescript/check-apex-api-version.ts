@@ -4,7 +4,8 @@ import { execSync } from 'child_process'
 
 import * as core from '@actions/core'
 
-const orgDisplay = fs.readFileSync(path.resolve(process.cwd(), process.argv[2]), 'utf-8')
+execSync("sf org display --json > orgDisplay.json")
+const orgDisplay = fs.readFileSync(path.resolve(process.cwd(), 'query.json'), 'utf-8')
 const orgDisplayJson = JSON.parse(orgDisplay) as OrgDisplayResponse
 const apiVersion = parseInt(orgDisplayJson.result.apiVersion, 10)
 

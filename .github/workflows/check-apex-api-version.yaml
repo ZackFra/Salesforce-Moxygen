@@ -17,5 +17,4 @@ jobs:
                 sf org login sfdx-url --sfdx-url-file "authFile.json" --set-default-dev-hub --alias DevHub
             - name: Check API Version
               run: |
-                sf org display --json > orgDisplay.json
-                node scripts/typescript/build/check-api-version.js orgDisplay.json
+                node scripts/typescript/build/check-apex-api-version.js
