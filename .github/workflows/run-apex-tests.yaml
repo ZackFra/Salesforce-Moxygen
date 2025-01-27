@@ -13,9 +13,7 @@ jobs:
               with:
                 node-version: '20'
             - name: Install SFDX
-              run: |
-                npm i -g @salesforce/cli
-                sf --version
+              run: npm i -g @salesforce/cli
             - name: Create Auth File
               run: scripts/bash/create-sfdx-auth-file.sh ${{ secrets.SF_AUTH_URL }}
             - name: Authenticate
