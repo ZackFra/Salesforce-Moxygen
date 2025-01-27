@@ -34,7 +34,7 @@ const core = __importStar(require("@actions/core"));
 const orgDisplay = fs_1.default.readFileSync(path_1.default.resolve(process.cwd(), 'orgDisplay.json'), 'utf-8');
 const orgDisplayJson = JSON.parse(orgDisplay);
 const apiVersion = parseInt(orgDisplayJson.result.apiVersion, 10);
-(0, child_process_1.execSync)(`sf data query --query "SELECT Name, ApiVersion FROM ApexClass WHERE ApiVersion != ${apiVersion} --json > query.json`);
+(0, child_process_1.execSync)(`sf data query --query "SELECT Name, ApiVersion FROM ApexClass WHERE ApiVersion != ${apiVersion}" --json > query.json`);
 const queryResponse = fs_1.default.readFileSync(path_1.default.resolve(process.cwd(), 'query.json'), 'utf-8');
 const queryResponseJson = JSON.parse(queryResponse);
 if (queryResponseJson.result.totalSize > 0) {
