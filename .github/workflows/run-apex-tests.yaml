@@ -19,8 +19,7 @@ jobs:
             - name: Create Auth File
               run: scripts/bash/create-sfdx-auth-file.sh ${{ secrets.SF_AUTH_URL }}
             - name: Authenticate
-              run: | 
-                sf org login sfdx-url --sfdx-url-file "authFile.json" --set-default-dev-hub --alias DevHub
+              run: scripts/bash/config-sf.sh authFile.json
             - name: Run Apex Tests
               run: |
                 sf apex run test --target-org DevHub --synchronous
