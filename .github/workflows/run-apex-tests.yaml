@@ -17,8 +17,7 @@ jobs:
                 npm i -g @salesforce/cli
                 sf --version
             - name: Create Auth File
-              run: |
-                echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
+              run: scripts/bash/create-sfdx-auth-file.sh ${{ secrets.SF_AUTH_URL }}
             - name: Authenticate
               run: | 
                 sf org login sfdx-url --sfdx-url-file "authFile.json" --set-default-dev-hub --alias DevHub
