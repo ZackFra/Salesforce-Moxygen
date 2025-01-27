@@ -1,0 +1,22 @@
+name: Unused Apex
+on:
+    workflow_dispatch:
+
+jobs:
+    check-for-unused-apex:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/setup-node@v4
+              with:
+                node-version: '20'
+            - name: Install SFDX
+              run: npm i -g @salesforce/cli
+            - name: Install hardis
+              run: echo y | sf plugins install sfdx-hardis
+            - name: Create Auth File
+              run: | 
+                echo '{"sfdxAuthUrl": "${{ secrets.SF_AUTH_URL }}"}' > authFile.json
+            - name: Authenticate
+              run: sf org login sfdx-url --sfdx-url-file "authFile.json" --set-default-dev-hub --alias DevHub
+            - name: Check for Unused Apex
+              run: sf hardis:org:diagnose:unused-apex-classes
