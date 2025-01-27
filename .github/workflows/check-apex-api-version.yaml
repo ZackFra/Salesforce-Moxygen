@@ -18,5 +18,4 @@ jobs:
             - name: Check API Version
               run: |
                 sf org display --json > orgDisplay.json
-                sf data query --query "SELECT Name, ApiVersion FROM ApexClass WHERE ApiVersion != "
                 node scripts/typescript/build/check-api-version.js orgDisplay.json
