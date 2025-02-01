@@ -131,6 +131,18 @@ List&lt;String&gt;
 
 ---
 
+### `DATE_LITERAL_TOKENS`
+
+#### Signature
+```apex
+public final static DATE_LITERAL_TOKENS
+```
+
+#### Type
+Set&lt;String&gt;
+
+---
+
 ### `DOT`
 
 #### Signature
@@ -316,6 +328,18 @@ String
 #### Signature
 ```apex
 public final static N_MONTHS_AGO_LITERAL
+```
+
+#### Type
+String
+
+---
+
+### `N_YEARS_AGO`
+
+#### Signature
+```apex
+public final static N_YEARS_AGO
 ```
 
 #### Type

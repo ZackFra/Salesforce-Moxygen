@@ -508,6 +508,10 @@ NullParser is a parser for null values.
 
 NumberParser is a parser for numeric values.
 
+### [NYearsAgoComparable](soql-engine/NYearsAgoComparable.md)
+
+Comparable class for N_YEARS_AGO
+
 ### [ObjectComparator](soql-engine/ObjectComparator.md)
 
 This class is used to compare two generic objects of the same type.
