@@ -7160,4 +7160,32 @@ private class MockDatabaseTest {
             'Expected 10 opportunities, but got ' + ar.size() + ' instead.'
         );
     }
+
+    @isTest
+    static void ensureNYearsAgoWorksInWhereClause() {
+        List<Opportunity> oppList = new List<Opportunity>();
+        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        for (Integer i = 0; i < 36; i++) {
+            oppList.add(
+                new Opportunity(
+                    Name = 'Opp' + i,
+                    CloseDate = startOfYear.addMonths(-i)
+                )
+            );
+        }
+
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Id, CloseDate FROM Opportunity WHERE CloseDate = N_YEARS_AGO:2'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            12,
+            opportunities.size(),
+            'Incorrect number of opportunities'
+        );
+    }
 }

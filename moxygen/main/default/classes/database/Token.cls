@@ -151,4 +151,37 @@ public with sharing class Token {
     public final static String LAST_FISCAL_YEAR_LITERAL = 'last_fiscal_year';
     public final static String NEXT_N_FISCAL_YEARS = 'next_n_fiscal_years';
     public final static String N_FISCAL_YEARS_AGO = 'n_fiscal_years_ago';
+    public final static String N_YEARS_AGO = 'n_years_ago';
+
+    public final static Set<String> DATE_LITERAL_TOKENS = new Set<String>{
+        TODAY_LITERAL,
+        YESTERDAY_LITERAL,
+        TOMORROW_LITERAL,
+        LAST_WEEK_LITERAL,
+        THIS_WEEK_LITERAL,
+        NEXT_WEEK_LITERAL,
+        LAST_MONTH_LITERAL,
+        THIS_MONTH_LITERAL,
+        NEXT_MONTH_LITERAL,
+        LAST_90_DAYS_LITERAL,
+        NEXT_90_DAYS_LITERAL,
+        LAST_N_DAYS_LITERAL,
+        NEXT_N_DAYS_LITERAL,
+        N_DAYS_AGO_LITERAL,
+        NEXT_N_WEEKS_LITERAL,
+        LAST_N_WEEKS_LITERAL,
+        N_MONTHS_AGO_LITERAL,
+        THIS_QUARTER_LITERAL,
+        LAST_QUARTER_LITERAL,
+        NEXT_QUARTER_LITERAL,
+        NEXT_N_QUARTERS_LITERAL,
+        THIS_YEAR_LITERAL,
+        THIS_FISCAL_YEAR_LITERAL,
+        LAST_N_FISCAL_YEARS_LITERAL,
+        NEXT_FISCAL_YEAR_LITERAL,
+        LAST_FISCAL_YEAR_LITERAL,
+        NEXT_N_FISCAL_YEARS,
+        N_FISCAL_YEARS_AGO,
+        N_YEARS_AGO
+    };
 }
