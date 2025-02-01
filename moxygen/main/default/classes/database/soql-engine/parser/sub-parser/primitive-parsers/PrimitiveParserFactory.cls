@@ -7,40 +7,18 @@
 public with sharing class PrimitiveParserFactory {
     @TestVisible
     static Map<String, Type> parserTypeByToken = new Map<String, Type>{
-        Token.TOMORROW_LITERAL => DateLiteralParser.class,
-        Token.TODAY_LITERAL => DateLiteralParser.class,
-        Token.YESTERDAY_LITERAL => DateLiteralParser.class,
-        Token.LAST_WEEK_LITERAL => DateLiteralParser.class,
-        Token.THIS_WEEK_LITERAL => DateLiteralParser.class,
-        Token.NEXT_WEEK_LITERAL => DateLiteralParser.class,
-        Token.LAST_MONTH_LITERAL => DateLiteralParser.class,
-        Token.THIS_MONTH_LITERAL => DateLiteralParser.class,
-        Token.NEXT_MONTH_LITERAL => DateLiteralParser.class,
-        Token.LAST_90_DAYS_LITERAL => DateLiteralParser.class,
-        Token.NEXT_90_DAYS_LITERAL => DateLiteralParser.class,
-        Token.LAST_N_DAYS_LITERAL => DateLiteralParser.class,
-        Token.NEXT_N_DAYS_LITERAL => DateLiteralParser.class,
-        Token.N_DAYS_AGO_LITERAL => DateLiteralParser.class,
-        Token.NEXT_N_WEEKS_LITERAL => DateLiteralParser.class,
-        Token.LAST_N_WEEKS_LITERAL => DateLiteralParser.class,
-        Token.N_MONTHS_AGO_LITERAL => DateLiteralParser.class,
-        Token.THIS_QUARTER_LITERAL => DateLiteralParser.class,
-        Token.LAST_QUARTER_LITERAL => DateLiteralParser.class,
-        Token.NEXT_QUARTER_LITERAL => DateLiteralParser.class,
-        Token.NEXT_N_QUARTERS_LITERAL => DateLiteralParser.class,
-        Token.THIS_FISCAL_YEAR_LITERAL => DateLiteralParser.class,
-        Token.LAST_N_FISCAL_YEARS_LITERAL => DateLiteralParser.class,
-        Token.N_FISCAL_YEARS_AGO => DateLiteralParser.class,
-        Token.NEXT_FISCAL_YEAR_LITERAL => DateLiteralParser.class,
-        Token.THIS_YEAR_LITERAL => DateLiteralParser.class,
-        Token.LAST_FISCAL_YEAR_LITERAL => DateLiteralParser.class,
-        Token.NEXT_N_FISCAL_YEARS => DateLiteralParser.class,
         Token.SINGLE_QUOTE => StringParser.class,
         Token.XTRUE => BooleanParser.class,
         Token.XFALSE => BooleanParser.class,
         Token.XNULL => NullParser.class,
         Token.COLON => BindVariableParser.class
     };
+
+    static {
+        for (String dateLiteralToken : Token.DATE_LITERAL_TOKENS) {
+            parserTypeByToken.put(dateLiteralToken, DateLiteralParser.class);
+        }
+    }
 
     @TestVisible
     static Set<String> getPrimitiveParserTokens() {
