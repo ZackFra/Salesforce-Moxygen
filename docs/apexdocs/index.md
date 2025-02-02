@@ -443,6 +443,10 @@ Comparable class for N_DAYS_AGO
 
 Comparable class for NEXT_90_DAYS
 
+### [NextFiscalQuarterComparable](soql-engine/NextFiscalQuarterComparable.md)
+
+Comparable class for NEXT_FISCAL_QUARTER
+
 ### [NextFiscalYearComparable](soql-engine/NextFiscalYearComparable.md)
 
 Comparable for the NEXT_FISCAL_YEAR date literal
