@@ -7122,7 +7122,7 @@ private class MockDatabaseTest {
      * @description Bulkified test of calendar year logic
      */
     @IsTest
-    static void testCalendarYearInHacingClauseMultipleOpps() {
+    static void testCalendarYearInHavingClauseMultipleOpps() {
         List<Opportunity> oppList = new List<Opportunity>();
 
         // 50 opportunities, each with a close date of a year prior
