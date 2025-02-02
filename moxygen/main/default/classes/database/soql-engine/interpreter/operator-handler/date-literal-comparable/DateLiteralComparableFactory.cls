@@ -32,15 +32,16 @@ public with sharing class DateLiteralComparableFactory {
         Token.THIS_FISCAL_YEAR_LITERAL => ThisFiscalYearComparable.class,
         Token.LAST_N_FISCAL_YEARS_LITERAL => LastNFiscalYearsComparable.class,
         Token.LAST_FISCAL_YEAR_LITERAL => LastFiscalYearComparable.class,
-        Token.NEXT_N_FISCAL_YEARS => NextNFiscalYearsComparable.class,
-        Token.N_FISCAL_YEARS_AGO => NFiscalYearsAgoComparable.class,
-        Token.N_YEARS_AGO => NYearsAgoComparable.class,
-        Token.LAST_N_FISCAL_QUARTERS => LastNFiscalQuartersComparable.class,
-        Token.NEXT_FISCAL_QUARTER => NextFiscalQuarterComparable.class,
-        Token.NEXT_N_FISCAL_QUARTERS => NextNFiscalQuartersComparable.class,
-        Token.LAST_FISCAL_QUARTER => LastFiscalQuarterComparable.class,
-        Token.THIS_FISCAL_QUARTER => ThisFiscalQuarterComparable.class,
-        Token.LAST_N_YEARS => LastNYearsComparable.class
+        Token.NEXT_N_FISCAL_YEARS_LITERAL => NextNFiscalYearsComparable.class,
+        Token.N_FISCAL_YEARS_AGO_LITERAL => NFiscalYearsAgoComparable.class,
+        Token.N_YEARS_AGO_LITERAL => NYearsAgoComparable.class,
+        Token.LAST_N_FISCAL_QUARTERS_LITERAL => LastNFiscalQuartersComparable.class,
+        Token.NEXT_FISCAL_QUARTER_LITERAL => NextFiscalQuarterComparable.class,
+        Token.NEXT_N_FISCAL_QUARTERS_LITERAL => NextNFiscalQuartersComparable.class,
+        Token.LAST_FISCAL_QUARTER_LITERAL => LastFiscalQuarterComparable.class,
+        Token.THIS_FISCAL_QUARTER_LITERAL => ThisFiscalQuarterComparable.class,
+        Token.LAST_N_YEARS_LITERAL => LastNYearsComparable.class,
+        Token.LAST_YEAR_LITERAL => LastYearComparable.class
     };
 
     @TestVisible
