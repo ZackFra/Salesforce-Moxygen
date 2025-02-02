@@ -842,4 +842,22 @@ private class ParserTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void ensureLastYearCanBeParsed() {
+        Parser p = new Parser();
+        String soqlQuery = 'SELECT Id FROM Opportunity WHERE CreatedDate = LAST_YEAR';
+        Test.startTest();
+        try {
+            p.parse(soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
+        }
+        Test.stopTest();
+    }
 }
