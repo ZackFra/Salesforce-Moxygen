@@ -7122,7 +7122,7 @@ private class MockDatabaseTest {
      * @description Bulkified test of calendar year logic
      */
     @IsTest
-    static void testCalendarYearInHacingClauseMultipleOpps() {
+    static void testCalendarYearInHavingClauseMultipleOpps() {
         List<Opportunity> oppList = new List<Opportunity>();
 
         // 50 opportunities, each with a close date of a year prior
@@ -7224,5 +7224,33 @@ private class MockDatabaseTest {
                 'Opportunity is not in the correct fiscal quarter'
             );
         }
+    }
+
+    @isTest
+    static void ensureNextFiscalQuarterWorksInWhereClause() {
+        List<Opportunity> oppList = new List<Opportunity>();
+        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        for (Integer i = 0; i < 36; i++) {
+            oppList.add(
+                new Opportunity(
+                    Name = 'Opp' + i,
+                    CloseDate = startOfYear.addMonths(i)
+                )
+            );
+        }
+
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Id, CloseDate FROM Opportunity WHERE CloseDate = NEXT_FISCAL_QUARTER'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            3,
+            opportunities.size(),
+            'Incorrect number of opportunities'
+        );
     }
 }
