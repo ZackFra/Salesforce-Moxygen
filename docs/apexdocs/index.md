@@ -395,6 +395,10 @@ Compares a date field to the last quarter
 
 Comparable class for LAST_WEEK
 
+### [LastYearComparable](soql-engine/LastYearComparable.md)
+
+Comparable class for LAST_YEAR
+
 ### [LessThanHandler](soql-engine/LessThanHandler.md)
 
 Handles the less than operator

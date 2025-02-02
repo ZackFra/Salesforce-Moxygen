@@ -179,11 +179,11 @@ String
 
 ---
 
-### `LAST_FISCAL_QUARTER`
+### `LAST_FISCAL_QUARTER_LITERAL`
 
 #### Signature
 ```apex
-public final static LAST_FISCAL_QUARTER
+public final static LAST_FISCAL_QUARTER_LITERAL
 ```
 
 #### Type
@@ -227,11 +227,11 @@ String
 
 ---
 
-### `LAST_N_FISCAL_QUARTERS`
+### `LAST_N_FISCAL_QUARTERS_LITERAL`
 
 #### Signature
 ```apex
-public final static LAST_N_FISCAL_QUARTERS
+public final static LAST_N_FISCAL_QUARTERS_LITERAL
 ```
 
 #### Type
@@ -263,11 +263,11 @@ String
 
 ---
 
-### `LAST_N_YEARS`
+### `LAST_N_YEARS_LITERAL`
 
 #### Signature
 ```apex
-public final static LAST_N_YEARS
+public final static LAST_N_YEARS_LITERAL
 ```
 
 #### Type
@@ -292,6 +292,18 @@ String
 #### Signature
 ```apex
 public final static LAST_WEEK_LITERAL
+```
+
+#### Type
+String
+
+---
+
+### `LAST_YEAR_LITERAL`
+
+#### Signature
+```apex
+public final static LAST_YEAR_LITERAL
 ```
 
 #### Type
@@ -347,11 +359,11 @@ String
 
 ---
 
-### `N_FISCAL_YEARS_AGO`
+### `N_FISCAL_YEARS_AGO_LITERAL`
 
 #### Signature
 ```apex
-public final static N_FISCAL_YEARS_AGO
+public final static N_FISCAL_YEARS_AGO_LITERAL
 ```
 
 #### Type
@@ -371,11 +383,11 @@ String
 
 ---
 
-### `N_YEARS_AGO`
+### `N_YEARS_AGO_LITERAL`
 
 #### Signature
 ```apex
-public final static N_YEARS_AGO
+public final static N_YEARS_AGO_LITERAL
 ```
 
 #### Type
@@ -395,11 +407,11 @@ String
 
 ---
 
-### `NEXT_FISCAL_QUARTER`
+### `NEXT_FISCAL_QUARTER_LITERAL`
 
 #### Signature
 ```apex
-public final static NEXT_FISCAL_QUARTER
+public final static NEXT_FISCAL_QUARTER_LITERAL
 ```
 
 #### Type
@@ -443,11 +455,11 @@ String
 
 ---
 
-### `NEXT_N_FISCAL_QUARTERS`
+### `NEXT_N_FISCAL_QUARTERS_LITERAL`
 
 #### Signature
 ```apex
-public final static NEXT_N_FISCAL_QUARTERS
+public final static NEXT_N_FISCAL_QUARTERS_LITERAL
 ```
 
 #### Type
@@ -455,11 +467,11 @@ String
 
 ---
 
-### `NEXT_N_FISCAL_YEARS`
+### `NEXT_N_FISCAL_YEARS_LITERAL`
 
 #### Signature
 ```apex
-public final static NEXT_N_FISCAL_YEARS
+public final static NEXT_N_FISCAL_YEARS_LITERAL
 ```
 
 #### Type
@@ -587,11 +599,11 @@ String
 
 ---
 
-### `THIS_FISCAL_QUARTER`
+### `THIS_FISCAL_QUARTER_LITERAL`
 
 #### Signature
 ```apex
-public final static THIS_FISCAL_QUARTER
+public final static THIS_FISCAL_QUARTER_LITERAL
 ```
 
 #### Type
