@@ -419,6 +419,18 @@ String
 
 ---
 
+### `NEXT_N_FISCAL_QUARTERS`
+
+#### Signature
+```apex
+public final static NEXT_N_FISCAL_QUARTERS
+```
+
+#### Type
+String
+
+---
+
 ### `NEXT_N_FISCAL_YEARS`
 
 #### Signature
