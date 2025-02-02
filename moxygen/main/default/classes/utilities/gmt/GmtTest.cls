@@ -78,4 +78,21 @@ private class GmtTest {
             );
         }
     }
+
+    @isTest
+    static void ensureStartOfThisFiscalQuarterReturnsCorrectValue() {
+        Test.startTest();
+        Date startOfThisFiscalQuarter = Gmt.startOfThisFiscalQuarter();
+        Test.stopTest();
+
+        Assert.isTrue(
+            Gmt.today() >= startOfThisFiscalQuarter,
+            'Start of this fiscal quarter is not correct'
+        );
+
+        Assert.isTrue(
+            Gmt.today() < startOfThisFiscalQuarter.addMonths(3),
+            'Start of this fiscal quarter is not correct'
+        );
+    }
 }

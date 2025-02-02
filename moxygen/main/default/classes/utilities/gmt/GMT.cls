@@ -68,4 +68,16 @@ public with sharing class GMT {
         }
         return possibleStartOfThisFiscalYear;
     }
+
+    /**
+     * @description Return the start of the current fiscal quarter
+     * @return  `Date`
+     */
+    public static Date startOfthisFiscalQuarter() {
+        Date startOfThisFiscalQuarter = startOfThisFiscalYear();
+        while (startOfThisFiscalQuarter < Gmt.today()) {
+            startOfThisFiscalQuarter = startOfThisFiscalQuarter.addMonths(3);
+        }
+        return startOfThisFiscalQuarter.addMonths(-3);
+    }
 }
