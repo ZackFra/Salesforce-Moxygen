@@ -681,6 +681,10 @@ SubParser is an abstract class that provides helper methods for parsing subqueri
 
 Calculates the sum of a field
 
+### [ThisFiscalQuarterComparable](soql-engine/ThisFiscalQuarterComparable.md)
+
+Comparable class for THIS_FISCAL_QUARTER
+
 ### [ThisFiscalYearComparable](soql-engine/ThisFiscalYearComparable.md)
 
 Comparable for the THIS_FISCAL_YEAR token
@@ -761,12 +765,6 @@ This class is responsible for parsing the WITH SECURITY_ENFORCED clause in a SOQ
 ### [YesterdayComparable](soql-engine/YesterdayComparable.md)
 
 Comparable class for YESTERDAY
-
-## Uncategorized
-
-### [ThisFiscalQuarterComparable](uncategorized/ThisFiscalQuarterComparable.md)
-
-Comparable class for THIS_FISCAL_QUARTER
 
 ## Utilities
 

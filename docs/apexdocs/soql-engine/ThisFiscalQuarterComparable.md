@@ -6,11 +6,13 @@ Comparable class for THIS_FISCAL_QUARTER
 
 2/2/2025
 
+**Group** Soql Engine
+
 **Author** Zackary Frazier
 
 **Inheritance**
 
-[DateLiteralComparable](../soql-engine/DateLiteralComparable.md)
+[DateLiteralComparable](DateLiteralComparable.md)
 
 ## Properties
 ### `token`
@@ -171,6 +173,6 @@ public DateLiteralComparable withToken(String token)
 | token | String | Parsed token |
 
 #### Return Type
-**[DateLiteralComparable](../soql-engine/DateLiteralComparable.md)**
+**[DateLiteralComparable](DateLiteralComparable.md)**
 
 This instance of DateLiteralComparable
