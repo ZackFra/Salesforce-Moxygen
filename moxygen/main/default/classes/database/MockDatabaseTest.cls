@@ -7337,4 +7337,32 @@ private class MockDatabaseTest {
             'Incorrect number of opportunities'
         );
     }
+
+    @isTest
+    static void ensureLastNYearsWorksInWhereClause() {
+        List<Opportunity> oppList = new List<Opportunity>();
+        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        for (Integer i = 0; i < 36; i++) {
+            oppList.add(
+                new Opportunity(
+                    Name = 'Opp' + i,
+                    CloseDate = startOfYear.addMonths(-i)
+                )
+            );
+        }
+
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Id, CloseDate FROM Opportunity WHERE CloseDate = LAST_N_YEARS:2'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            24,
+            opportunities.size(),
+            'Incorrect number of opportunities'
+        );
+    }
 }
