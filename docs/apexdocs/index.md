@@ -383,6 +383,10 @@ Comparable class for LAST_N_FISCAL_YEARS
 
 Comparable class for LAST_N_WEEKS
 
+### [LastNYearsComparable](soql-engine/LastNYearsComparable.md)
+
+Comparable class for LAST_N_YEARS
+
 ### [LastQuarterComparable](soql-engine/LastQuarterComparable.md)
 
 Compares a date field to the last quarter
