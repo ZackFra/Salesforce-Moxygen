@@ -367,6 +367,10 @@ Comparable class for LAST_MONTH
 
 Comparable class for LAST_N_DAYS
 
+### [LastNFiscalQuartersComparable](soql-engine/LastNFiscalQuartersComparable.md)
+
+Comparable class for LAST_N_FISCAL_QUARTERS
+
 ### [LastNFiscalYearsComparable](soql-engine/LastNFiscalYearsComparable.md)
 
 Comparable class for LAST_N_FISCAL_YEARS

@@ -215,6 +215,18 @@ String
 
 ---
 
+### `LAST_N_FISCAL_QUARTERS`
+
+#### Signature
+```apex
+public final static LAST_N_FISCAL_QUARTERS
+```
+
+#### Type
+String
+
+---
+
 ### `LAST_N_FISCAL_YEARS_LITERAL`
 
 #### Signature
