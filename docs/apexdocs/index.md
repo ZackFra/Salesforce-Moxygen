@@ -459,6 +459,10 @@ Comparable class for NEXT_MONTH
 
 Comparable class for NEXT_N_DAYS
 
+### [NextNFiscalQuartersComparable](soql-engine/NextNFiscalQuartersComparable.md)
+
+Comparable class for NEXT_N_FISCAL_QUARTERS
+
 ### [NextNFiscalYearsComparable](soql-engine/NextNFiscalYearsComparable.md)
 
 Compare the date field value with the NEXT_N_FISCAL_YEARS:N token
