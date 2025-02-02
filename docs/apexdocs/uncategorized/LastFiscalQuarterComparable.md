@@ -1,0 +1,176 @@
+# LastFiscalQuarterComparable Class
+
+Comparable class for LAST_FISCAL_QUARTER
+
+**Since** 
+
+2/2/2025
+
+**Author** Zackary Frazier
+
+**Inheritance**
+
+[DateLiteralComparable](../soql-engine/DateLiteralComparable.md)
+
+## Properties
+### `token`
+
+*Inherited*
+
+The token for the date literal
+
+#### Signature
+```apex
+public token
+```
+
+#### Type
+String
+
+## Methods
+### `isEqual(fieldValue)`
+
+*Inherited*
+
+Whether the date literal is equal to the field value
+
+#### Signature
+```apex
+public Boolean isEqual(DateTime fieldValue)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| fieldValue | DateTime | Date or Datetime value |
+
+#### Return Type
+**Boolean**
+
+Whether fieldValue is equal to the date literal
+
+---
+
+### `isGreaterThan(fieldValue)`
+
+#### Signature
+```apex
+public override Boolean isGreaterThan(Datetime fieldValue)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| fieldValue | Datetime |  |
+
+#### Return Type
+**Boolean**
+
+---
+
+### `isGreaterThanOrEqual(fieldValue)`
+
+*Inherited*
+
+Whether the date literal is greater than or equal to the field value
+
+#### Signature
+```apex
+public Boolean isGreaterThanOrEqual(DateTime fieldValue)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| fieldValue | DateTime | Date or Datetime value |
+
+#### Return Type
+**Boolean**
+
+Whether fieldValue is greater than or equal to the date literal
+
+---
+
+### `isLessThan(fieldValue)`
+
+#### Signature
+```apex
+public override Boolean isLessThan(Datetime fieldValue)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| fieldValue | Datetime |  |
+
+#### Return Type
+**Boolean**
+
+---
+
+### `isLessThanOrEqual(fieldValue)`
+
+*Inherited*
+
+Whether the date literal is less than or equal to the field value
+
+#### Signature
+```apex
+public Boolean isLessThanOrEqual(DateTime fieldValue)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| fieldValue | DateTime | Date or Datetime value |
+
+#### Return Type
+**Boolean**
+
+Whether fieldValue is less than or equal to the date literal
+
+---
+
+### `isNotEqual(fieldValue)`
+
+*Inherited*
+
+Whether the date literal is not equal to the field value
+
+#### Signature
+```apex
+public Boolean isNotEqual(DateTime fieldValue)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| fieldValue | DateTime | Date or Datetime value |
+
+#### Return Type
+**Boolean**
+
+Whether fieldValue is not equal to the date literal
+
+---
+
+### `withToken(token)`
+
+*Inherited*
+
+Sets the token for the date literal
+
+#### Signature
+```apex
+public DateLiteralComparable withToken(String token)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| token | String | Parsed token |
+
+#### Return Type
+**[DateLiteralComparable](../soql-engine/DateLiteralComparable.md)**
+
+This instance of DateLiteralComparable
