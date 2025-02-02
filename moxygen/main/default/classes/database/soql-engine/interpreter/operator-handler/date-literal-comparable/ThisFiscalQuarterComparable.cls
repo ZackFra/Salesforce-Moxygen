@@ -2,6 +2,7 @@
  * @description Comparable class for THIS_FISCAL_QUARTER
  * @author Zackary Frazier
  * @since 2/2/2025
+ * @group Soql Engine
  */
 public with sharing class ThisFiscalQuarterComparable extends DateLiteralComparable {
     public override Boolean isLessThan(Datetime fieldValue) {
