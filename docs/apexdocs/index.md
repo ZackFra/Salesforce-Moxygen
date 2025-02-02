@@ -355,6 +355,10 @@ Strategy inreferace for WHERE logic comparison
 
 Comparable class for LAST_90_DAYS
 
+### [LastFiscalQuarterComparable](soql-engine/LastFiscalQuarterComparable.md)
+
+Comparable class for LAST_FISCAL_QUARTER
+
 ### [LastFiscalYearComparable](soql-engine/LastFiscalYearComparable.md)
 
 Comparable for the LAST_FISCAL_YEAR date literal
@@ -751,10 +755,6 @@ This class is responsible for parsing the WITH SECURITY_ENFORCED clause in a SOQ
 Comparable class for YESTERDAY
 
 ## Uncategorized
-
-### [LastFiscalQuarterComparable](uncategorized/LastFiscalQuarterComparable.md)
-
-Comparable class for LAST_FISCAL_QUARTER
 
 ### [ThisFiscalQuarterComparable](uncategorized/ThisFiscalQuarterComparable.md)
 
