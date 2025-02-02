@@ -575,6 +575,18 @@ String
 
 ---
 
+### `THIS_FISCAL_QUARTER`
+
+#### Signature
+```apex
+public final static THIS_FISCAL_QUARTER
+```
+
+#### Type
+String
+
+---
+
 ### `THIS_FISCAL_YEAR_LITERAL`
 
 #### Signature
