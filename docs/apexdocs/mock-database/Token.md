@@ -503,6 +503,18 @@ String
 
 ---
 
+### `NEXT_N_YEARS_LITERAL`
+
+#### Signature
+```apex
+public final static NEXT_N_YEARS_LITERAL
+```
+
+#### Type
+String
+
+---
+
 ### `NEXT_QUARTER_LITERAL`
 
 #### Signature

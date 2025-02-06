@@ -487,6 +487,10 @@ Comparable for the NEXT_N_QUARTERS token
 
 Comparable class for NEXT_N_WEEKS
 
+### [NextNYearsComparable](soql-engine/NextNYearsComparable.md)
+
+Comparable for NEXT_N_YEARS
+
 ### [NextQuarterComparable](soql-engine/NextQuarterComparable.md)
 
 Compares the NEXT_QUARTER token
