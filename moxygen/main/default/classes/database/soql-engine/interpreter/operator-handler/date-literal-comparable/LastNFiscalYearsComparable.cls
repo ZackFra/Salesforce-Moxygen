@@ -6,9 +6,8 @@
  */
 public with sharing class LastNFiscalYearsComparable extends DateLiteralComparable {
     public override Boolean isLessThan(Datetime fieldValue) {
-        Datetime lastNFiscalYears = thisFiscalYear.addYears(
-            -Integer.valueOf(this.n)
-        );
+        Datetime thisFiscalYear = Gmt.startOfThisFiscalYear();
+        Datetime lastNFiscalYears = thisFiscalYear.addYears(-this.n);
         return fieldValue < lastNFiscalYears;
     }
 
