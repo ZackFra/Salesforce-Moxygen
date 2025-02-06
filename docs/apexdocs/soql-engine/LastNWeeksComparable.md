@@ -15,6 +15,22 @@ Comparable class for LAST_N_WEEKS
 [DateLiteralComparable](DateLiteralComparable.md)
 
 ## Properties
+### `n`
+
+*Inherited*
+
+The number in variable date literals
+
+#### Signature
+```apex
+public n
+```
+
+#### Type
+Integer
+
+---
+
 ### `token`
 
 *Inherited*

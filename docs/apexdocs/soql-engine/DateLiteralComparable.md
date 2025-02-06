@@ -12,6 +12,20 @@ Abstract class for date literal comparison
 **Author** Zackary Frazier
 
 ## Properties
+### `n`
+
+The number in variable date literals
+
+#### Signature
+```apex
+public n
+```
+
+#### Type
+Integer
+
+---
+
 ### `token`
 
 The token for the date literal

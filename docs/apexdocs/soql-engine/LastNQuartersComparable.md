@@ -1,10 +1,10 @@
-# NextWeekComparable Class
+# LastNQuartersComparable Class
 
-Comparable class for NEXT_WEEK
+Comprable for LAST_N_QUARTERS
 
 **Since** 
 
-12/29/2024
+2/5/2025
 
 **Group** Soql Engine
 
@@ -73,13 +73,13 @@ Whether fieldValue is equal to the date literal
 
 #### Signature
 ```apex
-public override Boolean isGreaterThan(DateTime fieldValue)
+public override Boolean isGreaterThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime |  |
+| fieldValue | Datetime |  |
 
 #### Return Type
 **Boolean**
@@ -113,13 +113,13 @@ Whether fieldValue is greater than or equal to the date literal
 
 #### Signature
 ```apex
-public override Boolean isLessThan(DateTime fieldValue)
+public override Boolean isLessThan(Datetime fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime |  |
+| fieldValue | Datetime |  |
 
 #### Return Type
 **Boolean**
