@@ -6,16 +6,12 @@
  */
 public with sharing class NYearsAgoComparable extends DateLiteralComparable {
     public override Boolean isLessThan(Datetime fieldValue) {
-        String yearsAgoStr = this.token.split(':')[1];
-        Integer yearsAgo = Integer.valueOf(yearsAgoStr);
-        Integer nYearsAgo = Gmt.today().year() - yearsAgo;
+        Integer nYearsAgo = Gmt.today().year() - this.n;
         return fieldValue < Datetime.newInstanceGmt(nYearsAgo, 1, 1);
     }
 
     public override Boolean isGreaterThan(Datetime fieldValue) {
-        String yearsAgoStr = this.token.split(':')[1];
-        Integer yearsAgo = Integer.valueOf(yearsAgoStr);
-        Integer nYearsAgo = Gmt.today().year() - yearsAgo;
+        Integer nYearsAgo = Gmt.today().year() - this.n;
         return fieldValue >= Datetime.newInstanceGmt(nYearsAgo + 1, 1, 1);
     }
 }

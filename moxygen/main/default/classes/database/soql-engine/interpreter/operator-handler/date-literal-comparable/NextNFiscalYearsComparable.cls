@@ -14,8 +14,6 @@ public with sharing class NextNFiscalYearsComparable extends DateLiteralComparab
     public override Boolean isGreaterThan(Datetime fieldValue) {
         Date startOfThisFiscalYear = Gmt.startOfThisFiscalYear();
         Date startOfNextFiscalYear = startOfThisFiscalYear.addYears(1);
-        String elapsed = this.token.split(':')[1].trim();
-        Integer nextNFiscalYears = Integer.valueOf(elapsed);
-        return fieldValue >= startOfNextFiscalYear.addYears(nextNFiscalYears);
+        return fieldValue >= startOfNextFiscalYear.addYears(this.n);
     }
 }

@@ -6,17 +6,14 @@
  */
 public with sharing class NFiscalYearsAgoComparable extends DateLiteralComparable {
     public override Boolean isLessThan(Datetime fieldValue) {
-        String nValue = this.token.split(':')[1];
-        Integer n = Integer.valueOf(nValue);
-        Date startofNFiscalYearsAgo = Gmt.startOfThisFiscalYear().addYears(-n);
+        Date startofNFiscalYearsAgo = Gmt.startOfThisFiscalYear()
+            .addYears(-this.n);
         return fieldValue < startofNFiscalYearsAgo;
     }
 
     public override Boolean isGreaterThan(Datetime fieldValue) {
-        String nValue = this.token.split(':')[1];
-        Integer n = Integer.valueOf(nValue);
         Date startofNFiscalYearsAgo = Gmt.startOfThisFiscalYear()
-            .addYears(-n + 1);
+            .addYears(-this.n + 1);
         return fieldValue >= startofNFiscalYearsAgo;
     }
 }
