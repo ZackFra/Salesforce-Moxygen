@@ -6,10 +6,7 @@
  */
 public with sharing class LastNWeeksComparable extends DateLiteralComparable {
     public override Boolean isLessThan(DateTime fieldValue) {
-        String nWeeks = this.token.split(':')[1];
-        DateTime lastNWeeks = Gmt.today()
-            .toStartOfWeek()
-            .addDays(-Integer.valueOf(nWeeks) * 7);
+        DateTime lastNWeeks = Gmt.today().toStartOfWeek().addDays(-this.n * 7);
         return fieldValue < lastNWeeks;
     }
 

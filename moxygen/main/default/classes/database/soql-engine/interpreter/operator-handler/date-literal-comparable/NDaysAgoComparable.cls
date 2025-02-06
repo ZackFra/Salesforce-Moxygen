@@ -10,9 +10,7 @@ public with sharing class NDaysAgoComparable extends DateLiteralComparable {
     }
 
     public override Boolean isLessThan(DateTime fieldValue) {
-        String nDaysValue = this.token.split(':')[1];
-        Integer nDays = Integer.valueOf(nDaysValue);
-        DateTime nDaysAgo = Gmt.today().addDays(-nDays);
+        DateTime nDaysAgo = Gmt.today().addDays(-this.n);
         return fieldValue < nDaysAgo;
     }
 }

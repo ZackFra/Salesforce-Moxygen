@@ -15,10 +15,8 @@ public with sharing class NextNYearsComparable extends DateLiteralComparable {
     }
 
     public override Boolean isGreaterThan(Datetime fieldValue) {
-        String tkn = this.token.split(':')[1];
-        Integer n = Integer.valueOf(tkn);
         Datetime nextNYears = Datetime.newInstanceGmt(
-            Gmt.today().year() + 1 + n,
+            Gmt.today().year() + 1 + this.n,
             1,
             1
         );

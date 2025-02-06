@@ -10,9 +10,7 @@ public with sharing class LastNDaysComparable extends DateLiteralComparable {
     }
 
     public override Boolean isLessThan(DateTime fieldValue) {
-        String dayValue = this.token.split(':')[1];
-        Integer days = Integer.valueOf(dayValue);
-        DateTime lastNDays = Gmt.today().addDays(-days);
+        DateTime lastNDays = Gmt.today().addDays(-this.n);
         return fieldValue < lastNDays;
     }
 }

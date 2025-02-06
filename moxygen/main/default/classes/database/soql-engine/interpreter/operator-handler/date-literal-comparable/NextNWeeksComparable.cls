@@ -10,10 +10,7 @@ public with sharing class NextNWeeksComparable extends DateLiteralComparable {
     }
 
     public override Boolean isGreaterThan(DateTime fieldValue) {
-        String nWeeks = this.token.split(':')[1];
-        DateTime nextNWeeks = Gmt.today()
-            .toStartOfWeek()
-            .addDays(Integer.valueOf(nWeeks) * 7);
+        DateTime nextNWeeks = Gmt.today().toStartOfWeek().addDays(this.n * 7);
         return fieldValue >= nextNWeeks.addDays(1);
     }
 }

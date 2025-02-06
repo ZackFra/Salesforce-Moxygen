@@ -6,18 +6,14 @@
  */
 public with sharing class NextNFiscalQuartersComparable extends DateLiteralComparable {
     public override Boolean isLessThan(Datetime fieldValue) {
-        String nTkn = this.token.split(':')[1];
-        Integer n = Integer.valueOf(nTkn);
         Date startOfThisFiscalQuarter = Gmt.startOfThisFiscalQuarter();
-        Date nthFiscalQuarter = startOfThisFiscalQuarter.addMonths(3 * n);
+        Date nthFiscalQuarter = startOfThisFiscalQuarter.addMonths(3 * this.n);
         return fieldValue < nthFiscalQuarter;
     }
 
     public override Boolean isGreaterThan(Datetime fieldValue) {
-        String nTkn = this.token.split(':')[1];
-        Integer n = Integer.valueOf(nTkn);
         Date startOfThisFiscalQuarter = Gmt.startOfThisFiscalQuarter();
-        Date nthFiscalQuarter = startOfThisFiscalQuarter.addMonths(3 * n);
+        Date nthFiscalQuarter = startOfThisFiscalQuarter.addMonths(3 * this.n);
         return fieldValue >= nthFiscalQuarter.addMonths(3);
     }
 }
