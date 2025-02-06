@@ -15,6 +15,22 @@ Comparable for the NEXT_N_QUARTERS token
 [DateLiteralComparable](DateLiteralComparable.md)
 
 ## Properties
+### `n`
+
+*Inherited*
+
+The number in variable date literals
+
+#### Signature
+```apex
+public n
+```
+
+#### Type
+Integer
+
+---
+
 ### `token`
 
 *Inherited*

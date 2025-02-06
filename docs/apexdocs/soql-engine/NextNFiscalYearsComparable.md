@@ -15,6 +15,22 @@ Compare the date field value with the NEXT_N_FISCAL_YEARS:N token
 [DateLiteralComparable](DateLiteralComparable.md)
 
 ## Properties
+### `n`
+
+*Inherited*
+
+The number in variable date literals
+
+#### Signature
+```apex
+public n
+```
+
+#### Type
+Integer
+
+---
+
 ### `token`
 
 *Inherited*

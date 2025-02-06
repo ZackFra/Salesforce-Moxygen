@@ -15,6 +15,22 @@ Comparable class for N_MONTHS_AGO
 [DateLiteralComparable](DateLiteralComparable.md)
 
 ## Properties
+### `n`
+
+*Inherited*
+
+The number in variable date literals
+
+#### Signature
+```apex
+public n
+```
+
+#### Type
+Integer
+
+---
+
 ### `token`
 
 *Inherited*
