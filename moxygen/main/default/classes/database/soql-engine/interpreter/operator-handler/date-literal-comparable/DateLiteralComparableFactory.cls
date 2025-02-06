@@ -42,7 +42,8 @@ public with sharing class DateLiteralComparableFactory {
         Token.THIS_FISCAL_QUARTER_LITERAL => ThisFiscalQuarterComparable.class,
         Token.LAST_N_YEARS_LITERAL => LastNYearsComparable.class,
         Token.LAST_YEAR_LITERAL => LastYearComparable.class,
-        Token.NEXT_N_YEARS_LITERAL => NextNYearsComparable.class
+        Token.NEXT_N_YEARS_LITERAL => NextNYearsComparable.class,
+        Token.LAST_N_QUARTERS_LITERAL => LastNQuartersComparable.class
     };
 
     @TestVisible

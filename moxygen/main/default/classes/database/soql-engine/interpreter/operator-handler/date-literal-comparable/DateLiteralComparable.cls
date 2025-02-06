@@ -11,6 +11,15 @@ public abstract class DateLiteralComparable {
     public String token { get; private set; }
 
     /**
+     * @description The number in variable date literals
+     */
+    public Integer n {
+        get {
+            return Integer.valueOf(this.token.split(':')[1]);
+        }
+    }
+
+    /**
      * @description Whether the date literal is greater than the field value
      * @param fieldValue Date or Datetime value
      * @return  Whether fieldValue is greater than the date literal

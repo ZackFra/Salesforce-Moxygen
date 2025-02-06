@@ -6,9 +6,7 @@
  */
 public with sharing class LastNFiscalQuartersComparable extends DateLiteralComparable {
     public override Boolean isLessThan(Datetime fieldValue) {
-        String lastNFiscalQuartersTkn = this.token.split(':')[1];
-        Integer lastNFiscalQuarters = Integer.valueOf(lastNFiscalQuartersTkn);
-        Integer nMonthsAgo = lastNFiscalQuarters * 3;
+        Integer nMonthsAgo = this.n * 3;
         // Does NOT include the current quarter, thus the -3
         Date nFiscalQuartersAgo = Gmt.startOfthisFiscalQuarter()
             .addMonths(-nMonthsAgo);
@@ -16,9 +14,7 @@ public with sharing class LastNFiscalQuartersComparable extends DateLiteralCompa
     }
 
     public override Boolean isGreaterThan(Datetime fieldValue) {
-        String lastNFiscalQuartersTkn = this.token.split(':')[1];
-        Integer lastNFiscalQuarters = Integer.valueOf(lastNFiscalQuartersTkn);
-        Integer nMonthsAgo = lastNFiscalQuarters * 3;
+        Integer nMonthsAgo = this.n * 3;
         // Does NOT include the current quarter, thus the -3
         Date nFiscalQuartersAgo = Gmt.startOfthisFiscalQuarter()
             .addMonths(-nMonthsAgo);
