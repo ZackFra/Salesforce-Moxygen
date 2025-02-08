@@ -20,8 +20,8 @@ public static Database.DeleteResult doDelete(SObject recordToDelete, Boolean all
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordToDelete | SObject | - The record to delete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordToDelete | SObject | The record to delete |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **Database.DeleteResult**
@@ -42,13 +42,13 @@ public static List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToDelete | List&lt;SObject&gt; | - The records to delete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordsToDelete | List&lt;SObject&gt; | The records to delete |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **List&lt;Database.DeleteResult&gt;**
 
-List&lt;Database.DeleteResult&gt; - The result of the delete operation
+List&lt;Database.DeleteResult&gt; The result of the delete operation
 
 ---
 
@@ -64,8 +64,8 @@ public static Database.DeleteResult doDelete(Id recordID, Boolean allOrNone)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordID | Id | - The ID of the record to delete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordID | Id | The ID of the record to delete |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **Database.DeleteResult**
@@ -86,8 +86,8 @@ public static List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean a
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordIDs | List&lt;Id&gt; | - The IDs of the records to delete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordIDs | List&lt;Id&gt; | The IDs of the records to delete |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **List&lt;Database.DeleteResult&gt;**
@@ -108,8 +108,8 @@ public static Database.SaveResult doInsert(SObject recordToInsert, Boolean allOr
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordToInsert | SObject | - The record to insert |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordToInsert | SObject | The record to insert |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **Database.SaveResult**
@@ -130,8 +130,8 @@ public static List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToInsert | List&lt;SObject&gt; | - The records to insert |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordsToInsert | List&lt;SObject&gt; | The records to insert |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **List&lt;Database.SaveResult&gt;**
@@ -152,9 +152,9 @@ public static Database.SaveResult doInsert(SObject recordToInsert, Boolean allOr
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordToInsert | SObject | - The record to insert |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-| accessLevel | System.AccessLevel | - The access level for the operation |
+| recordToInsert | SObject | The record to insert |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| accessLevel | System.AccessLevel | The access level for the operation |
 
 #### Return Type
 **Database.SaveResult**
@@ -175,9 +175,9 @@ public static List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToInsert | List&lt;SObject&gt; | - The records to insert |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-| accessLevel | System.AccessLevel | - The access level for the operation |
+| recordsToInsert | List&lt;SObject&gt; | The records to insert |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| accessLevel | System.AccessLevel | The access level for the operation |
 
 #### Return Type
 **List&lt;Database.SaveResult&gt;**
@@ -198,8 +198,8 @@ public static Database.UndeleteResult doUndelete(sObject recordToUndelete, Boole
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordToUndelete | sObject | - The record to undelete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordToUndelete | sObject | The record to undelete |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **Database.UndeleteResult**
@@ -220,8 +220,8 @@ public static List<Database.UndeleteResult> doUndelete(List<SObject> recordsToUn
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUndelete | List&lt;SObject&gt; | - The records to undelete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordsToUndelete | List&lt;SObject&gt; | The records to undelete |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **List&lt;Database.UndeleteResult&gt;**
@@ -242,8 +242,8 @@ public static Database.UndeleteResult doUndelete(Id recordID, Boolean allOrNone)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordID | Id | - The ID of the record to undelete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordID | Id | The ID of the record to undelete |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **Database.UndeleteResult**
@@ -264,8 +264,8 @@ public static List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boole
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordIDs | List&lt;Id&gt; | - The IDs of the records to undelete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordIDs | List&lt;Id&gt; | The IDs of the records to undelete |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **List&lt;Database.UndeleteResult&gt;**
@@ -286,9 +286,9 @@ public static Database.UndeleteResult doUndelete(SObject recordToUndelete, Boole
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordToUndelete | SObject | - The record to undelete |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-| accessLevel | System.AccessLevel | - The access level for the operation |
+| recordToUndelete | SObject | The record to undelete |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| accessLevel | System.AccessLevel | The access level for the operation |
 
 #### Return Type
 **Database.UndeleteResult**
@@ -309,8 +309,8 @@ public static Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOr
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordToUpdate | SObject | - The record to update |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordToUpdate | SObject | The record to update |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **Database.SaveResult**
@@ -331,8 +331,8 @@ public static List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpdate | List&lt;SObject&gt; | - The records to update |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordsToUpdate | List&lt;SObject&gt; | The records to update |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **List&lt;Database.SaveResult&gt;**
@@ -353,9 +353,9 @@ public static Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOr
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordToUpdate | SObject | - The record to update |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-| accessLevel | System.AccessLevel | - The access level for the operation |
+| recordToUpdate | SObject | The record to update |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| accessLevel | System.AccessLevel | The access level for the operation |
 
 #### Return Type
 **Database.SaveResult**
@@ -376,9 +376,9 @@ public static List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpdate | List&lt;SObject&gt; | - The records to update |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-| accessLevel | System.AccessLevel | - The access level for the operation |
+| recordsToUpdate | List&lt;SObject&gt; | The records to update |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| accessLevel | System.AccessLevel | The access level for the operation |
 
 #### Return Type
 **List&lt;Database.SaveResult&gt;**
@@ -399,9 +399,9 @@ public static Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectFiel
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordToUpsert | SObject | - The record to upsert |
-| externalIdField | SObjectField | - The field to use as the external ID |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordToUpsert | SObject | The record to upsert |
+| externalIdField | SObjectField | The field to use as the external ID |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **Database.UpsertResult**
@@ -422,9 +422,9 @@ public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpsert | List&lt;SObject&gt; | - The records to upsert |
-| externalIdField | SObjectField | - The field to use as the external ID |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| recordsToUpsert | List&lt;SObject&gt; | The records to upsert |
+| externalIdField | SObjectField | The field to use as the external ID |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
 
 #### Return Type
 **List&lt;Database.UpsertResult&gt;**
@@ -447,10 +447,10 @@ public static Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectFiel
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordToUpsert | SObject | - The record to upsert |
-| externalIdField | SObjectField | - The field to use as the external ID |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-| accessLevel | System.AccessLevel | - The access level for the operation |
+| recordToUpsert | SObject | The record to upsert |
+| externalIdField | SObjectField | The field to use as the external ID |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| accessLevel | System.AccessLevel | The access level for the operation |
 
 #### Return Type
 **Database.UpsertResult**
@@ -473,10 +473,10 @@ public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpsert | List&lt;SObject&gt; | - The records to upsert |
-| externalIdField | SObjectField | - The field to use as the external ID |
-| allOrNone | Boolean | - If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
-| accessLevel | System.AccessLevel | - The access level for the operation |
+| recordsToUpsert | List&lt;SObject&gt; | The records to upsert |
+| externalIdField | SObjectField | The field to use as the external ID |
+| allOrNone | Boolean | If true, the operation is an all-or-none operation. If false, the operation allows partial success. |
+| accessLevel | System.AccessLevel | The access level for the operation |
 
 #### Return Type
 **List&lt;Database.UpsertResult&gt;**
