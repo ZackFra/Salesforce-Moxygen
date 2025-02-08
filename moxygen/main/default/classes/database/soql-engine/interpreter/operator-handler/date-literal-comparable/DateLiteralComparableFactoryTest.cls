@@ -19,4 +19,23 @@ private class DateLiteralComparableFactoryTest {
             );
         }
     }
+
+    @isTest
+    static void ensureValidationWorksAsExpected() {
+        DateLiteral dl = new DateLiteral.Builder()
+            .setFieldValue('unexpected_token')
+            .build();
+        Boolean isExceptionThrown = false;
+        try {
+            DateLiteralComparableFactory.create(dl);
+            Assert.fail('ValidationException should have been thrown');
+        } catch (ValidationException e) {
+            isExceptionThrown = true;
+        }
+
+        Assert.isTrue(
+            isExceptionThrown,
+            'ValidationException should have been thrown'
+        );
+    }
 }
