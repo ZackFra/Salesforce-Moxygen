@@ -36,8 +36,8 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordToDelete - The record to delete
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordToDelete The record to delete
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.DeleteResult - The result of the delete operation
      */
     public static Database.DeleteResult doDelete(
@@ -52,9 +52,9 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordsToDelete - The records to delete
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
-     * @return List<Database.DeleteResult> - The result of the delete operation
+     * @param recordsToDelete The records to delete
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @return List<Database.DeleteResult> The result of the delete operation
      */
     public static List<Database.DeleteResult> doDelete(
         List<SObject> recordsToDelete,
@@ -69,8 +69,8 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordID - The ID of the record to delete
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordID The ID of the record to delete
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.DeleteResult - The result of the delete operation
      */
     public static Database.DeleteResult doDelete(
@@ -85,8 +85,8 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordIDs - The IDs of the records to delete
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordIDs The IDs of the records to delete
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.DeleteResult> - The result of the delete operation
      */
     public static List<Database.DeleteResult> doDelete(
@@ -101,8 +101,8 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordToInsert - The record to insert
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordToInsert The record to insert
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.SaveResult - The result of the insert operation
      */
     public static Database.SaveResult doInsert(
@@ -116,8 +116,8 @@ public inherited sharing class DML {
     }
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordsToInsert - The records to insert
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordsToInsert The records to insert
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.SaveResult> - The result of the insert operation
      */
     public static List<Database.SaveResult> doInsert(
@@ -133,9 +133,9 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordToInsert - The record to insert
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
-     * @param accessLevel - The access level for the operation
+     * @param recordToInsert The record to insert
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param accessLevel The access level for the operation
      * @return Database.SaveResult - The result of the update operation
      */
     public static Database.SaveResult doInsert(
@@ -155,9 +155,9 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordsToInsert - The records to insert
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
-     * @param accessLevel - The access level for the operation
+     * @param recordsToInsert The records to insert
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param accessLevel The access level for the operation
      * @return List<Database.SaveResult> - The result of the update operation
      */
     public static List<Database.SaveResult> doInsert(
@@ -178,8 +178,8 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordToUpdate - The record to update
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordToUpdate The record to update
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.SaveResult - The result of the update operation
      */
     public static Database.SaveResult doUpdate(
@@ -194,8 +194,8 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordsToUpdate - The records to update
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordsToUpdate The records to update
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.SaveResult> - The result of the update operation
      */
     public static List<Database.SaveResult> doUpdate(
@@ -211,9 +211,9 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordToUpdate - The record to update
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
-     * @param accessLevel - The access level for the operation
+     * @param recordToUpdate The record to update
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param accessLevel The access level for the operation
      * @return Database.SaveResult - The result of the update operation
      */
     public static Database.SaveResult doUpdate(
@@ -233,9 +233,9 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordsToUpdate - The records to update
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
-     * @param accessLevel - The access level for the operation
+     * @param recordsToUpdate The records to update
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param accessLevel The access level for the operation
      * @return List<Database.SaveResult> - The result of the update operation
      */
     public static List<Database.SaveResult> doUpdate(
@@ -256,9 +256,9 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordToUpsert - The record to upsert
-     * @param externalIdField - The field to use as the external ID
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordToUpsert The record to upsert
+     * @param externalIdField The field to use as the external ID
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.UpsertResult - The result of the upsert operation
      */
     public static Database.UpsertResult doUpsert(
@@ -278,9 +278,9 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordsToUpsert - The records to upsert
-     * @param externalIdField - The field to use as the external ID
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordsToUpsert The records to upsert
+     * @param externalIdField The field to use as the external ID
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.UpsertResult> - The result of the upsert operation
      */
     public static List<Database.UpsertResult> doUpsert(
@@ -301,10 +301,10 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordToUpsert - The record to upsert
-     * @param externalIdField - The field to use as the external ID
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
-     * @param accessLevel - The access level for the operation
+     * @param recordToUpsert The record to upsert
+     * @param externalIdField The field to use as the external ID
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param accessLevel The access level for the operation
      * @return Database.UpsertResult - The result of the upsert operation
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
@@ -332,10 +332,10 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordsToUpsert - The records to upsert
-     * @param externalIdField - The field to use as the external ID
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
-     * @param accessLevel - The access level for the operation
+     * @param recordsToUpsert The records to upsert
+     * @param externalIdField The field to use as the external ID
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param accessLevel The access level for the operation
      * @return List<Database.UpsertResult> - The result of the upsert operation
      */
     @SuppressWarnings('PMD.ExcessiveParameterList')
@@ -364,8 +364,8 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordToUndelete - The record to undelete
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordToUndelete The record to undelete
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.UndeleteResult - The result of the undelete operation
      */
     public static Database.UndeleteResult doUndelete(
@@ -380,8 +380,8 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordsToUndelete - The records to undelete
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordsToUndelete The records to undelete
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.UndeleteResult> - The result of the undelete operation
      */
     public static List<Database.UndeleteResult> doUndelete(
@@ -397,8 +397,8 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordID - The ID of the record to undelete
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordID The ID of the record to undelete
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return Database.UndeleteResult - The result of the undelete operation
      */
     public static Database.UndeleteResult doUndelete(
@@ -413,8 +413,8 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordIDs - The IDs of the records to undelete
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param recordIDs The IDs of the records to undelete
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
      * @return List<Database.UndeleteResult> - The result of the undelete operation
      */
     public static List<Database.UndeleteResult> doUndelete(
@@ -429,9 +429,9 @@ public inherited sharing class DML {
 
     /**
      * @description Wrapper around Database methods to allow for mocking and stubbing in unit tests
-     * @param recordToUndelete - The record to undelete
-     * @param allOrNone - If true, the operation is an all-or-none operation. If false, the operation allows partial success.
-     * @param accessLevel - The access level for the operation
+     * @param recordToUndelete The record to undelete
+     * @param allOrNone If true, the operation is an all-or-none operation. If false, the operation allows partial success.
+     * @param accessLevel The access level for the operation
      * @return Database.UndeleteResult - The result of the undelete operation
      */
     public static Database.UndeleteResult doUndelete(
