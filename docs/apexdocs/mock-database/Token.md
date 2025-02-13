@@ -251,6 +251,18 @@ String
 
 ---
 
+### `LAST_N_MONTHS_LITERAL`
+
+#### Signature
+```apex
+public final static LAST_N_MONTHS_LITERAL
+```
+
+#### Type
+String
+
+---
+
 ### `LAST_N_QUARTERS_LITERAL`
 
 #### Signature
