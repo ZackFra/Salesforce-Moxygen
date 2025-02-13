@@ -407,6 +407,18 @@ String
 
 ---
 
+### `N_WEEKS_AGO_LITERAL`
+
+#### Signature
+```apex
+public final static N_WEEKS_AGO_LITERAL
+```
+
+#### Type
+String
+
+---
+
 ### `N_YEARS_AGO_LITERAL`
 
 #### Signature

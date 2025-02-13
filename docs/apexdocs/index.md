@@ -544,6 +544,10 @@ NullParser is a parser for null values.
 
 NumberParser is a parser for numeric values.
 
+### [NWeeksAgoComparable](soql-engine/NWeeksAgoComparable.md)
+
+Compares a date to N weeks ago
+
 ### [NYearsAgoComparable](soql-engine/NYearsAgoComparable.md)
 
 Comparable class for N_YEARS_AGO
