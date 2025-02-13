@@ -1,0 +1,10 @@
+---
+description: 
+globs: *.cls,*.apex,*.trigger
+---
+
+# Your rule content
+
+- You can @ files here
+- You can use markdown but dont have to
+- Write Apex code in alignment with the Salesforce code analyzer's expectations when using default configuration
