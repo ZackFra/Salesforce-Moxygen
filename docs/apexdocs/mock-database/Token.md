@@ -515,6 +515,18 @@ String
 
 ---
 
+### `NEXT_N_MONTHS_LITERAL`
+
+#### Signature
+```apex
+public final static NEXT_N_MONTHS_LITERAL
+```
+
+#### Type
+String
+
+---
+
 ### `NEXT_N_QUARTERS_LITERAL`
 
 #### Signature
