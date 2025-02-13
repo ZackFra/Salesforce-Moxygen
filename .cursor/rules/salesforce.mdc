@@ -8,3 +8,4 @@ globs: *.cls,*.apex,*.trigger
 - You can @ files here
 - You can use markdown but dont have to
 - Write Apex code in alignment with the PMD's expectations when using default configuration for Apex
+- When creating a new Apex class, create the associated .cls-meta.xml file as well
