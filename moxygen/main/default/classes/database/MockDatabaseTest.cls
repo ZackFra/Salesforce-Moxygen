@@ -7505,4 +7505,32 @@ private class MockDatabaseTest {
             'Incorrect number of opportunities'
         );
     }
+
+    @isTest
+    static void ensureNextNMonthsWorksInWhereClause() {
+        List<Opportunity> oppList = new List<Opportunity>();
+        Date startOfMonth = Gmt.today().toStartOfMonth();
+        for (Integer i = 0; i < 12; i++) {
+            oppList.add(
+                new Opportunity(
+                    Name = 'Opp' + i,
+                    CloseDate = startOfMonth.addMonths(i)
+                )
+            );
+        }
+
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Id, CloseDate FROM Opportunity WHERE CloseDate = NEXT_N_MONTHS:6'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            6,
+            opportunities.size(),
+            'Incorrect number of opportunities'
+        );
+    }
 }
