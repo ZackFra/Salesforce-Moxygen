@@ -7,4 +7,4 @@ globs: *.cls,*.apex,*.trigger
 
 - You can @ files here
 - You can use markdown but dont have to
-- Write Apex code in alignment with the Salesforce PMD's expectations when using default configuration for Apex
+- Write Apex code in alignment with the PMD's expectations when using default configuration for Apex
