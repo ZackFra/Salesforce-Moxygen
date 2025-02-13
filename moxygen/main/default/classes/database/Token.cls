@@ -162,6 +162,7 @@ public with sharing class Token {
     public final static String LAST_YEAR_LITERAL = 'last_year';
     public final static String NEXT_N_YEARS_LITERAL = 'next_n_years';
     public final static String LAST_N_QUARTERS_LITERAL = 'last_n_quarters';
+    public final static String N_WEEKS_AGO_LITERAL = 'n_weeks_ago';
 
     public final static Set<String> DATE_LITERAL_TOKENS = new Set<String>{
         TODAY_LITERAL,
@@ -202,6 +203,7 @@ public with sharing class Token {
         LAST_N_YEARS_LITERAL,
         LAST_YEAR_LITERAL,
         NEXT_N_YEARS_LITERAL,
-        LAST_N_QUARTERS_LITERAL
+        LAST_N_QUARTERS_LITERAL,
+        N_WEEKS_AGO_LITERAL
     };
 }

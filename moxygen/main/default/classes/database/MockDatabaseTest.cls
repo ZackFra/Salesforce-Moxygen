@@ -7477,4 +7477,32 @@ private class MockDatabaseTest {
             'Incorrect number of opportunities'
         );
     }
+
+    @isTest
+    static void ensureNWeeksAgoWorksInWhereClause() {
+        List<Opportunity> oppList = new List<Opportunity>();
+        Date startOfWeek = Gmt.today().toStartOfWeek();
+        for (Integer i = 0; i < 36; i++) {
+            oppList.add(
+                new Opportunity(
+                    Name = 'Opp' + i,
+                    CloseDate = startOfWeek.addDays(-7 * i)
+                )
+            );
+        }
+
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Id, CloseDate FROM Opportunity WHERE CloseDate = N_WEEKS_AGO:3'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            1,
+            opportunities.size(),
+            'Incorrect number of opportunities'
+        );
+    }
 }
