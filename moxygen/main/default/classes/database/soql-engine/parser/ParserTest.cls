@@ -896,4 +896,22 @@ private class ParserTest {
         }
         Test.stopTest();
     }
+
+    @isTest
+    static void ensureNQuartersAgoCanBeParsed() {
+        Parser p = new Parser();
+        String soqlQuery = 'SELECT Id FROM Opportunity WHERE CreatedDate = N_QUARTERS_AGO:5';
+        Test.startTest();
+        try {
+            p.parse(soqlQuery);
+        } catch (Exception e) {
+            Assert.fail(
+                'Expected no exception but got ' +
+                    e.getMessage() +
+                    ' for ' +
+                    soqlQuery
+            );
+        }
+        Test.stopTest();
+    }
 }

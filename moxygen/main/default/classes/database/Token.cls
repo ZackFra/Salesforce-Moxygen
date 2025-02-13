@@ -144,6 +144,7 @@ public with sharing class Token {
     public final static String LAST_QUARTER_LITERAL = 'last_quarter';
     public final static String NEXT_QUARTER_LITERAL = 'next_quarter';
     public final static String NEXT_N_QUARTERS_LITERAL = 'next_n_quarters';
+    public final static String N_QUARTERS_AGO_LITERAL = 'n_quarters_ago';
     public final static String THIS_YEAR_LITERAL = 'this_year';
     public final static String THIS_FISCAL_YEAR_LITERAL = 'this_fiscal_year';
     public final static String LAST_N_FISCAL_YEARS_LITERAL = 'last_n_fiscal_years';
@@ -184,6 +185,7 @@ public with sharing class Token {
         LAST_QUARTER_LITERAL,
         NEXT_QUARTER_LITERAL,
         NEXT_N_QUARTERS_LITERAL,
+        N_QUARTERS_AGO_LITERAL,
         THIS_YEAR_LITERAL,
         THIS_FISCAL_YEAR_LITERAL,
         LAST_N_FISCAL_YEARS_LITERAL,
