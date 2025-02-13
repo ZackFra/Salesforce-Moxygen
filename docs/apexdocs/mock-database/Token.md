@@ -395,6 +395,18 @@ String
 
 ---
 
+### `N_QUARTERS_AGO_LITERAL`
+
+#### Signature
+```apex
+public final static N_QUARTERS_AGO_LITERAL
+```
+
+#### Type
+String
+
+---
+
 ### `N_YEARS_AGO_LITERAL`
 
 #### Signature
