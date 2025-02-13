@@ -7449,4 +7449,32 @@ private class MockDatabaseTest {
             'Incorrect number of opportunities'
         );
     }
+
+    @isTest
+    static void ensureNQuartersAgoWorksInWhereClause() {
+        List<Opportunity> oppList = new List<Opportunity>();
+        Date startOfThisFiscalQuarter = Gmt.startOfThisFiscalQuarter();
+        for (Integer i = 0; i < 36; i++) {
+            oppList.add(
+                new Opportunity(
+                    Name = 'Opp' + i,
+                    CloseDate = startOfThisFiscalQuarter.addMonths(-i)
+                )
+            );
+        }
+
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Id, CloseDate FROM Opportunity WHERE CloseDate = N_QUARTERS_AGO:2'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            3,
+            opportunities.size(),
+            'Incorrect number of opportunities'
+        );
+    }
 }
