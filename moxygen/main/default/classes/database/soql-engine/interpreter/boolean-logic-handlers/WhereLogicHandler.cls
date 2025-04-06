@@ -102,10 +102,9 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             fieldValue = new DateLiteral.Builder()
                 .setFieldValue((String) fieldValue)
                 .build();
-        } else {
+        } else if (valueNode.nodeType != NodeType.VALUE_LIST) {
             fieldValue = adjustForSoqlDateString(fieldValue, fieldType);
         }
-
         return handler.handle(sObjectFieldValue, fieldValue);
     }
 
@@ -141,7 +140,7 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
         sObject sObj,
         Map<String, Object> params
     ) {
-        Boolean isBindVar = (valueNode.nodeType == 'bind variable');
+        Boolean isBindVar = (valueNode.nodeType == NodeType.XBIND_VARIABLE);
         Boolean isParamsNull = (params == null);
         Boolean isValueInParams = (!isParamsNull &&
         params.containsKey(valueNode.id));
@@ -154,21 +153,21 @@ public with sharing class WhereLogicHandler extends BooleanLogicHandler {
             return params.get(valueNode.id);
         }
 
-        if (valueNode.nodeType == 'value list') {
+        if (valueNode.nodeType == NodeType.VALUE_LIST) {
             List<Object> values = new List<Object>();
-            Node valueListNode = valueNode.left;
-            while (valueListNode != null) {
-                values.add(getFieldNodeValue(valueListNode, sObj, params));
-                valueListNode = valueListNode.left;
+            Node valueListNode = valueNode;
+            while (valueListNode != null && valueListNode.left != null) {
+                values.add(valueListNode.left);
+                valueListNode = valueListNode.left.left;
             }
             return values;
         }
 
-        if (valueNode.nodeType == 'null') {
+        if (valueNode.nodeType == NodeType.XNULL) {
             return null;
         }
 
-        if (valueNode.nodeType == 'subquery') {
+        if (valueNode.nodeType == NodeType.SUBQUERY) {
             Node subquerySelectNode = valueNode.right;
             Node subqueryFieldNode = subquerySelectNode.left;
             Integer fieldsList = 0;

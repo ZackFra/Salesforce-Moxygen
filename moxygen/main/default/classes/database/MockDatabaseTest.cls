@@ -7561,4 +7561,29 @@ private class MockDatabaseTest {
             'Incorrect number of opportunities'
         );
     }
+
+    @IsTest
+    static void ensureInOperatorWorksWithLiterals() {
+        List<Opportunity> oppList = new List<Opportunity>();
+        oppList.add(new Opportunity(Name = 'Opp1', CloseDate = Gmt.today()));
+        oppList.add(
+            new Opportunity(Name = 'Opp2', CloseDate = Gmt.today().addDays(-1))
+        );
+        oppList.add(
+            new Opportunity(Name = 'Opp3', CloseDate = Gmt.today().addDays(1))
+        );
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Id, CloseDate FROM Opportunity WHERE CloseDate IN (TODAY, TOMORROW, YESTERDAY)'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            3,
+            opportunities.size(),
+            'Incorrect number of opportunities'
+        );
+    }
 }
