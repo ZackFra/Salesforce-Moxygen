@@ -48,8 +48,8 @@ public class AccountServiceTest {
             Name = 'Lame'
         );
 	
-	// Does an insert without registering that DML was performed
-        DML.doMockInsert(newAcct);
+	// Does an insert, just as you would normally
+        DML.doInsert(newAcct);
 
         AccountService service = new AccountService();
 
