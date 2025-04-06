@@ -163,26 +163,17 @@ public with sharing class WhereParser extends SubParser {
         Boolean isExpectingList = (isIn || isNotIn || isIncludes || isExcludes);
         if (isExpectingList && isNext(query, Token.LPAREN)) {
             query = consume(query, Token.LPAREN);
-            Intermediary listOrQuery;
-            if (lookahead(query, 6) == Token.XSELECT) {
-                Intermediary soqlSubQuery = new QueryParser().parse(query);
-                listOrQuery = new Intermediary(
-                    new NodeBuilder()
-                        .setId(NodeType.SUBQUERY)
-                        .setNodeType(NodeType.SUBQUERY)
-                        .setRight(soqlSubQuery.head)
-                        .build(),
-                    soqlSubQuery.subquery
-                );
-            } else {
-                listOrQuery = new ValueListParser().parse(query);
-            }
+            Intermediary listOrQuery = parseListOrSubquery(query);
             query = listOrQuery.subquery;
             query = skipWhitespace(query);
-
             query = consume(query, Token.RPAREN);
-
             operatorIntermediary.head.right = listOrQuery.head;
+        } else if (
+            isExpectingList &&
+            !isNext(query, Token.LPAREN) &&
+            !isNext(query, Token.COLON)
+        ) {
+            throw new ParsingException(query, null);
         } else {
             Intermediary valueIntermediary = new ValueParser().parse(query);
             query = valueIntermediary.subquery;
@@ -192,6 +183,24 @@ public with sharing class WhereParser extends SubParser {
         operatorIntermediary.head.left = fieldIntermediary.head;
 
         return operatorIntermediary;
+    }
+
+    private Intermediary parseListOrSubquery(String query) {
+        Intermediary listOrQuery;
+        if (lookahead(query, 6) == Token.XSELECT) {
+            Intermediary soqlSubQuery = new QueryParser().parse(query);
+            listOrQuery = new Intermediary(
+                new NodeBuilder()
+                    .setId(NodeType.SUBQUERY)
+                    .setNodeType(NodeType.SUBQUERY)
+                    .setRight(soqlSubQuery.head)
+                    .build(),
+                soqlSubQuery.subquery
+            );
+        } else {
+            listOrQuery = new ValueListParser().parse(query);
+        }
+        return listOrQuery;
     }
 
     private Intermediary parseNot(String query) {

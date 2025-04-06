@@ -30,6 +30,7 @@
  * @group Soql Engine
  */
 public class InHandler implements IOperatorHandler {
+    static EqualityHandler equalityHandle = new EqualityHandler();
     /**
      * @description Handles the IN operator
      * @param sObjectFieldValue `Object`
@@ -37,19 +38,33 @@ public class InHandler implements IOperatorHandler {
      * @return  `Boolean`
      */
     public Boolean handle(Object sObjectFieldValue, Object fieldValue) {
-        if (sObjectFieldValue == null) {
-            return false;
-        } else if (fieldValue == null) {
-            throw new QueryException('invalid operator');
-        }
+        List<Object> nodes = (List<Object>) fieldValue;
+        return handleList(sObjectFieldValue, nodes, 0);
+    }
 
-        List<Object> values = (List<Object>) fieldValue;
-        for (Integer i = 0; i < values.size(); i++) {
-            if (values[i] instanceof String) {
-                values[i] = (Object) ((String) values[i]).toLowerCase();
+    private Boolean handleList(
+        Object fieldValue,
+        List<Object> probablyNodes,
+        Integer index
+    ) {
+        if (index >= probablyNodes.size()) {
+            return false;
+        }
+        Object currValue = probablyNodes[index];
+        if (currValue instanceof Node) {
+            Node currNode = (Node) currValue;
+            if (currNode.nodeType == NodeType.DATE_LITERAL) {
+                currValue = new DateLiteral.Builder()
+                    .setFieldValue((String) currNode.id)
+                    .build();
+            } else {
+                currValue = currNode.id;
             }
         }
-        String nodeValue = String.valueOf(sObjectFieldValue).toLowerCase();
-        return values.contains(nodeValue);
+        Boolean isEqual = equalityHandle.handle(fieldValue, currValue);
+        if (!isEqual) {
+            isEqual = handleList(fieldValue, probablyNodes, index + 1);
+        }
+        return isEqual;
     }
 }

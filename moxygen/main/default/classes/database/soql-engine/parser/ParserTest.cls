@@ -968,4 +968,93 @@ private class ParserTest {
         }
         Test.stopTest();
     }
+
+    @IsTest
+    static void ensureInOperatorWorksWithDateLiterals() {
+        Parser p = new Parser();
+        String soqlQuery = 'SELECT Id FROM Opportunity WHERE CreatedDate IN (TODAY, TOMORROW, YESTERDAY)';
+        Test.startTest();
+        Node head = p.parse(soqlQuery);
+        Test.stopTest();
+
+        Node whereNode = head.right.right;
+        Assert.areEqual(
+            whereNode.nodeType,
+            NodeType.XWHERE,
+            'Should be a where clause'
+        );
+        Node inNode = whereNode.left;
+        Assert.areEqual('in', inNode.id, 'Should be an in operator');
+        Node valueListNode = inNode.right;
+        Assert.areEqual(
+            valueListNode.nodeType,
+            NodeType.VALUE_LIST,
+            'Should be a value list'
+        );
+        Node todayNode = valueListNode.left;
+        Assert.areEqual(
+            todayNode.nodeType,
+            NodeType.DATE_LITERAL,
+            'Should be a date literal'
+        );
+        Node tomorrowNode = todayNode.left.left;
+        Assert.areEqual(
+            tomorrowNode.nodeType,
+            NodeType.DATE_LITERAL,
+            'Should be a date literal'
+        );
+        Node yesterdayNode = tomorrowNode.left.left;
+        Assert.areEqual(
+            yesterdayNode.nodeType,
+            NodeType.DATE_LITERAL,
+            'Should be a date literal'
+        );
+
+        Assert.areEqual(
+            todayNode.nodeType,
+            NodeType.DATE_LITERAL,
+            'Should be a date literal'
+        );
+        Assert.areEqual(
+            tomorrowNode.nodeType,
+            NodeType.DATE_LITERAL,
+            'Should be a date literal'
+        );
+        Assert.areEqual(
+            yesterdayNode.nodeType,
+            NodeType.DATE_LITERAL,
+            'Should be a date literal'
+        );
+
+        Assert.areEqual(
+            todayNode.id,
+            Token.TODAY_LITERAL,
+            'Should be a today literal'
+        );
+        Assert.areEqual(
+            tomorrowNode.id,
+            Token.TOMORROW_LITERAL,
+            'Should be a tomorrow literal'
+        );
+        Assert.areEqual(
+            yesterdayNode.id,
+            Token.YESTERDAY_LITERAL,
+            'Should be a yesterday literal'
+        );
+    }
+
+    @IsTest
+    static void ensureInDoesNotAcceptInNull() {
+        Parser p = new Parser();
+        String soqlQuery = 'SELECT Id FROM Opportunity WHERE CreatedDate IN NULL';
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            p.parse(soqlQuery);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
 }

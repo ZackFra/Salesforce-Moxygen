@@ -46,7 +46,7 @@ public class IncludesHandler implements IOperatorHandler {
         try {
             List<Object> objList = (List<Object>) fieldValue;
             for (Object obj : objList) {
-                values.add(((String) obj).toLowerCase() + ';');
+                values.add(((Node) obj).id.toLowerCase() + ';');
             }
         } catch (Exception ex) {
             throw new QueryException('Includes expects a list of strings');

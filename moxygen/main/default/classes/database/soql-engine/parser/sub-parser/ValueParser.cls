@@ -30,6 +30,7 @@
  * @group Soql Engine
  */
 public with sharing class ValueParser extends SubParser {
+    final static String ERROR_MESSAGE = 'Error parsing value: {0} Failed with exception: {1}';
     /**
      * @description Parses the value in the query string
      * @param query `String`
@@ -45,10 +46,10 @@ public with sharing class ValueParser extends SubParser {
             return primitiveParser.parse(query);
         } catch (Exception e) {
             throw new ParsingException(
-                'Error parsing value: ' +
-                    query +
-                    ' Failed with exception: ' +
-                    e.getMessage()
+                String.format(
+                    ERROR_MESSAGE,
+                    new List<String>{ query, e.getMessage() }
+                )
             );
         }
     }

@@ -4729,48 +4729,6 @@ private class MockDatabaseTest {
     }
 
     @IsTest
-    static void testWhereClauseComparisonToNull9() {
-        Account acct1 = new Account(Name = 'Test1', NumberOfEmployees = 5);
-        Account acct2 = new Account(Name = 'Test2');
-        List<Account> acctList = new List<Account>{ acct1, acct2 };
-        MockDatabase.doInsert(acctList, true);
-
-        Test.startTest();
-        Boolean isExceptionThrown = false;
-        try {
-            MockDatabase.query(
-                'SELECT Id, Name FROM Account WHERE Name IN NULL'
-            );
-        } catch (QueryException e) {
-            isExceptionThrown = true;
-        }
-        Test.stopTest();
-
-        Assert.isTrue(isExceptionThrown, 'Exception should have been thrown');
-    }
-
-    @IsTest
-    static void testWhereClauseComparisonToNull10() {
-        Account acct1 = new Account(Name = 'Test1', NumberOfEmployees = 5);
-        Account acct2 = new Account(Name = 'Test2');
-        List<Account> acctList = new List<Account>{ acct1, acct2 };
-        MockDatabase.doInsert(acctList, true);
-
-        Test.startTest();
-        Boolean isExceptionThrown = false;
-        try {
-            MockDatabase.query(
-                'SELECT Id, Name FROM Account WHERE Name NOT IN NULL'
-            );
-        } catch (QueryException e) {
-            isExceptionThrown = true;
-        }
-        Test.stopTest();
-
-        Assert.isTrue(isExceptionThrown, 'Exception should have been thrown');
-    }
-
-    @IsTest
     static void ensureTodayLiteralWorksForDateEqual() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
@@ -7557,6 +7515,31 @@ private class MockDatabaseTest {
 
         Assert.areEqual(
             6,
+            opportunities.size(),
+            'Incorrect number of opportunities'
+        );
+    }
+
+    @IsTest
+    static void ensureInOperatorWorksWithLiterals() {
+        List<Opportunity> oppList = new List<Opportunity>();
+        oppList.add(new Opportunity(Name = 'Opp1', CloseDate = Gmt.today()));
+        oppList.add(
+            new Opportunity(Name = 'Opp2', CloseDate = Gmt.today().addDays(-1))
+        );
+        oppList.add(
+            new Opportunity(Name = 'Opp3', CloseDate = Gmt.today().addDays(1))
+        );
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Id, CloseDate FROM Opportunity WHERE CloseDate IN (TODAY, TOMORROW, YESTERDAY)'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            3,
             opportunities.size(),
             'Incorrect number of opportunities'
         );
