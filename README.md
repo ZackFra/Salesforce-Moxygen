@@ -72,13 +72,7 @@ public class AccountServiceTest {
             'Expected account name to be updated'
         );
 
-        // check for any DML
-        Assert.isTrue(
-            DML.didAnyDML(),
-            'Expected DML to fire'
-        );
-
-        // check for a specific DML operation
+        // check if a specific DML operation would have occurred
         Assert.isTrue(
             DML.didDML(Types.DML.UPDATED),
             'Expected data to be updated'
