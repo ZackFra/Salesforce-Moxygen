@@ -53,11 +53,6 @@ public class AccountServiceTest {
 
         AccountService service = new AccountService();
 
-        Assert.isFalse(
-            DML.didAnyDML(),
-            'Expected no DML statement to register'
-        );
-
         Test.startTest();
             service.updateAcctName(newAcct.Id);
         Test.stopTest();
