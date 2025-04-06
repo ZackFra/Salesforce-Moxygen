@@ -38,31 +38,32 @@ public class InHandler implements IOperatorHandler {
      * @return  `Boolean`
      */
     public Boolean handle(Object sObjectFieldValue, Object fieldValue) {
-        List<Node> nodes = new List<Node>();
-        for (Object currNode : (List<Object>) fieldValue) {
-            nodes.add((Node) currNode);
-        }
+        List<Object> nodes = (List<Object>) fieldValue;
         return handleList(sObjectFieldValue, nodes, 0);
     }
 
     private Boolean handleList(
         Object fieldValue,
-        List<Node> nodes,
+        List<Object> probablyNodes,
         Integer index
     ) {
-        if (index >= nodes.size()) {
+        if (index >= probablyNodes.size()) {
             return false;
         }
-        Node curr = nodes[index];
-        Object currValue = curr.id;
-        if (curr.nodeType == NodeType.DATE_LITERAL) {
-            currValue = new DateLiteral.Builder()
-                .setFieldValue((String) currValue)
-                .build();
+        Object currValue = probablyNodes[index];
+        if (currValue instanceof Node) {
+            Node currNode = (Node) currValue;
+            if (currNode.nodeType == NodeType.DATE_LITERAL) {
+                currValue = new DateLiteral.Builder()
+                    .setFieldValue((String) currNode.id)
+                    .build();
+            } else {
+                currValue = currNode.id;
+            }
         }
         Boolean isEqual = equalityHandle.handle(fieldValue, currValue);
         if (!isEqual) {
-            isEqual = handleList(fieldValue, nodes, index + 1);
+            isEqual = handleList(fieldValue, probablyNodes, index + 1);
         }
         return isEqual;
     }

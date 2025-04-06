@@ -1042,4 +1042,19 @@ private class ParserTest {
             'Should be a yesterday literal'
         );
     }
+
+    @IsTest
+    static void ensureInDoesNotAcceptInNull() {
+        Parser p = new Parser();
+        String soqlQuery = 'SELECT Id FROM Opportunity WHERE CreatedDate IN NULL';
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            p.parse(soqlQuery);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        Assert.isTrue(isExceptionThrown, 'Expected exception to be thrown');
+    }
 }

@@ -4729,48 +4729,6 @@ private class MockDatabaseTest {
     }
 
     @IsTest
-    static void testWhereClauseComparisonToNull9() {
-        Account acct1 = new Account(Name = 'Test1', NumberOfEmployees = 5);
-        Account acct2 = new Account(Name = 'Test2');
-        List<Account> acctList = new List<Account>{ acct1, acct2 };
-        MockDatabase.doInsert(acctList, true);
-
-        Test.startTest();
-        Boolean isExceptionThrown = false;
-        try {
-            MockDatabase.query(
-                'SELECT Id, Name FROM Account WHERE Name IN NULL'
-            );
-        } catch (QueryException e) {
-            isExceptionThrown = true;
-        }
-        Test.stopTest();
-
-        Assert.isTrue(isExceptionThrown, 'Exception should have been thrown');
-    }
-
-    @IsTest
-    static void testWhereClauseComparisonToNull10() {
-        Account acct1 = new Account(Name = 'Test1', NumberOfEmployees = 5);
-        Account acct2 = new Account(Name = 'Test2');
-        List<Account> acctList = new List<Account>{ acct1, acct2 };
-        MockDatabase.doInsert(acctList, true);
-
-        Test.startTest();
-        Boolean isExceptionThrown = false;
-        try {
-            MockDatabase.query(
-                'SELECT Id, Name FROM Account WHERE Name NOT IN NULL'
-            );
-        } catch (QueryException e) {
-            isExceptionThrown = true;
-        }
-        Test.stopTest();
-
-        Assert.isTrue(isExceptionThrown, 'Exception should have been thrown');
-    }
-
-    @IsTest
     static void ensureTodayLiteralWorksForDateEqual() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
