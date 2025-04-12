@@ -1,7 +1,5 @@
 # TypeOf Class
 
-`SUPPRESSWARNINGS`
-
 TypeOf is a class that provides a method to determine the type of an object.
 
 **Since** 
@@ -14,8 +12,6 @@ TypeOf is a class that provides a method to determine the type of an object.
 
 ## Methods
 ### `forObject(obj)`
-
-`SUPPRESSWARNINGS`
 
 Given an object, determine the type of the object.
 
