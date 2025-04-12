@@ -41,7 +41,15 @@ public with sharing class WithSecurityEnforcedParser extends SubParser {
             return null;
         }
 
-        query = consume(query, 'with security_enforced');
+        query = consume(query, 'with');
+        query = skipWhiteSpace(query);
+        if (!isNext(query, 'security_enforced')) {
+            throw new ParsingException(
+                'WITH must be followed by SECURITY_ENFORCED'
+            );
+        }
+        query = consume(query, 'security_enforced');
+        query = skipWhiteSpace(query);
         return new Intermediary(
             new NodeBuilder()
                 .setNodeType('with security_enforced')
