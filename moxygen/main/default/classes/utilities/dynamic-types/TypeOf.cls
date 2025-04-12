@@ -4,20 +4,18 @@
  * @since 11/16/2024
  * @group Utilities
  */
-@SuppressWarnings('PMD.StdCyclomaticComplexity')
 public with sharing class TypeOf {
     /**
      * @description Given an object, determine the type of the object.
      * @param obj `Object`
      * @return  `String`
      */
-    @SuppressWarnings('PMD.CyclomaticComplexity')
     public static String forObject(Object obj) {
-        if (obj == null) {
-            return ApexTypes.XNULL;
-        } else {
-            return dynamicallyGetTypeByInvokingAnException(obj);
+        String typeName = ApexTypes.XNULL;
+        if (obj != null) {
+            typeName = dynamicallyGetTypeByInvokingAnException(obj);
         }
+        return typeName;
     }
 
     @SuppressWarnings('PMD.UnusedLocalVariable')
