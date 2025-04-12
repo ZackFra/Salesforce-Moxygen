@@ -35,4 +35,15 @@ private class WithSecurityEnforcedParserTest {
             'SELECT Name FROM Account WHERE Id = (SELECT Id FROM Account WHERE Name = \'test\' WITH SECURITY_ENFORCED)'
         );
     }
+
+    @IsTest
+    static void ensureWithSecurityEnforcedDoesNotCareAboutSpacing() {
+        WithSecurityEnforcedParser parser = new WithSecurityEnforcedParser();
+        Intermediary intermediary = parser.parse('WITH    SECURITY_ENFORCED');
+        Assert.areEqual(
+            'with security_enforced',
+            intermediary.head.id,
+            'Expected parsing to be successful'
+        );
+    }
 }
