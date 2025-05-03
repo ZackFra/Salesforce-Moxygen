@@ -5798,12 +5798,11 @@ private class MockDatabaseTest {
     @isTest
     static void ensureLastQuarterInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
         for (Integer i = 0; i < 12; i++) {
             oppList.add(
                 new Opportunity(
                     Name = 'Opp' + i,
-                    CloseDate = startOfYear.addMonths(-i)
+                    CloseDate = Gmt.today().addMonths(-i)
                 )
             );
         }
@@ -5868,7 +5867,7 @@ private class MockDatabaseTest {
 
         Test.startTest();
         List<Opportunity> opportunities = MockDatabase.query(
-            'SELECT Id FROM Opportunity WHERE CloseDate = NEXT_N_QUARTERS:2'
+            'SELECT Id, Name, CloseDate FROM Opportunity WHERE CloseDate = NEXT_N_QUARTERS:2'
         );
         Test.stopTest();
 

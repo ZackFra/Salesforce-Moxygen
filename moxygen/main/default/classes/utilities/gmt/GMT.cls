@@ -44,11 +44,20 @@ public with sharing class GMT {
      * @return  `Date`
      */
     public static Datetime startOfThisCalendarQuarter() {
-        return Datetime.newInstanceGmt(
-            Gmt.today().year(),
-            Math.mod(Gmt.today().month() - (Gmt.today().month() - 1), 3),
-            1
-        );
+        Datetime today = Gmt.today();
+        Integer startMonth = today.month();
+
+        if (startMonth >= 10) {
+            startMonth = 10;
+        } else if (startMonth >= 7) {
+            startMonth = 7;
+        } else if (startMonth >= 4) {
+            startMonth = 4;
+        } else {
+            startMonth = 1;
+        }
+
+        return Datetime.newInstanceGmt(today.year(), startMonth, 1);
     }
 
     /**
