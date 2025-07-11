@@ -7149,12 +7149,12 @@ private class MockDatabaseTest {
     @isTest
     static void ensureLasNFiscalQuartersWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfThisFiscalQuarter = Gmt.startOfThisFiscalQuarter();
         for (Integer i = 0; i < 36; i++) {
             oppList.add(
                 new Opportunity(
                     Name = 'Opp' + i,
-                    CloseDate = startOfYear.addMonths(-i)
+                    CloseDate = startOfThisFiscalQuarter.addMonths(-i)
                 )
             );
         }
@@ -7168,12 +7168,11 @@ private class MockDatabaseTest {
         Test.stopTest();
 
         Assert.areEqual(
-            3,
+            6,
             opportunities.size(),
             'Incorrect number of opportunities'
         );
 
-        Date startOfThisFiscalQuarter = Gmt.startOfThisFiscalQuarter();
         Date startDate = startOfThisFiscalQuarter.addMonths(-6);
         for (Opportunity opp : opportunities) {
             Assert.isTrue(

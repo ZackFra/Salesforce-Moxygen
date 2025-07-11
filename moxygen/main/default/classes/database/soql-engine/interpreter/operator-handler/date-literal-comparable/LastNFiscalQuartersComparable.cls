@@ -14,10 +14,8 @@ public with sharing class LastNFiscalQuartersComparable extends DateLiteralCompa
     }
 
     public override Boolean isGreaterThan(Datetime fieldValue) {
-        Integer nMonthsAgo = this.n * 3;
-        // Does NOT include the current quarter, thus the -3
-        Date nFiscalQuartersAgo = Gmt.startOfthisFiscalQuarter()
-            .addMonths(-nMonthsAgo);
-        return fieldValue >= nFiscalQuartersAgo.addMonths(3);
+        // For LAST_N_FISCAL_QUARTERS, isGreaterThan should return true
+        // when fieldValue is >= the start of the current fiscal quarter
+        return fieldValue >= Gmt.startOfthisFiscalQuarter();
     }
 }
