@@ -336,7 +336,7 @@ private class SchemaServiceTest {
             childRelationshipFieldName = SchemaService.getChildRelationshipFieldName(
                 cr
             );
-            if (childRelationshipFieldName == 'Contacts') {
+            if (childRelationshipFieldName == 'AccountId') {
                 break;
             }
         }
