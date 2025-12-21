@@ -3,7 +3,7 @@
 before we create an aggregate, wean a proto-aggregate, 
 i.e. a Map&lt;String, Object&gt; that will be used to store the aggregate
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -20,7 +20,7 @@ public prototype
 ```
 
 #### Type
-Map&lt;String,Object&gt;
+Map<String,Object>
 
 ## Constructors
 ### `ProtoAggregate(prototype)`
@@ -35,7 +35,7 @@ public ProtoAggregate(Map<String,Object> prototype)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| prototype | Map&lt;String,Object&gt; |  |
+| prototype | Map<String,Object> |  |
 
 ---
 
@@ -134,7 +134,7 @@ public Map<String,Object> getPrototype()
 ```
 
 #### Return Type
-**Map&lt;String,Object&gt;**
+**Map<String,Object>**
 
 ,[object Object]
 
@@ -150,7 +150,7 @@ public List<SObject> getRecords()
 ```
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]
 
@@ -182,7 +182,7 @@ public Set<String> keySet()
 ```
 
 #### Return Type
-**Set&lt;String&gt;**
+**Set<String>**
 
 ,[object Object]
 
@@ -253,6 +253,6 @@ public List<Object> values()
 ```
 
 #### Return Type
-**List&lt;Object&gt;**
+**List<Object>**
 
 ,[object Object]

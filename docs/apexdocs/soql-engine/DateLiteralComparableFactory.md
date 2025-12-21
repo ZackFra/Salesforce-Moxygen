@@ -2,7 +2,7 @@
 
 Factory class for creating DateLiteralComparable instances
 
-**Since** 
+**Since**
 
 12/29/2024
 

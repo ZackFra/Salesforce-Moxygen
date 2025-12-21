@@ -5,7 +5,7 @@
 
 SubParser is an abstract class that provides helper methods for parsing subqueries.
 
-**Since** 
+**Since**
 
 4/12/2024
 

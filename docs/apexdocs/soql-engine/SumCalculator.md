@@ -2,7 +2,7 @@
 
 Calculates the sum of a field
 
-**Since** 
+**Since**
 
 3/23/2024
 

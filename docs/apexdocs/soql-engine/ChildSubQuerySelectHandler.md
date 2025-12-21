@@ -2,7 +2,7 @@
 
 Child subquery select handler
 
-**Since** 
+**Since**
 
 3/23/2024
 

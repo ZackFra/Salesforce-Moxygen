@@ -2,7 +2,7 @@
 
 A class to resolve a parent lookup chain
 
-**Since** 
+**Since**
 
 11/28/2024
 
@@ -49,7 +49,7 @@ public ParentLookupChain(String finalField, List<String> fieldParts)
 | Name | Type | Description |
 |------|------|-------------|
 | finalField | String | ,[object Object] |
-| fieldParts | List&lt;String&gt; | ,[object Object] |
+| fieldParts | List<String> | ,[object Object] |
 
 #### Methods
 ##### `getFinalField()`
@@ -78,6 +78,6 @@ public List<String> getFieldParts()
 ```
 
 ###### Return Type
-**List&lt;String&gt;**
+**List<String>**
 
 ,[object Object]

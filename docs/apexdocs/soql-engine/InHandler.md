@@ -2,7 +2,7 @@
 
 Handler for IN operator
 
-**Since** 
+**Since**
 
 3/23/2024
 

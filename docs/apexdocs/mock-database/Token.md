@@ -2,7 +2,7 @@
 
 This class is responsible for handling the Token constants
 
-**Since** 
+**Since**
 
 5/5/2024
 
@@ -127,7 +127,7 @@ public final static DATE_FUNCS
 ```
 
 #### Type
-List&lt;String&gt;
+List<String>
 
 ---
 
@@ -139,7 +139,7 @@ public final static DATE_LITERAL_TOKENS
 ```
 
 #### Type
-Set&lt;String&gt;
+Set<String>
 
 ---
 
@@ -607,7 +607,7 @@ public final static OPERATORS
 ```
 
 #### Type
-List&lt;String&gt;
+List<String>
 
 ---
 
@@ -619,7 +619,7 @@ public final static PROTECTED_KEYWORDS
 ```
 
 #### Type
-List&lt;String&gt;
+List<String>
 
 ---
 

@@ -2,7 +2,7 @@
 
 This class is used to store the options for the BooleanLogic class
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -49,7 +49,7 @@ public params
 ```
 
 #### Type
-Map&lt;String,Object&gt;
+Map<String,Object>
 
 ---
 
@@ -120,7 +120,7 @@ public BooleanLogicOptions setParams(Map<String,Object> params)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| params | Map&lt;String,Object&gt; |  |
+| params | Map<String,Object> |  |
 
 #### Return Type
 **[BooleanLogicOptions](BooleanLogicOptions.md)**

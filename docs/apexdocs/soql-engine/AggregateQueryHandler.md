@@ -2,7 +2,7 @@
 
 This class is responsible for handling the aggregate queries
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -39,7 +39,7 @@ public List<ProtoAggregate> finish()
 ```
 
 #### Return Type
-**List&lt;ProtoAggregate&gt;**
+**List<ProtoAggregate>**
 
 ,[object Object]
 

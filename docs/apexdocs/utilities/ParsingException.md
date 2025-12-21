@@ -2,7 +2,7 @@
 
 Custom exception for parsing errors
 
-**Since** 
+**Since**
 
 4/9/2024
 

@@ -4,7 +4,7 @@
 
 MockUpdateHandler is used to mock the update operation in the database
 
-**Since** 
+**Since**
 
 3/9/2024
 
@@ -56,11 +56,11 @@ public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpdate | List&lt;SObject&gt; | - The records to update |
+| recordsToUpdate | List<SObject> | - The records to update |
 | allOrNone | Boolean | - Whether to throw an exception if any of the records do not exist |
 
 #### Return Type
-**List&lt;Database.SaveResult&gt;**
+**List<Database.SaveResult>**
 
 List&lt;Database.SaveResult&gt; - The results of the update operations
 
@@ -101,12 +101,12 @@ public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpdate | List&lt;SObject&gt; | Records to update |
+| recordsToUpdate | List<SObject> | Records to update |
 | allOrNone | Boolean | Boolean to throw an exception if the record does not exist |
 | accessLevel | System.AccessLevel | Access level of the user |
 
 #### Return Type
-**List&lt;Database.SaveResult&gt;**
+**List<Database.SaveResult>**
 
 ,[object Object]
 

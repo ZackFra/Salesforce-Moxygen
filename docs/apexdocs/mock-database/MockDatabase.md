@@ -4,7 +4,7 @@
 
 The MockDatabase class is used to simulate the Salesforce database in Apex unit tests
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -51,7 +51,7 @@ public static List<Aggregate> aggregateQuery(String query)
 | query | String | `String` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]
 
@@ -73,7 +73,7 @@ public static List<Aggregate> aggregateQuery(String query, System.AccessLevel ac
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]
 
@@ -92,11 +92,11 @@ public static List<Aggregate> aggregateQueryWithBinds(String query, Map<String,O
 | Name | Type | Description |
 |------|------|-------------|
 | query | String | `String` |
-| binds | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| binds | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]
 
@@ -158,7 +158,7 @@ public static Integer countQueryWithBinds(String query, Map<String,Object> binds
 | Name | Type | Description |
 |------|------|-------------|
 | query | String | `String` |
-| binds | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| binds | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
@@ -202,11 +202,11 @@ public static List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToDelete | List&lt;SObject&gt; | - The records to delete |
+| recordsToDelete | List<SObject> | - The records to delete |
 | allOrNone | Boolean | - Whether to throw an exception if any of the records do not exist |
 
 #### Return Type
-**List&lt;Database.DeleteResult&gt;**
+**List<Database.DeleteResult>**
 
 List&lt;Database.DeleteResult&gt; - The results of the delete operations
 
@@ -246,11 +246,11 @@ public static List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean a
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordIDs | List&lt;Id&gt; | - The Ids of the records to delete |
+| recordIDs | List<Id> | - The Ids of the records to delete |
 | allOrNone | Boolean | - Whether to throw an exception if any of the records do not exist |
 
 #### Return Type
-**List&lt;Database.DeleteResult&gt;**
+**List<Database.DeleteResult>**
 
 List&lt;Database.DeleteResult&gt; - The results of the delete operations
 
@@ -313,11 +313,11 @@ public static List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToInsert | List&lt;SObject&gt; | - The records to insert |
+| recordsToInsert | List<SObject> | - The records to insert |
 | allOrNone | Boolean | - Whether to throw an exception if any of the records already exist |
 
 #### Return Type
-**List&lt;Database.SaveResult&gt;**
+**List<Database.SaveResult>**
 
 List&lt;Database.SaveResult&gt; - The results of the insert operations
 
@@ -335,12 +335,12 @@ public static List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToInsert | List&lt;SObject&gt; | - The records to insert |
+| recordsToInsert | List<SObject> | - The records to insert |
 | allOrNone | Boolean | - Whether to throw an exception if any of the records already exist |
 | accessLevel | System.AccessLevel | - The access level of the user performing the operation |
 
 #### Return Type
-**List&lt;Database.SaveResult&gt;**
+**List<Database.SaveResult>**
 
 List&lt;Database.SaveResult&gt; - The results of the insert operations
 
@@ -377,7 +377,7 @@ public static void doMockInsert(List<SObject> recordsToInsert)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToInsert | List&lt;SObject&gt; | - The records to insert |
+| recordsToInsert | List<SObject> | - The records to insert |
 
 #### Return Type
 **void**
@@ -397,10 +397,10 @@ public static List<SObject> doSelectQueryInternal(Node head, Map<String,Object> 
 | Name | Type | Description |
 |------|------|-------------|
 | head | [Node](../soql-engine/Node.md) |  |
-| params | Map&lt;String,Object&gt; |  |
+| params | Map<String,Object> |  |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ---
 
@@ -441,11 +441,11 @@ public static List<Database.UndeleteResult> doUndelete(List<sObject> recordsToUn
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUndelete | List&lt;sObject&gt; | - The records to undelete |
+| recordsToUndelete | List<sObject> | - The records to undelete |
 | allOrNone | Boolean | - Whether to throw an exception if any of the records do not exist |
 
 #### Return Type
-**List&lt;Database.UndeleteResult&gt;**
+**List<Database.UndeleteResult>**
 
 List&lt;Database.UndeleteResult&gt; - The results of the undelete operations
 
@@ -488,11 +488,11 @@ public static List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boole
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordIDs | List&lt;Id&gt; | - The Ids of the records to undelete |
+| recordIDs | List<Id> | - The Ids of the records to undelete |
 | allOrNone | Boolean | - Whether to throw an exception if any of the records do not exist |
 
 #### Return Type
-**List&lt;Database.UndeleteResult&gt;**
+**List<Database.UndeleteResult>**
 
 List&lt;Database.UndeleteResult&gt; - The results of the undelete operations
 
@@ -561,11 +561,11 @@ public static List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpdate | List&lt;SObject&gt; | - The records to update |
+| recordsToUpdate | List<SObject> | - The records to update |
 | allOrNone | Boolean | - Whether to throw an exception if any of the records do not exist |
 
 #### Return Type
-**List&lt;Database.SaveResult&gt;**
+**List<Database.SaveResult>**
 
 ,[object Object], - The results of the update operations
 
@@ -606,12 +606,12 @@ public static List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpdate | List&lt;SObject&gt; | Records to update |
+| recordsToUpdate | List<SObject> | Records to update |
 | allOrNone | Boolean | Boolean to throw an exception if the record does not exist |
 | accessLevel | System.AccessLevel | Access Level of the user performing the operation |
 
 #### Return Type
-**List&lt;Database.SaveResult&gt;**
+**List<Database.SaveResult>**
 
 ,[object Object]
 
@@ -652,12 +652,12 @@ public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpsert | List&lt;SObject&gt; | Records to upsert |
+| recordsToUpsert | List<SObject> | Records to upsert |
 | externalIdField | SObjectField | Optional field to use as the external ID |
 | allOrNone | Boolean | Boolean to throw an exception if the record does not exist |
 
 #### Return Type
-**List&lt;Database.UpsertResult&gt;**
+**List<Database.UpsertResult>**
 
 ,[object Object]
 
@@ -703,13 +703,13 @@ public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpsert | List&lt;SObject&gt; | Records to upsert |
+| recordsToUpsert | List<SObject> | Records to upsert |
 | externalIdField | SObjectField | Optional external ID field |
 | allOrNone | Boolean | Boolean to throw an exception if the record does not exist |
 | accessLevel | System.AccessLevel | Access level of the user performing the operation |
 
 #### Return Type
-**List&lt;Database.UpsertResult&gt;**
+**List<Database.UpsertResult>**
 
 ,[object Object]
 
@@ -730,7 +730,7 @@ public static List<SObject> query(String query)
 | query | String | : the query string |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 : the query results
 
@@ -752,7 +752,7 @@ public static List<SObject> query(String query, System.AccessLevel accessLevel)
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]
 
@@ -771,10 +771,10 @@ public static List<SObject> queryWithBinds(String query, Map<String,Object> bind
 | Name | Type | Description |
 |------|------|-------------|
 | query | String | `String` |
-| binds | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| binds | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]

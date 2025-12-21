@@ -2,7 +2,7 @@
 
 Creates Aggregate objects from ProtoAggregates
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -21,7 +21,7 @@ public List<Aggregate> build()
 ```
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 The cleaned up aggregate result list
 
@@ -39,7 +39,7 @@ public AggregateBuilder setParams(Map<String,Object> params)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| params | Map&lt;String,Object&gt; | the bind params |
+| params | Map<String,Object> | the bind params |
 
 #### Return Type
 **[AggregateBuilder](AggregateBuilder.md)**
@@ -60,7 +60,7 @@ public AggregateBuilder setProtoAggregates(List<ProtoAggregate> protoAggregates)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| protoAggregates | List&lt;ProtoAggregate&gt; | the proto-aggregates |
+| protoAggregates | List<ProtoAggregate> | the proto-aggregates |
 
 #### Return Type
 **[AggregateBuilder](AggregateBuilder.md)**

@@ -2,7 +2,7 @@
 
 Calculates the average of a set of values.
 
-**Since** 
+**Since**
 
 3/23/2024
 

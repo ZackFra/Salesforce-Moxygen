@@ -3,7 +3,7 @@
 
 A class to handle boolean logic, when it comes to HAVING and WHERE clauses, it&#x27;s all the same except for the comparison
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -64,7 +64,7 @@ public params
 ```
 
 #### Type
-Map&lt;String,Object&gt;
+Map<String,Object>
 
 ---
 

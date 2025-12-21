@@ -2,7 +2,7 @@
 
 Compares the NEXT_QUARTER token
 
-**Since** 
+**Since**
 
 1/2/2024
 

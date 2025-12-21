@@ -2,7 +2,7 @@
 
 Interface for date functions
 
-**Since** 
+**Since**
 
 1/17/2025
 

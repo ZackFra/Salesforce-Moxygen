@@ -2,7 +2,7 @@
 
 Comparable class for LAST_N_FISCAL_YEARS
 
-**Since** 
+**Since**
 
 1/8/2025
 

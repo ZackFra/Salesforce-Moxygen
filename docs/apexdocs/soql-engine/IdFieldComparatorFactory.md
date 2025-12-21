@@ -2,7 +2,7 @@
 
 Returns a comparator for the given field types, compares ID fields (i.e. ID, Reference)
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -29,7 +29,7 @@ public static Comparator<Schema.SObjectField> create(Schema.SObjectField field1,
 | field2 | Schema.SObjectField |  |
 
 #### Return Type
-**Comparator&lt;Schema.SObjectField&gt;**
+**Comparator<Schema.SObjectField>**
 
 ,[object Object]
 

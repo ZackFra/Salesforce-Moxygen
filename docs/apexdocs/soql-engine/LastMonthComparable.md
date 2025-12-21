@@ -2,7 +2,7 @@
 
 Comparable class for LAST_MONTH
 
-**Since** 
+**Since**
 
 12/29/2024
 

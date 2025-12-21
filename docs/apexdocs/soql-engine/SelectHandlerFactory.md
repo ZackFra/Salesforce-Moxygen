@@ -2,7 +2,7 @@
 
 Factory class to create appropriate select handler based on the field node type
 
-**Since** 
+**Since**
 
 3/23/2024
 

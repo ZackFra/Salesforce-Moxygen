@@ -2,7 +2,7 @@
 
 Handles the LIKE operator
 
-**Since** 
+**Since**
 
 3/23/2024
 

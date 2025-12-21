@@ -2,7 +2,7 @@
 
 Handles the ORDER BY clause for aggregate queries
 
-**Since** 
+**Since**
 
 3/23/2024
 

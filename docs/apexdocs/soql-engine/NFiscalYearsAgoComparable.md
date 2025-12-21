@@ -2,7 +2,7 @@
 
 Compares a date to N fiscal years ago
 
-**Since** 
+**Since**
 
 1/21/2025
 

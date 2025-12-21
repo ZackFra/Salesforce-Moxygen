@@ -3,7 +3,7 @@
 
 Processor for aggregate functions
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -22,7 +22,7 @@ public abstract List<ProtoAggregate> finish()
 ```
 
 #### Return Type
-**List&lt;ProtoAggregate&gt;**
+**List<ProtoAggregate>**
 
 ,[object Object]
 

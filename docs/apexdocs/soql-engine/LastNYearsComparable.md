@@ -2,7 +2,7 @@
 
 Comparable class for LAST_N_YEARS
 
-**Since** 
+**Since**
 
 2/2/2025
 

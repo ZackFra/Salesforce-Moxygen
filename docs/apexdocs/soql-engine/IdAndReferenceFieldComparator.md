@@ -2,7 +2,7 @@
 
 This class is used to compare two fields to determine if one is a reference to the other
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -12,7 +12,7 @@ This class is used to compare two fields to determine if one is a reference to t
 
 **Implements**
 
-Comparator&lt;Schema.SObjectField&gt;
+Comparator<Schema.SObjectField>
 
 ## Methods
 ### `compare(field1, field2)`

@@ -2,7 +2,7 @@
 
 Comparable class for LAST_90_DAYS
 
-**Since** 
+**Since**
 
 12/28/2024
 

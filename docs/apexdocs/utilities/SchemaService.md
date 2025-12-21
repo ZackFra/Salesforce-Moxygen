@@ -180,7 +180,7 @@ public static List<Schema.ChildRelationship> getChildRelationships(Schema.SObjec
 | sot | Schema.SObjectType | the sobject type |
 
 #### Return Type
-**List&lt;Schema.ChildRelationship&gt;**
+**List<Schema.ChildRelationship>**
 
 the child relationships
 
@@ -354,10 +354,10 @@ public static List<String> getFieldNames(List<Schema.SObjectField> fields)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fields | List&lt;Schema.SObjectField&gt; | : the fields |
+| fields | List<Schema.SObjectField> | : the fields |
 
 #### Return Type
-**List&lt;String&gt;**
+**List<String>**
 
 : the field api names
 
@@ -402,7 +402,7 @@ public static List<Schema.SObjectField> getFields(Schema.SObjectType sot)
 | sot | Schema.SObjectType | the sObject type |
 
 #### Return Type
-**List&lt;Schema.SObjectField&gt;**
+**List<Schema.SObjectField>**
 
 the fields
 
@@ -482,7 +482,7 @@ public static Map<String,String> getPolymorphicFieldMap()
 ```
 
 #### Return Type
-**Map&lt;String,String&gt;**
+**Map<String,String>**
 
 : the map of polymorphic field lowercase name to API name
 
@@ -498,7 +498,7 @@ public static List<Schema.SObjectField> getPolymorphicFields()
 ```
 
 #### Return Type
-**List&lt;Schema.SObjectField&gt;**
+**List<Schema.SObjectField>**
 
 the name fields
 
@@ -557,7 +557,7 @@ public static List<SObjectType> getReferenceTo(Schema.SObjectField field)
 | field | Schema.SObjectField | : the field |
 
 #### Return Type
-**List&lt;SObjectType&gt;**
+**List<SObjectType>**
 
 : the list of objects that the field references
 

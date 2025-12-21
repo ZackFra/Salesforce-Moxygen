@@ -2,7 +2,7 @@
 
 Calculates the minimum value of a field
 
-**Since** 
+**Since**
 
 3/23/2024
 

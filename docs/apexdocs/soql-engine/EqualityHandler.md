@@ -2,7 +2,7 @@
 
 Handles the equality operator
 
-**Since** 
+**Since**
 
 3/23/2024
 

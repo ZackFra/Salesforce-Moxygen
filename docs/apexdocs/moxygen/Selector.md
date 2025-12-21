@@ -4,7 +4,7 @@
 
 Wrapper class for Database class&#x27;s query methods. This class is used to allow for mocking of the Database class in unit tests.
 
-**Since** 
+**Since**
 
 3/9/2024
 
@@ -28,7 +28,7 @@ public static List<Aggregate> aggregateQuery(String queryString)
 | queryString | String | `String` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]
 
@@ -50,7 +50,7 @@ public static List<Aggregate> aggregateQuery(String queryString, System.AccessLe
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]
 
@@ -69,11 +69,11 @@ public static List<Aggregate> aggregateQueryWithBinds(String queryString, Map<St
 | Name | Type | Description |
 |------|------|-------------|
 | queryString | String | `String` |
-| bindMap | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| bindMap | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]
 
@@ -135,7 +135,7 @@ public static Integer countQueryWithBinds(String queryString, Map<String,Object>
 | Name | Type | Description |
 |------|------|-------------|
 | queryString | String | `String` |
-| bindMap | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| bindMap | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
@@ -160,7 +160,7 @@ public static List<SObject> query(String queryString)
 | queryString | String | SOQL Query to be executed |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 Returns a list of records that match the query. Will parse backticks out of the query string.
 
@@ -182,7 +182,7 @@ public static List<SObject> query(String queryString, System.AccessLevel accessL
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]
 
@@ -201,10 +201,10 @@ public static List<SObject> queryWithBinds(String queryString, Map<String,Object
 | Name | Type | Description |
 |------|------|-------------|
 | queryString | String | `String` |
-| bindMap | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| bindMap | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]

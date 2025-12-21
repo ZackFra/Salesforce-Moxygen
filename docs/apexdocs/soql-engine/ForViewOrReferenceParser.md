@@ -2,7 +2,7 @@
 
 This class is responsible for parsing the FOR VIEW or FOR REFERENCE clause
 
-**Since** 
+**Since**
 
 4/12/2024
 

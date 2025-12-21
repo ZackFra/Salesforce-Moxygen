@@ -4,7 +4,7 @@
 
 This class is responsible for parsing aggregate functions
 
-**Since** 
+**Since**
 
 4/12/2024
 

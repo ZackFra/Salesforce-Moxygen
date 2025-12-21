@@ -2,7 +2,7 @@
 
 Compares a date field to the last quarter
 
-**Since** 
+**Since**
 
 1/1/2024
 

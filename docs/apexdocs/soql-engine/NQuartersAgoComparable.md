@@ -2,7 +2,7 @@
 
 Comparable class for N_QUARTERS_AGO
 
-**Since** 
+**Since**
 
 2/12/2025
 

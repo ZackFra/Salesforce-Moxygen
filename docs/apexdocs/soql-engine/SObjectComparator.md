@@ -2,7 +2,7 @@
 
 This class is used to compare two SObjects based on the fields provided in the constructor.
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -12,7 +12,7 @@ This class is used to compare two SObjects based on the fields provided in the c
 
 **Implements**
 
-Comparator&lt;SObject&gt;
+Comparator<SObject>
 
 ## Constructors
 ### `SObjectComparator(fields)`
@@ -27,7 +27,7 @@ public SObjectComparator(Map<String,Map<String,String>> fields)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fields | Map&lt;String,Map&lt;String,String&gt;&gt; | A map of field names and whether they&#x27;re ASC or DESC |
+| fields | Map<String,Map<String,String>> | A map of field names and whether they&#x27;re ASC or DESC |
 
 ## Methods
 ### `compare(a, b)`

@@ -2,7 +2,7 @@
 
 This class is responsible for handling record fields in the WHERE clause
 
-**Since** 
+**Since**
 
 11/28/2024
 

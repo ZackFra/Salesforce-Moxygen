@@ -4,7 +4,7 @@
 
 Test utilites for the parser
 
-**Since** 
+**Since**
 
 1/26/2025
 
@@ -103,7 +103,7 @@ public static void assertStaticResources(List<String> srNames)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| srNames | List&lt;String&gt; |  |
+| srNames | List<String> |  |
 
 #### Return Type
 **void**

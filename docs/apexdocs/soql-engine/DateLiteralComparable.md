@@ -3,7 +3,7 @@
 
 Abstract class for date literal comparison
 
-**Since** 
+**Since**
 
 12/28/2024
 

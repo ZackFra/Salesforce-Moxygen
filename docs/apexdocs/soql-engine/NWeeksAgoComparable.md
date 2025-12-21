@@ -2,7 +2,7 @@
 
 Compares a date to N weeks ago
 
-**Since** 
+**Since**
 
 2/12/2025
 

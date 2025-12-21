@@ -7,7 +7,7 @@ A class to compare two pre-Aggregate based on a set of fields
 
 **Implements**
 
-Comparator&lt;ProtoAggregate&gt;
+Comparator<ProtoAggregate>
 
 ## Constructors
 ### `AggregateComparator(fields)`
@@ -22,7 +22,7 @@ public AggregateComparator(Map<String,Map<String,String>> fields)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fields | Map&lt;String,Map&lt;String,String&gt;&gt; | A map of field names and whether they&#x27;re ASC or DESC |
+| fields | Map<String,Map<String,String>> | A map of field names and whether they&#x27;re ASC or DESC |
 
 ## Methods
 ### `compare(a, b)`

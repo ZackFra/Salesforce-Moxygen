@@ -2,7 +2,7 @@
 
 Options class for OrderBy
 
-**Since** 
+**Since**
 
 3/23/2024
 

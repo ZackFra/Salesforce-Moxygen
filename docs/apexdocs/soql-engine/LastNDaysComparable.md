@@ -2,7 +2,7 @@
 
 Comparable class for LAST_N_DAYS
 
-**Since** 
+**Since**
 
 12/9/2024
 

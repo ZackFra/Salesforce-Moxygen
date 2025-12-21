@@ -2,7 +2,7 @@
 
 Comparable class for NEXT_MONTH
 
-**Since** 
+**Since**
 
 12/29/2024
 

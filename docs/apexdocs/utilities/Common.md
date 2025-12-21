@@ -2,7 +2,7 @@
 
 Common utility class for basic operations, should not contain complex code
 
-**Since** 
+**Since**
 
 3/22/2024
 
@@ -89,7 +89,7 @@ public static Map<String,Object> mapFromRecord(SObject record)
 | record | SObject | `SObject` |
 
 #### Return Type
-**Map&lt;String,Object&gt;**
+**Map<String,Object>**
 
 ,[object Object]
 
@@ -107,7 +107,7 @@ public static void nullCheck(Map<String,Object> args)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| args | Map&lt;String,Object&gt; | - Argument object containing the field and field name |
+| args | Map<String,Object> | - Argument object containing the field and field name |
 
 #### Return Type
 **void**
@@ -227,7 +227,7 @@ public static SObject putReadOnlyFields(SObject record, Map<String,Object> field
 | Name | Type | Description |
 |------|------|-------------|
 | record | SObject | `SObject` |
-| fieldValuePairs | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| fieldValuePairs | Map<String,Object> | `Map<String, Object>` |
 
 #### Return Type
 **SObject**
@@ -248,7 +248,7 @@ public static SObject recordFromMap(Map<String,Object> recordMap, String sObject
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordMap | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| recordMap | Map<String,Object> | `Map<String, Object>` |
 | sObjectType | String | `String` |
 
 #### Return Type

@@ -2,7 +2,7 @@
 
 Comparable for the NEXT_N_QUARTERS token
 
-**Since** 
+**Since**
 
 1/4/2025
 

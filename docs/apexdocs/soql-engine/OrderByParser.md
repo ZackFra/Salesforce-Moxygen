@@ -2,7 +2,7 @@
 
 This class is responsible for parsing the ORDER BY clause of a SOQL query.
 
-**Since** 
+**Since**
 
 4/12/2024
 

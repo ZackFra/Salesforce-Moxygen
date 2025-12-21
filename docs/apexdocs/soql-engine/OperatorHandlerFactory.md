@@ -2,7 +2,7 @@
 
 Provides a factory for creating operator handlers.
 
-**Since** 
+**Since**
 
 3/23/2024
 

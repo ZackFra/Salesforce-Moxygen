@@ -4,7 +4,7 @@
 
 DynamicCast is a class that provides a method to cast a value to a specified type.
 
-**Since** 
+**Since**
 
 11/16/2024
 

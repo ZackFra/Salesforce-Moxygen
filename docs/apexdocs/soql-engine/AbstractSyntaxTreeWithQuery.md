@@ -2,7 +2,7 @@
 
 Represents and AST as stored in the parser static resources
 
-**Since** 
+**Since**
 
 7/18/2024
 

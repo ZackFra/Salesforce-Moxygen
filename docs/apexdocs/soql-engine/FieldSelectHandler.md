@@ -2,7 +2,7 @@
 
 FieldSelectHandler is a class that implements ISelectHandler. It is used to handle the selection of a field.
 
-**Since** 
+**Since**
 
 3/23/2024
 

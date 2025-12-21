@@ -2,7 +2,7 @@
 
 Offset handler for records
 
-**Since** 
+**Since**
 
 3/23/2024
 

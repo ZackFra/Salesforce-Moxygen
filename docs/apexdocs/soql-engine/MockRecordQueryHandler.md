@@ -2,7 +2,7 @@
 
 This class is responsible for handling record SOQL queries to the mock database
 
-**Since** 
+**Since**
 
 4/12/2024
 
@@ -30,10 +30,10 @@ public List<SObject> doQuery(Node selectNode, Map<String,Object> params)
 | Name | Type | Description |
 |------|------|-------------|
 | selectNode | [Node](Node.md) | The select node |
-| params | Map&lt;String,Object&gt; | The query parameters |
+| params | Map<String,Object> | The query parameters |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 The query results
 
@@ -57,7 +57,7 @@ public List<SObject> query(String query)
 | query | String | `String` |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]
 
@@ -79,7 +79,7 @@ public List<SObject> query(String query, System.AccessLevel accessLevel)
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]
 
@@ -98,10 +98,10 @@ public List<SObject> queryWithBinds(String query, Map<String,Object> binds, Syst
 | Name | Type | Description |
 |------|------|-------------|
 | query | String | `String` |
-| binds | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| binds | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]

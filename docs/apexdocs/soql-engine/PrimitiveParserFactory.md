@@ -2,7 +2,7 @@
 
 Factory class for primitive parsers
 
-**Since** 
+**Since**
 
 11/30/2024
 

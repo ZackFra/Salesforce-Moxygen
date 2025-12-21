@@ -2,7 +2,7 @@
 
 NumberParser is a parser for numeric values.
 
-**Since** 
+**Since**
 
 11/28/2024
 

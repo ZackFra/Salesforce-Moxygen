@@ -2,7 +2,7 @@
 
 This class is responsible for handling date functions in the WHERE clause
 
-**Since** 
+**Since**
 
 11/28/2024
 

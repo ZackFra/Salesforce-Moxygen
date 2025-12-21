@@ -4,7 +4,7 @@
 
 MockDeleteHandler is a class that extends MockDMLHandler and overrides the delete methods to simulate the delete operation
 
-**Since** 
+**Since**
 
 3/9/2024
 
@@ -49,11 +49,11 @@ public List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boole
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToDelete | List&lt;SObject&gt; | Records to delete |
+| recordsToDelete | List<SObject> | Records to delete |
 | allOrNone | Boolean | Boolean to indicate if an exception should be thrown if any record fails to delete |
 
 #### Return Type
-**List&lt;Database.DeleteResult&gt;**
+**List<Database.DeleteResult>**
 
 ,[object Object]
 
@@ -99,11 +99,11 @@ public List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNon
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordIDs | List&lt;Id&gt; | List of record IDs to delete |
+| recordIDs | List<Id> | List of record IDs to delete |
 | allOrNone | Boolean | Boolean to indicate if an exception should be thrown if any record fails to delete |
 
 #### Return Type
-**List&lt;Database.DeleteResult&gt;**
+**List<Database.DeleteResult>**
 
 ,[object Object]
 

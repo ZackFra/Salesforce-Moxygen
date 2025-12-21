@@ -4,7 +4,7 @@
 
 Parser for the SELECT clause
 
-**Since** 
+**Since**
 
 4/12/2024
 

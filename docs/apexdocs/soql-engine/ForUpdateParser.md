@@ -2,7 +2,7 @@
 
 This class is responsible for parsing the FOR UPDATE clause in a SOQL query
 
-**Since** 
+**Since**
 
 4/12/2024
 

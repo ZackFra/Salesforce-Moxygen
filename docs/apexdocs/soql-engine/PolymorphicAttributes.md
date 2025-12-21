@@ -2,7 +2,7 @@
 
 Attributes for polymorphic SObject
 
-**Since** 
+**Since**
 
 11/26/2024
 

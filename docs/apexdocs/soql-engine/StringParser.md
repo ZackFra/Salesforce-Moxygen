@@ -2,7 +2,7 @@
 
 A class to parse a generic string
 
-**Since** 
+**Since**
 
 11/27/2024
 

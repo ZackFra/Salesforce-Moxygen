@@ -2,7 +2,7 @@
 
 Static data store for records
 
-**Since** 
+**Since**
 
 1/25/2025
 
@@ -42,7 +42,7 @@ public static Map<Id,SObject> getAllBySot(SObjectType sot)
 | sot | SObjectType | The SObjectType to get records for |
 
 #### Return Type
-**Map&lt;Id,SObject&gt;**
+**Map<Id,SObject>**
 
 Map of records by id for the given object type
 
@@ -145,7 +145,7 @@ public static void put(List<SObject> insertedRecords)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| insertedRecords | List&lt;SObject&gt; | Records to be upserted |
+| insertedRecords | List<SObject> | Records to be upserted |
 
 #### Return Type
 **void**

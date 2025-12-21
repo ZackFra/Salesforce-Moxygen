@@ -2,7 +2,7 @@
 
 Factory class to create date functions by name
 
-**Since** 
+**Since**
 
 1/17/2025
 

@@ -2,7 +2,7 @@
 
 Comparable class for N_DAYS_AGO
 
-**Since** 
+**Since**
 
 12/29/2024
 

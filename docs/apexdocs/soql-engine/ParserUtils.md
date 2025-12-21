@@ -2,7 +2,7 @@
 
 Contains utility methods for the parser, could probably be refactored out of existance though
 
-**Since** 
+**Since**
 
 3/23/2024
 

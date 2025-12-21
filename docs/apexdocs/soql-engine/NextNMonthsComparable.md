@@ -2,7 +2,7 @@
 
 Compares a date to N months in the future
 
-**Since** 
+**Since**
 
 2/12/2025
 

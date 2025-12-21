@@ -2,7 +2,7 @@
 
 Interface for handling select operations
 
-**Since** 
+**Since**
 
 3/23/2024
 

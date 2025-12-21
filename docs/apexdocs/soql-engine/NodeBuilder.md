@@ -2,7 +2,7 @@
 
 : Builder class for the Node class, used to create a Node
 
-**Since** 
+**Since**
 
 3/23/2024
 
