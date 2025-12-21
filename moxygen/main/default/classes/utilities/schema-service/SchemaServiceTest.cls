@@ -331,16 +331,22 @@ private class SchemaServiceTest {
             Schema.Account.getSObjectType()
         );
         String childRelationshipFieldName;
+        Boolean isFound = false;
         Test.startTest();
         for (Schema.ChildRelationship cr : childRelationships) {
             childRelationshipFieldName = SchemaService.getChildRelationshipFieldName(
                 cr
             );
             if (childRelationshipFieldName == 'AccountId') {
+                isFound = true;
                 break;
             }
         }
         Test.stopTest();
+        Assert.isTrue(
+            isFound,
+            'The child relationship field name should be found in the child relationships'
+        );
         Assert.areEqual(
             'AccountId',
             childRelationshipFieldName,
