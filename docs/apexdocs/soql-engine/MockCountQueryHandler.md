@@ -2,7 +2,7 @@
 
 This class is responsible for handling count SOQL queries to the mock database
 
-**Since** 
+**Since**
 
 4/13/2024
 
@@ -71,7 +71,7 @@ public Integer countQueryWithBinds(String query, Map<String,Object> binds, Syste
 | Name | Type | Description |
 |------|------|-------------|
 | query | String | `String` |
-| binds | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| binds | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type

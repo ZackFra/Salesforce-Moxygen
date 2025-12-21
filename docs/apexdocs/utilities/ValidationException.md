@@ -2,7 +2,7 @@
 
 This class is responsible for handling validation exceptions
 
-**Since** 
+**Since**
 
 11/28/2024
 

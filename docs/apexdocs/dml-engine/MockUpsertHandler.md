@@ -5,7 +5,7 @@
 
 MockUpsertHandler is used to mock the upsert operation in the database
 
-**Since** 
+**Since**
 
 3/9/2024
 
@@ -56,12 +56,12 @@ public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObje
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpsert | List&lt;SObject&gt; | The records to upsert |
+| recordsToUpsert | List<SObject> | The records to upsert |
 | externalIdField | SObjectField | Optional field to use as the external id for the upsert operation |
 | allOrNone | Boolean | Boolean to throw an exception if the record already exists |
 
 #### Return Type
-**List&lt;Database.UpsertResult&gt;**
+**List<Database.UpsertResult>**
 
 ,[object Object]
 
@@ -113,13 +113,13 @@ public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObje
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUpsert | List&lt;SObject&gt; | Records to upsert |
+| recordsToUpsert | List<SObject> | Records to upsert |
 | externalIdField | SObjectField | Optional field to use as the external id for the upsert operation |
 | allOrNone | Boolean | Boolean to throw an exception if any of the records already exist |
 | accessLevel | System.AccessLevel | Access level of the user performing the operation |
 
 #### Return Type
-**List&lt;Database.UpsertResult&gt;**
+**List<Database.UpsertResult>**
 
 ,[object Object]
 

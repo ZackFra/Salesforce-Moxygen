@@ -2,7 +2,7 @@
 
 Strategy inreferace for WHERE logic comparison
 
-**Since** 
+**Since**
 
 11/28/2024
 

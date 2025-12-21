@@ -2,7 +2,7 @@
 
 This class is responsible for parsing a list of values.
 
-**Since** 
+**Since**
 
 4/12/2024
 

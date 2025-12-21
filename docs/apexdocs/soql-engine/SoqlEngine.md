@@ -2,7 +2,7 @@
 
 This class is response for handling SOQL queries to the mock database
 
-**Since** 
+**Since**
 
 4/13/2024
 
@@ -26,7 +26,7 @@ public List<Aggregate> aggregateQuery(String query)
 | query | String | `String` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]
 
@@ -48,7 +48,7 @@ public List<Aggregate> aggregateQuery(String query, System.AccessLevel accessLev
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]
 
@@ -67,11 +67,11 @@ public List<Aggregate> aggregateQueryWithBinds(String query, Map<String,Object> 
 | Name | Type | Description |
 |------|------|-------------|
 | query | String | `String` |
-| binds | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| binds | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]
 
@@ -133,7 +133,7 @@ public Integer countQueryWithBinds(String query, Map<String,Object> binds, Syste
 | Name | Type | Description |
 |------|------|-------------|
 | query | String | `String` |
-| binds | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| binds | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
@@ -156,10 +156,10 @@ public List<SObject> doSelectQueryInternal(Node head, Map<String,Object> params)
 | Name | Type | Description |
 |------|------|-------------|
 | head | [Node](Node.md) | `Node` |
-| params | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| params | Map<String,Object> | `Map<String, Object>` |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]
 
@@ -180,7 +180,7 @@ public List<SObject> query(String query)
 | query | String | `String` |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]
 
@@ -202,7 +202,7 @@ public List<SObject> query(String query, System.AccessLevel accessLevel)
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]
 
@@ -221,10 +221,10 @@ public List<SObject> queryWithBinds(String query, Map<String,Object> binds, Syst
 | Name | Type | Description |
 |------|------|-------------|
 | query | String | `String` |
-| binds | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| binds | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;SObject&gt;**
+**List<SObject>**
 
 ,[object Object]

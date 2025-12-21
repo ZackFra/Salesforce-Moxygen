@@ -2,7 +2,7 @@
 
 Types defined for this package
 
-**Since** 
+**Since**
 
 3/9/2024
 

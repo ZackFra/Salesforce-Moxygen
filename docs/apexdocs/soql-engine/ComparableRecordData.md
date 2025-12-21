@@ -3,7 +3,7 @@
 
 Encapsulates the data needed to compare records
 
-**Since** 
+**Since**
 
 11/24/2024
 

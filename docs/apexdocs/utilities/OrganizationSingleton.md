@@ -2,7 +2,7 @@
 
 Singleton for the Organization object
 
-**Since** 
+**Since**
 
 1/7/2025
 

@@ -2,7 +2,7 @@
 
 This class is responsible for handling the NodeType constants
 
-**Since** 
+**Since**
 
 5/5/2024
 

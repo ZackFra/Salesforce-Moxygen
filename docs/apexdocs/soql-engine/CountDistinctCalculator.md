@@ -2,7 +2,7 @@
 
 CountDistinctCalculator is a class that implements the IAggregateCalculator interface. It calculates the distinct count of a field.
 
-**Since** 
+**Since**
 
 3/23/2024
 

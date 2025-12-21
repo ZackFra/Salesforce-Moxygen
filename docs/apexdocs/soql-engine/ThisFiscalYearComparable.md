@@ -2,7 +2,7 @@
 
 Comparable for the THIS_FISCAL_YEAR token
 
-**Since** 
+**Since**
 
 1/7/2025
 

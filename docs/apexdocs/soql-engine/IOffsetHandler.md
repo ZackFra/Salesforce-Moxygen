@@ -2,7 +2,7 @@
 
 Interface for offset handler
 
-**Since** 
+**Since**
 
 3/23/2024
 

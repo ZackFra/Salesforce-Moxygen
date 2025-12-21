@@ -2,7 +2,7 @@
 
 Comparator for two reference fields, checks if they reference the same object
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -12,7 +12,7 @@ Comparator for two reference fields, checks if they reference the same object
 
 **Implements**
 
-Comparator&lt;Schema.SObjectField&gt;
+Comparator<Schema.SObjectField>
 
 ## Methods
 ### `compare(field1, field2)`

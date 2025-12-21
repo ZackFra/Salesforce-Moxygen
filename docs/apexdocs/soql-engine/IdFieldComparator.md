@@ -2,7 +2,7 @@
 
 Id Field Comparator
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -12,7 +12,7 @@ Id Field Comparator
 
 **Implements**
 
-Comparator&lt;Schema.SObjectField&gt;
+Comparator<Schema.SObjectField>
 
 ## Methods
 ### `compare(field1, field2)`

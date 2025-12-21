@@ -2,7 +2,7 @@
 
 Strategy for getting the field value of a parent field
 
-**Since** 
+**Since**
 
 11/28/2024
 

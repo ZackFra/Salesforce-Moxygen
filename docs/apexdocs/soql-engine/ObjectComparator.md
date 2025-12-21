@@ -4,7 +4,7 @@
 
 This class is used to compare two generic objects of the same type.
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -14,7 +14,7 @@ This class is used to compare two generic objects of the same type.
 
 **Implements**
 
-Comparator&lt;Object&gt;
+Comparator<Object>
 
 ## Methods
 ### `compare(obj1, obj2)`

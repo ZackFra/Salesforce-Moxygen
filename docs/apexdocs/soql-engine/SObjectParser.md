@@ -2,7 +2,7 @@
 
 Parses an SObject name in a query
 
-**Since** 
+**Since**
 
 4/12/2024
 

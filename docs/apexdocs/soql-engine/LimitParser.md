@@ -2,7 +2,7 @@
 
 This class is responsible for parsing the limit clause of a query
 
-**Since** 
+**Since**
 
 4/12/2024
 

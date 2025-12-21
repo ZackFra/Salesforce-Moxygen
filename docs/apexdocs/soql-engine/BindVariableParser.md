@@ -2,7 +2,7 @@
 
 A class to parse a bind variable
 
-**Since** 
+**Since**
 
 11/28/2024
 

@@ -2,7 +2,7 @@
 
 Comparable class for THIS_QUARTER
 
-**Since** 
+**Since**
 
 12/30/2024
 

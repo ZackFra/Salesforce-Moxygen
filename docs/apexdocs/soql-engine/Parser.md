@@ -4,7 +4,7 @@
 
 The parser breaks down a SOQL query into an AST, to be fed into the parser (MockDatabase)
 
-**Since** 
+**Since**
 
 4/6/2024
 

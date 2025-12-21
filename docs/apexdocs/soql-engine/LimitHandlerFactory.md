@@ -2,7 +2,7 @@
 
 Used to create a limit handler based on the query type
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -84,7 +84,7 @@ public LimitHandlerFactory setParams(Map<String,Object> params)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| params | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| params | Map<String,Object> | `Map<String, Object>` |
 
 #### Return Type
 **[LimitHandlerFactory](LimitHandlerFactory.md)**

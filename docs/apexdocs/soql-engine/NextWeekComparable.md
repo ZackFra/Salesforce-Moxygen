@@ -2,7 +2,7 @@
 
 Comparable class for NEXT_WEEK
 
-**Since** 
+**Since**
 
 12/29/2024
 

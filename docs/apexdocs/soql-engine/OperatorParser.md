@@ -2,7 +2,7 @@
 
 This class is responsible for parsing operators in the query string.
 
-**Since** 
+**Since**
 
 4/12/2024
 

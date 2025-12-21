@@ -2,7 +2,7 @@
 
 Tool for finding the aliases on nodes
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -25,7 +25,7 @@ public static Map<String,String> getAlias(Node selectNode, Node fieldNode)
 | fieldNode | [Node](Node.md) |  |
 
 #### Return Type
-**Map&lt;String,String&gt;**
+**Map<String,String>**
 
 ---
 
@@ -46,6 +46,6 @@ public static Map<String,String> getFieldAlias(Node curr, Node fieldNode, Node s
 | selectNode | [Node](Node.md) |  |
 
 #### Return Type
-**Map&lt;String,String&gt;**
+**Map<String,String>**
 
 ,[object Object]

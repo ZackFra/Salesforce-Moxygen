@@ -3,7 +3,7 @@
 
 Represents the value and new record field value for a date literal
 
-**Since** 
+**Since**
 
 11/27/2024
 

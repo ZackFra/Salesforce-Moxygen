@@ -2,7 +2,7 @@
 
 This class provides the ability to compare fields on SObjects with the mock database
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -27,7 +27,7 @@ public static Map<String,Object> getComparableData(sObject obj, String field)
 | field | String | : the field name |
 
 #### Return Type
-**Map&lt;String,Object&gt;**
+**Map<String,Object>**
 
 : a map with the comparable sObject, the field api name, and the relationship name
 
@@ -53,7 +53,7 @@ public static Map<String,Object> getComparableDataFromNodes(Node fieldNode, Node
 | selectNode | [Node](Node.md) | : the select node |
 
 #### Return Type
-**Map&lt;String,Object&gt;**
+**Map<String,Object>**
 
 : a map with the comparable sObject, the field api name, and the relationship name
 
@@ -131,7 +131,7 @@ public static Map<String,Object> getParentObject(sObject sObj, String fieldName)
 : ex. OpportunityLineItem, the field is Opportunity |
 
 #### Return Type
-**Map&lt;String,Object&gt;**
+**Map<String,Object>**
 
 A map with the parent sObject, the field api name, and the relationship name
 
@@ -154,6 +154,6 @@ public static Map<String,Object> getParentObjectData(SObject sObj, String fieldN
 : ex. OpportunityLineItem, the field is Opportunity |
 
 #### Return Type
-**Map&lt;String,Object&gt;**
+**Map<String,Object>**
 
 : a map with the parent sObject, the field api name, and the relationship name

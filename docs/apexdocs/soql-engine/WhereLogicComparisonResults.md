@@ -3,7 +3,7 @@
 
 Contains the results of a where logic comparison
 
-**Since** 
+**Since**
 
 11/28/2024
 

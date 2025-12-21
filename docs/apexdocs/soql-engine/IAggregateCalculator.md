@@ -2,7 +2,7 @@
 
 Interface for aggregate calculator
 
-**Since** 
+**Since**
 
 3/23/2024
 

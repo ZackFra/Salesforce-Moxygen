@@ -2,7 +2,7 @@
 
 Options class for the Offset class
 
-**Since** 
+**Since**
 
 3/23/2024
 

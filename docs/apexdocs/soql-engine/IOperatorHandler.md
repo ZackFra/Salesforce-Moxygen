@@ -2,7 +2,7 @@
 
 comparison handlers for WHERE and HAVING clauses
 
-**Since** 
+**Since**
 
 3/23/2024
 

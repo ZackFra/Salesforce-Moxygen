@@ -2,7 +2,7 @@
 
 This class is responsible for parsing the UPDATE TRACKING or UPDATE VIEWSTAT query
 
-**Since** 
+**Since**
 
 4/12/2024
 

@@ -3,7 +3,7 @@
 
 This class is used to resolve the field in a query
 
-**Since** 
+**Since**
 
 11/24/2024
 

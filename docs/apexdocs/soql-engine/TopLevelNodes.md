@@ -3,7 +3,7 @@
 This class is used to parse the top level nodes of a SOQL query. 
 Designed to refresh the instance if the head node changes, i.e. if a new SOQL query is made.
 
-**Since** 
+**Since**
 
 3/23/2024
 

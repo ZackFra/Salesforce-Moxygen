@@ -2,7 +2,7 @@
 
 Aggregate class to represent the result of an aggregate query
 
-**Since** 
+**Since**
 
 4/5/2024
 
@@ -39,7 +39,7 @@ public Aggregate(Map<String,Object> data)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| data | Map&lt;String,Object&gt; | the data to create the Aggregate from |
+| data | Map<String,Object> | the data to create the Aggregate from |
 
 ## Methods
 ### `get(field)`

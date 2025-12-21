@@ -2,7 +2,7 @@
 
 NullParser is a parser for null values.
 
-**Since** 
+**Since**
 
 11/28/2024
 

@@ -2,7 +2,7 @@
 
 Generic exception for when something is not found
 
-**Since** 
+**Since**
 
 7/12/2024
 

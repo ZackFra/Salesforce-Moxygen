@@ -2,7 +2,7 @@
 
 Salesforce is insanely inconsistent about dates and date times, this class returns values in GMT
 
-**Since** 
+**Since**
 
 11/16/2024
 

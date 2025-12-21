@@ -2,7 +2,7 @@
 
 Comparable class for THIS_MONTH
 
-**Since** 
+**Since**
 
 12/29/2024
 

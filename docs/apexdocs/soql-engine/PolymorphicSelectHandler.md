@@ -4,7 +4,7 @@
 
 Select handler for TYPEOF operator
 
-**Since** 
+**Since**
 
 3/23/2024
 

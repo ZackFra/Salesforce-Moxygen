@@ -4,7 +4,7 @@
 
 Handles the greater than or equal operator
 
-**Since** 
+**Since**
 
 3/23/2024
 

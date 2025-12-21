@@ -2,7 +2,7 @@
 
 A parser for boolean values
 
-**Since** 
+**Since**
 
 11/25/2024
 

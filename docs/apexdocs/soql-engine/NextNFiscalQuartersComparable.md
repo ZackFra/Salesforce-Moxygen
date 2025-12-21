@@ -2,7 +2,7 @@
 
 Comparable class for NEXT_N_FISCAL_QUARTERS
 
-**Since** 
+**Since**
 
 2/2/2025
 

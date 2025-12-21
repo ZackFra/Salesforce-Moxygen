@@ -4,7 +4,7 @@
 
 Contains static methods for working with aggregates and proto-aggregates
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -21,7 +21,7 @@ public final static SUPPORTED_AGGREGATE_FUNCS
 ```
 
 #### Type
-List&lt;String&gt;
+List<String>
 
 ---
 
@@ -33,7 +33,7 @@ public final static SUPPORTED_COUNT_FUNCS
 ```
 
 #### Type
-List&lt;String&gt;
+List<String>
 
 ---
 
@@ -45,7 +45,7 @@ public final static SUPPORTED_DATE_FUNCS
 ```
 
 #### Type
-List&lt;String&gt;
+List<String>
 
 ---
 
@@ -57,7 +57,7 @@ public final static SUPPORTED_NUMERIC_FUNCS
 ```
 
 #### Type
-List&lt;String&gt;
+List<String>
 
 ## Methods
 ### `getAggregateFields(topLevelNodes)`
@@ -77,7 +77,7 @@ public static Map<String,List<String>> getAggregateFields(TopLevelNodes topLevel
 | topLevelNodes | [TopLevelNodes](TopLevelNodes.md) | : the top level nodes of the query |
 
 #### Return Type
-**Map&lt;String,List&lt;String&gt;&gt;**
+**Map<String,List<String>>**
 
 : a map with the fields to group by and the fields to select
 

@@ -2,7 +2,7 @@
 
 A class to handle regex operations
 
-**Since** 
+**Since**
 
 11/27/2024
 
@@ -27,7 +27,7 @@ public List<String> getGroups(String str, String regexPattern)
 | regexPattern | String | `String` |
 
 #### Return Type
-**List&lt;String&gt;**
+**List<String>**
 
 ,[object Object]
 

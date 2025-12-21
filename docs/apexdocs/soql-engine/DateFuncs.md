@@ -2,7 +2,7 @@
 
 Repository of aggregate date functions
 
-**Since** 
+**Since**
 
 4/28/2024
 

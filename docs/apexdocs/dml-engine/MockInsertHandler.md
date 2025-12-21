@@ -4,7 +4,7 @@
 
 MockInsertHandler is used to mock the insert operation
 
-**Since** 
+**Since**
 
 3/9/2024
 
@@ -77,11 +77,11 @@ public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToInsert | List&lt;SObject&gt; | - The records to insert |
+| recordsToInsert | List<SObject> | - The records to insert |
 | allOrNone | Boolean | - Whether to throw an exception if any of the records already exist |
 
 #### Return Type
-**List&lt;Database.SaveResult&gt;**
+**List<Database.SaveResult>**
 
 List&lt;Database.SaveResult&gt; - The results of the insert operations
 
@@ -99,12 +99,12 @@ public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToInsert | List&lt;SObject&gt; | List of records to insert |
+| recordsToInsert | List<SObject> | List of records to insert |
 | allOrNone | Boolean | Boolean to throw an exception if the record already exists |
 | accessLevel | System.AccessLevel | Access level of the user performing the operation |
 
 #### Return Type
-**List&lt;Database.SaveResult&gt;**
+**List<Database.SaveResult>**
 
 ,[object Object]
 
@@ -122,7 +122,7 @@ public void doMockInsert(List<SObject> recordsToInsert)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToInsert | List&lt;SObject&gt; | List of records to insert |
+| recordsToInsert | List<SObject> | List of records to insert |
 
 #### Return Type
 **void**

@@ -3,7 +3,7 @@
 
 Base class for handling SOQL queries to the mock database
 
-**Since** 
+**Since**
 
 4/13/2024
 

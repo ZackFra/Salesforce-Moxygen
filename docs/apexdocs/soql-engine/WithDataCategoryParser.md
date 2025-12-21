@@ -2,7 +2,7 @@
 
 This class is used to parse the WITH DATA CATEGORY clause in a SOQL query
 
-**Since** 
+**Since**
 
 4/12/2024
 

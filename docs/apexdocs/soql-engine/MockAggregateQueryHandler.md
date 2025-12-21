@@ -2,7 +2,7 @@
 
 This class is responsible for handling aggregate SOQL queries to the mock database
 
-**Since** 
+**Since**
 
 4/13/2024
 
@@ -30,7 +30,7 @@ public List<Aggregate> aggregateQuery(String query)
 | query | String | `String` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]
 
@@ -52,7 +52,7 @@ public List<Aggregate> aggregateQuery(String query, System.AccessLevel accessLev
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]
 
@@ -71,10 +71,10 @@ public List<Aggregate> aggregateQueryWithBinds(String query, Map<String,Object> 
 | Name | Type | Description |
 |------|------|-------------|
 | query | String | `String` |
-| binds | Map&lt;String,Object&gt; | `Map<String, Object>` |
+| binds | Map<String,Object> | `Map<String, Object>` |
 | accessLevel | System.AccessLevel | `System.AccessLevel` |
 
 #### Return Type
-**List&lt;Aggregate&gt;**
+**List<Aggregate>**
 
 ,[object Object]

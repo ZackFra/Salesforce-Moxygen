@@ -2,7 +2,7 @@
 
 Generic date literal parser
 
-**Since** 
+**Since**
 
 11/29/2024
 

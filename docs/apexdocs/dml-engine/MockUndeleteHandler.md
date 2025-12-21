@@ -4,7 +4,7 @@
 
 MockUndeleteHandler is used to mock the Database.UndeleteResult class and the Database.undelete method
 
-**Since** 
+**Since**
 
 3/9/2024
 
@@ -54,11 +54,11 @@ public List<Database.UndeleteResult> doUndelete(List<sObject> recordsToUndelete,
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordsToUndelete | List&lt;sObject&gt; | - The records to undelete |
+| recordsToUndelete | List<sObject> | - The records to undelete |
 | allOrNone | Boolean | - Whether to throw an exception if any of the records do not exist |
 
 #### Return Type
-**List&lt;Database.UndeleteResult&gt;**
+**List<Database.UndeleteResult>**
 
 List&lt;Database.UndeleteResult&gt; - The results of the undelete operations
 
@@ -101,11 +101,11 @@ public List<Database.UndeleteResult> doUndelete(List<Id> recordIDs, Boolean allO
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordIDs | List&lt;Id&gt; | - The Ids of the records to undelete |
+| recordIDs | List<Id> | - The Ids of the records to undelete |
 | allOrNone | Boolean | - Whether to throw an exception if any of the records do not exist |
 
 #### Return Type
-**List&lt;Database.UndeleteResult&gt;**
+**List<Database.UndeleteResult>**
 
 List&lt;Database.UndeleteResult&gt; - The results of the undelete operations
 

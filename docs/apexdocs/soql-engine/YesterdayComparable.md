@@ -2,7 +2,7 @@
 
 Comparable class for YESTERDAY
 
-**Since** 
+**Since**
 
 12/29/2024
 

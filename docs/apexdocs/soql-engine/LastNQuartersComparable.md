@@ -2,7 +2,7 @@
 
 Comprable for LAST_N_QUARTERS
 
-**Since** 
+**Since**
 
 2/5/2025
 

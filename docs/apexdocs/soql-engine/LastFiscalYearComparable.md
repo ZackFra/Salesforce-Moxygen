@@ -2,7 +2,7 @@
 
 Comparable for the LAST_FISCAL_YEAR date literal
 
-**Since** 
+**Since**
 
 1/10/2025
 

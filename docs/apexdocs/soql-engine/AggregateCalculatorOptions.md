@@ -2,7 +2,7 @@
 
 Options for the AggregateCalculator class
 
-**Since** 
+**Since**
 
 3/23/2024
 

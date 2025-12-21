@@ -4,7 +4,7 @@
 
 This class is responsible for handling the WHERE clause logic
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -77,7 +77,7 @@ public params
 ```
 
 #### Type
-Map&lt;String,Object&gt;
+Map<String,Object>
 
 ---
 

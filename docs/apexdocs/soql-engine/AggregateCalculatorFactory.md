@@ -2,7 +2,7 @@
 
 Generates an instance of an aggregate calculator based on the type provided
 
-**Since** 
+**Since**
 
 3/23/2024
 

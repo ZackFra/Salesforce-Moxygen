@@ -2,7 +2,7 @@
 
 Comparable class for THIS_WEEK
 
-**Since** 
+**Since**
 
 12/29/2024
 

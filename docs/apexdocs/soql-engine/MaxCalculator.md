@@ -2,7 +2,7 @@
 
 calculates the MAX value of a field for an aggregate result
 
-**Since** 
+**Since**
 
 3/23/2024
 

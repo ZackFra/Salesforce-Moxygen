@@ -2,7 +2,7 @@
 
 CountCalculator is a concrete implementation of IAggregateCalculator that calculates the count of records.
 
-**Since** 
+**Since**
 
 3/23/2024
 

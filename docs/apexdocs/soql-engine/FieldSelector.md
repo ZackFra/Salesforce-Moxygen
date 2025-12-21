@@ -2,7 +2,7 @@
 
 FieldSelector is a class that is used to select fields from a queried record based on a field node.
 
-**Since** 
+**Since**
 
 3/23/2024
 
@@ -43,7 +43,7 @@ public params
 ```
 
 #### Type
-Map&lt;String,Object&gt;
+Map<String,Object>
 
 ---
 
@@ -112,7 +112,7 @@ public FieldSelector setParams(Map<String,Object> params)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| params | Map&lt;String,Object&gt; |  |
+| params | Map<String,Object> |  |
 
 #### Return Type
 **[FieldSelector](FieldSelector.md)**

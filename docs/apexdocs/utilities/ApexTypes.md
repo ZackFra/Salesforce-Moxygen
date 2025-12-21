@@ -2,7 +2,7 @@
 
 A class that contains the names of the Apex types.
 
-**Since** 
+**Since**
 
 11/16/2024
 

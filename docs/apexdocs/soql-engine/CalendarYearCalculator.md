@@ -2,7 +2,7 @@
 
 Calculates the calendar month from a date value
 
-**Since** 
+**Since**
 
 5/5/2024
 

@@ -2,7 +2,7 @@
 
 TypeOf is a class that provides a method to determine the type of an object.
 
-**Since** 
+**Since**
 
 11/16/2024
 

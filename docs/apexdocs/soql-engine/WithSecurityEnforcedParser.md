@@ -2,7 +2,7 @@
 
 This class is responsible for parsing the WITH SECURITY_ENFORCED clause in a SOQL query.
 
-**Since** 
+**Since**
 
 4/28/2024
 

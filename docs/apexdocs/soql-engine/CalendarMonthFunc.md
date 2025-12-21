@@ -2,7 +2,7 @@
 
 Function to calculate the calendar month of a date or datetime value
 
-**Since** 
+**Since**
 
 1/17/2025
 

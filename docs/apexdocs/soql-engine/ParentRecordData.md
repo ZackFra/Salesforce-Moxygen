@@ -3,7 +3,7 @@
 
 A class to store data about a parent record
 
-**Since** 
+**Since**
 
 11/28/2024
 

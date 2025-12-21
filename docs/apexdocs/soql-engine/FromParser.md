@@ -2,7 +2,7 @@
 
 Class is responsible for parsing the &#x27;from&#x27; clause of a query
 
-**Since** 
+**Since**
 
 4/12/2024
 
