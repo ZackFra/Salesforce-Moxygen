@@ -44,7 +44,7 @@ public with sharing class GMT {
      * @return  `Date`
      */
     public static Datetime startOfThisCalendarQuarter() {
-        Datetime today = Gmt.today();
+        Date today = Gmt.today();
         Integer startMonth = today.month();
 
         if (startMonth >= 10) {
@@ -84,7 +84,7 @@ public with sharing class GMT {
      */
     public static Date startOfthisFiscalQuarter() {
         Date startOfThisFiscalQuarter = startOfThisFiscalYear();
-        while (startOfThisFiscalQuarter < Gmt.today()) {
+        while (startOfThisFiscalQuarter <= Gmt.today()) {
             startOfThisFiscalQuarter = startOfThisFiscalQuarter.addMonths(3);
         }
         return startOfThisFiscalQuarter.addMonths(-3);
