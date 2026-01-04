@@ -2,15 +2,16 @@ name: Deploy
 
 on:
     pull_request_target:
-      types: [closed]
-      branches:
-        - main
-      paths:
-        - "**/main/default/**"
+        types: [closed]
+        branches:
+            - main
+        paths:
+            - "**/main/default/**"
+    workflow_dispatch:
 
-jobs: 
+jobs:
     deploy-to-production:
-        if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') && github.event.pull_request.merged == true }}
+        if: ${{ github.event_name == 'workflow_dispatch' || (!contains(github.event.pull_request.labels.*.name, 'dont deploy') && github.event.pull_request.merged == true) }}
         uses: ./.github/workflows/deploy.yaml
         secrets: inherit
     generate-apex-docs:
