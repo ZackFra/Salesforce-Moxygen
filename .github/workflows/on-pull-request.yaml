@@ -1,37 +1,37 @@
 name: Validate
 
 on:
-    pull_request_target:
-        branches:
-            - main
-        paths:
-            - "**/main/default/**"
-    workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**/main/default/**"
 
 env:
-    AWS_SECRET: ${{ secrets.AWS_SECRET }}
-    AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-    AWS_REGION: ${{ secrets.AWS_REGION }}
-    AWS_SAVE_DEPLOYMENT_FUNC: ${{ secrets.AWS_SAVE_DEPLOYMENT_FUNC }}
-    SF_AUTH_URL: ${{ secrets.SF_AUTH_URL }}
-    REPOSITORY: ${{ github.repository }}
-    PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number || '' }}
+  AWS_SECRET: ${{ secrets.AWS_SECRET }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_SAVE_DEPLOYMENT_FUNC: ${{ secrets.AWS_SAVE_DEPLOYMENT_FUNC }}
+  SF_AUTH_URL: ${{ secrets.SF_AUTH_URL }}
+  REPOSITORY: ${{ github.repository }}
+  PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
 
 jobs:
     code-scan:
-        if: ${{ github.event_name == 'workflow_dispatch' || !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
-        uses: ./.github/workflows/code-scan.yaml
-        secrets: inherit
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
+      uses: ./.github/workflows/code-scan.yaml
+      secrets: inherit
     check-for-duplicates:
-        if: ${{ github.event_name == 'workflow_dispatch' || !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
-        uses: ./.github/workflows/check-for-duplicates.yaml
-        secrets: inherit
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
+      uses: ./.github/workflows/check-for-duplicates.yaml
+      secrets: inherit
     verify-prettier:
-        if: ${{ github.event_name == 'workflow_dispatch' || !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
-        uses: ./.github/workflows/prettier-check.yaml
-        secrets: inherit
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
+      uses: ./.github/workflows/prettier-check.yaml
+      secrets: inherit
     validate-changes:
-        if: ${{ github.event_name == 'workflow_dispatch' || !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
-        needs: [code-scan, check-for-duplicates, verify-prettier]
-        uses: ./.github/workflows/validate.yaml
-        secrets: inherit
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
+      needs: [code-scan, check-for-duplicates, verify-prettier]
+      uses: ./.github/workflows/validate.yaml
+      secrets: inherit
+    

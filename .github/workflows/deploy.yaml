@@ -9,7 +9,7 @@ env:
   AWS_GET_DEPLOYMENT_FUNC: ${{ secrets.AWS_GET_DEPLOYMENT_FUNC }}
   SF_AUTH_URL: ${{ secrets.SF_AUTH_URL }}
   REPOSITORY: ${{ github.repository }}
-  PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number || '' }}
+  PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
 
 jobs:
   deploy-pull-request:
