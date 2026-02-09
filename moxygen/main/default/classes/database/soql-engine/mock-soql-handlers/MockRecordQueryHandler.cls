@@ -111,11 +111,17 @@ public with sharing class MockRecordQueryHandler extends MockSOQLHandler {
             );
         }
 
+        Boolean hasIsDeletedField = sot.getDescribe().fields.getMap().containsKey('IsDeleted');
+
         List<SObject> records = new List<sObject>();
 
         // process the query, whether it's a count, aggregate, or regular query
         for (sObject databaseRecord : mockObjects.values()) {
-            if (databaseRecord.get('IsDeleted') == true) {
+            if (hasIsDeletedField) {
+                if (databaseRecord.get('IsDeleted') == true) {
+                    continue;
+                }
+            } else if (DataStore.isSoftDeleted((Id)databaseRecord.get('Id'))) {
                 continue;
             }
 
