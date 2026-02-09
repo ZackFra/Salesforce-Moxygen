@@ -37,9 +37,18 @@ public with sharing class fflib_IDGenerator {
     /**
      * Generate a fake Salesforce Id for the given SObjectType
      */
-    public static Id generate(Schema.SObjectType sobjectType) {
-        String keyPrefix = sobjectType.getDescribe().getKeyPrefix();
+    public static Id generate(Schema.SObjectType sObjectType) {
+        Schema.DescribeSObjectResult sObjectDescribe = sObjectType.getDescribe();
+        String keyPrefix = sObjectDescribe.getKeyPrefix();
         fakeIdCount++;
+
+        // Use the Parent SObjectType key prefix for Custom Object share records
+        if (keyPrefix == null) {
+            Schema.DescribeFieldResult parentIdFieldDescribe = sObjectDescribe.fields.getMap().get('ParentId').getDescribe();
+            Schema.SObjectType parentSObjectType = parentIdFieldDescribe.getReferenceTo()[0];
+            Schema.DescribeSObjectResult parentSObjectDescribe = parentSObjectType.getDescribe();
+            keyPrefix = parentSObjectDescribe.getKeyPrefix();
+        }
 
         String fakeIdPrefix = ID_PATTERN.substring(
             0,
