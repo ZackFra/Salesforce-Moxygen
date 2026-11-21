@@ -123,7 +123,9 @@ public with sharing class Common {
     }
 
     /**
-     * @description parse a date string into an SF date
+     * @description parse a date string into an SF date. Date.valueOf keeps the
+     * written year; Date.newInstance would read it as a Buddhist year for a
+     * user with the th_TH locale.
      * @param dateString - date string in the format YYYY-MM-DD
      * @return `Date` - SF date
      * @throws QueryException if the date string is not in the correct format
@@ -136,34 +138,25 @@ public with sharing class Common {
                 'Invalid date format: ' + dateString
             );
         }
-        return Date.newInstance(
-            Integer.valueOf(dateMatcher.group(1)),
-            Integer.valueOf(dateMatcher.group(2)),
-            Integer.valueOf(dateMatcher.group(3))
-        );
+        return Date.valueOf(dateString);
     }
 
     /**
-     * @description parse a date time string into an SF date time
+     * @description parse a date time string into an SF date time.
+     * DateTime.valueOfGmt keeps the written year; DateTime.newInstanceGmt
+     * would read it as a Buddhist year for a user with the th_TH locale.
      * @param dateTimeString - date time string in one of the three formats
      * @return DateTime - SF date time
      * @throws QueryException if the date time string is not in the correct format
      */
-    @SuppressWarnings('PMD.NcssMethodCount')
     public static DateTime parseDateTime(String dateTimeString) {
         // YYYY-MM-DDThh:mm:ss+hh:mm
         Pattern datePattern1 = Pattern.compile(DATE_TIME_PATTERN1);
         Matcher dateMatcher1 = datePattern1.matcher(dateTimeString);
         if (dateMatcher1.matches()) {
-            Integer year = Integer.valueOf(dateMatcher1.group(1));
-            Integer month = Integer.valueOf(dateMatcher1.group(2));
-            Integer day = Integer.valueOf(dateMatcher1.group(3));
-            Integer hour = Integer.valueOf(dateMatcher1.group(4));
-            Integer min = Integer.valueOf(dateMatcher1.group(5));
-            Integer sec = Integer.valueOf(dateMatcher1.group(6));
             Integer offsetHour = Integer.valueOf(dateMatcher1.group(7));
             Integer offsetMin = Integer.valueOf(dateMatcher1.group(8));
-            return DateTime.newInstanceGmt(year, month, day, hour, min, sec)
+            return gmtDateTimeOf(dateTimeString)
                 .addHours(-offsetHour)
                 .addMinutes(-offsetMin);
         }
@@ -171,15 +164,9 @@ public with sharing class Common {
         Pattern datePattern2 = Pattern.compile(DATE_TIME_PATTERN2);
         Matcher dateMatcher2 = datePattern2.matcher(dateTimeString);
         if (dateMatcher2.matches()) {
-            Integer year = Integer.valueOf(dateMatcher2.group(1));
-            Integer month = Integer.valueOf(dateMatcher2.group(2));
-            Integer day = Integer.valueOf(dateMatcher2.group(3));
-            Integer hour = Integer.valueOf(dateMatcher2.group(4));
-            Integer min = Integer.valueOf(dateMatcher2.group(5));
-            Integer sec = Integer.valueOf(dateMatcher2.group(6));
             Integer offsetHour = Integer.valueOf(dateMatcher2.group(7));
             Integer offsetMin = Integer.valueOf(dateMatcher2.group(8));
-            return DateTime.newInstanceGmt(year, month, day, hour, min, sec)
+            return gmtDateTimeOf(dateTimeString)
                 .addHours(offsetHour)
                 .addMinutes(offsetMin);
         }
@@ -187,13 +174,7 @@ public with sharing class Common {
         Pattern datePattern3 = Pattern.compile(DATE_TIME_PATTERN3);
         Matcher dateMatcher3 = datePattern3.matcher(dateTimeString);
         if (dateMatcher3.matches()) {
-            Integer year = Integer.valueOf(dateMatcher3.group(1));
-            Integer month = Integer.valueOf(dateMatcher3.group(2));
-            Integer day = Integer.valueOf(dateMatcher3.group(3));
-            Integer hour = Integer.valueOf(dateMatcher3.group(4));
-            Integer min = Integer.valueOf(dateMatcher3.group(5));
-            Integer sec = Integer.valueOf(dateMatcher3.group(6));
-            return DateTime.newInstanceGmt(year, month, day, hour, min, sec);
+            return gmtDateTimeOf(dateTimeString);
         }
 
         throw new IllegalArgumentException(
@@ -224,60 +205,48 @@ public with sharing class Common {
     }
 
     /**
-     * @description Converts a date to a SOQL string
+     * @description Returns the GMT date time written in the first 19
+     * characters of the string, YYYY-MM-DDThh:mm:ss
+     * @param dateTimeString - date time string matching one of the date time
+     * patterns
+     * @return `DateTime`
+     */
+    private static DateTime gmtDateTimeOf(String dateTimeString) {
+        return DateTime.valueOfGmt(
+            dateTimeString.left(19).replace('T', ' ')
+        );
+    }
+
+    /**
+     * @description Converts a date to a SOQL string. The string is built from
+     * the stored date rather than from year(), which reads a Buddhist year for
+     * a user with the th_TH locale.
      * @param d - Date
      * @return String - SOQL date string
      */
     public static String dateToSoqlString(Date d) {
-        return String.format(
-            '{0}-{1}-{2}',
-            new List<Object>{
-                d.year(),
-                leftPadWithTwoZeroes(d.month()),
-                leftPadWithTwoZeroes(d.day())
-            }
-        );
+        return String.valueOf(d);
     }
 
     /**
-     * @description Converts a date time to a SOQL string
+     * @description Converts a date time to a SOQL string. The string is built
+     * from the stored instant rather than from yearGmt(), which reads a
+     * Buddhist year for a user with the th_TH locale.
      * @param dt - DateTime
      * @return String - SOQL date time string
      */
     public static String dateTimeToSoqlString(DateTime dt) {
-        return String.format(
-            '{0}-{1}-{2}T{3}:{4}:{5}Z',
-            new List<Object>{
-                dt.yearGmt(),
-                leftPadWithTwoZeroes(dt.monthGmt()),
-                leftPadWithTwoZeroes(dt.dayGmt()),
-                leftPadWithTwoZeroes(dt.hourGmt()),
-                leftPadWithTwoZeroes(dt.minuteGmt()),
-                leftPadWithTwoZeroes(dt.secondGmt())
-            }
-        );
+        return String.valueOfGmt(dt).replace(' ', 'T') + 'Z';
     }
 
     /**
-     * @description Converts a date time to an Apex string
+     * @description Converts a date time to an Apex string. The string is built
+     * from the stored instant rather than from yearGmt(), which reads a
+     * Buddhist year for a user with the th_TH locale.
      * @param dt - DateTime
      * @return String - Apex date time string
      */
     public static String dateTimeToApexString(DateTime dt) {
-        return String.format(
-            '{0}-{1}-{2} {3}:{4}:{5}',
-            new List<Object>{
-                dt.yearGmt(),
-                leftPadWithTwoZeroes(dt.monthGmt()),
-                leftPadWithTwoZeroes(dt.dayGmt()),
-                leftPadWithTwoZeroes(dt.hourGmt()),
-                leftPadWithTwoZeroes(dt.minuteGmt()),
-                leftPadWithTwoZeroes(dt.secondGmt())
-            }
-        );
-    }
-
-    private static String leftPadWithTwoZeroes(Integer i) {
-        return String.valueOf(i).leftPad(2, '0');
+        return String.valueOfGmt(dt);
     }
 }

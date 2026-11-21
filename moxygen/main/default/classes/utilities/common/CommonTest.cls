@@ -113,4 +113,120 @@ private with sharing class CommonTest {
             );
         }
     }
+
+    // A user with the th_TH locale reads year() and yearGmt() in the Buddhist
+    // calendar, 543 years after the stored year, and Date.newInstance and
+    // DateTime.newInstanceGmt read their year argument as a Buddhist year.
+    // The SOQL and Apex strings must hold the stored year in both directions.
+    private static User thaiUser() {
+        User u = new User(
+            FirstName = 'Thai',
+            LastName = 'Locale',
+            Alias = 'thloc',
+            Email = 'thai.locale@example.com',
+            Username = 'thai.locale' +
+                DateTime.now().getTime() +
+                '@example.com',
+            TimeZoneSidKey = 'GMT',
+            LocaleSidKey = 'th_TH',
+            EmailEncodingKey = 'UTF-8',
+            LanguageLocaleKey = 'en_US',
+            ProfileId = UserInfo.getProfileId()
+        );
+        insert u;
+        return u;
+    }
+
+    @IsTest
+    static void testDateToSoqlStringWritesStoredYearForThaiLocale() {
+        String actual;
+        Test.startTest();
+        System.runAs(thaiUser()) {
+            actual = Common.dateToSoqlString(Date.valueOf('2026-11-11'));
+        }
+        Test.stopTest();
+        Assert.areEqual('2026-11-11', actual, 'Incorrect SOQL date string');
+    }
+
+    @IsTest
+    static void testDateTimeToSoqlStringWritesStoredYearForThaiLocale() {
+        String actual;
+        Test.startTest();
+        System.runAs(thaiUser()) {
+            actual = Common.dateTimeToSoqlString(
+                DateTime.valueOfGmt('2026-11-11 15:04:14')
+            );
+        }
+        Test.stopTest();
+        Assert.areEqual(
+            '2026-11-11T15:04:14Z',
+            actual,
+            'Incorrect SOQL date time string'
+        );
+    }
+
+    @IsTest
+    static void testDateTimeToApexStringWritesStoredYearForThaiLocale() {
+        String actual;
+        Test.startTest();
+        System.runAs(thaiUser()) {
+            actual = Common.dateTimeToApexString(
+                DateTime.valueOfGmt('2026-11-11 15:04:14')
+            );
+        }
+        Test.stopTest();
+        Assert.areEqual(
+            '2026-11-11 15:04:14',
+            actual,
+            'Incorrect Apex date time string'
+        );
+    }
+
+    @IsTest
+    static void testParseDateKeepsWrittenYearForThaiLocale() {
+        Date actual;
+        Test.startTest();
+        System.runAs(thaiUser()) {
+            actual = Common.parseDate('2026-11-11');
+        }
+        Test.stopTest();
+        Assert.areEqual('2026-11-11', String.valueOf(actual), 'Incorrect date');
+    }
+
+    @IsTest
+    static void testParseDateTimeKeepsWrittenYearForThaiLocale() {
+        DateTime actual;
+        Test.startTest();
+        System.runAs(thaiUser()) {
+            actual = Common.parseDateTime('2026-11-11T15:04:14Z');
+        }
+        Test.stopTest();
+        Assert.areEqual(
+            '2026-11-11 15:04:14',
+            String.valueOfGmt(actual),
+            'Incorrect date time'
+        );
+    }
+
+    @IsTest
+    static void testParseDateTimeWithOffsetsKeepsWrittenYearForThaiLocale() {
+        DateTime ahead;
+        DateTime behind;
+        Test.startTest();
+        System.runAs(thaiUser()) {
+            ahead = Common.parseDateTime('2026-11-11T15:04:14+02:30');
+            behind = Common.parseDateTime('2026-11-11T15:04:14-02:30');
+        }
+        Test.stopTest();
+        Assert.areEqual(
+            '2026-11-11 12:34:14',
+            String.valueOfGmt(ahead),
+            'Incorrect date time for a positive offset'
+        );
+        Assert.areEqual(
+            '2026-11-11 17:34:14',
+            String.valueOfGmt(behind),
+            'Incorrect date time for a negative offset'
+        );
+    }
 }
