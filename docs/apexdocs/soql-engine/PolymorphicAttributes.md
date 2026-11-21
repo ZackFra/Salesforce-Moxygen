@@ -54,4 +54,4 @@ public PolymorphicAttributes(SObject record)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| record | SObject | ,[object Object] |
+| record | SObject | `SObject` |

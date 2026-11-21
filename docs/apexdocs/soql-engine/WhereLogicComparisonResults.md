@@ -24,7 +24,7 @@ public String getFinalField()
 #### Return Type
 **String**
 
-,[object Object]
+`String`
 
 ---
 
@@ -40,7 +40,7 @@ public Boolean getIsPolymorphicTypeField()
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -56,7 +56,7 @@ public SObject getParentRecord()
 #### Return Type
 **SObject**
 
-,[object Object]
+`SObject`
 
 ---
 
@@ -72,7 +72,7 @@ public Object getRecordFieldValue()
 #### Return Type
 **Object**
 
-,[object Object]
+`Object`
 
 ## Classes
 ### Builder Class
@@ -97,7 +97,7 @@ public Builder setFinalField(String finalField)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -118,7 +118,7 @@ public Builder setRecordFieldValue(Object recordFieldValue)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -139,7 +139,7 @@ public Builder setIsPolymorphicTypeField(Boolean isPolymorphicTypeField)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -160,7 +160,7 @@ public Builder setParentRecord(SObject parentRecord)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -176,4 +176,4 @@ public WhereLogicComparisonResults build()
 ###### Return Type
 **[WhereLogicComparisonResults](WhereLogicComparisonResults.md)**
 
-,[object Object]
+`WhereLogicComparisonResults`

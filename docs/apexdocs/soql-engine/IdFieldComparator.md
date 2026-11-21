@@ -17,6 +17,8 @@ Comparator<Schema.SObjectField>
 ## Methods
 ### `compare(field1, field2)`
 
+Compares two fields to determine if they are of the same SObjectType
+
 #### Signature
 ```apex
 public Integer compare(Schema.SObjectField field1, Schema.SObjectField field2)
@@ -30,3 +32,8 @@ public Integer compare(Schema.SObjectField field1, Schema.SObjectField field2)
 
 #### Return Type
 **Integer**
+
+`Integer`
+
+#### Throws
+:

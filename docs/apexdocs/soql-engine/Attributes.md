@@ -47,4 +47,4 @@ public Attributes(SObject record)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| record | SObject | ,[object Object] |
+| record | SObject | `SObject` |

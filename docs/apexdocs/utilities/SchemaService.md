@@ -76,7 +76,7 @@ public static Schema.DescribeFieldResult describeField(Schema.SObjectField field
 #### Return Type
 **Schema.DescribeFieldResult**
 
-,[object Object]
+`Schema.DescribeFieldResult`
 
 ---
 
@@ -248,7 +248,7 @@ public static Schema.SObjectField getField(String sObjApiName, String fieldApiNa
 #### Return Type
 **Schema.SObjectField**
 
-,[object Object]
+`Schema.SObjectField`
 
 ---
 
@@ -538,7 +538,7 @@ public static Id getRecordTypeId(Schema.SObjectType sot, String recordTypeName)
 #### Return Type
 **Id**
 
-,[object Object]
+`Id`
 
 ---
 
@@ -759,7 +759,7 @@ public static Boolean hasField(Schema.SObjectType sot, String fieldApiName)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -828,7 +828,7 @@ public static Boolean isFieldGroupable(String sObjectName, String fieldName)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -892,7 +892,7 @@ public static Boolean isRelationshipPolymorphic(Schema.SObjectType sot, String r
 #### Return Type
 **Boolean**
 
-,[object Object], whether the field is polymorphic or not
+`Boolean` whether the field is polymorphic or not
 
 ---
 

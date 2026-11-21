@@ -29,7 +29,7 @@ public static IAggregateCalculator getCalculator(String type, AggregateCalculato
 #### Return Type
 **[IAggregateCalculator](IAggregateCalculator.md)**
 
-,[object Object]
+`IAggregateCalculator`
 
 #### Throws
 AggregateCalculatorException:

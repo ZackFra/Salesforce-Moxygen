@@ -13,6 +13,8 @@ Tool for finding the aliases on nodes
 ## Methods
 ### `getAlias(selectNode, fieldNode)`
 
+Get the alias for a field node
+
 #### Signature
 ```apex
 public static Map<String,String> getAlias(Node selectNode, Node fieldNode)
@@ -26,6 +28,11 @@ public static Map<String,String> getAlias(Node selectNode, Node fieldNode)
 
 #### Return Type
 **Map<String,String>**
+
+`Map<String, String>`
+
+#### Throws
+: 
 
 ---
 
@@ -48,4 +55,4 @@ public static Map<String,String> getFieldAlias(Node curr, Node fieldNode, Node s
 #### Return Type
 **Map<String,String>**
 
-,[object Object]
+`Map<String, String>`

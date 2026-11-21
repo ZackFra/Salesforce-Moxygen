@@ -28,7 +28,7 @@ public static DateLiteralComparable create(DateLiteral dateLiteral)
 #### Return Type
 **[DateLiteralComparable](DateLiteralComparable.md)**
 
-,[object Object]
+`DateLiteralComparable`
 
 #### Throws
 [ValidationException](../utilities/ValidationException.md):

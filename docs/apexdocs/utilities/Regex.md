@@ -29,7 +29,7 @@ public List<String> getGroups(String str, String regexPattern)
 #### Return Type
 **List<String>**
 
-,[object Object]
+`List<String>`
 
 ---
 
@@ -51,4 +51,4 @@ public Boolean matches(String str, String regexPattern)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`

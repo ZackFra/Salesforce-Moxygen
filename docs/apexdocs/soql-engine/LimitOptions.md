@@ -58,7 +58,7 @@ public Integer getLimitSize()
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -74,7 +74,7 @@ public Object getObj()
 #### Return Type
 **Object**
 
-,[object Object]
+`Object`
 
 ---
 
@@ -90,7 +90,7 @@ public Types.SOQL getType()
 #### Return Type
 **Types.SOQL**
 
-,[object Object]
+`MockDatabase.Types.SOQL`
 
 ---
 
@@ -111,7 +111,7 @@ public LimitOptions setLimitSize(Integer limitSize)
 #### Return Type
 **[LimitOptions](LimitOptions.md)**
 
-,[object Object]
+`LimitOptions`
 
 ---
 
@@ -132,7 +132,7 @@ public LimitOptions setObj(Object obj)
 #### Return Type
 **[LimitOptions](LimitOptions.md)**
 
-,[object Object]
+`LimitOptions`
 
 ---
 
@@ -153,4 +153,4 @@ public LimitOptions setType(Types.SOQL type)
 #### Return Type
 **[LimitOptions](LimitOptions.md)**
 
-,[object Object]
+`LimitOptions`

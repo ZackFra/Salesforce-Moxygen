@@ -58,7 +58,7 @@ public Object getObj()
 #### Return Type
 **Object**
 
-,[object Object]
+`Object`
 
 ---
 
@@ -74,7 +74,7 @@ public Integer getOffset()
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -90,7 +90,7 @@ public Types.SOQL getType()
 #### Return Type
 **Types.SOQL**
 
-,[object Object]
+`Types.SOQL`
 
 ---
 
@@ -111,7 +111,7 @@ public OffsetOptions setObj(Object obj)
 #### Return Type
 **[OffsetOptions](OffsetOptions.md)**
 
-,[object Object]
+`OffsetOptions`
 
 ---
 
@@ -132,7 +132,7 @@ public OffsetOptions setOffset(Integer offset)
 #### Return Type
 **[OffsetOptions](OffsetOptions.md)**
 
-,[object Object]
+`OffsetOptions`
 
 ---
 
@@ -153,4 +153,4 @@ public OffsetOptions setType(Types.SOQL type)
 #### Return Type
 **[OffsetOptions](OffsetOptions.md)**
 
-,[object Object]
+`OffsetOptions`

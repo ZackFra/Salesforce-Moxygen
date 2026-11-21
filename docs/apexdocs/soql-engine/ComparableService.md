@@ -60,6 +60,8 @@ public static Map<String,Object> getComparableDataFromNodes(Node fieldNode, Node
 #### Throws
 QueryException: : if the field name is invalid
 
+**See** getComparables
+
 ---
 
 ### `getComparableField(comparableRecord, finalField, isPolymorphic)`
@@ -81,7 +83,7 @@ public static String getComparableField(SObject comparableRecord, String finalFi
 #### Return Type
 **String**
 
-,[object Object]
+`String`
 
 ---
 

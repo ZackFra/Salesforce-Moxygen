@@ -23,7 +23,7 @@ public static Organization getInstance()
 #### Return Type
 **Organization**
 
-,[object Object]
+`Organization`
 
 #### Throws
 [ValidationException](ValidationException.md):

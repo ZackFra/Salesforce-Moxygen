@@ -59,7 +59,7 @@ public List<SObject> query(String query)
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`
 
 ---
 
@@ -81,7 +81,7 @@ public List<SObject> query(String query, System.AccessLevel accessLevel)
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`
 
 ---
 
@@ -104,4 +104,4 @@ public List<SObject> queryWithBinds(String query, Map<String,Object> binds, Syst
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`

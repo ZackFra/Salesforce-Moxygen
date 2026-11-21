@@ -63,7 +63,7 @@ public AggregateCalculatorOptions setAggregateResult(ProtoAggregate aggregateRes
 #### Return Type
 **[AggregateCalculatorOptions](AggregateCalculatorOptions.md)**
 
-,[object Object]
+`AggregateCalculatorOptions`
 
 ---
 
@@ -84,7 +84,7 @@ public AggregateCalculatorOptions setAlias(String alias)
 #### Return Type
 **[AggregateCalculatorOptions](AggregateCalculatorOptions.md)**
 
-,[object Object]
+`AggregateCalculatorOptions`
 
 ---
 
@@ -105,4 +105,4 @@ public AggregateCalculatorOptions setValue(Object value)
 #### Return Type
 **[AggregateCalculatorOptions](AggregateCalculatorOptions.md)**
 
-,[object Object]
+`AggregateCalculatorOptions`

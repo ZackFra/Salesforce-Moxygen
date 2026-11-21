@@ -48,7 +48,7 @@ public static Boolean isBacktickReplacementEnabled()
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -64,7 +64,7 @@ public static Boolean isUnitTest()
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 

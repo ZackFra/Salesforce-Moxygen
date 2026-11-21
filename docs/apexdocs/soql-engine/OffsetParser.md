@@ -17,6 +17,8 @@ This class is responsible for parsing the offset clause of a query
 ## Methods
 ### `parse(query)`
 
+Parses the offset clause of a query
+
 #### Signature
 ```apex
 public override Intermediary parse(String query)
@@ -25,10 +27,15 @@ public override Intermediary parse(String query)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| query | String |  |
+| query | String | `String` |
 
 #### Return Type
 **[Intermediary](Intermediary.md)**
+
+`Intermediary`
+
+#### Throws
+: 
 
 ---
 

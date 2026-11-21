@@ -29,4 +29,4 @@ public Boolean handle(Object sObjectFieldValue, Object fieldValue)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`

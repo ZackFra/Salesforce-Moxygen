@@ -24,7 +24,7 @@ public abstract List<ProtoAggregate> finish()
 #### Return Type
 **List<ProtoAggregate>**
 
-,[object Object]
+`List<ProtoAggregate>`
 
 ---
 
@@ -64,4 +64,4 @@ public AggregateProcessor setTopLevelNodes(TopLevelNodes topLevelNodes)
 #### Return Type
 **[AggregateProcessor](AggregateProcessor.md)**
 
-,[object Object]
+`AggregateProcessor`

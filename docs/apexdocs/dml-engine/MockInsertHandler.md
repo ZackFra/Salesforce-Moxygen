@@ -58,7 +58,7 @@ public Database.SaveResult doInsert(SObject recordToInsert, Boolean allOrNone)
 #### Return Type
 **Database.SaveResult**
 
-,[object Object]
+`Database.SaveResult`
 
 #### Throws
 DmlException: 
@@ -106,7 +106,7 @@ public List<Database.SaveResult> doInsert(List<SObject> recordsToInsert, Boolean
 #### Return Type
 **List<Database.SaveResult>**
 
-,[object Object]
+`List<Database.SaveResult>`
 
 ---
 
@@ -162,4 +162,4 @@ public Boolean wasCalled()
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`

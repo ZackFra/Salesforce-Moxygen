@@ -27,7 +27,7 @@ public RecordLimitHandler(LimitOptions options)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [LimitOptions](LimitOptions.md) | ,[object Object] |
+| options | [LimitOptions](LimitOptions.md) | `LimitOptions` |
 
 ## Methods
 ### `handleLimit()`
@@ -42,4 +42,4 @@ public Object handleLimit()
 #### Return Type
 **Object**
 
-,[object Object]
+`Object`

@@ -42,4 +42,4 @@ public SObject handleSelect()
 #### Return Type
 **SObject**
 
-,[object Object]
+`SObject`

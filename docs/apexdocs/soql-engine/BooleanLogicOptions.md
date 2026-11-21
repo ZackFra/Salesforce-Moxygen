@@ -83,7 +83,7 @@ public BooleanLogicOptions setHead(Node head)
 #### Return Type
 **[BooleanLogicOptions](BooleanLogicOptions.md)**
 
-,[object Object]
+`BooleanLogicOptions`
 
 ---
 
@@ -104,7 +104,7 @@ public BooleanLogicOptions setObj(Object obj)
 #### Return Type
 **[BooleanLogicOptions](BooleanLogicOptions.md)**
 
-,[object Object]
+`BooleanLogicOptions`
 
 ---
 
@@ -125,7 +125,7 @@ public BooleanLogicOptions setParams(Map<String,Object> params)
 #### Return Type
 **[BooleanLogicOptions](BooleanLogicOptions.md)**
 
-,[object Object]
+`BooleanLogicOptions`
 
 ---
 
@@ -146,4 +146,4 @@ public BooleanLogicOptions setSelectNode(Node selectNode)
 #### Return Type
 **[BooleanLogicOptions](BooleanLogicOptions.md)**
 
-,[object Object]
+`BooleanLogicOptions`

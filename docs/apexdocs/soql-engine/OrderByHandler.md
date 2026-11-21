@@ -24,7 +24,7 @@ public OrderByHandler(OrderByOptions options)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [OrderByOptions](OrderByOptions.md) | ,[object Object] |
+| options | [OrderByOptions](OrderByOptions.md) | `OrderByOptions` |
 
 ## Methods
 ### `handleOrderBy()`
@@ -39,4 +39,4 @@ public abstract Object handleOrderBy()
 #### Return Type
 **Object**
 
-,[object Object]
+`Object`

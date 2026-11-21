@@ -37,7 +37,7 @@ public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone)
 #### Return Type
 **Database.SaveResult**
 
-,[object Object]
+`Database.SaveResult`
 
 #### Throws
 DMLException: 
@@ -85,7 +85,7 @@ public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, S
 #### Return Type
 **Database.SaveResult**
 
-,[object Object]
+`Database.SaveResult`
 
 ---
 
@@ -108,7 +108,7 @@ public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean
 #### Return Type
 **List<Database.SaveResult>**
 
-,[object Object]
+`List<Database.SaveResult>`
 
 ---
 
@@ -126,4 +126,4 @@ public Boolean wasCalled()
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`

@@ -17,6 +17,8 @@ A class to parse a bind variable
 ## Methods
 ### `parse(query)`
 
+Parse a bind variable
+
 #### Signature
 ```apex
 public override Intermediary parse(String query)
@@ -25,10 +27,15 @@ public override Intermediary parse(String query)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| query | String |  |
+| query | String | `String` |
 
 #### Return Type
 **[Intermediary](Intermediary.md)**
+
+`Intermediary`
+
+#### Throws
+: 
 
 ---
 

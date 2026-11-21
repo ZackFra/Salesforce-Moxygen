@@ -24,7 +24,7 @@ public ComparableRecordData resolve()
 #### Return Type
 **[ComparableRecordData](ComparableRecordData.md)**
 
-,[object Object]
+`ComparableRecordData`
 
 ## Classes
 ### Builder Class
@@ -49,7 +49,7 @@ public Builder setFieldLookupChain(String fieldLookupChain)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -70,7 +70,7 @@ public Builder setComparableRecord(SObject comparableRecord)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -86,4 +86,4 @@ public QueriedFieldResolver build()
 ###### Return Type
 **[QueriedFieldResolver](QueriedFieldResolver.md)**
 
-,[object Object]
+`QueriedFieldResolver`

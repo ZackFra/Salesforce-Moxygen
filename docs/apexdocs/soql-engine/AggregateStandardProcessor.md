@@ -63,4 +63,4 @@ public AggregateProcessor setTopLevelNodes(TopLevelNodes topLevelNodes)
 #### Return Type
 **[AggregateProcessor](AggregateProcessor.md)**
 
-,[object Object]
+`AggregateProcessor`

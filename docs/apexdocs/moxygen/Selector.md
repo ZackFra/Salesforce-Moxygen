@@ -30,7 +30,7 @@ public static List<Aggregate> aggregateQuery(String queryString)
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
 
 ---
 
@@ -52,7 +52,7 @@ public static List<Aggregate> aggregateQuery(String queryString, System.AccessLe
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
 
 ---
 
@@ -75,7 +75,7 @@ public static List<Aggregate> aggregateQueryWithBinds(String queryString, Map<St
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
 
 ---
 
@@ -96,7 +96,7 @@ public static Integer countQuery(String queryString)
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -118,7 +118,7 @@ public static Integer countQuery(String queryString, System.AccessLevel accessLe
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -141,7 +141,7 @@ public static Integer countQueryWithBinds(String queryString, Map<String,Object>
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -184,7 +184,7 @@ public static List<SObject> query(String queryString, System.AccessLevel accessL
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`
 
 ---
 
@@ -207,4 +207,4 @@ public static List<SObject> queryWithBinds(String queryString, Map<String,Object
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`

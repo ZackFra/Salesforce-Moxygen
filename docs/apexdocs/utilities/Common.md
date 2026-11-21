@@ -13,7 +13,9 @@ Common utility class for basic operations, should not contain complex code
 ## Methods
 ### `dateTimeToApexString(dt)`
 
-Converts a date time to an Apex string
+Converts a date time to an Apex string. The string is built 
+from the stored instant rather than from yearGmt(), which reads a 
+Buddhist year for a user with the th_TH locale.
 
 #### Signature
 ```apex
@@ -34,7 +36,9 @@ String - Apex date time string
 
 ### `dateTimeToSoqlString(dt)`
 
-Converts a date time to a SOQL string
+Converts a date time to a SOQL string. The string is built 
+from the stored instant rather than from yearGmt(), which reads a 
+Buddhist year for a user with the th_TH locale.
 
 #### Signature
 ```apex
@@ -55,7 +59,9 @@ String - SOQL date time string
 
 ### `dateToSoqlString(d)`
 
-Converts a date to a SOQL string
+Converts a date to a SOQL string. The string is built from 
+the stored date rather than from year(), which reads a Buddhist year for 
+a user with the th_TH locale.
 
 #### Signature
 ```apex
@@ -91,7 +97,7 @@ public static Map<String,Object> mapFromRecord(SObject record)
 #### Return Type
 **Map<String,Object>**
 
-,[object Object]
+`Map<String, Object>`
 
 ---
 
@@ -119,7 +125,9 @@ IllegalArgumentException: if the field is null
 
 ### `parseDate(dateString)`
 
-parse a date string into an SF date
+parse a date string into an SF date. Date.valueOf keeps the 
+written year; Date.newInstance would read it as a Buddhist year for a 
+user with the th_TH locale.
 
 #### Signature
 ```apex
@@ -134,7 +142,7 @@ public static Date parseDate(String dateString)
 #### Return Type
 **Date**
 
-,[object Object], - SF date
+`Date` - SF date
 
 #### Throws
 QueryException: if the date string is not in the correct format
@@ -143,9 +151,9 @@ QueryException: if the date string is not in the correct format
 
 ### `parseDateTime(dateTimeString)`
 
-`SUPPRESSWARNINGS`
-
-parse a date time string into an SF date time
+parse a date time string into an SF date time. 
+DateTime.valueOfGmt keeps the written year; DateTime.newInstanceGmt 
+would read it as a Buddhist year for a user with the th_TH locale.
 
 #### Signature
 ```apex
@@ -210,7 +218,7 @@ public static SObject putReadOnlyField(SObject record, String fieldName, Object 
 #### Return Type
 **SObject**
 
-,[object Object]
+`SObject`
 
 ---
 
@@ -232,7 +240,7 @@ public static SObject putReadOnlyFields(SObject record, Map<String,Object> field
 #### Return Type
 **SObject**
 
-,[object Object]
+`SObject`
 
 ---
 
@@ -254,4 +262,4 @@ public static SObject recordFromMap(Map<String,Object> recordMap, String sObject
 #### Return Type
 **SObject**
 
-,[object Object]
+`SObject`

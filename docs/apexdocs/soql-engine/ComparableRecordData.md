@@ -24,7 +24,7 @@ public String getComparableFieldName()
 #### Return Type
 **String**
 
-,[object Object]
+`String`
 
 ---
 
@@ -40,7 +40,7 @@ public SObject getComparableRecord()
 #### Return Type
 **SObject**
 
-,[object Object]
+`SObject`
 
 ---
 
@@ -56,7 +56,7 @@ public Boolean getIsPolymorphic()
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -72,7 +72,7 @@ public String getRelationshipName()
 #### Return Type
 **String**
 
-,[object Object]
+`String`
 
 ## Classes
 ### Builder Class
@@ -97,7 +97,7 @@ public Builder setComparableRecord(SObject comparableRecord)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -118,7 +118,7 @@ public Builder setComparableFieldName(String comparableFieldName)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -139,7 +139,7 @@ public Builder setRelationshipName(String relationshipName)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -160,7 +160,7 @@ public Builder setIsPolymorphic(Boolean isPolymorphic)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -176,4 +176,4 @@ public ComparableRecordData build()
 ###### Return Type
 **[ComparableRecordData](ComparableRecordData.md)**
 
-,[object Object]
+`ComparableRecordData`

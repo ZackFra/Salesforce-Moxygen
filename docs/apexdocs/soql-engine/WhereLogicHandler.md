@@ -146,7 +146,7 @@ public override Boolean isCompareConditionMet(Node operatorNode)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 #### Throws
 QueryException:
