@@ -9,9 +9,9 @@ jobs:
     run-apex-tests:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v7
               with:
-                node-version: '20'
+                node-version: '22'
             - name: Install SFDX
               run: |
                 npm i -g @salesforce/cli
