@@ -42,7 +42,7 @@ public ProtoAggregate calculate()
 #### Return Type
 **[ProtoAggregate](../utilities/ProtoAggregate.md)**
 
-,[object Object]
+`ProtoAggregate`
 
 ---
 
@@ -59,4 +59,4 @@ public Object calculateForField()
 #### Return Type
 **Object**
 
-,[object Object]
+`Object`

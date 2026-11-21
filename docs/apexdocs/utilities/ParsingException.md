@@ -27,5 +27,5 @@ public ParsingException(String message, String expected)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| message | String | ,[object Object], the message to display |
-| expected | String | : ,[object Object], the expected token |
+| message | String | `String` the message to display |
+| expected | String | : `String` the expected token |

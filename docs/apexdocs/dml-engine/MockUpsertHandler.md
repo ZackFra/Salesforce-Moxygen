@@ -37,7 +37,7 @@ public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField exter
 #### Return Type
 **Database.UpsertResult**
 
-,[object Object]
+`Database.UpsertResult`
 
 #### Throws
 DmlException: 
@@ -63,7 +63,7 @@ public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObje
 #### Return Type
 **List<Database.UpsertResult>**
 
-,[object Object]
+`List<Database.UpsertResult>`
 
 #### Throws
 DmlException: 
@@ -92,7 +92,7 @@ public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField exter
 #### Return Type
 **Database.UpsertResult**
 
-,[object Object]
+`Database.UpsertResult`
 
 #### Throws
 DmlException: 
@@ -121,7 +121,7 @@ public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObje
 #### Return Type
 **List<Database.UpsertResult>**
 
-,[object Object]
+`List<Database.UpsertResult>`
 
 #### Throws
 DmlException: 
@@ -142,4 +142,4 @@ public Boolean wasCalled()
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`

@@ -86,7 +86,7 @@ public override Boolean isGreaterThan(DateTime fieldValue)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -130,7 +130,7 @@ public override Boolean isLessThan(DateTime fieldValue)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 

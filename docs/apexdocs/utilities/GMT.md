@@ -28,7 +28,7 @@ public static Date date(DateTime dt)
 #### Return Type
 **Date**
 
-,[object Object]
+`Date`
 
 ---
 
@@ -49,7 +49,7 @@ public static DateTime dateTime(Date d)
 #### Return Type
 **DateTime**
 
-,[object Object]
+`DateTime`
 
 ---
 
@@ -65,7 +65,7 @@ public static DateTime now()
 #### Return Type
 **DateTime**
 
-,[object Object]
+`DateTime`
 
 ---
 
@@ -81,7 +81,7 @@ public static Datetime startOfThisCalendarQuarter()
 #### Return Type
 **Datetime**
 
-,[object Object]
+`Date`
 
 ---
 
@@ -97,7 +97,7 @@ public static Date startOfthisFiscalQuarter()
 #### Return Type
 **Date**
 
-,[object Object]
+`Date`
 
 ---
 
@@ -113,7 +113,7 @@ public static Date startOfThisFiscalYear()
 #### Return Type
 **Date**
 
-,[object Object]
+`Date`
 
 ---
 
@@ -129,4 +129,4 @@ public static Date today()
 #### Return Type
 **Date**
 
-,[object Object]
+`Date`

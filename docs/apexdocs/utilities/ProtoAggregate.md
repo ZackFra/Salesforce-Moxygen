@@ -99,7 +99,7 @@ public Boolean containsKey(String key)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -120,7 +120,7 @@ public Object get(String key)
 #### Return Type
 **Object**
 
-,[object Object]
+`Object`
 
 ---
 
@@ -136,7 +136,7 @@ public Map<String,Object> getPrototype()
 #### Return Type
 **Map<String,Object>**
 
-,[object Object]
+`Map<String, Object>`
 
 ---
 
@@ -152,7 +152,7 @@ public List<SObject> getRecords()
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`
 
 ---
 
@@ -168,7 +168,7 @@ public Boolean isEmpty()
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -184,7 +184,7 @@ public Set<String> keySet()
 #### Return Type
 **Set<String>**
 
-,[object Object]
+`Set<String>`
 
 ---
 
@@ -239,7 +239,7 @@ public Integer size()
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -255,4 +255,4 @@ public List<Object> values()
 #### Return Type
 **List<Object>**
 
-,[object Object]
+`List<Object>`

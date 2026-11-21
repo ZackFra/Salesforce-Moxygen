@@ -19,6 +19,8 @@ Comparator<Schema.SObjectField>
 
 `SUPPRESSWARNINGS`
 
+Compares two fields to determine if one is a reference to the other
+
 #### Signature
 ```apex
 public Integer compare(Schema.SObjectField field1, Schema.SObjectField field2)
@@ -32,3 +34,8 @@ public Integer compare(Schema.SObjectField field1, Schema.SObjectField field2)
 
 #### Return Type
 **Integer**
+
+`Integer`
+
+#### Throws
+:

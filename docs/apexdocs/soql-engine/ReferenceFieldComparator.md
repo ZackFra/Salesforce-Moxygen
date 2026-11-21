@@ -33,4 +33,4 @@ public Integer compare(Schema.SObjectField field1, Schema.SObjectField field2)
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`

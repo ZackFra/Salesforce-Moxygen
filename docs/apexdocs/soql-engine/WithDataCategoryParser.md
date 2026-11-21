@@ -32,7 +32,7 @@ public override Intermediary parse(String query)
 #### Return Type
 **[Intermediary](Intermediary.md)**
 
-,[object Object]
+`Intermediary`
 
 #### Throws
 [ParsingException](../utilities/ParsingException.md): 

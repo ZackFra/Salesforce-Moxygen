@@ -29,7 +29,7 @@ public static Boolean isAggregateQuery(TopLevelNodes topLevelNodes)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -50,4 +50,4 @@ public static Boolean isSingularCount(TopLevelNodes topLevelNodes)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`

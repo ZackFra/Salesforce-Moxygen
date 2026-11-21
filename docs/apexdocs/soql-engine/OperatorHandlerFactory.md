@@ -28,7 +28,7 @@ public IOperatorHandler getHandler(String operator)
 #### Return Type
 **[IOperatorHandler](IOperatorHandler.md)**
 
-,[object Object]
+`IOperatorHandler`
 
 #### Throws
 QueryException:

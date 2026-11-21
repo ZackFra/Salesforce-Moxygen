@@ -28,7 +28,7 @@ public List<Aggregate> aggregateQuery(String query)
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
 
 ---
 
@@ -50,7 +50,7 @@ public List<Aggregate> aggregateQuery(String query, System.AccessLevel accessLev
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
 
 ---
 
@@ -73,7 +73,7 @@ public List<Aggregate> aggregateQueryWithBinds(String query, Map<String,Object> 
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
 
 ---
 
@@ -94,7 +94,7 @@ public Integer countQuery(String query)
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -116,7 +116,7 @@ public Integer countQuery(String query, System.AccessLevel accessLevel)
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -139,7 +139,7 @@ public Integer countQueryWithBinds(String query, Map<String,Object> binds, Syste
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -161,7 +161,7 @@ public List<SObject> doSelectQueryInternal(Node head, Map<String,Object> params)
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`
 
 ---
 
@@ -182,7 +182,7 @@ public List<SObject> query(String query)
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`
 
 ---
 
@@ -204,7 +204,7 @@ public List<SObject> query(String query, System.AccessLevel accessLevel)
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`
 
 ---
 
@@ -227,4 +227,4 @@ public List<SObject> queryWithBinds(String query, Map<String,Object> binds, Syst
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`

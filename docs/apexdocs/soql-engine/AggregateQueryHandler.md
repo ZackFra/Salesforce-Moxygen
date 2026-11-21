@@ -41,7 +41,7 @@ public List<ProtoAggregate> finish()
 #### Return Type
 **List<ProtoAggregate>**
 
-,[object Object]
+`List<ProtoAggregate>`
 
 ---
 

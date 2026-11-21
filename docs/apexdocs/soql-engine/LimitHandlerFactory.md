@@ -23,7 +23,7 @@ public ILimitHandler createHandler()
 #### Return Type
 **[ILimitHandler](ILimitHandler.md)**
 
-,[object Object]
+`ILimitHandler`
 
 #### Throws
 LimitHandlerException: 
@@ -47,7 +47,7 @@ public LimitHandlerFactory setLimitNode(Node limitNode)
 #### Return Type
 **[LimitHandlerFactory](LimitHandlerFactory.md)**
 
-,[object Object]
+`LimitHandlerFactory`
 
 ---
 
@@ -68,7 +68,7 @@ public LimitHandlerFactory setObj(Object obj)
 #### Return Type
 **[LimitHandlerFactory](LimitHandlerFactory.md)**
 
-,[object Object]
+`LimitHandlerFactory`
 
 ---
 
@@ -89,7 +89,7 @@ public LimitHandlerFactory setParams(Map<String,Object> params)
 #### Return Type
 **[LimitHandlerFactory](LimitHandlerFactory.md)**
 
-,[object Object]
+`LimitHandlerFactory`
 
 ---
 
@@ -110,4 +110,4 @@ public LimitHandlerFactory setType(Types.SOQL type)
 #### Return Type
 **[LimitHandlerFactory](LimitHandlerFactory.md)**
 
-,[object Object]
+`LimitHandlerFactory`

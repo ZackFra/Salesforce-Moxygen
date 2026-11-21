@@ -38,4 +38,4 @@ public ISelectHandler createHandler()
 #### Return Type
 **[ISelectHandler](ISelectHandler.md)**
 
-,[object Object]
+`ISelectHandler`

@@ -75,7 +75,7 @@ public FieldSelector setDatabaseRecord(SObject databaseRecord)
 #### Return Type
 **[FieldSelector](FieldSelector.md)**
 
-,[object Object]
+`FieldSelector`
 
 ---
 
@@ -96,7 +96,7 @@ public FieldSelector setFieldNode(Node fieldNode)
 #### Return Type
 **[FieldSelector](FieldSelector.md)**
 
-,[object Object]
+`FieldSelector`
 
 ---
 
@@ -117,7 +117,7 @@ public FieldSelector setParams(Map<String,Object> params)
 #### Return Type
 **[FieldSelector](FieldSelector.md)**
 
-,[object Object]
+`FieldSelector`
 
 ---
 
@@ -138,4 +138,4 @@ public FieldSelector setQueriedRecord(SObject queriedRecord)
 #### Return Type
 **[FieldSelector](FieldSelector.md)**
 
-,[object Object]
+`FieldSelector`

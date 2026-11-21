@@ -32,7 +32,7 @@ public Integer countQuery(String query)
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -54,7 +54,7 @@ public Integer countQuery(String query, System.AccessLevel accessLevel)
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -77,4 +77,4 @@ public Integer countQueryWithBinds(String query, Map<String,Object> binds, Syste
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`

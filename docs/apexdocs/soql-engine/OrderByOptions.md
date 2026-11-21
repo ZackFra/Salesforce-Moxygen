@@ -23,7 +23,7 @@ public Object getObj()
 #### Return Type
 **Object**
 
-,[object Object]
+`Object`
 
 ---
 
@@ -39,7 +39,7 @@ public TopLevelNodes getTopLevelNodes()
 #### Return Type
 **[TopLevelNodes](TopLevelNodes.md)**
 
-,[object Object]
+`TopLevelNodes`
 
 ---
 
@@ -55,7 +55,7 @@ public Types.SOQL getType()
 #### Return Type
 **Types.SOQL**
 
-,[object Object]
+`Types.SOQL`
 
 ---
 
@@ -76,7 +76,7 @@ public OrderByOptions setObj(Object obj)
 #### Return Type
 **[OrderByOptions](OrderByOptions.md)**
 
-,[object Object]
+`OrderByOptions`
 
 ---
 
@@ -97,7 +97,7 @@ public OrderByOptions setTopLevelNodes(TopLevelNodes topLevelNodes)
 #### Return Type
 **[OrderByOptions](OrderByOptions.md)**
 
-,[object Object]
+`OrderByOptions`
 
 ---
 
@@ -118,4 +118,4 @@ public OrderByOptions setType(Types.SOQL type)
 #### Return Type
 **[OrderByOptions](OrderByOptions.md)**
 
-,[object Object]
+`OrderByOptions`

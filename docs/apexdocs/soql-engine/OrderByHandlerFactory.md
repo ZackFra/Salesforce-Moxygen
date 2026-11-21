@@ -23,7 +23,7 @@ public OrderByHandler createHandler()
 #### Return Type
 **[OrderByHandler](OrderByHandler.md)**
 
-,[object Object]
+`OrderByHandler`
 
 #### Throws
 OrderByException: 
@@ -47,7 +47,7 @@ public OrderByHandlerFactory setObj(Object obj)
 #### Return Type
 **[OrderByHandlerFactory](OrderByHandlerFactory.md)**
 
-,[object Object]
+`OrderByHandlerFactory`
 
 ---
 
@@ -68,7 +68,7 @@ public OrderByHandlerFactory setTopLevelNodes(TopLevelNodes topLevelNodes)
 #### Return Type
 **[OrderByHandlerFactory](OrderByHandlerFactory.md)**
 
-,[object Object]
+`OrderByHandlerFactory`
 
 ---
 
@@ -89,4 +89,4 @@ public OrderByHandlerFactory setType(Types.SOQL type)
 #### Return Type
 **[OrderByHandlerFactory](OrderByHandlerFactory.md)**
 
-,[object Object]
+`OrderByHandlerFactory`

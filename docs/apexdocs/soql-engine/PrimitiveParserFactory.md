@@ -28,4 +28,4 @@ public static SubParser getPrimitiveParser(String query)
 #### Return Type
 **[SubParser](SubParser.md)**
 
-,[object Object]
+`SubParser`

@@ -28,4 +28,4 @@ public static String forObject(Object obj)
 #### Return Type
 **String**
 
-,[object Object]
+`String`

@@ -31,7 +31,7 @@ public abstract Intermediary parse(String query)
 #### Return Type
 **[Intermediary](Intermediary.md)**
 
-,[object Object]
+`Intermediary`
 
 ---
 

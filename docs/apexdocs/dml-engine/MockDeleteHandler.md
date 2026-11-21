@@ -19,7 +19,7 @@ MockDeleteHandler is a class that extends MockDMLHandler and overrides the delet
 ## Methods
 ### `doDelete(recordToDelete, allOrNone)`
 
-DELETE METHODS
+Deletes a record
 
 #### Signature
 ```apex
@@ -29,11 +29,16 @@ public Database.DeleteResult doDelete(SObject recordToDelete, Boolean allOrNone)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordToDelete | SObject |  |
-| allOrNone | Boolean |  |
+| recordToDelete | SObject | Record to delete |
+| allOrNone | Boolean | Boolean to indicate if all records should be deleted or none |
 
 #### Return Type
 **Database.DeleteResult**
+
+`Database.DeleteResult`
+
+#### Throws
+DmlException: 
 
 ---
 
@@ -55,7 +60,7 @@ public List<Database.DeleteResult> doDelete(List<SObject> recordsToDelete, Boole
 #### Return Type
 **List<Database.DeleteResult>**
 
-,[object Object]
+`List<Database.DeleteResult>`
 
 #### Throws
 DmlException: 
@@ -80,7 +85,7 @@ public Database.DeleteResult doDelete(Id recordID, Boolean allOrNone)
 #### Return Type
 **Database.DeleteResult**
 
-,[object Object]
+`Database.DeleteResult`
 
 #### Throws
 DMLException: 
@@ -105,7 +110,7 @@ public List<Database.DeleteResult> doDelete(List<Id> recordIDs, Boolean allOrNon
 #### Return Type
 **List<Database.DeleteResult>**
 
-,[object Object]
+`List<Database.DeleteResult>`
 
 #### Throws
 DMLException: 
@@ -126,4 +131,4 @@ public Boolean wasCalled()
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`

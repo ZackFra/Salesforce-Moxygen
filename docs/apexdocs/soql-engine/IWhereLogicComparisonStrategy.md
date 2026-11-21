@@ -29,4 +29,4 @@ public WhereLogicComparisonResults getFieldValue(SObject record, Node fieldNode)
 #### Return Type
 **[WhereLogicComparisonResults](WhereLogicComparisonResults.md)**
 
-,[object Object]
+`WhereLogicComparisonResults`

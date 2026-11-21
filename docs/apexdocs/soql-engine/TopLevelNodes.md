@@ -163,4 +163,4 @@ public TopLevelNodes(Node selectNode)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| selectNode | [Node](Node.md) | ,[object Object], the head node of the SOQL query. |
+| selectNode | [Node](Node.md) | `Node` the head node of the SOQL query. |

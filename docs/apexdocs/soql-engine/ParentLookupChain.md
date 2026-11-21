@@ -23,7 +23,7 @@ public ParentLookupChain(String fieldLookupChain)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldLookupChain | String | ,[object Object] |
+| fieldLookupChain | String | `String` |
 
 ---
 
@@ -39,8 +39,8 @@ public ParentLookupChain(String finalField, List<String> fieldParts)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| finalField | String | ,[object Object] |
-| fieldParts | List<String> | ,[object Object] |
+| finalField | String | `String` |
+| fieldParts | List<String> | `List<String>` |
 
 ## Methods
 ### `getFieldParts()`
@@ -55,7 +55,7 @@ public List<String> getFieldParts()
 #### Return Type
 **List<String>**
 
-,[object Object]
+`List<String>`
 
 ---
 
@@ -71,4 +71,4 @@ public String getFinalField()
 #### Return Type
 **String**
 
-,[object Object]
+`String`

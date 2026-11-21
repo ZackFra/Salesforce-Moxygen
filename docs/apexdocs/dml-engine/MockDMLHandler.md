@@ -24,4 +24,4 @@ public Boolean wasCalled()
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`

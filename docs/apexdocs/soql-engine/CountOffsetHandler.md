@@ -27,7 +27,7 @@ public CountOffsetHandler(OffsetOptions options)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [OffsetOptions](OffsetOptions.md) | ,[object Object] |
+| options | [OffsetOptions](OffsetOptions.md) | `OffsetOptions` |
 
 ## Methods
 ### `handleOffset()`
@@ -42,4 +42,4 @@ public Object handleOffset()
 #### Return Type
 **Object**
 
-,[object Object]
+`Object`

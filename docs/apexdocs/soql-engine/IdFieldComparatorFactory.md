@@ -31,7 +31,7 @@ public static Comparator<Schema.SObjectField> create(Schema.SObjectField field1,
 #### Return Type
 **Comparator<Schema.SObjectField>**
 
-,[object Object]
+`Comparator<Schema.SObjectField>`
 
 #### Throws
 IllegalArgumentException:

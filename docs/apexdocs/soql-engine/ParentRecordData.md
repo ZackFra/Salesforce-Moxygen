@@ -24,7 +24,7 @@ public String getFieldApiName()
 #### Return Type
 **String**
 
-,[object Object]
+`String`
 
 ---
 
@@ -40,7 +40,7 @@ public String getFieldRelationshipName()
 #### Return Type
 **String**
 
-,[object Object]
+`String`
 
 ---
 
@@ -56,7 +56,7 @@ public Boolean getIsPolymorphic()
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -72,7 +72,7 @@ public String getObjApiName()
 #### Return Type
 **String**
 
-,[object Object]
+`String`
 
 ---
 
@@ -88,7 +88,7 @@ public String getParentObjApiName()
 #### Return Type
 **String**
 
-,[object Object]
+`String`
 
 ---
 
@@ -104,7 +104,7 @@ public SObject getParentRecord()
 #### Return Type
 **SObject**
 
-,[object Object]
+`SObject`
 
 ---
 
@@ -120,7 +120,7 @@ public Id getParentRecordId()
 #### Return Type
 **Id**
 
-,[object Object]
+`Id`
 
 ## Classes
 ### Builder Class
@@ -145,7 +145,7 @@ public Builder setFieldApiName(String fieldApiName)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -166,7 +166,7 @@ public Builder setFieldRelationshipName(String fieldRelationshipName)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -187,7 +187,7 @@ public Builder setParentObjApiName(String parentObjApiName)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -208,7 +208,7 @@ public Builder setObjApiName(String objApiName)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -229,7 +229,7 @@ public Builder setParentRecord(SObject parentRecord)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -250,7 +250,7 @@ public Builder setIsPolymorphic(Boolean isPolymorphic)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -266,4 +266,4 @@ public ParentRecordData build()
 ###### Return Type
 **[ParentRecordData](ParentRecordData.md)**
 
-,[object Object]
+`ParentRecordData`

@@ -47,7 +47,7 @@ public Builder setFieldValue(String fieldValue)
 ###### Return Type
 **Builder**
 
-,[object Object]
+`Builder`
 
 ---
 
@@ -63,4 +63,4 @@ public DateLiteral build()
 ###### Return Type
 **[DateLiteral](DateLiteral.md)**
 
-,[object Object]
+`DateLiteral`

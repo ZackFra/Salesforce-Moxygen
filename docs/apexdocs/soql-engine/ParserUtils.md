@@ -73,7 +73,7 @@ public static Boolean isNext(String query, String token)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -118,7 +118,7 @@ public static String lookahead(String query, Integer numChars, Boolean isCaseSen
 #### Return Type
 **String**
 
-,[object Object]
+`String`
 
 ---
 
@@ -139,7 +139,7 @@ public static String skipWhitespace(String query)
 #### Return Type
 **String**
 
-,[object Object]
+`String`
 
 ---
 
@@ -160,4 +160,4 @@ public static Boolean validCharForFieldOrObject(String character)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`

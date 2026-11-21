@@ -147,4 +147,6 @@ public override Boolean isCompareConditionMet(Node operatorNode)
 Boolean
 
 #### Throws
-Exception:
+Exception: 
+
+**See** MockDatabaseUtils.OperatorHandlerFactory

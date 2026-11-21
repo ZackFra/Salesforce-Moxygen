@@ -53,7 +53,7 @@ public static List<Aggregate> aggregateQuery(String query)
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
 
 ---
 
@@ -75,7 +75,7 @@ public static List<Aggregate> aggregateQuery(String query, System.AccessLevel ac
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
 
 ---
 
@@ -98,7 +98,7 @@ public static List<Aggregate> aggregateQueryWithBinds(String query, Map<String,O
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
 
 ---
 
@@ -119,7 +119,7 @@ public static Integer countQuery(String query)
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -141,7 +141,7 @@ public static Integer countQuery(String query, System.AccessLevel accessLevel)
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -164,7 +164,7 @@ public static Integer countQueryWithBinds(String query, Map<String,Object> binds
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 ---
 
@@ -348,7 +348,7 @@ List&lt;Database.SaveResult&gt; - The results of the insert operations
 
 ### `doMockInsert(recordToInsert)`
 
-DML methods
+doMockInsert is used to insert a record into the mock database without setting the `wasCalled` flag
 
 #### Signature
 ```apex
@@ -358,7 +358,7 @@ public static void doMockInsert(SObject recordToInsert)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| recordToInsert | SObject |  |
+| recordToInsert | SObject | - The record to insert |
 
 #### Return Type
 **void**
@@ -386,7 +386,7 @@ public static void doMockInsert(List<SObject> recordsToInsert)
 
 ### `doSelectQueryInternal(head, params)`
 
-SOQL methods
+Internal method to handle the select query
 
 #### Signature
 ```apex
@@ -396,11 +396,13 @@ public static List<SObject> doSelectQueryInternal(Node head, Map<String,Object> 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| head | [Node](../soql-engine/Node.md) |  |
-| params | Map<String,Object> |  |
+| head | [Node](../soql-engine/Node.md) | `Node` |
+| params | Map<String,Object> | `Map<String, Object>` |
 
 #### Return Type
 **List<SObject>**
+
+`List<SObject>`
 
 ---
 
@@ -567,7 +569,7 @@ public static List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, 
 #### Return Type
 **List<Database.SaveResult>**
 
-,[object Object], - The results of the update operations
+`List<Database.SaveResult>` - The results of the update operations
 
 ---
 
@@ -590,7 +592,7 @@ public static Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOr
 #### Return Type
 **Database.SaveResult**
 
-,[object Object]
+`Database.SaveResult`
 
 ---
 
@@ -613,7 +615,7 @@ public static List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, 
 #### Return Type
 **List<Database.SaveResult>**
 
-,[object Object]
+`List<Database.SaveResult>`
 
 ---
 
@@ -636,7 +638,7 @@ public static Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectFiel
 #### Return Type
 **Database.UpsertResult**
 
-,[object Object]
+`Database.UpsertResult`
 
 ---
 
@@ -659,7 +661,7 @@ public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert
 #### Return Type
 **List<Database.UpsertResult>**
 
-,[object Object]
+`List<Database.UpsertResult>`
 
 ---
 
@@ -685,7 +687,7 @@ public static Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectFiel
 #### Return Type
 **Database.UpsertResult**
 
-,[object Object]
+`Database.UpsertResult`
 
 ---
 
@@ -711,7 +713,7 @@ public static List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert
 #### Return Type
 **List<Database.UpsertResult>**
 
-,[object Object]
+`List<Database.UpsertResult>`
 
 ---
 
@@ -754,7 +756,7 @@ public static List<SObject> query(String query, System.AccessLevel accessLevel)
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`
 
 ---
 
@@ -777,4 +779,4 @@ public static List<SObject> queryWithBinds(String query, Map<String,Object> bind
 #### Return Type
 **List<SObject>**
 
-,[object Object]
+`List<SObject>`

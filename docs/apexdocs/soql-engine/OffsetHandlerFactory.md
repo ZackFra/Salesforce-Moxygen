@@ -23,7 +23,7 @@ public IOffsetHandler createHandler()
 #### Return Type
 **[IOffsetHandler](IOffsetHandler.md)**
 
-,[object Object]
+`IOffsetHandler`
 
 #### Throws
 OffsetHandlerException: 
@@ -47,7 +47,7 @@ public OffsetHandlerFactory setObj(Object obj)
 #### Return Type
 **[OffsetHandlerFactory](OffsetHandlerFactory.md)**
 
-,[object Object]
+`OffsetHandlerFactory`
 
 ---
 
@@ -68,7 +68,7 @@ public OffsetHandlerFactory setOffsetNode(Node offsetNode)
 #### Return Type
 **[OffsetHandlerFactory](OffsetHandlerFactory.md)**
 
-,[object Object]
+`OffsetHandlerFactory`
 
 ---
 
@@ -89,7 +89,7 @@ public OffsetHandlerFactory setParams(Map<String,Object> params)
 #### Return Type
 **[OffsetHandlerFactory](OffsetHandlerFactory.md)**
 
-,[object Object]
+`OffsetHandlerFactory`
 
 ---
 
@@ -110,4 +110,4 @@ public OffsetHandlerFactory setType(Types.SOQL type)
 #### Return Type
 **[OffsetHandlerFactory](OffsetHandlerFactory.md)**
 
-,[object Object]
+`OffsetHandlerFactory`

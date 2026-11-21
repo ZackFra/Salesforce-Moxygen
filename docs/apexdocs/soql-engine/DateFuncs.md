@@ -29,7 +29,7 @@ public static Integer execute(String dateFunc, Object dateOrDateTimeValue)
 #### Return Type
 **Integer**
 
-,[object Object]
+`Integer`
 
 #### Throws
 IllegalArgumentException:

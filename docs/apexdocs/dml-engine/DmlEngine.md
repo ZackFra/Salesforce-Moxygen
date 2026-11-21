@@ -402,7 +402,7 @@ public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean
 #### Return Type
 **List<Database.SaveResult>**
 
-,[object Object], - The results of the update operations
+`List<Database.SaveResult>` - The results of the update operations
 
 ---
 
@@ -425,7 +425,7 @@ public Database.SaveResult doUpdate(SObject recordToUpdate, Boolean allOrNone, S
 #### Return Type
 **Database.SaveResult**
 
-,[object Object]
+`Database.SaveResult`
 
 ---
 
@@ -448,7 +448,7 @@ public List<Database.SaveResult> doUpdate(List<SObject> recordsToUpdate, Boolean
 #### Return Type
 **List<Database.SaveResult>**
 
-,[object Object]
+`List<Database.SaveResult>`
 
 ---
 
@@ -471,7 +471,7 @@ public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField exter
 #### Return Type
 **Database.UpsertResult**
 
-,[object Object]
+`Database.UpsertResult`
 
 ---
 
@@ -494,7 +494,7 @@ public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObje
 #### Return Type
 **List<Database.UpsertResult>**
 
-,[object Object]
+`List<Database.UpsertResult>`
 
 ---
 
@@ -520,7 +520,7 @@ public Database.UpsertResult doUpsert(SObject recordToUpsert, SObjectField exter
 #### Return Type
 **Database.UpsertResult**
 
-,[object Object]
+`Database.UpsertResult`
 
 ---
 
@@ -546,7 +546,7 @@ public List<Database.UpsertResult> doUpsert(List<SObject> recordsToUpsert, SObje
 #### Return Type
 **List<Database.UpsertResult>**
 
-,[object Object]
+`List<Database.UpsertResult>`
 
 ---
 

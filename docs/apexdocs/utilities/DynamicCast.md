@@ -33,7 +33,7 @@ public static Object castTo(String castTo, Object value)
 #### Return Type
 **Object**
 
-,[object Object]
+`Object`
 
 #### Throws
 IllegalArgumentException:

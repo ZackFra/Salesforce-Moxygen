@@ -27,7 +27,7 @@ public RecordOrderByHandler(OrderByOptions options)
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| options | [OrderByOptions](OrderByOptions.md) | ,[object Object] |
+| options | [OrderByOptions](OrderByOptions.md) | `OrderByOptions` |
 
 ## Methods
 ### `handleOrderBy()`
@@ -42,4 +42,4 @@ public override Object handleOrderBy()
 #### Return Type
 **Object**
 
-,[object Object]
+`Object`

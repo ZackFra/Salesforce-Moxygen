@@ -101,7 +101,7 @@ public static Boolean isAggregateFunc(String nodeType, String nodeId)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -123,7 +123,7 @@ public static Boolean isCountFunc(String type, String nodeId)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -145,7 +145,7 @@ public static Boolean isDateFunc(String type, String nodeId)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`
 
 ---
 
@@ -167,4 +167,4 @@ public static Boolean isNumericFunc(String type, String nodeId)
 #### Return Type
 **Boolean**
 
-,[object Object]
+`Boolean`

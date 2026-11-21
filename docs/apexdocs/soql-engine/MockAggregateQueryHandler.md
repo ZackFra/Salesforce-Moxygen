@@ -32,7 +32,7 @@ public List<Aggregate> aggregateQuery(String query)
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
 
 ---
 
@@ -54,7 +54,7 @@ public List<Aggregate> aggregateQuery(String query, System.AccessLevel accessLev
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
 
 ---
 
@@ -77,4 +77,4 @@ public List<Aggregate> aggregateQueryWithBinds(String query, Map<String,Object> 
 #### Return Type
 **List<Aggregate>**
 
-,[object Object]
+`List<Aggregate>`
