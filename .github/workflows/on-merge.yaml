@@ -1,17 +1,48 @@
 name: Deploy
 
 on:
-    pull_request_target:
-      types: [closed]
+    push:
       branches:
         - main
       paths:
         - "**/main/default/**"
 
-jobs: 
+jobs:
+    # Push runs trusted main-branch code with secrets. pull_request_target is
+    # unnecessary here and will be blocked on public repos after 2026-12-02.
+    resolve-pull-request:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pull-requests: read
+        outputs:
+            number: ${{ steps.pr.outputs.number }}
+            deploy: ${{ steps.pr.outputs.deploy }}
+        steps:
+            - name: Resolve merged pull request
+              id: pr
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                pr_json=$(gh api --jq 'map(select(.merged_at != null and .base.ref == "main")) | .[0] // empty' \
+                  "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/pulls")
+                if [ -z "$pr_json" ]; then
+                  echo "deploy=false" >> "$GITHUB_OUTPUT"
+                  exit 0
+                fi
+                number=$(jq -r '.number' <<< "$pr_json")
+                echo "number=${number}" >> "$GITHUB_OUTPUT"
+                if jq -e '.labels | map(.name) | index("dont deploy") != null' <<< "$pr_json" >/dev/null; then
+                  echo "deploy=false" >> "$GITHUB_OUTPUT"
+                else
+                  echo "deploy=true" >> "$GITHUB_OUTPUT"
+                fi
     deploy-to-production:
-        if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') && github.event.pull_request.merged == true }}
+        needs: resolve-pull-request
+        if: needs.resolve-pull-request.outputs.deploy == 'true'
         uses: ./.github/workflows/deploy.yaml
+        with:
+            pull-request-number: ${{ needs.resolve-pull-request.outputs.number }}
         secrets: inherit
     generate-apex-docs:
         permissions:

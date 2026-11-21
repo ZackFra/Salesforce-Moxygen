@@ -1,6 +1,11 @@
 name: Deploy to Production
 on:
     workflow_call:
+        inputs:
+            pull-request-number:
+                description: Merged pull request whose validated deployment should be promoted
+                required: true
+                type: string
 
 env:
   AWS_SECRET: ${{ secrets.AWS_SECRET }}
@@ -9,7 +14,7 @@ env:
   AWS_GET_DEPLOYMENT_FUNC: ${{ secrets.AWS_GET_DEPLOYMENT_FUNC }}
   SF_AUTH_URL: ${{ secrets.SF_AUTH_URL }}
   REPOSITORY: ${{ github.repository }}
-  PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+  PULL_REQUEST_NUMBER: ${{ inputs.pull-request-number }}
 
 jobs:
   deploy-pull-request:
