@@ -41,7 +41,7 @@ jobs:
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'dont deploy') }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Create Auth File

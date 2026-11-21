@@ -212,9 +212,7 @@ public with sharing class Common {
      * @return `DateTime`
      */
     private static DateTime gmtDateTimeOf(String dateTimeString) {
-        return DateTime.valueOfGmt(
-            dateTimeString.left(19).replace('T', ' ')
-        );
+        return DateTime.valueOfGmt(dateTimeString.left(19).replace('T', ' '));
     }
 
     /**
