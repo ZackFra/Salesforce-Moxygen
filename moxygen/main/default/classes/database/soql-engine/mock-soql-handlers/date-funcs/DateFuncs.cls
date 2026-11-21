@@ -34,10 +34,10 @@ public with sharing class DateFuncs {
      * @description Determins which date function to execute and executes it
      * @param dateFunc `String`
      * @param dateOrDateTimeValue `Date|Datetime`
-     * @return  `Integer`
+     * @return  `Object`
      * @exception IllegalArgumentException
      */
-    public static Integer execute(String dateFunc, Object dateOrDateTimeValue) {
+    public static Object execute(String dateFunc, Object dateOrDateTimeValue) {
         IDateFunc dateFuncInstance = DateFuncFactory.create(dateFunc);
         return dateFuncInstance.calculate(dateOrDateTimeValue);
     }

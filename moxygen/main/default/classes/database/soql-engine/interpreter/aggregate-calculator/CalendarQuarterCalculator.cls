@@ -88,6 +88,6 @@ public with sharing class CalendarQuarterCalculator implements IAggregateCalcula
 
     private Integer calendarQuarter(Object value) {
         IDateFunc calendarQuarterFunc = new CalendarQuarterFunc();
-        return calendarQuarterFunc.calculate(value);
+        return (Integer) calendarQuarterFunc.calculate(value);
     }
 }

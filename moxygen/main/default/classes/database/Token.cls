@@ -101,10 +101,30 @@ public with sharing class Token {
     public final static String CALENDAR_YEAR = 'calendar_year';
     public final static String CALENDAR_MONTH = 'calendar_month';
     public final static String CALENDAR_QUARTER = 'calendar_quarter';
+    public final static String DAY_IN_MONTH = 'day_in_month';
+    public final static String DAY_IN_WEEK = 'day_in_week';
+    public final static String DAY_IN_YEAR = 'day_in_year';
+    public final static String DAY_ONLY = 'day_only';
+    public final static String FISCAL_MONTH = 'fiscal_month';
+    public final static String FISCAL_QUARTER = 'fiscal_quarter';
+    public final static String FISCAL_YEAR = 'fiscal_year';
+    public final static String HOUR_IN_DAY = 'hour_in_day';
+    public final static String WEEK_IN_MONTH = 'week_in_month';
+    public final static String WEEK_IN_YEAR = 'week_in_year';
     public final static List<String> DATE_FUNCS = new List<String>{
         CALENDAR_YEAR,
         CALENDAR_MONTH,
-        CALENDAR_QUARTER
+        CALENDAR_QUARTER,
+        DAY_IN_MONTH,
+        DAY_IN_WEEK,
+        DAY_IN_YEAR,
+        DAY_ONLY,
+        FISCAL_MONTH,
+        FISCAL_QUARTER,
+        FISCAL_YEAR,
+        HOUR_IN_DAY,
+        WEEK_IN_MONTH,
+        WEEK_IN_YEAR
     };
 
     public final static String COUNT_DISTINCT = 'count_distinct';
@@ -165,6 +185,8 @@ public with sharing class Token {
     public final static String N_WEEKS_AGO_LITERAL = 'n_weeks_ago';
     public final static String NEXT_N_MONTHS_LITERAL = 'next_n_months';
     public final static String LAST_N_MONTHS_LITERAL = 'last_n_months';
+    public final static String NEXT_YEAR_LITERAL = 'next_year';
+    public final static String N_FISCAL_QUARTERS_AGO_LITERAL = 'n_fiscal_quarters_ago';
 
     public final static Set<String> DATE_LITERAL_TOKENS = new Set<String>{
         TODAY_LITERAL,
@@ -208,6 +230,8 @@ public with sharing class Token {
         LAST_N_QUARTERS_LITERAL,
         N_WEEKS_AGO_LITERAL,
         NEXT_N_MONTHS_LITERAL,
-        LAST_N_MONTHS_LITERAL
+        LAST_N_MONTHS_LITERAL,
+        NEXT_YEAR_LITERAL,
+        N_FISCAL_QUARTERS_AGO_LITERAL
     };
 }

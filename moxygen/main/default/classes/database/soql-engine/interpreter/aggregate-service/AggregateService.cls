@@ -43,11 +43,7 @@ public with sharing class AggregateService {
         'sum'
     };
 
-    public final static List<String> SUPPORTED_DATE_FUNCS = new List<String>{
-        'calendar_month',
-        'calendar_year',
-        'calendar_quarter'
-    };
+    public final static List<String> SUPPORTED_DATE_FUNCS = Token.DATE_FUNCS;
 
     public final static List<String> SUPPORTED_AGGREGATE_FUNCS;
     static {

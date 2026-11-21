@@ -11,7 +11,7 @@ public with sharing class CalendarYearFunc implements IDateFunc {
      * @return The calendar year of the date or datetime value
      * @exception QueryException if the value is not a Date or DateTime
      */
-    public Integer calculate(Object value) {
+    public Object calculate(Object value) {
         Integer calendarYear;
         if (value instanceof Date) {
             Date dateValue = (Date) value;

@@ -90,18 +90,30 @@ private class ParserTest {
     }
 
     @IsTest
-    static void testUpdateTrackingExpectError() {
-        ParserTestUtil.assertExceptionIsThrownWithMessage(
-            'SELECT Name FROM Account UPDATE TRACKING',
-            'UPDATE TRACKING is not supported by the mock SOQL parser'
+    static void testUpdateTrackingIsIgnored() {
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account UPDATE TRACKING'
         );
     }
 
     @IsTest
-    static void testUpdateViewStatExpectError() {
-        ParserTestUtil.assertExceptionIsThrownWithMessage(
-            'SELECT Name FROM Account UPDATE VIEWSTAT',
-            'UPDATE VIEWSTAT is not supported by the mock SOQL parser'
+    static void testUpdateViewStatIsIgnored() {
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Name FROM Account UPDATE VIEWSTAT'
+        );
+    }
+
+    @IsTest
+    static void ensureNextYearCanBeParsed() {
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Id FROM Opportunity WHERE CreatedDate = NEXT_YEAR'
+        );
+    }
+
+    @IsTest
+    static void ensureNFiscalQuartersAgoCanBeParsed() {
+        ParserTestUtil.assertExceptionIsNotThrown(
+            'SELECT Id FROM Opportunity WHERE CreatedDate = N_FISCAL_QUARTERS_AGO:5'
         );
     }
 

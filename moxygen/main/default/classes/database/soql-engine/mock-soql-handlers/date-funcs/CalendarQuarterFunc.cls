@@ -11,7 +11,7 @@ public with sharing class CalendarQuarterFunc implements IDateFunc {
      * @return  The calendar quarter of the date or datetime value
      * @exception QueryException if the value is not a Date or DateTime
      */
-    public Integer calculate(Object value) {
+    public Object calculate(Object value) {
         Integer calendarQuarter;
         if (value instanceof Date) {
             Date dateValue = (Date) value;

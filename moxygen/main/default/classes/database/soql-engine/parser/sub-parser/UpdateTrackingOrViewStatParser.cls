@@ -45,28 +45,26 @@ public with sharing class UpdateTrackingOrViewStatParser extends SubParser {
             return null;
         }
 
-        query = consume(query, 'update ');
-        query = skipWhitespace(query);
-
-        if (
-            lookahead(query, 8) != 'tracking' &&
-            lookahead(query, 4) != 'view'
-        ) {
+        String remainder = skipWhitespace(query.substring(6));
+        String updateType;
+        if (lookahead(remainder, 8) == 'tracking') {
+            updateType = 'tracking';
+        } else if (lookahead(remainder, 8) == 'viewstat') {
+            updateType = 'viewstat';
+        } else {
             return null;
         }
 
-        String updateType = 'tracking';
-        if (lookahead(query, 8) == 'viewstat') {
-            updateType = 'viewstat';
-        }
-
+        query = consume(query, 'update');
+        query = skipWhitespace(query);
         query = consume(query, updateType);
 
-        // so it is either UPDATE VIEW or UPDATE TRACKING
-        throw new ParsingException(
-            'UPDATE ' +
-                updateType.toUpperCase() +
-                ' is not supported by the mock SOQL parser'
+        return new Intermediary(
+            new NodeBuilder()
+                .setId('update ' + updateType)
+                .setNodeType('ignored')
+                .build(),
+            query
         );
     }
 }
