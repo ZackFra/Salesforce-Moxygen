@@ -88,7 +88,6 @@ public with sharing class CalendarMonthCalculator implements IAggregateCalculato
 
     private Integer calendarMonth(Object value) {
         IDateFunc calendarMonthFunc = new CalendarMonthFunc();
-        Integer calendarMonth = calendarMonthFunc.calculate(value);
-        return calendarMonth;
+        return (Integer) calendarMonthFunc.calculate(value);
     }
 }

@@ -72,4 +72,44 @@ private class ParserDateFuncTest {
     static void testParseCalendarYearInSelectClause() {
         ParserTestUtil.assertStaticResource('CALENDAR_YEAR_1');
     }
+
+    @IsTest
+    static void testRemainingDateFunctionsParse() {
+        List<String> dateFuncs = new List<String>{
+            'DAY_IN_MONTH',
+            'DAY_IN_WEEK',
+            'DAY_IN_YEAR',
+            'DAY_ONLY',
+            'FISCAL_MONTH',
+            'FISCAL_QUARTER',
+            'FISCAL_YEAR',
+            'HOUR_IN_DAY',
+            'WEEK_IN_MONTH',
+            'WEEK_IN_YEAR'
+        };
+        Parser parser = new Parser();
+        for (String dateFunc : dateFuncs) {
+            parser.parse(
+                'SELECT Name FROM Account WHERE ' +
+                    dateFunc +
+                    '(CreatedDate) = 1'
+            );
+            parser.parse(
+                'SELECT ' +
+                    dateFunc +
+                    '(CreatedDate) FROM Account GROUP BY ' +
+                    dateFunc +
+                    '(CreatedDate)'
+            );
+            parser.parse(
+                'SELECT ' +
+                    dateFunc +
+                    '(CreatedDate) FROM Account GROUP BY ' +
+                    dateFunc +
+                    '(CreatedDate) HAVING ' +
+                    dateFunc +
+                    '(CreatedDate) = 1'
+            );
+        }
+    }
 }

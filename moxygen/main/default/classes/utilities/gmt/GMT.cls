@@ -89,4 +89,56 @@ public with sharing class GMT {
         }
         return startOfThisFiscalQuarter.addMonths(-3);
     }
+
+    /**
+     * @description Month the org's standard fiscal year starts, from 1 to 12
+     * @return  `Integer`
+     */
+    public static Integer fiscalStartMonth() {
+        return OrganizationSingleton.getInstance().FiscalYearStartMonth;
+    }
+
+    /**
+     * @description First day of the standard fiscal year that contains the date
+     * @param value `Date`
+     * @return  `Date`
+     */
+    public static Date fiscalYearStart(Date value) {
+        Date candidate = Date.newInstance(value.year(), fiscalStartMonth(), 1);
+        if (value < candidate) {
+            return candidate.addYears(-1);
+        }
+        return candidate;
+    }
+
+    /**
+     * @description Fiscal year number for a date. Standard fiscal years are named for the year they end.
+     * @param value `Date`
+     * @return  `Integer`
+     */
+    public static Integer fiscalYear(Date value) {
+        return fiscalYearStart(value).addYears(1).addDays(-1).year();
+    }
+
+    /**
+     * @description Fiscal month for a date, from 1 to 12
+     * @param value `Date`
+     * @return  `Integer`
+     */
+    public static Integer fiscalMonth(Date value) {
+        Date start = fiscalYearStart(value);
+        return (value.year() - start.year()) * 12 +
+            value.month() -
+            start.month() +
+            1;
+    }
+
+    /**
+     * @description Fiscal quarter for a date, from 1 to 4
+     * @param value `Date`
+     * @return  `Integer`
+     */
+    public static Integer fiscalQuarter(Date value) {
+        return ((fiscalMonth(value) - 1) / 3) + 1;
+    }
 }

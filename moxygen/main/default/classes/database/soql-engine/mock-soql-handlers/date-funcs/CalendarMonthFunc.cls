@@ -11,7 +11,7 @@ public with sharing class CalendarMonthFunc implements IDateFunc {
      * @return  The calendar month of the date or datetime value
      * @exception QueryException if the value is not a Date or DateTime
      */
-    public Integer calculate(Object value) {
+    public Object calculate(Object value) {
         Integer calendarMonth;
         if (value instanceof Date) {
             Date dateValue = (Date) value;

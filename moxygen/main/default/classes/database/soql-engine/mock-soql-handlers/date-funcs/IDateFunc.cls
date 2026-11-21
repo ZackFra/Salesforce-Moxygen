@@ -10,5 +10,5 @@ public interface IDateFunc {
      * @param dateOrDateTime Date or Datetime value to calculate the date function value of
      * @return  The date function value of the date or datetime value
      */
-    Integer calculate(Object dateOrDateTime);
+    Object calculate(Object dateOrDateTime);
 }

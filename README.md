@@ -174,19 +174,19 @@ There are four categories of support for a SOQL query done via the mock SOQL dat
 ### Supported Clauses
 | Clause      | Level of Support    | Notes |
 |-------------|---------------------|-------|
-| SELECT      | Partially Supported | FORMAT(), convertCurrency(), convertTimezone(), GROUPING(), date functions, and toLabel() are not supported. |
+| SELECT      | Partially Supported | FORMAT(), convertCurrency(), convertTimezone(), GROUPING(), and toLabel() are not supported. Date functions are supported. |
 | TYPEOF      | Fully Supported     ||
 | FROM        | Fully Supported     ||
 | USING SCOPE | Ignored             ||
-| WHERE       | Partially Supported | Date functions and date literals are being gradually rolled out. |
+| WHERE       | Partially Supported | Date functions and date literals are supported. |
 | WITH        | Not Supported       ||
 | GROUP BY    | Partially Supported | GROUP BY ROLLUP and GROUP BY CUBE are not supported |
-| HAVING | Partially Supported | Date functions and date literals are being gradually rolled out. |
+| HAVING | Partially Supported | Date functions and date literals are supported. |
 | ORDER BY | Fully Supported ||
 | LIMIT | Fully Supported ||
 | OFFSET | Fully Supported ||
 | FOR VIEW\|REFERENCE | Ignored ||
-| UPDATE TRACKING\|VIEWSTAT | Not Supported ||
+| UPDATE TRACKING\|VIEWSTAT | Ignored | Parsed and ignored. |
 | FOR UPDATE | Ignored ||
 | WITH SECURITY_ENFORCED | Ignored | Syntax is enforced, will not allow this clause in sub-queries |
 

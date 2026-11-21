@@ -53,7 +53,47 @@ public with sharing class AggregateCalculatorFactory {
             'count' => new CountCalculator(options),
             'calendar_month' => new CalendarMonthCalculator(options),
             'calendar_year' => new CalendarYearCalculator(options),
-            'calendar_quarter' => new CalendarQuarterCalculator(options)
+            'calendar_quarter' => new CalendarQuarterCalculator(options),
+            Token.DAY_IN_MONTH => new DateFuncAggregateCalculator(
+                options,
+                Token.DAY_IN_MONTH
+            ),
+            Token.DAY_IN_WEEK => new DateFuncAggregateCalculator(
+                options,
+                Token.DAY_IN_WEEK
+            ),
+            Token.DAY_IN_YEAR => new DateFuncAggregateCalculator(
+                options,
+                Token.DAY_IN_YEAR
+            ),
+            Token.DAY_ONLY => new DateFuncAggregateCalculator(
+                options,
+                Token.DAY_ONLY
+            ),
+            Token.FISCAL_MONTH => new DateFuncAggregateCalculator(
+                options,
+                Token.FISCAL_MONTH
+            ),
+            Token.FISCAL_QUARTER => new DateFuncAggregateCalculator(
+                options,
+                Token.FISCAL_QUARTER
+            ),
+            Token.FISCAL_YEAR => new DateFuncAggregateCalculator(
+                options,
+                Token.FISCAL_YEAR
+            ),
+            Token.HOUR_IN_DAY => new DateFuncAggregateCalculator(
+                options,
+                Token.HOUR_IN_DAY
+            ),
+            Token.WEEK_IN_MONTH => new DateFuncAggregateCalculator(
+                options,
+                Token.WEEK_IN_MONTH
+            ),
+            Token.WEEK_IN_YEAR => new DateFuncAggregateCalculator(
+                options,
+                Token.WEEK_IN_YEAR
+            )
         };
         IAggregateCalculator calculator = calculators.get(type);
         if (calculator == null) {

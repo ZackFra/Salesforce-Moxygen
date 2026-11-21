@@ -89,6 +89,6 @@ public with sharing class CalendarYearCalculator implements IAggregateCalculator
 
     private Integer calendarYear(Object value) {
         IDateFunc calendarYearFunc = new CalendarYearFunc();
-        return calendarYearFunc.calculate(value);
+        return (Integer) calendarYearFunc.calculate(value);
     }
 }

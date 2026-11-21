@@ -115,8 +115,13 @@ public with sharing class QueryParser extends SubParser {
             nextLink = forViewOrReferenceIntermediary;
         }
 
-        // will throw an exception if UPDATE TRACKING or UPDATE VIEWSTAT is added to the query
-        new UpdateTrackingOrViewStatParser().parse(query);
+        // UPDATE TRACKING and UPDATE VIEWSTAT are parsed and ignored
+        Intermediary updateTrackingOrViewStat = new UpdateTrackingOrViewStatParser()
+            .parse(query);
+        if (updateTrackingOrViewStat != null) {
+            query = updateTrackingOrViewStat.subquery;
+            nextLink.subquery = query;
+        }
 
         Intermediary forUpdateIntermediary = new ForUpdateParser().parse(query);
         if (forUpdateIntermediary != null) {

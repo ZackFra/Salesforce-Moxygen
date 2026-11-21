@@ -62,17 +62,13 @@ public with sharing class AggregateFuncParser extends SubParser {
         } else if (isNext(query, Token.MAX)) {
             query = consume(query, Token.MAX);
             nb.setId(Token.MAX);
-        } else if (isNext(query, Token.CALENDAR_MONTH)) {
-            query = consume(query, Token.CALENDAR_MONTH);
-            nb.setId(Token.CALENDAR_MONTH);
-        } else if (isNext(query, Token.CALENDAR_YEAR)) {
-            query = consume(query, Token.CALENDAR_YEAR);
-            nb.setId(Token.CALENDAR_YEAR);
-        } else if (isNext(query, Token.CALENDAR_QUARTER)) {
-            query = consume(query, Token.CALENDAR_QUARTER);
-            nb.setId(Token.CALENDAR_QUARTER);
         } else {
-            throw new ParsingException(query, 'aggregate function');
+            String dateFunc = nextDateFunc(query);
+            if (dateFunc == null) {
+                throw new ParsingException(query, 'aggregate function');
+            }
+            query = consume(query, dateFunc);
+            nb.setId(dateFunc);
         }
         query = skipWhitespace(query);
 
@@ -102,5 +98,14 @@ public with sharing class AggregateFuncParser extends SubParser {
         nb.setRight(field.head);
 
         return new Intermediary(nb.build(), query);
+    }
+
+    private String nextDateFunc(String query) {
+        for (String dateFunc : Token.DATE_FUNCS) {
+            if (isNext(query, dateFunc)) {
+                return dateFunc;
+            }
+        }
+        return null;
     }
 }
