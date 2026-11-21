@@ -17,7 +17,7 @@ Determins which date function to execute and executes it
 
 #### Signature
 ```apex
-public static Integer execute(String dateFunc, Object dateOrDateTimeValue)
+public static Object execute(String dateFunc, Object dateOrDateTimeValue)
 ```
 
 #### Parameters
@@ -27,9 +27,9 @@ public static Integer execute(String dateFunc, Object dateOrDateTimeValue)
 | dateOrDateTimeValue | Object | `Date|Datetime` |
 
 #### Return Type
-**Integer**
+**Object**
 
-`Integer`
+`Object`
 
 #### Throws
 IllegalArgumentException:

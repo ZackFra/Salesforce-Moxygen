@@ -21,7 +21,7 @@ Returns the calendar month of a date or datetime value
 
 #### Signature
 ```apex
-public Integer calculate(Object value)
+public Object calculate(Object value)
 ```
 
 #### Parameters
@@ -30,7 +30,7 @@ public Integer calculate(Object value)
 | value | Object | Date or Datetime value to calculate the calendar month of |
 
 #### Return Type
-**Integer**
+**Object**
 
 The calendar month of the date or datetime value
 

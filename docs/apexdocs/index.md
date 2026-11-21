@@ -211,6 +211,14 @@ Handles the limit for the count of records
 
 OffsetHandler for Count
 
+### [DateFuncAggregateCalculator](soql-engine/DateFuncAggregateCalculator.md)
+
+Calculates a SOQL date function for an aggregate query
+
+### [DateFuncBase](soql-engine/DateFuncBase.md)
+
+Shared date and datetime normalization for SOQL date functions
+
 ### [DateFuncFactory](soql-engine/DateFuncFactory.md)
 
 Factory class to create date functions by name
@@ -239,6 +247,22 @@ Generic date literal parser
 
 DateParser is a parser for date values.
 
+### [DayInMonthFunc](soql-engine/DayInMonthFunc.md)
+
+DAY_IN_MONTH date function
+
+### [DayInWeekFunc](soql-engine/DayInWeekFunc.md)
+
+DAY_IN_WEEK date function. Sunday is 1 and Saturday is 7.
+
+### [DayInYearFunc](soql-engine/DayInYearFunc.md)
+
+DAY_IN_YEAR date function
+
+### [DayOnlyFunc](soql-engine/DayOnlyFunc.md)
+
+DAY_ONLY date function. DateTime values are reduced to their GMT date.
+
 ### [EqualityHandler](soql-engine/EqualityHandler.md)
 
 Handles the equality operator
@@ -262,6 +286,18 @@ FieldSelectHandler is a class that implements ISelectHandler. It is used to hand
 ### [FieldSelector](soql-engine/FieldSelector.md)
 
 FieldSelector is a class that is used to select fields from a queried record based on a field node.
+
+### [FiscalMonthFunc](soql-engine/FiscalMonthFunc.md)
+
+FISCAL_MONTH date function for the org&#x27;s standard fiscal year
+
+### [FiscalQuarterFunc](soql-engine/FiscalQuarterFunc.md)
+
+FISCAL_QUARTER date function for the org&#x27;s standard fiscal year
+
+### [FiscalYearFunc](soql-engine/FiscalYearFunc.md)
+
+FISCAL_YEAR date function for the org&#x27;s standard fiscal year
 
 ### [ForUpdateParser](soql-engine/ForUpdateParser.md)
 
@@ -294,6 +330,10 @@ This class is used to handle the having clause logic
 ### [HavingParser](soql-engine/HavingParser.md)
 
 This class is responsible for parsing the HAVING clause of a SOQL query.
+
+### [HourInDayFunc](soql-engine/HourInDayFunc.md)
+
+HOUR_IN_DAY date function. Date values are hour 0. DateTime values use the GMT hour.
 
 ### [IAggregateCalculator](soql-engine/IAggregateCalculator.md)
 
@@ -510,6 +550,14 @@ Compares the NEXT_QUARTER token
 ### [NextWeekComparable](soql-engine/NextWeekComparable.md)
 
 Comparable class for NEXT_WEEK
+
+### [NextYearComparable](soql-engine/NextYearComparable.md)
+
+Comparable for NEXT_YEAR
+
+### [NFiscalQuartersAgoComparable](soql-engine/NFiscalQuartersAgoComparable.md)
+
+Comparable class for N_FISCAL_QUARTERS_AGO
 
 ### [NFiscalYearsAgoComparable](soql-engine/NFiscalYearsAgoComparable.md)
 
@@ -753,6 +801,14 @@ This class is responsible for parsing a list of values.
 ### [ValueParser](soql-engine/ValueParser.md)
 
 This class is responsible for parsing values in the query string
+
+### [WeekInMonthFunc](soql-engine/WeekInMonthFunc.md)
+
+WEEK_IN_MONTH date function. Weeks start on Sunday, and week 1 contains the first of the month.
+
+### [WeekInYearFunc](soql-engine/WeekInYearFunc.md)
+
+WEEK_IN_YEAR date function. Weeks start on Sunday, and week 1 contains January 1.
 
 ### [WhereLogicComparisonResults](soql-engine/WhereLogicComparisonResults.md)
 

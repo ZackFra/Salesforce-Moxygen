@@ -143,11 +143,107 @@ Set<String>
 
 ---
 
+### `DAY_IN_MONTH`
+
+#### Signature
+```apex
+public final static DAY_IN_MONTH
+```
+
+#### Type
+String
+
+---
+
+### `DAY_IN_WEEK`
+
+#### Signature
+```apex
+public final static DAY_IN_WEEK
+```
+
+#### Type
+String
+
+---
+
+### `DAY_IN_YEAR`
+
+#### Signature
+```apex
+public final static DAY_IN_YEAR
+```
+
+#### Type
+String
+
+---
+
+### `DAY_ONLY`
+
+#### Signature
+```apex
+public final static DAY_ONLY
+```
+
+#### Type
+String
+
+---
+
 ### `DOT`
 
 #### Signature
 ```apex
 public final static DOT
+```
+
+#### Type
+String
+
+---
+
+### `FISCAL_MONTH`
+
+#### Signature
+```apex
+public final static FISCAL_MONTH
+```
+
+#### Type
+String
+
+---
+
+### `FISCAL_QUARTER`
+
+#### Signature
+```apex
+public final static FISCAL_QUARTER
+```
+
+#### Type
+String
+
+---
+
+### `FISCAL_YEAR`
+
+#### Signature
+```apex
+public final static FISCAL_YEAR
+```
+
+#### Type
+String
+
+---
+
+### `HOUR_IN_DAY`
+
+#### Signature
+```apex
+public final static HOUR_IN_DAY
 ```
 
 #### Type
@@ -383,6 +479,18 @@ String
 
 ---
 
+### `N_FISCAL_QUARTERS_AGO_LITERAL`
+
+#### Signature
+```apex
+public final static N_FISCAL_QUARTERS_AGO_LITERAL
+```
+
+#### Type
+String
+
+---
+
 ### `N_FISCAL_YEARS_AGO_LITERAL`
 
 #### Signature
@@ -599,6 +707,18 @@ String
 
 ---
 
+### `NEXT_YEAR_LITERAL`
+
+#### Signature
+```apex
+public final static NEXT_YEAR_LITERAL
+```
+
+#### Type
+String
+
+---
+
 ### `OPERATORS`
 
 #### Signature
@@ -760,6 +880,30 @@ String
 #### Signature
 ```apex
 public final static TOMORROW_LITERAL
+```
+
+#### Type
+String
+
+---
+
+### `WEEK_IN_MONTH`
+
+#### Signature
+```apex
+public final static WEEK_IN_MONTH
+```
+
+#### Type
+String
+
+---
+
+### `WEEK_IN_YEAR`
+
+#### Signature
+```apex
+public final static WEEK_IN_YEAR
 ```
 
 #### Type
