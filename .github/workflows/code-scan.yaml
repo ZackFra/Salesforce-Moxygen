@@ -1,12 +1,13 @@
 name: CodeScan Pull Request On Main
 
 on:
-  workflow_call:
-    
-    
+    workflow_call:
+
 jobs:
-  code-scan-pull-request:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run Code Scan
-        uses: ZackFra/sfdx-codescan@master
+    code-scan-pull-request:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Run Code Scan
+              uses: ZackFra/sfdx-codescan@master
+              with:
+                  max-severity: 2
