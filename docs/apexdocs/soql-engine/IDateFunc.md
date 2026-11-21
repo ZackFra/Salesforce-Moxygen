@@ -17,7 +17,7 @@ Calculate the date function value for a given date or datetime value
 
 #### Signature
 ```apex
-public Integer calculate(Object dateOrDateTime)
+public Object calculate(Object dateOrDateTime)
 ```
 
 #### Parameters
@@ -26,6 +26,6 @@ public Integer calculate(Object dateOrDateTime)
 | dateOrDateTime | Object | Date or Datetime value to calculate the date function value of |
 
 #### Return Type
-**Integer**
+**Object**
 
 The date function value of the date or datetime value

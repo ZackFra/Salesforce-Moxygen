@@ -53,6 +53,106 @@ public static DateTime dateTime(Date d)
 
 ---
 
+### `fiscalMonth(value)`
+
+Fiscal month for a date, from 1 to 12
+
+#### Signature
+```apex
+public static Integer fiscalMonth(Date value)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| value | Date | `Date` |
+
+#### Return Type
+**Integer**
+
+`Integer`
+
+---
+
+### `fiscalQuarter(value)`
+
+Fiscal quarter for a date, from 1 to 4
+
+#### Signature
+```apex
+public static Integer fiscalQuarter(Date value)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| value | Date | `Date` |
+
+#### Return Type
+**Integer**
+
+`Integer`
+
+---
+
+### `fiscalStartMonth()`
+
+Month the org&#x27;s standard fiscal year starts, from 1 to 12
+
+#### Signature
+```apex
+public static Integer fiscalStartMonth()
+```
+
+#### Return Type
+**Integer**
+
+`Integer`
+
+---
+
+### `fiscalYear(value)`
+
+Fiscal year number for a date. Standard fiscal years are named for the year they end.
+
+#### Signature
+```apex
+public static Integer fiscalYear(Date value)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| value | Date | `Date` |
+
+#### Return Type
+**Integer**
+
+`Integer`
+
+---
+
+### `fiscalYearStart(value)`
+
+First day of the standard fiscal year that contains the date
+
+#### Signature
+```apex
+public static Date fiscalYearStart(Date value)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| value | Date | `Date` |
+
+#### Return Type
+**Date**
+
+`Date`
+
+---
+
 ### `now()`
 
 Return today&#x27;s date time in GMT

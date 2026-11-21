@@ -1,0 +1,31 @@
+# DayOnlyFunc Class
+
+DAY_ONLY date function. DateTime values are reduced to their GMT date.
+
+**Since**
+
+11/21/2026
+
+**Group** Soql Engine
+
+**Author** Zackary Frazier
+
+**Inheritance**
+
+[DateFuncBase](DateFuncBase.md)
+
+## Methods
+### `calculate(value)`
+
+#### Signature
+```apex
+public override Object calculate(Object value)
+```
+
+#### Parameters
+| Name | Type | Description |
+|------|------|-------------|
+| value | Object |  |
+
+#### Return Type
+**Object**
