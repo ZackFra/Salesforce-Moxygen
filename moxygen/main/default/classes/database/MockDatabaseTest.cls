@@ -4814,11 +4814,13 @@ private class MockDatabaseTest {
     static void ensureTodayLiteralWorksForDateEqual() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = GMT.today()
+            CloseDate = Date.today()
         );
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(1));
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-1));
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(2));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(1));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(CloseDate = Date.today().addDays(2));
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4 },
@@ -4841,14 +4843,186 @@ private class MockDatabaseTest {
     }
 
     @IsTest
+    static void todayLiteralUsesTheRunningUsersDate() {
+        Opportunity localToday = new Opportunity(
+            Name = 'Local',
+            CloseDate = Date.today()
+        );
+        Opportunity gmtToday = new Opportunity(
+            Name = 'Gmt',
+            CloseDate = Datetime.now().dateGmt()
+        );
+        MockDatabase.doInsert(
+            new List<Opportunity>{ localToday, gmtToday },
+            true
+        );
+
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Name FROM Opportunity WHERE CloseDate = TODAY'
+        );
+        Set<String> names = new Set<String>();
+        for (Opportunity opportunity : opportunities) {
+            names.add(opportunity.Name);
+        }
+
+        Assert.isTrue(
+            names.contains('Local'),
+            'TODAY should match the user date'
+        );
+        if (Date.today() != Datetime.now().dateGmt()) {
+            Assert.isFalse(
+                names.contains('Gmt'),
+                'TODAY should not match the GMT date'
+            );
+        }
+    }
+
+    @IsTest
+    static void nDaysAgoEqualsThatSingleDay() {
+        Date today = Date.today();
+        MockDatabase.doInsert(
+            new List<Opportunity>{
+                new Opportunity(Name = 'Five', CloseDate = today.addDays(-5)),
+                new Opportunity(Name = 'Four', CloseDate = today.addDays(-4)),
+                new Opportunity(Name = 'Six', CloseDate = today.addDays(-6))
+            },
+            true
+        );
+
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Name FROM Opportunity WHERE CloseDate = N_DAYS_AGO:5'
+        );
+
+        Assert.areEqual(1, opportunities.size(), 'N_DAYS_AGO:5 is one day');
+        Assert.areEqual('Five', opportunities[0].Name);
+    }
+
+    @IsTest
+    static void lastNDaysIncludesToday() {
+        Date today = Date.today();
+        MockDatabase.doInsert(
+            new List<Opportunity>{
+                new Opportunity(Name = 'Today', CloseDate = today),
+                new Opportunity(Name = 'Seven', CloseDate = today.addDays(-7)),
+                new Opportunity(Name = 'Eight', CloseDate = today.addDays(-8)),
+                new Opportunity(Name = 'Tomorrow', CloseDate = today.addDays(1))
+            },
+            true
+        );
+
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Name FROM Opportunity WHERE CloseDate = LAST_N_DAYS:7'
+        );
+        Set<String> names = new Set<String>();
+        for (Opportunity opportunity : opportunities) {
+            names.add(opportunity.Name);
+        }
+
+        Assert.isTrue(names.contains('Today'), 'LAST_N_DAYS includes today');
+        Assert.isTrue(
+            names.contains('Seven'),
+            'LAST_N_DAYS includes the first day'
+        );
+        Assert.isFalse(names.contains('Eight'));
+        Assert.isFalse(names.contains('Tomorrow'));
+    }
+
+    @IsTest
+    static void nextNWeeksIncludesTheWholeWeek() {
+        Date nextWeekStart = Date.today().toStartOfWeek().addDays(7);
+        MockDatabase.doInsert(
+            new List<Opportunity>{
+                new Opportunity(Name = 'First', CloseDate = nextWeekStart),
+                new Opportunity(
+                    Name = 'Second',
+                    CloseDate = nextWeekStart.addDays(1)
+                ),
+                new Opportunity(
+                    Name = 'Last',
+                    CloseDate = nextWeekStart.addDays(6)
+                ),
+                new Opportunity(
+                    Name = 'After',
+                    CloseDate = nextWeekStart.addDays(7)
+                )
+            },
+            true
+        );
+
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Name FROM Opportunity WHERE CloseDate = NEXT_N_WEEKS:1'
+        );
+        Set<String> names = new Set<String>();
+        for (Opportunity opportunity : opportunities) {
+            names.add(opportunity.Name);
+        }
+
+        Assert.isTrue(names.contains('First'));
+        Assert.isTrue(
+            names.contains('Second'),
+            'The second day of next week is included'
+        );
+        Assert.isTrue(names.contains('Last'));
+        Assert.isFalse(names.contains('After'));
+    }
+
+    @IsTest
+    static void usingScopeStillAppliesWhere() {
+        MockDatabase.doInsert(
+            new List<Account>{
+                new Account(Name = 'Kept'),
+                new Account(Name = 'Dropped')
+            },
+            true
+        );
+
+        List<Account> accounts = MockDatabase.query(
+            'SELECT Name FROM Account USING SCOPE mine WHERE Name = \'Kept\''
+        );
+
+        Assert.areEqual(
+            1,
+            accounts.size(),
+            'WHERE should still filter the rows'
+        );
+        Assert.areEqual('Kept', accounts[0].Name);
+    }
+
+    @IsTest
+    static void orderByCalendarMonthUsesTheMonthNumber() {
+        MockDatabase.doInsert(
+            new List<Opportunity>{
+                new Opportunity(
+                    Name = 'December',
+                    CloseDate = Date.newInstance(2023, 12, 1)
+                ),
+                new Opportunity(
+                    Name = 'January',
+                    CloseDate = Date.newInstance(2024, 1, 15)
+                )
+            },
+            true
+        );
+
+        List<Opportunity> opportunities = MockDatabase.query(
+            'SELECT Name FROM Opportunity ORDER BY CALENDAR_MONTH(CloseDate) ASC'
+        );
+
+        Assert.areEqual('January', opportunities[0].Name);
+        Assert.areEqual('December', opportunities[1].Name);
+    }
+
+    @IsTest
     static void ensureTodayLiteralWorksForDateLessThan() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = GMT.today()
+            CloseDate = Date.today()
         );
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(1));
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-1));
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(2));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(1));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(CloseDate = Date.today().addDays(2));
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4 },
@@ -4874,11 +5048,13 @@ private class MockDatabaseTest {
     static void ensureTodayLiteralWorksForDateGreaterThan() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = GMT.today()
+            CloseDate = Date.today()
         );
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(1));
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-1));
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(2));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(1));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(CloseDate = Date.today().addDays(2));
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4 },
@@ -4899,11 +5075,13 @@ private class MockDatabaseTest {
     static void ensureTodayLiteralWorksForDateLessThanOrEqual() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = GMT.today()
+            CloseDate = Date.today()
         );
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(1));
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-1));
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(2));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(1));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(CloseDate = Date.today().addDays(2));
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4 },
@@ -4924,11 +5102,13 @@ private class MockDatabaseTest {
     static void ensureTodayLiteralWorksForDateGreaterThanOrEqual() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = GMT.today()
+            CloseDate = Date.today()
         );
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(1));
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-1));
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(2));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(1));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(CloseDate = Date.today().addDays(2));
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4 },
@@ -4949,12 +5129,16 @@ private class MockDatabaseTest {
     static void ensureYesterdayLiteralWorksForDateGreaterThanOrEqual() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = GMT.today()
+            CloseDate = Date.today()
         );
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(1));
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-1));
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(2));
-        Opportunity opp5 = new Opportunity(CloseDate = GMT.today().addDays(-2));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(1));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(CloseDate = Date.today().addDays(2));
+        Opportunity opp5 = new Opportunity(
+            CloseDate = Date.today().addDays(-2)
+        );
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4, opp5 },
@@ -4975,12 +5159,16 @@ private class MockDatabaseTest {
     static void ensureYesterdayLiteralWorksForDateGreaterThan() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = GMT.today()
+            CloseDate = Date.today()
         );
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(1));
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-1));
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(2));
-        Opportunity opp5 = new Opportunity(CloseDate = GMT.today().addDays(-2));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(1));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(CloseDate = Date.today().addDays(2));
+        Opportunity opp5 = new Opportunity(
+            CloseDate = Date.today().addDays(-2)
+        );
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4, opp5 },
@@ -5001,12 +5189,16 @@ private class MockDatabaseTest {
     static void ensureYesterdayLiteralWorksForDateEquals() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = GMT.today()
+            CloseDate = Date.today()
         );
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(1));
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-1));
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(2));
-        Opportunity opp5 = new Opportunity(CloseDate = GMT.today().addDays(-2));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(1));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(CloseDate = Date.today().addDays(2));
+        Opportunity opp5 = new Opportunity(
+            CloseDate = Date.today().addDays(-2)
+        );
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4, opp5 },
@@ -5027,12 +5219,16 @@ private class MockDatabaseTest {
     static void ensureYesterdayLiteralWorksForDateLessThan() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = GMT.today()
+            CloseDate = Date.today()
         );
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(1));
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-1));
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(2));
-        Opportunity opp5 = new Opportunity(CloseDate = GMT.today().addDays(-2));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(1));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(CloseDate = Date.today().addDays(2));
+        Opportunity opp5 = new Opportunity(
+            CloseDate = Date.today().addDays(-2)
+        );
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4, opp5 },
@@ -5053,12 +5249,16 @@ private class MockDatabaseTest {
     static void ensureYesterdayLiteralWorksForDateLessThanOrEquals() {
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
-            CloseDate = GMT.today()
+            CloseDate = Date.today()
         );
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(1));
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-1));
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(2));
-        Opportunity opp5 = new Opportunity(CloseDate = GMT.today().addDays(-2));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(1));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
+        Opportunity opp4 = new Opportunity(CloseDate = Date.today().addDays(2));
+        Opportunity opp5 = new Opportunity(
+            CloseDate = Date.today().addDays(-2)
+        );
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4, opp5 },
@@ -5516,7 +5716,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void ensureLastWeekLiteralWorksForDateTimeLessThanOrEquals() {
-        Date startOfLastWeek = GMT.today().toStartOfWeek().addDays(-7);
+        Date startOfLastWeek = Date.today().toStartOfWeek().addDays(-7);
         Task t1 = (Task) Common.putReadOnlyField(
             new Task(),
             'CompletedDateTime',
@@ -5540,7 +5740,7 @@ private class MockDatabaseTest {
         Task t5 = (Task) Common.putReadOnlyField(
             new Task(),
             'CompletedDateTime',
-            GMT.today().toStartOfWeek().addMonths(1)
+            Date.today().toStartOfWeek().addMonths(1)
         );
 
         MockDatabase.doInsert(new List<Task>{ t1, t2, t3, t4, t5 }, true);
@@ -5556,7 +5756,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void ensureLastWeekLiteralWorksForDateLessThanOrEquals() {
-        Date startOfLastWeek = GMT.today().toStartOfWeek().addDays(-7);
+        Date startOfLastWeek = Date.today().toStartOfWeek().addDays(-7);
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
             CloseDate = startOfLastWeek.addDays(-14)
@@ -5571,7 +5771,7 @@ private class MockDatabaseTest {
             CloseDate = startOfLastWeek.addDays(5)
         );
         Opportunity opp5 = new Opportunity(
-            CloseDate = Gmt.today().toStartOfWeek().addMonths(1)
+            CloseDate = Date.today().toStartOfWeek().addMonths(1)
         );
 
         MockDatabase.doInsert(
@@ -5592,7 +5792,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void ensureThisWeekLiteralWorksForDateTimeEquals() {
-        DateTime startOfWeek = GMT.dateTime(GMT.today().toStartOfWeek());
+        DateTime startOfWeek = GMT.dateTime(Date.today().toStartOfWeek());
         Task t1 = (Task) Common.putReadOnlyField(
             new Task(),
             'CompletedDateTime',
@@ -5627,7 +5827,7 @@ private class MockDatabaseTest {
 
     @isTest
     static void ensureThisWeekWorksForDateTimeEqualsInRange() {
-        Date dayAfterStartOfWeek = GMT.today().toStartOfWeek().addDays(1);
+        Date dayAfterStartOfWeek = Date.today().toStartOfWeek().addDays(1);
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
             CloseDate = dayAfterStartOfWeek
@@ -5650,7 +5850,7 @@ private class MockDatabaseTest {
 
     @IsTest
     static void ensureThisWeekLiteralWorksForDateEquals() {
-        Date startOfWeek = GMT.today().toStartOfWeek();
+        Date startOfWeek = Date.today().toStartOfWeek();
 
         Opportunity opp1 = new Opportunity(
             Name = 'Today Opp',
@@ -5685,14 +5885,14 @@ private class MockDatabaseTest {
     static void ensureNextNDaysLiteralWorksForDateEquals() {
         Opportunity opp1 = new Opportunity(
             Name = 'Tomorrow Opp',
-            CloseDate = GMT.today().addDays(1)
+            CloseDate = Date.today().addDays(1)
         );
 
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(2));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(2));
 
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(3));
+        Opportunity opp3 = new Opportunity(CloseDate = Date.today().addDays(3));
 
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(4));
+        Opportunity opp4 = new Opportunity(CloseDate = Date.today().addDays(4));
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4 },
@@ -5716,14 +5916,18 @@ private class MockDatabaseTest {
     static void ensureNDaysAgoLiteralWorksForDateLessThanOrEquals() {
         Opportunity opp1 = new Opportunity(
             Name = 'Tomorrow Opp',
-            CloseDate = GMT.today().addDays(1)
+            CloseDate = Date.today().addDays(1)
         );
 
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(0));
+        Opportunity opp2 = new Opportunity(CloseDate = Date.today().addDays(0));
 
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-1));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-1)
+        );
 
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(-2));
+        Opportunity opp4 = new Opportunity(
+            CloseDate = Date.today().addDays(-2)
+        );
 
         MockDatabase.doInsert(
             new List<Opportunity>{ opp1, opp2, opp3, opp4 },
@@ -5747,19 +5951,19 @@ private class MockDatabaseTest {
     static void ensureNextNWeeksWorksForDateLessThanOrEquals() {
         Opportunity opp1 = new Opportunity(
             Name = 'Tomorrow Opp',
-            CloseDate = GMT.today().toStartOfWeek().addDays(7)
+            CloseDate = Date.today().toStartOfWeek().addDays(7)
         );
 
         Opportunity opp2 = new Opportunity(
-            CloseDate = GMT.today().toStartOfWeek().addDays(14)
+            CloseDate = Date.today().toStartOfWeek().addDays(14)
         );
 
         Opportunity opp3 = new Opportunity(
-            CloseDate = GMT.today().toStartOfWeek().addDays(21)
+            CloseDate = Date.today().toStartOfWeek().addDays(21)
         );
 
         Opportunity opp4 = new Opportunity(
-            CloseDate = GMT.today().toStartOfWeek().addDays(28)
+            CloseDate = Date.today().toStartOfWeek().addDays(28)
         );
 
         MockDatabase.doInsert(
@@ -5784,21 +5988,27 @@ private class MockDatabaseTest {
     static void ensureLastNWeeksWorksForDateGreaterThanOrEquals() {
         Opportunity opp1 = new Opportunity(
             Name = 'Tomorrow Opp',
-            CloseDate = GMT.today().addDays(-1)
+            CloseDate = Date.today().addDays(-1)
         );
 
-        Opportunity opp2 = new Opportunity(CloseDate = GMT.today().addDays(-2));
+        Opportunity opp2 = new Opportunity(
+            CloseDate = Date.today().addDays(-2)
+        );
 
-        Opportunity opp3 = new Opportunity(CloseDate = GMT.today().addDays(-3));
+        Opportunity opp3 = new Opportunity(
+            CloseDate = Date.today().addDays(-3)
+        );
 
-        Opportunity opp4 = new Opportunity(CloseDate = GMT.today().addDays(-4));
+        Opportunity opp4 = new Opportunity(
+            CloseDate = Date.today().addDays(-4)
+        );
 
         Opportunity opp5 = new Opportunity(
-            CloseDate = GMT.today().addDays(-14)
+            CloseDate = Date.today().addDays(-14)
         );
 
         Opportunity opp6 = new Opportunity(
-            CloseDate = GMT.today().addDays(-15)
+            CloseDate = Date.today().addDays(-15)
         );
 
         MockDatabase.doInsert(
@@ -5823,15 +6033,15 @@ private class MockDatabaseTest {
     static void ensureNMonthAgoWorksForDateGreaterThan() {
         Opportunity opp1 = new Opportunity(
             Name = 'Tomorrow Opp',
-            CloseDate = GMT.today().addMonths(-1)
+            CloseDate = Date.today().addMonths(-1)
         );
 
         Opportunity opp2 = new Opportunity(
-            CloseDate = GMT.today().addMonths(-2)
+            CloseDate = Date.today().addMonths(-2)
         );
 
         Opportunity opp3 = new Opportunity(
-            CloseDate = GMT.today().addMonths(-3)
+            CloseDate = Date.today().addMonths(-3)
         );
 
         MockDatabase.doInsert(new List<Opportunity>{ opp1, opp2, opp3 }, true);
@@ -5852,7 +6062,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureThisQuarterInWhereWorks() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfYear = Date.newInstance(Date.today().year(), 1, 1);
         for (Integer i = 0; i < 12; i++) {
             oppList.add(
                 new Opportunity(
@@ -5884,7 +6094,7 @@ private class MockDatabaseTest {
             oppList.add(
                 new Opportunity(
                     Name = 'Opp' + i,
-                    CloseDate = Gmt.today().addMonths(-i)
+                    CloseDate = Date.today().addMonths(-i)
                 )
             );
         }
@@ -5907,7 +6117,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureNextQuarterInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date today = Gmt.today();
+        Date today = Date.today();
         for (Integer i = 0; i < 12; i++) {
             oppList.add(
                 new Opportunity(
@@ -5935,7 +6145,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureNextNQuartersWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date today = Gmt.today();
+        Date today = Date.today();
         for (Integer i = 0; i < 12; i++) {
             oppList.add(
                 new Opportunity(
@@ -5963,7 +6173,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensuresThisYearWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfYear = Date.newInstance(Date.today().year(), 1, 1);
         for (Integer i = 0; i < 36; i++) {
             oppList.add(
                 new Opportunity(
@@ -5991,7 +6201,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureThisFiscalYearWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfYear = Date.newInstance(Date.today().year(), 1, 1);
         for (Integer i = 0; i < 36; i++) {
             oppList.add(
                 new Opportunity(
@@ -6019,7 +6229,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureLastNFiscalYearsWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfYear = Date.newInstance(Date.today().year(), 1, 1);
         for (Integer i = 0; i < 48; i++) {
             oppList.add(
                 new Opportunity(
@@ -6047,7 +6257,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureNextFiscalYearWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfYear = Date.newInstance(Date.today().year(), 1, 1);
         for (Integer i = 0; i < 36; i++) {
             oppList.add(
                 new Opportunity(
@@ -7227,7 +7437,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureNYearsAgoWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfYear = Date.newInstance(Date.today().year(), 1, 1);
         for (Integer i = 0; i < 36; i++) {
             oppList.add(
                 new Opportunity(
@@ -7291,7 +7501,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureNextFiscalQuarterWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfYear = Date.newInstance(Date.today().year(), 1, 1);
         for (Integer i = 0; i < 36; i++) {
             oppList.add(
                 new Opportunity(
@@ -7319,7 +7529,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureNextNFiscalQuartersWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfYear = Date.newInstance(Date.today().year(), 1, 1);
         for (Integer i = 0; i < 36; i++) {
             oppList.add(
                 new Opportunity(
@@ -7403,7 +7613,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureLastNYearsWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfYear = Date.newInstance(Date.today().year(), 1, 1);
         for (Integer i = 0; i < 36; i++) {
             oppList.add(
                 new Opportunity(
@@ -7431,7 +7641,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureLastYearWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfYear = Date.newInstance(Date.today().year(), 1, 1);
         for (Integer i = 0; i < 36; i++) {
             oppList.add(
                 new Opportunity(
@@ -7459,7 +7669,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureNextNYearsWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfYear = Date.newInstance(Date.today().year(), 1, 1);
         for (Integer i = 0; i < 36; i++) {
             oppList.add(
                 new Opportunity(
@@ -7543,7 +7753,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureNWeeksAgoWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfWeek = Gmt.today().toStartOfWeek();
+        Date startOfWeek = Date.today().toStartOfWeek();
         for (Integer i = 0; i < 36; i++) {
             oppList.add(
                 new Opportunity(
@@ -7571,7 +7781,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureNextNMonthsWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfMonth = Gmt.today().toStartOfMonth();
+        Date startOfMonth = Date.today().toStartOfMonth();
         for (Integer i = 0; i < 12; i++) {
             oppList.add(
                 new Opportunity(
@@ -7599,7 +7809,7 @@ private class MockDatabaseTest {
     @isTest
     static void ensureLastNMonthsWorksInWhereClause() {
         List<Opportunity> oppList = new List<Opportunity>();
-        Date startOfMonth = Gmt.today().toStartOfMonth();
+        Date startOfMonth = Date.today().toStartOfMonth();
         for (Integer i = 0; i < 12; i++) {
             oppList.add(
                 new Opportunity(
@@ -7627,12 +7837,12 @@ private class MockDatabaseTest {
     @IsTest
     static void ensureInOperatorWorksWithLiterals() {
         List<Opportunity> oppList = new List<Opportunity>();
-        oppList.add(new Opportunity(Name = 'Opp1', CloseDate = Gmt.today()));
+        oppList.add(new Opportunity(Name = 'Opp1', CloseDate = Date.today()));
         oppList.add(
-            new Opportunity(Name = 'Opp2', CloseDate = Gmt.today().addDays(-1))
+            new Opportunity(Name = 'Opp2', CloseDate = Date.today().addDays(-1))
         );
         oppList.add(
-            new Opportunity(Name = 'Opp3', CloseDate = Gmt.today().addDays(1))
+            new Opportunity(Name = 'Opp3', CloseDate = Date.today().addDays(1))
         );
         MockDatabase.doInsert(oppList, true);
 

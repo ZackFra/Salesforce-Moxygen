@@ -3,7 +3,7 @@ private class LastYearComparableTest {
     @isTest
     static void ensureIsLessThanWorks() {
         LastYearComparable lastYearComparable = new LastYearComparable();
-        Date startOfThisYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfThisYear = Date.newInstance(Date.today().year(), 1, 1);
         Date startOfLastYear = startOfThisYear.addYears(-1);
         Date startOfLastYearMinusOne = startOfLastYear.addDays(-1);
 
@@ -21,7 +21,7 @@ private class LastYearComparableTest {
     @isTest
     static void ensureIsGreaterThanWorks() {
         LastYearComparable lastYearComparable = new LastYearComparable();
-        Date startOfThisYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfThisYear = Date.newInstance(Date.today().year(), 1, 1);
         Date startOfThisYearMinusOne = startOfThisYear.addDays(-1);
 
         Assert.isFalse(

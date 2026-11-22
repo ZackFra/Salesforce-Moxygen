@@ -5,12 +5,14 @@
  * @group Soql Engine
  */
 public with sharing class NDaysAgoComparable extends DateLiteralComparable {
-    public override Boolean isGreaterThan(DateTime fieldValue) {
-        return fieldValue >= Gmt.today();
+    public override Boolean isGreaterThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
+        Date nDaysAgo = Date.today().addDays(-this.n);
+        return fieldValue >= nDaysAgo.addDays(1);
     }
 
-    public override Boolean isLessThan(DateTime fieldValue) {
-        DateTime nDaysAgo = Gmt.today().addDays(-this.n);
-        return fieldValue < nDaysAgo;
+    public override Boolean isLessThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
+        return fieldValue < Date.today().addDays(-this.n);
     }
 }

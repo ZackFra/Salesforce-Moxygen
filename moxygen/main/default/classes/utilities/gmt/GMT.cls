@@ -44,7 +44,7 @@ public with sharing class GMT {
      * @return  `Date`
      */
     public static Datetime startOfThisCalendarQuarter() {
-        Date today = Gmt.today();
+        Date today = Date.today();
         Integer startMonth = today.month();
 
         if (startMonth >= 10) {
@@ -68,11 +68,11 @@ public with sharing class GMT {
         Organization org = OrganizationSingleton.getInstance();
         Integer orgFiscalMonth = org.FiscalYearStartMonth;
         Date possibleStartOfThisFiscalYear = Date.newInstance(
-            Gmt.today().year(),
+            Date.today().year(),
             orgFiscalMonth,
             1
         );
-        if (possibleStartOfThisFiscalYear > Gmt.today()) {
+        if (possibleStartOfThisFiscalYear > Date.today()) {
             return possibleStartOfThisFiscalYear.addYears(-1);
         }
         return possibleStartOfThisFiscalYear;
@@ -84,7 +84,7 @@ public with sharing class GMT {
      */
     public static Date startOfthisFiscalQuarter() {
         Date startOfThisFiscalQuarter = startOfThisFiscalYear();
-        while (startOfThisFiscalQuarter <= Gmt.today()) {
+        while (startOfThisFiscalQuarter <= Date.today()) {
             startOfThisFiscalQuarter = startOfThisFiscalQuarter.addMonths(3);
         }
         return startOfThisFiscalQuarter.addMonths(-3);

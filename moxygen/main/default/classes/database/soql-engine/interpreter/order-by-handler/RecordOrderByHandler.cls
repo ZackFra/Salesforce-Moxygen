@@ -66,9 +66,18 @@ public with sharing class RecordOrderByHandler extends OrderByHandler {
 
         Map<String, Map<String, String>> fields = new Map<String, Map<String, String>>();
         while (orderByField != null) {
-            String fieldName = orderByField.id;
+            Boolean isDateFunc = AggregateService.isDateFunc(
+                orderByField.nodeType,
+                orderByField.id
+            );
+            Node comparableNode = isDateFunc
+                ? orderByField.right
+                : orderByField;
+            String fieldName = isDateFunc
+                ? orderByField.id + '(' + comparableNode.id + ')'
+                : orderByField.id;
             Map<String, Object> comparables = ComparableService.getComparableDataFromNodes(
-                orderByField,
+                comparableNode,
                 selectNode
             );
             String relationshipName = (String) comparables.get(
@@ -78,9 +87,9 @@ public with sharing class RecordOrderByHandler extends OrderByHandler {
 
             String order = 'asc';
             String nullDir = 'first';
-            Node curr = orderByField.right;
+            Node curr = comparableNode.right;
             if (curr != null && curr.nodeType == 'direction') {
-                order = orderByField.right.id;
+                order = curr.id;
                 curr = curr.right;
             }
 
@@ -95,6 +104,9 @@ public with sharing class RecordOrderByHandler extends OrderByHandler {
                 'order' => order,
                 'nullDir' => nullDir
             };
+            if (isDateFunc) {
+                fieldData.put('dateFunc', orderByField.id);
+            }
             fields.put(fieldName, fieldData);
             orderByField = orderByField.left;
         }

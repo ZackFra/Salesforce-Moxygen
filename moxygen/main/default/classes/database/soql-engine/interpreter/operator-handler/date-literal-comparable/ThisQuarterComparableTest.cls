@@ -1,19 +1,19 @@
 @isTest
 private class ThisQuarterComparableTest {
-    static Datetime firstMonthOfThisQuarter = Gmt.startOfThisCalendarQuarter();
-    static Datetime secondMonthOfThisQuarter = firstMonthOfThisQuarter.addMonths(
-        1
-    );
-    static Datetime thirdMonthOfThisQuarter = firstMonthOfThisQuarter.addMonths(
-        2
-    );
+    static Datetime quarterStart = Gmt.startOfThisCalendarQuarter();
+    static Datetime firstMonthOfThisQuarter = noon(quarterStart);
+    static Datetime secondMonthOfThisQuarter = noon(quarterStart.addMonths(1));
+    static Datetime thirdMonthOfThisQuarter = noon(quarterStart.addMonths(2));
 
-    static Datetime monthBeforeThisQuarter = firstMonthOfThisQuarter.addMonths(
-        -1
-    );
-    static Datetime monthAfterThisQuarter = thirdMonthOfThisQuarter.addMonths(
-        1
-    );
+    static Datetime monthBeforeThisQuarter = noon(quarterStart.addMonths(-1));
+    static Datetime monthAfterThisQuarter = noon(quarterStart.addMonths(3));
+
+    static Datetime noon(Datetime gmtInstant) {
+        return Datetime.newInstance(
+            gmtInstant.dateGmt(),
+            Time.newInstance(12, 0, 0, 0)
+        );
+    }
 
     @isTest
     static void ensureIsLessThanWorks() {

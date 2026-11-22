@@ -3,7 +3,7 @@ private class NextYearComparableTest {
     @IsTest
     static void ensureIsLessThanWorks() {
         NextYearComparable comparable = new NextYearComparable();
-        Date startOfNextYear = Date.newInstance(Gmt.today().year() + 1, 1, 1);
+        Date startOfNextYear = Date.newInstance(Date.today().year() + 1, 1, 1);
 
         Assert.isTrue(
             comparable.isLessThan(startOfNextYear.addDays(-1)),
@@ -19,7 +19,7 @@ private class NextYearComparableTest {
     static void ensureIsGreaterThanWorks() {
         NextYearComparable comparable = new NextYearComparable();
         Date startOfYearAfterNext = Date.newInstance(
-            Gmt.today().year() + 2,
+            Date.today().year() + 2,
             1,
             1
         );

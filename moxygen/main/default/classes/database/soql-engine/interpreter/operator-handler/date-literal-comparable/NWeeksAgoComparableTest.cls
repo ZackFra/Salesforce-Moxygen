@@ -1,6 +1,6 @@
 @IsTest
 private class NWeeksAgoComparableTest {
-    static final Date START_OF_WEEK = Gmt.today().toStartOfWeek();
+    static final Date START_OF_WEEK = Date.today().toStartOfWeek();
 
     @IsTest
     static void ensureIsLessThanWorks() {

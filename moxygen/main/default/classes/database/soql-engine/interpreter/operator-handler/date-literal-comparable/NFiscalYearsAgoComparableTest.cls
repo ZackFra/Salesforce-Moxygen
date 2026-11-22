@@ -4,7 +4,7 @@ private class NFiscalYearsAgoComparableTest {
     static void ensureIsLessThanWorks() {
         DateLiteralComparable comparable = new NFiscalYearsAgoComparable()
             .withToken('n_fiscal_years_ago:1');
-        Datetime fieldValue = gmt.startOfThisFiscalYear().addYears(-1);
+        Datetime fieldValue = noon(Gmt.startOfThisFiscalYear().addYears(-1));
         Assert.isFalse(
             comparable.isLessThan(fieldValue),
             'Should not be less than'
@@ -19,7 +19,7 @@ private class NFiscalYearsAgoComparableTest {
     static void ensureIsGreaterThanWorks() {
         DateLiteralComparable comparable = new NFiscalYearsAgoComparable()
             .withToken('n_fiscal_years_ago:1');
-        Datetime fieldValue = gmt.startOfThisFiscalYear().addYears(-1);
+        Datetime fieldValue = noon(Gmt.startOfThisFiscalYear().addYears(-1));
         Assert.isFalse(
             comparable.isGreaterThan(fieldValue),
             'Should not be greater than'
@@ -32,5 +32,9 @@ private class NFiscalYearsAgoComparableTest {
             comparable.isGreaterThan(fieldValue.addYears(1)),
             'Should be greater than'
         );
+    }
+
+    static Datetime noon(Date day) {
+        return Datetime.newInstance(day, Time.newInstance(12, 0, 0, 0));
     }
 }

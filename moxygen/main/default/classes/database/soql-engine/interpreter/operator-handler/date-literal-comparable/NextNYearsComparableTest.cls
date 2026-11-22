@@ -4,7 +4,9 @@ private class NextNYearsComparableTest {
     static void ensureIsLessThanWorks() {
         DateLiteralComparable comparable = new NextNYearsComparable()
             .withToken('next_n_years:1');
-        Datetime fieldValue = Datetime.newInstanceGmt(Gmt.today().year(), 1, 1);
+        Datetime fieldValue = noonOn(
+            Date.newInstance(Date.today().year(), 1, 1)
+        );
 
         Assert.isTrue(
             comparable.isLessThan(fieldValue),
@@ -23,7 +25,9 @@ private class NextNYearsComparableTest {
     static void ensureIsGreaterThanWorks() {
         DateLiteralComparable comparable = new NextNYearsComparable()
             .withToken('next_n_years:1');
-        Datetime fieldValue = Datetime.newInstanceGmt(Gmt.today().year(), 1, 1);
+        Datetime fieldValue = noonOn(
+            Date.newInstance(Date.today().year(), 1, 1)
+        );
 
         Assert.isFalse(
             comparable.isGreaterThan(fieldValue),
@@ -36,5 +40,9 @@ private class NextNYearsComparableTest {
             comparable.isGreaterThan(fieldValue),
             'Expected the field value to be greater than the next n years'
         );
+    }
+
+    static Datetime noonOn(Date day) {
+        return Datetime.newInstance(day, Time.newInstance(12, 0, 0, 0));
     }
 }

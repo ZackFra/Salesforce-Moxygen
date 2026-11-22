@@ -24,21 +24,39 @@ public abstract class DateLiteralComparable {
      * @param fieldValue Date or Datetime value
      * @return  Whether fieldValue is greater than the date literal
      */
-    public abstract Boolean isGreaterThan(DateTime fieldValue);
+    public abstract Boolean isGreaterThan(Object fieldValue);
 
     /**
      * @description Whether the date literal is less than the field value
      * @param fieldValue Date or Datetime value
      * @return Whether fieldValue is less than the date literal
      */
-    public abstract Boolean isLessThan(DateTime fieldValue);
+    public abstract Boolean isLessThan(Object fieldValue);
+
+    /**
+     * @description A Date stays on its calendar day. A DateTime uses the running user's date for that instant.
+     * @param value Date or Datetime field value
+     * @return GMT midnight of the calendar day SOQL date literals compare
+     */
+    protected Datetime literalDateTime(Object value) {
+        if (value instanceof Date) {
+            return Datetime.newInstanceGmt(
+                (Date) value,
+                Time.newInstance(0, 0, 0, 0)
+            );
+        }
+        return Datetime.newInstanceGmt(
+            ((Datetime) value).date(),
+            Time.newInstance(0, 0, 0, 0)
+        );
+    }
 
     /**
      * @description Whether the date literal is equal to the field value
      * @param fieldValue Date or Datetime value
      * @return Whether fieldValue is equal to the date literal
      */
-    public Boolean isEqual(DateTime fieldValue) {
+    public Boolean isEqual(Object fieldValue) {
         return !isGreaterThan(fieldValue) && !isLessThan(fieldValue);
     }
 
@@ -47,7 +65,7 @@ public abstract class DateLiteralComparable {
      * @param fieldValue Date or Datetime value
      * @return Whether fieldValue is greater than or equal to the date literal
      */
-    public Boolean isGreaterThanOrEqual(DateTime fieldValue) {
+    public Boolean isGreaterThanOrEqual(Object fieldValue) {
         return isGreaterThan(fieldValue) || isEqual(fieldValue);
     }
 
@@ -56,7 +74,7 @@ public abstract class DateLiteralComparable {
      * @param fieldValue Date or Datetime value
      * @return Whether fieldValue is less than or equal to the date literal
      */
-    public Boolean isLessThanOrEqual(DateTime fieldValue) {
+    public Boolean isLessThanOrEqual(Object fieldValue) {
         return isLessThan(fieldValue) || isEqual(fieldValue);
     }
 
@@ -65,7 +83,7 @@ public abstract class DateLiteralComparable {
      * @param fieldValue Date or Datetime value
      * @return  Whether fieldValue is not equal to the date literal
      */
-    public Boolean isNotEqual(DateTime fieldValue) {
+    public Boolean isNotEqual(Object fieldValue) {
         return !isEqual(fieldValue);
     }
 

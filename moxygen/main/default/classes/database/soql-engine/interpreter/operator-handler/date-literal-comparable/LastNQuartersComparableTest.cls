@@ -4,13 +4,13 @@ private class LastNQuartersComparableTest {
     static void ensureIsLessThanWorks() {
         DateLiteralComparable lastNQuartersComparable = new LastNQuartersComparable()
             .withToken('last_n_quarters:1');
-        Datetime fieldValue = Gmt.today().addMonths(-6);
+        Datetime fieldValue = Date.today().addMonths(-6);
         Assert.isTrue(
             lastNQuartersComparable.isLessThan(fieldValue),
             'Expected to be less than'
         );
 
-        fieldValue = Gmt.today();
+        fieldValue = Date.today();
         Assert.isFalse(
             lastNQuartersComparable.isLessThan(fieldValue),
             'Expected to be greater than'
@@ -21,13 +21,13 @@ private class LastNQuartersComparableTest {
     static void ensureIsGreaterThanWorks() {
         DateLiteralComparable lastNQuartersComparable = new LastNQuartersComparable()
             .withToken('last_n_quarters:1');
-        Datetime fieldValue = Gmt.today().addMonths(-6);
+        Datetime fieldValue = Date.today().addMonths(-6);
         Assert.isFalse(
             lastNQuartersComparable.isGreaterThan(fieldValue),
             'Expected to be less than'
         );
 
-        fieldValue = Gmt.today();
+        fieldValue = Date.today();
         Assert.isTrue(
             lastNQuartersComparable.isGreaterThan(fieldValue),
             'Expected to be greater than'

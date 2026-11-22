@@ -5,14 +5,16 @@
  * @group Soql Engine
  */
 public with sharing class NextYearComparable extends DateLiteralComparable {
-    public override Boolean isLessThan(Datetime fieldValue) {
-        Date startOfNextYear = Date.newInstance(Gmt.today().year() + 1, 1, 1);
+    public override Boolean isLessThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
+        Date startOfNextYear = Date.newInstance(Date.today().year() + 1, 1, 1);
         return fieldValue < startOfNextYear;
     }
 
-    public override Boolean isGreaterThan(Datetime fieldValue) {
+    public override Boolean isGreaterThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
         Date startOfYearAfterNext = Date.newInstance(
-            Gmt.today().year() + 2,
+            Date.today().year() + 2,
             1,
             1
         );

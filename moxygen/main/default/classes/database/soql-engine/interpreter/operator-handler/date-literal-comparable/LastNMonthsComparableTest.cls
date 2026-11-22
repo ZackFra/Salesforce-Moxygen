@@ -5,7 +5,7 @@ private class LastNMonthsComparableTest {
         DateLiteralComparable lastNMonthsComparable = new LastNMonthsComparable()
             .withToken('last_n_months:2');
 
-        Date startOfThisMonth = Gmt.today().toStartOfMonth();
+        Date startOfThisMonth = Date.today().toStartOfMonth();
         Date startOfLastMonth = startOfThisMonth.addMonths(-1);
         Date startOfTwoMonthsAgo = startOfThisMonth.addMonths(-2);
         Date startOfThreeMonthsAgo = startOfThisMonth.addMonths(-3);
@@ -33,7 +33,7 @@ private class LastNMonthsComparableTest {
         DateLiteralComparable lastNMonthsComparable = new LastNMonthsComparable()
             .withToken('last_n_months:2');
 
-        Date startOfThisMonth = Gmt.today().toStartOfMonth();
+        Date startOfThisMonth = Date.today().toStartOfMonth();
         Date startOfLastMonth = startOfThisMonth.addMonths(-1);
         Date startOfTwoMonthsAgo = startOfThisMonth.addMonths(-2);
         Date startOfThreeMonthsAgo = startOfThisMonth.addMonths(-3);

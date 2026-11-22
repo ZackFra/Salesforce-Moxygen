@@ -4,7 +4,7 @@ private class LastNYearsComparableTest {
     static void ensureIsLessThanWorks() {
         DateLiteralComparable dateLiteralComparable = new LastNYearsComparable()
             .withToken('last_n_years:1');
-        Date startOfThisYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfThisYear = Date.newInstance(Date.today().year(), 1, 1);
         Date startOfLastYear = startOfThisYear.addYears(-1);
         Date startOfLastYearMinusOneDay = startOfLastYear.addDays(-1);
         Assert.isFalse(
@@ -25,7 +25,7 @@ private class LastNYearsComparableTest {
     static void ensureIsGreaterThanWorks() {
         DateLiteralComparable dateLiteralComparable = new LastNYearsComparable()
             .withToken('last_n_years:1');
-        Date startOfThisYear = Date.newInstance(Gmt.today().year(), 1, 1);
+        Date startOfThisYear = Date.newInstance(Date.today().year(), 1, 1);
         Date startOfLastYear = startOfThisYear.addYears(-1);
         Date startOfThisYearMinusOne = startOfThisYear.addDays(-1);
 

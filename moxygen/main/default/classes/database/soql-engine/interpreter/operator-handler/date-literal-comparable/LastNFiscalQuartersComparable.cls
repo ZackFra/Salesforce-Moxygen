@@ -5,7 +5,8 @@
  * @group Soql Engine
  */
 public with sharing class LastNFiscalQuartersComparable extends DateLiteralComparable {
-    public override Boolean isLessThan(Datetime fieldValue) {
+    public override Boolean isLessThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
         Integer nMonthsAgo = this.n * 3;
         // Does NOT include the current quarter, thus the -3
         Date nFiscalQuartersAgo = Gmt.startOfthisFiscalQuarter()
@@ -13,7 +14,8 @@ public with sharing class LastNFiscalQuartersComparable extends DateLiteralCompa
         return fieldValue < nFiscalQuartersAgo;
     }
 
-    public override Boolean isGreaterThan(Datetime fieldValue) {
+    public override Boolean isGreaterThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
         // For LAST_N_FISCAL_QUARTERS, isGreaterThan should return true
         // when fieldValue is >= the start of the current fiscal quarter
         return fieldValue >= Gmt.startOfthisFiscalQuarter();

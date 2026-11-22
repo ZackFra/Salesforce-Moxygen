@@ -5,7 +5,7 @@ private class NextNMonthsComparableTest {
         DateLiteralComparable nextNMonthsComparable = new NextNMonthsComparable()
             .withToken('next_n_months:1');
 
-        Date startOfThisMonth = Gmt.today().toStartOfMonth();
+        Date startOfThisMonth = Date.today().toStartOfMonth();
         Date startOfNextMonth = startOfThisMonth.addMonths(1);
         Date startOfMonthAfterNext = startOfNextMonth.addMonths(1);
 
@@ -28,7 +28,7 @@ private class NextNMonthsComparableTest {
         DateLiteralComparable nextNMonthsComparable = new NextNMonthsComparable()
             .withToken('next_n_months:1');
 
-        Date startOfThisMonth = Gmt.today().toStartOfMonth();
+        Date startOfThisMonth = Date.today().toStartOfMonth();
         Date startOfNextMonth = startOfThisMonth.addMonths(1);
         Date startOfMonthAfterNext = startOfNextMonth.addMonths(1);
 
