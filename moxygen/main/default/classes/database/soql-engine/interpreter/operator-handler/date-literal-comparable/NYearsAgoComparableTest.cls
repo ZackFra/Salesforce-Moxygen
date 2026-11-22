@@ -4,7 +4,7 @@ private class NYearsAgoComparableTest {
     static void ensureIsLessThanWorks() {
         DateLiteralComparable nYearsAgoComparable = new NYearsAgoComparable()
             .withToken('n_years_ago:2');
-        Date fieldValue = Date.newInstance(Gmt.today().year() - 2, 1, 1)
+        Date fieldValue = Date.newInstance(Date.today().year() - 2, 1, 1)
             .addDays(-1);
         Assert.isTrue(
             nYearsAgoComparable.isLessThan(fieldValue),
@@ -24,7 +24,7 @@ private class NYearsAgoComparableTest {
     static void ensureIsGreaterThanWorks() {
         DateLiteralComparable nYearsAgoComparable = new NYearsAgoComparable()
             .withToken('n_years_ago:2');
-        Date fieldValue = Date.newInstance(Gmt.today().year() - 2, 1, 1)
+        Date fieldValue = Date.newInstance(Date.today().year() - 2, 1, 1)
             .addDays(-1);
         Assert.isFalse(
             nYearsAgoComparable.isGreaterThan(fieldValue),

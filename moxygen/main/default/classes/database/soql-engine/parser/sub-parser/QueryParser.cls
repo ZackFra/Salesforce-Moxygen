@@ -61,8 +61,7 @@ public with sharing class QueryParser extends SubParser {
             nextLink = scopeIntermediary;
         }
 
-        Intermediary whereIntermediary = new WhereParser()
-            .parse(fromIntermediary.subquery);
+        Intermediary whereIntermediary = new WhereParser().parse(query);
         if (whereIntermediary != null) {
             query = whereIntermediary.subquery;
             nextLink.head.right = whereIntermediary.head;

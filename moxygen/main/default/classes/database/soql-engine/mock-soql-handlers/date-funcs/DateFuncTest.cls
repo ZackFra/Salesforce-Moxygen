@@ -111,6 +111,13 @@ private class DateFuncTest {
     }
 
     @IsTest
+    static void testCalendarFunctionsReturnNullForNull() {
+        Assert.isNull(new CalendarMonthFunc().calculate(null));
+        Assert.isNull(new CalendarQuarterFunc().calculate(null));
+        Assert.isNull(new CalendarYearFunc().calculate(null));
+    }
+
+    @IsTest
     static void testCalendarQuarterDatetimeUsesTheGmtMonth() {
         Assert.areEqual(
             4,

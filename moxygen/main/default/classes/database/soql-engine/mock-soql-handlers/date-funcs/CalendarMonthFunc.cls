@@ -12,6 +12,9 @@ public with sharing class CalendarMonthFunc implements IDateFunc {
      * @exception QueryException if the value is not a Date or DateTime
      */
     public Object calculate(Object value) {
+        if (value == null) {
+            return null;
+        }
         Integer calendarMonth;
         if (value instanceof Date) {
             Date dateValue = (Date) value;

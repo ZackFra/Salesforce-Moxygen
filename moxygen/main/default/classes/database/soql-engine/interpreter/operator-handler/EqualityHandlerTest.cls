@@ -135,13 +135,16 @@ private class EqualityHandlerTest {
     @isTest
     static void ensureThisWeekWorksWithRange() {
         EqualityHandler handler = new EqualityHandler();
-        Date startOfWeek = GMT.today().toStartOfWeek();
+        Date startOfWeek = Date.today().toStartOfWeek();
         for (Integer i = 0; i < 6; i++) {
             DateLiteral fieldValue = new DateLiteral.Builder()
                 .setFieldValue(Token.THIS_WEEK_LITERAL)
                 .build();
             Date testedDate = startOfWeek.addDays(i);
-            DateTime testedDateTime = Gmt.dateTime(testedDate);
+            DateTime testedDateTime = Datetime.newInstance(
+                testedDate,
+                Time.newInstance(12, 0, 0, 0)
+            );
 
             Boolean result = handler.handle(testedDate, fieldValue);
             Assert.isTrue(
@@ -169,8 +172,8 @@ private class EqualityHandlerTest {
 
     @isTest
     static void ensureTodayWorksWithDateAndDateTime() {
-        Date today = GMT.today();
-        DateTime now = Gmt.now();
+        Date today = Date.today();
+        DateTime now = Datetime.now();
 
         EqualityHandler handler = new EqualityHandler();
         DateLiteral todayLiteral = new DateLiteral.Builder()

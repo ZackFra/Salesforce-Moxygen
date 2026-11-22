@@ -57,11 +57,11 @@ private class GmtTest {
         Organization org = OrganizationSingleton.getInstance();
         Integer orgFiscalMonth = org.FiscalYearStartMonth;
         Date possibleStartOfThisFiscalYear = Date.newInstance(
-            Gmt.today().year(),
+            Date.today().year(),
             orgFiscalMonth,
             1
         );
-        if (possibleStartOfThisFiscalYear > Gmt.today()) {
+        if (possibleStartOfThisFiscalYear > Date.today()) {
             Date expectedStartOfThisFiscalYear = possibleStartOfThisFiscalYear.addYears(
                 -1
             );
@@ -86,12 +86,12 @@ private class GmtTest {
         Test.stopTest();
 
         Assert.isTrue(
-            Gmt.today() >= startOfThisFiscalQuarter,
+            Date.today() >= startOfThisFiscalQuarter,
             'Start of this fiscal quarter is not correct'
         );
 
         Assert.isTrue(
-            Gmt.today() < startOfThisFiscalQuarter.addMonths(3),
+            Date.today() < startOfThisFiscalQuarter.addMonths(3),
             'Start of this fiscal quarter is not correct'
         );
     }

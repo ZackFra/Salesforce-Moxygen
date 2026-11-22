@@ -5,19 +5,19 @@ private class NDaysAgoComparableTest {
         DateLiteralComparable nDaysAgoComparable = new NDaysAgoComparable()
             .withToken('n_days_ago:5');
         Assert.isFalse(
-            nDaysAgoComparable.isLessThan(Gmt.today()),
+            nDaysAgoComparable.isLessThan(Date.today()),
             'Today should not be less than N_DAYS_AGO:5'
         );
         Assert.isFalse(
-            nDaysAgoComparable.isLessThan(Gmt.today().addDays(-1)),
+            nDaysAgoComparable.isLessThan(Date.today().addDays(-1)),
             'Yesterday should not be less than N_DAYS_AGO:5'
         );
         Assert.isFalse(
-            nDaysAgoComparable.isLessThan(Gmt.today().addDays(-5)),
+            nDaysAgoComparable.isLessThan(Date.today().addDays(-5)),
             '5 days ago should not be less than N_DAYS_AGO:5'
         );
         Assert.isTrue(
-            nDaysAgoComparable.isLessThan(Gmt.today().addDays(-6)),
+            nDaysAgoComparable.isLessThan(Date.today().addDays(-6)),
             '6 days ago should be less than N_DAYS_AGO:5'
         );
     }
@@ -27,23 +27,27 @@ private class NDaysAgoComparableTest {
         DateLiteralComparable nDaysAgoComparable = new NDaysAgoComparable()
             .withToken('n_days_ago:5');
         Assert.isFalse(
-            nDaysAgoComparable.isGreaterThan(Gmt.today().addDays(-5)),
+            nDaysAgoComparable.isGreaterThan(Date.today().addDays(-5)),
             '5 days ago should not be greater than N_DAYS_AGO:5'
         );
         Assert.isFalse(
-            nDaysAgoComparable.isGreaterThan(Gmt.today().addDays(-6)),
+            nDaysAgoComparable.isGreaterThan(Date.today().addDays(-6)),
             '6 days ago should not be greater than N_DAYS_AGO:5'
         );
-        Assert.isFalse(
-            nDaysAgoComparable.isGreaterThan(Gmt.today().addDays(-1)),
-            'Yesterday should not be greater than N_DAYS_AGO:5'
+        Assert.isTrue(
+            nDaysAgoComparable.isGreaterThan(Date.today().addDays(-4)),
+            '4 days ago should be greater than N_DAYS_AGO:5'
         );
         Assert.isTrue(
-            nDaysAgoComparable.isGreaterThan(Gmt.today()),
+            nDaysAgoComparable.isGreaterThan(Date.today().addDays(-1)),
+            'Yesterday should be greater than N_DAYS_AGO:5'
+        );
+        Assert.isTrue(
+            nDaysAgoComparable.isGreaterThan(Date.today()),
             'Today should be greater than N_DAYS_AGO:5'
         );
         Assert.isTrue(
-            nDaysAgoComparable.isGreaterThan(Gmt.today().addDays(1)),
+            nDaysAgoComparable.isGreaterThan(Date.today().addDays(1)),
             'Tomorrow should be greater than N_DAYS_AGO:5'
         );
     }

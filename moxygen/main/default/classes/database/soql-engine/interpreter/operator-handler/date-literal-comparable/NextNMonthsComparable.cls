@@ -5,13 +5,15 @@
  * @group Soql Engine
  */
 public with sharing class NextNMonthsComparable extends DateLiteralComparable {
-    public override Boolean isLessThan(Datetime fieldValue) {
-        Date startOfNextMonth = Gmt.today().toStartOfMonth().addMonths(1);
+    public override Boolean isLessThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
+        Date startOfNextMonth = Date.today().toStartOfMonth().addMonths(1);
         return fieldValue < startOfNextMonth;
     }
 
-    public override Boolean isGreaterThan(Datetime fieldValue) {
-        Date endOfNextNMonths = Gmt.today().toStartOfMonth().addMonths(this.n);
+    public override Boolean isGreaterThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
+        Date endOfNextNMonths = Date.today().toStartOfMonth().addMonths(this.n);
         return fieldValue >= endOfNextNMonths.addMonths(1);
     }
 }

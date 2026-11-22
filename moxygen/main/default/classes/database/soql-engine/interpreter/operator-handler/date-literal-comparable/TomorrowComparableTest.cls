@@ -1,10 +1,16 @@
 @isTest
 private class TomorrowComparableTest {
-    static DateTime now = Gmt.now();
-    static DateTime tomorrowDatetime = Gmt.today().addDays(1);
-    static DateTime yesterdayDatetime = Gmt.today().addDays(-1);
+    static DateTime now = Datetime.now();
+    static DateTime tomorrowDatetime = Datetime.newInstance(
+        Date.today().addDays(1),
+        Time.newInstance(12, 0, 0, 0)
+    );
+    static DateTime yesterdayDatetime = Datetime.newInstance(
+        Date.today().addDays(-1),
+        Time.newInstance(12, 0, 0, 0)
+    );
 
-    static Date today = Gmt.today();
+    static Date today = Date.today();
     static Date tomorrowDate = today.addDays(1);
     static Date yesterdayDate = today.addDays(-1);
 

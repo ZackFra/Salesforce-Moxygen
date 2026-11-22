@@ -5,18 +5,18 @@ private class LastNWeeksComparableTest {
         DateLiteralComparable lastWeekComparable = new LastNWeeksComparable()
             .withToken('last_n_weeks:1');
         Assert.isFalse(
-            lastWeekComparable.isLessThan(Gmt.today()),
+            lastWeekComparable.isLessThan(Date.today()),
             'Today should not be less than LAST_N_WEEKS:1'
         );
         Assert.isFalse(
             lastWeekComparable.isLessThan(
-                Gmt.today().toStartOfWeek().addDays(-7)
+                Date.today().toStartOfWeek().addDays(-7)
             ),
             'Last week should not be less than LAST_N_WEEKS:1'
         );
         Assert.isTrue(
             lastWeekComparable.isLessThan(
-                Gmt.today().toStartOfWeek().addDays(-8)
+                Date.today().toStartOfWeek().addDays(-8)
             ),
             '8 days ago should be less than LAST_N_WEEKS:1'
         );
@@ -28,22 +28,22 @@ private class LastNWeeksComparableTest {
             .withToken('last_n_weeks:1');
         Assert.isFalse(
             lastWeekComparable.isGreaterThan(
-                Gmt.today().toStartOfWeek().addDays(-7)
+                Date.today().toStartOfWeek().addDays(-7)
             ),
             'Last week should not be greater than LAST_N_WEEKS:1'
         );
         Assert.isFalse(
             lastWeekComparable.isGreaterThan(
-                Gmt.today().toStartOfWeek().addDays(-8)
+                Date.today().toStartOfWeek().addDays(-8)
             ),
             '8 days ago should not be greater than LAST_N_WEEKS:1'
         );
         Assert.isTrue(
-            lastWeekComparable.isGreaterThan(Gmt.today()),
+            lastWeekComparable.isGreaterThan(Date.today()),
             'Today should be greater than LAST_N_WEEKS:1'
         );
         Assert.isTrue(
-            lastWeekComparable.isGreaterThan(Gmt.today().addDays(1)),
+            lastWeekComparable.isGreaterThan(Date.today().addDays(1)),
             'Tomorrow should be greater than LAST_N_WEEKS:1'
         );
     }

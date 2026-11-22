@@ -45,7 +45,7 @@ public with sharing class SObjectComparator implements Comparator<SObject> {
         String fieldApiName = fieldData.get('fieldApiName');
 
         Object fieldValue;
-        if (relationshipName != null) {
+        if (relationshipName != null && relationshipName.contains('.')) {
             List<String> fieldParts = relationshipName.split('\\.');
             String field = fieldParts[fieldParts.size() - 1];
             SObject parentRecord = sObj;
@@ -55,10 +55,29 @@ public with sharing class SObjectComparator implements Comparator<SObject> {
             }
             fieldValue = parentRecord.get(field);
         } else {
-            fieldValue = sObj.get(fieldApiName);
+            // ORDER BY can name a field that was not selected. The projected
+            // row only has selected fields, so read local fields from storage.
+            fieldValue = storedRecord(sObj).get(fieldApiName);
         }
 
+        String dateFunc = fieldData.get('dateFunc');
+        if (dateFunc != null && fieldValue != null) {
+            fieldValue = DateFuncs.execute(dateFunc, fieldValue);
+        }
         return fieldValue;
+    }
+
+    private SObject storedRecord(SObject sObj) {
+        if (sObj.Id == null) {
+            return sObj;
+        }
+        Map<Id, SObject> storedRecords = DataStore.getAllBySot(
+            sObj.getSObjectType()
+        );
+        if (storedRecords == null || !storedRecords.containsKey(sObj.Id)) {
+            return sObj;
+        }
+        return storedRecords.get(sObj.Id);
     }
 
     /**

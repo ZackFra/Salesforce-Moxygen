@@ -5,18 +5,20 @@
  * @group Soql Engine
  */
 public with sharing class NextNYearsComparable extends DateLiteralComparable {
-    public override Boolean isLessThan(Datetime fieldValue) {
+    public override Boolean isLessThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
         Datetime nextYear = Datetime.newInstanceGmt(
-            Gmt.today().year() + 1,
+            Date.today().year() + 1,
             1,
             1
         );
         return fieldValue < nextYear;
     }
 
-    public override Boolean isGreaterThan(Datetime fieldValue) {
+    public override Boolean isGreaterThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
         Datetime nextNYears = Datetime.newInstanceGmt(
-            Gmt.today().year() + 1 + this.n,
+            Date.today().year() + 1 + this.n,
             1,
             1
         );

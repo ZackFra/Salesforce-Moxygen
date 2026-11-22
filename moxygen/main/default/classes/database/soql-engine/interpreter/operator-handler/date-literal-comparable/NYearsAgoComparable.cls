@@ -5,13 +5,15 @@
  * @group Soql Engine
  */
 public with sharing class NYearsAgoComparable extends DateLiteralComparable {
-    public override Boolean isLessThan(Datetime fieldValue) {
-        Integer nYearsAgo = Gmt.today().year() - this.n;
+    public override Boolean isLessThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
+        Integer nYearsAgo = Date.today().year() - this.n;
         return fieldValue < Datetime.newInstanceGmt(nYearsAgo, 1, 1);
     }
 
-    public override Boolean isGreaterThan(Datetime fieldValue) {
-        Integer nYearsAgo = Gmt.today().year() - this.n;
+    public override Boolean isGreaterThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
+        Integer nYearsAgo = Date.today().year() - this.n;
         return fieldValue >= Datetime.newInstanceGmt(nYearsAgo + 1, 1, 1);
     }
 }

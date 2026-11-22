@@ -3,8 +3,9 @@ private class NextQuarterComparableTest {
     @isTest
     static void ensuresIsLessThanWorks() {
         NextQuarterComparable nextQuarter = new NextQuarterComparable();
-        Datetime startOfNextQuarter = Gmt.startOfThisCalendarQuarter()
-            .addMonths(3);
+        Datetime startOfNextQuarter = noon(
+            Gmt.startOfThisCalendarQuarter().addMonths(3)
+        );
         Assert.isTrue(
             nextQuarter.isLessThan(startOfNextQuarter.addMonths(-1)),
             'One month before should be less than NEXT_QUARTER'
@@ -18,8 +19,9 @@ private class NextQuarterComparableTest {
     @isTest
     static void ensureIsGreaterThanWorks() {
         NextQuarterComparable nextQuarter = new NextQuarterComparable();
-        Datetime startOfNextQuarter = Gmt.startOfThisCalendarQuarter()
-            .addMonths(3);
+        Datetime startOfNextQuarter = noon(
+            Gmt.startOfThisCalendarQuarter().addMonths(3)
+        );
         Assert.isFalse(
             nextQuarter.isGreaterThan(startOfNextQuarter.addMonths(-1)),
             'One month before should not be greater than NEXT_QUARTER'
@@ -33,6 +35,13 @@ private class NextQuarterComparableTest {
                 startOfNextQuarter.addMonths(3).addDays(1)
             ),
             'One month after should be greater than NEXT_QUARTER'
+        );
+    }
+
+    static Datetime noon(Datetime gmtInstant) {
+        return Datetime.newInstance(
+            gmtInstant.dateGmt(),
+            Time.newInstance(12, 0, 0, 0)
         );
     }
 }

@@ -80,14 +80,14 @@ private class DateFuncQueryTest {
 
     @IsTest
     static void testNextYearAndFiscalQuartersAgo() {
-        Date startOfNextYear = Date.newInstance(Gmt.today().year() + 1, 6, 1);
+        Date startOfNextYear = Date.newInstance(Date.today().year() + 1, 6, 1);
         Date twoFiscalQuartersAgo = Gmt.startOfthisFiscalQuarter()
             .addMonths(-6);
         MockDatabase.doInsert(
             new List<Opportunity>{
                 new Opportunity(Name = 'Next', CloseDate = startOfNextYear),
                 new Opportunity(Name = 'Ago', CloseDate = twoFiscalQuartersAgo),
-                new Opportunity(Name = 'Now', CloseDate = Gmt.today())
+                new Opportunity(Name = 'Now', CloseDate = Date.today())
             },
             true
         );

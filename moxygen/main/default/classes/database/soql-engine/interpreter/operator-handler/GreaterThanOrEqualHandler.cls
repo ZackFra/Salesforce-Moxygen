@@ -50,9 +50,7 @@ public class GreaterThanOrEqualHandler implements IOperatorHandler {
             DateLiteralComparable dateLiteral = DateLiteralComparableFactory.create(
                 (DateLiteral) fieldValue
             );
-            return dateLiteral.isGreaterThanOrEqual(
-                (DateTime) sObjectFieldValue
-            );
+            return dateLiteral.isGreaterThanOrEqual(sObjectFieldValue);
         }
 
         if (sObjectFieldValue instanceof Date) {

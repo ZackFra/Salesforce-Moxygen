@@ -4,35 +4,35 @@ private class ThisMonthComparableTest {
     static void ensureIsLessThanWorks() {
         DateLiteralComparable thisMonthComparator = new ThisMonthComparable();
         Assert.isFalse(
-            thisMonthComparator.isLessThan(Gmt.today().toStartOfMonth()),
+            thisMonthComparator.isLessThan(Date.today().toStartOfMonth()),
             'Start of month should not be less than THIS_MONTH'
         );
         Assert.isFalse(
             thisMonthComparator.isLessThan(
-                Gmt.today().toStartOfMonth().addDays(1)
+                Date.today().toStartOfMonth().addDays(1)
             ),
             'Start of month + 1 day should not be less than THIS_MONTH'
         );
         Assert.isFalse(
             thisMonthComparator.isLessThan(
-                Gmt.today().toStartOfMonth().addDays(25)
+                Date.today().toStartOfMonth().addDays(25)
             ),
             'Start of month + 25 days should not be less than THIS_MONTH'
         );
         Assert.isFalse(
             thisMonthComparator.isLessThan(
-                Gmt.today().toStartOfMonth().addMonths(1)
+                Date.today().toStartOfMonth().addMonths(1)
             ),
             'Start of next month should not be less than THIS_MONTH'
         );
         Assert.isTrue(
             thisMonthComparator.isLessThan(
-                Gmt.today().toStartOfMonth().addMonths(-1)
+                Date.today().toStartOfMonth().addMonths(-1)
             ),
             'Start of last month should be less than THIS_MONTH'
         );
         Assert.isTrue(
-            thisMonthComparator.isLessThan(Gmt.today().addYears(-1)),
+            thisMonthComparator.isLessThan(Date.today().addYears(-1)),
             'Last year should be less than THIS_MONTH'
         );
     }
@@ -41,39 +41,39 @@ private class ThisMonthComparableTest {
     static void ensureIsGreaterThanWorks() {
         DateLiteralComparable thisMonthComparator = new ThisMonthComparable();
         Assert.isFalse(
-            thisMonthComparator.isGreaterThan(Gmt.today().toStartOfMonth()),
+            thisMonthComparator.isGreaterThan(Date.today().toStartOfMonth()),
             'Start of month should not be greater than THIS_MONTH'
         );
         Assert.isFalse(
             thisMonthComparator.isGreaterThan(
-                Gmt.today().toStartOfMonth().addDays(1)
+                Date.today().toStartOfMonth().addDays(1)
             ),
             'Start of month + 1 day should not be greater than THIS_MONTH'
         );
         Assert.isFalse(
             thisMonthComparator.isGreaterThan(
-                Gmt.today().toStartOfMonth().addDays(25)
+                Date.today().toStartOfMonth().addDays(25)
             ),
             'Start of month + 25 days should not be greater than THIS_MONTH'
         );
         Assert.isTrue(
             thisMonthComparator.isGreaterThan(
-                Gmt.today().toStartOfMonth().addMonths(1)
+                Date.today().toStartOfMonth().addMonths(1)
             ),
             'Start of next month should be greater than THIS_MONTH'
         );
         Assert.isFalse(
             thisMonthComparator.isGreaterThan(
-                Gmt.today().toStartOfMonth().addMonths(-1)
+                Date.today().toStartOfMonth().addMonths(-1)
             ),
             'Start of last month should not be greater than THIS_MONTH'
         );
         Assert.isFalse(
-            thisMonthComparator.isGreaterThan(Gmt.today().addYears(-1)),
+            thisMonthComparator.isGreaterThan(Date.today().addYears(-1)),
             'Last year should not be greater than THIS_MONTH'
         );
         Assert.isTrue(
-            thisMonthComparator.isGreaterThan(Gmt.today().addYears(1)),
+            thisMonthComparator.isGreaterThan(Date.today().addYears(1)),
             'Next year should be greater than THIS_MONTH'
         );
     }

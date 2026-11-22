@@ -5,13 +5,15 @@
  * @group Soql Engine
  */
 public with sharing class TomorrowComparable extends DateLiteralComparable {
-    public override Boolean isGreaterThan(DateTime fieldValue) {
-        Date tomorrow = GMT.today().addDays(1);
+    public override Boolean isGreaterThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
+        Date tomorrow = Date.today().addDays(1);
         return fieldValue > tomorrow.addDays(1);
     }
 
-    public override Boolean isLessThan(DateTime fieldValue) {
-        Date tomorrow = GMT.today().addDays(1);
+    public override Boolean isLessThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
+        Date tomorrow = Date.today().addDays(1);
         return fieldValue < tomorrow;
     }
 }

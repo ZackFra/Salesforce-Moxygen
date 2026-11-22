@@ -10,8 +10,9 @@ public with sharing class Last90DaysComparable extends DateLiteralComparable {
      * @param fieldValue `Datetime`
      * @return  `Boolean`
      */
-    public override Boolean isGreaterThan(DateTime fieldValue) {
-        return fieldValue > Gmt.now();
+    public override Boolean isGreaterThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
+        return fieldValue >= Date.today().addDays(1);
     }
 
     /**
@@ -19,8 +20,9 @@ public with sharing class Last90DaysComparable extends DateLiteralComparable {
      * @param fieldValue `Datetime`
      * @return  `Boolean`
      */
-    public override Boolean isLessThan(DateTime fieldValue) {
-        DateTime startOf90Days = Gmt.today().addDays(-90);
+    public override Boolean isLessThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
+        DateTime startOf90Days = Date.today().addDays(-90);
         return fieldValue < startOf90Days;
     }
 }

@@ -5,13 +5,15 @@
  * @group Soql Engine
  */
 public with sharing class NextFiscalQuarterComparable extends DateLiteralComparable {
-    public override Boolean isLessThan(Datetime fieldValue) {
+    public override Boolean isLessThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
         Date startOfThisFiscalQuarter = Gmt.startOfThisFiscalQuarter();
         Date startOfNextFiscalQuarter = startOfThisFiscalQuarter.addMonths(3);
         return fieldValue < startOfNextFiscalQuarter;
     }
 
-    public override Boolean isGreaterThan(Datetime fieldValue) {
+    public override Boolean isGreaterThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
         Date startOfThisFiscalQuarter = Gmt.startOfThisFiscalQuarter();
         Date startOfNextFiscalQuarter = startOfThisFiscalQuarter.addMonths(3);
         return fieldValue >= startOfNextFiscalQuarter.addMonths(3);

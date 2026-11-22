@@ -5,13 +5,15 @@
  * @group Soql Engine
  */
 public with sharing class LastNFiscalYearsComparable extends DateLiteralComparable {
-    public override Boolean isLessThan(Datetime fieldValue) {
+    public override Boolean isLessThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
         Datetime thisFiscalYear = Gmt.startOfThisFiscalYear();
         Datetime lastNFiscalYears = thisFiscalYear.addYears(-this.n);
         return fieldValue < lastNFiscalYears;
     }
 
-    public override Boolean isGreaterThan(Datetime fieldValue) {
+    public override Boolean isGreaterThan(Object rawField) {
+        Datetime fieldValue = literalDateTime(rawField);
         Datetime thisFiscalYear = Gmt.startOfThisFiscalYear();
         return fieldValue >= thisFiscalYear;
     }

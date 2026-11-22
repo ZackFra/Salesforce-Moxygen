@@ -9,7 +9,7 @@ private class WhereLogicHandlerTest {
         Node operatorNode = selectNode.right.right.left;
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
-            CloseDate = GMT.today()
+            CloseDate = Date.today()
         );
 
         BooleanLogicOptions options = new BooleanLogicOptions()
@@ -143,7 +143,7 @@ private class WhereLogicHandlerTest {
             'SELECT Id FROM Opportunity WHERE CloseDate = YESTERDAY'
         );
         Node operatorNode = selectNode.right.right.left;
-        Date yesterday = GMT.today().addDays(-1);
+        Date yesterday = Date.today().addDays(-1);
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
             CloseDate = yesterday
@@ -230,7 +230,7 @@ private class WhereLogicHandlerTest {
         Node operatorNode = selectNode.right.right.left;
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
-            CloseDate = GMT.today().addDays(1)
+            CloseDate = Date.today().addDays(1)
         );
 
         BooleanLogicOptions options = new BooleanLogicOptions()
@@ -256,7 +256,7 @@ private class WhereLogicHandlerTest {
         Node operatorNode = selectNode.right.right.left;
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
-            CloseDate = GMT.today().addDays(1)
+            CloseDate = Date.today().addDays(1)
         );
         opp = (Opportunity) Common.putReadOnlyField(
             opp,
@@ -288,7 +288,7 @@ private class WhereLogicHandlerTest {
 
         Opportunity opp = new Opportunity(
             Id = fflib_IDGenerator.generate(Opportunity.getSObjectType()),
-            CloseDate = GMT.today().toStartOfWeek().addDays(2)
+            CloseDate = Date.today().toStartOfWeek().addDays(2)
         );
 
         BooleanLogicOptions options = new BooleanLogicOptions()
