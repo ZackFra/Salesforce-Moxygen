@@ -54,13 +54,13 @@ Whether the date literal is equal to the field value
 
 #### Signature
 ```apex
-public Boolean isEqual(DateTime fieldValue)
+public Boolean isEqual(Object fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | Date or Datetime value |
+| fieldValue | Object | Date or Datetime value |
 
 #### Return Type
 **Boolean**
@@ -69,17 +69,17 @@ Whether fieldValue is equal to the date literal
 
 ---
 
-### `isGreaterThan(fieldValue)`
+### `isGreaterThan(rawField)`
 
 #### Signature
 ```apex
-public override Boolean isGreaterThan(DateTime fieldValue)
+public override Boolean isGreaterThan(Object rawField)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime |  |
+| rawField | Object |  |
 
 #### Return Type
 **Boolean**
@@ -94,13 +94,13 @@ Whether the date literal is greater than or equal to the field value
 
 #### Signature
 ```apex
-public Boolean isGreaterThanOrEqual(DateTime fieldValue)
+public Boolean isGreaterThanOrEqual(Object fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | Date or Datetime value |
+| fieldValue | Object | Date or Datetime value |
 
 #### Return Type
 **Boolean**
@@ -109,17 +109,17 @@ Whether fieldValue is greater than or equal to the date literal
 
 ---
 
-### `isLessThan(fieldValue)`
+### `isLessThan(rawField)`
 
 #### Signature
 ```apex
-public override Boolean isLessThan(DateTime fieldValue)
+public override Boolean isLessThan(Object rawField)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime |  |
+| rawField | Object |  |
 
 #### Return Type
 **Boolean**
@@ -134,13 +134,13 @@ Whether the date literal is less than or equal to the field value
 
 #### Signature
 ```apex
-public Boolean isLessThanOrEqual(DateTime fieldValue)
+public Boolean isLessThanOrEqual(Object fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | Date or Datetime value |
+| fieldValue | Object | Date or Datetime value |
 
 #### Return Type
 **Boolean**
@@ -157,13 +157,13 @@ Whether the date literal is not equal to the field value
 
 #### Signature
 ```apex
-public Boolean isNotEqual(DateTime fieldValue)
+public Boolean isNotEqual(Object fieldValue)
 ```
 
 #### Parameters
 | Name | Type | Description |
 |------|------|-------------|
-| fieldValue | DateTime | Date or Datetime value |
+| fieldValue | Object | Date or Datetime value |
 
 #### Return Type
 **Boolean**
