@@ -164,6 +164,13 @@ public with sharing class AggregateStandardProcessor extends AggregateProcessor 
     ) {
         ProtoAggregate aggregateResult = new ProtoAggregate();
         for (String groupByField : groupByFields) {
+            if (isDateFuncGroupKey(groupByField)) {
+                aggregateResult.put(
+                    groupByField,
+                    dateFuncGroupValue(databaseRecord, groupByField)
+                );
+                continue;
+            }
             ComparableRecordData comparableInfo = ComparableService.getComparables(
                 databaseRecord,
                 groupByField
@@ -224,6 +231,13 @@ public with sharing class AggregateStandardProcessor extends AggregateProcessor 
     ) {
         Boolean isSame = true;
         for (String groupByField : groupByFields) {
+            if (isDateFuncGroupKey(groupByField)) {
+                isSame =
+                    isSame &&
+                    dateFuncGroupValue(databaseRecord, groupByField) ==
+                    ar.get(groupByField);
+                continue;
+            }
             ComparableRecordData comparableInfo = ComparableService.getComparables(
                 databaseRecord,
                 groupByField
@@ -251,5 +265,37 @@ public with sharing class AggregateStandardProcessor extends AggregateProcessor 
             return (comparableRecord.get(comparableField) ==
             ar.get(comparableField));
         }
+    }
+
+    private Boolean isDateFuncGroupKey(String groupByField) {
+        Integer openParen = groupByField == null
+            ? -1
+            : groupByField.indexOf('(');
+        if (openParen < 1 || !groupByField.endsWith(')')) {
+            return false;
+        }
+        return Token.DATE_FUNCS.contains(groupByField.substring(0, openParen));
+    }
+
+    private Object dateFuncGroupValue(
+        SObject databaseRecord,
+        String groupByField
+    ) {
+        Integer openParen = groupByField.indexOf('(');
+        String funcName = groupByField.substring(0, openParen);
+        String fieldName = groupByField.substring(
+            openParen + 1,
+            groupByField.length() - 1
+        );
+        ComparableRecordData comparableInfo = ComparableService.getComparables(
+            databaseRecord,
+            fieldName
+        );
+        Object value = comparableInfo.getComparableRecord()
+            .get(comparableInfo.getComparableFieldName());
+        if (value == null) {
+            return null;
+        }
+        return DateFuncs.execute(funcName, value);
     }
 }

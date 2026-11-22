@@ -1330,6 +1330,28 @@ private class MockDatabaseTest {
     }
 
     @IsTest
+    static void testGroupByCountIsRejected() {
+        String exMessage;
+        Test.startTest();
+        try {
+            MockDatabase.aggregateQuery(
+                'SELECT COUNT(Id) FROM Account GROUP BY COUNT(Id)'
+            );
+        } catch (Exception e) {
+            exMessage = e.getMessage();
+        }
+        Test.stopTest();
+
+        Assert.isTrue(
+            exMessage != null &&
+            exMessage.contains(
+                'Only date aggregate functions are allowed as grouping expressions'
+            ),
+            'GROUP BY COUNT should be rejected as a grouping expression'
+        );
+    }
+
+    @IsTest
     static void testMultipleAggregateFuncs() {
         Account a = new Account(Name = 'Test', NumberOfEmployees = 5);
         Account b = new Account(Name = 'Test', NumberOfEmployees = 5);
@@ -1699,6 +1721,38 @@ private class MockDatabaseTest {
         Assert.areEqual('Test2', queriedAccts[1].Name, 'Incorrect order');
         Assert.areEqual('Test3', queriedAccts[2].Name, 'Incorrect order');
         Assert.areEqual('Test4', queriedAccts[3].Name, 'Incorrect order');
+    }
+
+    @IsTest
+    static void testOrderByDatetimeOrdersByTimeWithinTheSameDay() {
+        Task later = (Task) Common.putReadOnlyField(
+            new Task(),
+            'CompletedDateTime',
+            Datetime.newInstanceGmt(2024, 6, 15, 12, 30, 0)
+        );
+        Task earlier = (Task) Common.putReadOnlyField(
+            new Task(),
+            'CompletedDateTime',
+            Datetime.newInstanceGmt(2024, 6, 15, 12, 0, 0)
+        );
+        MockDatabase.doInsert(new List<Task>{ later, earlier }, true);
+
+        Test.startTest();
+        List<Task> ordered = (List<Task>) MockDatabase.query(
+            'SELECT CompletedDateTime FROM Task ORDER BY CompletedDateTime ASC'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            Datetime.newInstanceGmt(2024, 6, 15, 12, 0, 0),
+            ordered[0].CompletedDateTime,
+            'Incorrect order'
+        );
+        Assert.areEqual(
+            Datetime.newInstanceGmt(2024, 6, 15, 12, 30, 0),
+            ordered[1].CompletedDateTime,
+            'Incorrect order'
+        );
     }
 
     @IsTest
@@ -3912,6 +3966,34 @@ private class MockDatabaseTest {
             queriedAccts.size(),
             'Incorrect number of accounts queried'
         );
+    }
+
+    @IsTest
+    static void testForViewReturnsTheQueriedRecords() {
+        MockDatabase.doInsert(new Account(Name = 'Visible'), true);
+
+        Test.startTest();
+        List<Account> accounts = (List<Account>) MockDatabase.query(
+            'SELECT Name FROM Account FOR VIEW'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(1, accounts.size(), 'Incorrect number of accounts');
+        Assert.areEqual('Visible', accounts[0].Name, 'Incorrect account');
+    }
+
+    @IsTest
+    static void testForReferenceReturnsTheQueriedRecords() {
+        MockDatabase.doInsert(new Account(Name = 'Visible'), true);
+
+        Test.startTest();
+        List<Account> accounts = (List<Account>) MockDatabase.query(
+            'SELECT Name FROM Account FOR REFERENCE'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(1, accounts.size(), 'Incorrect number of accounts');
+        Assert.areEqual('Visible', accounts[0].Name, 'Incorrect account');
     }
 
     @IsTest
@@ -6413,6 +6495,30 @@ private class MockDatabaseTest {
             oppList[0].Name,
             'Incorrect opportunity'
         );
+    }
+
+    @IsTest
+    static void calendarQuarterIncludesMarch() {
+        Opportunity opp = new Opportunity(
+            Name = 'March',
+            CloseDate = Date.newInstance(2024, 3, 31)
+        );
+        DML.doMockInsert(opp);
+
+        Test.startTest();
+        List<Opportunity> oppList = Selector.query(
+            'SELECT Id, Name' +
+                ' FROM Opportunity' +
+                ' WHERE CALENDAR_QUARTER(CloseDate) = 1'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            1,
+            oppList.size(),
+            'March belongs in calendar quarter 1'
+        );
+        Assert.areEqual('March', oppList[0].Name, 'Incorrect opportunity');
     }
 
     /**

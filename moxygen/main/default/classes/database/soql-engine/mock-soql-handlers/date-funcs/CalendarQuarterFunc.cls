@@ -15,10 +15,10 @@ public with sharing class CalendarQuarterFunc implements IDateFunc {
         Integer calendarQuarter;
         if (value instanceof Date) {
             Date dateValue = (Date) value;
-            calendarQuarter = 1 + (dateValue.month() / 3);
+            calendarQuarter = ((dateValue.month() - 1) / 3) + 1;
         } else if (value instanceof DateTime) {
             DateTime dateTimeValue = (DateTime) value;
-            calendarQuarter = 1 + (dateTimeValue.monthGmt() / 3);
+            calendarQuarter = ((dateTimeValue.monthGmt() - 1) / 3) + 1;
         } else {
             throw new QueryException(
                 'Invalid value type for calendar quarter calculation'
