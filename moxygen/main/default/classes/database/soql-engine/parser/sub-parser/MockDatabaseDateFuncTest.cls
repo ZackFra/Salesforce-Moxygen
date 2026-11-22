@@ -258,4 +258,34 @@ private class MockDatabaseDateFuncTest {
             'Incorrect Month'
         );
     }
+
+    @IsTest
+    static void groupByCalendarMonthCollapsesDatesInTheSameMonth() {
+        List<Opportunity> oppList = new List<Opportunity>{
+            new Opportunity(
+                Name = 'January 1',
+                CloseDate = Date.newInstance(2024, 1, 1)
+            ),
+            new Opportunity(
+                Name = 'January 15',
+                CloseDate = Date.newInstance(2024, 1, 15)
+            )
+        };
+        MockDatabase.doInsert(oppList, true);
+
+        Test.startTest();
+        List<Aggregate> months = MockDatabase.aggregateQuery(
+            'SELECT CALENDAR_MONTH(CloseDate) month, COUNT(Id) total ' +
+            'FROM Opportunity GROUP BY CALENDAR_MONTH(CloseDate)'
+        );
+        Test.stopTest();
+
+        Assert.areEqual(
+            1,
+            months.size(),
+            'Two dates in January should produce one group'
+        );
+        Assert.areEqual(1, months[0].get('month'), 'Incorrect month');
+        Assert.areEqual(2, months[0].get('total'), 'Incorrect count');
+    }
 }

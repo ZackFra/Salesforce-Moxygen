@@ -125,14 +125,14 @@ public with sharing class ObjectComparator implements Comparator<Object> {
                 return -1;
             }
         } else if (obj1 instanceof DateTime) {
-            Boolean result = ((DateTime) obj1).isSameDay((DateTime) obj2);
-            if (result) {
+            Long difference =
+                ((DateTime) obj1).getTime() - ((DateTime) obj2).getTime();
+            if (difference == 0) {
                 return 0;
-            } else if (((DateTime) obj1) > ((DateTime) obj2)) {
+            } else if (difference > 0) {
                 return 1;
-            } else {
-                return -1;
             }
+            return -1;
         } else if (obj1 instanceof Time) {
             DateTime dt1 = DateTime.newInstanceGmt(
                 2000,

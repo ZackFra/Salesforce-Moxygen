@@ -85,4 +85,38 @@ private class DateFuncTest {
             );
         }
     }
+
+    @IsTest
+    static void testCalendarQuarterIncludesTheLastMonthOfEachQuarter() {
+        Assert.areEqual(
+            1,
+            new CalendarQuarterFunc().calculate(Date.newInstance(2024, 3, 31)),
+            'March is calendar quarter 1'
+        );
+        Assert.areEqual(
+            2,
+            new CalendarQuarterFunc().calculate(Date.newInstance(2024, 6, 30)),
+            'June is calendar quarter 2'
+        );
+        Assert.areEqual(
+            3,
+            new CalendarQuarterFunc().calculate(Date.newInstance(2024, 9, 30)),
+            'September is calendar quarter 3'
+        );
+        Assert.areEqual(
+            4,
+            new CalendarQuarterFunc().calculate(Date.newInstance(2024, 12, 31)),
+            'December is calendar quarter 4'
+        );
+    }
+
+    @IsTest
+    static void testCalendarQuarterDatetimeUsesTheGmtMonth() {
+        Assert.areEqual(
+            4,
+            new CalendarQuarterFunc()
+                .calculate(Datetime.newInstanceGmt(2024, 12, 31, 23, 0, 0)),
+            'December GMT is calendar quarter 4'
+        );
+    }
 }

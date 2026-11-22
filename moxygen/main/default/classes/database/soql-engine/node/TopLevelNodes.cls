@@ -121,6 +121,9 @@ public with sharing class TopLevelNodes {
             when 'using scope' {
                 this.usingScopeNode = node;
             }
+            when 'for view', 'for reference' {
+                // Parsed and ignored. Advance so this walk does not loop.
+            }
             when else {
                 return node;
             }

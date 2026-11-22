@@ -63,7 +63,7 @@ public with sharing class AggregateService {
         if (type != NodeType.AGGREGATE_FUNCTION) {
             return false;
         }
-        return SUPPORTED_DATE_FUNCS.contains(nodeId);
+        return SUPPORTED_COUNT_FUNCS.contains(nodeId);
     }
 
     /**
@@ -131,7 +131,12 @@ public with sharing class AggregateService {
             Node currGroupByNode = groupByNode.left;
             while (currGroupByNode != null) {
                 if (isDateFunc(currGroupByNode.nodeType, currGroupByNode.id)) {
-                    groupByFields.add(currGroupByNode.right.id);
+                    groupByFields.add(
+                        currGroupByNode.id +
+                            '(' +
+                            currGroupByNode.right.id +
+                            ')'
+                    );
                 } else if (
                     isAggregateFunc(
                         currGroupByNode.nodeType,

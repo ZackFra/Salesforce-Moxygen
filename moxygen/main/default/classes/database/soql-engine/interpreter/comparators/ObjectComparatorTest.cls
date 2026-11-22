@@ -251,6 +251,17 @@ private class ObjectComparatorTest {
     }
 
     @IsTest
+    private static void testDateTimeSameDayOrdersByTime() {
+        DateTime earlier = DateTime.newInstanceGmt(2024, 6, 15, 12, 0, 0);
+        DateTime later = DateTime.newInstanceGmt(2024, 6, 15, 12, 30, 0);
+        ObjectComparator comparator = new ObjectComparator();
+        Test.startTest();
+        Integer results = (Integer) comparator.compare(earlier, later);
+        Test.stopTest();
+        Assert.areEqual(-1, results, 'The result should be -1');
+    }
+
+    @IsTest
     private static void testTimeLessThan() {
         Time a = Time.newInstance(1, 1, 1, 1);
         Time b = Time.newInstance(2, 2, 2, 2);
